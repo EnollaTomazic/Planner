@@ -53,6 +53,11 @@ const spacingScaleWithAliases = {
 const config: Config = {
   darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  safelist: [
+    {
+      pattern: /^progress-(?:[0-9]{1,2}|100|fill)$/,
+    },
+  ],
   theme: {
     extend: {
       colors: {
@@ -257,7 +262,7 @@ const config: Config = {
     plugin(({ matchUtilities }) => {
       matchUtilities(
         {
-          progress: (value) => ({ width: value }),
+          progress: (value) => ({ "--progress-width": value, width: value }),
         },
         { values: progressWidthValues },
       );

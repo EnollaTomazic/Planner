@@ -1041,6 +1041,35 @@ html.bg-intense body::after {
   border-radius: inherit;
 }
 
+/* ---------- Progress fill ---------- */
+
+.progress-fill[data-progress] {
+  position: relative;
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+  --progress-width: 0%;
+}
+
+.progress-fill[data-progress]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: var(--progress-width);
+  border-radius: inherit;
+  background: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--accent-2)));
+  background-size: 200% 100%;
+  transition: width var(--dur-quick) var(--ease-out);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-fill[data-progress]::before {
+    transition-duration: 0.001ms;
+  }
+}
+
 /* ---------- Progress bars ---------- */
 
 .glitch-track {
