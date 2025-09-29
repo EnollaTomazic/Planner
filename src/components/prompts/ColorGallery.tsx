@@ -112,7 +112,7 @@ export default function ColorGallery() {
                   <div
                     key={swatch.key}
                     data-status={swatch.key}
-                    className="flex flex-col gap-[var(--space-2)] rounded-[var(--radius-xl)] border border-border/35 p-[var(--space-4)]"
+                    className={`${styles.statusCard} flex flex-col gap-[var(--space-2)] rounded-[var(--radius-xl)] border border-border/35 p-[var(--space-4)]`}
                   >
                     <span className="text-label uppercase tracking-wide opacity-80">
                       {swatch.label}

@@ -6,6 +6,7 @@ import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Hero from "@/components/ui/layout/Hero";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
+import { useScopedCssVars } from "@/components/ui/hooks/useScopedCssVars";
 import TimerRing from "./TimerRing";
 import DurationSelector from "./DurationSelector";
 import styles from "./TimerTab.module.css";
@@ -403,13 +404,13 @@ export default function TimerTab() {
   }, [running, isCustom, pause, start, reset, setTimer]);
 
   const pct = clamp(Math.round(progress * 100), 0, 100);
-  const timerProgressStyle = React.useMemo(
-    () =>
-      ({
+  const { scopeProps: timerProgressScopeProps, Style: TimerProgressStyle } =
+    useScopedCssVars({
+      attribute: "data-timer-progress-id",
+      vars: {
         "--timer-progress": (pct / 100).toString(),
-      }) as React.CSSProperties,
-    [pct],
-  );
+      },
+    });
 
   return (
     <>
@@ -495,8 +496,9 @@ export default function TimerTab() {
                 <div
                   className={`${styles.progressFill} h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-[var(--shadow-glow-md)] transition-transform duration-quick ease-linear motion-reduce:transition-none`}
                   data-progress={pct}
-                  style={timerProgressStyle}
+                  {...(timerProgressScopeProps ?? {})}
                 />
+                {TimerProgressStyle}
               </div>
               <div className="mt-[var(--space-1)] text-right text-label font-medium tracking-[0.02em] text-muted-foreground tabular-nums">
                 {pct}%
