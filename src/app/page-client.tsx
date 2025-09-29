@@ -5,6 +5,7 @@ import Link from "next/link";
 import {
   HeroPlannerCards,
   HomeHeroSection,
+  HomeSplash,
   useHomePlannerOverview,
 } from "@/components/home";
 import type { HeroPlannerHighlight } from "@/components/home";
@@ -13,6 +14,7 @@ import { PlannerProvider } from "@/components/planner";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
 import type { Variant } from "@/lib/theme";
+import styles from "./page-client.module.css";
 
 const weeklyHighlights = [
   {
@@ -39,14 +41,72 @@ function HomePageContent() {
   const [theme] = useTheme();
   useThemeQuerySync();
 
+  const [isSplashVisible, setSplashVisible] = React.useState(true);
+  const [isSplashMounted, setSplashMounted] = React.useState(true);
+  const hideTimeoutRef = React.useRef<number | null>(null);
+
+  const clearHideTimeout = React.useCallback(() => {
+    if (hideTimeoutRef.current === null) {
+      return;
+    }
+    window.clearTimeout(hideTimeoutRef.current);
+    hideTimeoutRef.current = null;
+  }, []);
+
+  const beginHideSplash = React.useCallback(() => {
+    setSplashVisible((prev) => {
+      if (!prev) {
+        return prev;
+      }
+      return false;
+    });
+    clearHideTimeout();
+  }, [clearHideTimeout]);
+
+  React.useEffect(() => {
+    if (!isSplashVisible) {
+      return;
+    }
+    hideTimeoutRef.current = window.setTimeout(beginHideSplash, 2400);
+    return clearHideTimeout;
+  }, [beginHideSplash, clearHideTimeout, isSplashVisible]);
+
+  const handleClientReady = React.useCallback(() => {
+    beginHideSplash();
+  }, [beginHideSplash]);
+
+  const handleSplashExit = React.useCallback(() => {
+    setSplashMounted(false);
+  }, []);
+
   return (
-    <PlannerProvider>
-      <HomePageBody themeVariant={theme.variant} />
-    </PlannerProvider>
+    <div className={styles.root}>
+      {isSplashMounted ? (
+        <HomeSplash active={isSplashVisible} onExited={handleSplashExit} />
+      ) : null}
+      <main
+        tabIndex={-1}
+        className={styles.content}
+        data-state={isSplashVisible ? "splash" : "ready"}
+        aria-hidden={isSplashVisible ? true : undefined}
+      >
+        <PlannerProvider>
+          <HomePageBody
+            themeVariant={theme.variant}
+            onClientReady={handleClientReady}
+          />
+        </PlannerProvider>
+      </main>
+    </div>
   );
 }
 
-function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
+type HomePageBodyProps = {
+  themeVariant: Variant;
+  onClientReady?: () => void;
+};
+
+function HomePageBody({ themeVariant, onClientReady }: HomePageBodyProps) {
   const plannerOverviewProps = useHomePlannerOverview();
   const heroHeadingId = "home-hero-heading";
   const overviewHeadingId = "home-overview-heading";
@@ -67,6 +127,16 @@ function HomePageBody({ themeVariant }: { themeVariant: Variant }) {
     ),
     [],
   );
+
+  const hasAnnouncedReadyRef = React.useRef(false);
+
+  React.useEffect(() => {
+    if (!onClientReady || hasAnnouncedReadyRef.current) {
+      return;
+    }
+    onClientReady();
+    hasAnnouncedReadyRef.current = true;
+  }, [onClientReady]);
 
   return (
     <>
