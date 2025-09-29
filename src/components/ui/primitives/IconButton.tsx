@@ -37,7 +37,7 @@ type AccessibleLabelProps = RequireAtLeastOne<
 type MotionButtonProps = React.ComponentProps<typeof motion.button>;
 
 export type IconButtonProps =
-  Omit<MotionButtonProps, "children"> &
+  Omit<MotionButtonProps, "children" | "style"> &
     AccessibleLabelProps & {
       size?: IconButtonSize;
       iconSize?: Icon;
@@ -165,7 +165,6 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       title,
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
-      style: styleProp,
       ...rest
     },
     ref,
@@ -222,7 +221,6 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           iconMap[appliedIconSize],
           className,
         )}
-        style={styleProp}
         data-loading={loading}
         data-variant={variant}
         data-tone={tone}

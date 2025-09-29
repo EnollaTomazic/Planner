@@ -8,6 +8,7 @@ import type { HTMLMotionProps } from "framer-motion";
 import { cn, withBasePath } from "@/lib/utils";
 import Spinner, { type SpinnerTone, type SpinnerSize } from "../feedback/Spinner";
 import { neuRaised, neuInset } from "./Neu";
+import styles from "./Button.module.css";
 
 export const buttonSizes = {
   sm: {
@@ -65,19 +66,19 @@ type ButtonBaseProps = {
 };
 
 type ButtonAsButtonProps = ButtonBaseProps &
-  Omit<HTMLMotionProps<"button">, "ref"> & {
+  Omit<HTMLMotionProps<"button">, "ref" | "style"> & {
     asChild?: false;
     href?: undefined;
   };
 
 type ButtonAsAnchorProps = ButtonBaseProps &
-  Omit<AnchorMotionProps, "ref"> & {
+  Omit<AnchorMotionProps, "ref" | "style"> & {
     asChild?: false;
     href: AnchorMotionProps["href"];
   };
 
 type ButtonAsChildProps = ButtonBaseProps &
-  Omit<HTMLMotionProps<"button">, "ref"> & {
+  Omit<HTMLMotionProps<"button">, "ref" | "style"> & {
     asChild: true;
     href?: undefined;
   };
@@ -160,8 +161,6 @@ type VariantConfig = (options: {
   tactile: boolean;
 }) => VariantConfigResult;
 
-const composeShadow = (layers: string[]) => layers.join(", ");
-
 export const variants: Record<
   NonNullable<ButtonProps["variant"]>,
   VariantConfig
@@ -219,7 +218,6 @@ export const Button = React.forwardRef<
     children,
     loading,
     tactile = false,
-    style,
   } = props;
   const asChild = props.asChild ?? false;
   const reduceMotion = useReducedMotion();
@@ -234,6 +232,7 @@ export const Button = React.forwardRef<
   const s = buttonSizes[size];
   const spinnerSize = buttonSpinnerSizes[size];
   const base = cn(
+    styles.root,
     "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
     "data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none",
     s.height,
@@ -262,82 +261,6 @@ export const Button = React.forwardRef<
     contentClass ?? cn("inline-flex items-center", s.gap),
     loading && "opacity-0",
   );
-
-  let resolvedStyle = style;
-
-  if (variant === "primary") {
-    const basePrimaryShadows = {
-      "--glow-active": `hsl(var(${toneColorVar}) / 0.35)`,
-      "--btn-primary-hover-shadow":
-        `0 var(--spacing-0-5) calc(var(--space-3) / 2) calc(-1 * var(--spacing-0-25)) hsl(var(${toneColorVar}) / 0.25)`,
-      "--btn-primary-active-shadow":
-        `inset 0 0 0 var(--spacing-0-25) hsl(var(${toneColorVar}) / 0.6)`,
-      "--btn-primary-shadow-rest": "0 0 calc(var(--space-4) / 2) var(--glow-active)",
-      "--btn-primary-shadow-hover": "0 0 var(--space-4) var(--glow-active)",
-      "--btn-primary-shadow-active": "var(--btn-primary-active-shadow)",
-    } as CSSProperties;
-
-    const tactilePrimary = tactile
-      ? {
-          "--btn-primary-shadow-rest": composeShadow([
-            `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${toneColorVar}) / 0.32)`,
-            `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(${toneColorVar}) / 0.18)`,
-            `inset 0 0 0 var(--spacing-0-25) hsl(var(${toneColorVar}) / 0.4)`,
-          ]),
-          "--btn-primary-shadow-hover": composeShadow([
-            `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${toneColorVar}) / 0.32)`,
-            `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(${toneColorVar}) / 0.22)`,
-            `0 0 0 var(--spacing-0-5) hsl(var(${toneColorVar}) / 0.4)`,
-            `0 var(--space-4) var(--space-8) hsl(var(${toneColorVar}) / 0.25)`,
-          ]),
-          "--btn-primary-shadow-active": composeShadow([
-            `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${toneColorVar}) / 0.45)`,
-            `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(${toneColorVar}) / 0.28)`,
-            `0 0 0 var(--spacing-0-5) hsl(var(${toneColorVar}) / 0.45)`,
-          ]),
-        }
-      : {};
-
-    resolvedStyle = {
-      ...basePrimaryShadows,
-      ...tactilePrimary,
-      ...(style ?? {}),
-    };
-  } else if (variant === "secondary") {
-    const accentVar = tone === "primary" ? "--ring" : colorVar[tone];
-    const baseSecondaryShadows = {
-      "--btn-secondary-shadow-rest": neuRaised(),
-      "--btn-secondary-shadow-hover": neuRaised(15),
-      "--btn-secondary-shadow-active": neuInset(9),
-    } as CSSProperties;
-
-    const tactileSecondary = tactile
-      ? {
-          "--btn-secondary-shadow-rest": composeShadow([
-            `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${accentVar}) / 0.18)`,
-            `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.22)`,
-            `0 0 0 var(--spacing-0-25) hsl(var(${accentVar}) / 0.22)`,
-          ]),
-          "--btn-secondary-shadow-hover": composeShadow([
-            `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${accentVar}) / 0.2)`,
-            `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.26)`,
-            `0 0 0 var(--spacing-0-5) hsl(var(${accentVar}) / 0.28)`,
-            `0 var(--space-3) var(--space-6) hsl(var(${accentVar}) / 0.22)`,
-          ]),
-          "--btn-secondary-shadow-active": composeShadow([
-            `inset 0 var(--spacing-0-5) var(--space-2) hsl(var(${accentVar}) / 0.28)`,
-            `inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2) hsl(var(--shadow-color) / 0.3)`,
-            `0 0 0 var(--spacing-0-5) hsl(var(${accentVar}) / 0.32)`,
-          ]),
-        }
-      : {};
-
-    resolvedStyle = {
-      ...baseSecondaryShadows,
-      ...tactileSecondary,
-      ...(style ?? {}),
-    };
-  }
 
   const mergedClassName = cn(
     base,
@@ -383,7 +306,6 @@ export const Button = React.forwardRef<
     delete slotProps.tactile;
     delete slotProps.className;
     delete slotProps.children;
-    delete slotProps.style;
     delete slotProps.disabled;
     const baseProps = {
       className: mergedClassName,
@@ -391,10 +313,11 @@ export const Button = React.forwardRef<
       "data-disabled": isDisabled ? "true" : undefined,
       "data-tactile": tactile ? "true" : undefined,
       "aria-busy": loading ? true : undefined,
-      style: resolvedStyle,
       whileHover: hoverAnimation,
       whileTap: reduceMotion ? undefined : whileTap,
       tabIndex: tabIndex ?? (isDisabled ? -1 : undefined),
+      "data-variant": variant,
+      "data-tone": tone,
       ...slotProps,
     };
     const childCount = React.Children.count(children);
@@ -455,17 +378,17 @@ export const Button = React.forwardRef<
     delete anchorProps.tactile;
     delete anchorProps.className;
     delete anchorProps.children;
-    delete anchorProps.style;
     const baseProps = {
       className: mergedClassName,
       "data-loading": loading ? "true" : undefined,
       "data-disabled": isDisabled ? "true" : undefined,
       "data-tactile": tactile ? "true" : undefined,
       "aria-busy": loading ? true : undefined,
-      style: resolvedStyle,
       whileHover: hoverAnimation,
       whileTap: reduceMotion ? undefined : whileTap,
       tabIndex: tabIndex ?? (isDisabled ? -1 : undefined),
+      "data-variant": variant,
+      "data-tone": tone,
       ...anchorProps,
     };
     let resolvedHref = href;
@@ -523,7 +446,6 @@ export const Button = React.forwardRef<
     delete buttonProps.tactile;
     delete buttonProps.className;
     delete buttonProps.children;
-  delete buttonProps.style;
   delete buttonProps.disabled;
   const baseProps = {
     className: mergedClassName,
@@ -531,10 +453,11 @@ export const Button = React.forwardRef<
     "data-disabled": isDisabled ? "true" : undefined,
     "data-tactile": tactile ? "true" : undefined,
     "aria-busy": loading ? true : undefined,
-    style: resolvedStyle,
     whileHover: hoverAnimation,
     whileTap: reduceMotion ? undefined : whileTap,
     tabIndex,
+    "data-variant": variant,
+    "data-tone": tone,
     ...buttonProps,
   };
 
