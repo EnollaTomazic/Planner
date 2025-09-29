@@ -17,11 +17,6 @@ export default function TimerRing({
   className,
   size,
 }: TimerRingProps) {
-  const reactId = React.useId();
-  const ringInstanceId = React.useMemo(
-    () => reactId.replace(/[:]/g, "_"),
-    [reactId],
-  );
   const customSizeValue = React.useMemo(() => {
     if (size == null) {
       return null;
@@ -40,24 +35,26 @@ export default function TimerRing({
         : undefined
       : size;
 
+  const customStyle = React.useMemo<
+    (React.CSSProperties & Record<string, string>) | undefined
+  >(() => {
+    if (!hasCustomSize || !customSizeValue) {
+      return undefined;
+    }
+    return {
+      "--timer-ring-size": customSizeValue,
+    };
+  }, [customSizeValue, hasCustomSize]);
+
   return (
-    <>
-      <div
-        className={cn(
-          "relative aspect-square",
-          className ?? "size-[var(--timer-ring-size,var(--ring-diameter-l))]",
-        )}
-        data-ring-instance={hasCustomSize ? ringInstanceId : undefined}
-      >
-        <TimerRingIcon pct={pct} size={ringIconSize} />
-      </div>
-      {hasCustomSize ? (
-        <style jsx global>{`
-          [data-ring-instance="${ringInstanceId}"] {
-            --timer-ring-size: ${customSizeValue};
-          }
-        `}</style>
-      ) : null}
-    </>
+    <div
+      className={cn(
+        "relative aspect-square",
+        className ?? "size-[var(--timer-ring-size,var(--ring-diameter-l))]",
+      )}
+      style={customStyle}
+    >
+      <TimerRingIcon pct={pct} size={ringIconSize} />
+    </div>
   );
 }
