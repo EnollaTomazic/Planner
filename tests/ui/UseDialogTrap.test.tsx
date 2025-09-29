@@ -41,6 +41,9 @@ describe("UseDialogTrap", () => {
     const outsideButton = screen.getByRole("button", { name: "Outside control" });
 
     await waitFor(() => expect(firstButton).toHaveFocus());
+    await waitFor(() =>
+      expect(document.body).toHaveAttribute("data-dialog-lock", "true"),
+    );
 
     outsideButton.focus();
     expect(outsideButton).toHaveFocus();
@@ -58,5 +61,56 @@ describe("UseDialogTrap", () => {
 
     fireEvent.keyDown(middleButton, { key: "Escape" });
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("locks and unlocks the body via a data attribute", async () => {
+    const onClose = vi.fn();
+    const { rerender } = render(<TestDialog open onClose={onClose} />);
+
+    await waitFor(() =>
+      expect(document.body).toHaveAttribute("data-dialog-lock", "true"),
+    );
+
+    rerender(<TestDialog open={false} onClose={onClose} />);
+
+    await waitFor(() =>
+      expect(document.body).not.toHaveAttribute("data-dialog-lock"),
+    );
+  });
+
+  it("maintains the body lock while multiple dialogs are open", async () => {
+    const onClose = vi.fn();
+    const { rerender } = render(
+      <>
+        <TestDialog open onClose={onClose} />
+        <TestDialog open onClose={onClose} />
+      </>,
+    );
+
+    await waitFor(() =>
+      expect(document.body).toHaveAttribute("data-dialog-lock", "true"),
+    );
+
+    rerender(
+      <>
+        <TestDialog open={false} onClose={onClose} />
+        <TestDialog open onClose={onClose} />
+      </>,
+    );
+
+    await waitFor(() =>
+      expect(document.body).toHaveAttribute("data-dialog-lock", "true"),
+    );
+
+    rerender(
+      <>
+        <TestDialog open={false} onClose={onClose} />
+        <TestDialog open={false} onClose={onClose} />
+      </>,
+    );
+
+    await waitFor(() =>
+      expect(document.body).not.toHaveAttribute("data-dialog-lock"),
+    );
   });
 });

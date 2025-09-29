@@ -15,6 +15,48 @@ export interface UseDialogTrapOptions {
 const FOCUSABLE_SELECTORS =
   "a[href], button, textarea, input, select, [tabindex]:not([tabindex='-1'])";
 
+const BODY_DIALOG_LOCK_ATTRIBUTE = "data-dialog-lock";
+const BODY_DIALOG_LOCK_VALUE = "true";
+
+const dialogLockCounts = new WeakMap<Document, number>();
+
+const lockBody = (doc: Document) => {
+  const body = doc.body;
+  if (!body) {
+    return;
+  }
+
+  const current = dialogLockCounts.get(doc) ?? 0;
+  if (current === 0) {
+    body.setAttribute(BODY_DIALOG_LOCK_ATTRIBUTE, BODY_DIALOG_LOCK_VALUE);
+  }
+
+  dialogLockCounts.set(doc, current + 1);
+};
+
+const unlockBody = (doc: Document) => {
+  const body = doc.body;
+  if (!body) {
+    return;
+  }
+
+  const current = dialogLockCounts.get(doc);
+  if (!current) {
+    return;
+  }
+
+  const next = current - 1;
+  if (next <= 0) {
+    dialogLockCounts.delete(doc);
+    if (body.getAttribute(BODY_DIALOG_LOCK_ATTRIBUTE) === BODY_DIALOG_LOCK_VALUE) {
+      body.removeAttribute(BODY_DIALOG_LOCK_ATTRIBUTE);
+    }
+    return;
+  }
+
+  dialogLockCounts.set(doc, next);
+};
+
 export function useDialogTrap({ open, onClose, ref }: UseDialogTrapOptions) {
   const focusableRef = React.useRef<HTMLElement[]>([]);
 
@@ -31,6 +73,8 @@ export function useDialogTrap({ open, onClose, ref }: UseDialogTrapOptions) {
     const doc = element.ownerDocument ?? document;
     const previouslyActive = doc.activeElement as HTMLElement | null;
     const restoreTabIndex = new Set<HTMLElement>();
+
+    lockBody(doc);
 
     const updateFocusable = () => {
       const nodes = Array.from(
@@ -127,15 +171,12 @@ export function useDialogTrap({ open, onClose, ref }: UseDialogTrapOptions) {
       attributeFilter: ["tabindex", "disabled", "aria-hidden", "hidden"],
     });
 
-    const previousOverflow = doc.body.style.overflow;
-    doc.body.style.overflow = "hidden";
-
     focusFirst();
 
     return () => {
       observer?.disconnect();
       doc.removeEventListener("keydown", handleKeyDown);
-      doc.body.style.overflow = previousOverflow;
+      unlockBody(doc);
       restoreTabIndex.forEach((node) => {
         node.removeAttribute("tabindex");
       });

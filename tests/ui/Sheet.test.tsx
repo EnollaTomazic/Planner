@@ -1,5 +1,5 @@
 import * as React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
 vi.mock("framer-motion", async () => {
@@ -12,7 +12,7 @@ vi.mock("framer-motion", async () => {
 import Sheet from "@/components/ui/Sheet";
 
 describe("Sheet", () => {
-  it("locks scroll and closes on Escape", () => {
+  it("locks scroll and closes on Escape", async () => {
     const onClose = vi.fn();
     render(
       <Sheet open onClose={onClose} aria-labelledby="s">
@@ -24,7 +24,9 @@ describe("Sheet", () => {
     const wrapper = dialog.parentElement as HTMLElement;
     const dur = getComputedStyle(wrapper).transitionDuration;
     expect(["0s", ""].includes(dur)).toBe(true);
-    expect(document.body.style.overflow).toBe("hidden");
+    await waitFor(() =>
+      expect(document.body).toHaveAttribute("data-dialog-lock", "true"),
+    );
     fireEvent.keyDown(document, { key: "Escape" });
     expect(onClose).toHaveBeenCalled();
     expect(dialog).toHaveAttribute("aria-modal", "true");
