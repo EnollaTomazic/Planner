@@ -19,6 +19,7 @@ import {
   toggleTokenOverride,
   useTokenOverrides,
 } from "@/components/gallery/token-overrides-store";
+import { useScopedCssVars } from "@/components/ui/hooks/useScopedCssVars";
 
 const TOKEN_GRID_CLASSNAME =
   "grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2 sm:gap-[var(--space-4)] xl:grid-cols-3";
@@ -300,13 +301,13 @@ function TokenCard({ token, copied, onCopy, onToggle, selected }: TokenCardProps
 function TokenPreview({ token }: { token: TokenMeta }) {
   switch (token.category) {
     case "color":
-      return <ColorPreview name={token.name} />;
+      return <ColorPreview token={token} />;
     case "spacing":
-      return <SpacingPreview name={token.name} />;
+      return <SpacingPreview token={token} />;
     case "radius":
-      return <RadiusPreview name={token.name} />;
+      return <RadiusPreview token={token} />;
     case "shadow":
-      return <ShadowPreview name={token.name} />;
+      return <ShadowPreview token={token} />;
     case "typography":
       return <TypographyPreview token={token} />;
     default:
@@ -314,11 +315,42 @@ function TokenPreview({ token }: { token: TokenMeta }) {
   }
 }
 
-function ColorPreview({ name }: { name: string }) {
+function toCssVarReference(name: string): string {
+  return `var(--${name})`;
+}
+
+function getColorPreviewValue(token: TokenMeta): string {
+  const raw = token.value.trim();
+  const needsDirectVar =
+    raw.includes("hsl(") ||
+    raw.includes("linear-gradient") ||
+    raw.includes("radial-gradient") ||
+    raw.includes("conic-gradient") ||
+    raw.includes("rgb(") ||
+    raw.includes("url(");
+
+  if (needsDirectVar) {
+    return toCssVarReference(token.name);
+  }
+
+  return `hsl(${toCssVarReference(token.name)})`;
+}
+
+function ColorPreview({ token }: { token: TokenMeta }) {
   const [theme] = useTheme();
   const { variant, bg } = theme;
   const swatchRef = React.useRef<HTMLDivElement | null>(null);
   const [isTranslucent, setIsTranslucent] = React.useState(false);
+  const previewVars = React.useMemo(
+    () => ({
+      "--preview-color": getColorPreviewValue(token),
+    }),
+    [token],
+  );
+  const { scopeProps, Style } = useScopedCssVars({
+    attribute: "data-preview",
+    vars: previewVars,
+  });
 
   React.useEffect(() => {
     const node = swatchRef.current;
@@ -338,7 +370,7 @@ function ColorPreview({ name }: { name: string }) {
       }
 
       const computed = window.getComputedStyle(node);
-      const rawValue = computed.getPropertyValue(`--${name}`).trim();
+      const rawValue = computed.getPropertyValue(`--${token.name}`).trim();
 
       if (!rawValue) {
         setIsTranslucent(false);
@@ -377,87 +409,145 @@ function ColorPreview({ name }: { name: string }) {
         window.clearTimeout(timeout);
       }
     };
-  }, [bg, name, variant]);
+  }, [bg, token.name, variant]);
 
   return (
-    <div
-      className="relative h-[var(--space-8)] w-full overflow-hidden rounded-card r-card-md border border-[var(--card-hairline)]"
-      aria-hidden="true"
-    >
-      {isTranslucent ? (
-        <div aria-hidden="true" className={styles.checkerboard} />
-      ) : null}
+    <>
+      {Style}
       <div
-        ref={swatchRef}
-        className={clsx("relative h-full w-full", styles.swatchFill)}
-        data-token={name}
-      />
-    </div>
+        className={clsx(
+          "relative overflow-hidden rounded-card r-card-md border border-[var(--card-hairline)] bg-panel/60",
+          styles.colorPreview,
+        )}
+        aria-hidden="true"
+        data-id={token.name}
+        {...scopeProps}
+      >
+        {isTranslucent ? (
+          <div aria-hidden="true" className={styles.checkerboard} />
+        ) : null}
+        <div ref={swatchRef} className={styles.swatchFill} data-token={token.name} />
+      </div>
+    </>
   );
 }
 
-function SpacingPreview({ name }: { name: string }) {
+function getSpacingPreviewValue(token: TokenMeta): string {
+  return `var(${token.cssVar})`;
+}
+
+function SpacingPreview({ token }: { token: TokenMeta }) {
+  const previewVars = React.useMemo(
+    () => ({
+      "--preview-spacing": getSpacingPreviewValue(token),
+    }),
+    [token],
+  );
+  const { scopeProps, Style } = useScopedCssVars({
+    attribute: "data-preview",
+    vars: previewVars,
+  });
+
   return (
-    <div
-      className="mt-[var(--space-2)] h-[var(--space-2)] w-full overflow-hidden rounded-full bg-[hsl(var(--foreground)/0.08)]"
-      aria-hidden="true"
-    >
+    <>
+      {Style}
       <div
-        className={clsx(
-          "h-full rounded-full bg-[hsl(var(--accent-2)/0.65)]",
-          styles.spacingBar,
-        )}
-        data-token={name}
-      />
-    </div>
+        className={styles.spacingPreview}
+        aria-hidden="true"
+        data-id={token.name}
+        {...scopeProps}
+      >
+        <div className={styles.spacingBar} data-token={token.name} />
+      </div>
+    </>
   );
 }
 
-function RadiusPreview({ name }: { name: string }) {
+function RadiusPreview({ token }: { token: TokenMeta }) {
+  const previewVars = React.useMemo(
+    () => ({
+      "--preview-radius": `var(${token.cssVar})`,
+    }),
+    [token],
+  );
+  const { scopeProps, Style } = useScopedCssVars({
+    attribute: "data-preview",
+    vars: previewVars,
+  });
+
   return (
-    <div
-      className="mt-[var(--space-2)] flex w-full justify-center"
-      aria-hidden="true"
-    >
-      <div
-        className={clsx(
-          "aspect-square w-full max-w-[var(--space-8)] overflow-hidden rounded-[var(--radius-md)] border border-[var(--card-hairline)] bg-panel/70",
-          styles.radiusDemo,
-        )}
-        data-token={name}
-      />
-    </div>
+    <>
+      {Style}
+      <div className={styles.radiusPreview} aria-hidden="true">
+        <div
+          className={styles.radiusDemo}
+          data-id={token.name}
+          data-token={token.name}
+          {...scopeProps}
+        />
+      </div>
+    </>
   );
 }
 
-function ShadowPreview({ name }: { name: string }) {
+function ShadowPreview({ token }: { token: TokenMeta }) {
+  const previewVars = React.useMemo(
+    () => ({
+      "--preview-shadow": `var(${token.cssVar})`,
+    }),
+    [token],
+  );
+  const { scopeProps, Style } = useScopedCssVars({
+    attribute: "data-preview",
+    vars: previewVars,
+  });
+
   return (
-    <div
-      className="mt-[var(--space-2)] flex w-full justify-center"
-      aria-hidden="true"
-    >
-      <div
-        className={clsx(
-          "h-[var(--space-7)] w-full rounded-card border border-[var(--card-hairline)] bg-panel/70",
-          styles.shadowDemo,
-        )}
-        data-token={name}
-      />
-    </div>
+    <>
+      {Style}
+      <div className={styles.shadowPreview} aria-hidden="true">
+        <div
+          className={styles.shadowDemo}
+          data-id={token.name}
+          data-token={token.name}
+          {...scopeProps}
+        />
+      </div>
+    </>
   );
 }
 
 function TypographyPreview({ token }: { token: TokenMeta }) {
+  const isFontWeightToken = token.name.includes("font-weight");
+  const previewVars = React.useMemo(() => {
+    if (isFontWeightToken) {
+      return {
+        "--preview-font-weight": `var(${token.cssVar})`,
+      } as Record<string, string>;
+    }
+
+    return {
+      "--preview-font-size": `var(${token.cssVar})`,
+    } as Record<string, string>;
+  }, [isFontWeightToken, token]);
+
+  const { scopeProps, Style } = useScopedCssVars({
+    attribute: "data-preview",
+    vars: previewVars,
+  });
+
   return (
-    <div
-      className={clsx(
-        "mt-[var(--space-2)] rounded-card border border-[var(--card-hairline)] bg-panel/60 px-[var(--space-3)] py-[var(--space-2)] text-ui font-semibold text-foreground",
-        styles.typographyPreview,
-      )}
-      data-token={token.name}
-      aria-hidden="true"
-    >
-      Aa
-    </div>
+    <>
+      {Style}
+      <div
+        className={clsx("rounded-card", styles.typographyPreview)}
+        data-id={token.name}
+        data-token={token.name}
+        aria-hidden="true"
+        {...scopeProps}
+      >
+        Aa
+      </div>
+    </>
   );
 }
