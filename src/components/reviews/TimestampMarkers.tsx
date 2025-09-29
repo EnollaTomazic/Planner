@@ -167,15 +167,12 @@ function TimestampMarkers(
                 setLastMarkerTime(e.target.value);
               }}
               placeholder="00:00"
-              className="text-center font-mono tabular-nums"
+              className="text-center font-mono tabular-nums min-w-[calc(5ch+var(--space-5)+(var(--space-1)*4/5))] max-w-[calc(5ch+var(--space-5)+(var(--space-1)*4/5))]"
               aria-label="Timestamp time in mm:ss"
               inputMode="numeric"
               pattern="^[0-9]?\d:[0-5]\d$"
               aria-invalid={timeError ? "true" : undefined}
               aria-describedby={timeError ? "tTime-error" : undefined}
-              style={{
-                width: "calc(5ch + var(--space-5) + (var(--space-1) * 4 / 5))",
-              }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && canAddMarker) {
                   e.preventDefault();
