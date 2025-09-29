@@ -53,6 +53,10 @@
     font-family: var(--font-sans), var(--font-sans-fallback);
   }
 
+  body[data-dialog-lock="true"] {
+    overflow: hidden;
+  }
+
   code,
   kbd,
   pre,
