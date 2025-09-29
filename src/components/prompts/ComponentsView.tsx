@@ -101,7 +101,7 @@ function ThemePreviewSurface({
   return <div className={frameClassName}>{children}</div>;
 }
 
-function ThemeMatrix({
+export function ThemeMatrix({
   entryId,
   previewRenderer,
 }: {
@@ -243,6 +243,21 @@ function ThemeMatrix({
       </p>
     </section>
   );
+}
+
+export function ThemeMatrixPreview({
+  entryId,
+  previewId,
+}: {
+  entryId: string;
+  previewId: string;
+}) {
+  const previewRenderer = React.useMemo(
+    () => getGalleryPreview(previewId),
+    [previewId],
+  );
+
+  return <ThemeMatrix entryId={entryId} previewRenderer={previewRenderer} />;
 }
 
 function GalleryPreviewFallback() {

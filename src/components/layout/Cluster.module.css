@@ -1,0 +1,25 @@
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: var(--cluster-align, center);
+  justify-content: var(--cluster-justify, flex-start);
+  gap: var(--cluster-gap, var(--spacing-3));
+  row-gap: var(--cluster-row-gap, var(--cluster-gap, var(--spacing-3)));
+  container-type: inline-size;
+}
+
+.cluster[data-nowrap="true"] {
+  flex-wrap: nowrap;
+}
+
+@container (max-width: var(--cluster-collapse, 40rem)) {
+  .cluster[data-collapse="stack"] {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+
+  .cluster[data-collapse="start"] {
+    justify-content: flex-start;
+  }
+}
