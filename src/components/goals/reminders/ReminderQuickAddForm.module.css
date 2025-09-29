@@ -1,8 +1,8 @@
-:global(.neon-primary) {
+.neonTonePrimary {
   --neon: var(--primary);
 }
 
-:global(.neon-life) {
+.neonToneLife {
   --neon: var(--accent);
 }
 

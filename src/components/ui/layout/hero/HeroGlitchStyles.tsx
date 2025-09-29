@@ -2,7 +2,7 @@
 
 // src/components/ui/layout/hero/HeroGlitchStyles.tsx
 
-import "./HeroGlitchStyles.module.css";
+import "./HeroGlitchStyles.css";
 
 export function HeroGlitchStyles() {
   return null;

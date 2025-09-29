@@ -8,31 +8,26 @@ export const contentType = "image/png";
 export const dynamic = "force-static";
 
 export default function Icon() {
+  const background = resolveTokenColor(tokens.background);
+  const foreground = resolveTokenColor(tokens.iconFg);
+
   return new ImageResponse(
     (
-      <svg
-        width="100%"
-        height="100%"
-        viewBox={`0 0 ${size.width} ${size.height}`}
-        xmlns="http://www.w3.org/2000/svg"
+      <div
+        style={{
+          alignItems: "center",
+          backgroundColor: background,
+          color: foreground,
+          display: "flex",
+          fontSize: tokens.fontBody,
+          fontWeight: Number(tokens.fontWeightBold),
+          height: "100%",
+          justifyContent: "center",
+          width: "100%",
+        }}
       >
-        <rect
-          width="100%"
-          height="100%"
-          fill={resolveTokenColor(tokens.background)}
-        />
-        <text
-          x="50%"
-          y="50%"
-          fill={resolveTokenColor(tokens.iconFg)}
-          fontSize={tokens.fontBody}
-          fontWeight={tokens.fontWeightBold}
-          textAnchor="middle"
-          dominantBaseline="middle"
-        >
-          13
-        </text>
-      </svg>
+        13
+      </div>
     ),
     size,
   );
