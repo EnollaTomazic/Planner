@@ -399,6 +399,10 @@ html.theme-aurora {
   --accent-soft: 274 78% 22%;
   --muted: 280 52% 16%;
   --muted-foreground: 280 24% 76%;
+  --surface: 282 64% 10%;
+  --surface-2: 280 48% 18%;
+  --surface-vhs: 284 72% 6%;
+  --surface-streak: 280 42% 14%;
   --shadow-color: 152 80% 50%;
   --lav-deep: 276 88% 68%;
   --success: 148 72% 48%;
@@ -446,6 +450,10 @@ html.theme-citrus {
   --accent-soft: 26 92% 18%;
   --muted: 212 18% 22%;
   --muted-foreground: 212 20% 70%;
+  --surface: 212 22% 12%;
+  --surface-2: 212 20% 20%;
+  --surface-vhs: 210 16% 6%;
+  --surface-streak: 212 18% 16%;
   --shadow-color: 28 90% 42%;
   --lav-deep: 28 90% 56%;
   --success: 150 68% 46%;
@@ -473,6 +481,10 @@ html.theme-noir {
   --accent-soft: 184 86% 14%;
   --muted: 352 34% 18%;
   --muted-foreground: 352 24% 68%;
+  --surface: 352 56% 10%;
+  --surface-2: 352 36% 18%;
+  --surface-vhs: 352 64% 5%;
+  --surface-streak: 352 30% 14%;
   --shadow-color: 356 70% 50%;
   --lav-deep: 356 80% 62%;
   --success: 136 56% 52%;
@@ -503,6 +515,10 @@ html.theme-ocean {
   --accent-soft: 204 92% 14%;
   --muted: 218 24% 17%;
   --muted-foreground: 218 16% 74%;
+  --surface: 218 30% 12%;
+  --surface-2: 218 26% 18%;
+  --surface-vhs: 216 44% 7%;
+  --surface-streak: 218 22% 15%;
   --shadow-color: 198 84% 52%;
   --lav-deep: 254 78% 68%;
   --success: 158 72% 48%;
@@ -531,6 +547,10 @@ html.theme-kitten {
   --accent-soft: 340 86% 14%;
   --muted: 334 64% 18%;
   --muted-foreground: 334 26% 74%;
+  --surface: 334 74% 9%;
+  --surface-2: 334 60% 15%;
+  --surface-vhs: 334 88% 4%;
+  --surface-streak: 334 50% 12%;
   --shadow-color: 336 72% 48%;
   --lav-deep: 336 84% 64%;
   --success: 152 62% 48%;
@@ -601,6 +621,10 @@ html.theme-retro {
   --accent-soft: 304 100% 20%;
   --muted: 260 48% 18%;
   --muted-foreground: 260 22% 78%;
+  --surface: 260 60% 10%;
+  --surface-2: 260 50% 16%;
+  --surface-vhs: 258 76% 5%;
+  --surface-streak: 260 44% 13%;
   --shadow-color: 304 92% 56%;
   --lav-deep: 257.5 85.7% 72.5%;
   --success: 158 72% 48%;
