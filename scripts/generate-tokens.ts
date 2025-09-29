@@ -215,7 +215,7 @@ async function buildTokens(): Promise<void> {
 
   const controlShadowBase =
     "inset 0 var(--spacing-1) var(--spacing-2) 0 color-mix(in oklab, hsl(var(--shadow-color)) 18%, hsl(var(--background)) 82%),\n" +
-    "    0 0 0 var(--hairline-w) hsl(var(--border) / 0.12)";
+    "    var(--shadow-outline-subtle)";
   colors["shadow-control"] = { value: controlShadowBase };
 
   const sd = new StyleDictionary({
