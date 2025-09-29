@@ -116,7 +116,7 @@ function AuroraSwatch({
 }: {
   readonly token: (typeof COLOR_PALETTES.aurora)[number];
 }) {
-  const { scopeProps, Style } = useScopedCssVars({
+  const { scopeProps, style } = useScopedCssVars({
     attribute: "data-aurora-swatch",
     vars: {
       "--swatch-color": getSwatchColorVar(token),
@@ -124,19 +124,17 @@ function AuroraSwatch({
   });
 
   return (
-    <>
-      {Style}
-      <div
-        className={styles.auroraSwatch}
-        aria-hidden="true"
-        {...(scopeProps ?? {})}
-      />
-    </>
+    <div
+      className={styles.auroraSwatch}
+      aria-hidden="true"
+      {...(scopeProps ?? {})}
+      style={style}
+    />
   );
 }
 
 function PaletteSwatch({ token }: { readonly token: string }) {
-  const { scopeProps, Style } = useScopedCssVars({
+  const { scopeProps, style } = useScopedCssVars({
     attribute: "data-palette-swatch",
     vars: {
       "--swatch-color": getSwatchColorVar(token),
@@ -144,20 +142,18 @@ function PaletteSwatch({ token }: { readonly token: string }) {
   });
 
   return (
-    <>
-      {Style}
-      <div
-        className={styles.paletteSwatch}
-        aria-hidden="true"
-        {...(scopeProps ?? {})}
-      />
-    </>
+    <div
+      className={styles.paletteSwatch}
+      aria-hidden="true"
+      {...(scopeProps ?? {})}
+      style={style}
+    />
   );
 }
 
 function StatusCard({ swatch }: { readonly swatch: StatusSwatch }) {
   const isSuccess = swatch.key === "success";
-  const { scopeProps, Style } = useScopedCssVars({
+  const { scopeProps, style } = useScopedCssVars({
     attribute: "data-status-card",
     vars: {
       "--status-background": `hsl(var(--${swatch.key}))`,
@@ -168,17 +164,15 @@ function StatusCard({ swatch }: { readonly swatch: StatusSwatch }) {
   });
 
   return (
-    <>
-      {Style}
-      <div
-        className={`${styles.statusCard} flex flex-col gap-[var(--space-2)] border border-border/35 p-[var(--space-4)]`}
-        {...(scopeProps ?? {})}
-      >
-        <span className="text-label uppercase tracking-wide opacity-80">
-          {swatch.label}
-        </span>
-        <p className="text-ui leading-snug">{swatch.description}</p>
-      </div>
-    </>
+    <div
+      className={`${styles.statusCard} flex flex-col gap-[var(--space-2)] border border-border/35 p-[var(--space-4)]`}
+      {...(scopeProps ?? {})}
+      style={style}
+    >
+      <span className="text-label uppercase tracking-wide opacity-80">
+        {swatch.label}
+      </span>
+      <p className="text-ui leading-snug">{swatch.description}</p>
+    </div>
   );
 }

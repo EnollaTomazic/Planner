@@ -5,6 +5,7 @@ import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { Plus } from "lucide-react";
 import { useReminders } from "./useReminders";
+import styles from "./ReminderQuickAddForm.module.css";
 
 export default function ReminderQuickAddForm() {
   const { quickAdd, setQuickAdd, addReminder, group, groups, neonClass } = useReminders();
@@ -12,6 +13,10 @@ export default function ReminderQuickAddForm() {
   const groupLabel = React.useMemo(() => {
     return groups.find((item) => item.key === group)?.label ?? "Group";
   }, [groups, group]);
+
+  const neonToneClass = React.useMemo(() => {
+    return neonClass === "neon-life" ? styles.neonToneLife : styles.neonTonePrimary;
+  }, [neonClass]);
 
   const handleSubmit = React.useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
@@ -45,59 +50,14 @@ export default function ReminderQuickAddForm() {
         >
           <Plus aria-hidden />
         </IconButton>
-        <div className={`${neonClass} hidden sm:block`}>
-          <p className="neon-note neon-glow text-label font-medium tracking-[0.02em] italic">
+        <div className={`${neonToneClass} hidden sm:block`}>
+          <p
+            className={`${styles.neonNote} neon-glow text-label font-medium tracking-[0.02em] italic`}
+          >
             Stop procrastinating, do it now if you have time
           </p>
         </div>
       </form>
-
-      <style jsx>{`
-        .neon-primary {
-          --neon: var(--primary);
-        }
-        .neon-life {
-          --neon: var(--accent);
-        }
-
-        .neon-note {
-          margin-top: calc(var(--space-1) * -1.5);
-          padding-left: calc(var(--space-1) / 2);
-          animation: neon-flicker 4s infinite;
-        }
-
-        @keyframes neon-flicker {
-          0%,
-          17%,
-          22%,
-          26%,
-          52%,
-          100% {
-            opacity: 1;
-          }
-          18% {
-            opacity: 0.72;
-          }
-          24% {
-            opacity: 0.55;
-          }
-          54% {
-            opacity: 0.78;
-          }
-          70% {
-            opacity: 0.62;
-          }
-          74% {
-            opacity: 1;
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .neon-note {
-            animation: none;
-          }
-        }
-      `}</style>
     </>
   );
 }

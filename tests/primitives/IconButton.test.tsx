@@ -95,14 +95,10 @@ describe("IconButton", () => {
       <IconButton variant="ghost" tone="primary" aria-label="gp" />,
     );
     const classes = getByRole("button").className;
-    expect(classes).toContain("border bg-card/35 hover:bg-[--hover]");
-    expect(classes).toContain(
-      "[--hover:theme('colors.interaction.foreground.tintHover')]",
-    );
-    expect(classes).toContain(
-      "[--active:theme('colors.interaction.foreground.tintActive')]",
-    );
     expect(classes).toContain("border-[hsl(var(--line)/0.35)] text-foreground");
+    expect(classes).toContain("[--neu-surface:hsl(var(--card)/0.35)]");
+    expect(classes).toContain("[--hover:hsl(var(--foreground)/0.1)]");
+    expect(classes).toContain("[--active:hsl(var(--foreground)/0.2)]");
   });
 
   it("applies primary variant with accent tone", () => {
@@ -111,19 +107,16 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
+    expect(classes).toContain("[--neo-shadow:var(--btn-primary-shadow-rest)]");
     expect(classes).toContain(
-      "shadow-[var(--btn-primary-shadow-rest)]",
+      "[--neo-shadow-hover:var(--btn-primary-shadow-hover)]",
     );
     expect(classes).toContain(
-      "border-[hsl(var(--accent)/0.35)] bg-[hsl(var(--accent)/0.12)]",
+      "border-[hsl(var(--accent)/0.35)] [--neu-surface:hsl(var(--accent)/0.12)]",
     );
     expect(classes).toContain("text-on-accent");
-    expect(classes).toContain(
-      "[--hover:theme('colors.interaction.accent.hover')]",
-    );
-    expect(classes).toContain(
-      "[--active:theme('colors.interaction.accent.active')]",
-    );
+    expect(classes).toContain("[--hover:hsl(var(--accent)/0.14)]");
+    expect(classes).toContain("[--active:hsl(var(--accent)/0.2)]");
   });
 
   it("applies secondary variant with info tone", () => {
@@ -133,16 +126,12 @@ describe("IconButton", () => {
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
     expect(classes).toContain(
-      "shadow-[var(--btn-secondary-shadow-rest)]",
+      "[--neo-shadow:var(--btn-secondary-shadow-rest)]",
     );
     expect(classes).toContain("text-on-accent");
-    expect(classes).toContain("bg-accent-2/25");
-    expect(classes).toContain(
-      "[--hover:hsl(var(--accent-2)/0.2)]",
-    );
-    expect(classes).toContain(
-      "[--active:hsl(var(--accent-2)/0.15)]",
-    );
+    expect(classes).toContain("[--neu-surface:hsl(var(--accent-2)/0.25)]");
+    expect(classes).toContain("[--hover:hsl(var(--accent-2)/0.2)]");
+    expect(classes).toContain("[--active:hsl(var(--accent-2)/0.15)]");
   });
 
   it("applies ghost variant with danger tone", () => {
@@ -150,14 +139,10 @@ describe("IconButton", () => {
       <IconButton variant="ghost" tone="danger" aria-label="gd" />,
     );
     const classes = getByRole("button").className;
-    expect(classes).toContain("border bg-card/35 hover:bg-[--hover]");
-    expect(classes).toContain(
-      "[--hover:theme('colors.interaction.danger.tintHover')]",
-    );
-    expect(classes).toContain(
-      "[--active:theme('colors.interaction.danger.tintActive')]",
-    );
     expect(classes).toContain("border-danger/35 text-danger");
+    expect(classes).toContain("[--neu-surface:hsl(var(--danger)/0.12)]");
+    expect(classes).toContain("[--hover:hsl(var(--danger)/0.1)]");
+    expect(classes).toContain("[--active:hsl(var(--danger)/0.2)]");
     expect(classes).not.toContain("shadow-glow-current");
   });
 
