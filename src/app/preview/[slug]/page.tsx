@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 
 import {
   getGalleryPreviewRenderer,
@@ -82,7 +82,40 @@ function PreviewSurface({
 }: {
   readonly renderer: GalleryPreviewRenderer;
 }) {
-  return <PreviewSurfaceContainer status="loaded">{renderer()}</PreviewSurfaceContainer>;
+  const [status, setStatus] = useState<"loading" | "loaded">("loading");
+
+  const rendered = useMemo(() => renderer(), [renderer]);
+
+  useEffect(() => {
+    if (!React.isValidElement(rendered)) {
+      setStatus("loaded");
+    }
+  }, [rendered]);
+
+  let content = rendered;
+
+  if (React.isValidElement(rendered)) {
+    const element = rendered as React.ReactElement<{
+      onReady?: (...args: unknown[]) => void;
+      onError?: (...args: unknown[]) => void;
+    }>;
+    content = React.cloneElement(element, {
+      onReady: (...args: unknown[]) => {
+        setStatus("loaded");
+        if (typeof element.props.onReady === "function") {
+          element.props.onReady(...args);
+        }
+      },
+      onError: (...args: unknown[]) => {
+        setStatus("loaded");
+        if (typeof element.props.onError === "function") {
+          element.props.onError(...args);
+        }
+      },
+    });
+  }
+
+  return <PreviewSurfaceContainer status={status}>{content}</PreviewSurfaceContainer>;
 }
 
 interface PreviewContentProps {
