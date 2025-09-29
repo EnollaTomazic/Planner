@@ -1,0 +1,11 @@
+.chipNoir {
+  background-color: hsl(var(--noir-background));
+  color: hsl(var(--noir-foreground));
+  border: var(--hairline-w) solid hsl(var(--noir-border));
+}
+
+.chipHardstuck {
+  background-color: hsl(var(--hardstuck-background));
+  color: hsl(var(--hardstuck-foreground));
+  border: var(--hairline-w) solid hsl(var(--hardstuck-border));
+}

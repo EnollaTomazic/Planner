@@ -38,6 +38,7 @@ import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn } from "@/lib/utils";
 import { demoReview } from "./ComponentGallery.demoData";
 import type { MiscPanelData } from "./useComponentGalleryState";
+import styles from "./MiscPanel.module.css";
 
 const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
 const ROW_HEIGHT: number = spacingTokens[5] ?? 32;
@@ -318,12 +319,10 @@ export default function MiscPanel({ data }: MiscPanelProps) {
           label: "Noir Background",
           element: (
             <div
-              className="w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center"
-              style={{
-                backgroundColor: "hsl(var(--noir-background))",
-                color: "hsl(var(--noir-foreground))",
-                border: "var(--hairline-w) solid hsl(var(--noir-border))",
-              }}
+              className={cn(
+                "w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center",
+                styles.chipNoir,
+              )}
             >
               Noir
             </div>
@@ -333,12 +332,10 @@ export default function MiscPanel({ data }: MiscPanelProps) {
           label: "Hardstuck Background",
           element: (
             <div
-              className="w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center"
-              style={{
-                backgroundColor: "hsl(var(--hardstuck-background))",
-                color: "hsl(var(--hardstuck-foreground))",
-                border: "var(--hairline-w) solid hsl(var(--hardstuck-border))",
-              }}
+              className={cn(
+                "w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center",
+                styles.chipHardstuck,
+              )}
             >
               Hardstuck
             </div>
