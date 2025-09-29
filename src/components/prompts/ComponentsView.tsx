@@ -42,7 +42,7 @@ const containerClassName = cn(
   "bg-[linear-gradient(140deg,hsl(var(--card)/0.95),hsl(var(--surface-2)/0.78))]",
   "px-[var(--space-6)] py-[var(--space-5)]",
   "shadow-neo",
-  "focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-card",
+  "focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--card))]",
   "before:pointer-events-none before:absolute before:-inset-px before:-z-10 before:rounded-[inherit]",
   "before:bg-[radial-gradient(125%_85%_at_18%_-25%,hsl(var(--accent)/0.3),transparent_65%),radial-gradient(125%_85%_at_82%_-20%,hsl(var(--ring)/0.28),transparent_60%)]",
   "before:opacity-75 before:mix-blend-screen motion-reduce:before:opacity-55",
@@ -284,7 +284,7 @@ function ShowCodeButton({
         "data-[pressed=true]:translate-y-[var(--spacing-0-25)]",
         "data-[pressed=true]:shadow-neo-soft",
         "motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 motion-reduce:active:translate-y-0",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--card))]",
         "before:pointer-events-none before:absolute before:-inset-px before:rounded-full before:border before:border-[hsl(var(--ring)/0.35)] before:opacity-0 before:transition-opacity before:duration-quick before:ease-out",
         "focus-visible:before:opacity-100",
         "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[radial-gradient(120%_95%_at_50%_0%,hsl(var(--accent)/0.24),transparent_65%)] after:opacity-0 after:transition-opacity after:duration-quick after:ease-out",
@@ -358,7 +358,7 @@ function PropsTable({
           className={cn(
             "text-label font-medium text-foreground",
             "underline-offset-4 transition hover:underline",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--card))]",
           )}
         >
           {toggleLabel}

@@ -972,7 +972,7 @@ html.bg-intense body::after {
   }
   .pill:focus-visible {
     @apply outline-none ring-[var(--ring-size-1)] ring-[var(--theme-ring)]
-      ring-offset-[var(--ring-size-1)] ring-offset-card;
+      ring-offset-[var(--ring-size-1)] ring-offset-[hsl(var(--card))];
   }
   .pill > svg,
   .pill svg {
