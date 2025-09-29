@@ -234,6 +234,9 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
                     {...restProps}
                     ref={ref as React.Ref<HTMLButtonElement>}
                     className={className}
+                    data-text={
+                      typeof item.label === "string" ? item.label : undefined
+                    }
                     disabled={disabled}
                     onClick={(event) => {
                       if (disabled) {

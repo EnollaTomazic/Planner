@@ -140,6 +140,7 @@ export default function PageTabs({
             href={item.href}
             scroll={false}
             className={mergedClassName}
+            data-text={typeof item.label === "string" ? item.label : undefined}
             onClick={(event) => {
               if (disabled) {
                 event.preventDefault();
@@ -161,6 +162,7 @@ export default function PageTabs({
           ref={ref as React.Ref<HTMLButtonElement>}
           disabled={disabled}
           className={mergedClassName}
+          data-text={typeof item.label === "string" ? item.label : undefined}
           onClick={(event) => {
             if (disabled) {
               event.preventDefault();

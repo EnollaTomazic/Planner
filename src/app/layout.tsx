@@ -136,6 +136,7 @@ export default async function RootLayout({
     ":root {",
     `  --asset-noise-url: url(\"${withBasePath("/noise.svg")}\");`,
     `  --asset-glitch-gif-url: url(\"${withBasePath("/glitch-gif.gif")}\");`,
+    `  --glitch-gif-url: url(\"${withBasePath("/glitch-gif.gif")}\");`,
     "}",
   ].join("\n");
   const renderLayout = (nonce?: string) => {

@@ -71,6 +71,7 @@ export default function DemoHeader({
           aria-label="Timer demo"
           defaultValue="25:00"
           className="btn-like-segmented btn-glitch w-[5ch]"
+          data-text="25:00"
           inputClassName="text-center"
           type="text"
         />

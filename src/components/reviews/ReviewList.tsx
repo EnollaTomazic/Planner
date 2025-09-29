@@ -107,6 +107,7 @@ export default function ReviewList({
             size="md"
             onClick={onCreate}
             className={cn("btn-glitch")}
+            data-text="Create review"
           >
             Create review
           </Button>

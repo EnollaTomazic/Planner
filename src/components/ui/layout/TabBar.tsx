@@ -46,6 +46,7 @@ export type TabElementProps = React.HTMLAttributes<HTMLElement> & {
   "aria-busy"?: boolean;
   "data-active"?: boolean;
   "data-loading"?: boolean;
+  "data-text"?: string;
 };
 
 export type TabRenderContext<
@@ -306,6 +307,10 @@ export default function TabBar<
               "data-active": active || undefined,
               "data-loading": isLoading || undefined,
               className: baseClass,
+              "data-text":
+                isGlitch && typeof item.label === "string"
+                  ? item.label
+                  : undefined,
               onClick: (event) => {
                 if (isDisabled) {
                   event.preventDefault();

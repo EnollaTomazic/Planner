@@ -155,6 +155,7 @@ export default function ReviewsPage({
                     "btn-glitch",
                     "w-full whitespace-nowrap md:col-span-2 md:justify-self-end",
                   )}
+                  data-text="New Review"
                   onClick={handleCreateReview}
                 >
                   <Plus />
@@ -188,6 +189,7 @@ export default function ReviewsPage({
                     "btn-glitch",
                     "w-full whitespace-nowrap md:col-span-4 md:justify-self-end",
                   )}
+                  data-text="New Review"
                   onClick={handleCreateReview}
                 >
                   <Plus />

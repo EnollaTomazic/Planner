@@ -11,6 +11,7 @@
     --danger-tint-foreground: var(--danger-foreground);
     --asset-noise-url: url("/noise.svg");
     --asset-glitch-gif-url: url("/glitch-gif.gif");
+    --glitch-gif-url: var(--asset-glitch-gif-url);
     --settings-column-width: calc(var(--space-4) * 14);
     --surface-overlay-soft: 0.12;
     --surface-overlay-strong: 0.2;
@@ -108,6 +109,15 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
+    background-image: var(
+      --glitch-gif-url,
+      var(--asset-glitch-gif-url, url("/glitch-gif.gif"))
+    );
+    background-repeat: repeat;
+    background-size: cover;
+    background-position: center;
+    mix-blend-mode: lighten;
+    opacity: var(--glitch-overlay-opacity, 0.08);
   }
 
   /* Optional global overlays */
@@ -806,6 +816,28 @@ html.bg-intense body::after {
     transition:
       transform var(--dur-quick) var(--ease-out),
       filter var(--dur-quick);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .btn-glitch::before {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    mix-blend-mode: lighten;
+    opacity: 0;
+    pointer-events: none;
+    clip-path: inset(0 0 0 0);
+    transform: translate3d(0, 0, 0);
+    filter: none;
+    transition: opacity var(--dur-quick) var(--ease-out);
+    will-change: transform, filter;
+  }
+  .btn-glitch:hover::before,
+  .btn-glitch:focus-visible::before {
+    opacity: 0.8;
   }
   .btn-glitch:hover {
     filter: brightness(1.05);
@@ -1496,6 +1528,44 @@ textarea:-webkit-autofill {
       hsl(var(--accent) / 0.18);
 }
 
+@keyframes glitch {
+  0% {
+    clip-path: inset(0 0 0 0);
+    transform: translate3d(0, 0, 0);
+    filter: none;
+  }
+  18% {
+    clip-path: inset(12% 0 68% 0);
+    transform: translate3d(-2px, -1px, 0);
+    filter: hue-rotate(-4deg);
+  }
+  34% {
+    clip-path: inset(44% 0 38% 0);
+    transform: translate3d(2px, 1px, 0);
+    filter: hue-rotate(9deg);
+  }
+  52% {
+    clip-path: inset(72% 0 9% 0);
+    transform: translate3d(-1px, 2px, 0);
+    filter: hue-rotate(-8deg);
+  }
+  68% {
+    clip-path: inset(6% 0 80% 0);
+    transform: translate3d(1px, -2px, 0);
+    filter: hue-rotate(6deg);
+  }
+  82% {
+    clip-path: inset(28% 0 52% 0);
+    transform: translate3d(2px, -1px, 0);
+    filter: hue-rotate(12deg);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate3d(0, 0, 0);
+    filter: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .glitch-rail {
     animation: none;
@@ -1508,6 +1578,8 @@ textarea:-webkit-autofill {
   border: var(--hairline-w) solid hsl(var(--card-hairline));
   background: hsl(var(--card) / 0.7);
   box-shadow: var(--shadow);
+  isolation: isolate;
+  overflow: hidden;
   transition:
     transform 0.12s ease,
     box-shadow 0.2s ease,
@@ -1562,6 +1634,15 @@ textarea:-webkit-autofill {
   );
   mix-blend-mode: overlay;
   opacity: 0.2;
+  clip-path: inset(0 0 0 0);
+  transform: translate3d(0, 0, 0);
+  filter: none;
+  will-change: transform, filter, clip-path;
+  transition: opacity var(--dur-quick) var(--ease-out);
+}
+.glitch-card:hover::before,
+.glitch-card:focus-within::before {
+  opacity: 0.32;
 }
 .glitch-title {
   position: relative;
@@ -1581,6 +1662,16 @@ textarea:-webkit-autofill {
   }
   .glitch-card::before {
     animation: lg-scan 11s linear infinite;
+  }
+  .glitch-card:hover::before,
+  .glitch-card:focus-within::before {
+    animation:
+      lg-scan 11s linear infinite,
+      glitch 0.55s steps(2, end) infinite;
+  }
+  .btn-glitch:hover::before,
+  .btn-glitch:focus-visible::before {
+    animation: glitch 0.45s steps(2, end) infinite;
   }
   .glitch-title:hover,
   .glitch-title:focus-visible {
