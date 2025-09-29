@@ -1,9 +1,11 @@
-:global(.neon-primary) {
-  --neon: var(--primary);
-}
+:global {
+  .neon-primary {
+    --neon: var(--primary);
+  }
 
-:global(.neon-life) {
-  --neon: var(--accent);
+  .neon-life {
+    --neon: var(--accent);
+  }
 }
 
 .neonNote {

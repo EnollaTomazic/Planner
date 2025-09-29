@@ -21,17 +21,14 @@ export default function Icon() {
           height="100%"
           fill={resolveTokenColor(tokens.background)}
         />
-        <text
-          x="50%"
-          y="50%"
+        <path
+          d="M11 8h4v16h-4z"
           fill={resolveTokenColor(tokens.iconFg)}
-          fontSize={tokens.fontBody}
-          fontWeight={tokens.fontWeightBold}
-          textAnchor="middle"
-          dominantBaseline="middle"
-        >
-          13
-        </text>
+        />
+        <path
+          d="M18 8h6a4 4 0 0 1 0 8a4 4 0 0 1 0 8h-6v-4h4a2 2 0 0 0 0-4h-4v-4h4a2 2 0 1 0 0-4h-4z"
+          fill={resolveTokenColor(tokens.iconFg)}
+        />
       </svg>
     ),
     size,
