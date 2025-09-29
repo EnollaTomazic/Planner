@@ -141,6 +141,7 @@ async function buildTokens(): Promise<void> {
     }
     colors[name] = { value: match[2].trim() };
   }
+  colors.focus = { value: "var(--theme-ring)" };
   const globalsPath = path.resolve(__dirname, "../src/app/globals.css");
   const globalsCss = await fs.readFile(globalsPath, "utf8");
   const glowTokens = ["--glow-strong", "--glow-soft"];
