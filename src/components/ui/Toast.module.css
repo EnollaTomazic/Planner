@@ -1,5 +1,5 @@
 .progressTrack {
-  --toast-progress: attr(data-progress number, 0);
+  --toast-progress: 0;
 }
 
 .progressFill {
