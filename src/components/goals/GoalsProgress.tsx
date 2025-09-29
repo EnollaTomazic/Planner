@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+
 import ProgressRingIcon from "@/icons/ProgressRingIcon";
 
 interface GoalsProgressProps {
@@ -15,36 +16,51 @@ export default function GoalsProgress({
   maxWidth,
 }: GoalsProgressProps) {
   const v = Math.max(0, Math.min(100, Math.round(pct)));
-  const customSize =
-    maxWidth == null
-      ? undefined
-      : typeof maxWidth === "number"
-        ? `${maxWidth}px`
-        : maxWidth;
-  const ringSize = typeof maxWidth === "number" ? maxWidth : undefined;
+  const reactId = React.useId();
+  const ringInstanceId = React.useMemo(
+    () => reactId.replace(/[:]/g, "_"),
+    [reactId],
+  );
+  const customSizeValue = React.useMemo(() => {
+    if (maxWidth == null) {
+      return null;
+    }
+    if (typeof maxWidth === "number") {
+      return Number.isFinite(maxWidth) ? `${maxWidth}px` : null;
+    }
+
+    return maxWidth;
+  }, [maxWidth]);
+  const ringSize =
+    typeof maxWidth === "number" && Number.isFinite(maxWidth)
+      ? maxWidth
+      : undefined;
   const ariaLabel =
     total === 0
       ? "Goals progress: no goals yet"
       : `Goals progress: ${v}% complete`;
   return (
-    <div
-      className="relative inline-flex size-[var(--goals-progress-size,var(--ring-diameter-m))] items-center justify-center"
-      style={
-        customSize
-          ? ({
-              "--goals-progress-size": customSize,
-            } as React.CSSProperties)
-          : undefined
-      }
-      aria-label={ariaLabel}
-    >
-      <ProgressRingIcon pct={v} size={ringSize} />
-      <span
-        aria-live="polite"
-        className="absolute inset-0 flex items-center justify-center text-label font-medium tracking-[0.02em] tabular-nums"
+    <>
+      <div
+        className="relative inline-flex size-[var(--goals-progress-size,var(--ring-diameter-m))] items-center justify-center"
+        data-ring-instance={customSizeValue ? ringInstanceId : undefined}
+        aria-label={ariaLabel}
       >
-        {v}%
-      </span>
-    </div>
+        <ProgressRingIcon pct={v} size={ringSize} />
+        <span
+          aria-live="polite"
+          className="absolute inset-0 flex items-center justify-center text-label font-medium tracking-[0.02em] tabular-nums"
+        >
+          {v}%
+        </span>
+      </div>
+      {customSizeValue ? (
+        <style jsx global>{`
+          [data-ring-instance="${ringInstanceId}"] {
+            --goals-progress-size: ${customSizeValue};
+          }
+        `}</style>
+      ) : null}
+    </>
   );
 }
