@@ -276,6 +276,12 @@
   --lg-black: var(--background);
   --card-foreground: var(--foreground);
   --header-stack: calc(var(--spacing-8) + var(--spacing-4));
+  --layout-gutter-sm: var(--spacing-4);
+  --layout-gutter-md: var(--spacing-5);
+  --layout-gutter-lg: var(--spacing-6);
+  --card-radius: var(--radius-xl);
+  --elevation-card: var(--shadow-outline-subtle);
+  --elevation-card-pressed: var(--shadow-control);
   /* Depth & surface spacing (neumorphism) */
   --neo-depth-sm: var(--spacing-1);
   --neo-depth-md: var(--spacing-3);
