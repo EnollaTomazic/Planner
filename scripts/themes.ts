@@ -373,40 +373,40 @@ export const themes: ThemeDefinition[] = [
       { name: "success", value: "158 72% 48%" },
       { name: "success-glow", value: "158 72% 38% / 0.6" },
       { name: "glow", value: "304 100% 68%" },
-      { name: "glow-active", value: "hsl(188.7 89.6% 69.8%)" },
+      { name: "glow-active", value: "hsl(var(--accent-2))" },
       {
         name: "shadow-glow-sm",
         value: [
           "",
-          "0 0 var(--spacing-2) hsl(304 100% 68% / 0.7),",
-          "0 0 var(--spacing-4) hsl(188.7 89.6% 69.8% / 0.45)",
+          "0 0 var(--spacing-2) hsl(var(--glow) / 0.7),",
+          "0 0 var(--spacing-4) hsl(var(--accent-2) / 0.45)",
         ],
       },
       {
         name: "shadow-glow-md",
         value: [
           "",
-          "0 0 var(--spacing-3) hsl(304 100% 68% / 0.55),",
-          "0 0 var(--spacing-5) hsl(188.7 89.6% 69.8% / 0.4),",
-          "0 0 var(--spacing-6) hsl(257.5 85.7% 72.5% / 0.3)",
+          "0 0 var(--spacing-3) hsl(var(--glow) / 0.55),",
+          "0 0 var(--spacing-5) hsl(var(--accent-2) / 0.4),",
+          "0 0 var(--spacing-6) hsl(var(--accent-3) / 0.3)",
         ],
       },
       {
         name: "shadow-glow-lg",
         value: [
           "",
-          "0 0 var(--spacing-4) hsl(304 100% 68% / 0.5),",
-          "0 0 var(--spacing-6) hsl(188.7 89.6% 69.8% / 0.38),",
-          "0 0 var(--spacing-7) hsl(257.5 85.7% 72.5% / 0.28)",
+          "0 0 var(--spacing-4) hsl(var(--glow) / 0.5),",
+          "0 0 var(--spacing-6) hsl(var(--accent-2) / 0.38),",
+          "0 0 var(--spacing-7) hsl(var(--accent-3) / 0.28)",
         ],
       },
       {
         name: "shadow-glow-xl",
         value: [
           "",
-          "0 var(--spacing-1) var(--spacing-5) hsl(304 100% 68% / 0.45),",
-          "0 var(--spacing-2) var(--spacing-7) hsl(188.7 89.6% 69.8% / 0.32),",
-          "0 var(--spacing-3) var(--spacing-8) hsl(257.5 85.7% 72.5% / 0.24)",
+          "0 var(--spacing-1) var(--spacing-5) hsl(var(--glow) / 0.45),",
+          "0 var(--spacing-2) var(--spacing-7) hsl(var(--accent-2) / 0.32),",
+          "0 var(--spacing-3) var(--spacing-8) hsl(var(--accent-3) / 0.24)",
         ],
       },
       {
