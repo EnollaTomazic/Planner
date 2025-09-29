@@ -403,6 +403,13 @@ export default function TimerTab() {
   }, [running, isCustom, pause, start, reset, setTimer]);
 
   const pct = clamp(Math.round(progress * 100), 0, 100);
+  const timerProgressStyle = React.useMemo(
+    () =>
+      ({
+        "--timer-progress": (pct / 100).toString(),
+      }) as React.CSSProperties,
+    [pct],
+  );
 
   return (
     <>
@@ -488,6 +495,7 @@ export default function TimerTab() {
                 <div
                   className={`${styles.progressFill} h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-[var(--shadow-glow-md)] transition-transform duration-quick ease-linear motion-reduce:transition-none`}
                   data-progress={pct}
+                  style={timerProgressStyle}
                 />
               </div>
               <div className="mt-[var(--space-1)] text-right text-label font-medium tracking-[0.02em] text-muted-foreground tabular-nums">
