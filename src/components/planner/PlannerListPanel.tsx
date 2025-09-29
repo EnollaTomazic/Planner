@@ -7,6 +7,12 @@ import "./PlannerListPanel.css";
 
 type PlannerViewportSizeToken = "minHTasks" | "maxHTasks" | "maxHProjects";
 
+const VIEWPORT_SIZE_CLASS_NAMES: Record<PlannerViewportSizeToken, string> = {
+  minHTasks: "planner-viewport--minHTasks",
+  maxHTasks: "planner-viewport--maxHTasks",
+  maxHProjects: "planner-viewport--maxHProjects",
+};
+
 type PlannerListPanelProps = {
   renderComposer?: () => React.ReactNode;
   renderEmpty: () => React.ReactNode;
@@ -24,7 +30,7 @@ type PlannerListPanelProps = {
   viewportSize?:
     | PlannerViewportSizeToken
     | PlannerViewportSizeToken[];
-  viewportProps?: React.HTMLAttributes<HTMLDivElement>;
+  viewportProps?: Omit<React.HTMLAttributes<HTMLDivElement>, "style">;
 };
 
 export default function PlannerListPanel({
@@ -38,15 +44,17 @@ export default function PlannerListPanel({
   viewportSize,
   viewportProps,
 }: PlannerListPanelProps) {
-  const {
-    className: viewportPropsClassName,
-    style: viewportPropsStyle,
-    ...restViewportProps
-  } = viewportProps ?? {};
+  const { className: viewportPropsClassName, ...restViewportProps } = viewportProps ?? {};
 
-  const viewportSizeValue = Array.isArray(viewportSize)
-    ? viewportSize.join(" ")
-    : viewportSize;
+  const viewportSizeTokens = Array.isArray(viewportSize)
+    ? viewportSize
+    : viewportSize
+      ? [viewportSize]
+      : [];
+
+  const viewportSizeClasses = viewportSizeTokens.map(
+    (token) => VIEWPORT_SIZE_CLASS_NAMES[token],
+  );
 
   const composer = renderComposer?.();
   const content = isEmpty ? renderEmpty() : renderList();
@@ -61,14 +69,13 @@ export default function PlannerListPanel({
       {composer}
       <div
         {...restViewportProps}
-        data-viewport-size={viewportSizeValue}
         className={cn(
           "planner-viewport w-full overflow-y-auto",
           viewportInsetClassName,
           viewportPropsClassName,
           viewportClassName,
+          viewportSizeClasses,
         )}
-        style={viewportPropsStyle}
       >
         {content}
       </div>

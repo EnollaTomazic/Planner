@@ -4,12 +4,9 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { Pillar } from "@/lib/types";
+import styles from "./PillarSelector.module.css";
 
 const ORDER: Pillar[] = ["Wave", "Trading", "Vision", "Tempo", "Positioning", "Comms"];
-
-type PillarHighlightStyle = React.CSSProperties & {
-  "--pillar-indicator-gradient"?: string;
-};
 
 export default function PillarSelector({
   value = [],
@@ -44,12 +41,6 @@ export default function PillarSelector({
       <div className="flex flex-wrap gap-[var(--space-2)]">
         {ORDER.map((p) => {
           const active = set.has(p);
-          const activeStyle: PillarHighlightStyle | undefined = active
-            ? {
-                "--pillar-indicator-gradient":
-                  "linear-gradient(90deg, hsl(var(--primary)/0.18), hsl(var(--accent)/0.18))",
-              }
-            : undefined;
           return (
             <button
               key={p}
@@ -59,18 +50,19 @@ export default function PillarSelector({
               onKeyDown={(event) => handleKeyDown(p, event)}
               className={cn(
                 "pill transition",
+                styles.button,
                 active &&
-                  "pill--medium text-foreground shadow-[var(--shadow-neo-soft)] [background:var(--pillar-indicator-gradient)]",
+                  "pill--medium text-foreground shadow-[var(--shadow-neo-soft)]",
               )}
-              style={activeStyle}
+              data-active={active ? "true" : undefined}
             >
               <span
                 aria-hidden
                 className={cn(
                   "h-[var(--space-2)] w-[var(--space-2)] rounded-full",
-                  active ? "" : "bg-muted-foreground"
+                  active ? "" : "bg-muted-foreground",
+                  styles.indicator,
                 )}
-                style={active ? { background: "var(--accent-overlay)" } : undefined}
               />
               {p}
             </button>

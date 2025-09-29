@@ -1,0 +1,9 @@
+.promptsOverlay {
+  --seg-active-grad: linear-gradient(
+    90deg,
+    hsl(var(--primary-soft) / 0.45),
+    hsl(var(--accent-soft) / 0.45),
+    hsl(var(--accent-2) / 0.4)
+  );
+  background: var(--seg-active-grad);
+}
