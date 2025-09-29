@@ -556,6 +556,7 @@ html.theme-hardstuck {
   --primary-soft: 120 100% 26%;
   --accent: 120 92% 58%;
   --accent-2: 120 76% 22%;
+  --accent-2-foreground: 120 32% 94%;
   --accent-foreground: 0 0% 8%;
   --text-on-accent: hsl(var(--hardstuck-foreground));
   --accent-soft: 120 90% 16%;
