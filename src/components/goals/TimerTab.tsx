@@ -8,6 +8,7 @@ import Hero from "@/components/ui/layout/Hero";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import TimerRing from "./TimerRing";
 import DurationSelector from "./DurationSelector";
+import styles from "./TimerTab.module.css";
 import {
   Play,
   Pause,
@@ -401,7 +402,7 @@ export default function TimerTab() {
     return () => window.removeEventListener("keydown", onKey);
   }, [running, isCustom, pause, start, reset, setTimer]);
 
-  const pct = Math.round(progress * 100);
+  const pct = clamp(Math.round(progress * 100), 0, 100);
 
   return (
     <>
@@ -485,8 +486,8 @@ export default function TimerTab() {
               <div className="relative h-[var(--space-2)] w-full rounded-full bg-background/20 shadow-neo-inset">
                 <div className="absolute inset-0 bg-[repeating-linear-gradient(to_right,transparent,transparent_9%,hsl(var(--foreground)/0.15)_9%,hsl(var(--foreground)/0.15)_10%)]" />
                 <div
-                  className="h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-[var(--shadow-glow-md)] transition-[width] duration-quick ease-linear"
-                  style={{ width: `${pct}%` }}
+                  className={`${styles.progressFill} h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-[var(--shadow-glow-md)] transition-transform duration-quick ease-linear motion-reduce:transition-none`}
+                  data-progress={pct}
                 />
               </div>
               <div className="mt-[var(--space-1)] text-right text-label font-medium tracking-[0.02em] text-muted-foreground tabular-nums">
