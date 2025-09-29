@@ -84,7 +84,7 @@ function HomePageContent() {
       {isSplashMounted ? (
         <HomeSplash active={isSplashVisible} onExited={handleSplashExit} />
       ) : null}
-      <main
+      <section
         tabIndex={-1}
         className={styles.content}
         data-state={isSplashVisible ? "splash" : "ready"}
@@ -96,7 +96,7 @@ function HomePageContent() {
             onClientReady={handleClientReady}
           />
         </PlannerProvider>
-      </main>
+      </section>
     </div>
   );
 }

@@ -3,6 +3,7 @@ export type TokenValue = string | string[];
 export interface VariableDefinition {
   name: string;
   value: TokenValue;
+  comment?: string | string[];
 }
 
 export interface ThemeDefinition {
@@ -19,6 +20,52 @@ export const rootVariables: VariableDefinition[] = [
   { name: "lg-black", value: "var(--background)" },
   { name: "card-foreground", value: "var(--foreground)" },
   { name: "header-stack", value: "calc(var(--spacing-8) + var(--spacing-4))" },
+  {
+    comment: "Depth & surface spacing (neumorphism)",
+    name: "neo-depth-sm",
+    value: "var(--spacing-1)",
+  },
+  { name: "neo-depth-md", value: "var(--spacing-3)" },
+  { name: "neo-depth-lg", value: "var(--spacing-4)" },
+  {
+    name: "neo-surface",
+    value: "color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%)",
+  },
+  {
+    name: "neo-surface-alt",
+    value: "color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%)",
+  },
+  {
+    name: "neo-highlight",
+    value: "color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)))",
+  },
+  {
+    comment: [
+      "Glow parity (retro-futurism)",
+      "neo-glow-strength multiplies --shadow-neon",
+    ],
+    name: "neo-glow-strength",
+    value: "0.45",
+  },
+  { name: "neon-outline-opacity", value: "0.35" },
+  {
+    comment: [
+      "Glitch normalization (identical amplitude & cadence)",
+      "0–1 scaling for transforms/opacity",
+    ],
+    name: "glitch-intensity",
+    value: "1.0",
+  },
+  { comment: "base animation length", name: "glitch-duration", value: "450ms" },
+  { comment: "hue-rotate magnitude", name: "glitch-fringe", value: "12deg" },
+  { comment: "overlay alpha", name: "glitch-static-opacity", value: "0.18" },
+  { comment: "Retro grid parity", name: "retro-grid-step", value: "24px" },
+  { name: "retro-grid-opacity", value: "0.15" },
+  {
+    comment: ["Accessibility clamps", "used in tests; not CSS-enforced"],
+    name: "aa-min-contrast",
+    value: "4.5",
+  },
   {
     name: "shadow-neon",
     value: [
