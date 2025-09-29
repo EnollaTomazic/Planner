@@ -20,6 +20,15 @@ export const rootVariables: VariableDefinition[] = [
   { name: "lg-black", value: "var(--background)" },
   { name: "card-foreground", value: "var(--foreground)" },
   { name: "header-stack", value: "calc(var(--spacing-8) + var(--spacing-4))" },
+  { name: "layout-gutter-sm", value: "var(--spacing-4)" },
+  { name: "layout-gutter-md", value: "var(--spacing-5)" },
+  { name: "layout-gutter-lg", value: "var(--spacing-6)" },
+  { name: "card-radius", value: "var(--radius-xl)" },
+  { name: "elevation-card", value: "var(--shadow-outline-subtle)" },
+  {
+    name: "elevation-card-pressed",
+    value: "var(--shadow-control)",
+  },
   {
     comment: "Depth & surface spacing (neumorphism)",
     name: "neo-depth-sm",

@@ -5,7 +5,7 @@ import PageShell, { layoutGridClassName } from "@/components/ui/layout/PageShell
 import TodayHero from "../TodayHero";
 import WeekNotes from "../WeekNotes";
 import DayRow from "../DayRow";
-import ScrollTopFloatingButton from "../ScrollTopFloatingButton";
+import PlannerFab from "../PlannerFab";
 import { useFocusDate, useWeek } from "../useFocusDate";
 import type { ISODate } from "../plannerTypes";
 
@@ -102,7 +102,7 @@ export default function DayView() {
           ))}
         </ul>
       </PageShell>
-      <ScrollTopFloatingButton watchRef={heroRef} />
+      <PlannerFab />
     </>
   );
 }
