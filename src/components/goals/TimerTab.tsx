@@ -404,7 +404,7 @@ export default function TimerTab() {
   }, [running, isCustom, pause, start, reset, setTimer]);
 
   const pct = clamp(Math.round(progress * 100), 0, 100);
-  const { scopeProps: timerProgressScopeProps, Style: TimerProgressStyle } =
+  const { scopeProps: timerProgressScopeProps, style: timerProgressStyle } =
     useScopedCssVars({
       attribute: "data-timer-progress-id",
       vars: {
@@ -497,8 +497,8 @@ export default function TimerTab() {
                   className={`${styles.progressFill} h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-[var(--shadow-glow-md)] transition-transform duration-quick ease-linear motion-reduce:transition-none`}
                   data-progress={pct}
                   {...(timerProgressScopeProps ?? {})}
+                  style={timerProgressStyle}
                 />
-                {TimerProgressStyle}
               </div>
               <div className="mt-[var(--space-1)] text-right text-label font-medium tracking-[0.02em] text-muted-foreground tabular-nums">
                 {pct}%

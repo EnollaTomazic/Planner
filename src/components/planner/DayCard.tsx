@@ -10,13 +10,14 @@
 import "./style.css";
 import * as React from "react";
 import { useSelectedProject, useSelectedTask } from "./useSelection";
-import type { ISODate } from "./plannerTypes";
+import type { ISODate, TaskReminder } from "./plannerTypes";
 import { useDay } from "./useDay";
 import { cn } from "@/lib/utils";
 import DayCardHeader from "./DayCardHeader";
 import ProjectList from "./ProjectList";
 import TaskList from "./TaskList";
 import { usePlannerActions } from "./usePlannerStore";
+import TaskReminderSettings from "./TaskReminderSettings";
 
 type Props = { iso: ISODate; isToday?: boolean };
 
@@ -35,11 +36,14 @@ export default function DayCard({ iso, isToday }: Props) {
     removeTaskImage: removeTaskImageForDay,
     doneCount,
     totalCount,
+    updateTaskReminder,
   } = useDay(iso);
 
   const [selectedProjectId, setSelectedProjectId] = useSelectedProject(iso);
-  const [, setSelectedTaskId] = useSelectedTask(iso);
+  const [selectedTaskId, setSelectedTaskId] = useSelectedTask(iso);
   const { createProject, createTask } = usePlannerActions();
+
+  const selectedTask = selectedTaskId ? tasksById[selectedTaskId] : undefined;
 
   const handleCreateProject = React.useCallback(
     (name: string) =>
@@ -56,6 +60,14 @@ export default function DayCard({ iso, isToday }: Props) {
         select: setSelectedTaskId,
       }),
     [createTask, iso, selectedProjectId, setSelectedTaskId],
+  );
+
+  const handleReminderChange = React.useCallback(
+    (partial: Partial<TaskReminder> | null) => {
+      if (!selectedTaskId) return;
+      updateTaskReminder(selectedTaskId, partial);
+    },
+    [selectedTaskId, updateTaskReminder],
   );
 
   return (
@@ -117,6 +129,10 @@ export default function DayCard({ iso, isToday }: Props) {
           </div>
         </React.Fragment>
       )}
+
+      <div className="col-span-full">
+        <TaskReminderSettings task={selectedTask} onChange={handleReminderChange} />
+      </div>
     </section>
   );
 }

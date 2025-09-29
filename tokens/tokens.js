@@ -67,7 +67,7 @@ export default {
   btnBg: "transparent",
   btnFg: "hsl(var(--foreground))",
   hover: "hsl(var(--foreground) / 0.08)",
-  focus: "hsl(var(--ring))",
+  focus: "var(--theme-ring)",
   active: "hsl(var(--foreground) / 0.12)",
   disabled: "0.5",
   loading: "0.6",
@@ -131,7 +131,7 @@ export default {
   shadowNeonStrong:
     "0 0 var(--spacing-3) var(--neon),\n    0 0 var(--spacing-5) var(--neon-soft)",
   shadowControl:
-    "inset 0 var(--spacing-1) var(--spacing-2) 0 rgb(0 0 0 / 0.06),\n    0 0 0 var(--hairline-w) hsl(var(--border) / 0.12)",
+    "inset 0 var(--spacing-1) var(--spacing-2) 0 color-mix(in oklab, hsl(var(--shadow-color)) 18%, hsl(var(--background)) 82%),\n    var(--shadow-outline-subtle)",
   shadowControlHover:
     "0 var(--spacing-1) var(--spacing-2) hsl(var(--shadow-color) / 0.3)",
   lgViolet: "var(--ring)",

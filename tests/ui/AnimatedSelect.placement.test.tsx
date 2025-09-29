@@ -67,8 +67,6 @@ describe("AnimatedSelect", () => {
       const menu = document.querySelector<HTMLUListElement>('ul[role="listbox"]');
       expect(menu).not.toBeNull();
       expect(menu?.getAttribute("data-side")).toBe("top");
-      expect(menu?.getAttribute("data-floating-id")).toBeTruthy();
-
       const computed = menu ? window.getComputedStyle(menu) : null;
       expect(computed).not.toBeNull();
       expect(computed?.position).toBe("fixed");

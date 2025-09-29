@@ -7,8 +7,6 @@ import { GlitchSegmentedGroup, GlitchSegmentedButton } from "@/components/ui";
 import styles from "./RoleSelector.module.css";
 import type { Role } from "@/lib/types";
 
-const PRESET_COMBO_MAX = 6;
-
 type Props = {
   value: Role;
   onChange: (v: Role) => void;
@@ -33,39 +31,22 @@ export default function RoleSelector({
   );
   const liveRef = React.useRef<HTMLSpanElement>(null);
 
-  const dynamicStyles = React.useMemo<
-    | {
-        rootClassName: string;
-        indicatorClassName: string;
-        styleElement: React.ReactElement;
-      }
-    | null
+  const rootStyle = React.useMemo<
+    (React.CSSProperties & Record<string, string>) | undefined
   >(() => {
-    if (count <= PRESET_COMBO_MAX) {
-      return null;
+    if (count <= 0) {
+      return undefined;
     }
-
-    const baseClass = `role-selector-${count}`;
-    const rootClassName = `${baseClass}__root`;
-    const indicatorClassName = `${baseClass}__indicator`;
-    const translateRules = Array.from({ length: count }, (_, idx) => {
-      const offset = `calc(${idx} * (100% + var(--segment-gap)))`;
-      return `:global(.${rootClassName}[data-count="${count}"] .${indicatorClassName}[data-active-index="${idx}"]) { --indicator-translate: ${offset}; }`;
-    }).join("\n");
-
-    const css = [
-      `:global(.${rootClassName}[data-count="${count}"]) { --segment-count: ${count}; }`,
-      translateRules,
-    ]
-      .filter(Boolean)
-      .join("\n");
-
     return {
-      rootClassName,
-      indicatorClassName,
-      styleElement: <style jsx>{css}</style>,
+      "--segment-count": String(count),
     };
   }, [count]);
+
+  const indicatorStyle = React.useMemo<
+    (React.CSSProperties & Record<string, string>) | undefined
+  >(() => ({
+    "--indicator-index": String(activeIdx),
+  }), [activeIdx]);
 
   React.useEffect(() => {
     const { label } = ROLE_OPTIONS[activeIdx] ?? {};
@@ -80,17 +61,18 @@ export default function RoleSelector({
         className={cn(
           "relative rounded-[var(--radius-full)] bg-[var(--btn-bg)] p-[var(--space-1)]",
           styles.root,
-          dynamicStyles?.rootClassName,
           className,
         )}
         data-count={count}
+        style={rootStyle}
       >
         <span aria-live="polite" className="sr-only" ref={liveRef} />
 
         <span
           aria-hidden
-          className={cn(styles.indicator, dynamicStyles?.indicatorClassName)}
+          className={styles.indicator}
           data-active-index={activeIdx}
+          style={indicatorStyle}
         />
 
         <GlitchSegmentedGroup
@@ -111,7 +93,6 @@ export default function RoleSelector({
           ))}
         </GlitchSegmentedGroup>
       </div>
-      {dynamicStyles?.styleElement ?? null}
     </>
   );
 }

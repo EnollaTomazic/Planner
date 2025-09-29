@@ -21,6 +21,7 @@ export interface WelcomeHeroFigureProps {
   haloTone?: WelcomeHeroFigureTone;
   showGlitchRail?: boolean;
   framed?: boolean;
+  eager?: boolean;
 }
 
 export default function WelcomeHeroFigure({
@@ -29,6 +30,7 @@ export default function WelcomeHeroFigure({
   haloTone = "default",
   showGlitchRail,
   framed = true,
+  eager = false,
 }: WelcomeHeroFigureProps) {
   const shouldShowGlitchRail = framed && (showGlitchRail ?? haloTone === "default");
   const imageClassName = cn(
@@ -38,11 +40,15 @@ export default function WelcomeHeroFigure({
   const imageAlt = "Planner assistant sharing a colorful dashboard scene";
   const resolvedHeroImageSrc = withBasePath(heroImageSrc);
   const sharedImageProps = {
-    priority: true,
-    loading: "eager" as const,
     decoding: "async" as const,
     sizes: imageSizes,
     className: imageClassName,
+    ...(eager
+      ? ({
+          priority: true,
+          loading: "eager" as const,
+        } satisfies Pick<ComponentProps<typeof Image>, "priority" | "loading">)
+      : {}),
   } satisfies Partial<ComponentProps<typeof Image>>;
 
   return (
