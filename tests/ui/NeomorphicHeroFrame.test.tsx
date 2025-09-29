@@ -2,7 +2,11 @@ import React from "react";
 import { render, screen, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it } from "vitest";
-import { NeomorphicHeroFrame, type HeroVariant } from "@/components/ui";
+import {
+  NeomorphicHeroFrame,
+  type HeroVariant,
+  type NeomorphicHeroFrameProps,
+} from "@/components/ui";
 
 afterEach(cleanup);
 
@@ -74,6 +78,42 @@ describe("NeomorphicHeroFrame", () => {
       throw new Error("Hero frame not found");
     }
     expect(frame).toHaveAttribute("data-hero-divider-tint", "life");
+  });
+
+  it("honours the slot shadow data attribute when provided", () => {
+    const { container } = render(
+      <NeomorphicHeroFrame data-hero-slot-shadow="strong">
+        <span>Content</span>
+      </NeomorphicHeroFrame>,
+    );
+
+    const frame = container.querySelector("[data-variant]") as HTMLElement | null;
+
+    expect(frame).not.toBeNull();
+    if (!frame) {
+      throw new Error("Hero frame not found");
+    }
+    expect(frame).toHaveAttribute("data-hero-slot-shadow", "strong");
+  });
+
+  it("drops unsupported slot shadow tokens", () => {
+    const { container } = render(
+      <NeomorphicHeroFrame
+        data-hero-slot-shadow={
+          "ludicrous" as NeomorphicHeroFrameProps["data-hero-slot-shadow"]
+        }
+      >
+        <span>Content</span>
+      </NeomorphicHeroFrame>,
+    );
+
+    const frame = container.querySelector("[data-variant]") as HTMLElement | null;
+
+    expect(frame).not.toBeNull();
+    if (!frame) {
+      throw new Error("Hero frame not found");
+    }
+    expect(frame).not.toHaveAttribute("data-hero-slot-shadow");
   });
 
   it("toggles focus halo data attribute when focus enters and leaves", async () => {

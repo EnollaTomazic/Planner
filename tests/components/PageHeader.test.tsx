@@ -159,12 +159,12 @@ describe("PageHeader", () => {
     expect(frame).toHaveAttribute("data-hero-divider-tint", "life");
   });
 
-  it("preserves caller-provided frameProps.style overrides", () => {
+  it("forwards frame slot shadow attributes", () => {
     const { container } = render(
       <PageHeader
         header={baseHeader}
         hero={baseHero}
-        frameProps={{ style: { outline: "1px solid rgb(255, 0, 0)" } }}
+        frameProps={{ "data-hero-slot-shadow": "strong" }}
       />,
     );
 
@@ -173,8 +173,7 @@ describe("PageHeader", () => {
     ) as HTMLElement | null;
 
     expect(frame).not.toBeNull();
-    expect(frame?.style.outline).toBe("1px solid rgb(255, 0, 0)");
-    expect(frame).toHaveAttribute("data-hero-divider-tint", "primary");
+    expect(frame).toHaveAttribute("data-hero-slot-shadow", "strong");
   });
 
   it("allows frameProps to override the hero divider tint attribute", () => {

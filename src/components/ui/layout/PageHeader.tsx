@@ -124,8 +124,10 @@ export interface PageHeaderBaseProps<
   /**
    * Additional props for the outer frame.
    *
-   * To override the hero divider tint without relying on inline styles,
-   * supply a `data-hero-divider-tint` attribute.
+   * Inline style overrides are no longer supported; migrate to the
+   * token-mapped data attributes instead. For example, use
+   * `data-hero-divider-tint` or `data-hero-slot-shadow` to swap the
+   * divider palette and slot shadow without violating CSP.
    */
   frameProps?: NeomorphicHeroFrameProps;
   /** Optional className for the inner content wrapper */
@@ -253,6 +255,7 @@ const PageHeaderInner = <
 
   const heroDividerTint = heroDividerTintProp ?? "primary";
 
+  const frameDividerTintAttr = frameProps?.["data-hero-divider-tint"];
   const {
     className: frameClassName,
     variant: frameVariant,
@@ -260,10 +263,11 @@ const PageHeaderInner = <
     align: frameAlign,
     label: frameLabel,
     labelledById: frameLabelledById,
-    style: frameStyle,
-    ["data-hero-divider-tint"]: frameDividerTintAttr,
-    ...restFrameProps
+    ...framePropsRest
   } = frameProps ?? {};
+  const { ["data-hero-divider-tint"]: _frameDividerTintAttr, ...restFrameProps } =
+    framePropsRest;
+  void _frameDividerTintAttr;
 
   const normalizedFrameDividerTint =
     frameDividerTintAttr === "life"
@@ -611,7 +615,6 @@ const PageHeaderInner = <
         labelledById={frameLabelledById}
         data-hero-divider-tint={resolvedFrameDividerTint}
         {...restFrameProps}
-        style={frameStyle}
         className={cn(className, frameClassName)}
       >
         <div
