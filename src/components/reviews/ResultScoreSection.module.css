@@ -1,0 +1,19 @@
+.indicator {
+  background-image: var(--result-indicator-gradient);
+}
+
+.indicator[data-result="Win"],
+.indicator[data-result="Loss"] {
+  width: calc(50% - var(--space-1));
+  transition-timing-function: cubic-bezier(.22, 1, .36, 1);
+}
+
+.indicator[data-result="Win"] {
+  transform: translate3d(0, 0, 0);
+  --result-indicator-gradient: var(--review-result-win-gradient);
+}
+
+.indicator[data-result="Loss"] {
+  transform: translate3d(100%, 0, 0);
+  --result-indicator-gradient: var(--review-result-loss-gradient);
+}
