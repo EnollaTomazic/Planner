@@ -32,8 +32,8 @@
     "check-prompts": "tsx scripts/verify-prompts.ts",
     "token-guard": "tsx scripts/token-guard.ts",
     "contrast-report": "tsx scripts/contrast-report.ts",
-    "postinstall": "tsx scripts/regen-if-needed.ts",
-    "prepare": "husky",
+    "postinstall": "node scripts/postinstall.mjs",
+    "prepare": "node scripts/prepare.mjs",
     "launch": "tsx scripts/launcher.ts",
     "deploy": "tsx scripts/deploy-gh-pages.ts",
     "report:summary": "node scripts/report-summary.mjs"

@@ -14,6 +14,10 @@ export default function ReminderQuickAddForm() {
     return groups.find((item) => item.key === group)?.label ?? "Group";
   }, [groups, group]);
 
+  const neonToneClass = React.useMemo(() => {
+    return neonClass === "neon-life" ? styles.neonToneLife : styles.neonTonePrimary;
+  }, [neonClass]);
+
   const handleSubmit = React.useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -46,7 +50,7 @@ export default function ReminderQuickAddForm() {
         >
           <Plus aria-hidden />
         </IconButton>
-        <div className={`${neonClass} hidden sm:block`}>
+        <div className={`${neonToneClass} hidden sm:block`}>
           <p
             className={`${styles.neonNote} neon-glow text-label font-medium tracking-[0.02em] italic`}
           >

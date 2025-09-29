@@ -481,6 +481,10 @@ exports[`ReviewsPage > renders default state 1`] = `
               </button>
             </li>
           </ul>
+          <div
+            aria-hidden="true"
+            class="h-px w-full"
+          />
         </section>
       </nav>
       <div
