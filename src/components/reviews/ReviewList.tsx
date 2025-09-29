@@ -180,7 +180,7 @@ export default function ReviewList({
   );
 
   const emptyContainerClass = cn(
-    "w-full mx-auto rounded-card r-card-lg text-card-foreground shadow-outline-subtle",
+    "w-full mx-auto rounded-card r-card-lg text-card-foreground",
     "ds-card-pad backdrop-blur-sm transition-colors transition-shadow duration-chill",
     "relative isolate overflow-hidden glitch-card",
     interactiveRingClass,
