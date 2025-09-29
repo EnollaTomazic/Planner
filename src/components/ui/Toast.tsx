@@ -140,6 +140,13 @@ export default function Toast({
   }, [showProgress, open, tick]);
 
   const progress = duration > 0 ? Math.max(0, Math.min(1, timeLeft / duration)) : 0;
+  const progressVars = React.useMemo(
+    () =>
+      ({
+        "--toast-progress": progress.toString(),
+      }) as React.CSSProperties,
+    [progress],
+  );
 
   if (!open || !mounted) return null;
   return createPortal(
@@ -195,6 +202,7 @@ export default function Toast({
                 "h-[var(--space-1)] overflow-hidden rounded-full bg-border/40",
                 styles.progressTrack,
               )}
+              style={progressVars}
             >
               <div
                 className={cn("h-full rounded-full bg-primary", styles.progressFill)}
