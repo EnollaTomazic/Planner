@@ -10,6 +10,7 @@ import {
   SectionCard as UiSectionCard,
   IconButton,
 } from "@/components/ui";
+import { useScopedCssVars } from "@/components/ui/hooks/useScopedCssVars";
 import type { DesignTokenGroup } from "@/components/gallery/types";
 import { copyText } from "@/lib/clipboard";
 import { useTheme } from "@/lib/theme-context";
@@ -300,13 +301,13 @@ function TokenCard({ token, copied, onCopy, onToggle, selected }: TokenCardProps
 function TokenPreview({ token }: { token: TokenMeta }) {
   switch (token.category) {
     case "color":
-      return <ColorPreview name={token.name} />;
+      return <ColorPreview token={token} />;
     case "spacing":
-      return <SpacingPreview name={token.name} />;
+      return <SpacingPreview token={token} />;
     case "radius":
-      return <RadiusPreview name={token.name} />;
+      return <RadiusPreview token={token} />;
     case "shadow":
-      return <ShadowPreview name={token.name} />;
+      return <ShadowPreview token={token} />;
     case "typography":
       return <TypographyPreview token={token} />;
     default:
@@ -314,11 +315,51 @@ function TokenPreview({ token }: { token: TokenMeta }) {
   }
 }
 
-function ColorPreview({ name }: { name: string }) {
+function resolveColorPreviewValue(token: TokenMeta): string {
+  const value = token.value.trim();
+  const lower = value.toLowerCase();
+
+  const requiresDirect =
+    value.startsWith("#") ||
+    lower.startsWith("rgb(") ||
+    lower.startsWith("rgba(") ||
+    lower.startsWith("hsl(") ||
+    lower.startsWith("hsla(") ||
+    lower.startsWith("oklab(") ||
+    lower.startsWith("oklch(") ||
+    lower.startsWith("color-mix(") ||
+    lower.startsWith("linear-gradient(") ||
+    lower.startsWith("radial-gradient(") ||
+    lower.startsWith("conic-gradient(") ||
+    lower === "transparent" ||
+    lower === "currentcolor" ||
+    lower === "inherit" ||
+    lower === "none";
+
+  if (requiresDirect) {
+    return `var(${token.cssVar})`;
+  }
+
+  return `hsl(var(${token.cssVar}))`;
+}
+
+function ColorPreview({ token }: { token: TokenMeta }) {
   const [theme] = useTheme();
   const { variant, bg } = theme;
   const swatchRef = React.useRef<HTMLDivElement | null>(null);
   const [isTranslucent, setIsTranslucent] = React.useState(false);
+
+  const previewValue = React.useMemo(
+    () => resolveColorPreviewValue(token),
+    [token],
+  );
+
+  const { scopeProps, Style } = useScopedCssVars({
+    attribute: "data-color-preview",
+    vars: {
+      "--preview-color": previewValue,
+    },
+  });
 
   React.useEffect(() => {
     const node = swatchRef.current;
@@ -338,7 +379,7 @@ function ColorPreview({ name }: { name: string }) {
       }
 
       const computed = window.getComputedStyle(node);
-      const rawValue = computed.getPropertyValue(`--${name}`).trim();
+      const rawValue = computed.getPropertyValue(`--${token.name}`).trim();
 
       if (!rawValue) {
         setIsTranslucent(false);
@@ -377,87 +418,120 @@ function ColorPreview({ name }: { name: string }) {
         window.clearTimeout(timeout);
       }
     };
-  }, [bg, name, variant]);
+  }, [bg, token.name, variant]);
 
   return (
-    <div
-      className="relative h-[var(--space-8)] w-full overflow-hidden rounded-card r-card-md border border-[var(--card-hairline)]"
-      aria-hidden="true"
-    >
-      {isTranslucent ? (
-        <div aria-hidden="true" className={styles.checkerboard} />
-      ) : null}
+    <>
+      {Style}
       <div
-        ref={swatchRef}
-        className={clsx("relative h-full w-full", styles.swatchFill)}
-        data-token={name}
-      />
-    </div>
+        className={clsx(styles.colorPreview, "rounded-card r-card-md")}
+        aria-hidden="true"
+      >
+        {isTranslucent ? (
+          <div aria-hidden="true" className={styles.checkerboard} />
+        ) : null}
+        <div
+          ref={swatchRef}
+          className={styles.swatchFill}
+          {...(scopeProps ?? {})}
+        />
+      </div>
+    </>
   );
 }
 
-function SpacingPreview({ name }: { name: string }) {
+function SpacingPreview({ token }: { token: TokenMeta }) {
+  const { scopeProps, Style } = useScopedCssVars({
+    attribute: "data-spacing-preview",
+    vars: {
+      "--preview-spacing": `var(${token.cssVar})`,
+    },
+  });
+
   return (
-    <div
-      className="mt-[var(--space-2)] h-[var(--space-2)] w-full overflow-hidden rounded-full bg-[hsl(var(--foreground)/0.08)]"
-      aria-hidden="true"
-    >
-      <div
-        className={clsx(
-          "h-full rounded-full bg-[hsl(var(--accent-2)/0.65)]",
-          styles.spacingBar,
-        )}
-        data-token={name}
-      />
-    </div>
+    <>
+      {Style}
+      <div className={styles.spacingTrack} aria-hidden="true">
+        <div
+          className={styles.spacingBar}
+          {...(scopeProps ?? {})}
+        />
+      </div>
+    </>
   );
 }
 
-function RadiusPreview({ name }: { name: string }) {
+function RadiusPreview({ token }: { token: TokenMeta }) {
+  const { scopeProps, Style } = useScopedCssVars({
+    attribute: "data-radius-preview",
+    vars: {
+      "--preview-radius": `var(${token.cssVar})`,
+    },
+  });
+
   return (
-    <div
-      className="mt-[var(--space-2)] flex w-full justify-center"
-      aria-hidden="true"
-    >
-      <div
-        className={clsx(
-          "aspect-square w-full max-w-[var(--space-8)] overflow-hidden rounded-[var(--radius-md)] border border-[var(--card-hairline)] bg-panel/70",
-          styles.radiusDemo,
-        )}
-        data-token={name}
-      />
-    </div>
+    <>
+      {Style}
+      <div className={styles.radiusPreview} aria-hidden="true">
+        <div
+          className={clsx(styles.radiusDemo, "rounded-card r-card-md")}
+          {...(scopeProps ?? {})}
+        />
+      </div>
+    </>
   );
 }
 
-function ShadowPreview({ name }: { name: string }) {
+function ShadowPreview({ token }: { token: TokenMeta }) {
+  const { scopeProps, Style } = useScopedCssVars({
+    attribute: "data-shadow-preview",
+    vars: {
+      "--preview-shadow": `var(${token.cssVar})`,
+    },
+  });
+
   return (
-    <div
-      className="mt-[var(--space-2)] flex w-full justify-center"
-      aria-hidden="true"
-    >
-      <div
-        className={clsx(
-          "h-[var(--space-7)] w-full rounded-card border border-[var(--card-hairline)] bg-panel/70",
-          styles.shadowDemo,
-        )}
-        data-token={name}
-      />
-    </div>
+    <>
+      {Style}
+      <div className={styles.shadowPreview} aria-hidden="true">
+        <div
+          className={clsx(styles.shadowDemo, "rounded-card r-card-md")}
+          {...(scopeProps ?? {})}
+        />
+      </div>
+    </>
   );
 }
 
 function TypographyPreview({ token }: { token: TokenMeta }) {
+  const normalizedName = token.name.toLowerCase();
+  const rawValue = token.value.trim();
+  const numericValue = Number(rawValue);
+  const isNumeric =
+    rawValue.length > 0 &&
+    Number.isFinite(numericValue) &&
+    !rawValue.includes(" ");
+  const isWeightToken = normalizedName.includes("weight") || isNumeric;
+
+  const vars: Record<string, string | number> = isWeightToken
+    ? { "--preview-font-weight": `var(${token.cssVar})` }
+    : { "--preview-font-size": `var(${token.cssVar})` };
+
+  const { scopeProps, Style } = useScopedCssVars({
+    attribute: "data-typography-preview",
+    vars,
+  });
+
   return (
-    <div
-      className={clsx(
-        "mt-[var(--space-2)] rounded-card border border-[var(--card-hairline)] bg-panel/60 px-[var(--space-3)] py-[var(--space-2)] text-ui font-semibold text-foreground",
-        styles.typographyPreview,
-      )}
-      data-token={token.name}
-      aria-hidden="true"
-    >
-      Aa
-    </div>
+    <>
+      {Style}
+      <div
+        className={clsx(styles.typographyPreview, "rounded-card r-card-md")}
+        {...(scopeProps ?? {})}
+        aria-hidden="true"
+      >
+        Aa
+      </div>
+    </>
   );
 }
