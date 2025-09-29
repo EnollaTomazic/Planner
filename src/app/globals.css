@@ -2214,6 +2214,46 @@ a:active .lucide {
 }
 
 @layer utilities {
+  :root {
+    --surface-card-soft: linear-gradient(
+      180deg,
+      hsl(var(--card) / 0.65),
+      hsl(var(--card) / 0.45)
+    );
+    --surface-card-strong: linear-gradient(
+      180deg,
+      hsl(var(--card) / 0.85),
+      hsl(var(--card) / 0.65)
+    );
+    --surface-card-strong-hover: linear-gradient(
+      180deg,
+      hsl(var(--card) / 0.95),
+      hsl(var(--card) / 0.75)
+    );
+    --surface-card-strong-active: linear-gradient(
+      180deg,
+      hsl(var(--card) / 0.8),
+      hsl(var(--card) / 0.6)
+    );
+    --surface-card-strong-today: linear-gradient(
+      180deg,
+      hsl(var(--card) / 0.9),
+      hsl(var(--card) / 0.7)
+    );
+    --surface-card-strong-empty: linear-gradient(
+      180deg,
+      hsl(var(--card) / 0.6),
+      hsl(var(--card) / 0.5)
+    );
+    --surface-rail-accent: linear-gradient(
+      180deg,
+      hsl(var(--accent)),
+      hsl(var(--primary))
+    );
+  }
+}
+
+@layer utilities {
   .icon-xs {
     width: var(--icon-size-xs);
     height: var(--icon-size-xs);
@@ -2506,6 +2546,11 @@ a:active .lucide {
     border-bottom-style: solid;
     border-bottom-color: hsl(var(--border));
     background-color: hsl(var(--background) / 0.6);
+    --page-tabs-top: var(--header-stack);
+  }
+
+  .page-tabs-surface[data-sticky="true"] {
+    top: var(--page-tabs-top);
   }
 
   @supports (color: color-mix(in oklab, white, black)) {

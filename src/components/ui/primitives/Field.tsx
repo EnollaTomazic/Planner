@@ -78,6 +78,7 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
       wrapperClassName,
       className,
       children,
+      style: inlineStyle,
       ...props
     },
     ref,
@@ -95,11 +96,6 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
     const helperVariant: HelperTone = helperTone ?? (invalid ? "danger" : "muted");
     const showHelper = helper !== undefined && helper !== null && helper !== "";
     const showCounter = counter !== undefined && counter !== null && counter !== "";
-    const reactId = React.useId();
-    const fieldInstanceId = React.useMemo(
-      () => reactId.replace(/[:]/g, "_"),
-      [reactId],
-    );
     let fieldState: "default" | "disabled" | "invalid" | "readonly" | "loading" = "default";
     if (disabled) {
       fieldState = "disabled";
@@ -110,6 +106,28 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
     } else if (loading) {
       fieldState = "loading";
     }
+
+    const customHeightStyle = React.useMemo<
+      (React.CSSProperties & Record<string, string>) | undefined
+    >(() => {
+      if (!isCustomHeight || !resolvedCustomHeight) {
+        return undefined;
+      }
+
+      return {
+        "--field-custom-height": resolvedCustomHeight,
+      };
+    }, [isCustomHeight, resolvedCustomHeight]);
+
+    const mergedStyle = React.useMemo<React.CSSProperties | undefined>(() => {
+      if (!customHeightStyle) {
+        return inlineStyle as React.CSSProperties | undefined;
+      }
+      return {
+        ...(inlineStyle as React.CSSProperties | undefined),
+        ...customHeightStyle,
+      };
+    }, [customHeightStyle, inlineStyle]);
 
     return (
       <div
@@ -123,7 +141,6 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
           className={cn(FIELD_ROOT_BASE, styles.root, className)}
           data-field-height={heightKey}
           data-custom-height={isCustomHeight ? "true" : undefined}
-          data-field-instance={isCustomHeight ? fieldInstanceId : undefined}
           data-field-state={fieldState}
           data-disabled={disabled ? "true" : undefined}
           data-invalid={invalid ? "true" : undefined}
@@ -131,6 +148,7 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
           data-readonly={readOnly ? "true" : undefined}
           aria-disabled={disabled || undefined}
           aria-busy={loading || undefined}
+          style={mergedStyle}
           {...props}
         >
           {children}
@@ -175,15 +193,6 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
             ) : null}
           </div>
         )}
-        {isCustomHeight && resolvedCustomHeight ? (
-          <style jsx global>{`
-            /* Custom field height scoped by nonce-aware styled-jsx registry. */
-            [data-field-instance="${fieldInstanceId}"] {
-              --field-custom-height: ${resolvedCustomHeight};
-              --field-h: ${resolvedCustomHeight};
-            }
-          `}</style>
-        ) : null}
       </div>
     );
   },

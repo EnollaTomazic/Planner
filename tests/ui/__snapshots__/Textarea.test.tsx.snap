@@ -34,7 +34,7 @@ exports[`Textarea > renders disabled state 1`] = `
       aria-label="test"
       class="block w-full max-w-full min-h-[var(--space-7)] rounded-[inherit] border-none bg-transparent px-[var(--space-3)] py-[var(--space-3)] text-body text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
       disabled=""
-      id=":r4:"
+      id=":r2:"
       name="test"
     />
   </div>
@@ -55,7 +55,7 @@ exports[`Textarea > renders error state 1`] = `
       aria-invalid="true"
       aria-label="test"
       class="block w-full max-w-full min-h-[var(--space-7)] rounded-[inherit] border-none bg-transparent px-[var(--space-3)] py-[var(--space-3)] text-body text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-      id=":r6:"
+      id=":r3:"
       name="test"
     />
   </div>
@@ -74,7 +74,7 @@ exports[`Textarea > renders focus state 1`] = `
     <textarea
       aria-label="test"
       class="block w-full max-w-full min-h-[var(--space-7)] rounded-[inherit] border-none bg-transparent px-[var(--space-3)] py-[var(--space-3)] text-body text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-      id=":r2:"
+      id=":r1:"
       name="test"
     />
   </div>
