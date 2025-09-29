@@ -873,29 +873,39 @@ html.bg-intense body::after {
     font-weight: 500;
     letter-spacing: 0.02em;
     position: relative;
-    overflow: hidden;
     border-color: hsl(var(--card-hairline));
     --seg-hover-base: hsl(var(--foreground) / 0.08);
     --seg-active-base: hsl(var(--foreground) / 0.12);
+    --seg-shadow: var(--shadow-outline-faint);
+    --seg-ring-size: var(--ring-size-1);
+    --seg-ring-stroke: var(--ring-stroke-s);
+    --seg-ring-offset: hsl(var(--card));
+    --seg-ring-color: var(--theme-ring);
     background: var(
       --seg-fill,
       color-mix(in oklab, hsl(var(--card)) 92%, var(--seg-hover-base) 8%)
     );
     color: hsl(var(--muted-foreground));
+    box-shadow: var(--seg-shadow);
   }
   .btn-like-segmented:hover {
     background: var(--hover, var(--seg-hover-base));
     color: hsl(var(--foreground));
-    text-shadow: 0 0 calc(var(--space-2) - var(--spacing-0-5))
-      hsl(var(--accent) / 0.25);
+    --seg-shadow: var(--shadow-neo-soft);
   }
   .btn-like-segmented:active {
     background: var(--active, var(--seg-active-base));
     color: hsl(var(--foreground));
+    --seg-shadow: var(--shadow-neo-strong);
   }
   .btn-like-segmented:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--focus));
+    --seg-shadow: var(--shadow-neo-soft);
+    box-shadow:
+      0 0 0 var(--seg-ring-size) var(--seg-ring-offset),
+      0 0 0 calc(var(--seg-ring-size) + var(--seg-ring-stroke))
+        var(--seg-ring-color),
+      var(--seg-shadow);
   }
   .btn-like-segmented:disabled,
   .btn-like-segmented[disabled] {
@@ -911,31 +921,6 @@ html.bg-intense body::after {
       transition: none;
     }
   }
-  .btn-like-segmented::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: calc(var(--space-6) + var(--space-2));
-    left: calc(-1 * var(--space-7));
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(var(--foreground) / 0.18),
-      transparent
-    );
-    transform: skewX(-20deg);
-    opacity: 0;
-  }
-  .btn-like-segmented:hover::after {
-    animation: sheenSweep var(--dur-slow) var(--ease-out) 1 forwards;
-    opacity: 1;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .btn-like-segmented:hover::after {
-      animation: none;
-    }
-  }
   .btn-like-segmented[aria-current="page"],
   .btn-like-segmented.is-active {
     color: hsl(var(--foreground));
@@ -944,7 +929,12 @@ html.bg-intense body::after {
       color-mix(in oklab, hsl(var(--card)) 88%, var(--seg-active-base) 12%)
     );
     border-color: hsl(var(--ring));
-    box-shadow: var(--shadow-neo-soft);
+    --seg-shadow: var(--shadow-neo-soft);
+    box-shadow:
+      0 0 0 var(--seg-ring-size) var(--seg-ring-offset),
+      0 0 0 calc(var(--seg-ring-size) + var(--seg-ring-stroke))
+        var(--seg-ring-color),
+      var(--seg-shadow);
   }
 
   .btn-glitch {

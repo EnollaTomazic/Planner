@@ -80,36 +80,47 @@ function ensureSemicolon(value: string): string {
 }
 
 function renderVariableDefinition(
-  name: string,
-  tokenValue: TokenValue,
+  variable: VariableDefinition,
   indent = 2,
 ): string {
+  const { name, value, comment } = variable;
   const baseIndent = " ".repeat(indent);
-  if (typeof tokenValue === "string") {
-    return `${baseIndent}--${name}: ${ensureSemicolon(tokenValue)}`;
+  const lines: string[] = [];
+
+  if (comment) {
+    const comments = Array.isArray(comment) ? comment : [comment];
+    for (const entry of comments) {
+      lines.push(`${baseIndent}/* ${entry} */`);
+    }
   }
 
-  const values = [...tokenValue];
+  if (typeof value === "string") {
+    lines.push(`${baseIndent}--${name}: ${ensureSemicolon(value)}`);
+    return lines.join("\n");
+  }
+
+  const values = [...value];
   const hasLeadingEmpty = values[0] === "";
   if (hasLeadingEmpty) {
     values.shift();
   }
 
   if (!hasLeadingEmpty && values.length === 1) {
-    return `${baseIndent}--${name}: ${ensureSemicolon(values[0] ?? "")}`;
+    lines.push(`${baseIndent}--${name}: ${ensureSemicolon(values[0] ?? "")}`);
+    return lines.join("\n");
   }
 
-  const lines: string[] = [];
   const innerIndent = `${baseIndent}  `;
+  const variableLines: string[] = [];
 
   if (hasLeadingEmpty) {
-    lines.push(`${baseIndent}--${name}:`);
+    variableLines.push(`${baseIndent}--${name}:`);
   } else {
     const first = values.shift();
     if (first !== undefined) {
-      lines.push(`${baseIndent}--${name}: ${first}`);
+      variableLines.push(`${baseIndent}--${name}: ${first}`);
     } else {
-      lines.push(`${baseIndent}--${name}:`);
+      variableLines.push(`${baseIndent}--${name}:`);
     }
   }
 
@@ -117,21 +128,22 @@ function renderVariableDefinition(
     const isLast = index === values.length - 1;
     const nextIndent = isLast && line.trim() === ")" ? baseIndent : innerIndent;
     const text = isLast ? ensureSemicolon(line) : line;
-    lines.push(`${nextIndent}${text}`);
+    variableLines.push(`${nextIndent}${text}`);
   });
 
   if (values.length === 0) {
-    const lastIndex = lines.length - 1;
-    lines[lastIndex] = ensureSemicolon(lines[lastIndex]);
+    const lastIndex = variableLines.length - 1;
+    variableLines[lastIndex] = ensureSemicolon(variableLines[lastIndex]);
   }
 
+  lines.push(...variableLines);
   return lines.join("\n");
 }
 
 function renderRootBlock(definitions: VariableDefinition[]): string {
   const lines = [":root {"];
   for (const variable of definitions) {
-    lines.push(renderVariableDefinition(variable.name, variable.value));
+    lines.push(renderVariableDefinition(variable));
   }
   lines.push("}");
   return lines.join("\n");
@@ -178,7 +190,7 @@ function renderTheme(theme: ThemeDefinition): string {
     }
   }
   for (const variable of theme.variables) {
-    lines.push(renderVariableDefinition(variable.name, variable.value));
+    lines.push(renderVariableDefinition(variable));
   }
   lines.push("}");
   return lines.join("\n");
