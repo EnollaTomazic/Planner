@@ -35,8 +35,8 @@ exports[`Input > renders disabled state 1`] = `
       aria-label="test"
       class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
       disabled=""
-      id=":r8:"
-      name=":r8:"
+      id=":r4:"
+      name=":r4:"
       type="text"
     />
   </div>
@@ -57,8 +57,8 @@ exports[`Input > renders error state 1`] = `
       aria-invalid="true"
       aria-label="test"
       class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-      id=":r4:"
-      name=":r4:"
+      id=":r2:"
+      name=":r2:"
       type="text"
     />
   </div>
@@ -77,8 +77,8 @@ exports[`Input > renders focus state 1`] = `
     <input
       aria-label="test"
       class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-      id=":r2:"
-      name=":r2:"
+      id=":r1:"
+      name=":r1:"
       type="text"
     />
   </div>

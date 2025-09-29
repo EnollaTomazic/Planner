@@ -2506,6 +2506,11 @@ a:active .lucide {
     border-bottom-style: solid;
     border-bottom-color: hsl(var(--border));
     background-color: hsl(var(--background) / 0.6);
+    --page-tabs-top: var(--header-stack);
+  }
+
+  .page-tabs-surface[data-sticky="true"] {
+    top: var(--page-tabs-top);
   }
 
   @supports (color: color-mix(in oklab, white, black)) {

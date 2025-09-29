@@ -16,11 +16,6 @@ export default function GoalsProgress({
   maxWidth,
 }: GoalsProgressProps) {
   const v = Math.max(0, Math.min(100, Math.round(pct)));
-  const reactId = React.useId();
-  const ringInstanceId = React.useMemo(
-    () => reactId.replace(/[:]/g, "_"),
-    [reactId],
-  );
   const customSizeValue = React.useMemo(() => {
     if (maxWidth == null) {
       return null;
@@ -39,28 +34,30 @@ export default function GoalsProgress({
     total === 0
       ? "Goals progress: no goals yet"
       : `Goals progress: ${v}% complete`;
+  const customStyle = React.useMemo<
+    (React.CSSProperties & Record<string, string>) | undefined
+  >(() => {
+    if (!customSizeValue) {
+      return undefined;
+    }
+    return {
+      "--goals-progress-size": customSizeValue,
+    };
+  }, [customSizeValue]);
+
   return (
-    <>
-      <div
-        className="relative inline-flex size-[var(--goals-progress-size,var(--ring-diameter-m))] items-center justify-center"
-        data-ring-instance={customSizeValue ? ringInstanceId : undefined}
-        aria-label={ariaLabel}
+    <div
+      className="relative inline-flex size-[var(--goals-progress-size,var(--ring-diameter-m))] items-center justify-center"
+      aria-label={ariaLabel}
+      style={customStyle}
+    >
+      <ProgressRingIcon pct={v} size={ringSize} />
+      <span
+        aria-live="polite"
+        className="absolute inset-0 flex items-center justify-center text-label font-medium tracking-[0.02em] tabular-nums"
       >
-        <ProgressRingIcon pct={v} size={ringSize} />
-        <span
-          aria-live="polite"
-          className="absolute inset-0 flex items-center justify-center text-label font-medium tracking-[0.02em] tabular-nums"
-        >
-          {v}%
-        </span>
-      </div>
-      {customSizeValue ? (
-        <style jsx global>{`
-          [data-ring-instance="${ringInstanceId}"] {
-            --goals-progress-size: ${customSizeValue};
-          }
-        `}</style>
-      ) : null}
-    </>
+        {v}%
+      </span>
+    </div>
   );
 }

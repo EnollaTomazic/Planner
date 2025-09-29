@@ -3,35 +3,22 @@
 
 import * as React from "react";
 
-const DATA_ID_PREFIX = "page-tabs";
+type StickyStyle = React.CSSProperties & Record<string, string>;
 
-const sanitizeReactId = (value: string): string =>
-  value.replace(/[^a-zA-Z0-9_-]/g, "");
+type StickyOffsetResult = {
+  readonly style: StickyStyle | undefined;
+};
 
-export function useStickyOffsetClass(topOffset?: string) {
-  const reactId = React.useId();
-  const stickyId = React.useMemo(
-    () => `${DATA_ID_PREFIX}-${sanitizeReactId(reactId)}`,
-    [reactId],
-  );
-
+export function useStickyOffsetClass(topOffset?: string): StickyOffsetResult {
   const style = React.useMemo(() => {
     if (!topOffset) {
-      return null;
+      return undefined;
     }
 
-    return (
-      <style jsx global>{`
-        [data-page-tabs-id="${stickyId}"] {
-          --page-tabs-top: ${topOffset};
-        }
+    return {
+      "--page-tabs-top": topOffset,
+    } as StickyStyle;
+  }, [topOffset]);
 
-        [data-sticky="true"][data-page-tabs-id="${stickyId}"] {
-          top: var(--page-tabs-top);
-        }
-      `}</style>
-    );
-  }, [stickyId, topOffset]);
-
-  return [topOffset ? stickyId : undefined, style] as const;
+  return { style };
 }

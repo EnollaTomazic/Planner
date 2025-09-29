@@ -1,0 +1,45 @@
+:global(.neon-primary) {
+  --neon: var(--primary);
+}
+
+:global(.neon-life) {
+  --neon: var(--accent);
+}
+
+.neonNote {
+  margin-top: calc(var(--space-1) * -1.5);
+  padding-left: calc(var(--space-1) / 2);
+  animation: neon-flicker 4s infinite;
+}
+
+@keyframes neon-flicker {
+  0%,
+  17%,
+  22%,
+  26%,
+  52%,
+  100% {
+    opacity: 1;
+  }
+  18% {
+    opacity: 0.72;
+  }
+  24% {
+    opacity: 0.55;
+  }
+  54% {
+    opacity: 0.78;
+  }
+  70% {
+    opacity: 0.62;
+  }
+  74% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neonNote {
+    animation: none;
+  }
+}
