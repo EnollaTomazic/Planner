@@ -159,6 +159,14 @@
 | lg-black | var(--background) |
 | glow-strong | var(--ring) / 0.55 |
 | glow-soft | var(--accent) / 0.25 |
+| space-1 | var(--spacing-1) |
+| space-2 | var(--spacing-2) |
+| space-3 | var(--spacing-3) |
+| space-4 | var(--spacing-4) |
+| space-5 | var(--spacing-5) |
+| space-6 | var(--spacing-6) |
+| space-7 | var(--spacing-7) |
+| space-8 | var(--spacing-8) |
 | font-size-md | var(--font-body) |
 | font-weight-bold | 800 |
 | shadow-neon | 0 0 var(--space-1) hsl(var(--neon) / 0.55),
@@ -231,14 +239,14 @@
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |
 | spacing-0-75 | calc(var(--spacing-1) * 0.75) |
-| spacing-1 / space-1 | 4px |
-| spacing-2 / space-2 | 8px |
-| spacing-3 / space-3 | 12px |
-| spacing-4 / space-4 | 16px |
-| spacing-5 / space-5 | 24px |
-| spacing-6 / space-6 | 32px |
-| spacing-7 / space-7 | 48px |
-| spacing-8 / space-8 | 64px |
+| spacing-1 | 4px |
+| spacing-2 | 8px |
+| spacing-3 | 12px |
+| spacing-4 | 16px |
+| spacing-5 | 24px |
+| spacing-6 | 32px |
+| spacing-7 | 48px |
+| spacing-8 | 64px |
 | radius-sm | 6px |
 | radius-md | 8px |
 | radius-lg | 12px |
