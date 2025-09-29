@@ -6,7 +6,10 @@
   ],
   "icon-button": [],
   "segmented-button": [],
-  "label": [],
+  "label": [
+    "/",
+    "/preview/[slug]"
+  ],
   "select": [],
   "field": [],
   "input": [],
@@ -18,7 +21,11 @@
   "prompts-demos": [],
   "week-picker": [],
   "bottom-nav": [],
-  "card-demo": [],
+  "calendar": [],
+  "card-demo": [
+    "/",
+    "/preview/[slug]"
+  ],
   "neo-card-demo": [],
   "section-card-variants": [],
   "page-shell": [
@@ -98,8 +105,14 @@
   "pillar-badge": [],
   "pillar-selector": [],
   "role-selector": [],
-  "theme-picker": [],
-  "background-picker": [],
+  "theme-picker": [
+    "/",
+    "/preview/[slug]"
+  ],
+  "background-picker": [
+    "/",
+    "/preview/[slug]"
+  ],
   "settings-select": [],
   "theme-toggle": [
     "/"
