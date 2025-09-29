@@ -56,7 +56,7 @@ export default function PageTabs({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const [stickyId, stickyStyle] = useStickyOffsetClass(
+  const { style: stickyStyle } = useStickyOffsetClass(
     sticky ? topOffset : undefined,
   );
 
@@ -185,7 +185,7 @@ export default function PageTabs({
         className,
       )}
       data-sticky={sticky ? "true" : undefined}
-      data-page-tabs-id={sticky ? stickyId : undefined}
+      style={sticky ? stickyStyle : undefined}
     >
       <div className="page-shell">
         <TabBar<string, { href?: string }>
@@ -198,7 +198,6 @@ export default function PageTabs({
           tablistClassName="data-[variant=glitch]:gap-[var(--space-2)] data-[variant=glitch]:py-[var(--space-3)]"
         />
       </div>
-      {stickyStyle}
     </div>
   );
 }

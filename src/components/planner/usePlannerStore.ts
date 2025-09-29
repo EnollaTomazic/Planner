@@ -17,7 +17,7 @@ import type {
 import { makeCrud } from "./plannerCrud";
 import { readLocal, removeLocal } from "@/lib/db";
 
-export type { ISODate, DayRecord, Project, DayTask } from "./plannerTypes";
+export type { ISODate, DayRecord, Project, DayTask, TaskReminder } from "./plannerTypes";
 
 type LegacySnapshot = {
   projects: Project[] | null;

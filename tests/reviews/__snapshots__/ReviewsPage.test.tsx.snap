@@ -6,180 +6,6 @@ exports[`ReviewsPage > renders default state 1`] = `
     class="page-shell py-[var(--space-6)]"
   >
     <section>
-      <style
-        global="true"
-        jsx="true"
-      >
-        
-      .hero2-neomorph {
-        background: linear-gradient(
-          145deg,
-          hsl(var(--card)),
-          hsl(var(--panel))
-        );
-        --hero2-shadow-key: var(--shadow);
-        --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 1.5)
-          hsl(var(--shadow-color) / 0.18);
-        box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
-        position: relative;
-        --hero2-focus-ring-rest: 0 0 0 0 hsl(var(--ring) / 0),
-          0 0 0 0 hsl(var(--ring) / 0);
-        --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 1)
-          hsl(var(--ring)),
-          var(--shadow-glow-lg);
-        --hero2-focus-ring: var(--hero2-focus-ring-rest);
-        --hero2-glow-top-left-color: hsl(var(--highlight) / 0.55);
-        --hero2-glow-top-left-soft: hsl(var(--highlight) / 0.08);
-        --hero2-glow-bottom-right-color: hsl(var(--shadow-color) / 0.42);
-        --hero2-glow-bottom-right-soft: hsl(var(--shadow-color) / 0.14);
-        --hero2-glow-top-left: radial-gradient(
-          140% 140% at 0% 0%,
-          var(--hero2-glow-top-left-color) 0%,
-          var(--hero2-glow-top-left-soft) 45%,
-          transparent 75%
-        );
-        --hero2-glow-bottom-right: radial-gradient(
-          160% 160% at 100% 100%,
-          var(--hero2-glow-bottom-right-color) 0%,
-          var(--hero2-glow-bottom-right-soft) 55%,
-          transparent 82%
-        );
-      }
-      .hero2-neomorph::before,
-      .hero2-neomorph::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        pointer-events: none;
-        z-index: -1;
-        opacity: 1;
-      }
-      .hero2-neomorph::before {
-        background: var(--hero2-glow-top-left);
-        box-shadow: var(--hero2-focus-ring);
-        transition: box-shadow var(--dur-quick, 160ms) ease-out;
-      }
-      .hero2-neomorph::after {
-        background: var(--hero2-glow-bottom-right);
-      }
-      .hero2-frame {
-        --hero-slot-shadow: var(--shadow-neo-soft);
-      }
-      .hero2-frame[data-hero-slot-shadow="soft"] {
-        --hero-slot-shadow: var(--shadow-neo-soft);
-      }
-      .hero2-frame[data-hero-slot-shadow="strong"] {
-        --hero-slot-shadow: var(--shadow-neo-strong);
-      }
-      .hero2-frame[data-hero-slot-shadow="none"] {
-        --hero-slot-shadow: none;
-      }
-      .hero2-frame[data-hero-divider-tint="primary"] {
-        --hero-slot-divider: var(--ring);
-        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
-          hsl(var(--ring) / 0.45);
-      }
-      .hero2-frame[data-hero-divider-tint="life"] {
-        --hero-slot-divider: var(--accent-3);
-        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
-          hsl(var(--accent-3) / 0.42);
-      }
-      @supports (
-        color: color-mix(
-          in oklab,
-          hsl(var(--highlight)),
-          hsl(var(--background))
-        )
-      ) {
-        .hero2-neomorph {
-          --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 1.5)
-            color-mix(
-              in oklab,
-              hsl(var(--shadow-color)) 28%,
-              hsl(var(--highlight))
-            );
-          --hero2-glow-top-left-color: color-mix(
-            in oklab,
-            hsl(var(--highlight)) 72%,
-            hsl(var(--shadow-color))
-          );
-          --hero2-glow-top-left-soft: color-mix(
-            in oklab,
-            hsl(var(--highlight)) 22%,
-            hsl(var(--background) / 0)
-          );
-          --hero2-glow-bottom-right-color: color-mix(
-            in oklab,
-            hsl(var(--shadow-color)) 82%,
-            hsl(var(--highlight))
-          );
-          --hero2-glow-bottom-right-soft: color-mix(
-            in oklab,
-            hsl(var(--shadow-color)) 28%,
-            hsl(var(--background) / 0)
-          );
-        }
-        .hero2-frame[data-hero-divider-tint="primary"] {
-          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
-            color-mix(
-              in oklab,
-              hsl(var(--ring)) 68%,
-              hsl(var(--background))
-            );
-        }
-        .hero2-frame[data-hero-divider-tint="life"] {
-          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
-            color-mix(
-              in oklab,
-              hsl(var(--accent-3)) 78%,
-              hsl(var(--background))
-            );
-        }
-      }
-      @media (prefers-contrast: more) {
-        .hero2-frame {
-          border-color: hsl(var(--foreground) / 0.7) !important;
-        }
-        .hero2-neomorph {
-          --hero2-shadow-key: 0 0 var(--space-4)
-            hsl(var(--foreground) / 0.75);
-          --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 2)
-            hsl(var(--foreground) / 0.7);
-          box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
-          --hero2-glow-top-left: none;
-          --hero2-glow-bottom-right: none;
-          --hero2-focus-ring-rest: 0 0 0 0 hsl(var(--foreground) / 0),
-            0 0 0 0 hsl(var(--foreground) / 0);
-          --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 2)
-            hsl(var(--foreground) / 0.9),
-            0 0 0 0 hsl(var(--foreground) / 0.6);
-        }
-      }
-      @media (forced-colors: active) {
-        .hero2-frame {
-          border-color: CanvasText !important;
-          background: Canvas !important;
-        }
-        .hero2-neomorph {
-          background: Canvas !important;
-          box-shadow: none !important;
-          --hero2-glow-top-left: none;
-          --hero2-glow-bottom-right: none;
-          --hero2-focus-ring-rest: 0 0 0 0 Canvas,
-            0 0 0 0 Canvas;
-          --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 2)
-            CanvasText,
-            0 0 0 0 CanvasText;
-        }
-        .hero2-frame[data-hero-divider-tint] {
-          --hero-slot-divider: CanvasText !important;
-          --hero-slot-divider-shadow: none !important;
-          --hero-slot-shadow: none !important;
-        }
-      }
-    
-      </style>
       <div
         class="group/hero-frame relative z-0 isolate flex flex-col overflow-visible hero-focus border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-slow before:ease-out before:content-[''] motion-reduce:before:transition-none has-[:focus-visible]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] data-[has-focus=true]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] rounded-card r-card-lg px-[var(--space-6)] py-[var(--space-6)] md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)]"
         data-hero-divider-tint="primary"
@@ -247,180 +73,6 @@ exports[`ReviewsPage > renders default state 1`] = `
               </div>
             </header>
             <section>
-              <style
-                global="true"
-                jsx="true"
-              >
-                
-      .hero2-neomorph {
-        background: linear-gradient(
-          145deg,
-          hsl(var(--card)),
-          hsl(var(--panel))
-        );
-        --hero2-shadow-key: var(--shadow);
-        --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 1.5)
-          hsl(var(--shadow-color) / 0.18);
-        box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
-        position: relative;
-        --hero2-focus-ring-rest: 0 0 0 0 hsl(var(--ring) / 0),
-          0 0 0 0 hsl(var(--ring) / 0);
-        --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 1)
-          hsl(var(--ring)),
-          var(--shadow-glow-lg);
-        --hero2-focus-ring: var(--hero2-focus-ring-rest);
-        --hero2-glow-top-left-color: hsl(var(--highlight) / 0.55);
-        --hero2-glow-top-left-soft: hsl(var(--highlight) / 0.08);
-        --hero2-glow-bottom-right-color: hsl(var(--shadow-color) / 0.42);
-        --hero2-glow-bottom-right-soft: hsl(var(--shadow-color) / 0.14);
-        --hero2-glow-top-left: radial-gradient(
-          140% 140% at 0% 0%,
-          var(--hero2-glow-top-left-color) 0%,
-          var(--hero2-glow-top-left-soft) 45%,
-          transparent 75%
-        );
-        --hero2-glow-bottom-right: radial-gradient(
-          160% 160% at 100% 100%,
-          var(--hero2-glow-bottom-right-color) 0%,
-          var(--hero2-glow-bottom-right-soft) 55%,
-          transparent 82%
-        );
-      }
-      .hero2-neomorph::before,
-      .hero2-neomorph::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        pointer-events: none;
-        z-index: -1;
-        opacity: 1;
-      }
-      .hero2-neomorph::before {
-        background: var(--hero2-glow-top-left);
-        box-shadow: var(--hero2-focus-ring);
-        transition: box-shadow var(--dur-quick, 160ms) ease-out;
-      }
-      .hero2-neomorph::after {
-        background: var(--hero2-glow-bottom-right);
-      }
-      .hero2-frame {
-        --hero-slot-shadow: var(--shadow-neo-soft);
-      }
-      .hero2-frame[data-hero-slot-shadow="soft"] {
-        --hero-slot-shadow: var(--shadow-neo-soft);
-      }
-      .hero2-frame[data-hero-slot-shadow="strong"] {
-        --hero-slot-shadow: var(--shadow-neo-strong);
-      }
-      .hero2-frame[data-hero-slot-shadow="none"] {
-        --hero-slot-shadow: none;
-      }
-      .hero2-frame[data-hero-divider-tint="primary"] {
-        --hero-slot-divider: var(--ring);
-        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
-          hsl(var(--ring) / 0.45);
-      }
-      .hero2-frame[data-hero-divider-tint="life"] {
-        --hero-slot-divider: var(--accent-3);
-        --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
-          hsl(var(--accent-3) / 0.42);
-      }
-      @supports (
-        color: color-mix(
-          in oklab,
-          hsl(var(--highlight)),
-          hsl(var(--background))
-        )
-      ) {
-        .hero2-neomorph {
-          --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 1.5)
-            color-mix(
-              in oklab,
-              hsl(var(--shadow-color)) 28%,
-              hsl(var(--highlight))
-            );
-          --hero2-glow-top-left-color: color-mix(
-            in oklab,
-            hsl(var(--highlight)) 72%,
-            hsl(var(--shadow-color))
-          );
-          --hero2-glow-top-left-soft: color-mix(
-            in oklab,
-            hsl(var(--highlight)) 22%,
-            hsl(var(--background) / 0)
-          );
-          --hero2-glow-bottom-right-color: color-mix(
-            in oklab,
-            hsl(var(--shadow-color)) 82%,
-            hsl(var(--highlight))
-          );
-          --hero2-glow-bottom-right-soft: color-mix(
-            in oklab,
-            hsl(var(--shadow-color)) 28%,
-            hsl(var(--background) / 0)
-          );
-        }
-        .hero2-frame[data-hero-divider-tint="primary"] {
-          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
-            color-mix(
-              in oklab,
-              hsl(var(--ring)) 68%,
-              hsl(var(--background))
-            );
-        }
-        .hero2-frame[data-hero-divider-tint="life"] {
-          --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
-            color-mix(
-              in oklab,
-              hsl(var(--accent-3)) 78%,
-              hsl(var(--background))
-            );
-        }
-      }
-      @media (prefers-contrast: more) {
-        .hero2-frame {
-          border-color: hsl(var(--foreground) / 0.7) !important;
-        }
-        .hero2-neomorph {
-          --hero2-shadow-key: 0 0 var(--space-4)
-            hsl(var(--foreground) / 0.75);
-          --hero2-shadow-ambient: inset 0 0 0 calc(var(--hairline-w) * 2)
-            hsl(var(--foreground) / 0.7);
-          box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
-          --hero2-glow-top-left: none;
-          --hero2-glow-bottom-right: none;
-          --hero2-focus-ring-rest: 0 0 0 0 hsl(var(--foreground) / 0),
-            0 0 0 0 hsl(var(--foreground) / 0);
-          --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 2)
-            hsl(var(--foreground) / 0.9),
-            0 0 0 0 hsl(var(--foreground) / 0.6);
-        }
-      }
-      @media (forced-colors: active) {
-        .hero2-frame {
-          border-color: CanvasText !important;
-          background: Canvas !important;
-        }
-        .hero2-neomorph {
-          background: Canvas !important;
-          box-shadow: none !important;
-          --hero2-glow-top-left: none;
-          --hero2-glow-bottom-right: none;
-          --hero2-focus-ring-rest: 0 0 0 0 Canvas,
-            0 0 0 0 Canvas;
-          --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 2)
-            CanvasText,
-            0 0 0 0 CanvasText;
-        }
-        .hero2-frame[data-hero-divider-tint] {
-          --hero-slot-divider: CanvasText !important;
-          --hero-slot-divider-shadow: none !important;
-          --hero-slot-shadow: none !important;
-        }
-      }
-    
-              </style>
               <div
                 class="group/hero relative z-0 isolate overflow-hidden rounded-card r-card-lg border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph px-[var(--space-6)] py-[var(--space-6)] md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)]"
               >
@@ -476,7 +128,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="flex w-full flex-col gap-[var(--space-1)] min-w-0"
                           >
                             <div
-                              class="group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border bg-[hsl(var(--bg))] text-foreground shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)] transition-[background,box-shadow,filter] duration-quick ease-out focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)] data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger _root_46b156 w-full hero2-neomorph z-0 !border border-[hsl(var(--border)/0.4)] !shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
+                              class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] transition-[background,box-shadow,filter] duration-quick ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--shadow-neo-inset)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger _root_46b156 w-full hero2-neomorph z-0 !border border-border/40 !shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
                               data-field-height="md"
                               data-field-state="default"
                             >
@@ -515,7 +167,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                               />
                               <button
                                 aria-label="Clear"
-                                class="_root_50bc93 inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-quick ease-out motion-reduce:transition-none active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading border bg-card/35 hover:bg-[--hover] [--hover:theme('colors.interaction.foreground.tintHover')] [--active:theme('colors.interaction.foreground.tintActive')] border-[hsl(var(--line)/0.35)] text-foreground h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[calc(var(--control-h-sm)/2)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
+                                class="_neu_0e7b1b _neu-hover_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading [--neu-radius:var(--radius-full)] border [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)] border-[hsl(var(--line)/0.35)] text-foreground [--neu-surface:hsl(var(--card)/0.35)] h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[calc(var(--control-h-sm)/2)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
                                 data-tone="primary"
                                 data-variant="ghost"
                                 tabindex="0"
@@ -562,7 +214,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         >
                           <div
                             class="sr-only"
-                            id=":r3:-label"
+                            id=":r2:-label"
                           >
                             Sort reviews
                           </div>
@@ -570,10 +222,10 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="group inline-flex rounded-[var(--control-radius)] border border-[var(--ring-contrast)] focus-within:ring-2 focus-within:ring-[var(--ring-contrast)] focus-within:ring-offset-0 focus-within:shadow-[var(--shadow-glow-md)]"
                           >
                             <button
-                              aria-controls=":r3:-listbox"
+                              aria-controls=":r2:-listbox"
                               aria-expanded="false"
                               aria-haspopup="listbox"
-                              aria-labelledby=":r3:-label"
+                              aria-labelledby=":r2:-label"
                               class="_glitchTrigger_843152 relative flex items-center rounded-[var(--control-radius)] overflow-hidden h-[var(--control-h-lg)] px-[var(--space-4)] bg-muted/12 hover:bg-muted/18 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] transition-colors duration-quick ease-out motion-reduce:transition-none"
                               data-lit="true"
                               data-open="false"
@@ -622,7 +274,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         </div>
                       </div>
                       <button
-                        class="_root_2452a7 relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none h-[var(--control-h-md)] px-[var(--space-4)] text-ui gap-[var(--space-2)] [&_svg]:size-[var(--space-5)] btn-glitch w-full whitespace-nowrap md:col-span-2 md:justify-self-end shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)] active:translate-y-[var(--spacing-0-25)] bg-primary-soft border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]"
+                        class="_neu_0e7b1b _neu-hover_0e7b1b _root_2452a7 relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none [--neu-radius:var(--control-radius)] h-[var(--control-h-md)] px-[var(--space-4)] text-ui gap-[var(--space-2)] [&_svg]:size-[var(--space-5)] btn-glitch w-full whitespace-nowrap md:col-span-2 md:justify-self-end [--neo-shadow:var(--btn-primary-shadow-rest)] [--neo-shadow-hover:var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)] active:translate-y-[var(--spacing-0-25)] [--neu-surface:hsl(var(--primary-soft))] border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)]"
                         data-tone="primary"
                         data-variant="primary"
                         tabindex="0"
@@ -685,7 +337,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         class="md:col-span-2 lg:col-span-4"
       >
         <section
-          class="w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle ds-card-pad backdrop-blur-sm transition-shadow duration-chill hover:ring-2 hover:ring-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)] h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
+          class="w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle ds-card-pad backdrop-blur-sm transition-shadow duration-chill hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))] focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
           data-scope="reviews"
         >
           <header
@@ -699,7 +351,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             <li>
               <button
                 aria-label="Open review: Alpha"
-                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-quick focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
+                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-quick focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--theme-ring,var(--focus))] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--theme-ring,var(--focus))] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
                 data-scope="reviews"
                 type="button"
               >
@@ -743,7 +395,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             <li>
               <button
                 aria-label="Open review: Gamma"
-                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-quick focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
+                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-quick focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--theme-ring,var(--focus))] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--theme-ring,var(--focus))] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
                 data-scope="reviews"
                 type="button"
               >
@@ -787,7 +439,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             <li>
               <button
                 aria-label="Open review: Beta"
-                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-quick focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--focus)] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--focus)] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--focus)] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
+                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-quick focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--theme-ring,var(--focus))] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--theme-ring,var(--focus))] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
                 data-scope="reviews"
                 type="button"
               >
@@ -829,6 +481,10 @@ exports[`ReviewsPage > renders default state 1`] = `
               </button>
             </li>
           </ul>
+          <div
+            aria-hidden="true"
+            class="h-px w-full"
+          />
         </section>
       </nav>
       <div

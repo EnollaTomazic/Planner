@@ -9,6 +9,13 @@ export type Project = {
   loading?: boolean;
 };
 
+export type TaskReminder = {
+  enabled: boolean;
+  reminderId?: string;
+  time?: string;
+  leadMinutes?: number;
+};
+
 export type DayTask = {
   id: string;
   title: string;
@@ -16,6 +23,7 @@ export type DayTask = {
   projectId?: string;
   createdAt: number;
   images: string[];
+  reminder?: TaskReminder;
 };
 
 export type DayRecord = {

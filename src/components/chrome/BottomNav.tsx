@@ -33,16 +33,29 @@ export default function BottomNav({
   const rawPathname = usePathname() ?? "/";
   const pathname = withoutBasePath(rawPathname);
   return (
-    <nav
-      role="navigation"
-      aria-label="Primary mobile navigation"
+    <div
       className={cn(
-        "border-t border-border pt-[var(--space-4)] md:hidden",
-        className,
+        "md:hidden",
+        "sticky bottom-0 z-40 sticky-blur",
+        "px-[var(--space-4)] pb-[calc(env(safe-area-inset-bottom)+var(--space-2))] pt-[var(--space-2)]",
       )}
     >
-      <ul className="flex justify-around">
-        {items.map((item) => {
+      <nav
+        role="navigation"
+        aria-label="Primary mobile navigation"
+        className={cn(
+          "relative isolate mx-auto w-full max-w-2xl",
+          "rounded-card r-card-lg card-neo-soft shadow-neo-strong",
+          "px-[var(--space-4)] pb-[var(--space-2)] pt-[calc(var(--space-3)+var(--hairline-w))]",
+          className,
+        )}
+      >
+        <span
+          aria-hidden="true"
+          className="pointer-events-none nav-underline absolute left-[var(--space-4)] right-[var(--space-4)] top-[calc(var(--space-2)/2)] h-[var(--hairline-w)] rounded-full opacity-80"
+        />
+        <ul className="flex w-full justify-around">
+          {items.map((item) => {
           const { href, label, mobileIcon: Icon } = item;
           if (!Icon) {
             return null;
@@ -113,7 +126,8 @@ export default function BottomNav({
             </li>
           );
         })}
-      </ul>
-    </nav>
+        </ul>
+      </nav>
+    </div>
   );
 }

@@ -187,14 +187,14 @@ export default function TabBar<
   const neoVariantClassName = isNeo ? styles.neoTablist : undefined;
 
   const containerVariant = isNeo
-    ? "hero2-frame border-[hsl(var(--border)/0.45)] bg-[var(--neo-tablist-bg)] shadow-[var(--neo-tablist-shadow)] [--hover:var(--neo-tab-bg)] [--active:var(--neo-tab-bg)] [--focus:hsl(var(--ring))]"
+    ? "hero2-frame border-border/45 bg-[var(--neo-tablist-bg)] shadow-[var(--neo-tablist-shadow)] [--hover:var(--neo-tab-bg)] [--active:var(--neo-tab-bg)] [--focus:var(--theme-ring)]"
     : isGlitch
-      ? "[--focus:hsl(var(--ring))]"
+      ? "[--focus:var(--theme-ring)]"
       : cn(
           "border-border/30 bg-card/60 shadow-[var(--shadow-neo-inset)]",
           "[--hover:hsl(var(--primary)/0.18)]",
           "[--active:hsl(var(--primary)/0.28)]",
-          "[--focus:hsl(var(--ring))]",
+          "[--focus:var(--theme-ring)]",
           "[--tab-shadow:inset_0_1px_0_hsl(var(--border)/0.18)]",
           "[--tab-shadow-hover:inset_0_1px_0_hsl(var(--border)/0.24)]",
           "[--tab-shadow-active:inset_0_1px_0_hsl(var(--border)/0.3)]",
