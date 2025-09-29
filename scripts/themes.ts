@@ -321,6 +321,7 @@ export const themes: ThemeDefinition[] = [
       { name: "primary-soft", value: "120 100% 26%" },
       { name: "accent", value: "120 92% 58%" },
       { name: "accent-2", value: "120 76% 22%" },
+      { name: "accent-2-foreground", value: "120 32% 94%" },
       { name: "accent-foreground", value: "0 0% 8%" },
       { name: "text-on-accent", value: "hsl(var(--hardstuck-foreground))" },
       { name: "accent-soft", value: "120 90% 16%" },
