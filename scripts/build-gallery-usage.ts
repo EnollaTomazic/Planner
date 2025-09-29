@@ -13,7 +13,7 @@ import {
   type GalleryPreviewRoute,
   type GalleryPreviewAxisParam,
 } from "../src/components/gallery/registry";
-import { VARIANTS } from "../src/lib/theme";
+import { BG_CLASSES, VARIANTS } from "../src/lib/theme";
 import type { Background, Variant } from "../src/lib/theme";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -37,7 +37,10 @@ const ROUTE_FILE_GLOB = "**/*.{ts,tsx}";
 const GALLERY_GLOB = "src/components/**/**/*.gallery.{ts,tsx}";
 
 const PREVIEW_VARIANTS = ["lg", "aurora"] as const satisfies readonly Variant[];
-const PREVIEW_BACKGROUNDS = [0] as const satisfies readonly Background[];
+const PREVIEW_BACKGROUNDS: readonly Background[] = Array.from(
+  { length: BG_CLASSES.length },
+  (_, index) => index as Background,
+);
 
 const REGISTERED_VARIANTS = new Set(VARIANTS.map((variant) => variant.id));
 
@@ -511,7 +514,8 @@ async function buildGalleryManifest(
     "",
     `export const galleryPayload = ${JSON.stringify(payload, null, 2)} satisfies GalleryRegistryPayload;`,
     "",
-    `export const galleryPreviewRoutes = ${JSON.stringify(previewRoutes, null, 2)} satisfies readonly GalleryPreviewRoute[];`,
+    `const galleryPreviewRoutesData = ${JSON.stringify(previewRoutes, null, 2)} as const;`,
+    `export const galleryPreviewRoutes = galleryPreviewRoutesData as unknown as readonly GalleryPreviewRoute[];`,
     "",
     "export const galleryPreviewModules = [",
   ];

@@ -1,7 +1,11 @@
 {
-  "badge": [],
+  "badge": [
+    "/",
+    "/dashboard-layout"
+  ],
   "button": [
     "/",
+    "/dashboard-layout",
     "/preview/pages-check"
   ],
   "icon-button": [],
@@ -26,11 +30,15 @@
     "/",
     "/preview/[slug]"
   ],
-  "neo-card-demo": [],
+  "neo-card-demo": [
+    "/",
+    "/dashboard-layout"
+  ],
   "section-card-variants": [],
   "page-shell": [
     "/",
     "/components",
+    "/dashboard-layout",
     "/goals",
     "/planner",
     "/preview/pages-check",
@@ -57,6 +65,7 @@
   "toast-demo": [],
   "skeleton": [
     "/",
+    "/dashboard-layout",
     "/goals",
     "/planner",
     "/prompts",
@@ -98,7 +107,10 @@
   "reminders-tab": [],
   "timer-ring": [],
   "timer-tab": [],
-  "progress-ring-icon": [],
+  "progress-ring-icon": [
+    "/",
+    "/dashboard-layout"
+  ],
   "timer-ring-icon": [],
   "side-selector": [],
   "champ-list-editor": [],
