@@ -45,7 +45,7 @@ export default function Spinner({
       aria-label="Loading"
       aria-live="polite"
       className={cn(
-        "inline-block h-[var(--spinner-size)] w-[var(--spinner-size)] animate-spin rounded-full border border-t-transparent",
+        "inline-block h-[var(--spinner-size)] w-[var(--spinner-size)] animate-spin motion-reduce:animate-none rounded-full border border-t-transparent",
         toneToBorderClass[tone],
         sizeToVariableClass[size],
         className,

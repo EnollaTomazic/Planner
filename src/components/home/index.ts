@@ -14,6 +14,7 @@ export { default as HeroPlannerCards } from "./HeroPlannerCards";
 export { default as HeroPortraitFrame } from "./HeroPortraitFrame";
 export type { HeroPortraitFrameProps } from "./HeroPortraitFrame";
 export { default as WelcomeHeroFigure } from "./WelcomeHeroFigure";
+export { default as HomeSplash } from "./HomeSplash";
 export {
   HomeHeroSection,
   PlannerOverview,

@@ -3,6 +3,7 @@ export type TokenValue = string | string[];
 export interface VariableDefinition {
   name: string;
   value: TokenValue;
+  comment?: string | string[];
 }
 
 export interface ThemeDefinition {
@@ -19,6 +20,61 @@ export const rootVariables: VariableDefinition[] = [
   { name: "lg-black", value: "var(--background)" },
   { name: "card-foreground", value: "var(--foreground)" },
   { name: "header-stack", value: "calc(var(--spacing-8) + var(--spacing-4))" },
+  { name: "layout-gutter-sm", value: "var(--spacing-4)" },
+  { name: "layout-gutter-md", value: "var(--spacing-5)" },
+  { name: "layout-gutter-lg", value: "var(--spacing-6)" },
+  { name: "card-radius", value: "var(--radius-xl)" },
+  { name: "elevation-card", value: "var(--shadow-outline-subtle)" },
+  {
+    name: "elevation-card-pressed",
+    value: "var(--shadow-control)",
+  },
+  {
+    comment: "Depth & surface spacing (neumorphism)",
+    name: "neo-depth-sm",
+    value: "var(--spacing-1)",
+  },
+  { name: "neo-depth-md", value: "var(--spacing-3)" },
+  { name: "neo-depth-lg", value: "var(--spacing-4)" },
+  {
+    name: "neo-surface",
+    value: "color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%)",
+  },
+  {
+    name: "neo-surface-alt",
+    value: "color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%)",
+  },
+  {
+    name: "neo-highlight",
+    value: "color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)))",
+  },
+  {
+    comment: [
+      "Glow parity (retro-futurism)",
+      "neo-glow-strength multiplies --shadow-neon",
+    ],
+    name: "neo-glow-strength",
+    value: "0.45",
+  },
+  { name: "neon-outline-opacity", value: "0.35" },
+  {
+    comment: [
+      "Glitch normalization (identical amplitude & cadence)",
+      "0–1 scaling for transforms/opacity",
+    ],
+    name: "glitch-intensity",
+    value: "1.0",
+  },
+  { comment: "base animation length", name: "glitch-duration", value: "450ms" },
+  { comment: "hue-rotate magnitude", name: "glitch-fringe", value: "12deg" },
+  { comment: "overlay alpha", name: "glitch-static-opacity", value: "0.18" },
+  { comment: "Retro grid parity", name: "retro-grid-step", value: "24px" },
+  { name: "retro-grid-opacity", value: "0.15" },
+  {
+    comment: ["Accessibility clamps", "used in tests; not CSS-enforced"],
+    name: "aa-min-contrast",
+    value: "4.5",
+  },
   {
     name: "shadow-neon",
     value: [
@@ -285,6 +341,98 @@ export const themes: ThemeDefinition[] = [
       { name: "success-glow", value: "120 90% 42% / 0.6" },
       { name: "hardstuck-forest", value: "120 70% 42%" },
       { name: "hardstuck-deep", value: "120 82% 8%" },
+    ],
+  },
+  {
+    id: "retro",
+    label: "Retro",
+    description: ["Neon grid inspired by retro-futurist arcades"],
+    variables: [
+      { name: "background", value: "258 78% 4%" },
+      { name: "foreground", value: "196 28% 96%" },
+      { name: "text", value: "var(--foreground)" },
+      { name: "card", value: "260 68% 8%" },
+      { name: "panel", value: "var(--card)" },
+      { name: "border", value: "260 56% 22%" },
+      { name: "line", value: "var(--border)" },
+      { name: "input", value: "260 58% 12%" },
+      { name: "ring", value: "304 100% 68%" },
+      { name: "theme-ring", value: "hsl(var(--ring))" },
+      { name: "primary", value: "304 100% 68%" },
+      { name: "primary-foreground", value: "0 0% 8%" },
+      { name: "primary-soft", value: "304 100% 24%" },
+      { name: "accent", value: "304 100% 68%" },
+      { name: "accent-2", value: "188.7 89.6% 69.8%" },
+      { name: "accent-3", value: "257.5 85.7% 72.5%" },
+      { name: "accent-foreground", value: "0 0% 6%" },
+      { name: "accent-soft", value: "304 100% 20%" },
+      { name: "muted", value: "260 48% 18%" },
+      { name: "muted-foreground", value: "260 22% 78%" },
+      { name: "shadow-color", value: "304 92% 56%" },
+      { name: "lav-deep", value: "257.5 85.7% 72.5%" },
+      { name: "success", value: "158 72% 48%" },
+      { name: "success-glow", value: "158 72% 38% / 0.6" },
+      { name: "glow", value: "304 100% 68%" },
+      { name: "glow-active", value: "hsl(var(--accent-2))" },
+      {
+        name: "shadow-glow-sm",
+        value: [
+          "",
+          "0 0 var(--spacing-2) hsl(var(--glow) / 0.7),",
+          "0 0 var(--spacing-4) hsl(var(--accent-2) / 0.45)",
+        ],
+      },
+      {
+        name: "shadow-glow-md",
+        value: [
+          "",
+          "0 0 var(--spacing-3) hsl(var(--glow) / 0.55),",
+          "0 0 var(--spacing-5) hsl(var(--accent-2) / 0.4),",
+          "0 0 var(--spacing-6) hsl(var(--accent-3) / 0.3)",
+        ],
+      },
+      {
+        name: "shadow-glow-lg",
+        value: [
+          "",
+          "0 0 var(--spacing-4) hsl(var(--glow) / 0.5),",
+          "0 0 var(--spacing-6) hsl(var(--accent-2) / 0.38),",
+          "0 0 var(--spacing-7) hsl(var(--accent-3) / 0.28)",
+        ],
+      },
+      {
+        name: "shadow-glow-xl",
+        value: [
+          "",
+          "0 var(--spacing-1) var(--spacing-5) hsl(var(--glow) / 0.45),",
+          "0 var(--spacing-2) var(--spacing-7) hsl(var(--accent-2) / 0.32),",
+          "0 var(--spacing-3) var(--spacing-8) hsl(var(--accent-3) / 0.24)",
+        ],
+      },
+      {
+        name: "grid-lines",
+        value: [
+          "",
+          "repeating-linear-gradient(",
+          "  90deg,",
+          "  hsl(var(--accent) / 0.18) 0 1px,",
+          "  hsl(var(--accent-3) / 0.08) 1px 28px",
+          ")",
+        ],
+      },
+      {
+        name: "scan-lines",
+        value: [
+          "",
+          "repeating-linear-gradient(",
+          "  0deg,",
+          "  hsl(var(--accent-2) / 0.16) 0 1px,",
+          "  transparent 1px 14px,",
+          "  hsl(var(--accent-3) / 0.12) 14px 15px,",
+          "  transparent 15px 28px",
+          ")",
+        ],
+      },
     ],
   },
 ];

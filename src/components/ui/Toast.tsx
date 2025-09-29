@@ -141,13 +141,14 @@ export default function Toast({
   }, [showProgress, open, tick]);
 
   const progress = duration > 0 ? Math.max(0, Math.min(1, timeLeft / duration)) : 0;
-  const { scopeProps: progressScopeProps, Style: ProgressStyle } = useScopedCssVars({
-    attribute: "data-toast-progress-id",
-    vars: {
-      "--toast-progress": progress.toString(),
-    },
-    enabled: showProgress,
-  });
+  const { scopeProps: progressScopeProps, style: progressStyle } =
+    useScopedCssVars({
+      attribute: "data-toast-progress-id",
+      vars: {
+        "--toast-progress": progress.toString(),
+      },
+      enabled: showProgress,
+    });
 
   if (!open || !mounted) return null;
   return createPortal(
@@ -196,22 +197,20 @@ export default function Toast({
             )}
           </div>
           {showProgress && (
-            <>
+            <div
+              aria-hidden="true"
+              data-progress={progress}
+              className={cn(
+                "h-[var(--space-1)] overflow-hidden rounded-full bg-border/40",
+                styles.progressTrack,
+              )}
+              {...(progressScopeProps ?? {})}
+              style={progressStyle}
+            >
               <div
-                aria-hidden="true"
-                data-progress={progress}
-                className={cn(
-                  "h-[var(--space-1)] overflow-hidden rounded-full bg-border/40",
-                  styles.progressTrack,
-                )}
-                {...(progressScopeProps ?? {})}
-              >
-                <div
-                  className={cn("h-full rounded-full bg-primary", styles.progressFill)}
-                />
-              </div>
-              {ProgressStyle}
-            </>
+                className={cn("h-full rounded-full bg-primary", styles.progressFill)}
+              />
+            </div>
           )}
         </div>
       </Card>

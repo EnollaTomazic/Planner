@@ -10,8 +10,9 @@ import {
   removeTask as dayRemoveTask,
   addTaskImage as dayAddTaskImage,
   removeTaskImage as dayRemoveTaskImage,
+  updateTaskReminder as dayUpdateTaskReminder,
 } from "./dayCrud";
-import type { DayRecord, ISODate } from "./plannerTypes";
+import type { DayRecord, ISODate, TaskReminder } from "./plannerTypes";
 
 export type UpsertDay = (iso: ISODate, fn: (d: DayRecord) => DayRecord) => void;
 
@@ -64,6 +65,11 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
   const removeTaskImage = (id: string, url: string, index?: number) =>
     upsertDay(iso, (d) => dayRemoveTaskImage(d, id, url, index));
 
+  const updateTaskReminder = (
+    id: string,
+    partial: Partial<TaskReminder> | null,
+  ) => upsertDay(iso, (d) => dayUpdateTaskReminder(d, id, partial));
+
   const setNotesForDay = (notes: string) =>
     upsertDay(iso, (d) => setNotes(d, notes));
 
@@ -81,6 +87,7 @@ export function makeCrud(iso: ISODate, upsertDay: UpsertDay) {
     removeTask,
     addTaskImage,
     removeTaskImage,
+    updateTaskReminder,
     setNotes: setNotesForDay,
     setFocus: setFocusForDay,
   } as const;

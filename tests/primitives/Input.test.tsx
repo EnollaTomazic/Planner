@@ -28,18 +28,7 @@ describe("Input", () => {
     );
     const field = getByRole("textbox").parentElement as HTMLElement;
     expect(field.dataset.customHeight).toBe("true");
-    const instanceId = field.getAttribute("data-field-instance");
-    expect(instanceId).toBeTruthy();
-    if (!instanceId) {
-      throw new Error("Expected data-field-instance to be set");
-    }
-    const hasStyle = Array.from(
-      document.querySelectorAll("style"),
-    ).some((node) =>
-      node.textContent?.includes(`[data-field-instance="${instanceId}"]`) &&
-      node.textContent?.includes("--field-h: 48px"),
-    );
-    expect(hasStyle).toBe(true);
+    expect(field.style.getPropertyValue("--field-custom-height")).toBe("48px");
   });
 
   it("applies indent padding", () => {
