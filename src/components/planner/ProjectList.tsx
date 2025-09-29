@@ -288,11 +288,7 @@ export default function ProjectList({
       viewportClassName={cn(
         projectsScrollable ? undefined : "overflow-visible",
       )}
-      viewportStyle={
-        projectsScrollable
-          ? { maxHeight: "calc(var(--space-8) * 4 + var(--space-1))" }
-          : undefined
-      }
+      viewportSize={projectsScrollable ? "maxHProjects" : undefined}
     />
   );
 }
