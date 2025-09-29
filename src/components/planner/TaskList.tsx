@@ -112,10 +112,7 @@ export default function TaskList({
           ))}
         </ul>
       )}
-      viewportStyle={{
-        minHeight: "calc(var(--space-8) * 2)",
-        maxHeight: "calc(var(--space-8) * 5)",
-      }}
+      viewportSize={["minHTasks", "maxHTasks"]}
     />
   );
 }
