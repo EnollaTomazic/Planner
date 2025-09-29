@@ -26,6 +26,26 @@ import {
   setNotes as applyNotesToDay,
 } from "./plannerCrud";
 
+export const PLANNER_VIEW_MODES = [
+  "day",
+  "week",
+  "month",
+  "agenda",
+] as const;
+
+export type PlannerViewMode = (typeof PLANNER_VIEW_MODES)[number];
+
+function decodePlannerViewMode(value: unknown): PlannerViewMode | null {
+  if (typeof value !== "string") return null;
+  return PLANNER_VIEW_MODES.includes(value as PlannerViewMode)
+    ? (value as PlannerViewMode)
+    : null;
+}
+
+export function isPlannerViewMode(value: unknown): value is PlannerViewMode {
+  return decodePlannerViewMode(value) !== null;
+}
+
 type DaysUpdateMetadata = {
   days: Record<ISODate, DayRecord>;
   changed?: Iterable<ISODate>;
@@ -184,6 +204,8 @@ type PlannerState = {
   today: ISODate;
   setIso: React.Dispatch<React.SetStateAction<ISODate>>;
   week: PlannerWeek;
+  viewMode: PlannerViewMode;
+  setViewMode: React.Dispatch<React.SetStateAction<PlannerViewMode>>;
   goals: PlannerGoalsState;
   getFocus: (iso: ISODate) => string;
   updateFocus: (iso: ISODate, value: string) => void;
@@ -210,6 +232,11 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
   const [selectedState, setSelectedState] = usePersistentState<
     Record<ISODate, Selection>
   >("planner:selected", {});
+  const [viewMode, setViewMode] = usePersistentState<PlannerViewMode>(
+    "planner:view-mode",
+    "week",
+    { decode: decodePlannerViewMode },
+  );
   const [today, setToday] = React.useState(() => todayISO());
   const [goalList, setGoalList] = usePersistentState<Goal[]>("goals.v2", [], {
     decode: decodeGoals,
@@ -682,6 +709,8 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
       iso,
       today,
       setIso: setFocus,
+      viewMode,
+      setViewMode,
       week,
       goals: goalsValue,
       getFocus: getDayFocus,
@@ -693,6 +722,8 @@ export function PlannerProvider({ children }: { children: React.ReactNode }) {
       iso,
       today,
       setFocus,
+      viewMode,
+      setViewMode,
       week,
       goalsValue,
       getDayFocus,

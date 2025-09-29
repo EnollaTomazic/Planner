@@ -11,84 +11,85 @@ import "./style.css";
  */
 
 import * as React from "react";
-import TodayHero from "./TodayHero";
-import WeekNotes from "./WeekNotes";
-import DayRow from "./DayRow";
-import ScrollTopFloatingButton from "./ScrollTopFloatingButton";
 import { useFocusDate, useWeek } from "./useFocusDate";
-import type { ISODate } from "./plannerTypes";
-import { PlannerProvider } from "./plannerContext";
+import { PlannerProvider, type PlannerViewMode, isPlannerViewMode } from "./plannerContext";
 import WeekPicker from "./WeekPicker";
-import { PageHeader } from "@/components/ui";
-import PageShell, { layoutGridClassName } from "@/components/ui/layout/PageShell";
+import { PageHeader, GlitchSegmentedGroup, GlitchSegmentedButton } from "@/components/ui";
+import PageShell from "@/components/ui/layout/PageShell";
 import { CalendarDays } from "lucide-react";
 import { formatWeekRangeLabel } from "@/lib/date";
+import DayView from "./views/DayView";
+import WeekView from "./views/WeekView";
+import MonthView from "./views/MonthView";
+import AgendaView from "./views/AgendaView";
+import { usePlanner } from "./plannerContext";
 
 const PLANNER_SCROLL_STORAGE_KEY = "planner:scroll-position";
+
+const VIEW_MODE_LABELS: Record<PlannerViewMode, string> = {
+  day: "Day",
+  week: "Week",
+  month: "Month",
+  agenda: "Agenda",
+};
 
 /* ───────── Page body under provider ───────── */
 
 function Inner() {
-  const { iso, today } = useFocusDate();
-  const { start, end, days } = useWeek(iso);
+  const { iso } = useFocusDate();
+  const { start, end } = useWeek(iso);
+  const { viewMode, setViewMode } = usePlanner();
   const weekAnnouncement = React.useMemo(
     () => formatWeekRangeLabel(start, end),
     [start, end],
   );
 
-  React.useEffect(() => {
-    if (typeof window === "undefined") return undefined;
-
-    const stored = sessionStorage.getItem(PLANNER_SCROLL_STORAGE_KEY);
-    if (stored) {
-      const parsed = Number.parseInt(stored, 10);
-      if (!Number.isNaN(parsed)) {
-        window.scrollTo({ top: parsed });
+  const handleViewModeChange = React.useCallback(
+    (next: string) => {
+      if (!isPlannerViewMode(next)) return;
+      setViewMode(next);
+      if (typeof window !== "undefined") {
+        try {
+          window.sessionStorage.setItem(PLANNER_SCROLL_STORAGE_KEY, "0");
+        } catch {
+          // Ignore storage write errors (private mode, quota, etc.).
+        }
+        window.scrollTo({ top: 0 });
       }
-    }
-
-    let frame = 0;
-    const handleScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(() => {
-        frame = 0;
-        sessionStorage.setItem(
-          PLANNER_SCROLL_STORAGE_KEY,
-          Math.round(window.scrollY).toString(),
-        );
-      });
-    };
-
-    const handlePageHide = () => {
-      sessionStorage.setItem(
-        PLANNER_SCROLL_STORAGE_KEY,
-        Math.round(window.scrollY).toString(),
-      );
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("pagehide", handlePageHide);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("pagehide", handlePageHide);
-      if (frame) {
-        window.cancelAnimationFrame(frame);
-      }
-      sessionStorage.setItem(
-        PLANNER_SCROLL_STORAGE_KEY,
-        Math.round(window.scrollY).toString(),
-      );
-    };
-  }, []);
-
-  // Derive once per week change; keeps list stable during edits elsewhere
-  const dayItems = React.useMemo<Array<{ iso: ISODate; isToday: boolean }>>(
-    () => days.map((d) => ({ iso: d, isToday: d === today })),
-    [days, today],
+    },
+    [setViewMode],
   );
 
-  const heroRef = React.useRef<HTMLDivElement>(null);
+  const viewPanel = React.useMemo(() => {
+    switch (viewMode) {
+      case "day":
+        return (
+          <div id="day-panel" role="tabpanel" aria-labelledby="day-tab">
+            <DayView />
+          </div>
+        );
+      case "week":
+        return (
+          <div id="week-panel" role="tabpanel" aria-labelledby="week-tab">
+            <WeekView />
+          </div>
+        );
+      case "month":
+        return (
+          <div id="month-panel" role="tabpanel" aria-labelledby="month-tab">
+            <MonthView />
+          </div>
+        );
+      case "agenda":
+        return (
+          <div id="agenda-panel" role="tabpanel" aria-labelledby="agenda-tab">
+            <AgendaView />
+          </div>
+        );
+      default:
+        return null;
+    }
+  }, [viewMode]);
 
   return (
     <>
@@ -110,7 +111,26 @@ function Inner() {
             heading: "Week controls",
             children: (
               <>
-                <WeekPicker />
+                <div className="flex flex-col gap-[var(--space-3)] lg:flex-row lg:items-center lg:justify-between">
+                  <WeekPicker />
+                  <div className="flex justify-start lg:justify-end">
+                    <GlitchSegmentedGroup
+                      value={viewMode}
+                      onChange={handleViewModeChange}
+                      ariaLabel="Select planner view"
+                    >
+                      {Object.entries(VIEW_MODE_LABELS).map(([value, label]) => (
+                        <GlitchSegmentedButton
+                          key={value}
+                          value={value}
+                          aria-controls={`${value}-panel`}
+                        >
+                          {label}
+                        </GlitchSegmentedButton>
+                      ))}
+                    </GlitchSegmentedGroup>
+                  </div>
+                </div>
                 <div aria-live="polite" className="sr-only">
                   {weekAnnouncement}
                 </div>
@@ -119,43 +139,7 @@ function Inner() {
           }}
         />
       </PageShell>
-
-      <PageShell
-        as="section"
-        grid
-        className="py-[var(--space-6)]"
-        contentClassName="gap-y-[var(--space-6)]"
-        aria-labelledby="planner-header"
-      >
-        {/* Today + Side column */}
-        <section
-          aria-label="Today and weekly panels"
-          className={`${layoutGridClassName} col-span-full lg:grid-cols-12`}
-        >
-          <div className="col-span-full lg:col-span-8" ref={heroRef}>
-            <TodayHero iso={iso} />
-          </div>
-
-          {/* Sticky only on large so it doesn’t eat the viewport on mobile */}
-          <aside
-            aria-label="Day notes"
-            className="col-span-full space-y-[var(--space-6)] lg:col-span-4 lg:sticky lg:top-[var(--header-stack)]"
-          >
-            <WeekNotes iso={iso} />
-          </aside>
-        </section>
-
-        {/* Week list (Mon→Sun) — anchors used by WeekPicker’s selectAndScroll */}
-        <ul
-          aria-label="Week days (Monday to Sunday)"
-          className="col-span-full flex flex-col gap-[var(--space-4)]"
-        >
-          {dayItems.map((item) => (
-            <DayRow key={item.iso} iso={item.iso} isToday={item.isToday} />
-          ))}
-        </ul>
-      </PageShell>
-      <ScrollTopFloatingButton watchRef={heroRef} />
+      {viewPanel}
     </>
   );
 }
