@@ -30,10 +30,10 @@ const itemLoading = cn(
 const loadingLine = "h-[var(--space-3)] rounded-card bg-muted";
 const scoreBadge = cn(
   "px-[var(--space-2)] py-[var(--space-1)] rounded-full text-ui leading-none font-medium",
-  "text-accent-foreground ring-1 ring-[theme('colors.interaction.accent.surfaceActive')] bg-gradient-to-br from-accent to-accent-2",
-  "hover:ring-[theme('colors.interaction.accent.surfaceHover')]",
-  "focus-visible:ring-[theme('colors.interaction.accent.surfaceHover')]",
-  "active:ring-[theme('colors.interaction.accent.surfaceActive')]",
+  "text-accent-2-foreground ring-1 ring-[theme('colors.interaction.info.surfaceActive')] bg-accent-2",
+  "hover:ring-[theme('colors.interaction.info.surfaceHover')]",
+  "focus-visible:ring-[theme('colors.interaction.info.surfaceHover')]",
+  "active:ring-[theme('colors.interaction.info.surfaceActive')]",
 );
 
 export type ReviewListItemProps = {

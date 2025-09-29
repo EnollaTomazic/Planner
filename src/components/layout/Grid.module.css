@@ -1,5 +1,6 @@
 .grid {
   display: grid;
+  grid-template-areas: var(--grid-template-areas);
   gap: var(--grid-gap, var(--spacing-5));
   row-gap: var(--grid-row-gap, var(--grid-gap, var(--spacing-4)));
   column-gap: var(
@@ -22,5 +23,9 @@
 @container (max-width: var(--grid-collapse, 64ch)) {
   .grid[data-collapse="stack"] {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: var(
+      --grid-template-areas-collapsed,
+      var(--grid-template-areas)
+    );
   }
 }
