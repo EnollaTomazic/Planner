@@ -132,7 +132,13 @@ async function buildTokens(): Promise<void> {
   let match: RegExpExecArray | null;
   while ((match = colorRegex.exec(themeBase))) {
     const name = match[1];
-    if (name.startsWith("radius-") || isDeprecatedToken(name)) continue;
+    if (
+      name.startsWith("radius-") ||
+      name.startsWith("spacing-") ||
+      isDeprecatedToken(name)
+    ) {
+      continue;
+    }
     colors[name] = { value: match[2].trim() };
   }
   const globalsPath = path.resolve(__dirname, "../src/app/globals.css");

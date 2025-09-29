@@ -189,6 +189,8 @@ type PlannerState = {
   iso: ISODate;
   today: ISODate;
   setIso: React.Dispatch<React.SetStateAction<ISODate>>;
+  viewMode: PlannerViewMode;
+  setViewMode: React.Dispatch<React.SetStateAction<PlannerViewMode>>;
   week: PlannerWeek;
   goals: PlannerGoalsState;
   reminders: RemindersContextValue;
@@ -197,6 +199,8 @@ type PlannerState = {
   getNote: (iso: ISODate) => string;
   updateNote: (iso: ISODate, value: string) => void;
 };
+
+export type PlannerViewMode = "day" | "week" | "month" | "agenda";
 
 const DaysContext = React.createContext<DaysState | null>(null);
 const FocusContext = React.createContext<FocusState | null>(null);
@@ -224,6 +228,10 @@ function PlannerProviderInner({
   const [selectedState, setSelectedState] = usePersistentState<
     Record<ISODate, Selection>
   >("planner:selected", {});
+  const [viewMode, setViewMode] = usePersistentState<PlannerViewMode>(
+    "planner:view-mode",
+    "day",
+  );
   const [today, setToday] = React.useState(() => todayISO());
   const [goalList, setGoalList] = usePersistentState<Goal[]>("goals.v2", [], {
     decode: decodeGoals,
@@ -697,6 +705,8 @@ function PlannerProviderInner({
       iso,
       today,
       setIso: setFocus,
+      viewMode,
+      setViewMode,
       week,
       goals: goalsValue,
       reminders,
@@ -709,6 +719,8 @@ function PlannerProviderInner({
       iso,
       today,
       setFocus,
+      viewMode,
+      setViewMode,
       week,
       goalsValue,
       reminders,
