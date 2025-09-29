@@ -5,6 +5,20 @@ import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 import { spacingTokens, radiusScale } from "./src/lib/tokens";
 
+const plannerSurfaces = plugin(({ addUtilities }) => {
+  addUtilities({
+    ".surface-card-soft": {
+      background: "var(--surface-card-soft)",
+    },
+    ".surface-card-strong": {
+      background: "var(--surface-card-strong)",
+    },
+    ".surface-rail-accent": {
+      background: "var(--surface-rail-accent)",
+    },
+  });
+});
+
 const borderRadiusTokens = Object.entries(radiusScale).reduce(
   (acc, [token, value]) => {
     acc[token] = `${value}px`;
@@ -259,6 +273,7 @@ const config: Config = {
     },
   },
   plugins: [
+    plannerSurfaces,
     plugin(({ matchUtilities }) => {
       matchUtilities(
         {
