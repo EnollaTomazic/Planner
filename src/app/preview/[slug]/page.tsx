@@ -82,7 +82,7 @@ interface PreviewContentProps {
   readonly route: GalleryPreviewRoute;
 }
 
-function PreviewContent({ route }: PreviewContentProps) {
+export function PreviewContent({ route }: PreviewContentProps) {
   const themeLabel = VARIANT_LABELS[route.themeVariant];
   const stateLabel = route.stateName ?? null;
   const axisSummary = route.axisParams
@@ -90,7 +90,7 @@ function PreviewContent({ route }: PreviewContentProps) {
     .join(" · ");
 
   return (
-    <main
+    <div
       className="min-h-screen bg-background text-foreground"
       data-preview-entry={route.entryId}
       data-preview-slug={route.slug}
@@ -118,11 +118,11 @@ function PreviewContent({ route }: PreviewContentProps) {
           <PreviewSurface previewId={route.previewId} />
         </Suspense>
       </div>
-    </main>
+    </div>
   );
 }
 
-function PreviewUnavailable({ route }: { readonly route: GalleryPreviewRoute }) {
+export function PreviewUnavailable({ route }: { readonly route: GalleryPreviewRoute }) {
   const themeLabel = VARIANT_LABELS[route.themeVariant];
   const stateLabel = route.stateName ?? null;
   const axisSummary = route.axisParams
@@ -130,7 +130,7 @@ function PreviewUnavailable({ route }: { readonly route: GalleryPreviewRoute }) 
     .join(" · ");
 
   return (
-    <main
+    <div
       className="min-h-screen bg-background text-foreground"
       data-preview-entry={route.entryId}
       data-preview-slug={route.slug}
@@ -161,7 +161,7 @@ function PreviewUnavailable({ route }: { readonly route: GalleryPreviewRoute }) 
           </div>
         </PreviewSurfaceContainer>
       </div>
-    </main>
+    </div>
   );
 }
 
