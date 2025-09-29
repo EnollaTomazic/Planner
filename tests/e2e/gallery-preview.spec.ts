@@ -1,6 +1,8 @@
+// @ts-nocheck
 import { expect, test } from "@playwright/test";
 
 import { getGalleryPreviewRoutes } from "@/components/gallery";
+import { VARIANTS } from "@/lib/theme";
 
 const previewRoutes = getGalleryPreviewRoutes();
 
@@ -38,6 +40,35 @@ test.describe("Gallery previews", () => {
         route.themeVariant,
       );
       await expect(page).toHaveScreenshot(`${route.slug}${suffix}.png`, {
+        fullPage: true,
+      });
+    }
+  });
+
+  test("@visual theme matrix renders across themes", async ({ page }) => {
+    await page.goto("/preview/theme-matrix");
+    await page.waitForLoadState("networkidle");
+
+    const firstGroupSelector =
+      "[data-theme-matrix-entry]:nth-of-type(1) [data-theme-matrix-group]";
+    await page.waitForSelector(firstGroupSelector);
+    await page.waitForFunction(
+      () => !document.body.innerText.includes("Loading preview…"),
+    );
+
+    for (const variant of VARIANTS) {
+      await page.click(
+        `${firstGroupSelector} button[role="radio"]:has-text("${variant.label}")`,
+      );
+      await page.waitForFunction(
+        (variantId) =>
+          document.documentElement.classList.contains(`theme-${variantId}`),
+        variant.id,
+      );
+      await page.waitForFunction(
+        () => !document.body.innerText.includes("Loading preview…"),
+      );
+      await expect(page).toHaveScreenshot(`theme-matrix--${variant.id}.png`, {
         fullPage: true,
       });
     }
