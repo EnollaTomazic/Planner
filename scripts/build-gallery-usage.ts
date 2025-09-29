@@ -307,8 +307,17 @@ function buildPreviewRoutes(
     routes.push(route);
   };
 
-  for (const section of sections) {
-    section.entries.forEach((entry, entryIndex) => {
+  for (let sectionIndex = 0; sectionIndex < sections.length; sectionIndex += 1) {
+    const section = sections[sectionIndex];
+    const sectionSlugBase = normalizeSlug(section.id);
+    const sectionSlug = sectionSlugBase || `section-${sectionIndex + 1}`;
+
+    for (
+      let entryIndex = 0;
+      entryIndex < section.entries.length;
+      entryIndex += 1
+    ) {
+      const entry = section.entries[entryIndex];
       const axisParams = buildAxisParams(entry);
       const entrySlugBase =
         normalizeSlug(entry.id) || normalizeSlug(entry.name) || null;
@@ -316,12 +325,10 @@ function buildPreviewRoutes(
         normalizeSlug(`${section.id}-${entryIndex + 1}`) ||
         `component-${entryIndex + 1}`;
       const entrySlug = entrySlugBase ?? fallbackEntrySlug;
-      const sectionSlug =
-        normalizeSlug(section.id) || `section-${routes.length + 1}`;
       const previewSlug =
         normalizeSlug(entry.preview.id) ||
         normalizeSlug(`${entrySlug}-preview`) ||
-        `preview-${routes.length + 1}`;
+        `preview-${sectionIndex + 1}-${entryIndex + 1}`;
 
       for (const theme of PREVIEW_THEME_COMBOS) {
         const slug = formatPreviewSlug(
@@ -345,40 +352,47 @@ function buildPreviewRoutes(
         });
       }
 
-      entry.states?.forEach((state, stateIndex) => {
-        const stateSlugBase =
-          normalizeSlug(state.id) ||
-          normalizeSlug(state.name) ||
-          normalizeSlug(`${entrySlug}-state-${stateIndex + 1}`) ||
-          `state-${stateIndex + 1}`;
-        const statePreviewSlug =
-          normalizeSlug(state.preview.id) ||
-          normalizeSlug(`${entrySlug}-${stateSlugBase}-preview`) ||
-          `preview-${routes.length + 1}`;
+      if (entry.states) {
+        for (
+          let stateIndex = 0;
+          stateIndex < entry.states.length;
+          stateIndex += 1
+        ) {
+          const state = entry.states[stateIndex];
+          const stateSlugBase =
+            normalizeSlug(state.id) ||
+            normalizeSlug(state.name) ||
+            normalizeSlug(`${entrySlug}-state-${stateIndex + 1}`) ||
+            `state-${stateIndex + 1}`;
+          const statePreviewSlug =
+            normalizeSlug(state.preview.id) ||
+            normalizeSlug(`${entrySlug}-${stateSlugBase}-preview`) ||
+            `preview-${sectionIndex + 1}-${entryIndex + 1}-${stateIndex + 1}`;
 
-        for (const theme of PREVIEW_THEME_COMBOS) {
-          const slug = formatPreviewSlug(
-            sectionSlug,
-            entrySlug,
-            statePreviewSlug,
-            stateSlugBase,
-            theme,
-          );
-          register({
-            slug,
-            previewId: state.preview.id,
-            entryId: entry.id,
-            entryName: entry.name,
-            sectionId: section.id,
-            stateId: state.id,
-            stateName: state.name ?? null,
-            themeVariant: theme.variant,
-            themeBackground: theme.bg,
-            axisParams,
-          });
+          for (const theme of PREVIEW_THEME_COMBOS) {
+            const slug = formatPreviewSlug(
+              sectionSlug,
+              entrySlug,
+              statePreviewSlug,
+              stateSlugBase,
+              theme,
+            );
+            register({
+              slug,
+              previewId: state.preview.id,
+              entryId: entry.id,
+              entryName: entry.name,
+              sectionId: section.id,
+              stateId: state.id,
+              stateName: state.name ?? null,
+              themeVariant: theme.variant,
+              themeBackground: theme.bg,
+              axisParams,
+            });
+          }
         }
-      });
-    });
+      }
+    }
   }
 
   routes.sort((a, b) => a.slug.localeCompare(b.slug));
