@@ -4,6 +4,8 @@ import * as React from "react";
 import DashboardCard from "./DashboardCard";
 import QuickActionGrid from "./QuickActionGrid";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
+import { cn } from "@/lib/utils";
+import styles from "./TeamPromptsCard.module.css";
 
 const teamQuickActions = [
   {
@@ -25,11 +27,6 @@ const teamQuickActions = [
     asChild: true,
   },
 ];
-
-const promptsOverlayGradient = {
-  "--seg-active-grad":
-    "linear-gradient(90deg, hsl(var(--primary-soft) / 0.45), hsl(var(--accent-soft) / 0.45), hsl(var(--accent-2) / 0.4))",
-} as React.CSSProperties;
 
 export default function TeamPromptsCard() {
   return (
@@ -53,8 +50,10 @@ export default function TeamPromptsCard() {
           <div className="relative overflow-hidden rounded-card r-card-md bg-card p-[var(--space-4)] text-center text-ui text-foreground">
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] bg-[var(--seg-active-grad)]"
-              style={promptsOverlayGradient}
+              className={cn(
+                "pointer-events-none absolute inset-0 -z-10 rounded-[inherit]",
+                styles.promptsOverlay,
+              )}
             />
             <span className="relative z-10 block">Get inspired with curated prompts</span>
           </div>

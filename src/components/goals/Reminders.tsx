@@ -98,8 +98,6 @@ const GROUP_TABS: Array<{ key: Group | "all"; label: string }> = [
   { key: "review", label: "Review" },
 ];
 
-export const REMINDERS_SEARCH_MIN_WIDTH = "calc(var(--space-8)*3.5)";
-
 /* ---------- component ---------- */
 
 export default function Reminders() {
@@ -221,10 +219,7 @@ export default function Reminders() {
           {/* header row (no Quick Add here anymore) */}
           <div className="flex flex-wrap items-center gap-[var(--space-2)] sm:gap-[var(--space-3)] w-full">
             {/* search */}
-            <div
-              className="relative flex-1"
-              style={{ minWidth: REMINDERS_SEARCH_MIN_WIDTH }}
-            >
+            <div className="relative flex-1 min-w-[calc(var(--space-8)*3.5)]">
               <Search
                 aria-hidden
                 className="icon-md pointer-events-none absolute left-[var(--space-4)] top-1/2 -translate-y-1/2 text-muted-foreground opacity-70"
