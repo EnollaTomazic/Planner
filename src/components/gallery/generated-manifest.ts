@@ -2810,6 +2810,21 @@ export const galleryPayload = {
           }
         },
         {
+          "id": "portrait-frame",
+          "name": "PortraitFrame",
+          "description": "Dual-character neumorphic portrait that stages the angel and demon busts with pose variants and theme-aware cinematic lighting.",
+          "tags": [
+            "hero",
+            "portrait",
+            "duo"
+          ],
+          "kind": "complex",
+          "code": "<div className=\"flex flex-wrap items-center justify-center gap-[var(--space-3)]\">\n  <PortraitFrame />\n  <PortraitFrame pose=\"angel-leading\" />\n  <PortraitFrame pose=\"back-to-back\" transparentBackground />\n</div>",
+          "preview": {
+            "id": "prompts:homepage:portrait-frame"
+          }
+        },
+        {
           "id": "welcome-hero-figure",
           "name": "WelcomeHeroFigure",
           "description": "Hero automation figure framed in a haloed neumorphic ring with eager loading tuned for the landing experience.",
@@ -6318,25 +6333,40 @@ export const galleryPayload = {
           "id": "prompts:homepage:hero-planner-cards"
         }
       },
-      {
-        "id": "hero-portrait-frame",
-        "name": "HeroPortraitFrame",
-        "description": "Circular neumorphic portrait frame with lavender glow, glitch accent rim, and configurable `frame` toggle built from semantic tokens.",
-        "tags": [
-          "hero",
-          "portrait",
-          "glitch"
-        ],
-        "kind": "complex",
-        "code": "<div className=\"flex flex-wrap items-center justify-center gap-[var(--space-3)]\">\n  <HeroPortraitFrame\n    imageSrc=\"/hero_image.png\"\n    imageAlt=\"Illustration of the Planner hero floating above a holographic dashboard with full frame treatment\"\n  />\n  <HeroPortraitFrame\n    frame={false}\n    imageSrc=\"/hero_image.png\"\n    imageAlt=\"Illustration of the Planner hero floating above a holographic dashboard without frame treatment\"\n  />\n</div>",
-        "preview": {
-          "id": "prompts:homepage:hero-portrait-frame"
-        }
-      },
-      {
-        "id": "welcome-hero-figure",
-        "name": "WelcomeHeroFigure",
-        "description": "Hero automation figure framed in a haloed neumorphic ring with eager loading tuned for the landing experience.",
+        {
+          "id": "hero-portrait-frame",
+          "name": "HeroPortraitFrame",
+          "description": "Circular neumorphic portrait frame with lavender glow, glitch accent rim, and configurable `frame` toggle built from semantic tokens.",
+          "tags": [
+            "hero",
+            "portrait",
+            "glitch"
+          ],
+          "kind": "complex",
+          "code": "<div className=\"flex flex-wrap items-center justify-center gap-[var(--space-3)]\">\n  <HeroPortraitFrame\n    imageSrc=\"/hero_image.png\"\n    imageAlt=\"Illustration of the Planner hero floating above a holographic dashboard with full frame treatment\"\n  />\n  <HeroPortraitFrame\n    frame={false}\n    imageSrc=\"/hero_image.png\"\n    imageAlt=\"Illustration of the Planner hero floating above a holographic dashboard without frame treatment\"\n  />\n</div>",
+          "preview": {
+            "id": "prompts:homepage:hero-portrait-frame"
+          }
+        },
+        {
+          "id": "portrait-frame",
+          "name": "PortraitFrame",
+          "description": "Dual-character neumorphic portrait that stages the angel and demon busts with pose variants and theme-aware cinematic lighting.",
+          "tags": [
+            "hero",
+            "portrait",
+            "duo"
+          ],
+          "kind": "complex",
+          "code": "<div className=\"flex flex-wrap items-center justify-center gap-[var(--space-3)]\">\n  <PortraitFrame />\n  <PortraitFrame pose=\"angel-leading\" />\n  <PortraitFrame pose=\"back-to-back\" transparentBackground />\n</div>",
+          "preview": {
+            "id": "prompts:homepage:portrait-frame"
+          }
+        },
+        {
+          "id": "welcome-hero-figure",
+          "name": "WelcomeHeroFigure",
+          "description": "Hero automation figure framed in a haloed neumorphic ring with eager loading tuned for the landing experience.",
         "tags": [
           "hero",
           "figure",
@@ -11919,23 +11949,47 @@ export const galleryPreviewRoutes = [
     "themeBackground": 0,
     "axisParams": []
   },
-  {
-    "slug": "section-homepage--entry-hero-portrait-frame--preview-prompts-homepage-hero-portrait-frame--theme-lg",
-    "previewId": "prompts:homepage:hero-portrait-frame",
-    "entryId": "hero-portrait-frame",
-    "entryName": "HeroPortraitFrame",
-    "sectionId": "homepage",
-    "stateId": null,
-    "stateName": null,
-    "themeVariant": "lg",
-    "themeBackground": 0,
-    "axisParams": []
-  },
-  {
-    "slug": "section-homepage--entry-isometric-room--preview-prompts-homepage-isometric-room--theme-aurora",
-    "previewId": "prompts:homepage:isometric-room",
-    "entryId": "isometric-room",
-    "entryName": "IsometricRoom",
+    {
+      "slug": "section-homepage--entry-hero-portrait-frame--preview-prompts-homepage-hero-portrait-frame--theme-lg",
+      "previewId": "prompts:homepage:hero-portrait-frame",
+      "entryId": "hero-portrait-frame",
+      "entryName": "HeroPortraitFrame",
+      "sectionId": "homepage",
+      "stateId": null,
+      "stateName": null,
+      "themeVariant": "lg",
+      "themeBackground": 0,
+      "axisParams": []
+    },
+    {
+      "slug": "section-homepage--entry-portrait-frame--preview-prompts-homepage-portrait-frame--theme-aurora",
+      "previewId": "prompts:homepage:portrait-frame",
+      "entryId": "portrait-frame",
+      "entryName": "PortraitFrame",
+      "sectionId": "homepage",
+      "stateId": null,
+      "stateName": null,
+      "themeVariant": "aurora",
+      "themeBackground": 0,
+      "axisParams": []
+    },
+    {
+      "slug": "section-homepage--entry-portrait-frame--preview-prompts-homepage-portrait-frame--theme-lg",
+      "previewId": "prompts:homepage:portrait-frame",
+      "entryId": "portrait-frame",
+      "entryName": "PortraitFrame",
+      "sectionId": "homepage",
+      "stateId": null,
+      "stateName": null,
+      "themeVariant": "lg",
+      "themeBackground": 0,
+      "axisParams": []
+    },
+    {
+      "slug": "section-homepage--entry-isometric-room--preview-prompts-homepage-isometric-room--theme-aurora",
+      "previewId": "prompts:homepage:isometric-room",
+      "entryId": "isometric-room",
+      "entryName": "IsometricRoom",
     "sectionId": "homepage",
     "stateId": null,
     "stateName": null,
@@ -21458,10 +21512,11 @@ export const galleryPreviewModules = [
       "prompts:homepage:dashboard-card",
       "prompts:homepage:dashboard-list",
       "prompts:homepage:isometric-room",
-      "prompts:homepage:quick-action-grid",
-      "prompts:homepage:hero-planner-cards",
-      "prompts:homepage:hero-portrait-frame",
-      "prompts:homepage:welcome-hero-figure",
+        "prompts:homepage:quick-action-grid",
+        "prompts:homepage:hero-planner-cards",
+        "prompts:homepage:hero-portrait-frame",
+        "prompts:homepage:portrait-frame",
+        "prompts:homepage:welcome-hero-figure",
       "prompts:reviews:review-surface",
       "prompts:reviews:review-slider-track",
       "prompts:reviews:score-meter",

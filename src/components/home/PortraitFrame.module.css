@@ -1,0 +1,244 @@
+.stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: calc(var(--space-2) * 1.1);
+  overflow: visible;
+  isolation: isolate;
+  background: radial-gradient(
+    circle at 50% 92%,
+    hsl(var(--accent-2) / 0.24),
+    hsl(var(--surface) / 0.86) 70%,
+    transparent 92%
+  );
+  box-shadow:
+    inset 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--card-hairline) / 0.4),
+    inset 0 calc(var(--spacing-1) * -1) calc(var(--spacing-3))
+      hsl(var(--shadow-color) / 0.3);
+}
+
+.innerTransparent {
+  background: transparent;
+  box-shadow: none;
+}
+
+.stageTransparent {
+  background: transparent;
+  box-shadow: none;
+}
+
+.rimLighting {
+  position: absolute;
+  inset: calc(var(--space-1) * -0.4);
+  border-radius: inherit;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle at 50% 18%,
+    hsl(var(--highlight) / 0.5),
+    transparent 70%
+  );
+  opacity: 0.6;
+}
+
+.character {
+  position: absolute;
+  bottom: calc(var(--space-1) * -0.3);
+  width: 58%;
+  aspect-ratio: 3 / 4;
+  transform-origin: center bottom;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  filter: drop-shadow(0 0 calc(var(--space-1)) hsl(var(--shadow-color) / 0.32));
+  transition: transform var(--dur-chill) var(--ease-out),
+    opacity var(--dur-chill) var(--ease-out),
+    filter var(--dur-chill) var(--ease-out);
+}
+
+.character::before,
+.character::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.characterBody {
+  position: absolute;
+  inset: 28% 16% 4% 16%;
+  border-radius: 46% 46% 56% 56% / 60% 60% 40% 40%;
+  background: linear-gradient(152deg, var(--portrait-body-start), var(--portrait-body-end));
+  box-shadow:
+    0 0 0 calc(var(--hairline-w) * 2) hsl(var(--card-hairline) / 0.55),
+    0 calc(var(--spacing-1) / 2) calc(var(--spacing-3) / 1.2)
+      hsl(var(--shadow-color) / 0.45);
+  opacity: 0.95;
+  z-index: 1;
+}
+
+.characterHead {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  translate: -50% 0;
+  width: 46%;
+  aspect-ratio: 1;
+  border-radius: 44% 44% 50% 50%;
+  background:
+    radial-gradient(circle at 50% 28%, var(--portrait-head-highlight), transparent 72%),
+    radial-gradient(circle at 50% 60%, var(--portrait-head-core), transparent 85%);
+  box-shadow:
+    0 0 0 calc(var(--hairline-w) * 1.6) hsl(var(--card-hairline) / 0.45),
+    var(--shadow-glow-sm);
+  z-index: 3;
+}
+
+.characterCollar {
+  position: absolute;
+  inset: auto 24% 16% 24%;
+  height: 18%;
+  border-radius: 50% / 90% 90% 30% 30%;
+  background: linear-gradient(160deg, var(--portrait-collar-start), var(--portrait-collar-end));
+  box-shadow: 0 0 0 calc(var(--hairline-w) * 1.2) hsl(var(--card-hairline) / 0.35);
+  z-index: 2;
+}
+
+.layerFront {
+  z-index: 2;
+}
+
+.layerRear {
+  z-index: 1;
+}
+
+.layerDimmed {
+  opacity: 0.84;
+  filter: saturate(0.82) drop-shadow(0 0 calc(var(--space-1)) hsl(var(--shadow-color) / 0.26));
+}
+
+.angel {
+  --portrait-body-start: hsl(var(--accent-2) / 0.95);
+  --portrait-body-end: hsl(var(--accent) / 0.55);
+  --portrait-head-core: hsl(var(--highlight) / 0.78);
+  --portrait-head-highlight: hsl(var(--accent-2) / 0.32);
+  --portrait-collar-start: hsl(var(--accent) / 0.52);
+  --portrait-collar-end: hsl(var(--accent-2) / 0.46);
+}
+
+.angelWings {
+  position: absolute;
+  inset: 12% -6% 22% -6%;
+  border-radius: 48% 48% 58% 58% / 70% 70% 46% 46%;
+  background:
+    radial-gradient(120% 120% at 0% 40%, hsl(var(--highlight) / 0.28), transparent 64%),
+    radial-gradient(120% 120% at 100% 40%, hsl(var(--highlight) / 0.28), transparent 64%),
+    radial-gradient(140% 110% at 50% 50%, hsl(var(--accent-2) / 0.32), transparent 72%);
+  opacity: 0.88;
+  filter: drop-shadow(0 0 calc(var(--space-2)) hsl(var(--glow-active)))
+    drop-shadow(0 calc(var(--spacing-1) / 2) calc(var(--spacing-3) / 1.4) hsl(var(--accent-2) / 0.25));
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+
+.demon {
+  --portrait-body-start: hsl(var(--lav-deep) / 0.92);
+  --portrait-body-end: hsl(var(--accent) / 0.68);
+  --portrait-head-core: hsl(var(--accent) / 0.62);
+  --portrait-head-highlight: hsl(var(--lav-deep) / 0.32);
+  --portrait-collar-start: hsl(var(--accent) / 0.64);
+  --portrait-collar-end: hsl(var(--accent-2) / 0.52);
+}
+
+.demonHorns {
+  position: absolute;
+  top: 4%;
+  left: 50%;
+  translate: -50% 0;
+  width: 68%;
+  height: 32%;
+}
+
+.demonHorns::before,
+.demonHorns::after {
+  content: "";
+  position: absolute;
+  top: 4%;
+  width: 42%;
+  height: 92%;
+  border-radius: 70% 70% 0 40%;
+  background: linear-gradient(165deg, hsl(var(--lav-deep) / 0.9), hsl(var(--accent) / 0.7));
+  box-shadow: 0 0 0 calc(var(--hairline-w) * 1.2) hsl(var(--card-hairline) / 0.4);
+  filter: drop-shadow(0 calc(var(--spacing-1) / 2) calc(var(--spacing-3) / 1.8) hsl(var(--accent) / 0.45));
+  z-index: 2;
+}
+
+.demonHorns::before {
+  left: 0;
+  transform: rotate(-12deg);
+}
+
+.demonHorns::after {
+  right: 0;
+  transform: rotate(12deg);
+}
+
+.poseDuoAngel {
+  transform: translate(-26%, 6%) scale(0.94);
+}
+
+.poseDuoDemon {
+  transform: translate(26%, 10%) scale(1.02);
+}
+
+.poseAngelLeadingAngel {
+  transform: translate(-12%, 4%) scale(1.04);
+}
+
+.poseAngelLeadingDemon {
+  transform: translate(34%, 12%) scale(0.9);
+}
+
+.poseDemonLeadingAngel {
+  transform: translate(-34%, 10%) scale(0.9);
+}
+
+.poseDemonLeadingDemon {
+  transform: translate(12%, 6%) scale(1.05);
+}
+
+.poseBackToBackAngel {
+  transform: translate(-18%, 8%) scale(0.96) rotate(-6deg);
+}
+
+.poseBackToBackDemon {
+  transform: translate(18%, 12%) scale(0.98) rotate(6deg);
+}
+
+.stageBackToBack {
+  background: radial-gradient(
+      circle at 36% 26%,
+      hsl(var(--accent-2) / 0.18),
+      transparent 72%
+    ),
+    radial-gradient(
+      circle at 64% 24%,
+      hsl(var(--lav-deep) / 0.2),
+      transparent 78%
+    ),
+    radial-gradient(
+      circle at 50% 92%,
+      hsl(var(--accent-2) / 0.2),
+      hsl(var(--surface) / 0.84) 72%,
+      transparent 92%
+    );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .character {
+    transition: none;
+  }
+}

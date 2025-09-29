@@ -13,6 +13,8 @@ export { default as IsometricRoom } from "./IsometricRoom";
 export { default as HeroPlannerCards } from "./HeroPlannerCards";
 export { default as HeroPortraitFrame } from "./HeroPortraitFrame";
 export type { HeroPortraitFrameProps } from "./HeroPortraitFrame";
+export { default as PortraitFrame } from "./PortraitFrame";
+export type { PortraitFrameProps, PoseVariant } from "./PortraitFrame";
 export { default as WelcomeHeroFigure } from "./WelcomeHeroFigure";
 export { default as HomeSplash } from "./HomeSplash";
 export {

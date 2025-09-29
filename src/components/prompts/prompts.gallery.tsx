@@ -75,6 +75,7 @@ import {
   IsometricRoom,
   QuickActionGrid,
   HeroPortraitFrame,
+  PortraitFrame,
   WelcomeHeroFigure,
 } from "@/components/home";
 import { NAV_ITEMS, type NavItem } from "@/components/chrome/nav-items";
@@ -4042,6 +4043,25 @@ React.useEffect(() => {
     imageSrc="/hero_image.png"
     imageAlt="Illustration of the Planner hero floating above a holographic dashboard without frame treatment"
   />
+</div>`,
+    },
+    {
+      id: "portrait-frame",
+      name: "PortraitFrame",
+      description:
+        "Dual-character neumorphic portrait that stages the angel and demon busts with pose variants and theme-aware cinematic lighting.",
+      element: (
+        <div className="flex flex-wrap items-center justify-center gap-[var(--space-3)]">
+          <PortraitFrame />
+          <PortraitFrame pose="angel-leading" />
+          <PortraitFrame pose="back-to-back" transparentBackground />
+        </div>
+      ),
+      tags: ["hero", "portrait", "duo"],
+      code: `<div className="flex flex-wrap items-center justify-center gap-[var(--space-3)]">
+  <PortraitFrame />
+  <PortraitFrame pose="angel-leading" />
+  <PortraitFrame pose="back-to-back" transparentBackground />
 </div>`,
     },
     {
