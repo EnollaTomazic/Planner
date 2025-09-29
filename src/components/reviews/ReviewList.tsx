@@ -170,7 +170,7 @@ export default function ReviewList({
 
   const interactiveRingClass =
     hoverRing &&
-    "hover:ring-2 hover:ring-[var(--focus)] focus-within:ring-2 focus-within:ring-[var(--focus)]";
+    "hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))] focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))]";
 
   const containerClass = cn(
     "w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle",

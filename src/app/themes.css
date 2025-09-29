@@ -71,7 +71,7 @@
   --btn-bg: transparent;
   --btn-fg: hsl(var(--foreground));
   --hover: hsl(var(--foreground) / 0.08);
-  --focus: hsl(var(--ring));
+  --focus: var(--theme-ring);
   --active: hsl(var(--foreground) / 0.12);
   --disabled: 0.5;
   --loading: 0.6;
@@ -246,14 +246,6 @@
   --spacing-0-25: calc(var(--spacing-1) / 4);
   --spacing-0-5: calc(var(--spacing-1) / 2);
   --spacing-0-75: calc(var(--spacing-1) * 0.75);
-  --spacing-1: 4px;
-  --spacing-2: 8px;
-  --spacing-3: 12px;
-  --spacing-4: 16px;
-  --spacing-5: 24px;
-  --spacing-6: 32px;
-  --spacing-7: 48px;
-  --spacing-8: 64px;
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;
