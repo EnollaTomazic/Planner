@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import clsx from "clsx";
 import { Check, Copy } from "lucide-react";
 
 import {
@@ -14,6 +13,7 @@ import type { DesignTokenGroup } from "@/components/gallery/types";
 import { copyText } from "@/lib/clipboard";
 import { useTheme } from "@/lib/theme-context";
 import styles from "./ColorsView.module.css";
+import { useScopedCss } from "@/lib/useScopedCss";
 import {
   isTokenSelected,
   toggleTokenOverride,
@@ -141,8 +141,90 @@ export default function ColorsView({ groups }: ColorsViewProps) {
     };
   }, []);
 
+  const previewCss = useScopedCss({
+    attribute: "data-token-preview-scope",
+    generator: React.useCallback(
+      (scopeSelector: string) => {
+        const declarations: string[] = [];
+
+        const addDeclaration = (
+          previewType: string,
+          tokenName: string,
+          property: string,
+          value: string,
+        ) => {
+          declarations.push(
+            `${scopeSelector} [data-preview-type="${previewType}"][data-preview-id="${tokenName}"] { ${property}: ${value}; }`,
+          );
+        };
+
+        for (const group of groups) {
+          for (const token of group.tokens) {
+            switch (token.category) {
+              case "color":
+                addDeclaration(
+                  "color",
+                  token.name,
+                  "--preview-color",
+                  getColorPreviewValue(token),
+                );
+                break;
+              case "spacing":
+                addDeclaration(
+                  "spacing",
+                  token.name,
+                  "--preview-spacing",
+                  `var(${token.cssVar})`,
+                );
+                break;
+              case "radius":
+                addDeclaration(
+                  "radius",
+                  token.name,
+                  "--preview-radius",
+                  `var(${token.cssVar})`,
+                );
+                break;
+              case "shadow":
+                addDeclaration(
+                  "shadow",
+                  token.name,
+                  "--preview-shadow",
+                  `var(${token.cssVar})`,
+                );
+                break;
+              case "typography":
+                addDeclaration(
+                  "typography",
+                  token.name,
+                  isFontWeightToken(token)
+                    ? "--preview-font-weight"
+                    : "--preview-font-size",
+                  `var(${token.cssVar})`,
+                );
+                break;
+              default:
+                break;
+            }
+          }
+        }
+
+        if (declarations.length === 0) {
+          return null;
+        }
+
+        return declarations.join("\n");
+      },
+      [groups],
+    ),
+  });
+
   return (
-    <div className="space-y-[var(--space-6)]">
+    <div
+      className="space-y-[var(--space-6)]"
+      data-token-preview-scope={previewCss.scopeValue}
+    >
+      {previewCss.styles}
       <header className="space-y-[var(--space-3)]">
         <div className="flex flex-col gap-[var(--space-3)] md:flex-row md:items-end md:justify-between">
           <div className="space-y-[var(--space-2)]">
@@ -380,17 +462,15 @@ function ColorPreview({ name }: { name: string }) {
   }, [bg, name, variant]);
 
   return (
-    <div
-      className="relative h-[var(--space-8)] w-full overflow-hidden rounded-card r-card-md border border-[var(--card-hairline)]"
-      aria-hidden="true"
-    >
+    <div className={styles.colorPreviewFrame} aria-hidden="true">
       {isTranslucent ? (
         <div aria-hidden="true" className={styles.checkerboard} />
       ) : null}
       <div
         ref={swatchRef}
-        className={clsx("relative h-full w-full", styles.swatchFill)}
-        data-token={name}
+        className={styles.colorSwatch}
+        data-preview-id={name}
+        data-preview-type="color"
       />
     </div>
   );
@@ -398,16 +478,11 @@ function ColorPreview({ name }: { name: string }) {
 
 function SpacingPreview({ name }: { name: string }) {
   return (
-    <div
-      className="mt-[var(--space-2)] h-[var(--space-2)] w-full overflow-hidden rounded-full bg-[hsl(var(--foreground)/0.08)]"
-      aria-hidden="true"
-    >
+    <div className={styles.spacingTrack} aria-hidden="true">
       <div
-        className={clsx(
-          "h-full rounded-full bg-[hsl(var(--accent-2)/0.65)]",
-          styles.spacingBar,
-        )}
-        data-token={name}
+        className={styles.spacingBar}
+        data-preview-id={name}
+        data-preview-type="spacing"
       />
     </div>
   );
@@ -415,16 +490,11 @@ function SpacingPreview({ name }: { name: string }) {
 
 function RadiusPreview({ name }: { name: string }) {
   return (
-    <div
-      className="mt-[var(--space-2)] flex w-full justify-center"
-      aria-hidden="true"
-    >
+    <div className={styles.radiusFrame} aria-hidden="true">
       <div
-        className={clsx(
-          "aspect-square w-full max-w-[var(--space-8)] overflow-hidden rounded-[var(--radius-md)] border border-[var(--card-hairline)] bg-panel/70",
-          styles.radiusDemo,
-        )}
-        data-token={name}
+        className={styles.radiusDemo}
+        data-preview-id={name}
+        data-preview-type="radius"
       />
     </div>
   );
@@ -432,16 +502,11 @@ function RadiusPreview({ name }: { name: string }) {
 
 function ShadowPreview({ name }: { name: string }) {
   return (
-    <div
-      className="mt-[var(--space-2)] flex w-full justify-center"
-      aria-hidden="true"
-    >
+    <div className={styles.shadowFrame} aria-hidden="true">
       <div
-        className={clsx(
-          "h-[var(--space-7)] w-full rounded-card border border-[var(--card-hairline)] bg-panel/70",
-          styles.shadowDemo,
-        )}
-        data-token={name}
+        className={styles.shadowDemo}
+        data-preview-id={name}
+        data-preview-type="shadow"
       />
     </div>
   );
@@ -450,14 +515,47 @@ function ShadowPreview({ name }: { name: string }) {
 function TypographyPreview({ token }: { token: TokenMeta }) {
   return (
     <div
-      className={clsx(
-        "mt-[var(--space-2)] rounded-card border border-[var(--card-hairline)] bg-panel/60 px-[var(--space-3)] py-[var(--space-2)] text-ui font-semibold text-foreground",
-        styles.typographyPreview,
-      )}
-      data-token={token.name}
+      className={styles.typographyPreview}
+      data-preview-id={token.name}
+      data-preview-type="typography"
       aria-hidden="true"
     >
       Aa
     </div>
   );
+}
+
+function getColorPreviewValue(token: TokenMeta): string {
+  const value = token.value.trim().toLowerCase();
+
+  if (!value) {
+    return `var(${token.cssVar})`;
+  }
+
+  const usesColorFunction =
+    value.includes("hsl(") ||
+    value.includes("hsla(") ||
+    value.includes("rgb(") ||
+    value.includes("rgba(") ||
+    value.includes("gradient(") ||
+    value.includes("color-mix(") ||
+    value.includes("url(");
+
+  if (
+    usesColorFunction ||
+    value === "transparent" ||
+    value === "currentcolor" ||
+    value === "inherit" ||
+    value === "initial" ||
+    value === "none" ||
+    value.startsWith("#")
+  ) {
+    return `var(${token.cssVar})`;
+  }
+
+  return `hsl(var(${token.cssVar}))`;
+}
+
+function isFontWeightToken(token: TokenMeta): boolean {
+  return token.name.includes("weight");
 }

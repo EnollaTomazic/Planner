@@ -4,6 +4,7 @@ import * as React from "react";
 import { TabBar, type TabItem } from "@/components/ui";
 import { COLOR_PALETTES, type ColorPalette } from "@/lib/theme";
 import styles from "./ColorGallery.module.css";
+import { useScopedCss } from "@/lib/useScopedCss";
 
 const paletteTabs: TabItem<ColorPalette>[] = [
   { key: "aurora", label: "Aurora" },
@@ -42,8 +43,47 @@ export default function ColorGallery() {
     panelRefs.current[palette]?.focus();
   }, [palette]);
 
+  const scopedCss = useScopedCss({
+    attribute: "data-color-gallery-scope",
+    generator: React.useCallback((scopeSelector: string) => {
+      const declarations: string[] = [];
+
+      const registerPaletteToken = (token: string) => {
+        declarations.push(
+          `${scopeSelector} [data-preview-type="palette"][data-preview-id="${token}"] { --palette-color: ${getPaletteColorValue(token)}; }`,
+        );
+      };
+
+      for (const paletteTokens of Object.values(COLOR_PALETTES)) {
+        for (const token of paletteTokens) {
+          registerPaletteToken(token);
+        }
+      }
+
+      for (const { key } of statusSwatches) {
+        const selector = `${scopeSelector} [data-preview-type="status"][data-preview-id="${key}"]`;
+
+        if (key === "success") {
+          declarations.push(
+            `${selector} { --status-fill: hsl(var(--success)); --status-shadow: var(--elevation-2), 0 0 var(--space-4) hsl(var(--success-glow)); }`,
+          );
+        } else if (key === "warning") {
+          declarations.push(
+            `${selector} { --status-fill: hsl(var(--warning)); --status-shadow: var(--elevation-2); }`,
+          );
+        }
+      }
+
+      return declarations.join("\n");
+    }, []),
+  });
+
   return (
-    <div className="flex flex-col gap-[var(--space-8)]">
+    <div
+      className="flex flex-col gap-[var(--space-8)]"
+      data-color-gallery-scope={scopedCss.scopeValue}
+    >
+      {scopedCss.styles}
       <TabBar
         items={paletteTabs}
         value={palette}
@@ -68,20 +108,24 @@ export default function ColorGallery() {
               <span className="text-ui font-medium">Aurora Palette</span>
               <div className="flex gap-[var(--space-2)]">
                 <div
-                  className={`rounded-[var(--radius-md)] ${styles.auroraSwatch}`}
-                  data-palette="aurora-g"
+                  className={styles.auroraSwatch}
+                  data-preview-id="aurora-g"
+                  data-preview-type="palette"
                 />
                 <div
-                  className={`rounded-[var(--radius-md)] ${styles.auroraSwatch}`}
-                  data-palette="aurora-g-light"
+                  className={styles.auroraSwatch}
+                  data-preview-id="aurora-g-light"
+                  data-preview-type="palette"
                 />
                 <div
-                  className={`rounded-[var(--radius-md)] ${styles.auroraSwatch}`}
-                  data-palette="aurora-p"
+                  className={styles.auroraSwatch}
+                  data-preview-id="aurora-p"
+                  data-preview-type="palette"
                 />
                 <div
-                  className={`rounded-[var(--radius-md)] ${styles.auroraSwatch}`}
-                  data-palette="aurora-p-light"
+                  className={styles.auroraSwatch}
+                  data-preview-id="aurora-p-light"
+                  data-preview-type="palette"
                 />
               </div>
               <p className="mt-2 text-center text-label text-muted-foreground">
@@ -97,8 +141,9 @@ export default function ColorGallery() {
                 {c}
               </span>
               <div
-                className={`rounded-[var(--radius-lg)] border ${styles.paletteSwatch}`}
-                data-palette={c}
+                className={styles.paletteSwatch}
+                data-preview-id={c}
+                data-preview-type="palette"
               />
             </div>
           ))}
@@ -111,8 +156,9 @@ export default function ColorGallery() {
                 {statusSwatches.map((swatch) => (
                   <div
                     key={swatch.key}
-                    data-status={swatch.key}
-                    className="flex flex-col gap-[var(--space-2)] rounded-[var(--radius-xl)] border border-border/35 p-[var(--space-4)]"
+                    data-preview-id={swatch.key}
+                    data-preview-type="status"
+                    className={`${styles.statusCard} flex flex-col gap-[var(--space-2)] p-[var(--space-4)]`}
                   >
                     <span className="text-label uppercase tracking-wide opacity-80">
                       {swatch.label}
@@ -127,4 +173,8 @@ export default function ColorGallery() {
       ))}
     </div>
   );
+}
+
+function getPaletteColorValue(token: string): string {
+  return `var(--${token}-color, hsl(var(--${token})))`;
 }
