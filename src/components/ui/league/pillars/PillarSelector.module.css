@@ -1,0 +1,22 @@
+.indicator {
+  transition: background-color 160ms ease;
+}
+
+.button[data-active="true"] {
+  --pillar-indicator-gradient: linear-gradient(
+    90deg,
+    hsl(var(--primary) / 0.18),
+    hsl(var(--accent) / 0.18)
+  );
+  background: var(--pillar-indicator-gradient);
+}
+
+.button[data-active="true"] .indicator {
+  background: var(--accent-overlay);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    transition: none;
+  }
+}
