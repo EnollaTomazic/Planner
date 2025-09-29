@@ -1,5 +1,67 @@
 import { fromISODate, toISODate } from "@/lib/date";
-import type { DayRecord, DayTask, ISODate, Project } from "./plannerTypes";
+import type {
+  DayRecord,
+  DayTask,
+  ISODate,
+  Project,
+  TaskReminder,
+} from "./plannerTypes";
+
+const TIME_24H_REGEX = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
+
+export function sanitizeTaskReminder(
+  reminder: Partial<TaskReminder> | TaskReminder | null | undefined,
+): TaskReminder | undefined {
+  if (!reminder) return undefined;
+
+  const rawReminderId = reminder.reminderId;
+  const reminderId =
+    typeof rawReminderId === "string" && rawReminderId.trim().length > 0
+      ? rawReminderId.trim()
+      : undefined;
+
+  const rawTime = reminder.time;
+  const time =
+    typeof rawTime === "string" && TIME_24H_REGEX.test(rawTime)
+      ? rawTime
+      : undefined;
+
+  const rawLead = reminder.leadMinutes;
+  const leadMinutes =
+    typeof rawLead === "number" && Number.isFinite(rawLead) && rawLead >= 0
+      ? Math.min(24 * 60, Math.round(rawLead))
+      : undefined;
+
+  const hasEnabled = typeof reminder.enabled === "boolean";
+  const enabled = hasEnabled
+    ? reminder.enabled === true
+    : Boolean(reminderId || time || leadMinutes !== undefined);
+
+  if (!enabled && !reminderId && !time && leadMinutes === undefined) {
+    return undefined;
+  }
+
+  return {
+    enabled,
+    ...(reminderId ? { reminderId } : {}),
+    ...(time ? { time } : {}),
+    ...(leadMinutes !== undefined ? { leadMinutes } : {}),
+  } satisfies TaskReminder;
+}
+
+export function taskRemindersEqual(
+  a?: TaskReminder,
+  b?: TaskReminder,
+): boolean {
+  if (a === b) return true;
+  if (!a || !b) return false;
+  return (
+    a.enabled === b.enabled &&
+    (a.reminderId ?? undefined) === (b.reminderId ?? undefined) &&
+    (a.time ?? undefined) === (b.time ?? undefined) &&
+    (a.leadMinutes ?? undefined) === (b.leadMinutes ?? undefined)
+  );
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -48,6 +110,12 @@ function decodeTask(value: unknown): DayTask | null {
   if (typeof createdAt !== "number" || !Number.isFinite(createdAt)) return null;
   const projectId = value["projectId"];
   const images = decodeImages(value["images"]);
+  const rawReminder = value["reminder"];
+  const reminder = sanitizeTaskReminder(
+    isRecord(rawReminder)
+      ? (rawReminder as Partial<TaskReminder>)
+      : undefined,
+  );
   return {
     id,
     title,
@@ -55,6 +123,7 @@ function decodeTask(value: unknown): DayTask | null {
     createdAt,
     ...(typeof projectId === "string" ? { projectId } : {}),
     images,
+    ...(reminder ? { reminder } : {}),
   };
 }
 
@@ -270,21 +339,40 @@ export function ensureDay(map: Record<ISODate, DayRecord>, date: ISODate): DayRe
 
   for (let i = 0; i < tasks.length; i += 1) {
     const task = tasks[i];
+    let nextTask = task;
+    let mutatedTask = false;
+
     const rawImages = (task as { images: unknown }).images;
     const hasValidImages =
       Array.isArray(rawImages) &&
       rawImages.every((image) => typeof image === "string");
 
-    if (hasValidImages) continue;
+    if (!hasValidImages) {
+      const normalizedImages = decodeImages(rawImages);
+      mutatedTask = true;
+      nextTask = { ...nextTask, images: normalizedImages };
+    }
 
-    const normalizedImages = decodeImages(rawImages);
+    const normalizedReminder = sanitizeTaskReminder(task.reminder);
+    if (!taskRemindersEqual(task.reminder, normalizedReminder)) {
+      mutatedTask = true;
+      if (normalizedReminder) {
+        nextTask = { ...nextTask, reminder: normalizedReminder };
+      } else {
+        const rest: DayTask = { ...nextTask };
+        delete rest.reminder;
+        nextTask = rest;
+      }
+    }
+
+    if (!mutatedTask) continue;
 
     if (!tasksChanged) {
       tasksChanged = true;
       tasks = tasks.slice();
     }
 
-    tasks[i] = { ...task, images: normalizedImages };
+    tasks[i] = nextTask;
   }
 
   const { tasksById: nextTasksById, tasksByProject: nextTasksByProject } =

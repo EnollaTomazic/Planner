@@ -8,6 +8,7 @@ export type VirtualizedSpacerRenderProps = {
   ariaHiddenProps: {
     "aria-hidden": true;
   };
+  style: React.CSSProperties;
 };
 
 type VirtualizedSpacerProps = {
@@ -52,28 +53,23 @@ export function VirtualizedSpacer({
     () => ({ "aria-hidden": true as const }),
     [],
   );
-  const selector = React.useMemo(
-    () => `[data-spacer-id="${spacerId}"]`,
-    [spacerId],
-  );
-  const blockSize = React.useMemo(
-    () => `${Math.max(0, height)}px`,
-    [height],
+  const blockSize = React.useMemo(() => Math.max(0, height), [height]);
+  const style = React.useMemo<React.CSSProperties>(
+    () => ({ blockSize: `${blockSize}px`, height: `${blockSize}px` }),
+    [blockSize],
   );
 
   return (
     <>
       {render ? (
-        render({ position, spacerId, ariaHiddenProps })
+        render({ position, spacerId, ariaHiddenProps, style })
       ) : (
-        <div {...ariaHiddenProps} data-spacer-id={spacerId} />
+        <div
+          {...ariaHiddenProps}
+          data-spacer-id={spacerId}
+          style={style}
+        />
       )}
-      <style jsx>{`
-        ${selector} {
-          block-size: ${blockSize};
-          height: ${blockSize};
-        }
-      `}</style>
     </>
   );
 }

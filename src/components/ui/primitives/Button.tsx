@@ -7,6 +7,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
 import { cn, withBasePath } from "@/lib/utils";
 import Spinner, { type SpinnerTone, type SpinnerSize } from "../feedback/Spinner";
+import neumorphicStyles from "../neumorphic.module.css";
 import { neuRaised, neuInset } from "./Neu";
 import styles from "./Button.module.css";
 
@@ -107,14 +108,24 @@ const toneForegroundVar: Record<Tone, string> = {
 };
 
 const toneInteractionTokens: Record<Tone, string> = {
-  primary:
-    "[--hover:theme('colors.interaction.primary.hover')] [--active:theme('colors.interaction.primary.active')]",
-  accent:
-    "[--hover:theme('colors.interaction.accent.hover')] [--active:theme('colors.interaction.accent.active')]",
-  info:
-    "[--hover:theme('colors.interaction.info.hover')] [--active:theme('colors.interaction.info.active')]",
-  danger:
-    "[--hover:theme('colors.interaction.danger.hover')] [--active:theme('colors.interaction.danger.active')]",
+  primary: "[--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)]",
+  accent: "[--hover:hsl(var(--accent)/0.14)] [--active:hsl(var(--accent)/0.2)]",
+  info: "[--hover:hsl(var(--accent-2)/0.14)] [--active:hsl(var(--accent-2)/0.2)]",
+  danger: "[--hover:hsl(var(--danger)/0.14)] [--active:hsl(var(--danger)/0.2)]",
+};
+
+const secondarySurfaceTokens: Record<Tone, string> = {
+  primary: "[--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)]",
+  accent: "[--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.2)]",
+  info: "[--hover:hsl(var(--accent-2)/0.2)] [--active:hsl(var(--accent-2)/0.15)]",
+  danger: "[--hover:hsl(var(--danger)/0.14)] [--active:hsl(var(--danger)/0.2)]",
+};
+
+const ghostSurfaceTokens: Record<Tone, string> = {
+  primary: "[--hover:hsl(var(--background)/0.8)] [--active:hsl(var(--background))]",
+  accent: "[--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
+  info: "[--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
+  danger: "[--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",
 };
 
 export const toneClasses: Record<
@@ -128,23 +139,52 @@ export const toneClasses: Record<
     danger: toneInteractionTokens.danger,
   },
   secondary: {
-    primary:
-      "text-muted-foreground bg-panel/60 [--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)] hover:text-foreground active:text-foreground focus-visible:text-foreground",
-    accent:
-      "text-on-accent bg-accent/30 [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.2)]",
-    info:
-      "text-on-accent bg-accent-2/25 [--hover:hsl(var(--accent-2)/0.2)] [--active:hsl(var(--accent-2)/0.15)]",
-    danger: `${toneInteractionTokens.danger} text-[hsl(var(--danger-tint-foreground))] bg-danger/25`,
+    primary: cn(
+      secondarySurfaceTokens.primary,
+      "text-muted-foreground hover:text-foreground active:text-foreground focus-visible:text-foreground",
+      "[--neu-surface:hsl(var(--panel)/0.6)]",
+    ),
+    accent: cn(
+      secondarySurfaceTokens.accent,
+      "text-on-accent",
+      "[--neu-surface:hsl(var(--accent)/0.3)]",
+    ),
+    info: cn(
+      secondarySurfaceTokens.info,
+      "text-on-accent",
+      "[--neu-surface:hsl(var(--accent-2)/0.25)]",
+    ),
+    danger: cn(
+      secondarySurfaceTokens.danger,
+      "text-[hsl(var(--danger-tint-foreground))]",
+      "[--neu-surface:hsl(var(--danger)/0.25)]",
+    ),
   },
   ghost: {
-    primary:
-      "text-foreground bg-card/60 [--hover:hsl(var(--background)/0.8)] [--active:hsl(var(--background))]",
-    accent:
-      "text-on-accent bg-accent/20 [--hover:theme('colors.interaction.accent.surfaceHover')] [--active:theme('colors.interaction.accent.surfaceActive')]",
-    info:
-      "text-on-accent bg-accent-2/20 [--hover:theme('colors.interaction.info.surfaceHover')] [--active:theme('colors.interaction.info.surfaceActive')]",
-    danger:
-      "text-danger [--hover:theme('colors.interaction.danger.tintHover')] [--active:theme('colors.interaction.danger.tintActive')]",
+    primary: cn(
+      ghostSurfaceTokens.primary,
+      "text-foreground",
+      "[--neu-surface:hsl(var(--card)/0.6)]",
+      "border-[hsl(var(--line)/0.35)]",
+    ),
+    accent: cn(
+      ghostSurfaceTokens.accent,
+      "text-on-accent",
+      "[--neu-surface:hsl(var(--accent)/0.2)]",
+      "border-accent/35",
+    ),
+    info: cn(
+      ghostSurfaceTokens.info,
+      "text-on-accent",
+      "[--neu-surface:hsl(var(--accent-2)/0.2)]",
+      "border-accent-2/35",
+    ),
+    danger: cn(
+      ghostSurfaceTokens.danger,
+      "text-danger",
+      "[--neu-surface:hsl(var(--danger)/0.12)]",
+      "border-danger/35",
+    ),
   },
 };
 
@@ -167,13 +207,13 @@ export const variants: Record<
 > = {
   primary: ({ tone, tactile }) => ({
     className: cn(
-      "shadow-[var(--btn-primary-shadow-rest)] hover:shadow-[var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)]",
+      "[--neo-shadow:var(--btn-primary-shadow-rest)] [--neo-shadow-hover:var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)]",
       tactile
         ? "active:translate-y-0"
         : "active:translate-y-[var(--spacing-0-25)]",
       tone === "primary"
-        ? "bg-primary-soft"
-        : `bg-[hsl(var(${colorVar[tone]})/0.12)]`,
+        ? "[--neu-surface:hsl(var(--primary-soft))]"
+        : `[--neu-surface:hsl(var(${colorVar[tone]})/0.12)]`,
       `border-[hsl(var(${colorVar[tone]})/0.35)]`,
       tone === "accent" || tone === "info"
         ? "text-on-accent"
@@ -187,7 +227,7 @@ export const variants: Record<
   }),
   secondary: ({ tactile }) => ({
     className: cn(
-      "bg-panel/80 shadow-[var(--btn-secondary-shadow-rest)] hover:shadow-[var(--btn-secondary-shadow-hover)] active:shadow-[var(--btn-secondary-shadow-active)]",
+      "[--neu-surface:hsl(var(--panel)/0.8)] [--neo-shadow:var(--btn-secondary-shadow-rest)] [--neo-shadow-hover:var(--btn-secondary-shadow-hover)] active:shadow-[var(--btn-secondary-shadow-active)]",
       tactile && "active:translate-y-0",
     ),
     whileHover: tactile
@@ -201,7 +241,7 @@ export const variants: Record<
         },
   }),
   ghost: () => ({
-    className: "bg-transparent",
+    className: "",
     whileTap: { scale: 0.97 },
   }),
 } as const;
@@ -232,9 +272,12 @@ export const Button = React.forwardRef<
   const s = buttonSizes[size];
   const spinnerSize = buttonSpinnerSizes[size];
   const base = cn(
+    neumorphicStyles.neu,
+    neumorphicStyles["neu-hover"],
     styles.root,
     "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
     "data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none",
+    "[--neu-radius:var(--control-radius)]",
     s.height,
     s.padding,
     s.text,
