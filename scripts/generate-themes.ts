@@ -10,6 +10,7 @@ import type {
   TokenValue,
   VariableDefinition,
 } from "./themes.ts";
+import type { Declaration, Root, Rule } from "postcss";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -136,6 +137,36 @@ function renderRootBlock(definitions: VariableDefinition[]): string {
   return lines.join("\n");
 }
 
+function dedupeSpacingScale(root: Root): void {
+  const spacingNames = new Set(
+    Array.from({ length: 8 }, (_, index) => `spacing-${index + 1}`),
+  );
+
+  const isRootLevel = (rule: Rule): boolean => rule.parent?.type === "root";
+
+  root.walkRules((rule) => {
+    if (rule.selector !== ":root" || !isRootLevel(rule)) {
+      return;
+    }
+
+    const seen = new Set<string>();
+    rule.walkDecls((decl: Declaration) => {
+      if (!decl.prop.startsWith("--")) {
+        return;
+      }
+      const name = decl.prop.slice(2);
+      if (!spacingNames.has(name)) {
+        return;
+      }
+      if (seen.has(name)) {
+        decl.remove();
+        return;
+      }
+      seen.add(name);
+    });
+  });
+}
+
 function renderTheme(theme: ThemeDefinition): string {
   const lines = [
     `/* ---------- ${theme.label} ---------- */`,
@@ -168,7 +199,9 @@ async function main(): Promise<void> {
     from: outputPath,
     to: outputPath,
   });
-  const finalCss = `${processed.css.trimEnd()}\n`;
+  const finalRoot = processed.root ?? postcss.parse(processed.css);
+  dedupeSpacingScale(finalRoot);
+  const finalCss = `${finalRoot.toString().trimEnd()}\n`;
   await fs.writeFile(outputPath, finalCss);
   console.log(`Generated ${path.relative(projectRoot, outputPath)}`);
 }
