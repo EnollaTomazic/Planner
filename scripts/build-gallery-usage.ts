@@ -13,7 +13,7 @@ import {
   type GalleryPreviewRoute,
   type GalleryPreviewAxisParam,
 } from "../src/components/gallery/registry";
-import { VARIANTS } from "../src/lib/theme";
+import { BG_CLASSES, VARIANTS } from "../src/lib/theme";
 import type { Background, Variant } from "../src/lib/theme";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -36,8 +36,10 @@ const PAGE_GLOB = "**/page.{ts,tsx}";
 const ROUTE_FILE_GLOB = "**/*.{ts,tsx}";
 const GALLERY_GLOB = "src/components/**/**/*.gallery.{ts,tsx}";
 
-const PREVIEW_VARIANTS = ["lg", "aurora"] as const satisfies readonly Variant[];
-const PREVIEW_BACKGROUNDS = [0] as const satisfies readonly Background[];
+const PREVIEW_VARIANTS =
+  VARIANTS.map(({ id }) => id) as ReadonlyArray<Variant>;
+const PREVIEW_BACKGROUNDS =
+  BG_CLASSES.map((_, index) => index as Background) as ReadonlyArray<Background>;
 
 const REGISTERED_VARIANTS = new Set(VARIANTS.map((variant) => variant.id));
 
