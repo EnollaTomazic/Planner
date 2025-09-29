@@ -64,6 +64,10 @@ import ToggleShowcase from "./ToggleShowcase";
 import PageHeaderDemo from "./PageHeaderDemo";
 import NeomorphicHeroFrameDemo from "./NeomorphicHeroFrameDemo";
 import WeekPickerDemo from "./component-gallery/WeekPickerDemo";
+import PlannerCalendarPreview, {
+  CalendarPreviewError,
+  CalendarPreviewLoading,
+} from "./component-gallery/CalendarLayoutPreview";
 import {
   DashboardCard,
   DashboardList,
@@ -2621,6 +2625,33 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
             "A compact spinner with accent borders communicates background sync progress beside the label.",
           element: <BottomNavStatesDemo mode="syncing" />,
           code: `<BottomNavStatesDemo mode="syncing" />`,
+        },
+      ],
+    },
+    {
+      id: "calendar",
+      name: "PlannerCalendar",
+      description:
+        "Responsive week calendar layout with container queries, hour rail, and quick-create floating action.",
+      element: <PlannerCalendarPreview />,
+      tags: ["planner", "calendar", "layout"],
+      code: `<PlannerCalendarPreview />`,
+      states: [
+        {
+          id: "loading",
+          name: "Loading",
+          description:
+            "Skeleton placeholders mirror header and day columns so async syncs stay predictable.",
+          element: <CalendarPreviewLoading />,
+          code: `<CalendarPreviewLoading />`,
+        },
+        {
+          id: "error",
+          name: "Error",
+          description:
+            "Error banner pairs with frozen skeleton slots to keep context while retrying the sync.",
+          element: <CalendarPreviewError />,
+          code: `<CalendarPreviewError />`,
         },
       ],
     },

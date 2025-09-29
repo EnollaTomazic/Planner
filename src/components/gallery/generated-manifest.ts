@@ -961,6 +961,11 @@ export const galleryPayload = {
               "name": "data-loading",
               "type": "boolean",
               "defaultValue": "false"
+            },
+            {
+              "name": "ringTone",
+              "type": "\"accent\" | \"danger\" | \"primary\" | \"success\" | \"warning\"",
+              "defaultValue": "undefined"
             }
           ],
           "axes": [
@@ -986,11 +991,14 @@ export const galleryPayload = {
                 },
                 {
                   "value": "Loading"
+                },
+                {
+                  "value": "Custom ring"
                 }
               ]
             }
           ],
-          "code": "<div className=\"flex flex-col gap-[var(--space-2)]\">\n  <Input placeholder=\"Default\" />\n  <Input placeholder=\"Hover\" className=\"bg-[--hover]\" />\n  <Input placeholder=\"Focus\" className=\"ring-2 ring-[var(--focus)]\" />\n  <Input placeholder=\"Active\" className=\"bg-[--active]\" />\n  <Input placeholder=\"Disabled\" disabled />\n  <Input placeholder=\"Loading\" data-loading />\n</div>",
+          "code": "<div className=\"flex flex-col gap-[var(--space-2)]\">\n  <Input placeholder=\"Default\" />\n  <Input placeholder=\"Hover\" className=\"bg-[--hover]\" />\n  <Input placeholder=\"Focus\" className=\"ring-2 ring-[var(--focus)]\" />\n  <Input placeholder=\"Active\" className=\"bg-[--active]\" />\n  <Input placeholder=\"Disabled\" disabled />\n  <Input placeholder=\"Loading\" data-loading />\n  <Input placeholder=\"Custom ring\" ringTone=\"danger\" />\n</div>",
           "preview": {
             "id": "ui:input:states"
           },
@@ -1041,6 +1049,14 @@ export const galleryPayload = {
               "code": "<Input placeholder=\"Loading\" data-loading />",
               "preview": {
                 "id": "ui:input:state:loading"
+              }
+            },
+            {
+              "id": "custom-ring",
+              "name": "Custom ring",
+              "code": "<Input placeholder=\"Custom ring\" ringTone=\"danger\" />",
+              "preview": {
+                "id": "ui:input:state:custom-ring"
               }
             }
           ]
@@ -1691,6 +1707,41 @@ export const galleryPayload = {
               "code": "<BottomNavStatesDemo mode=\"syncing\" />",
               "preview": {
                 "id": "prompts:planner:bottom-nav:state:syncing"
+              }
+            }
+          ]
+        },
+        {
+          "id": "calendar",
+          "name": "PlannerCalendar",
+          "description": "Responsive week calendar layout with container queries, hour rail, and quick-create floating action.",
+          "tags": [
+            "planner",
+            "calendar",
+            "layout"
+          ],
+          "kind": "complex",
+          "code": "<PlannerCalendarPreview />",
+          "preview": {
+            "id": "prompts:planner:calendar"
+          },
+          "states": [
+            {
+              "id": "loading",
+              "name": "Loading",
+              "description": "Skeleton placeholders mirror header and day columns so async syncs stay predictable.",
+              "code": "<CalendarPreviewLoading />",
+              "preview": {
+                "id": "prompts:planner:calendar:state:loading"
+              }
+            },
+            {
+              "id": "error",
+              "name": "Error",
+              "description": "Error banner pairs with frozen skeleton slots to keep context while retrying the sync.",
+              "code": "<CalendarPreviewError />",
+              "preview": {
+                "id": "prompts:planner:calendar:state:error"
               }
             }
           ]
@@ -4457,6 +4508,11 @@ export const galleryPayload = {
             "name": "data-loading",
             "type": "boolean",
             "defaultValue": "false"
+          },
+          {
+            "name": "ringTone",
+            "type": "\"accent\" | \"danger\" | \"primary\" | \"success\" | \"warning\"",
+            "defaultValue": "undefined"
           }
         ],
         "axes": [
@@ -4482,11 +4538,14 @@ export const galleryPayload = {
               },
               {
                 "value": "Loading"
+              },
+              {
+                "value": "Custom ring"
               }
             ]
           }
         ],
-        "code": "<div className=\"flex flex-col gap-[var(--space-2)]\">\n  <Input placeholder=\"Default\" />\n  <Input placeholder=\"Hover\" className=\"bg-[--hover]\" />\n  <Input placeholder=\"Focus\" className=\"ring-2 ring-[var(--focus)]\" />\n  <Input placeholder=\"Active\" className=\"bg-[--active]\" />\n  <Input placeholder=\"Disabled\" disabled />\n  <Input placeholder=\"Loading\" data-loading />\n</div>",
+        "code": "<div className=\"flex flex-col gap-[var(--space-2)]\">\n  <Input placeholder=\"Default\" />\n  <Input placeholder=\"Hover\" className=\"bg-[--hover]\" />\n  <Input placeholder=\"Focus\" className=\"ring-2 ring-[var(--focus)]\" />\n  <Input placeholder=\"Active\" className=\"bg-[--active]\" />\n  <Input placeholder=\"Disabled\" disabled />\n  <Input placeholder=\"Loading\" data-loading />\n  <Input placeholder=\"Custom ring\" ringTone=\"danger\" />\n</div>",
         "preview": {
           "id": "ui:input:states"
         },
@@ -4537,6 +4596,14 @@ export const galleryPayload = {
             "code": "<Input placeholder=\"Loading\" data-loading />",
             "preview": {
               "id": "ui:input:state:loading"
+            }
+          },
+          {
+            "id": "custom-ring",
+            "name": "Custom ring",
+            "code": "<Input placeholder=\"Custom ring\" ringTone=\"danger\" />",
+            "preview": {
+              "id": "ui:input:state:custom-ring"
             }
           }
         ]
@@ -6144,6 +6211,41 @@ export const galleryPayload = {
             "code": "<BottomNavStatesDemo mode=\"syncing\" />",
             "preview": {
               "id": "prompts:planner:bottom-nav:state:syncing"
+            }
+          }
+        ]
+      },
+      {
+        "id": "calendar",
+        "name": "PlannerCalendar",
+        "description": "Responsive week calendar layout with container queries, hour rail, and quick-create floating action.",
+        "tags": [
+          "planner",
+          "calendar",
+          "layout"
+        ],
+        "kind": "complex",
+        "code": "<PlannerCalendarPreview />",
+        "preview": {
+          "id": "prompts:planner:calendar"
+        },
+        "states": [
+          {
+            "id": "loading",
+            "name": "Loading",
+            "description": "Skeleton placeholders mirror header and day columns so async syncs stay predictable.",
+            "code": "<CalendarPreviewLoading />",
+            "preview": {
+              "id": "prompts:planner:calendar:state:loading"
+            }
+          },
+          {
+            "id": "error",
+            "name": "Error",
+            "description": "Error banner pairs with frozen skeleton slots to keep context while retrying the sync.",
+            "code": "<CalendarPreviewError />",
+            "preview": {
+              "id": "prompts:planner:calendar:state:error"
             }
           }
         ]
@@ -12876,6 +12978,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -12920,6 +13026,106 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "section-inputs--entry-input--preview-ui-input-state-custom-ring--state-custom-ring--theme-aurora",
+    "previewId": "ui:input:state:custom-ring",
+    "entryId": "input",
+    "entryName": "Input",
+    "sectionId": "inputs",
+    "stateId": "custom-ring",
+    "stateName": "Custom ring",
+    "themeVariant": "aurora",
+    "themeBackground": 0,
+    "axisParams": [
+      {
+        "key": "axis-state",
+        "label": "State",
+        "type": "state",
+        "options": [
+          {
+            "value": "default",
+            "label": "Default"
+          },
+          {
+            "value": "hover",
+            "label": "Hover"
+          },
+          {
+            "value": "focus",
+            "label": "Focus"
+          },
+          {
+            "value": "active",
+            "label": "Active"
+          },
+          {
+            "value": "disabled",
+            "label": "Disabled"
+          },
+          {
+            "value": "loading",
+            "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "section-inputs--entry-input--preview-ui-input-state-custom-ring--state-custom-ring--theme-lg",
+    "previewId": "ui:input:state:custom-ring",
+    "entryId": "input",
+    "entryName": "Input",
+    "sectionId": "inputs",
+    "stateId": "custom-ring",
+    "stateName": "Custom ring",
+    "themeVariant": "lg",
+    "themeBackground": 0,
+    "axisParams": [
+      {
+        "key": "axis-state",
+        "label": "State",
+        "type": "state",
+        "options": [
+          {
+            "value": "default",
+            "label": "Default"
+          },
+          {
+            "value": "hover",
+            "label": "Hover"
+          },
+          {
+            "value": "focus",
+            "label": "Focus"
+          },
+          {
+            "value": "active",
+            "label": "Active"
+          },
+          {
+            "value": "disabled",
+            "label": "Disabled"
+          },
+          {
+            "value": "loading",
+            "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -12964,6 +13170,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13008,6 +13218,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13052,6 +13266,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13096,6 +13314,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13140,6 +13362,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13184,6 +13410,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13228,6 +13458,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13272,6 +13506,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13316,6 +13554,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13360,6 +13602,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13404,6 +13650,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -13448,6 +13698,10 @@ export const galleryPreviewRoutes = [
           {
             "value": "loading",
             "label": "Loading"
+          },
+          {
+            "value": "custom-ring",
+            "label": "Custom ring"
           }
         ]
       }
@@ -17374,6 +17628,78 @@ export const galleryPreviewRoutes = [
     "axisParams": []
   },
   {
+    "slug": "section-planner--entry-calendar--preview-prompts-planner-calendar--theme-aurora",
+    "previewId": "prompts:planner:calendar",
+    "entryId": "calendar",
+    "entryName": "PlannerCalendar",
+    "sectionId": "planner",
+    "stateId": null,
+    "stateName": null,
+    "themeVariant": "aurora",
+    "themeBackground": 0,
+    "axisParams": []
+  },
+  {
+    "slug": "section-planner--entry-calendar--preview-prompts-planner-calendar--theme-lg",
+    "previewId": "prompts:planner:calendar",
+    "entryId": "calendar",
+    "entryName": "PlannerCalendar",
+    "sectionId": "planner",
+    "stateId": null,
+    "stateName": null,
+    "themeVariant": "lg",
+    "themeBackground": 0,
+    "axisParams": []
+  },
+  {
+    "slug": "section-planner--entry-calendar--preview-prompts-planner-calendar-state-error--state-error--theme-aurora",
+    "previewId": "prompts:planner:calendar:state:error",
+    "entryId": "calendar",
+    "entryName": "PlannerCalendar",
+    "sectionId": "planner",
+    "stateId": "error",
+    "stateName": "Error",
+    "themeVariant": "aurora",
+    "themeBackground": 0,
+    "axisParams": []
+  },
+  {
+    "slug": "section-planner--entry-calendar--preview-prompts-planner-calendar-state-error--state-error--theme-lg",
+    "previewId": "prompts:planner:calendar:state:error",
+    "entryId": "calendar",
+    "entryName": "PlannerCalendar",
+    "sectionId": "planner",
+    "stateId": "error",
+    "stateName": "Error",
+    "themeVariant": "lg",
+    "themeBackground": 0,
+    "axisParams": []
+  },
+  {
+    "slug": "section-planner--entry-calendar--preview-prompts-planner-calendar-state-loading--state-loading--theme-aurora",
+    "previewId": "prompts:planner:calendar:state:loading",
+    "entryId": "calendar",
+    "entryName": "PlannerCalendar",
+    "sectionId": "planner",
+    "stateId": "loading",
+    "stateName": "Loading",
+    "themeVariant": "aurora",
+    "themeBackground": 0,
+    "axisParams": []
+  },
+  {
+    "slug": "section-planner--entry-calendar--preview-prompts-planner-calendar-state-loading--state-loading--theme-lg",
+    "previewId": "prompts:planner:calendar:state:loading",
+    "entryId": "calendar",
+    "entryName": "PlannerCalendar",
+    "sectionId": "planner",
+    "stateId": "loading",
+    "stateName": "Loading",
+    "themeVariant": "lg",
+    "themeBackground": 0,
+    "axisParams": []
+  },
+  {
     "slug": "section-planner--entry-week-picker--preview-prompts-planner-week-picker--theme-aurora",
     "previewId": "prompts:planner:week-picker",
     "entryId": "week-picker",
@@ -21081,6 +21407,9 @@ export const galleryPreviewModules = [
       "prompts:planner:bottom-nav:state:focus-visible",
       "prompts:planner:bottom-nav:state:disabled",
       "prompts:planner:bottom-nav:state:syncing",
+      "prompts:planner:calendar",
+      "prompts:planner:calendar:state:loading",
+      "prompts:planner:calendar:state:error",
       "prompts:cards:card-demo",
       "prompts:cards:card-demo:state:loading",
       "prompts:cards:card-demo:state:error",
@@ -21304,6 +21633,7 @@ export const galleryPreviewModules = [
       "ui:input:state:active",
       "ui:input:state:disabled",
       "ui:input:state:loading",
+      "ui:input:state:custom-ring",
     ],
   },
   {
