@@ -74,7 +74,7 @@ describe("PageTabs", () => {
     });
   });
 
-  it("pins sticky tabs using a nonce-scoped style rule", () => {
+  it("pins sticky tabs using scoped custom properties", () => {
     const topOffset = "calc(var(--header-stack) + var(--space-2))";
     const { container } = render(
       <PageTabs
@@ -85,25 +85,14 @@ describe("PageTabs", () => {
       />,
     );
 
-    const wrapper = container.querySelector("[data-sticky=\"true\"]");
+    const wrapper = container.querySelector('[data-sticky="true"]');
     expect(wrapper).not.toBeNull();
 
-    const dataId = (wrapper as HTMLElement).getAttribute("data-page-tabs-id");
-    expect(dataId).toMatch(/^page-tabs-/);
-
-    const stickyStyle = Array.from(container.querySelectorAll("style")).find((
-      element,
-    ) => element.textContent?.includes(`data-page-tabs-id=\"${dataId}\"`));
-    expect(stickyStyle).toBeTruthy();
-    expect(stickyStyle!.textContent).toContain(
-      `[data-page-tabs-id=\"${dataId}\"] {`,
+    const stickyElement = wrapper as HTMLElement;
+    expect(stickyElement.style.getPropertyValue("--page-tabs-top")).toBe(
+      topOffset,
     );
-    expect(stickyStyle!.textContent).toContain(
-      `--page-tabs-top: ${topOffset};`,
-    );
-    expect(stickyStyle!.textContent).toContain(
-      `[data-sticky=\"true\"][data-page-tabs-id=\"${dataId}\"] {`,
-    );
+    expect(stickyElement.style.getPropertyValue("top")).toBe("");
   });
 
   it("leaves non-sticky tabs unaffected", () => {
@@ -117,10 +106,5 @@ describe("PageTabs", () => {
     );
 
     expect(container.querySelector("[data-sticky]")).toBeNull();
-
-    const stickyStyles = Array.from(container.querySelectorAll("style")).filter(
-      (element) => element.textContent?.includes("--page-tabs-top"),
-    );
-    expect(stickyStyles).toHaveLength(0);
   });
 });

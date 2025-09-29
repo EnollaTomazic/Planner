@@ -11,6 +11,7 @@
     --danger-tint-foreground: var(--danger-foreground);
     --asset-noise-url: url("/noise.svg");
     --asset-glitch-gif-url: url("/glitch-gif.gif");
+    --glitch-gif-url: var(--asset-glitch-gif-url);
     --settings-column-width: calc(var(--space-4) * 14);
     --surface-overlay-soft: 0.12;
     --surface-overlay-strong: 0.2;
@@ -140,19 +141,65 @@
     opacity: var(--gradient-noise-overlay-opacity, 0.06);
   }
 
-  html.fx-gifbars::before,
-  body.fx-gifbars::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 3;
-    background-image: var(--asset-glitch-gif-url, url("/glitch-gif.gif"));
-    background-size: cover;
-    background-position: center;
-    mix-blend-mode: overlay;
-    opacity: 0.08;
+html.fx-gifbars::before,
+body.fx-gifbars::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background-image: var(
+    --glitch-gif-url,
+    var(--asset-glitch-gif-url, url("/glitch-gif.gif"))
+  );
+  background-size: cover;
+  background-position: center;
+  mix-blend-mode: overlay;
+  opacity: 0.08;
+}
+
+@keyframes glitch {
+  0% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0, 0);
+    filter: hue-rotate(0deg);
   }
+  12% {
+    clip-path: inset(12% 0 68% 0);
+    transform: translate(-2px, -1px);
+    filter: hue-rotate(6deg);
+  }
+  24% {
+    clip-path: inset(58% 0 24% 0);
+    transform: translate(1px, 2px);
+    filter: hue-rotate(-4deg);
+  }
+  38% {
+    clip-path: inset(30% 0 46% 0);
+    transform: translate(3px, -2px);
+    filter: hue-rotate(12deg);
+  }
+  52% {
+    clip-path: inset(70% 0 8% 0);
+    transform: translate(-1px, 1px);
+    filter: hue-rotate(-14deg);
+  }
+  68% {
+    clip-path: inset(18% 0 58% 0);
+    transform: translate(2px, -3px);
+    filter: hue-rotate(8deg);
+  }
+  82% {
+    clip-path: inset(64% 0 20% 0);
+    transform: translate(-3px, 1px);
+    filter: hue-rotate(-10deg);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0, 0);
+    filter: hue-rotate(0deg);
+  }
+}
 
   html.fx-overdrive .card-neo:hover::before,
   html.fx-overdrive .card-neo-soft:hover::before {
@@ -346,8 +393,28 @@ html.bg-intense body::after {
 
 /* ---------- Reusable aurora backdrops ---------- */
 .glitch-root {
+  position: relative;
+  isolation: isolate;
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
+  --glitch-root-overlay-opacity: 0.05;
+}
+.glitch-root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: inherit;
+  background-image: var(
+    --glitch-gif-url,
+    var(--asset-glitch-gif-url, url("/glitch-gif.gif"))
+  );
+  background-size: cover;
+  background-position: center;
+  mix-blend-mode: lighten;
+  opacity: var(--glitch-root-overlay-opacity);
+  transition: opacity var(--dur-slow) var(--ease-out);
 }
 .bg-aurora-layers {
   background:
@@ -380,11 +447,55 @@ html.bg-intense body::after {
 }
 
 @layer components {
+  :where(.glitch-wrapper, .btn-glitch, .card-neo, .card-neo-soft, .card-soft) {
+    position: relative;
+    isolation: isolate;
+    z-index: 0;
+  }
+
+  :where(.glitch-wrapper, .btn-glitch, .card-neo, .card-neo-soft, .card-soft)::before {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: inherit;
+    background-image: var(
+      --glitch-gif-url,
+      var(--asset-glitch-gif-url, url("/glitch-gif.gif"))
+    );
+    background-size: cover;
+    background-position: center;
+    mix-blend-mode: lighten;
+    opacity: 0;
+    transition: opacity var(--dur-quick) var(--ease-out);
+    filter: hue-rotate(0deg);
+    clip-path: inset(0 0 0 0);
+    transform: translate(0, 0);
+    will-change: transform, filter, clip-path;
+    z-index: 1;
+  }
+
+  :where(.glitch-wrapper, .btn-glitch, .card-neo, .card-neo-soft, .card-soft):hover::before,
+  :where(.glitch-wrapper, .btn-glitch, .card-neo, .card-neo-soft, .card-soft):focus-visible::before,
+  :where(.glitch-wrapper, .card-neo, .card-neo-soft, .card-soft):focus-within::before {
+    opacity: var(--glitch-overlay-opacity, 0.36);
+    animation: glitch 0.54s steps(2, end) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(.glitch-wrapper, .btn-glitch, .card-neo, .card-neo-soft, .card-soft):hover::before,
+    :where(.glitch-wrapper, .btn-glitch, .card-neo, .card-neo-soft, .card-soft):focus-visible::before,
+    :where(.glitch-wrapper, .card-neo, .card-neo-soft, .card-soft):focus-within::before {
+      animation: none;
+    }
+  }
+
   /* Cards: glossy neon with crisp hairlines */
   .card-neo,
   .card-neo-soft,
   .card-soft {
     --_r: var(--radius-card);
+    --glitch-overlay-opacity: 0.38;
     border-radius: var(--_r);
     border: 0;
     background-clip: padding-box;
@@ -797,6 +908,7 @@ html.bg-intense body::after {
     --seg-selected: var(--seg-active-grad);
     --hover: var(--seg-active-grad);
     --active: var(--seg-active-grad);
+    --glitch-overlay-opacity: 0.5;
     background-color: var(--seg-active-base);
     background-image: var(--seg-active-grad);
     background-repeat: no-repeat;
@@ -2214,6 +2326,46 @@ a:active .lucide {
 }
 
 @layer utilities {
+  :root {
+    --surface-card-soft: linear-gradient(
+      180deg,
+      hsl(var(--card) / 0.65),
+      hsl(var(--card) / 0.45)
+    );
+    --surface-card-strong: linear-gradient(
+      180deg,
+      hsl(var(--card) / 0.85),
+      hsl(var(--card) / 0.65)
+    );
+    --surface-card-strong-hover: linear-gradient(
+      180deg,
+      hsl(var(--card) / 0.95),
+      hsl(var(--card) / 0.75)
+    );
+    --surface-card-strong-active: linear-gradient(
+      180deg,
+      hsl(var(--card) / 0.8),
+      hsl(var(--card) / 0.6)
+    );
+    --surface-card-strong-today: linear-gradient(
+      180deg,
+      hsl(var(--card) / 0.9),
+      hsl(var(--card) / 0.7)
+    );
+    --surface-card-strong-empty: linear-gradient(
+      180deg,
+      hsl(var(--card) / 0.6),
+      hsl(var(--card) / 0.5)
+    );
+    --surface-rail-accent: linear-gradient(
+      180deg,
+      hsl(var(--accent)),
+      hsl(var(--primary))
+    );
+  }
+}
+
+@layer utilities {
   .icon-xs {
     width: var(--icon-size-xs);
     height: var(--icon-size-xs);
@@ -2506,6 +2658,11 @@ a:active .lucide {
     border-bottom-style: solid;
     border-bottom-color: hsl(var(--border));
     background-color: hsl(var(--background) / 0.6);
+    --page-tabs-top: var(--header-stack);
+  }
+
+  .page-tabs-surface[data-sticky="true"] {
+    top: var(--page-tabs-top);
   }
 
   @supports (color: color-mix(in oklab, white, black)) {

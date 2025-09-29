@@ -396,12 +396,13 @@ const BucketSection = React.memo(function BucketSection({
       <VirtualizedSpacer
         height={height}
         position={position}
-        render={({ spacerId, ariaHiddenProps }) => (
+        render={({ spacerId, ariaHiddenProps, style }) => (
           <tr {...ariaHiddenProps} data-row-kind="jungle-spacer">
             <td
               data-spacer-id={spacerId}
               className="border-0 p-0"
               colSpan={TABLE_COLUMN_COUNT}
+              style={style}
             />
           </tr>
         )}

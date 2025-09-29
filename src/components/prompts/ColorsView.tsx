@@ -354,7 +354,7 @@ function ColorPreview({ token }: { token: TokenMeta }) {
     [token],
   );
 
-  const { scopeProps, Style } = useScopedCssVars({
+  const { scopeProps, style } = useScopedCssVars({
     attribute: "data-color-preview",
     vars: {
       "--preview-color": previewValue,
@@ -421,27 +421,25 @@ function ColorPreview({ token }: { token: TokenMeta }) {
   }, [bg, token.name, variant]);
 
   return (
-    <>
-      {Style}
+    <div
+      className={clsx(styles.colorPreview, "rounded-card r-card-md")}
+      aria-hidden="true"
+    >
+      {isTranslucent ? (
+        <div aria-hidden="true" className={styles.checkerboard} />
+      ) : null}
       <div
-        className={clsx(styles.colorPreview, "rounded-card r-card-md")}
-        aria-hidden="true"
-      >
-        {isTranslucent ? (
-          <div aria-hidden="true" className={styles.checkerboard} />
-        ) : null}
-        <div
-          ref={swatchRef}
-          className={styles.swatchFill}
-          {...(scopeProps ?? {})}
-        />
-      </div>
-    </>
+        ref={swatchRef}
+        className={styles.swatchFill}
+        {...(scopeProps ?? {})}
+        style={style}
+      />
+    </div>
   );
 }
 
 function SpacingPreview({ token }: { token: TokenMeta }) {
-  const { scopeProps, Style } = useScopedCssVars({
+  const { scopeProps, style } = useScopedCssVars({
     attribute: "data-spacing-preview",
     vars: {
       "--preview-spacing": `var(${token.cssVar})`,
@@ -449,20 +447,18 @@ function SpacingPreview({ token }: { token: TokenMeta }) {
   });
 
   return (
-    <>
-      {Style}
-      <div className={styles.spacingTrack} aria-hidden="true">
-        <div
-          className={styles.spacingBar}
-          {...(scopeProps ?? {})}
-        />
-      </div>
-    </>
+    <div className={styles.spacingTrack} aria-hidden="true">
+      <div
+        className={styles.spacingBar}
+        {...(scopeProps ?? {})}
+        style={style}
+      />
+    </div>
   );
 }
 
 function RadiusPreview({ token }: { token: TokenMeta }) {
-  const { scopeProps, Style } = useScopedCssVars({
+  const { scopeProps, style } = useScopedCssVars({
     attribute: "data-radius-preview",
     vars: {
       "--preview-radius": `var(${token.cssVar})`,
@@ -470,20 +466,18 @@ function RadiusPreview({ token }: { token: TokenMeta }) {
   });
 
   return (
-    <>
-      {Style}
-      <div className={styles.radiusPreview} aria-hidden="true">
-        <div
-          className={clsx(styles.radiusDemo, "rounded-card r-card-md")}
-          {...(scopeProps ?? {})}
-        />
-      </div>
-    </>
+    <div className={styles.radiusPreview} aria-hidden="true">
+      <div
+        className={clsx(styles.radiusDemo, "rounded-card r-card-md")}
+        {...(scopeProps ?? {})}
+        style={style}
+      />
+    </div>
   );
 }
 
 function ShadowPreview({ token }: { token: TokenMeta }) {
-  const { scopeProps, Style } = useScopedCssVars({
+  const { scopeProps, style } = useScopedCssVars({
     attribute: "data-shadow-preview",
     vars: {
       "--preview-shadow": `var(${token.cssVar})`,
@@ -491,15 +485,13 @@ function ShadowPreview({ token }: { token: TokenMeta }) {
   });
 
   return (
-    <>
-      {Style}
-      <div className={styles.shadowPreview} aria-hidden="true">
-        <div
-          className={clsx(styles.shadowDemo, "rounded-card r-card-md")}
-          {...(scopeProps ?? {})}
-        />
-      </div>
-    </>
+    <div className={styles.shadowPreview} aria-hidden="true">
+      <div
+        className={clsx(styles.shadowDemo, "rounded-card r-card-md")}
+        {...(scopeProps ?? {})}
+        style={style}
+      />
+    </div>
   );
 }
 
@@ -517,21 +509,19 @@ function TypographyPreview({ token }: { token: TokenMeta }) {
     ? { "--preview-font-weight": `var(${token.cssVar})` }
     : { "--preview-font-size": `var(${token.cssVar})` };
 
-  const { scopeProps, Style } = useScopedCssVars({
+  const { scopeProps, style } = useScopedCssVars({
     attribute: "data-typography-preview",
     vars,
   });
 
   return (
-    <>
-      {Style}
-      <div
-        className={clsx(styles.typographyPreview, "rounded-card r-card-md")}
-        {...(scopeProps ?? {})}
-        aria-hidden="true"
-      >
-        Aa
-      </div>
-    </>
+    <div
+      className={clsx(styles.typographyPreview, "rounded-card r-card-md")}
+      {...(scopeProps ?? {})}
+      style={style}
+      aria-hidden="true"
+    >
+      Aa
+    </div>
   );
 }

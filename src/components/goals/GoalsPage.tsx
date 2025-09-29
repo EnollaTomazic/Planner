@@ -691,12 +691,6 @@ function GoalsPageContent() {
           </CardFooter>
         </Modal>
 
-        {/* Use boolean styled-jsx attribute to satisfy typings */}
-        <style jsx>{`
-          .tabular-nums {
-            font-variant-numeric: tabular-nums;
-          }
-        `}</style>
       </PageShell>
     </>
   );

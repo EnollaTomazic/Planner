@@ -6,6 +6,7 @@ import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import Spinner from "../feedback/Spinner";
+import neumorphicStyles from "../neumorphic.module.css";
 import IconButton from "./IconButton";
 import styles from "./Field.module.css";
 
@@ -20,13 +21,13 @@ const HEIGHT_MAP: Record<FieldHeight, true> = {
 
 const FIELD_ROOT_BASE = cn(
   "group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center",
-  "rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] bg-[hsl(var(--bg))] text-foreground",
-  "shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.32)]",
-  "transition-[background,box-shadow,filter] duration-quick ease-out",
+  "rounded-[var(--control-radius)] border border-[hsl(var(--card-hairline)/0.65)] text-foreground",
+  "[--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))]",
+  "transition-[background,box-shadow,filter] duration-quick ease-out motion-reduce:transition-none",
   "focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus)] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))]",
-  "hover:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)] active:brightness-[0.96]",
+  "hover:bg-[--hover] active:bg-[--active]",
   "data-[disabled=true]:pointer-events-none data-[disabled=true]:border-[hsl(var(--card-hairline)/0.4)]",
-  "data-[disabled=true]:bg-[hsl(var(--card))] data-[disabled=true]:shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.04)]",
+  "data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--shadow-neo-inset)]",
   "data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading",
   "data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger",
   "overflow-hidden",
@@ -78,6 +79,7 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
       wrapperClassName,
       className,
       children,
+      style: inlineStyle,
       ...props
     },
     ref,
@@ -95,11 +97,6 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
     const helperVariant: HelperTone = helperTone ?? (invalid ? "danger" : "muted");
     const showHelper = helper !== undefined && helper !== null && helper !== "";
     const showCounter = counter !== undefined && counter !== null && counter !== "";
-    const reactId = React.useId();
-    const fieldInstanceId = React.useMemo(
-      () => reactId.replace(/[:]/g, "_"),
-      [reactId],
-    );
     let fieldState: "default" | "disabled" | "invalid" | "readonly" | "loading" = "default";
     if (disabled) {
       fieldState = "disabled";
@@ -111,6 +108,28 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
       fieldState = "loading";
     }
 
+    const customHeightStyle = React.useMemo<
+      (React.CSSProperties & Record<string, string>) | undefined
+    >(() => {
+      if (!isCustomHeight || !resolvedCustomHeight) {
+        return undefined;
+      }
+
+      return {
+        "--field-custom-height": resolvedCustomHeight,
+      };
+    }, [isCustomHeight, resolvedCustomHeight]);
+
+    const mergedStyle = React.useMemo<React.CSSProperties | undefined>(() => {
+      if (!customHeightStyle) {
+        return inlineStyle as React.CSSProperties | undefined;
+      }
+      return {
+        ...(inlineStyle as React.CSSProperties | undefined),
+        ...customHeightStyle,
+      };
+    }, [customHeightStyle, inlineStyle]);
+
     return (
       <div
         className={cn(
@@ -120,10 +139,15 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
       >
         <div
           ref={ref}
-          className={cn(FIELD_ROOT_BASE, styles.root, className)}
+          className={cn(
+            neumorphicStyles.neu,
+            neumorphicStyles["neu-hover"],
+            FIELD_ROOT_BASE,
+            styles.root,
+            className,
+          )}
           data-field-height={heightKey}
           data-custom-height={isCustomHeight ? "true" : undefined}
-          data-field-instance={isCustomHeight ? fieldInstanceId : undefined}
           data-field-state={fieldState}
           data-disabled={disabled ? "true" : undefined}
           data-invalid={invalid ? "true" : undefined}
@@ -131,6 +155,7 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
           data-readonly={readOnly ? "true" : undefined}
           aria-disabled={disabled || undefined}
           aria-busy={loading || undefined}
+          style={mergedStyle}
           {...props}
         >
           {children}
@@ -175,15 +200,6 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
             ) : null}
           </div>
         )}
-        {isCustomHeight && resolvedCustomHeight ? (
-          <style jsx global>{`
-            /* Custom field height scoped by nonce-aware styled-jsx registry. */
-            [data-field-instance="${fieldInstanceId}"] {
-              --field-custom-height: ${resolvedCustomHeight};
-              --field-h: ${resolvedCustomHeight};
-            }
-          `}</style>
-        ) : null}
       </div>
     );
   },

@@ -23,6 +23,9 @@ import { PageHeader } from "@/components/ui";
 import PageShell, { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { CalendarDays } from "lucide-react";
 import { formatWeekRangeLabel } from "@/lib/date";
+import { RemindersProvider } from "@/components/goals/reminders/useReminders";
+
+const PLANNER_SCROLL_STORAGE_KEY = "planner:scroll-position";
 
 /* ───────── Page body under provider ───────── */
 
@@ -33,6 +36,52 @@ function Inner() {
     () => formatWeekRangeLabel(start, end),
     [start, end],
   );
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    const stored = sessionStorage.getItem(PLANNER_SCROLL_STORAGE_KEY);
+    if (stored) {
+      const parsed = Number.parseInt(stored, 10);
+      if (!Number.isNaN(parsed)) {
+        window.scrollTo({ top: parsed });
+      }
+    }
+
+    let frame = 0;
+    const handleScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        sessionStorage.setItem(
+          PLANNER_SCROLL_STORAGE_KEY,
+          Math.round(window.scrollY).toString(),
+        );
+      });
+    };
+
+    const handlePageHide = () => {
+      sessionStorage.setItem(
+        PLANNER_SCROLL_STORAGE_KEY,
+        Math.round(window.scrollY).toString(),
+      );
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("pagehide", handlePageHide);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("pagehide", handlePageHide);
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+      }
+      sessionStorage.setItem(
+        PLANNER_SCROLL_STORAGE_KEY,
+        Math.round(window.scrollY).toString(),
+      );
+    };
+  }, []);
 
   // Derive once per week change; keeps list stable during edits elsewhere
   const dayItems = React.useMemo<Array<{ iso: ISODate; isToday: boolean }>>(
@@ -116,8 +165,10 @@ function Inner() {
 
 export default function PlannerPage() {
   return (
-    <PlannerProvider>
-      <Inner />
-    </PlannerProvider>
+    <RemindersProvider>
+      <PlannerProvider>
+        <Inner />
+      </PlannerProvider>
+    </RemindersProvider>
   );
 }
