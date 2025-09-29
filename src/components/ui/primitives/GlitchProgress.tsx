@@ -40,9 +40,13 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
         : Math.min(Math.max(parsedCurrent, 0), parsedTotal);
     const ratio = parsedTotal === 0 ? 0 : normalizedCurrent / parsedTotal;
     const percent = Math.round(ratio * 100);
-    const hasProgress = percent > 0;
+    const clampedPercent = Math.min(Math.max(percent, 0), 100);
+    const hasProgress = clampedPercent > 0;
     const formattedPercentage =
-      formatPercentage?.(percent) ?? `${percent}%`;
+      formatPercentage?.(clampedPercent) ?? `${clampedPercent}%`;
+    const progressClassName = hasProgress
+      ? `progress-${clampedPercent}`
+      : "progress-0";
 
     const {
       "aria-label": ariaLabel,
@@ -68,21 +72,23 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
           trackClassNameFromProps,
           trackClassName,
           !showPercentage && className,
-          percent >= 100 && "is-complete",
+          clampedPercent >= 100 && "is-complete",
         )}
         data-progress-state={hasProgress ? "active" : "zero"}
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={100}
-        aria-valuenow={percent}
+        aria-valuenow={clampedPercent}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledby}
         aria-describedby={ariaDescribedby}
         ref={ref}
       >
         <div
-          className="glitch-fill transition-[width] duration-slow ease-out motion-reduce:transition-none"
-          style={{ width: `${percent}%` }}
+          className={cn(
+            "glitch-fill transition-[width] duration-slow ease-out motion-reduce:transition-none",
+            progressClassName,
+          )}
         />
         <div className="glitch-scan" />
       </div>

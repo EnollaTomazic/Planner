@@ -1,0 +1,110 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  font-weight: 600;
+  background: hsl(var(--card) / 0.75);
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  box-shadow: var(--shadow, var(--shadow-neo));
+  transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
+  backdrop-filter: blur(calc(var(--space-3) / 2));
+  -webkit-backdrop-filter: blur(calc(var(--space-3) / 2));
+}
+
+.root[data-interactive="true"] {
+  cursor: pointer;
+  user-select: none;
+}
+
+.root[data-interactive="true"]:is(:disabled, [aria-disabled="true"]) {
+  cursor: not-allowed;
+}
+
+.root:hover,
+.root:focus-visible {
+  box-shadow: var(--shadow-neo-strong);
+  outline: none;
+}
+
+.root[data-selected="true"] {
+  color: hsl(var(--primary-foreground));
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--g1), transparent 82%),
+    color-mix(in oklab, var(--g2), transparent 82%)
+  );
+  border-color: transparent;
+  box-shadow: var(--shadow-nav-active);
+}
+
+.root[data-selected="true"]::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--hairline-w) * -1);
+  padding: var(--hairline-w);
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--g1), var(--g2));
+  -webkit-mask:
+    linear-gradient(hsl(var(--foreground)) 0 0) content-box,
+    linear-gradient(hsl(var(--foreground)) 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+  opacity: 0.95;
+}
+
+.label {
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.2px;
+  text-shadow: 0 var(--hairline-w) 0 hsl(var(--shadow-color) / 0.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
+}
+
+.root[data-pillar="Wave"] {
+  --g1: hsl(var(--pillar-wave-start));
+  --g2: hsl(var(--pillar-wave-end));
+  --shadow: hsl(var(--pillar-wave-shadow));
+}
+
+.root[data-pillar="Trading"] {
+  --g1: hsl(var(--pillar-trading-start));
+  --g2: hsl(var(--pillar-trading-end));
+  --shadow: hsl(var(--pillar-trading-shadow));
+}
+
+.root[data-pillar="Vision"] {
+  --g1: hsl(var(--pillar-vision-start));
+  --g2: hsl(var(--pillar-vision-end));
+  --shadow: hsl(var(--pillar-vision-shadow));
+}
+
+.root[data-pillar="Tempo"] {
+  --g1: hsl(var(--pillar-tempo-start));
+  --g2: hsl(var(--pillar-tempo-end));
+  --shadow: hsl(var(--pillar-tempo-shadow));
+}
+
+.root[data-pillar="Positioning"] {
+  --g1: hsl(var(--pillar-positioning-start));
+  --g2: hsl(var(--pillar-positioning-end));
+  --shadow: hsl(var(--pillar-positioning-shadow));
+}
+
+.root[data-pillar="Comms"] {
+  --g1: hsl(var(--pillar-comms-start));
+  --g2: hsl(var(--pillar-comms-end));
+  --shadow: hsl(var(--pillar-comms-shadow));
+}

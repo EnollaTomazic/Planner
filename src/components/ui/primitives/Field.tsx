@@ -7,14 +7,15 @@ import { cn } from "@/lib/utils";
 
 import Spinner from "../feedback/Spinner";
 import IconButton from "./IconButton";
+import styles from "./Field.module.css";
 
 export type FieldHeight = "sm" | "md" | "lg" | "xl";
 
-const HEIGHT_MAP: Record<FieldHeight, string> = {
-  sm: "var(--control-h-sm)",
-  md: "var(--control-h-md)",
-  lg: "var(--control-h-lg)",
-  xl: "var(--control-h-xl)",
+const HEIGHT_MAP: Record<FieldHeight, true> = {
+  sm: true,
+  md: true,
+  lg: true,
+  xl: true,
 };
 
 const FIELD_ROOT_BASE = cn(
@@ -31,26 +32,21 @@ const FIELD_ROOT_BASE = cn(
   "overflow-hidden",
 );
 
-function resolveHeight(height?: FieldHeight | number) {
-  if (typeof height === "string") {
-    return HEIGHT_MAP[height] ?? HEIGHT_MAP.md;
-  }
-
-  if (typeof height === "number") {
+function resolveHeight(height: number) {
+  if (Number.isFinite(height)) {
     return `${height}px`;
   }
 
-  return HEIGHT_MAP.md;
+  return undefined;
 }
 
 type HelperTone = "muted" | "danger" | "success";
 
-type FieldRootStyle = React.CSSProperties & {
-  "--bg"?: string;
-  "--field-h"?: string;
-};
-
 export type FieldRootProps = React.HTMLAttributes<HTMLDivElement> & {
+  /**
+   * Visual height of the field. Token keys ("sm"–"xl") map to control heights.
+   * Numeric values register a scoped `--field-h` custom property via styled-jsx using the CSP nonce from layout.
+   */
   height?: FieldHeight | number;
   disabled?: boolean;
   invalid?: boolean;
@@ -81,22 +77,39 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
       spinner,
       wrapperClassName,
       className,
-      style,
       children,
       ...props
     },
     ref,
   ) => {
-    const resolvedHeight = resolveHeight(height);
+    const heightKey =
+      typeof height === "string" && Object.hasOwn(HEIGHT_MAP, height)
+        ? (height as FieldHeight)
+        : undefined;
+    const numericHeight = typeof height === "number" ? height : null;
+    const isCustomHeight =
+      numericHeight !== null && Number.isFinite(numericHeight);
+    const resolvedCustomHeight = isCustomHeight
+      ? resolveHeight(numericHeight)
+      : undefined;
     const helperVariant: HelperTone = helperTone ?? (invalid ? "danger" : "muted");
     const showHelper = helper !== undefined && helper !== null && helper !== "";
     const showCounter = counter !== undefined && counter !== null && counter !== "";
-
-    const rootStyle: FieldRootStyle = {
-      "--bg": "var(--surface)",
-      "--field-h": resolvedHeight,
-      ...(style as FieldRootStyle),
-    };
+    const reactId = React.useId();
+    const fieldInstanceId = React.useMemo(
+      () => reactId.replace(/[:]/g, "_"),
+      [reactId],
+    );
+    let fieldState: "default" | "disabled" | "invalid" | "readonly" | "loading" = "default";
+    if (disabled) {
+      fieldState = "disabled";
+    } else if (invalid) {
+      fieldState = "invalid";
+    } else if (readOnly) {
+      fieldState = "readonly";
+    } else if (loading) {
+      fieldState = "loading";
+    }
 
     return (
       <div
@@ -107,8 +120,11 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
       >
         <div
           ref={ref}
-          className={cn(FIELD_ROOT_BASE, className)}
-          style={rootStyle}
+          className={cn(FIELD_ROOT_BASE, styles.root, className)}
+          data-field-height={heightKey}
+          data-custom-height={isCustomHeight ? "true" : undefined}
+          data-field-instance={isCustomHeight ? fieldInstanceId : undefined}
+          data-field-state={fieldState}
           data-disabled={disabled ? "true" : undefined}
           data-invalid={invalid ? "true" : undefined}
           data-loading={loading ? "true" : undefined}
@@ -159,6 +175,15 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
             ) : null}
           </div>
         )}
+        {isCustomHeight && resolvedCustomHeight ? (
+          <style jsx global>{`
+            /* Custom field height scoped by nonce-aware styled-jsx registry. */
+            [data-field-instance="${fieldInstanceId}"] {
+              --field-custom-height: ${resolvedCustomHeight};
+              --field-h: ${resolvedCustomHeight};
+            }
+          `}</style>
+        ) : null}
       </div>
     );
   },

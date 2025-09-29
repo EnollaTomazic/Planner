@@ -1,0 +1,67 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  --neon-pillar-aura-blur: calc(var(--spacing-3) - var(--spacing-0-5));
+  --neon-pillar-core-blur: var(--spacing-0-5);
+}
+
+.layer {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-card);
+  opacity: 0;
+  transition: opacity var(--dur-chill, 220ms) var(--ease-out, ease-out);
+}
+
+.aura {
+  background: radial-gradient(
+    60% 60% at 50% 50%,
+    hsl(var(--neon) / 0.45),
+    transparent 70%
+  );
+  filter: blur(var(--neon-pillar-aura-blur));
+}
+
+.neon {
+  background: radial-gradient(
+    60% 60% at 50% 50%,
+    hsl(var(--neon)),
+    transparent 70%
+  );
+  filter: blur(var(--neon-pillar-core-blur));
+}
+
+.root[data-phase="ignite"] .aura,
+.root[data-phase="steady-on"] .aura {
+  opacity: 0.6;
+}
+
+.root[data-phase="ignite"] .neon,
+.root[data-phase="steady-on"] .neon {
+  opacity: 0.4;
+  animation: neonPillarPulse 3.6s ease-in-out infinite;
+}
+
+@keyframes neonPillarPulse {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: scale(0.98);
+  }
+
+  50% {
+    opacity: 0.52;
+    transform: scale(1.02);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer {
+    transition-duration: 0ms;
+  }
+
+  .neon {
+    animation: none !important;
+  }
+}

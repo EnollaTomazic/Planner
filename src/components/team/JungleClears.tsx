@@ -15,7 +15,9 @@ import * as React from "react";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import IconButton from "@/components/ui/primitives/IconButton";
 import Input from "@/components/ui/primitives/Input";
-import VirtualizedList from "@/components/ui/primitives/VirtualizedList";
+import VirtualizedList, {
+  VirtualizedSpacer,
+} from "@/components/ui/primitives/VirtualizedList";
 import { usePersistentState, uid } from "@/lib/db";
 import { isRecord, isStringArray } from "@/lib/validators";
 import { Timer, Pencil, Trash2, Check, X, Plus } from "lucide-react";
@@ -390,17 +392,21 @@ const BucketSection = React.memo(function BucketSection({
   }, [onAddRow, bucket]);
 
   const renderSpacer = React.useCallback(
-    (height: number, position: "start" | "end") => {
-      void position;
-      return (
-        <tr aria-hidden data-row-kind="jungle-spacer">
-          <td
-            colSpan={TABLE_COLUMN_COUNT}
-            style={{ padding: 0, border: "none", height }}
-          />
-        </tr>
-      );
-    },
+    (height: number, position: "start" | "end") => (
+      <VirtualizedSpacer
+        height={height}
+        position={position}
+        render={({ spacerId, ariaHiddenProps }) => (
+          <tr {...ariaHiddenProps} data-row-kind="jungle-spacer">
+            <td
+              data-spacer-id={spacerId}
+              className="border-0 p-0"
+              colSpan={TABLE_COLUMN_COUNT}
+            />
+          </tr>
+        )}
+      />
+    ),
     [],
   );
 

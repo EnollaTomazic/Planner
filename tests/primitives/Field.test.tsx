@@ -13,6 +13,19 @@ describe("Field", () => {
       </FieldRoot>,
     );
 
-    expect(getByTestId("field")).toHaveStyle("--field-h: 48px");
+    const field = getByTestId("field");
+    expect(field.dataset.customHeight).toBe("true");
+    const instanceId = field.getAttribute("data-field-instance");
+    expect(instanceId).toBeTruthy();
+    if (!instanceId) {
+      throw new Error("Expected data-field-instance to be set");
+    }
+    const hasStyle = Array.from(
+      document.querySelectorAll("style"),
+    ).some((node) =>
+      node.textContent?.includes(`[data-field-instance="${instanceId}"]`) &&
+      node.textContent?.includes("--field-h: 48px"),
+    );
+    expect(hasStyle).toBe(true);
   });
 });
