@@ -16,6 +16,8 @@ import TabBar, {
 } from "@/components/ui/layout/TabBar";
 import { cn } from "@/lib/utils";
 
+import { useStickyOffsetClass } from "./useStickyOffsetClass";
+
 type PageTabDefinition = {
   id: string;
   label: React.ReactNode;
@@ -53,6 +55,10 @@ export default function PageTabs({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const [stickyId, stickyStyle] = useStickyOffsetClass(
+    sticky ? topOffset : undefined,
+  );
 
   const search = React.useMemo(() => {
     const serialized = searchParams.toString();
@@ -178,7 +184,8 @@ export default function PageTabs({
         sticky && "sticky z-30 backdrop-blur",
         className,
       )}
-      style={sticky ? { top: topOffset } : undefined}
+      data-sticky={sticky ? "true" : undefined}
+      data-page-tabs-id={sticky ? stickyId : undefined}
     >
       <div className="page-shell">
         <TabBar<string, { href?: string }>
@@ -191,6 +198,7 @@ export default function PageTabs({
           tablistClassName="data-[variant=glitch]:gap-[var(--space-2)] data-[variant=glitch]:py-[var(--space-3)]"
         />
       </div>
+      {stickyStyle}
     </div>
   );
 }
