@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { TabBar, type TabItem } from "@/components/ui";
+import { useScopedCssVars } from "@/components/ui/hooks/useScopedCssVars";
 import { COLOR_PALETTES, type ColorPalette } from "@/lib/theme";
 import styles from "./ColorGallery.module.css";
 
@@ -12,7 +13,7 @@ const paletteTabs: TabItem<ColorPalette>[] = [
 ];
 
 const statusSwatches: ReadonlyArray<{
-  key: string;
+  key: "warning" | "success";
   label: string;
   description: string;
 }> = [
@@ -67,22 +68,9 @@ export default function ColorGallery() {
             <div className="flex flex-col items-center gap-[var(--space-2)] sm:col-span-2 md:col-span-3">
               <span className="text-ui font-medium">Aurora Palette</span>
               <div className="flex gap-[var(--space-2)]">
-                <div
-                  className={`rounded-[var(--radius-md)] ${styles.auroraSwatch}`}
-                  data-palette="aurora-g"
-                />
-                <div
-                  className={`rounded-[var(--radius-md)] ${styles.auroraSwatch}`}
-                  data-palette="aurora-g-light"
-                />
-                <div
-                  className={`rounded-[var(--radius-md)] ${styles.auroraSwatch}`}
-                  data-palette="aurora-p"
-                />
-                <div
-                  className={`rounded-[var(--radius-md)] ${styles.auroraSwatch}`}
-                  data-palette="aurora-p-light"
-                />
+                {COLOR_PALETTES.aurora.map((token) => (
+                  <AuroraSwatch key={token} token={token} />
+                ))}
               </div>
               <p className="mt-2 text-center text-label text-muted-foreground">
                 Use <code>aurora-g</code>, <code>aurora-g-light</code>,{" "}
@@ -96,10 +84,7 @@ export default function ColorGallery() {
               <span className="text-label uppercase tracking-wide text-accent-3">
                 {c}
               </span>
-              <div
-                className={`rounded-[var(--radius-lg)] border ${styles.paletteSwatch}`}
-                data-palette={c}
-              />
+              <PaletteSwatch token={c} />
             </div>
           ))}
           {p.key === "accents" && (
@@ -109,16 +94,7 @@ export default function ColorGallery() {
               </span>
               <div className="grid gap-[var(--space-3)] sm:grid-cols-2">
                 {statusSwatches.map((swatch) => (
-                  <div
-                    key={swatch.key}
-                    data-status={swatch.key}
-                    className={`${styles.statusCard} flex flex-col gap-[var(--space-2)] rounded-[var(--radius-xl)] border border-border/35 p-[var(--space-4)]`}
-                  >
-                    <span className="text-label uppercase tracking-wide opacity-80">
-                      {swatch.label}
-                    </span>
-                    <p className="text-ui leading-snug">{swatch.description}</p>
-                  </div>
+                  <StatusCard key={swatch.key} swatch={swatch} />
                 ))}
               </div>
             </div>
@@ -126,5 +102,83 @@ export default function ColorGallery() {
         </div>
       ))}
     </div>
+  );
+}
+
+type StatusSwatch = (typeof statusSwatches)[number];
+
+function getSwatchColorVar(token: string): string {
+  return `var(--${token}-color, hsl(var(--${token})))`;
+}
+
+function AuroraSwatch({
+  token,
+}: {
+  readonly token: (typeof COLOR_PALETTES.aurora)[number];
+}) {
+  const { scopeProps, Style } = useScopedCssVars({
+    attribute: "data-aurora-swatch",
+    vars: {
+      "--swatch-color": getSwatchColorVar(token),
+    },
+  });
+
+  return (
+    <>
+      {Style}
+      <div
+        className={styles.auroraSwatch}
+        aria-hidden="true"
+        {...(scopeProps ?? {})}
+      />
+    </>
+  );
+}
+
+function PaletteSwatch({ token }: { readonly token: string }) {
+  const { scopeProps, Style } = useScopedCssVars({
+    attribute: "data-palette-swatch",
+    vars: {
+      "--swatch-color": getSwatchColorVar(token),
+    },
+  });
+
+  return (
+    <>
+      {Style}
+      <div
+        className={styles.paletteSwatch}
+        aria-hidden="true"
+        {...(scopeProps ?? {})}
+      />
+    </>
+  );
+}
+
+function StatusCard({ swatch }: { readonly swatch: StatusSwatch }) {
+  const isSuccess = swatch.key === "success";
+  const { scopeProps, Style } = useScopedCssVars({
+    attribute: "data-status-card",
+    vars: {
+      "--status-background": `hsl(var(--${swatch.key}))`,
+      "--status-shadow": isSuccess
+        ? "var(--elevation-2), 0 0 var(--space-4) hsl(var(--success-glow))"
+        : "var(--elevation-2)",
+    },
+  });
+
+  return (
+    <>
+      {Style}
+      <div
+        className={`${styles.statusCard} flex flex-col gap-[var(--space-2)] border border-border/35 p-[var(--space-4)]`}
+        {...(scopeProps ?? {})}
+      >
+        <span className="text-label uppercase tracking-wide opacity-80">
+          {swatch.label}
+        </span>
+        <p className="text-ui leading-snug">{swatch.description}</p>
+      </div>
+    </>
   );
 }
