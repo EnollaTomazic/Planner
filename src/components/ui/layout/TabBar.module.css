@@ -1,138 +1,136 @@
-@layer components {
-  .defaultTablist[data-variant="default"] {
-    position: relative;
-    isolation: isolate;
-    --tablist-surface: color-mix(
-      in oklab,
-      hsl(var(--card)) 88%,
-      hsl(var(--background)) 12%
-    );
-    --tablist-depth: color-mix(
-      in oklab,
-      hsl(var(--panel)) 72%,
-      hsl(var(--background)) 28%
-    );
-    --tablist-border: color-mix(
-      in oklab,
-      hsl(var(--border)) 70%,
-      hsl(var(--foreground)) 30%
-    );
-    --tablist-highlight: color-mix(
-      in oklab,
-      hsl(var(--highlight)) 65%,
-      transparent 35%
-    );
-    --hover: color-mix(
-      in oklab,
-      hsl(var(--card)) 92%,
-      hsl(var(--seg-active-base)) 8%
-    );
-    --active: color-mix(
-      in oklab,
-      hsl(var(--card)) 88%,
-      hsl(var(--seg-active-base)) 12%
-    );
-    background: linear-gradient(140deg, var(--tablist-surface), var(--tablist-depth));
-    border-color: var(--tablist-border);
-    box-shadow:
-      inset 0 1px 0 var(--tablist-highlight),
-      var(--shadow-outline-subtle),
-      0 var(--space-3) var(--space-6) hsl(var(--shadow-color) / 0.24);
-  }
+.defaultTablist[data-variant="default"] {
+  position: relative;
+  isolation: isolate;
+  --tablist-surface: color-mix(
+    in oklab,
+    hsl(var(--card)) 88%,
+    hsl(var(--background)) 12%
+  );
+  --tablist-depth: color-mix(
+    in oklab,
+    hsl(var(--panel)) 72%,
+    hsl(var(--background)) 28%
+  );
+  --tablist-border: color-mix(
+    in oklab,
+    hsl(var(--border)) 70%,
+    hsl(var(--foreground)) 30%
+  );
+  --tablist-highlight: color-mix(
+    in oklab,
+    hsl(var(--highlight)) 65%,
+    transparent 35%
+  );
+  --hover: color-mix(
+    in oklab,
+    hsl(var(--card)) 92%,
+    hsl(var(--seg-active-base)) 8%
+  );
+  --active: color-mix(
+    in oklab,
+    hsl(var(--card)) 88%,
+    hsl(var(--seg-active-base)) 12%
+  );
+  background: linear-gradient(140deg, var(--tablist-surface), var(--tablist-depth));
+  border-color: var(--tablist-border);
+  box-shadow:
+    inset 0 1px 0 var(--tablist-highlight),
+    var(--shadow-outline-subtle),
+    0 var(--space-3) var(--space-6) hsl(var(--shadow-color) / 0.24);
+}
 
-  .defaultTab[data-variant="default"] {
-    background-color: color-mix(
-      in oklab,
-      hsl(var(--card)) 96%,
-      hsl(var(--background)) 4%
-    );
-    box-shadow:
-      inset 0 1px 0 color-mix(in oklab, hsl(var(--highlight)) 72%, transparent 28%),
-      inset 0 -1px 0 hsl(var(--shadow-color) / 0.12),
-      var(--shadow-outline-faint);
-    color: color-mix(
-      in oklab,
-      hsl(var(--foreground)) 92%,
-      hsl(var(--card)) 8%
-    );
-    transition: background-color var(--duration-quick, 220ms) var(--ease-out, ease-out),
-      box-shadow var(--duration-quick, 220ms) var(--ease-out, ease-out),
-      color var(--duration-quick, 220ms) var(--ease-out, ease-out);
-  }
+.defaultTab[data-variant="default"] {
+  background-color: color-mix(
+    in oklab,
+    hsl(var(--card)) 96%,
+    hsl(var(--background)) 4%
+  );
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, hsl(var(--highlight)) 72%, transparent 28%),
+    inset 0 -1px 0 hsl(var(--shadow-color) / 0.12),
+    var(--shadow-outline-faint);
+  color: color-mix(
+    in oklab,
+    hsl(var(--foreground)) 92%,
+    hsl(var(--card)) 8%
+  );
+  transition: background-color var(--duration-quick, 220ms) var(--ease-out, ease-out),
+    box-shadow var(--duration-quick, 220ms) var(--ease-out, ease-out),
+    color var(--duration-quick, 220ms) var(--ease-out, ease-out);
+}
 
-  .defaultTab[data-variant="default"][data-active="true"] {
-    background-color: var(--seg-active-base);
-    background-image: var(--seg-active-grad);
-    color: hsl(var(--foreground));
-    box-shadow:
-      inset 0 0 0 var(--hairline-w) color-mix(in oklab, hsl(var(--ring)) 65%, transparent 35%),
-      var(--shadow-outline-subtle),
-      0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28);
-  }
+.defaultTab[data-variant="default"][data-active="true"] {
+  background-color: var(--seg-active-base);
+  background-image: var(--seg-active-grad);
+  color: hsl(var(--foreground));
+  box-shadow:
+    inset 0 0 0 var(--hairline-w) color-mix(in oklab, hsl(var(--ring)) 65%, transparent 35%),
+    var(--shadow-outline-subtle),
+    0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28);
+}
 
-  .defaultTab[data-variant="default"]:hover:not([data-disabled="true"]):not([data-loading="true"]):not(:disabled) {
-    background-color: var(--hover);
-    box-shadow:
-      inset 0 1px 0 color-mix(in oklab, hsl(var(--highlight)) 72%, transparent 28%),
-      0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.22),
-      var(--shadow-outline-subtle);
-    color: hsl(var(--foreground));
-  }
+.defaultTab[data-variant="default"]:hover:not([data-disabled="true"]):not([data-loading="true"]):not(:disabled) {
+  background-color: var(--hover);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, hsl(var(--highlight)) 72%, transparent 28%),
+    0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.22),
+    var(--shadow-outline-subtle);
+  color: hsl(var(--foreground));
+}
 
-  .defaultTab[data-variant="default"]:active:not([data-disabled="true"]):not([data-loading="true"]):not(:disabled),
-  .defaultTab[data-variant="default"][data-active="true"]:active {
-    background-color: var(--active);
-    box-shadow:
-      inset 0 1px 0 color-mix(in oklab, hsl(var(--highlight)) 62%, transparent 38%),
-      inset 0 0 0 var(--hairline-w) hsl(var(--ring) / 0.4),
-      0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.24);
-  }
+.defaultTab[data-variant="default"]:active:not([data-disabled="true"]):not([data-loading="true"]):not(:disabled),
+.defaultTab[data-variant="default"][data-active="true"]:active {
+  background-color: var(--active);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, hsl(var(--highlight)) 62%, transparent 38%),
+    inset 0 0 0 var(--hairline-w) hsl(var(--ring) / 0.4),
+    0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.24);
+}
 
-  .defaultTab[data-variant="default"][data-loading="true"],
-  .defaultTab[data-variant="default"]:disabled,
-  .defaultTab[data-variant="default"][data-disabled="true"] {
-    background-color: color-mix(
-      in oklab,
-      hsl(var(--card)) 90%,
-      hsl(var(--background)) 10%
-    );
-    color: hsl(var(--muted-foreground));
-    box-shadow: var(--shadow-outline-faint);
-  }
+.defaultTab[data-variant="default"][data-loading="true"],
+.defaultTab[data-variant="default"]:disabled,
+.defaultTab[data-variant="default"][data-disabled="true"] {
+  background-color: color-mix(
+    in oklab,
+    hsl(var(--card)) 90%,
+    hsl(var(--background)) 10%
+  );
+  color: hsl(var(--muted-foreground));
+  box-shadow: var(--shadow-outline-faint);
+}
 
-  .neoTablist[data-variant="neo"] {
-    --neo-tablist-bg: linear-gradient(
-      140deg,
-      hsl(var(--card) / 0.88),
-      hsl(var(--panel) / 0.72)
-    );
-    --neo-tablist-shadow: inset var(--space-1) var(--space-1) var(--space-3)
-        hsl(var(--background) / 0.55),
-      inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-3)
-        hsl(var(--highlight) / 0.08),
-      0 0 var(--space-4) hsl(var(--ring) / 0.25);
-    --neo-tab-bg: linear-gradient(
-      145deg,
-      hsl(var(--card) / 0.92),
-      hsl(var(--panel) / 0.78)
-    );
-    --shadow-raised: var(--space-3) var(--space-3) var(--space-5)
-        hsl(var(--panel) / 0.72),
-      calc(var(--space-3) * -1) calc(var(--space-3) * -1) var(--space-5)
-        hsl(var(--foreground) / 0.06),
-      0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28);
-    --shadow-raised-hover: calc(var(--space-1) * 3.75)
-        calc(var(--space-1) * 3.75) calc(var(--space-1) * 7.5)
-        hsl(var(--panel) / 0.72),
-      calc(var(--space-1) * -3.75) calc(var(--space-1) * -3.75)
-        calc(var(--space-1) * 7.5) hsl(var(--foreground) / 0.06),
-      0 var(--space-3) var(--space-5) hsl(var(--shadow-color) / 0.32);
-    --shadow-inset: inset calc(var(--space-1) * 1.75)
-        calc(var(--space-1) * 1.75) var(--space-4)
-        hsl(var(--panel) / 0.85),
-      inset calc(var(--space-1) * -1.75) calc(var(--space-1) * -1.75)
-        var(--space-4) hsl(var(--foreground) / 0.08),
-      inset 0 0 0 1px hsl(var(--ring) / 0.35),
-      0 var(--space-3) var(--space-6) hsl(var(--shadow-color) / 0.35);
-  }
+.neoTablist[data-variant="neo"] {
+  --neo-tablist-bg: linear-gradient(
+    140deg,
+    hsl(var(--card) / 0.88),
+    hsl(var(--panel) / 0.72)
+  );
+  --neo-tablist-shadow: inset var(--space-1) var(--space-1) var(--space-3)
+      hsl(var(--background) / 0.55),
+    inset calc(-1 * var(--space-1)) calc(-1 * var(--space-1)) var(--space-3)
+      hsl(var(--highlight) / 0.08),
+    0 0 var(--space-4) hsl(var(--ring) / 0.25);
+  --neo-tab-bg: linear-gradient(
+    145deg,
+    hsl(var(--card) / 0.92),
+    hsl(var(--panel) / 0.78)
+  );
+  --shadow-raised: var(--space-3) var(--space-3) var(--space-5)
+      hsl(var(--panel) / 0.72),
+    calc(var(--space-3) * -1) calc(var(--space-3) * -1) var(--space-5)
+      hsl(var(--foreground) / 0.06),
+    0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.28);
+  --shadow-raised-hover: calc(var(--space-1) * 3.75)
+      calc(var(--space-1) * 3.75) calc(var(--space-1) * 7.5)
+      hsl(var(--panel) / 0.72),
+    calc(var(--space-1) * -3.75) calc(var(--space-1) * -3.75)
+      calc(var(--space-1) * 7.5) hsl(var(--foreground) / 0.06),
+    0 var(--space-3) var(--space-5) hsl(var(--shadow-color) / 0.32);
+  --shadow-inset: inset calc(var(--space-1) * 1.75)
+      calc(var(--space-1) * 1.75) var(--space-4)
+      hsl(var(--panel) / 0.85),
+    inset calc(var(--space-1) * -1.75) calc(var(--space-1) * -1.75)
+      var(--space-4) hsl(var(--foreground) / 0.08),
+    inset 0 0 0 1px hsl(var(--ring) / 0.35),
+    0 var(--space-3) var(--space-6) hsl(var(--shadow-color) / 0.35);
 }
