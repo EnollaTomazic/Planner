@@ -122,6 +122,15 @@ export const rootVariables: VariableDefinition[] = [
   { comment: "overlay alpha", name: "glitch-static-opacity", value: "0.18" },
   { name: "glitch-noise-level", value: "var(--glitch-static-opacity)" },
   {
+    comment: "Button glitch overlays",
+    name: "glitch-overlay-button-opacity",
+    value: "0.42",
+  },
+  {
+    name: "glitch-overlay-button-opacity-reduced",
+    value: "0.28",
+  },
+  {
     comment: "Chromatic separation offsets",
     name: "glitch-chromatic-offset-strong",
     value: "calc(var(--spacing-0-25) / 4)",
