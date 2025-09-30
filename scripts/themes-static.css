@@ -28,31 +28,53 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
     );
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-lg body::before,
-html.theme-lg-dark body::before,
-html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
-    .theme-kitten
-  ):not(.theme-aurora):not(.theme-hardstuck)
-  body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: var(--backdrop-grid-opacity);
-  background:
-    repeating-linear-gradient(
+.page-backdrop__layer[data-variant="grid"] {
+  --grid-stroke: hsl(var(--grid-color));
+  --grid-mask: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.6) 48%,
+    rgba(0, 0, 0, 0) 78%
+  );
+  background-image:
+    linear-gradient(
       90deg,
-      hsl(var(--backdrop-grid-primary)) 0 1px,
-      transparent 1px 26px
+      var(--grid-stroke) 0 var(--hairline-w),
+      transparent var(--hairline-w) var(--grid-size)
     ),
-    repeating-linear-gradient(
+    linear-gradient(
       0deg,
-      hsl(var(--backdrop-grid-secondary)) 0 1px,
-      transparent 1px 26px
+      var(--grid-stroke) 0 var(--hairline-w),
+      transparent var(--hairline-w) var(--grid-size)
     );
+  background-size:
+    var(--grid-size) var(--grid-size),
+    var(--grid-size) var(--grid-size);
+  background-position: 0 0, 0 0;
+  background-repeat: repeat, repeat;
   mix-blend-mode: screen;
-  animation: lg-grid-drift 18s linear infinite;
+  opacity: var(--grid-alpha);
+  will-change: background-position;
+  animation: grid-drift 28s linear infinite;
+  transform: translateZ(0);
+  -webkit-mask-image: var(--grid-mask);
+  mask-image: var(--grid-mask);
+  -webkit-mask-size: 160% 160%;
+  mask-size: 160% 160%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-backdrop__layer[data-variant="grid"] {
+    animation: none;
+  }
+}
+
+html.no-animations .page-backdrop__layer[data-variant="grid"] {
+  animation: none;
 }
 html.theme-lg body::after,
 html.theme-lg-dark body::after,
@@ -142,27 +164,6 @@ html.theme-citrus body {
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-citrus body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: var(--backdrop-grid-opacity);
-  background:
-    repeating-linear-gradient(
-      90deg,
-      hsl(var(--backdrop-grid-primary) / 0.25) 0 1px,
-      transparent 1px 26px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      hsl(var(--backdrop-grid-secondary) / 0.25) 0 1px,
-      transparent 1px 26px
-    );
-  mix-blend-mode: screen;
-  animation: citrus-grid 20s linear infinite;
-}
 html.theme-citrus body::after {
   content: "";
   position: fixed;
@@ -187,11 +188,6 @@ html.theme-citrus body::after {
     );
   filter: blur(2px) saturate(110%);
   animation: citrus-pan 28s ease-in-out infinite alternate;
-}
-@keyframes citrus-grid {
-  to {
-    transform: translate3d(26px, 26px, 0);
-  }
 }
 @keyframes citrus-pan {
   0% {
@@ -224,21 +220,6 @@ html.theme-noir body {
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-noir body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    hsl(var(--backdrop-grid-primary) / 0.05) 0 1px,
-    transparent 1px 3px
-  );
-  mix-blend-mode: screen;
-  opacity: var(--backdrop-grid-opacity);
-  animation: noir-scan 14s linear infinite;
-}
 html.theme-noir body::after {
   content: "";
   position: fixed;
@@ -265,14 +246,6 @@ html.theme-noir body::after {
   opacity: 0.9;
   animation: noir-drift 26s ease-in-out infinite alternate;
 }
-@keyframes noir-scan {
-  0% {
-    background-position-y: 0;
-  }
-  100% {
-    background-position-y: 100%;
-  }
-}
 @keyframes noir-drift {
   0% {
     transform: translate3d(-1%, 0, 0);
@@ -297,27 +270,6 @@ html.theme-ocean body {
     ),
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
-}
-html.theme-ocean body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      hsl(var(--backdrop-grid-primary) / 0.28) 0 1px,
-      transparent 1px 26px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      hsl(var(--backdrop-grid-secondary) / 0.22) 0 1px,
-      transparent 1px 26px
-    );
-  mix-blend-mode: screen;
-  opacity: var(--backdrop-grid-opacity);
-  animation: lg-grid-drift 20s linear infinite;
 }
 html.theme-ocean body::after {
   content: "";
@@ -375,27 +327,6 @@ html.theme-kitten body {
     linear-gradient(180deg, hsl(var(--card) / 0.92), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-kitten body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      hsl(var(--backdrop-grid-primary) / 0.3) 0 1px,
-      transparent 1px 26px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      hsl(var(--backdrop-grid-secondary) / 0.26) 0 1px,
-      transparent 1px 26px
-    );
-  mix-blend-mode: screen;
-  opacity: var(--backdrop-grid-opacity);
-  animation: lg-grid-drift 18s linear infinite;
-}
 html.theme-kitten body::after {
   content: "";
   position: fixed;
@@ -446,21 +377,6 @@ html.theme-hardstuck body {
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-hardstuck body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    hsl(var(--backdrop-grid-primary) / 0.05) 0 1px,
-    transparent 1px 3px
-  );
-  mix-blend-mode: screen;
-  opacity: var(--backdrop-grid-opacity);
-  animation: hardstuck-scan 14s linear infinite;
-}
 html.theme-hardstuck body::after {
   content: "";
   position: fixed;
@@ -510,17 +426,6 @@ html.theme-retro body {
   background-attachment: fixed, fixed, fixed, fixed;
 }
 
-html.theme-retro body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: var(--grid-lines);
-  opacity: 0.18;
-  mix-blend-mode: screen;
-}
-
 html.theme-retro body::after {
   content: "";
   position: fixed;
@@ -549,20 +454,8 @@ html.theme-retro body::after {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  html.theme-retro body::before {
-    animation: retro-pan 26s linear infinite;
-  }
-
   html.theme-retro body::after {
     animation: retro-pan 38s linear infinite reverse;
-  }
-}
-@keyframes hardstuck-scan {
-  0% {
-    background-position-y: 0;
-  }
-  100% {
-    background-position-y: 100%;
   }
 }
 @keyframes hardstuck-drift {
@@ -669,14 +562,22 @@ html.bg-streak body::after {
 }
 
 /* ---------- Shared backdrop animations ---------- */
-@keyframes lg-grid-drift {
+@keyframes grid-drift {
   0% {
-    transform: translate3d(0, 0, 0);
+    background-position: 0 0, 0 0;
+  }
+  50% {
+    background-position:
+      calc(var(--grid-size) * -0.5) calc(var(--grid-size) * 0.5),
+      calc(var(--grid-size) * 0.5) calc(var(--grid-size) * -0.5);
   }
   100% {
-    transform: translate3d(26px, 26px, 0);
+    background-position:
+      calc(var(--grid-size) * -1) calc(var(--grid-size)),
+      calc(var(--grid-size)) calc(var(--grid-size) * -1);
   }
 }
+
 @keyframes lg-aurora-pan {
   0% {
     transform: translate3d(-2%, -1%, 0) scale(1.02);
