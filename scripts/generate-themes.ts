@@ -39,11 +39,32 @@ const SUPPORTS_SECTION = String.raw`/* Upgrade tokens when color-mix(oklab) is s
       hsl(var(--background)) 30%
     );
     --glow-active: color-mix(in oklab, hsl(var(--glow)) 50%, transparent);
+    --glow-primary: color-mix(in oklab, hsl(var(--primary)) 58%, transparent);
     --neon-soft: color-mix(in oklab, hsl(var(--neon)) 50%, transparent);
     --card-hairline: color-mix(
       in oklab,
       hsl(var(--border)) 82%,
       hsl(var(--accent)) 18%
+    );
+    --blob-surface-1: color-mix(
+      in oklab,
+      hsl(var(--surface)) 72%,
+      hsl(var(--accent)) 28%
+    );
+    --blob-surface-2: color-mix(
+      in oklab,
+      hsl(var(--surface-2)) 68%,
+      hsl(var(--accent-2)) 32%
+    );
+    --blob-surface-3: color-mix(
+      in oklab,
+      hsl(var(--card)) 70%,
+      hsl(var(--ring)) 30%
+    );
+    --blob-surface-shadow: color-mix(
+      in oklab,
+      hsl(var(--shadow-color)) 68%,
+      hsl(var(--background)) 32%
     );
     --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
     --aurora-g-light-color: var(--aurora-g-light);
@@ -55,6 +76,52 @@ const SUPPORTS_SECTION = String.raw`/* Upgrade tokens when color-mix(oklab) is s
     --aurora-g-light-color: var(--aurora-g-light);
     --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
     --aurora-p-light-color: var(--aurora-p-light);
+  }
+  html.theme-hardstuck {
+    --blob-surface-1: color-mix(
+      in oklab,
+      hsl(var(--surface)) 62%,
+      hsl(var(--hardstuck-foreground)) 38%
+    );
+    --blob-surface-2: color-mix(
+      in oklab,
+      hsl(var(--surface-2)) 58%,
+      hsl(var(--hardstuck-foreground)) 42%
+    );
+    --blob-surface-3: color-mix(
+      in oklab,
+      hsl(var(--card)) 60%,
+      hsl(var(--ring)) 40%
+    );
+    --blob-surface-shadow: color-mix(
+      in oklab,
+      hsl(var(--shadow-color)) 64%,
+      hsl(var(--background)) 36%
+    );
+    --glow-primary: color-mix(in oklab, hsl(var(--ring)) 52%, transparent);
+  }
+  html.theme-noir {
+    --blob-surface-1: color-mix(
+      in oklab,
+      hsl(var(--surface)) 66%,
+      hsl(var(--foreground)) 34%
+    );
+    --blob-surface-2: color-mix(
+      in oklab,
+      hsl(var(--surface-2)) 60%,
+      hsl(var(--foreground)) 40%
+    );
+    --blob-surface-3: color-mix(
+      in oklab,
+      hsl(var(--card)) 64%,
+      hsl(var(--accent)) 36%
+    );
+    --blob-surface-shadow: color-mix(
+      in oklab,
+      hsl(var(--shadow-color)) 66%,
+      hsl(var(--background)) 34%
+    );
+    --glow-primary: color-mix(in oklab, hsl(var(--ring)) 56%, transparent);
   }
 }
 
