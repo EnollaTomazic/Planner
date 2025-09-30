@@ -137,7 +137,16 @@ describe("WeekPicker", () => {
     expect(totalsBlock).not.toBeNull();
     expect(totalsBlock).toHaveClass("inline-flex");
     expect(totalsBlock).toHaveClass("items-baseline");
+    expect(totalsBlock).toHaveClass("chip-gap-x-tight");
     expect(totalsBlock).toHaveTextContent(/Total tasks:\s*\d+\s*\/\s*\d+/);
+
+    const navGroup = screen.getByRole("group", { name: "Week navigation" });
+    expect(navGroup).toHaveClass("chip-gap-x-tight");
+    expect(navGroup).toHaveClass("chip-gap-y-tight");
+
+    const chipList = screen.getByRole("listbox");
+    expect(chipList).toHaveClass("chip-gap-x");
+    expect(chipList).toHaveClass("chip-gap-y");
   });
 
   it("renders compact chip labels with descriptive accessibility text", () => {
@@ -171,23 +180,51 @@ describe("WeekPicker", () => {
 
     expect(firstOption).toHaveClass("focus-visible:outline-none");
     expect(firstOption).toHaveClass("focus-visible:ring");
-    expect(firstOption).toHaveClass("focus-visible:ring-offset-0");
     expect(firstOption.className).toContain(
       "focus-visible:[--tw-ring-width:var(--ring-size-2)]",
     );
     expect(firstOption.className).toContain(
-      "focus-visible:[--tw-ring-color:var(--theme-ring)]",
+      "focus-visible:[--tw-ring-offset-width:var(--ring-size-1)]",
     );
-    expect(firstOption.className).toContain("data-[focus-visible]:outline-none");
-    expect(firstOption.className).toContain("data-[focus-visible]:ring");
     expect(firstOption.className).toContain(
-      "data-[focus-visible]:ring-offset-0",
+      "focus-visible:ring-[var(--ring-accent)]",
     );
+    expect(firstOption.className).toContain(
+      "focus-visible:ring-offset-[var(--focus-outline)]",
+    );
+    expect(firstOption.className).toContain(
+      "data-[focus-visible]:outline-none",
+    );
+    expect(firstOption.className).toContain("data-[focus-visible]:ring");
     expect(firstOption.className).toContain(
       "data-[focus-visible]:[--tw-ring-width:var(--ring-size-2)]",
     );
     expect(firstOption.className).toContain(
-      "data-[focus-visible]:[--tw-ring-color:var(--theme-ring)]",
+      "data-[focus-visible]:[--tw-ring-offset-width:var(--ring-size-1)]",
+    );
+    expect(firstOption.className).toContain(
+      "data-[focus-visible]:ring-[var(--ring-accent)]",
+    );
+    expect(firstOption.className).toContain(
+      "data-[focus-visible]:ring-offset-[var(--focus-outline)]",
+    );
+    expect(firstOption.className).toContain(
+      "[--ring-accent:var(--theme-ring)]",
+    );
+    expect(firstOption.className).toContain(
+      "[--focus-outline:hsl(var(--surface))]",
+    );
+    expect(firstOption.className).toContain(
+      "bg-[var(--chip-surface-rest)]",
+    );
+    expect(firstOption.className).toContain(
+      "border-[var(--chip-border-rest)]",
+    );
+    expect(firstOption.className).toContain(
+      "[--chip-surface-rest:hsl(var(--card))]",
+    );
+    expect(firstOption.className).toContain(
+      "[--chip-border-rest:hsl(var(--card-hairline))]",
     );
   });
 

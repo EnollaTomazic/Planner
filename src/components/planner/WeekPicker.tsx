@@ -104,18 +104,43 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
     }
     return ratio;
   }, [done, total]);
-  const { tint: completionTint, text: completionTextClass } = React.useMemo(() => {
-    if (total === 0) {
-      return { tint: "bg-card", text: "text-muted-foreground" };
-    }
-    if (completionRatio >= 2 / 3) {
-      return { tint: "bg-success-soft", text: "text-foreground" };
-    }
-    if (completionRatio >= 1 / 3) {
-      return { tint: "bg-accent-3/20", text: "text-foreground" };
-    }
-    return { tint: "bg-accent-3/30", text: "text-foreground" };
-  }, [completionRatio, total]);
+  const {
+    surface: completionSurfaceClass,
+    text: completionTextClass,
+    neutral: isNeutralSurface,
+  } =
+    React.useMemo(() => {
+      if (total === 0) {
+        return {
+          surface:
+            "[--chip-surface-rest:hsl(var(--card))] [--chip-surface-selected:hsl(var(--card))]",
+          text: "text-muted-foreground",
+          neutral: true,
+        } as const;
+      }
+      if (completionRatio >= 2 / 3) {
+        return {
+          surface:
+            "[--chip-surface-rest:hsl(var(--success-soft))] [--chip-surface-selected:hsl(var(--success-soft))]",
+          text: "text-foreground",
+          neutral: false,
+        } as const;
+      }
+      if (completionRatio >= 1 / 3) {
+        return {
+          surface:
+            "[--chip-surface-rest:hsl(var(--accent-3)/0.2)] [--chip-surface-selected:hsl(var(--accent-3)/0.2)]",
+          text: "text-foreground",
+          neutral: false,
+        } as const;
+      }
+      return {
+        surface:
+          "[--chip-surface-rest:hsl(var(--accent-3)/0.3)] [--chip-surface-selected:hsl(var(--accent-3)/0.3)]",
+        text: "text-foreground",
+        neutral: false,
+      } as const;
+    }, [completionRatio, total]);
   const instructionsId = React.useId();
   const countsId = React.useId();
   const instructionsText = selected
@@ -175,16 +200,16 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
       }
       className={cn(
         "chip chip-token relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left transition snap-start",
-        "focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-0 focus-visible:[--tw-ring-width:var(--ring-size-2)] focus-visible:[--tw-ring-color:var(--theme-ring)]",
-        "data-[focus-visible]:outline-none data-[focus-visible]:ring data-[focus-visible]:ring-offset-0 data-[focus-visible]:[--tw-ring-width:var(--ring-size-2)] data-[focus-visible]:[--tw-ring-color:var(--theme-ring)]",
-        // default border is NOT white; use card hairline tint
-        "border-card-hairline",
-        completionTint,
-        "active:border-primary/60 active:bg-card/85",
+        "bg-[var(--chip-surface-rest)] hover:bg-[var(--chip-surface-hover)] active:bg-[var(--chip-surface-active)] data-[active]:bg-[var(--chip-surface-selected)]",
+        "border-[var(--chip-border-rest)] hover:border-[var(--chip-border-hover)] active:border-[var(--chip-border-active)] data-[active]:border-[var(--chip-border-selected)] data-[active]:border-dashed",
+        "focus-visible:outline-none focus-visible:ring focus-visible:[--tw-ring-width:var(--ring-size-2)] focus-visible:[--tw-ring-offset-width:var(--ring-size-1)] focus-visible:ring-[var(--ring-accent)] focus-visible:ring-offset-[var(--focus-outline)]",
+        "data-[focus-visible]:outline-none data-[focus-visible]:ring data-[focus-visible]:[--tw-ring-width:var(--ring-size-2)] data-[focus-visible]:[--tw-ring-offset-width:var(--ring-size-1)] data-[focus-visible]:ring-[var(--ring-accent)] data-[focus-visible]:ring-offset-[var(--focus-outline)]",
+        "[--chip-border-rest:hsl(var(--card-hairline))] [--chip-border-hover:hsl(var(--accent-3)/0.55)] [--chip-border-active:hsl(var(--accent-3)/0.6)] [--chip-border-selected:hsl(var(--ring))]",
+        "[--chip-surface-rest:hsl(var(--card))] [--chip-surface-hover:color-mix(in_oklab,_hsl(var(--card))_88%,_hsl(var(--accent-3)/0.16))] [--chip-surface-active:color-mix(in_oklab,_hsl(var(--card))_82%,_hsl(var(--accent-3)/0.24))] [--chip-surface-selected:color-mix(in_oklab,_hsl(var(--card))_84%,_hsl(var(--ring)/0.28))]",
+        "[--ring-accent:var(--theme-ring)] [--focus-outline:hsl(var(--surface))]",
+        completionSurfaceClass,
         today && "chip--today",
-        selected
-          ? "border-dashed border-primary/75"
-          : "hover:border-primary/40",
+        selected && "chip--active",
       )}
       data-today={today || undefined}
       data-active={selected || undefined}
@@ -193,7 +218,7 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
         className={cn(
           "chip__date",
           completionTextClass,
-          today && completionTint === "bg-card" ? "text-accent-3" : undefined,
+          today && isNeutralSurface ? "text-accent-3" : undefined,
         )}
         data-text={displayLabel}
       >
@@ -406,7 +431,7 @@ export default function WeekPicker() {
           <div
             role="group"
             aria-label="Week navigation"
-            className="flex flex-wrap items-center gap-[var(--space-2)]"
+            className="flex flex-wrap items-center chip-gap-x-tight chip-gap-y-tight"
           >
             <Button
               variant="ghost"
@@ -440,7 +465,7 @@ export default function WeekPicker() {
           <span className="sr-only" aria-live="polite">
             Week range {accessibleRange}
           </span>
-          <span className="inline-flex items-baseline gap-[var(--space-1)] text-ui text-muted-foreground">
+          <span className="inline-flex items-baseline chip-gap-x-tight text-ui text-muted-foreground">
             <span>Total tasks:</span>
             <span className="font-medium tabular-nums text-foreground">
               {weekDone} / {weekTotal}
@@ -451,7 +476,7 @@ export default function WeekPicker() {
           <div
             role="listbox"
             aria-label={`Select a focus day between ${rangeLabel}`}
-            className="flex flex-nowrap gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:flex-wrap lg:gap-y-[var(--space-3)] lg:overflow-visible lg:[scroll-snap-type:none]"
+            className="flex flex-nowrap overflow-x-auto snap-x snap-mandatory chip-gap-x chip-gap-y lg:flex-wrap lg:overflow-visible lg:[scroll-snap-type:none]"
           >
             {days.map((d, i) => (
               <DayChip
