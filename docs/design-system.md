@@ -55,6 +55,10 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 - `--shadow-dropdown` – menu and popover elevation token shared by Tailwind's `shadow-dropdown` utility ([tokens.css](../tokens/tokens.css)).
 - `--shadow-neon` – layered neon text glow built from spacing tokens ([themes.css](../src/app/themes.css#L13-L16)).
 - `--aurora-g-light` / `--aurora-p-light` – static fallbacks for the aurora gradients when `color-mix` is unavailable. Use them with the `aurora` classes instead of blending alphas manually so the palette remains consistent across browsers.
+- `--shadow-inner-sm` / `--shadow-inner-md` / `--shadow-outer-lg` – inset and deep outer shadows that align with the neumorphic depth model. Use the small inner layer for pressed controls, the medium inner layer for sunken panels, and the large outer layer for wide surfaces. Hardstuck and Noir clamp the alpha mix to retain readable foreground contrast across the darker palettes ([themes.css](../src/app/themes.css#L784-L789), [Noir override](../src/app/themes.css#L620-L625)).
+- `--glow-primary` – chroma glow tied to `--primary`; upgrades via `color-mix` for richer bloom while honoring each theme's accessibility baseline ([themes.css](../src/app/themes.css#L244-L245), [Hardstuck mix](../src/app/themes.css#L449-L455)).
+- `--blob-surface-1` / `--blob-surface-2` / `--blob-surface-3` / `--blob-surface-shadow` – organic surface stops for hero blobs and vignette backgrounds. Default values borrow from the neutral surfaces and receive theme-specific blends in the color-mix block so Hardstuck and Noir lighten their fills without sacrificing depth ([themes.css](../src/app/themes.css#L246-L248), [color-mix overrides](../src/app/themes.css#L433-L470)).
+- `--glitch-noise-primary` / `--glitch-noise-secondary` / `--glitch-noise-contrast` – scoped noise overlays for glitch treatments. The base palette keys off accent, ring, and foreground tokens while Hardstuck/Noir swap in greener and ruby-tinted alphas for accessible luminance ([themes.css](../src/app/themes.css#L249-L253), [Hardstuck noise tuning](../src/app/themes.css#L793-L796)).
 
 ## Layout and spacing
 
