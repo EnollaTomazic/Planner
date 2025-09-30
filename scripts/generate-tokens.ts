@@ -36,6 +36,11 @@ const REQUIRED_THEME_TOKEN_GROUPS = {
     "depth-shadow-outer-strong",
     "depth-shadow-soft",
     "depth-shadow-inner",
+    "shadow-outer-sm",
+    "shadow-outer-md",
+    "shadow-outer-lg",
+    "shadow-inner-sm",
+    "shadow-inner-md",
     "shadow-inner-lg",
     "depth-glow-highlight-soft",
     "depth-glow-highlight-medium",
@@ -45,8 +50,13 @@ const REQUIRED_THEME_TOKEN_GROUPS = {
     "depth-glow-shadow-strong",
     "depth-focus-ring-rest",
     "depth-focus-ring-active",
+    "glow-ring-sm",
+    "glow-ring-md",
     "shadow-outer-xl",
     "glow-ring",
+    "card-elev-1",
+    "card-elev-2",
+    "card-elev-3",
   ],
   organicBackdrop: [
     "backdrop-blob-1",
@@ -60,11 +70,14 @@ const REQUIRED_THEME_TOKEN_GROUPS = {
     "backdrop-drip-2",
     "backdrop-drip-3",
     "backdrop-drip-shadow",
+    "blob-surface",
     "blob-surface-1",
     "blob-surface-2",
     "blob-surface-3",
     "blob-surface-shadow",
+    "drip-surface",
     "blob-radius-soft",
+    "gradient-blob-primary",
   ],
   glitch: [
     "neo-glow-strength",
@@ -91,6 +104,12 @@ const REQUIRED_THEME_TOKEN_GROUPS = {
     "glitch-noise-secondary",
     "glitch-noise-contrast",
     "glitch-noise-hover",
+    "gradient-glitch-primary",
+  ],
+  motion: [
+    "glitch-scanline",
+    "glitch-rgb-shift",
+    "glow-pulse",
   ],
 } as const;
 
@@ -278,22 +297,56 @@ async function buildTokens(): Promise<void> {
       "inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28)",
     "shadow-inner-lg":
       "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)",
+    "shadow-outer-sm":
+      "0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.24)",
+    "shadow-outer-md":
+      "0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.3)",
     "shadow-outer-lg":
       "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36)",
     "shadow-outer-xl":
       "0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45)",
+    "card-elev-1":
+      "var(--shadow-outline-faint), var(--shadow-outer-sm)",
+    "card-elev-2":
+      "var(--shadow-outline-subtle), var(--shadow-outer-md)",
+    "card-elev-3":
+      "var(--shadow-outline-subtle), var(--shadow-outer-lg)",
+    "glow-ring-sm":
+      "0 0 0 calc(var(--spacing-0-25)) hsl(var(--ring) / 0.45)",
+    "glow-ring-md":
+      "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-2) hsl(var(--ring) / 0.2)",
     "glow-ring":
       "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
     "glow-primary": "hsl(var(--primary) / 0.55)",
+    "glow-pulse":
+      "glow-pulse var(--dur-slow) var(--ease-out) infinite alternate",
+    "blob-surface":
+      "color-mix(in oklab, hsl(var(--surface)) 70%, hsl(var(--surface-2)) 30%)",
     "blob-surface-1": "hsl(var(--surface))",
     "blob-surface-2": "hsl(var(--surface-2))",
     "blob-surface-3": "hsl(var(--card))",
     "blob-surface-shadow": "hsl(var(--shadow-color) / 0.4)",
     "blob-radius-soft": "calc(var(--radius-2xl) + var(--spacing-2))",
+    "drip-surface":
+      "color-mix(in oklab, hsl(var(--accent)) 18%, hsl(var(--background)) 82%)",
+    "gradient-blob-primary":
+      "radial-gradient(120% 120% at 50% 10%, hsl(var(--surface) / 0.85), hsl(var(--surface-2) / 0.35), transparent 85%)",
     "glitch-noise-primary": "hsl(var(--accent) / 0.25)",
     "glitch-noise-secondary": "hsl(var(--ring) / 0.2)",
     "glitch-noise-contrast": "hsl(var(--foreground) / 0.12)",
     "glitch-noise-hover": "calc(var(--glitch-noise-level) * 1.3)",
+    "gradient-glitch-primary":
+      "linear-gradient(135deg, hsl(var(--accent) / 0.35), hsl(var(--accent-2) / 0.3))",
+    "glitch-rgb-shift":
+      "drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45))",
+    "glitch-scanline":
+      "glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite",
+  };
+
+  const reducedMotionTokens: Record<string, string> = {
+    "glitch-scanline": "none",
+    "glitch-rgb-shift": "none",
+    "glow-pulse": "none",
   };
 
   for (const [name, value] of Object.entries(derivedColorTokens)) {
@@ -428,6 +481,7 @@ async function buildTokens(): Promise<void> {
 
   const tokensPath = path.resolve(__dirname, "../tokens/tokens.css");
   await applyAuroraColorMixOverrides(tokensPath);
+  await applyMotionOverrides(tokensPath, derivedColorTokens, reducedMotionTokens);
 }
 
 buildTokens();
@@ -443,6 +497,12 @@ const AURORA_SUPPORT_BLOCK = `@supports (color: color-mix(in oklab, white, black
 
 const AURORA_SUPPORT_REGEX =
   /@supports \(color: color-mix\(in oklab, white, black\)\) {\s*:root {\s*[\s\S]*?}\s*}\s*/g;
+
+const MOTION_NO_PREFERENCE_REGEX =
+  /@media \(prefers-reduced-motion: no-preference\) {\s*:root {\s*(?:--[a-z0-9-]+: [^;]+;\s*)+}\s*}\s*/gi;
+
+const MOTION_REDUCED_REGEX =
+  /@media \(prefers-reduced-motion: reduce\) {\s*:root {\s*(?:--[a-z0-9-]+: [^;]+;\s*)+}\s*}\s*/gi;
 
 async function readCssWithRetry(filePath: string): Promise<string> {
   const attempts = 5;
@@ -461,5 +521,55 @@ async function applyAuroraColorMixOverrides(filePath: string): Promise<void> {
   const stripped = css.replace(AURORA_SUPPORT_REGEX, "").trimEnd();
   const baseCss = stripped.length > 0 ? stripped : css.trimEnd();
   const content = `${baseCss}\n\n${AURORA_SUPPORT_BLOCK}\n`;
+  await fs.writeFile(filePath, content);
+}
+
+async function applyMotionOverrides(
+  filePath: string,
+  baseTokens: Record<string, string>,
+  reducedTokens: Record<string, string>,
+): Promise<void> {
+  const css = await readCssWithRetry(filePath);
+  const sanitized = css
+    .replace(MOTION_NO_PREFERENCE_REGEX, "")
+    .replace(MOTION_REDUCED_REGEX, "")
+    .trimEnd();
+
+  const baseEntries = Object.keys(reducedTokens)
+    .map((name) => {
+      const value = baseTokens[name];
+      if (!value) {
+        return undefined;
+      }
+      return `    --${name}: ${value};`;
+    })
+    .filter((entry): entry is string => Boolean(entry));
+
+  const reducedEntries = Object.entries(reducedTokens).map(
+    ([name, value]) => `    --${name}: ${value};`,
+  );
+
+  if (baseEntries.length === 0 || reducedEntries.length === 0) {
+    await fs.writeFile(filePath, `${sanitized}\n`);
+    return;
+  }
+
+  const noPreferenceBlock = [
+    "@media (prefers-reduced-motion: no-preference) {",
+    "  :root {",
+    ...baseEntries,
+    "  }",
+    "}",
+  ].join("\n");
+
+  const reducedBlock = [
+    "@media (prefers-reduced-motion: reduce) {",
+    "  :root {",
+    ...reducedEntries,
+    "  }",
+    "}",
+  ].join("\n");
+
+  const content = `${sanitized}\n\n${noPreferenceBlock}\n\n${reducedBlock}\n`;
   await fs.writeFile(filePath, content);
 }
