@@ -4,13 +4,7 @@ import * as React from "react";
 import { useGoals } from "@/components/goals";
 import { useChatPrompts } from "@/components/prompts";
 import { useReviews } from "@/components/reviews";
-import {
-  useDay,
-  useFocusDate,
-  useWeek,
-  useWeekData,
-  FOCUS_PLACEHOLDER,
-} from "@/components/planner";
+import { useDay, useFocusDate, useWeek, useWeekData } from "@/components/planner";
 import { formatWeekRangeLabel, fromISODate } from "@/lib/date";
 import { LOCALE } from "@/lib/utils";
 import type {
@@ -43,8 +37,8 @@ type PlannerCalendarDayState = ReturnType<typeof useWeekData>["per"][number] & {
 };
 
 export function useHomePlannerOverview(): PlannerOverviewProps {
-  const { iso, setIso, today } = useFocusDate();
-  const hydrating = today === FOCUS_PLACEHOLDER;
+  const { iso, setIso, hydrated } = useFocusDate();
+  const hydrating = !hydrated;
   const { projects, tasks, toggleTask, doneCount, totalCount } = useDay(iso);
   const tasksPreview = React.useMemo(() => tasks.slice(0, 4), [tasks]);
   const remainingTasks = Math.max(tasks.length - tasksPreview.length, 0);
@@ -266,6 +260,7 @@ export function useHomePlannerOverview(): PlannerOverviewProps {
 
   return {
     hydrating,
+    hydrated,
     summary: {
       label: "Highlights",
       title: "Quick summary",

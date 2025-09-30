@@ -7,11 +7,11 @@ import type { ISODate } from "./plannerTypes";
 
 /**
  * Exposes the currently focused ISO date and helper to update it.
- * @returns Current focus ISO date, setter, and today's ISO string.
+ * @returns Current focus ISO date, setter, today's ISO string, and hydration flag.
  */
 export function useFocusDate() {
-  const { iso, setIso, today } = usePlanner();
-  return { iso, setIso, today } as const;
+  const { iso, setIso, today, hydrated } = usePlanner();
+  return { iso, setIso, today, hydrated } as const;
 }
 
 /**
