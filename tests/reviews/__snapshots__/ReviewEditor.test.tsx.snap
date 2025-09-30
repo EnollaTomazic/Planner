@@ -561,138 +561,142 @@ exports[`ReviewEditor > renders default state 1`] = `
             type="button"
           >
             <span
-              aria-hidden="true"
-              class="_root_27762d relative inline-grid place-items-center overflow-visible rounded-full border border-border bg-card/35"
-              data-phase="off"
-              data-size="xl"
-              data-tone="primary"
+              class="relative z-10 inline-flex items-center justify-center"
             >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-brain _icon_27762d"
-                fill="none"
-                height="100%"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="var(--icon-stroke-100, 2)"
-                viewBox="0 0 24 24"
-                width="100%"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 18V5"
-                />
-                <path
-                  d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"
-                />
-                <path
-                  d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"
-                />
-                <path
-                  d="M17.997 5.125a4 4 0 0 1 2.526 5.77"
-                />
-                <path
-                  d="M18 18a4 4 0 0 0 2-7.464"
-                />
-                <path
-                  d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"
-                />
-                <path
-                  d="M6 18a4 4 0 0 1-2-7.464"
-                />
-                <path
-                  d="M6.003 5.125a4 4 0 0 0-2.526 5.77"
-                />
-              </svg>
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-brain _core_27762d absolute"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 18V5"
-                />
-                <path
-                  d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"
-                />
-                <path
-                  d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"
-                />
-                <path
-                  d="M17.997 5.125a4 4 0 0 1 2.526 5.77"
-                />
-                <path
-                  d="M18 18a4 4 0 0 0 2-7.464"
-                />
-                <path
-                  d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"
-                />
-                <path
-                  d="M6 18a4 4 0 0 1-2-7.464"
-                />
-                <path
-                  d="M6.003 5.125a4 4 0 0 0-2.526 5.77"
-                />
-              </svg>
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-brain _aura_27762d absolute"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 18V5"
-                />
-                <path
-                  d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"
-                />
-                <path
-                  d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"
-                />
-                <path
-                  d="M17.997 5.125a4 4 0 0 1 2.526 5.77"
-                />
-                <path
-                  d="M18 18a4 4 0 0 0 2-7.464"
-                />
-                <path
-                  d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"
-                />
-                <path
-                  d="M6 18a4 4 0 0 1-2-7.464"
-                />
-                <path
-                  d="M6.003 5.125a4 4 0 0 0-2.526 5.77"
-                />
-              </svg>
               <span
                 aria-hidden="true"
-                class="_scanlines_27762d rounded-full"
-              />
-              <span
-                aria-hidden="true"
-                class="_ignite_27762d"
-              />
-              <span
-                aria-hidden="true"
-                class="_powerdown_27762d"
-              />
+                class="_root_27762d relative inline-grid place-items-center overflow-visible rounded-full border border-border bg-card/35"
+                data-phase="off"
+                data-size="xl"
+                data-tone="primary"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-brain _icon_27762d"
+                  fill="none"
+                  height="100%"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="var(--icon-stroke-100, 2)"
+                  viewBox="0 0 24 24"
+                  width="100%"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 18V5"
+                  />
+                  <path
+                    d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"
+                  />
+                  <path
+                    d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"
+                  />
+                  <path
+                    d="M17.997 5.125a4 4 0 0 1 2.526 5.77"
+                  />
+                  <path
+                    d="M18 18a4 4 0 0 0 2-7.464"
+                  />
+                  <path
+                    d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"
+                  />
+                  <path
+                    d="M6 18a4 4 0 0 1-2-7.464"
+                  />
+                  <path
+                    d="M6.003 5.125a4 4 0 0 0-2.526 5.77"
+                  />
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-brain _core_27762d absolute"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 18V5"
+                  />
+                  <path
+                    d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"
+                  />
+                  <path
+                    d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"
+                  />
+                  <path
+                    d="M17.997 5.125a4 4 0 0 1 2.526 5.77"
+                  />
+                  <path
+                    d="M18 18a4 4 0 0 0 2-7.464"
+                  />
+                  <path
+                    d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"
+                  />
+                  <path
+                    d="M6 18a4 4 0 0 1-2-7.464"
+                  />
+                  <path
+                    d="M6.003 5.125a4 4 0 0 0-2.526 5.77"
+                  />
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-brain _aura_27762d absolute"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 18V5"
+                  />
+                  <path
+                    d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"
+                  />
+                  <path
+                    d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"
+                  />
+                  <path
+                    d="M17.997 5.125a4 4 0 0 1 2.526 5.77"
+                  />
+                  <path
+                    d="M18 18a4 4 0 0 0 2-7.464"
+                  />
+                  <path
+                    d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"
+                  />
+                  <path
+                    d="M6 18a4 4 0 0 1-2-7.464"
+                  />
+                  <path
+                    d="M6.003 5.125a4 4 0 0 0-2.526 5.77"
+                  />
+                </svg>
+                <span
+                  aria-hidden="true"
+                  class="_scanlines_27762d rounded-full"
+                />
+                <span
+                  aria-hidden="true"
+                  class="_ignite_27762d"
+                />
+                <span
+                  aria-hidden="true"
+                  class="_powerdown_27762d"
+                />
+              </span>
             </span>
           </button>
         </div>
@@ -1100,90 +1104,94 @@ exports[`ReviewEditor > renders default state 1`] = `
             type="button"
           >
             <span
-              aria-hidden="true"
-              class="_root_27762d relative inline-grid place-items-center overflow-visible rounded-full border border-border bg-card/35"
-              data-phase="steady-on"
-              data-size="xl"
-              data-tone="accent"
+              class="relative z-10 inline-flex items-center justify-center"
             >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-clock _icon_27762d"
-                fill="none"
-                height="100%"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="var(--icon-stroke-100, 2)"
-                viewBox="0 0 24 24"
-                width="100%"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 6v6l4 2"
-                />
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                />
-              </svg>
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-clock _core_27762d absolute _coreAnimated_27762d"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 6v6l4 2"
-                />
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                />
-              </svg>
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-clock _aura_27762d absolute _auraAnimated_27762d"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 6v6l4 2"
-                />
-                <circle
-                  cx="12"
-                  cy="12"
-                  r="10"
-                />
-              </svg>
               <span
                 aria-hidden="true"
-                class="_scanlines_27762d rounded-full _scanlinesAnimated_27762d"
-              />
-              <span
-                aria-hidden="true"
-                class="_ignite_27762d"
-              />
-              <span
-                aria-hidden="true"
-                class="_powerdown_27762d"
-              />
+                class="_root_27762d relative inline-grid place-items-center overflow-visible rounded-full border border-border bg-card/35"
+                data-phase="steady-on"
+                data-size="xl"
+                data-tone="accent"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-clock _icon_27762d"
+                  fill="none"
+                  height="100%"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="var(--icon-stroke-100, 2)"
+                  viewBox="0 0 24 24"
+                  width="100%"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 6v6l4 2"
+                  />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                  />
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-clock _core_27762d absolute _coreAnimated_27762d"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 6v6l4 2"
+                  />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                  />
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-clock _aura_27762d absolute _auraAnimated_27762d"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 6v6l4 2"
+                  />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                  />
+                </svg>
+                <span
+                  aria-hidden="true"
+                  class="_scanlines_27762d rounded-full _scanlinesAnimated_27762d"
+                />
+                <span
+                  aria-hidden="true"
+                  class="_ignite_27762d"
+                />
+                <span
+                  aria-hidden="true"
+                  class="_powerdown_27762d"
+                />
+              </span>
             </span>
           </button>
           <button
@@ -1197,111 +1205,115 @@ exports[`ReviewEditor > renders default state 1`] = `
             type="button"
           >
             <span
-              aria-hidden="true"
-              class="_root_27762d relative inline-grid place-items-center overflow-visible rounded-full border border-border bg-card/35"
-              data-phase="off"
-              data-size="xl"
-              data-tone="ring"
+              class="relative z-10 inline-flex items-center justify-center"
             >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-file-text _icon_27762d"
-                fill="none"
-                height="100%"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="var(--icon-stroke-100, 2)"
-                viewBox="0 0 24 24"
-                width="100%"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                />
-                <path
-                  d="M14 2v4a2 2 0 0 0 2 2h4"
-                />
-                <path
-                  d="M10 9H8"
-                />
-                <path
-                  d="M16 13H8"
-                />
-                <path
-                  d="M16 17H8"
-                />
-              </svg>
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-file-text _core_27762d absolute"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                />
-                <path
-                  d="M14 2v4a2 2 0 0 0 2 2h4"
-                />
-                <path
-                  d="M10 9H8"
-                />
-                <path
-                  d="M16 13H8"
-                />
-                <path
-                  d="M16 17H8"
-                />
-              </svg>
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-file-text _aura_27762d absolute"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                />
-                <path
-                  d="M14 2v4a2 2 0 0 0 2 2h4"
-                />
-                <path
-                  d="M10 9H8"
-                />
-                <path
-                  d="M16 13H8"
-                />
-                <path
-                  d="M16 17H8"
-                />
-              </svg>
               <span
                 aria-hidden="true"
-                class="_scanlines_27762d rounded-full"
-              />
-              <span
-                aria-hidden="true"
-                class="_ignite_27762d"
-              />
-              <span
-                aria-hidden="true"
-                class="_powerdown_27762d"
-              />
+                class="_root_27762d relative inline-grid place-items-center overflow-visible rounded-full border border-border bg-card/35"
+                data-phase="off"
+                data-size="xl"
+                data-tone="ring"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-file-text _icon_27762d"
+                  fill="none"
+                  height="100%"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="var(--icon-stroke-100, 2)"
+                  viewBox="0 0 24 24"
+                  width="100%"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                  />
+                  <path
+                    d="M14 2v4a2 2 0 0 0 2 2h4"
+                  />
+                  <path
+                    d="M10 9H8"
+                  />
+                  <path
+                    d="M16 13H8"
+                  />
+                  <path
+                    d="M16 17H8"
+                  />
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-file-text _core_27762d absolute"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                  />
+                  <path
+                    d="M14 2v4a2 2 0 0 0 2 2h4"
+                  />
+                  <path
+                    d="M10 9H8"
+                  />
+                  <path
+                    d="M16 13H8"
+                  />
+                  <path
+                    d="M16 17H8"
+                  />
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-file-text _aura_27762d absolute"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                  />
+                  <path
+                    d="M14 2v4a2 2 0 0 0 2 2h4"
+                  />
+                  <path
+                    d="M10 9H8"
+                  />
+                  <path
+                    d="M16 13H8"
+                  />
+                  <path
+                    d="M16 17H8"
+                  />
+                </svg>
+                <span
+                  aria-hidden="true"
+                  class="_scanlines_27762d rounded-full"
+                />
+                <span
+                  aria-hidden="true"
+                  class="_ignite_27762d"
+                />
+                <span
+                  aria-hidden="true"
+                  class="_powerdown_27762d"
+                />
+              </span>
             </span>
           </button>
         </div>
@@ -1364,26 +1376,35 @@ exports[`ReviewEditor > renders default state 1`] = `
               title="Enter details"
               type="button"
             >
-              <svg
+              <span
                 aria-hidden="true"
-                class="lucide lucide-plus"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
+                class="_root_5c172b absolute inset-0 z-0"
+                style="--drip-edge-stop-1: var(--primary); --drip-edge-stop-2: var(--primary); --drip-edge-stop-3: var(--primary); --drip-edge-alpha-1: var(--glitch-overlay-button-opacity); --drip-edge-alpha-2: var(--glitch-overlay-button-opacity); --drip-edge-alpha-3: var(--glitch-overlay-button-opacity);"
+              />
+              <span
+                class="relative z-10 inline-flex items-center justify-center"
               >
-                <path
-                  d="M5 12h14"
-                />
-                <path
-                  d="M12 5v14"
-                />
-              </svg>
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-plus"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 12h14"
+                  />
+                  <path
+                    d="M12 5v14"
+                  />
+                </svg>
+              </span>
             </button>
           </div>
           <p
@@ -1471,26 +1492,35 @@ exports[`ReviewEditor > renders default state 1`] = `
             title="Add tag"
             type="button"
           >
-            <svg
+            <span
               aria-hidden="true"
-              class="lucide lucide-plus"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
+              class="_root_5c172b absolute inset-0 z-0"
+              style="--drip-edge-stop-1: var(--primary); --drip-edge-stop-2: var(--primary); --drip-edge-stop-3: var(--primary); --drip-edge-alpha-1: var(--glitch-overlay-button-opacity); --drip-edge-alpha-2: var(--glitch-overlay-button-opacity); --drip-edge-alpha-3: var(--glitch-overlay-button-opacity);"
+            />
+            <span
+              class="relative z-10 inline-flex items-center justify-center"
             >
-              <path
-                d="M5 12h14"
-              />
-              <path
-                d="M12 5v14"
-              />
-            </svg>
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-plus"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12h14"
+                />
+                <path
+                  d="M12 5v14"
+                />
+              </svg>
+            </span>
           </button>
         </div>
         <div

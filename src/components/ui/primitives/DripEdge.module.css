@@ -1,0 +1,33 @@
+.root {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      120% 150% at 18% -12%,
+      hsl(
+        var(--drip-edge-stop-1, var(--backdrop-drip-1)) /
+          var(--drip-edge-alpha-1, var(--glitch-static-opacity))
+      ),
+      transparent 65%
+    ),
+    radial-gradient(
+      120% 140% at 88% -10%,
+      hsl(
+        var(--drip-edge-stop-2, var(--backdrop-drip-2)) /
+          var(--drip-edge-alpha-2, var(--glitch-static-opacity))
+      ),
+      transparent 65%
+    ),
+    linear-gradient(
+      180deg,
+      hsl(
+        var(--drip-edge-stop-3, var(--backdrop-drip-3)) /
+          var(--drip-edge-alpha-3, var(--glitch-overlay-button-opacity))
+      ),
+      transparent 80%
+    );
+  opacity: var(--drip-edge-opacity, 1);
+  transition: opacity var(--dur-quick) var(--ease-out);
+}
