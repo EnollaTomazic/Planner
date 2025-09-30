@@ -57,6 +57,49 @@ async function loadBaseColors(): Promise<Record<string, { value: string }>> {
   return colors;
 }
 
+function extractTopLevelRootBlocks(css: string): string[] {
+  const blocks: string[] = [];
+  const rootRegex = /:root\s*{/g;
+  let match: RegExpExecArray | null;
+  while ((match = rootRegex.exec(css))) {
+    const rootIndex = match.index;
+    let depth = 0;
+    for (let index = 0; index < rootIndex; index += 1) {
+      const char = css[index];
+      if (char === "{") {
+        depth += 1;
+      } else if (char === "}") {
+        depth = Math.max(0, depth - 1);
+      }
+    }
+    if (depth !== 0) {
+      continue;
+    }
+
+    const blockStart = css.indexOf("{", rootIndex);
+    if (blockStart === -1) {
+      break;
+    }
+
+    let blockDepth = 1;
+    let cursor = blockStart + 1;
+    while (cursor < css.length && blockDepth > 0) {
+      const char = css[cursor];
+      if (char === "{") {
+        blockDepth += 1;
+      } else if (char === "}") {
+        blockDepth -= 1;
+      }
+      cursor += 1;
+    }
+
+    const blockContent = css.slice(blockStart + 1, cursor - 1);
+    blocks.push(blockContent);
+  }
+
+  return blocks;
+}
+
 async function buildTokens(): Promise<void> {
   const spacing = spacingTokens.reduce<Record<string, { value: string }>>(
     (acc, val, idx) => {
@@ -127,8 +170,8 @@ async function buildTokens(): Promise<void> {
   const colors: Record<string, { value: string }> = await loadBaseColors();
   const themePath = path.resolve(__dirname, "../src/app/themes.css");
   const themeCss = await fs.readFile(themePath, "utf8");
-  const themeRoot = themeCss.match(/:root\s*{([^}]*)}/);
-  const themeBase = themeRoot ? themeRoot[1] : themeCss;
+  const themeBaseBlocks = extractTopLevelRootBlocks(themeCss);
+  const themeBase = themeBaseBlocks.length > 0 ? themeBaseBlocks.join("\n") : themeCss;
   let match: RegExpExecArray | null;
   while ((match = colorRegex.exec(themeBase))) {
     const name = match[1];
