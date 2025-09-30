@@ -3,12 +3,14 @@
 import "@/app/globals.css";
 import * as React from "react";
 import NavBar from "@/components/chrome/NavBar";
-import BottomNav from "@/components/chrome/BottomNav";
+import MobileNavDrawer from "@/components/chrome/MobileNavDrawer";
 import BrandWordmark from "@/components/chrome/BrandWordmark";
 import ThemeToggle from "@/components/ui/theme/ThemeToggle";
 import AnimationToggle from "@/components/ui/AnimationToggle";
 import { PageShell } from "@/components/ui";
 import Link from "next/link";
+import IconButton from "@/components/ui/primitives/IconButton";
+import { Menu } from "lucide-react";
 
 export type SiteChromeProps = {
   children?: React.ReactNode;
@@ -21,6 +23,15 @@ export type SiteChromeProps = {
  * - Z-index > heroes, so it stays above scrolling headers
  */
 export default function SiteChrome({ children }: SiteChromeProps) {
+  const [mobileNavOpen, setMobileNavOpen] = React.useState(false);
+  const navId = React.useId();
+  const openMobileNav = React.useCallback(() => {
+    setMobileNavOpen(true);
+  }, []);
+  const closeMobileNav = React.useCallback(() => {
+    setMobileNavOpen(false);
+  }, []);
+
   return (
     <React.Fragment>
       <header
@@ -57,7 +68,21 @@ export default function SiteChrome({ children }: SiteChromeProps) {
             <NavBar />
           </div>
 
-          <div className="col-span-full flex items-center justify-end md:col-span-3 md:justify-self-end">
+          <div className="col-span-full flex items-center justify-end gap-[var(--space-1)] md:col-span-3 md:justify-self-end">
+            <div className="md:hidden">
+              <IconButton
+                aria-label="Open navigation"
+                aria-haspopup="dialog"
+                aria-expanded={mobileNavOpen}
+                aria-controls={navId}
+                variant="secondary"
+                size="md"
+                onClick={openMobileNav}
+                className="shadow-[var(--shadow-glow-sm)]"
+              >
+                <Menu aria-hidden="true" className="size-[calc(var(--control-h-md)/2)]" />
+              </IconButton>
+            </div>
             <div className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-surface/70 px-[var(--space-2)] py-[var(--space-1)] shadow-[var(--shadow-glow-sm)] backdrop-blur">
               <ThemeToggle className="shrink-0" />
               <div className="shrink-0">
@@ -65,10 +90,11 @@ export default function SiteChrome({ children }: SiteChromeProps) {
               </div>
             </div>
           </div>
-
-          <div className="col-span-full md:hidden">
-            <BottomNav />
-          </div>
+          <MobileNavDrawer
+            id={navId}
+            open={mobileNavOpen}
+            onClose={closeMobileNav}
+          />
         </PageShell>
       </header>
       {children}

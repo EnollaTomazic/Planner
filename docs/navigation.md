@@ -4,6 +4,8 @@ The primary navigation bar reads from [`NAV_ITEMS`](../src/components/chrome/nav
 objects (with an optional `mobileIcon` glyph for compact menus). Update that array when you need to rename, reorder, add, or remove top-level sections. Because the component consumes
 the exported list by default, no edits inside [`NavBar`](../src/components/chrome/NavBar.tsx) are required.
 
+On smaller breakpoints the same data powers [`MobileNavDrawer`](../src/components/chrome/MobileNavDrawer.tsx), a sheet-based menu that opens from the hamburger trigger in `SiteChrome`. The drawer automatically closes when a destination is chosen, and it will dismiss itself if the viewport crosses up to the `md` breakpoint. No extra wiring is required—`SiteChrome` handles the open state and accessibility attributes.
+
 For feature- or context-specific navigation, pass an `items` prop to `<NavBar />`:
 
 ```tsx
