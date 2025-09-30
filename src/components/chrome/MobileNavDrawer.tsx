@@ -7,7 +7,7 @@ import { X } from "lucide-react";
 import Sheet from "@/components/ui/Sheet";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { cn, withoutBasePath } from "@/lib/utils";
-import { NAV_ITEMS, type NavItem, isNavActive } from "./nav-items";
+import { NAV_ITEMS, type NavItem, isNavActive } from "@/config/nav";
 
 function useMediaQuery(query: string) {
   const getMatches = React.useCallback(() => {
