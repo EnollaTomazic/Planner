@@ -265,6 +265,7 @@ export function useHomePlannerOverview(): PlannerOverviewProps {
   );
 
   return {
+    hydrating,
     summary: {
       label: "Highlights",
       title: "Quick summary",

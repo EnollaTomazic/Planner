@@ -19,7 +19,7 @@ import ThemeProvider from "@/lib/theme-context";
 import { THEME_BOOTSTRAP_SCRIPT_PATH } from "@/lib/theme";
 import StyledJsxRegistry from "@/lib/styled-jsx-registry";
 import DepthThemeProvider from "@/lib/depth-theme-context";
-import { depthThemeEnabled } from "@/lib/features";
+import { depthThemeEnabled, organicDepthEnabled } from "@/lib/features";
 
 const createNonceInitializer = (nonce: string): string => {
   const nonceValue = JSON.stringify(nonce);
@@ -134,7 +134,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const depthThemeState = depthThemeEnabled;
+  const organicDepthState = organicDepthEnabled;
   const depthThemeDataAttribute = depthThemeState ? "enabled" : "legacy";
+  const organicDepthDataAttribute = organicDepthState ? "organic" : "legacy";
   const year = new Date().getFullYear();
   const assetUrlCss = [
     ":root {",
@@ -150,6 +152,7 @@ export default async function RootLayout({
         lang="en"
         className="theme-lg color-scheme-dark"
         data-depth-theme={depthThemeDataAttribute}
+        data-organic-depth={organicDepthDataAttribute}
         suppressHydrationWarning
       >
         <head>
@@ -178,6 +181,7 @@ export default async function RootLayout({
         <body
           className={`${geistSansClassName} ${geistSansVariable} ${geistMonoVariable} min-h-screen bg-background text-foreground glitch-root`}
           data-depth-theme={depthThemeDataAttribute}
+          data-organic-depth={organicDepthDataAttribute}
         >
           <a
             className="fixed left-[var(--space-4)] top-[var(--space-4)] z-50 inline-flex items-center rounded-[var(--radius-lg)] bg-background px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium text-foreground shadow-outline-subtle outline-none transition-all duration-quick ease-out opacity-0 -translate-y-full pointer-events-none focus-visible:translate-y-0 focus-visible:opacity-100 focus-visible:pointer-events-auto focus-visible:shadow-ring focus-visible:no-underline focus-visible:outline-none hover:shadow-ring focus-visible:active:translate-y-[var(--space-1)]"
@@ -195,7 +199,10 @@ export default async function RootLayout({
           </noscript>
           <StyledJsxRegistry nonce={nonce}>
             <ThemeProvider>
-              <DepthThemeProvider enabled={depthThemeState}>
+              <DepthThemeProvider
+                enabled={depthThemeState}
+                organicDepthEnabled={organicDepthState}
+              >
                 <div aria-hidden className="page-backdrop">
                   <div className="page-shell">
                     <DecorLayer

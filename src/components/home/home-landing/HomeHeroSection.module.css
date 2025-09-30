@@ -1,0 +1,13 @@
+.root {
+  min-height: var(--space-16);
+}
+
+@media (min-width: 48rem) {
+  .root {
+    min-height: calc(var(--space-16) + var(--space-4));
+  }
+}
+
+.mediaColumn {
+  min-height: inherit;
+}

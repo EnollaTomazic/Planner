@@ -10,11 +10,6 @@ const defaultSizes =
   "(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw / 3), calc(100vw * 5 / 12)";
 
 const heroImageSrc = "/BEST_ONE_EVAH.png";
-const heroImageDimensions = {
-  width: 1024,
-  height: 1024,
-};
-
 export interface WelcomeHeroFigureProps {
   className?: string;
   imageSizes?: string;
@@ -35,7 +30,7 @@ export default function WelcomeHeroFigure({
   const shouldShowGlitchRail = framed && (showGlitchRail ?? haloTone === "default");
   const imageClassName = cn(
     "relative z-[1] object-contain object-center",
-    framed ? "h-full w-full rounded-full" : "h-auto w-full",
+    framed ? "h-full w-full rounded-full" : "h-full w-full",
   );
   const imageAlt = "Planner assistant sharing a colorful dashboard scene";
   const resolvedHeroImageSrc = withBasePath(heroImageSrc);
@@ -107,13 +102,14 @@ export default function WelcomeHeroFigure({
           </div>
         </>
       ) : (
-        <Image
-          {...sharedImageProps}
-          alt={imageAlt}
-          src={resolvedHeroImageSrc}
-          width={heroImageDimensions.width}
-          height={heroImageDimensions.height}
-        />
+        <div className={styles.framelessWell}>
+          <Image
+            {...sharedImageProps}
+            alt={imageAlt}
+            src={resolvedHeroImageSrc}
+            fill
+          />
+        </div>
       )}
     </figure>
   );

@@ -1,5 +1,6 @@
 import * as React from "react";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, within, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi } from "vitest";
 
 vi.mock("next/navigation", () => ({
@@ -17,7 +18,7 @@ vi.mock("@/components/ui/AnimationToggle", () => ({
 
 import SiteChrome from "@/components/chrome/SiteChrome";
 import BottomNav from "@/components/chrome/BottomNav";
-import { NAV_ITEMS } from "@/components/chrome/nav-items";
+import { NAV_ITEMS } from "@/config/nav";
 
 describe("SiteChrome", () => {
   it("links the brand to home", async () => {
@@ -31,15 +32,35 @@ describe("SiteChrome", () => {
     expect(link).toHaveAttribute("href", "/");
   });
 
-  it("renders the mobile navigation", () => {
+  it("renders the mobile navigation drawer when opened", async () => {
+    const user = userEvent.setup();
     render(
       <SiteChrome>
         <div />
       </SiteChrome>,
     );
+
     expect(
-      screen.getByRole("navigation", { name: "Primary mobile navigation" }),
-    ).toBeInTheDocument();
+      screen.queryByRole("navigation", { name: "Primary mobile navigation" }),
+    ).not.toBeInTheDocument();
+
+    const trigger = screen.getByRole("button", { name: "Open navigation" });
+    await user.click(trigger);
+
+    const drawerNav = await screen.findByRole("navigation", {
+      name: "Primary mobile navigation",
+    });
+    expect(drawerNav).toBeInTheDocument();
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+    await user.click(within(drawerNav).getByRole("link", { name: "Planner" }));
+
+    await waitFor(() => {
+      expect(
+        screen.queryByRole("navigation", { name: "Primary mobile navigation" }),
+      ).not.toBeInTheDocument();
+    });
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
   });
 
   it("renders provided children", () => {
@@ -51,18 +72,21 @@ describe("SiteChrome", () => {
     expect(screen.getByTestId("inner")).toBeInTheDocument();
   });
 
-  it("exposes pressed and busy states for bottom navigation items", () => {
+  it("marks the active route inside the mobile drawer", async () => {
+    const user = userEvent.setup();
     render(
       <SiteChrome>
         <div />
       </SiteChrome>,
     );
-    const bottomNav = screen.getByRole("navigation", {
+
+    await user.click(screen.getByRole("button", { name: "Open navigation" }));
+
+    const drawerNav = await screen.findByRole("navigation", {
       name: "Primary mobile navigation",
     });
-    const plannerItem = within(bottomNav).getByRole("button", { name: "Planner" });
-    expect(plannerItem).toHaveAttribute("aria-pressed", "true");
-    expect(plannerItem).toHaveAttribute("aria-current", "page");
+    const plannerLink = within(drawerNav).getByRole("link", { name: "Planner" });
+    expect(plannerLink).toHaveAttribute("aria-current", "page");
   });
 });
 
