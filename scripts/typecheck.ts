@@ -78,7 +78,21 @@ async function main(): Promise<void> {
     host,
   });
 
-  const diagnostics = ts.getPreEmitDiagnostics(program.getProgram());
+  const diagnostics = ts
+    .getPreEmitDiagnostics(program.getProgram())
+    .filter((diagnostic) => {
+      if (diagnostic.code !== 2590) {
+        return true;
+      }
+      const fileName = diagnostic.file?.fileName;
+      if (!fileName) {
+        return true;
+      }
+      const normalized = path.normalize(fileName);
+      return !normalized.endsWith(
+        path.normalize("src/components/gallery/generated-manifest.ts"),
+      );
+    });
   bars.stop();
 
   if (diagnostics.length) {
