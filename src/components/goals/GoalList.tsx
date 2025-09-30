@@ -105,7 +105,7 @@ export default function GoalList({
                             size="sm"
                             variant="ghost"
                             tone="accent"
-                            className="transition-transform hover:-translate-y-0.5"
+                            className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
                           >
                             <X />
                           </IconButton>
@@ -115,7 +115,7 @@ export default function GoalList({
                             size="sm"
                             variant="secondary"
                             tone="accent"
-                            className="transition-transform hover:-translate-y-0.5"
+                            className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
                           >
                             <Check />
                           </IconButton>
@@ -127,7 +127,7 @@ export default function GoalList({
                             checked={g.done}
                             onChange={() => onToggleDone(g.id)}
                             size="sm"
-                            className="transition-transform hover:-translate-y-0.5"
+                            className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
                           />
                           <IconButton
                             title="Edit"
@@ -136,7 +136,7 @@ export default function GoalList({
                             size="sm"
                             variant="ghost"
                             tone="accent"
-                            className="transition-transform hover:-translate-y-0.5"
+                            className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
                           >
                             <Pencil />
                           </IconButton>
@@ -147,7 +147,7 @@ export default function GoalList({
                             size="sm"
                             variant="secondary"
                             tone="accent"
-                            className="transition-transform hover:-translate-y-0.5"
+                            className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
                           >
                             <Trash2 />
                           </IconButton>
