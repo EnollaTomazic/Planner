@@ -174,26 +174,30 @@ exports[`ReviewsPage > renders default state 1`] = `
                                 title="Clear"
                                 type="button"
                               >
-                                <svg
-                                  aria-hidden="true"
-                                  class="lucide lucide-x"
-                                  fill="none"
-                                  height="24"
-                                  stroke="currentColor"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  xmlns="http://www.w3.org/2000/svg"
+                                <span
+                                  class="relative z-10 inline-flex items-center justify-center"
                                 >
-                                  <path
-                                    d="M18 6 6 18"
-                                  />
-                                  <path
-                                    d="m6 6 12 12"
-                                  />
-                                </svg>
+                                  <svg
+                                    aria-hidden="true"
+                                    class="lucide lucide-x"
+                                    fill="none"
+                                    height="24"
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M18 6 6 18"
+                                    />
+                                    <path
+                                      d="m6 6 12 12"
+                                    />
+                                  </svg>
+                                </span>
                               </button>
                             </div>
                           </div>
@@ -281,7 +285,9 @@ exports[`ReviewsPage > renders default state 1`] = `
                         type="button"
                       >
                         <span
-                          class="absolute inset-0 z-0 pointer-events-none rounded-[inherit] bg-[linear-gradient(90deg,hsl(var(--primary)/.18),hsl(var(--primary)/.18))]"
+                          aria-hidden="true"
+                          class="_root_5c172b absolute inset-0 z-0"
+                          style="--drip-edge-stop-1: var(--primary); --drip-edge-stop-2: var(--primary); --drip-edge-stop-3: var(--primary); --drip-edge-alpha-1: var(--glitch-overlay-button-opacity); --drip-edge-alpha-2: var(--glitch-overlay-button-opacity); --drip-edge-alpha-3: var(--glitch-overlay-button-opacity);"
                         />
                         <span
                           class="relative z-10 inline-flex items-center gap-[var(--space-2)]"

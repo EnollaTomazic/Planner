@@ -8,6 +8,8 @@ import type { HTMLMotionProps } from "framer-motion";
 import { cn, withBasePath } from "@/lib/utils";
 import Spinner, { type SpinnerTone, type SpinnerSize } from "../feedback/Spinner";
 import neumorphicStyles from "../neumorphic.module.css";
+import BlobContainer, { type GlitchOverlayToken } from "./BlobContainer";
+import DripEdge from "./DripEdge";
 import { neuRaised, neuInset } from "./Neu";
 import styles from "./Button.module.css";
 
@@ -65,6 +67,7 @@ type ButtonBaseProps = {
   loading?: boolean;
   tactile?: boolean;
   glitch?: boolean;
+  glitchIntensity?: GlitchOverlayToken;
 };
 
 type ButtonAsButtonProps = ButtonBaseProps &
@@ -276,6 +279,7 @@ export const Button = React.forwardRef<
     loading,
     tactile = false,
     glitch = false,
+    glitchIntensity = "glitch-overlay-button-opacity",
   } = props;
   const asChild = props.asChild ?? false;
   const reduceMotion = useReducedMotion();
@@ -286,18 +290,8 @@ export const Button = React.forwardRef<
   const isDisabled = Boolean(disabledProp) || Boolean(loading);
   const isLink =
     !asChild && "href" in props && typeof props.href !== "undefined";
-  const toneColorVar = colorVar[tone];
   const s = buttonSizes[size];
   const spinnerSize = buttonSpinnerSizes[size];
-  const blobAnimationClass = cn(
-    "motion-reduce:animate-none",
-    !reduceMotion && "motion-safe:animate-blob-drift",
-  );
-  const noiseAnimationClass = cn(
-    "motion-reduce:animate-none",
-    !reduceMotion && "motion-safe:animate-glitch-noise",
-  );
-
   const base = cn(
     neumorphicStyles.neu,
     styles.root,
@@ -350,33 +344,12 @@ export const Button = React.forwardRef<
 
   const renderInnerContent = (contentChildren: React.ReactNode) => (
     <>
-      {glitch ? (
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
-        >
-          <span
-            className={cn(
-              "absolute inset-0 rounded-[inherit] bg-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-quick ease-out",
-              blobAnimationClass,
-              "group-hover/glitch:opacity-[var(--glitch-overlay-button-opacity)] group-focus-visible/glitch:opacity-[var(--glitch-overlay-button-opacity)] group-focus-within/glitch:opacity-[var(--glitch-overlay-button-opacity)] group-active/glitch:opacity-[var(--glitch-overlay-button-opacity)]",
-            )}
-          />
-          <span
-            className={cn(
-              "absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-quick ease-out",
-              noiseAnimationClass,
-              "group-hover/glitch:opacity-[var(--glitch-noise-level,0.18)] group-focus-visible/glitch:opacity-[var(--glitch-noise-level,0.18)] group-focus-within/glitch:opacity-[var(--glitch-noise-level,0.18)] group-active/glitch:opacity-[calc(var(--glitch-noise-level,0.18)*1.4)]",
-            )}
-          />
-        </span>
-      ) : null}
+      {glitch ? <BlobContainer overlayToken={glitchIntensity} /> : null}
       {variant === "primary" ? (
-        <span
-          className={cn(
-            "absolute inset-0 z-0 pointer-events-none rounded-[inherit]",
-            `bg-[linear-gradient(90deg,hsl(var(${toneColorVar})/.18),hsl(var(${toneColorVar})/.18))]`,
-          )}
+        <DripEdge
+          className="absolute inset-0 z-0"
+          overlayToken={glitchIntensity}
+          tone={tone}
         />
       ) : (
         overlay
@@ -406,6 +379,7 @@ export const Button = React.forwardRef<
     delete slotProps.loading;
     delete slotProps.tactile;
     delete slotProps.glitch;
+    delete slotProps.glitchIntensity;
     delete slotProps.className;
     delete slotProps.children;
     delete slotProps.disabled;
@@ -482,6 +456,7 @@ export const Button = React.forwardRef<
     delete anchorProps.loading;
     delete anchorProps.tactile;
     delete anchorProps.glitch;
+    delete anchorProps.glitchIntensity;
     delete anchorProps.className;
     delete anchorProps.children;
     delete anchorProps["data-text"];
@@ -554,6 +529,7 @@ export const Button = React.forwardRef<
   delete buttonProps.loading;
   delete buttonProps.tactile;
   delete buttonProps.glitch;
+  delete buttonProps.glitchIntensity;
   delete buttonProps.className;
   delete buttonProps.children;
   delete buttonProps["data-text"];

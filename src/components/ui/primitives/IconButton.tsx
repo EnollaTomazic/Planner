@@ -5,6 +5,8 @@ import { motion, useReducedMotion } from "framer-motion";
 import { hasTextContent } from "@/lib/react";
 import { cn } from "@/lib/utils";
 import neumorphicStyles from "../neumorphic.module.css";
+import BlobContainer, { type GlitchOverlayToken } from "./BlobContainer";
+import DripEdge from "./DripEdge";
 import styles from "./IconButton.module.css";
 
 export type IconButtonSize = "sm" | "md" | "lg" | "xl";
@@ -47,6 +49,7 @@ export type IconButtonProps =
       loading?: boolean;
       children?: React.ReactNode;
       glitch?: boolean;
+      glitchIntensity?: GlitchOverlayToken;
     };
 
 const iconMap: Record<Icon, string> = {
@@ -205,6 +208,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
       glitch = false,
+      glitchIntensity = "glitch-overlay-button-opacity",
       ...rest
     },
     ref,
@@ -266,6 +270,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           styles.root,
           glitch && "glitch-wrapper",
           glitch && styles.glitch,
+          glitch && "group/glitch isolate overflow-hidden",
           "inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
           "[--neu-radius:var(--radius-full)]",
           variantClass,
@@ -287,7 +292,17 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         title={normalizedTitle}
         {...(domProps as typeof rest)}
       >
-        {children}
+        {glitch ? <BlobContainer overlayToken={glitchIntensity} /> : null}
+        {variant === "primary" ? (
+          <DripEdge
+            className="absolute inset-0 z-0"
+            overlayToken={glitchIntensity}
+            tone={tone}
+          />
+        ) : null}
+        <span className="relative z-10 inline-flex items-center justify-center">
+          {children}
+        </span>
       </motion.button>
     );
   },

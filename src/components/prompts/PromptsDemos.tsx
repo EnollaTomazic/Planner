@@ -23,6 +23,8 @@ import {
   AnimationToggle,
   CheckCircle,
   Toggle,
+  BlobContainer,
+  DripEdge,
 } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -144,6 +146,36 @@ export default function PromptsDemos() {
           <IconButton aria-label="Scroll to top" size="md">
             <ArrowUp />
           </IconButton>
+        </div>
+      </Card>
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
+        <h3 className="type-title">Glitch surfaces</h3>
+        <p className="text-ui text-muted-foreground">
+          Organic layers from <code>BlobContainer</code> and <code>DripEdge</code>
+          reuse the blob and drip tokens for hover overlays and chromatic
+          rails.
+        </p>
+        <div className="grid gap-[var(--space-4)] md:grid-cols-2">
+          <div className="group/glitch relative isolate overflow-hidden rounded-card border border-card-hairline/60 bg-card/70 p-[var(--space-6)]">
+            <BlobContainer />
+            <div className="relative z-10 space-y-[var(--space-2)]">
+              <p className="text-ui font-medium">BlobContainer</p>
+              <p className="text-label text-muted-foreground">
+                Hover to reveal the tokenized blob overlay tied to
+                <code>glitch-overlay-button-opacity</code>.
+              </p>
+            </div>
+          </div>
+          <div className="relative isolate overflow-hidden rounded-card border border-card-hairline/60 bg-card/70 p-[var(--space-6)]">
+            <DripEdge className="absolute inset-0" />
+            <div className="relative z-10 space-y-[var(--space-2)]">
+              <p className="text-ui font-medium">DripEdge</p>
+              <p className="text-label text-muted-foreground">
+                The drip gradient references <code>backdrop-drip</code> tokens for
+                consistent rails.
+              </p>
+            </div>
+          </div>
         </div>
       </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">

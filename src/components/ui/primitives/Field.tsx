@@ -2,12 +2,12 @@
 
 import * as React from "react";
 import { Search, X } from "lucide-react";
-import { useReducedMotion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 
 import Spinner from "../feedback/Spinner";
 import neumorphicStyles from "../neumorphic.module.css";
+import BlobContainer, { type GlitchOverlayToken } from "./BlobContainer";
 import IconButton from "./IconButton";
 import styles from "./Field.module.css";
 
@@ -63,6 +63,7 @@ export type FieldRootProps = React.HTMLAttributes<HTMLDivElement> & {
   wrapperClassName?: string;
   glitch?: boolean;
   glitchText?: string;
+  glitchIntensity?: GlitchOverlayToken;
 };
 
 export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
@@ -82,6 +83,7 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
       wrapperClassName,
       glitch = false,
       glitchText,
+      glitchIntensity = "glitch-overlay-button-opacity-reduced",
       className,
       children,
       style: inlineStyle,
@@ -89,7 +91,6 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
     },
     ref,
   ) => {
-    const reduceMotion = useReducedMotion();
     const heightKey =
       typeof height === "string" && Object.hasOwn(HEIGHT_MAP, height)
         ? (height as FieldHeight)
@@ -143,15 +144,6 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
     const resolvedGlitchText = glitch
       ? glitchText ?? providedGlitchText
       : providedGlitchText ?? glitchText;
-    const blobAnimationClass = cn(
-      "motion-reduce:animate-none",
-      !reduceMotion && "motion-safe:animate-blob-drift",
-    );
-    const noiseAnimationClass = cn(
-      "motion-reduce:animate-none",
-      !reduceMotion && "motion-safe:animate-glitch-noise",
-    );
-
     return (
       <div
         className={cn(
@@ -184,25 +176,10 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
           {...domProps}
         >
           {glitch ? (
-            <span
-              aria-hidden
-              className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
-            >
-              <span
-                className={cn(
-                  "absolute inset-0 rounded-[inherit] bg-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-quick ease-out",
-                  blobAnimationClass,
-                  "group-hover/glitch:opacity-[var(--glitch-overlay-button-opacity)] group-focus-visible/glitch:opacity-[var(--glitch-overlay-button-opacity)] group-focus-within/glitch:opacity-[var(--glitch-overlay-button-opacity)]",
-                )}
-              />
-              <span
-                className={cn(
-                  "absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-quick ease-out",
-                  noiseAnimationClass,
-                  "group-hover/glitch:opacity-[var(--glitch-noise-level,0.18)] group-focus-visible/glitch:opacity-[var(--glitch-noise-level,0.18)] group-focus-within/glitch:opacity-[calc(var(--glitch-noise-level,0.18)*1.2)]",
-                )}
-              />
-            </span>
+            <BlobContainer
+              overlayToken={glitchIntensity}
+              noiseToken="glitch-noise-level"
+            />
           ) : null}
           {children}
           {loading ? (
