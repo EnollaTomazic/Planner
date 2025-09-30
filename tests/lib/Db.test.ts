@@ -559,6 +559,37 @@ describe("Db", () => {
       expect(result.current[0]).toBe(0);
     });
 
+    it("resets to the new initial state when the key changes", async () => {
+      const { usePersistentState } = await import("@/lib/db");
+
+      const { result, rerender } = renderHook(
+        ({ storageKey, initial }) => usePersistentState(storageKey, initial),
+        {
+          initialProps: {
+            storageKey: "preview:first",
+            initial: { variant: "aurora" },
+          },
+        },
+      );
+
+      expect(result.current[0]).toEqual({ variant: "aurora" });
+
+      act(() => {
+        result.current[1]({ variant: "glitch" });
+      });
+
+      expect(result.current[0]).toEqual({ variant: "glitch" });
+
+      rerender({
+        storageKey: "preview:second",
+        initial: { variant: "oceanic" },
+      });
+
+      await waitFor(() => {
+        expect(result.current[0]).toEqual({ variant: "oceanic" });
+      });
+    });
+
     it("persists prompts saved before hydration completes", async () => {
       const { usePromptLibrary } = await import(
         "@/components/prompts/usePromptLibrary"

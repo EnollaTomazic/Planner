@@ -344,11 +344,6 @@ export function usePersistentState<T>(
     stateRef.current = state;
     stateRevisionRef.current += 1;
   }, [state]);
-  React.useEffect(() => {
-    if (!Object.is(initialRef.current, initial)) {
-      initialRef.current = initial;
-    }
-  }, [initial]);
 
   const decodeRef = React.useRef<PersistentStateDecode<T> | null>(
     options?.decode ?? null,
@@ -405,6 +400,19 @@ export function usePersistentState<T>(
       hasHydratedRef.current = false;
     }
   }, [key]);
+
+  React.useEffect(() => {
+    if (!Object.is(initialRef.current, initial)) {
+      initialRef.current = initial;
+    }
+
+    if (!hasHydratedRef.current) {
+      const nextInitial = initialRef.current;
+      if (!Object.is(stateRef.current, nextInitial)) {
+        setState(nextInitial);
+      }
+    }
+  }, [initial, key]);
 
   React.useEffect(() => {
     if (!isBrowser) return;
