@@ -1,0 +1,166 @@
+.root {
+  --segmented-depth-sm: var(--neo-depth-sm);
+  --segmented-depth-md: var(--neo-depth-md);
+  --segmented-depth-lg: var(--neo-depth-lg);
+  --segmented-shadow-rest: var(--depth-shadow-outer);
+  --segmented-shadow-hover: var(--depth-shadow-soft);
+  --segmented-shadow-active: var(--depth-shadow-outer-strong);
+  --segmented-ring-size: var(--ring-size-1);
+  --segmented-ring-stroke: var(--ring-stroke-s);
+  --segmented-ring-offset: hsl(var(--card));
+  --segmented-ring-color: var(--theme-ring);
+  --seg-hover-base: hsl(var(--foreground) / 0.08);
+  --seg-active-base: hsl(var(--foreground) / 0.12);
+  --segmented-fill: color-mix(
+    in oklab,
+    hsl(var(--card)) 92%,
+    var(--seg-hover-base) 8%
+  );
+  --segmented-selected: color-mix(
+    in oklab,
+    hsl(var(--card)) 88%,
+    var(--seg-active-base) 12%
+  );
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: calc(var(--control-radius) * 1.04)
+      calc(var(--control-radius) * 0.96)
+      calc(var(--control-radius) * 1.08)
+      calc(var(--control-radius) * 0.92)
+    /
+      calc(var(--control-radius) * 0.9)
+      calc(var(--control-radius) * 1.12)
+      calc(var(--control-radius) * 0.95)
+      calc(var(--control-radius) * 1.05);
+  border: var(--hairline-w) solid hsl(var(--card-hairline));
+  padding-inline: var(--space-4);
+  padding-block: var(--space-2);
+  font-size: var(--font-ui);
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: hsl(var(--muted-foreground));
+  background: var(--segmented-fill);
+  box-shadow: var(--segmented-shadow, var(--segmented-shadow-rest));
+  transition-property: color, background-color, border-color, box-shadow, transform, filter;
+  transition-duration: var(--dur-quick);
+  transition-timing-function: var(--ease-out);
+  will-change: box-shadow, transform;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.root[data-depth="raised"] {
+  --segmented-translate-hover: calc(var(--segmented-depth-sm) * -0.35);
+}
+
+.root[data-depth="sunken"] {
+  --segmented-shadow-rest: inset 0 0 0 calc(var(--hairline-w) * 1.5)
+    hsl(var(--card-hairline));
+  --segmented-shadow-hover: inset 0 0 0 calc(var(--hairline-w) * 2)
+    hsl(var(--card-hairline));
+}
+
+.root:where(
+    :not(:disabled):not([disabled]):not([aria-disabled="true"]):not([data-loading="true"])
+  ):hover {
+  background: var(--hover, var(--seg-hover-base));
+  color: hsl(var(--foreground));
+  --segmented-shadow: var(--segmented-shadow-hover);
+}
+
+.root:where(
+    :not(:disabled):not([disabled]):not([aria-disabled="true"]):not([data-loading="true"])
+  ):active {
+  background: var(--active, var(--seg-active-base));
+  color: hsl(var(--foreground));
+  --segmented-shadow: var(--segmented-shadow-active);
+}
+
+.root:focus-visible {
+  outline: none;
+  color: hsl(var(--foreground));
+  --segmented-shadow: var(--segmented-shadow-hover);
+  box-shadow:
+    0 0 0 var(--segmented-ring-size) var(--segmented-ring-offset),
+    0 0 0 calc(var(--segmented-ring-size) + var(--segmented-ring-stroke))
+      var(--segmented-ring-color),
+    var(--segmented-shadow, var(--segmented-shadow-hover));
+}
+
+.root:disabled,
+.root[disabled] {
+  opacity: var(--disabled);
+  pointer-events: none;
+}
+
+.root[data-loading="true"] {
+  opacity: var(--loading);
+  pointer-events: none;
+}
+
+.root[data-depth="raised"]:where(
+    :not(:disabled):not([disabled]):not([aria-disabled="true"]):not([data-loading="true"])
+  ):is(:hover, :focus-visible, :focus-within) {
+  transform: translateY(var(--segmented-translate-hover));
+}
+
+.root[data-selected="true"],
+.root[aria-current="page"],
+.root:global(.is-active) {
+  color: hsl(var(--foreground));
+  background: var(--segmented-selected);
+  border-color: hsl(var(--ring));
+  --segmented-shadow: var(--segmented-shadow-hover);
+  box-shadow:
+    0 0 0 var(--segmented-ring-size) var(--segmented-ring-offset),
+    0 0 0 calc(var(--segmented-ring-size) + var(--segmented-ring-stroke))
+      var(--segmented-ring-color),
+    var(--segmented-shadow, var(--segmented-shadow-hover));
+}
+
+.glitch {
+  --glitch-overlay-opacity: var(--glitch-overlay-button-opacity, 0.5);
+  color: hsl(var(--primary-foreground));
+  background-color: var(--seg-active-base);
+  background-image: var(--seg-active-grad);
+  background-repeat: no-repeat;
+  box-shadow:
+    0 0 calc(var(--segmented-depth-lg) * 1.35) hsl(var(--accent) / 0.6),
+    0 0 calc(var(--segmented-depth-lg) * 1.8) hsl(var(--accent-2) / 0.4);
+}
+
+.glitch:hover {
+  filter: brightness(1.05);
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  gap: inherit;
+}
+
+.glitchOverlay {
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
+  .root[data-depth="raised"]:is(:hover, :focus-visible, :focus-within) {
+    transform: none;
+  }
+  .glitch {
+    transition: none;
+    filter: none;
+  }
+}
