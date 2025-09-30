@@ -19,24 +19,77 @@ const depthShadowClasses: Record<CardDepth, string> = {
 };
 
 const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
-  ({ className, asChild = false, depth = "base", glitch = false, ...props }, ref) => {
-    const Component = asChild ? Slot : "div";
+  (
+    {
+      className,
+      asChild = false,
+      depth = "base",
+      glitch = false,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const { ["data-text"]: providedGlitchText, ...restProps } = props as CardProps & {
+      ["data-text"]?: unknown;
+    };
+    const glitchText =
+      typeof providedGlitchText === "string" ? providedGlitchText : undefined;
+
+    const baseClassName = cn(
+      styles.root,
+      glitch && "group/glitch isolate",
+      "rounded-card r-card-lg p-[var(--space-4)] border border-card-hairline/60 bg-card/60 text-card-foreground",
+      depthShadowClasses[depth],
+      className,
+    );
+
+    const overlay = glitch ? (
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
+      >
+        <span
+          className="absolute inset-0 rounded-[inherit] bg-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-quick ease-out motion-reduce:animate-none motion-safe:animate-blob-drift group-hover/glitch:opacity-[var(--glitch-overlay-opacity-card,0.38)] group-focus-visible/glitch:opacity-[var(--glitch-overlay-opacity-card,0.38)] group-focus-within/glitch:opacity-[var(--glitch-overlay-opacity-card,0.38)]"
+        />
+        <span
+          className="absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-quick ease-out motion-reduce:animate-none motion-safe:animate-glitch-noise group-hover/glitch:opacity-[var(--glitch-noise-level,0.18)] group-focus-visible/glitch:opacity-[var(--glitch-noise-level,0.18)] group-focus-within/glitch:opacity-[calc(var(--glitch-noise-level,0.18)*1.3)]"
+        />
+      </span>
+    ) : null;
+
+    const baseProps = {
+      className: baseClassName,
+      "data-depth": depth,
+      "data-glitch": glitch ? "true" : undefined,
+      "data-text": glitchText,
+      ...restProps,
+    };
+
+    if (asChild) {
+      const childCount = React.Children.count(children);
+      if (childCount !== 1 || !React.isValidElement(children)) {
+        if (process.env.NODE_ENV !== "production") {
+          console.warn("[Card] `asChild` requires a single valid React element child.");
+        }
+
+        return null;
+      }
+
+      const child = React.Children.only(children) as React.ReactElement<{ children?: React.ReactNode }>;
+
+      return (
+        <Slot {...baseProps} ref={ref as React.ForwardedRef<HTMLElement>}>
+          {React.cloneElement(child, undefined, <>{overlay}{child.props.children}</>)}
+        </Slot>
+      );
+    }
 
     return (
-      <Component
-        ref={ref}
-        className={cn(
-          styles.root,
-          glitch && "glitch-wrapper",
-          glitch && styles.glitch,
-          "rounded-card r-card-lg p-[var(--space-4)] border border-card-hairline/60 bg-card/60 text-card-foreground",
-          depthShadowClasses[depth],
-          className,
-        )}
-        data-depth={depth}
-        data-glitch={glitch ? "true" : undefined}
-        {...props}
-      />
+      <div ref={ref} {...baseProps}>
+        {overlay}
+        {children}
+      </div>
     );
   },
 );

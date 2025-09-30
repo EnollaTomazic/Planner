@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Search, X } from "lucide-react";
+import { useReducedMotion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 
@@ -60,6 +61,8 @@ export type FieldRootProps = React.HTMLAttributes<HTMLDivElement> & {
   counterId?: string;
   spinner?: React.ReactNode;
   wrapperClassName?: string;
+  glitch?: boolean;
+  glitchText?: string;
 };
 
 export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
@@ -77,13 +80,16 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
       counterId,
       spinner,
       wrapperClassName,
+      glitch = false,
+      glitchText,
       className,
       children,
       style: inlineStyle,
-      ...props
+      ...restProps
     },
     ref,
   ) => {
+    const reduceMotion = useReducedMotion();
     const heightKey =
       typeof height === "string" && Object.hasOwn(HEIGHT_MAP, height)
         ? (height as FieldHeight)
@@ -130,6 +136,22 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
       };
     }, [customHeightStyle, inlineStyle]);
 
+    const { ["data-text"]: providedGlitchTextRaw, ...domProps } = restProps as
+      typeof restProps & { ["data-text"]?: unknown };
+    const providedGlitchText =
+      typeof providedGlitchTextRaw === "string" ? providedGlitchTextRaw : undefined;
+    const resolvedGlitchText = glitch
+      ? glitchText ?? providedGlitchText
+      : providedGlitchText ?? glitchText;
+    const blobAnimationClass = cn(
+      "motion-reduce:animate-none",
+      !reduceMotion && "motion-safe:animate-blob-drift",
+    );
+    const noiseAnimationClass = cn(
+      "motion-reduce:animate-none",
+      !reduceMotion && "motion-safe:animate-glitch-noise",
+    );
+
     return (
       <div
         className={cn(
@@ -143,6 +165,7 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
             neumorphicStyles.neu,
             neumorphicStyles["neu-hover"],
             FIELD_ROOT_BASE,
+            glitch && "group/glitch isolate",
             styles.root,
             className,
           )}
@@ -153,16 +176,39 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
           data-invalid={invalid ? "true" : undefined}
           data-loading={loading ? "true" : undefined}
           data-readonly={readOnly ? "true" : undefined}
+          data-glitch={glitch ? "true" : undefined}
+          data-text={resolvedGlitchText}
           aria-disabled={disabled || undefined}
           aria-busy={loading || undefined}
           style={mergedStyle}
-          {...props}
+          {...domProps}
         >
+          {glitch ? (
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
+            >
+              <span
+                className={cn(
+                  "absolute inset-0 rounded-[inherit] bg-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-quick ease-out",
+                  blobAnimationClass,
+                  "group-hover/glitch:opacity-[var(--glitch-overlay-button-opacity)] group-focus-visible/glitch:opacity-[var(--glitch-overlay-button-opacity)] group-focus-within/glitch:opacity-[var(--glitch-overlay-button-opacity)]",
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-quick ease-out",
+                  noiseAnimationClass,
+                  "group-hover/glitch:opacity-[var(--glitch-noise-level,0.18)] group-focus-visible/glitch:opacity-[var(--glitch-noise-level,0.18)] group-focus-within/glitch:opacity-[calc(var(--glitch-noise-level,0.18)*1.2)]",
+                )}
+              />
+            </span>
+          ) : null}
           {children}
           {loading ? (
             <span
               data-slot="spinner"
-              className="pointer-events-none absolute right-[var(--space-4)] top-1/2 -translate-y-1/2 text-muted-foreground"
+              className="pointer-events-none absolute right-[var(--space-4)] top-1/2 -translate-y-1/2 text-muted-foreground z-10"
             >
               {spinner ?? <Spinner size="sm" />}
             </span>

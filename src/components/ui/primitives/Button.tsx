@@ -289,12 +289,20 @@ export const Button = React.forwardRef<
   const toneColorVar = colorVar[tone];
   const s = buttonSizes[size];
   const spinnerSize = buttonSpinnerSizes[size];
+  const blobAnimationClass = cn(
+    "motion-reduce:animate-none",
+    !reduceMotion && "motion-safe:animate-blob-drift",
+  );
+  const noiseAnimationClass = cn(
+    "motion-reduce:animate-none",
+    !reduceMotion && "motion-safe:animate-glitch-noise",
+  );
+
   const base = cn(
     neumorphicStyles.neu,
     styles.root,
     styles.organicControl,
-    glitch && "glitch-wrapper",
-    glitch && styles.glitch,
+    glitch && "group/glitch isolate overflow-hidden",
     "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
     "data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none",
     "[--neu-radius:var(--control-radius)]",
@@ -321,7 +329,7 @@ export const Button = React.forwardRef<
       : variantHover;
 
   const contentClasses = cn(
-    contentClass ?? cn("inline-flex items-center", s.gap),
+    contentClass ?? cn("relative z-10 inline-flex items-center", s.gap),
     loading && "opacity-0",
   );
 
@@ -342,10 +350,31 @@ export const Button = React.forwardRef<
 
   const renderInnerContent = (contentChildren: React.ReactNode) => (
     <>
+      {glitch ? (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
+        >
+          <span
+            className={cn(
+              "absolute inset-0 rounded-[inherit] bg-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-quick ease-out",
+              blobAnimationClass,
+              "group-hover/glitch:opacity-[var(--glitch-overlay-button-opacity)] group-focus-visible/glitch:opacity-[var(--glitch-overlay-button-opacity)] group-focus-within/glitch:opacity-[var(--glitch-overlay-button-opacity)] group-active/glitch:opacity-[var(--glitch-overlay-button-opacity)]",
+            )}
+          />
+          <span
+            className={cn(
+              "absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-quick ease-out",
+              noiseAnimationClass,
+              "group-hover/glitch:opacity-[var(--glitch-noise-level,0.18)] group-focus-visible/glitch:opacity-[var(--glitch-noise-level,0.18)] group-focus-within/glitch:opacity-[var(--glitch-noise-level,0.18)] group-active/glitch:opacity-[calc(var(--glitch-noise-level,0.18)*1.4)]",
+            )}
+          />
+        </span>
+      ) : null}
       {variant === "primary" ? (
         <span
           className={cn(
-            "absolute inset-0 pointer-events-none rounded-[inherit]",
+            "absolute inset-0 z-0 pointer-events-none rounded-[inherit]",
             `bg-[linear-gradient(90deg,hsl(var(${toneColorVar})/.18),hsl(var(${toneColorVar})/.18))]`,
           )}
         />
