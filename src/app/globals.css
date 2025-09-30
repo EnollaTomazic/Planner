@@ -593,7 +593,7 @@ html.bg-intense body::after {
   .card-neo-soft,
   .card-soft {
     --_r: var(--radius-card);
-    --glitch-overlay-opacity: 0.38;
+    --glitch-overlay-opacity: var(--glitch-overlay-opacity-card);
     border-radius: var(--_r);
     border: 0;
     background-clip: padding-box;

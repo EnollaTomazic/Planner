@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Card > maps the glitch overlay opacity to the card token 1`] = `
+{
+  "computedToken": "",
+  "declaration": ".glitch { --glitch-overlay-opacity: var(--glitch-overlay-opacity-card); }",
+}
+`;

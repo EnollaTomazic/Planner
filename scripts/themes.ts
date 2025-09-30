@@ -150,6 +150,11 @@ export const rootVariables: VariableDefinition[] = [
     value: "0.28",
   },
   {
+    comment: "Card glitch overlays",
+    name: "glitch-overlay-opacity-card",
+    value: "0.38",
+  },
+  {
     comment: "Chromatic separation offsets",
     name: "glitch-chromatic-offset-strong",
     value: "calc(var(--spacing-0-25) / 4)",
