@@ -65,6 +65,7 @@
     --viewport-height: 100vh;
     --viewport-height: 100dvh;
     --select-menu-max-height: calc(var(--viewport-height) * 0.6);
+    --z-decor: 0;
   }
 
   @supports (color: color-mix(in oklab, white 50%, black)) {
@@ -167,7 +168,7 @@
   }
 
   .page-backdrop__layer {
-    position: absolute;
+    position: fixed;
     inset: 0;
     pointer-events: none;
   }

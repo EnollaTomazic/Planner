@@ -12,7 +12,7 @@ import {
 import tokens from "../../tokens/tokens.js";
 import { resolveTokenColor } from "@/lib/color";
 import SiteChrome from "@/components/chrome/SiteChrome";
-import { CatCompanion, PageShell } from "@/components/ui";
+import { CatCompanion, DecorLayer, PageShell } from "@/components/ui";
 import { withBasePath } from "@/lib/utils";
 import Script from "next/script";
 import ThemeProvider from "@/lib/theme-context";
@@ -198,7 +198,14 @@ export default async function RootLayout({
               <DepthThemeProvider enabled={depthThemeState}>
                 <div aria-hidden className="page-backdrop">
                   <div className="page-shell">
-                    <div className="page-backdrop__layer" />
+                    <DecorLayer
+                      className="page-backdrop__layer"
+                      variant="grid"
+                    />
+                    <DecorLayer
+                      className="page-backdrop__layer"
+                      variant="drip"
+                    />
                   </div>
                 </div>
                 <SiteChrome>

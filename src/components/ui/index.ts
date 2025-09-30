@@ -17,6 +17,8 @@ export * from "./hooks/useFloatingStyleClass";
 export * from "./hooks/useScopedCssVars";
 export { default as Label } from "./Label";
 export * from "./Label";
+export { default as DecorLayer } from "./layout/DecorLayer";
+export * from "./layout/DecorLayer";
 export { default as Header } from "./layout/Header";
 export * from "./layout/Header";
 export * from "./layout/Hero";

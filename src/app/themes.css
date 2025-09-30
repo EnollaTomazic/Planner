@@ -1059,17 +1059,12 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
     );
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-lg body::before,
-html.theme-lg-dark body::before,
+html.theme-lg body .page-backdrop__layer[data-variant="grid"],
+html.theme-lg-dark body .page-backdrop__layer[data-variant="grid"],
 html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
     .theme-kitten
   ):not(.theme-aurora):not(.theme-hardstuck)
-  body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
+  body .page-backdrop__layer[data-variant="grid"] {
   opacity: var(--backdrop-grid-opacity);
   background:
     repeating-linear-gradient(
@@ -1085,17 +1080,13 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
   mix-blend-mode: screen;
   animation: lg-grid-drift 18s linear infinite;
 }
-html.theme-lg body::after,
-html.theme-lg-dark body::after,
+html.theme-lg body .page-backdrop__layer[data-variant="drip"],
+html.theme-lg-dark body .page-backdrop__layer[data-variant="drip"],
 html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
     .theme-kitten
   ):not(.theme-aurora):not(.theme-hardstuck)
-  body::after {
-  content: "";
-  position: fixed;
+  body .page-backdrop__layer[data-variant="drip"] {
   inset: -10%;
-  pointer-events: none;
-  z-index: 0;
   background:
     radial-gradient(
       60% 40% at 10% 0%,
@@ -1131,15 +1122,11 @@ html.theme-aurora body {
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   background-attachment: fixed, fixed;
 }
-html.theme-aurora body::after {
-  content: none;
+html.theme-aurora body .page-backdrop__layer[data-variant="drip"] {
+  display: none;
 }
-html.theme-aurora body::before {
-  content: "";
-  position: fixed;
+html.theme-aurora body .page-backdrop__layer[data-variant="grid"] {
   inset: -10%;
-  pointer-events: none;
-  z-index: 0;
   background: conic-gradient(
     from 0deg,
     hsl(var(--backdrop-drip-1) / 0.4),
@@ -1149,7 +1136,7 @@ html.theme-aurora body::before {
   filter: blur(calc(var(--space-8) * 2)) saturate(150%);
 }
 @media (prefers-reduced-motion: no-preference) {
-  html.theme-aurora body::before {
+  html.theme-aurora body .page-backdrop__layer[data-variant="grid"] {
     animation: aurora-spin 30s linear infinite;
   }
 }
@@ -1169,12 +1156,7 @@ html.theme-citrus body {
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-citrus body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
+html.theme-citrus body .page-backdrop__layer[data-variant="grid"] {
   opacity: var(--backdrop-grid-opacity);
   background:
     repeating-linear-gradient(
@@ -1190,12 +1172,8 @@ html.theme-citrus body::before {
   mix-blend-mode: screen;
   animation: citrus-grid 20s linear infinite;
 }
-html.theme-citrus body::after {
-  content: "";
-  position: fixed;
+html.theme-citrus body .page-backdrop__layer[data-variant="drip"] {
   inset: -8%;
-  pointer-events: none;
-  z-index: 0;
   background:
     radial-gradient(
       60% 40% at 12% -5%,
@@ -1250,12 +1228,7 @@ html.theme-noir body {
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-noir body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
+html.theme-noir body .page-backdrop__layer[data-variant="grid"] {
   background: repeating-linear-gradient(
     0deg,
     hsl(var(--backdrop-grid-primary) / 0.05) 0 1px,
@@ -1265,12 +1238,8 @@ html.theme-noir body::before {
   opacity: var(--backdrop-grid-opacity);
   animation: noir-scan 14s linear infinite;
 }
-html.theme-noir body::after {
-  content: "";
-  position: fixed;
+html.theme-noir body .page-backdrop__layer[data-variant="drip"] {
   inset: -12%;
-  pointer-events: none;
-  z-index: 0;
   background:
     radial-gradient(
       80% 60% at 50% 120%,
@@ -1323,12 +1292,7 @@ html.theme-ocean body {
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-ocean body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
+html.theme-ocean body .page-backdrop__layer[data-variant="grid"] {
   background:
     repeating-linear-gradient(
       90deg,
@@ -1344,12 +1308,8 @@ html.theme-ocean body::before {
   opacity: var(--backdrop-grid-opacity);
   animation: lg-grid-drift 20s linear infinite;
 }
-html.theme-ocean body::after {
-  content: "";
-  position: fixed;
+html.theme-ocean body .page-backdrop__layer[data-variant="drip"] {
   inset: -10%;
-  z-index: 0;
-  pointer-events: none;
   background:
     radial-gradient(
       60% 40% at 14% -6%,
@@ -1399,12 +1359,7 @@ html.theme-kitten body {
     linear-gradient(180deg, hsl(var(--card) / 0.92), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-kitten body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
+html.theme-kitten body .page-backdrop__layer[data-variant="grid"] {
   background:
     repeating-linear-gradient(
       90deg,
@@ -1420,12 +1375,8 @@ html.theme-kitten body::before {
   opacity: var(--backdrop-grid-opacity);
   animation: lg-grid-drift 18s linear infinite;
 }
-html.theme-kitten body::after {
-  content: "";
-  position: fixed;
+html.theme-kitten body .page-backdrop__layer[data-variant="drip"] {
   inset: -10%;
-  z-index: 0;
-  pointer-events: none;
   background:
     radial-gradient(
       60% 40% at 12% -6%,
@@ -1469,12 +1420,7 @@ html.theme-hardstuck body {
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.theme-hardstuck body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
+html.theme-hardstuck body .page-backdrop__layer[data-variant="grid"] {
   background: repeating-linear-gradient(
     0deg,
     hsl(var(--backdrop-grid-primary) / 0.05) 0 1px,
@@ -1484,12 +1430,8 @@ html.theme-hardstuck body::before {
   opacity: var(--backdrop-grid-opacity);
   animation: hardstuck-scan 14s linear infinite;
 }
-html.theme-hardstuck body::after {
-  content: "";
-  position: fixed;
+html.theme-hardstuck body .page-backdrop__layer[data-variant="drip"] {
   inset: -12%;
-  pointer-events: none;
-  z-index: 0;
   background:
     radial-gradient(
       80% 60% at 50% 120%,
@@ -1531,22 +1473,13 @@ html.theme-retro body {
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed, fixed;
 }
-html.theme-retro body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
+html.theme-retro body .page-backdrop__layer[data-variant="grid"] {
   background: var(--grid-lines);
   opacity: 0.18;
   mix-blend-mode: screen;
 }
-html.theme-retro body::after {
-  content: "";
-  position: fixed;
+html.theme-retro body .page-backdrop__layer[data-variant="drip"] {
   inset: -10%;
-  pointer-events: none;
-  z-index: 0;
   background:
     var(--scan-lines),
     radial-gradient(
@@ -1568,11 +1501,15 @@ html.theme-retro body::after {
   opacity: 0.9;
 }
 @media (prefers-reduced-motion: no-preference) {
-  html.theme-retro body::before {
+  html.theme-retro
+    body
+    .page-backdrop__layer[data-variant="grid"] {
     animation: retro-pan 26s linear infinite;
   }
 
-  html.theme-retro body::after {
+  html.theme-retro
+    body
+    .page-backdrop__layer[data-variant="drip"] {
     animation: retro-pan 38s linear infinite reverse;
   }
 }
@@ -1616,9 +1553,8 @@ html.bg-alt1 body {
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.bg-alt1 body::before,
-html.bg-alt1 body::after {
-  content: none;
+html.bg-alt1 body .page-backdrop__layer {
+  display: none;
 }
 html.bg-alt2 body {
   background-image:
@@ -1635,9 +1571,8 @@ html.bg-alt2 body {
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
   background-attachment: fixed, fixed, fixed;
 }
-html.bg-alt2 body::before,
-html.bg-alt2 body::after {
-  content: none;
+html.bg-alt2 body .page-backdrop__layer {
+  display: none;
 }
 html.bg-vhs body {
   background-color: hsl(var(--surface-vhs));
@@ -1656,9 +1591,8 @@ html.bg-vhs body {
     );
   background-blend-mode: screen;
 }
-html.bg-vhs body::before,
-html.bg-vhs body::after {
-  content: none;
+html.bg-vhs body .page-backdrop__layer {
+  display: none;
 }
 html.bg-streak body {
   background-color: hsl(var(--surface-streak));
@@ -1677,9 +1611,8 @@ html.bg-streak body {
     );
   background-blend-mode: lighten;
 }
-html.bg-streak body::before,
-html.bg-streak body::after {
-  content: none;
+html.bg-streak body .page-backdrop__layer {
+  display: none;
 }
 /* ---------- Shared backdrop animations ---------- */
 @keyframes lg-grid-drift {
@@ -1710,10 +1643,10 @@ html.bg-streak body::after {
   }
 }
 /* ---------- Intensity toggles (all themes) ---------- */
-html.bg-intense body::before {
+html.bg-intense body .page-backdrop__layer[data-variant="grid"] {
   opacity: 0.05;
 }
-html.bg-intense body::after {
+html.bg-intense body .page-backdrop__layer[data-variant="drip"] {
   filter: blur(2px) saturate(120%);
 }
 /* =========================================================
