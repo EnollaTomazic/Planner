@@ -7084,7 +7084,7 @@ export const galleryPayload = {
   }
 } satisfies GalleryRegistryPayload;
 
-export const galleryPreviewRoutes = [
+const galleryPreviewRoutesData = [
   {
     "slug": "section-buttons--entry-badge--preview-ui-badge-tones--theme-aurora",
     "previewId": "ui:badge:tones",
@@ -21423,7 +21423,10 @@ export const galleryPreviewRoutes = [
       }
     ]
   }
-] satisfies readonly GalleryPreviewRoute[];
+];
+
+export const galleryPreviewRoutes =
+  galleryPreviewRoutesData as unknown as readonly GalleryPreviewRoute[];
 
 export const galleryPreviewModules = [
   {

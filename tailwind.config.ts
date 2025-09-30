@@ -75,7 +75,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        border: "hsl(var(--border))",
+        border: {
+          DEFAULT: "hsl(var(--border))",
+          subtle: "hsl(var(--border-subtle))",
+        },
         input: "hsl(var(--input))",
         ring: {
           DEFAULT: "hsl(var(--ring))",
@@ -91,6 +94,8 @@ const config: Config = {
           DEFAULT: "hsl(var(--surface))",
           foreground: "hsl(var(--foreground))",
         },
+        "surface-muted": "hsl(var(--surface-muted))",
+        "surface-hover": "hsl(var(--surface-hover))",
         "surface-2": {
           DEFAULT: "hsl(var(--surface-2))",
           foreground: "hsl(var(--foreground))",
