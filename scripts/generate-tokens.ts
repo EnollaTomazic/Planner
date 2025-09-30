@@ -218,6 +218,21 @@ async function buildTokens(): Promise<void> {
     "    var(--shadow-outline-subtle)";
   colors["shadow-control"] = { value: controlShadowBase };
 
+  const shadowAliases: Record<string, { value: string }> = {
+    "shadow-inner-sm": { value: "var(--depth-shadow-inner)" },
+    "shadow-outer-sm": { value: "var(--depth-shadow-soft)" },
+    "shadow-outer-md": { value: "var(--depth-shadow-outer)" },
+    "shadow-outer-lg": { value: "var(--depth-shadow-outer-strong)" },
+  };
+  const glowAliases: Record<string, { value: string }> = {
+    "glow-secondary": { value: "var(--shadow-glow-sm)" },
+    "glow-primary": { value: "var(--shadow-glow-md)" },
+    "glow-tertiary": { value: "var(--shadow-glow-lg)" },
+    "glow-focus": { value: "var(--shadow-glow-xl)" },
+  };
+
+  Object.assign(colors, shadowAliases, glowAliases);
+
   const sd = new StyleDictionary({
     tokens: {
       ...colors,

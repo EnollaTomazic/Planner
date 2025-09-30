@@ -294,6 +294,15 @@
   --depth-shadow-outer-strong: var(--shadow-neo-strong);
   --depth-shadow-soft: var(--shadow-neo-soft);
   --depth-shadow-inner: var(--shadow-neo-inset);
+  /* Shadow aliases (box/drop) */
+  --shadow-inner-sm: var(--depth-shadow-inner);
+  --shadow-outer-sm: var(--depth-shadow-soft);
+  --shadow-outer-md: var(--depth-shadow-outer);
+  --shadow-outer-lg: var(--depth-shadow-outer-strong);
+  --glow-secondary: var(--shadow-glow-sm);
+  --glow-primary: var(--shadow-glow-md);
+  --glow-tertiary: var(--shadow-glow-lg);
+  --glow-focus: var(--shadow-glow-xl);
   /* Depth glow ramps */
   --depth-glow-highlight-soft: hsl(var(--highlight) / 0.08);
   --depth-glow-highlight-medium: hsl(var(--highlight) / 0.35);

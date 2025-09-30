@@ -59,7 +59,7 @@ export default function TimerRingIcon({
         strokeDasharray={circumference}
         strokeDashoffset={offset}
         className={cn(
-          "drop-shadow-[0_0_calc(var(--space-3)/2)_hsl(var(--neon-soft))] transition-[stroke-dashoffset] duration-quick ease-linear motion-reduce:transition-none",
+          "drop-shadow-glow-primary transition-[stroke-dashoffset] duration-quick ease-linear motion-reduce:transition-none",
           pulse && "motion-safe:animate-pulse motion-reduce:animate-none",
         )}
         filter={`url(#${noiseFilterId})`}

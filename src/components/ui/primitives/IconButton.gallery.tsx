@@ -31,10 +31,10 @@ const ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
     id: "focus",
     name: "Focus",
     className:
-      "ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)] [outline:var(--spacing-0-5)_solid_var(--ring-contrast)] [outline-offset:var(--spacing-0-5)]",
+      "ring-2 ring-[var(--ring-contrast)] shadow-glow-md [outline:var(--spacing-0-5)_solid_var(--ring-contrast)] [outline-offset:var(--spacing-0-5)]",
     props: { "aria-label": "Focus", children: <Plus aria-hidden /> },
     code:
-      "<IconButton className=\"ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)] [outline:var(--spacing-0-5)_solid_var(--ring-contrast)] [outline-offset:var(--spacing-0-5)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
+      "<IconButton className=\"ring-2 ring-[var(--ring-contrast)] shadow-glow-md [outline:var(--spacing-0-5)_solid_var(--ring-contrast)] [outline-offset:var(--spacing-0-5)]\" aria-label=\"Focus\">\n  <Plus />\n</IconButton>",
   },
   {
     id: "active",
@@ -83,13 +83,13 @@ const PRIMARY_ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
   {
     id: "primary-hover",
     name: "Primary Hover",
-    className: "bg-[--hover] shadow-[var(--shadow-neon-strong)]",
+    className: "bg-[--hover] shadow-neon-strong",
     props: {
       "aria-label": "Primary hover",
       variant: "primary",
       children: <Plus aria-hidden />,
     },
-    code: "<IconButton\n  className=\"bg-[--hover] shadow-[var(--shadow-neon-strong)]\"\n  variant=\"primary\"\n  aria-label=\"Primary hover\"\n>\n  <Plus />\n</IconButton>",
+    code: "<IconButton\n  className=\"bg-[--hover] shadow-neon-strong\"\n  variant=\"primary\"\n  aria-label=\"Primary hover\"\n>\n  <Plus />\n</IconButton>",
   },
   {
     id: "primary-active",
@@ -267,7 +267,7 @@ export default defineGallerySection({
       <Plus />
     </IconButton>
     <IconButton
-      className="bg-[--hover] shadow-[var(--shadow-neon-strong)]"
+      className="bg-[--hover] shadow-neon-strong"
       variant="primary"
       aria-label="Primary hover"
     >

@@ -57,6 +57,18 @@ export const rootVariables: VariableDefinition[] = [
   { name: "depth-shadow-soft", value: "var(--shadow-neo-soft)" },
   { name: "depth-shadow-inner", value: "var(--shadow-neo-inset)" },
   {
+    comment: "Shadow aliases (box/drop)",
+    name: "shadow-inner-sm",
+    value: "var(--depth-shadow-inner)",
+  },
+  { name: "shadow-outer-sm", value: "var(--depth-shadow-soft)" },
+  { name: "shadow-outer-md", value: "var(--depth-shadow-outer)" },
+  { name: "shadow-outer-lg", value: "var(--depth-shadow-outer-strong)" },
+  { name: "glow-secondary", value: "var(--shadow-glow-sm)" },
+  { name: "glow-primary", value: "var(--shadow-glow-md)" },
+  { name: "glow-tertiary", value: "var(--shadow-glow-lg)" },
+  { name: "glow-focus", value: "var(--shadow-glow-xl)" },
+  {
     comment: "Depth glow ramps",
     name: "depth-glow-highlight-soft",
     value: "hsl(var(--highlight) / 0.08)",

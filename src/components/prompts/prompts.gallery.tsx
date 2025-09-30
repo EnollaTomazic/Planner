@@ -1159,7 +1159,7 @@ function PillarSelectorStatePreview({
 
 function PillarSelectorHoverState() {
   return (
-    <PillarSelectorStatePreview className="rounded-card p-[var(--space-2)] shadow-[var(--shadow-neo-soft)]" />
+    <PillarSelectorStatePreview className="rounded-card p-[var(--space-2)] shadow-outer-sm" />
   );
 }
 
@@ -1204,7 +1204,7 @@ function RoleSelectorStatePreview({
 }
 
 function RoleSelectorHoverState() {
-  return <RoleSelectorStatePreview className="shadow-[var(--shadow-neo-soft)]" />;
+  return <RoleSelectorStatePreview className="shadow-outer-sm" />;
 }
 
 function RoleSelectorFocusState() {
@@ -1586,7 +1586,7 @@ function SheetDemo() {
 
 function SheetClosedState() {
   return (
-    <Card className="max-w-sm space-y-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+    <Card className="max-w-sm space-y-[var(--space-3)] shadow-outline-subtle">
       <CardHeader>
         <CardTitle>Sheet closed</CardTitle>
         <CardDescription>
@@ -1596,7 +1596,7 @@ function SheetClosedState() {
       <CardContent className="flex items-center gap-[var(--space-2)]">
         <Button
           size="sm"
-          className="shadow-[var(--shadow-control)] focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+          className="shadow-control focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
         >
           Open sheet
         </Button>
@@ -1610,7 +1610,7 @@ function SheetOpeningState() {
     <Sheet
       open
       onClose={() => {}}
-      className="shadow-[var(--shadow-neo-soft)]"
+      className="shadow-outer-sm"
     >
       <CardHeader>
         <CardTitle>Syncing tasks</CardTitle>
@@ -1618,7 +1618,7 @@ function SheetOpeningState() {
           Keep content visible while the sheet animates into place.
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+      <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-outline-subtle">
         <Spinner size="md" />
         <span className="text-ui text-muted-foreground">Loading dashboard</span>
       </CardContent>
@@ -1637,7 +1637,7 @@ function SheetFocusTrapState() {
     <Sheet
       open
       onClose={() => {}}
-      className="shadow-[var(--shadow-neo-strong)]"
+      className="shadow-outer-lg"
     >
       <CardHeader>
         <CardTitle>Focus trapped</CardTitle>
@@ -1671,7 +1671,7 @@ function SheetConfirmState() {
     <Sheet
       open
       onClose={() => {}}
-      className="shadow-[var(--shadow-neo)]"
+      className="shadow-outer-md"
     >
       <CardHeader>
         <CardTitle>Archive reminders</CardTitle>
@@ -1680,7 +1680,7 @@ function SheetConfirmState() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-[var(--space-2)]">
-        <div className="rounded-card border border-border/40 bg-surface p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+        <div className="rounded-card border border-border/40 bg-surface p-[var(--space-3)] shadow-outline-subtle">
           <p className="text-ui text-muted-foreground">
             Archive includes 3 completed reminders.
           </p>
@@ -1733,7 +1733,7 @@ function ModalDemo() {
 
 function ModalClosedState() {
   return (
-    <Card className="max-w-sm space-y-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+    <Card className="max-w-sm space-y-[var(--space-3)] shadow-outline-subtle">
       <CardHeader>
         <CardTitle>Modal closed</CardTitle>
         <CardDescription>
@@ -1743,7 +1743,7 @@ function ModalClosedState() {
       <CardContent className="flex items-center gap-[var(--space-2)]">
         <Button
           size="sm"
-          className="shadow-[var(--shadow-control)] focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+          className="shadow-control focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
         >
           Open modal
         </Button>
@@ -1757,7 +1757,7 @@ function ModalOpeningState() {
     <Modal
       open
       onClose={() => {}}
-      className="shadow-[var(--shadow-neo-soft)]"
+      className="shadow-outer-sm"
     >
       <CardHeader>
         <CardTitle>Confirm selection</CardTitle>
@@ -1765,7 +1765,7 @@ function ModalOpeningState() {
           Surface a loader while the dialog hydrates.
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+      <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-outline-subtle">
         <Spinner size="md" />
         <span className="text-ui text-muted-foreground">Syncing choices...</span>
       </CardContent>
@@ -1784,7 +1784,7 @@ function ModalFocusTrapState() {
     <Modal
       open
       onClose={() => {}}
-      className="shadow-[var(--shadow-neo-strong)]"
+      className="shadow-outer-lg"
     >
       <CardHeader>
         <CardTitle>Keyboard locked in</CardTitle>
@@ -1820,7 +1820,7 @@ function ModalConfirmState() {
     <Modal
       open
       onClose={() => {}}
-      className="shadow-[var(--shadow-neo)]"
+      className="shadow-outer-md"
     >
       <CardHeader>
         <CardTitle>Delete board</CardTitle>
@@ -1829,7 +1829,7 @@ function ModalConfirmState() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-[var(--space-2)]">
-        <div className="rounded-card border border-border/40 bg-surface p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+        <div className="rounded-card border border-border/40 bg-surface p-[var(--space-3)] shadow-outline-subtle">
           <p className="text-ui text-muted-foreground">
             Deleting removes all tasks and cannot be undone.
           </p>
@@ -2934,7 +2934,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
           description:
             "Trigger rests on the base layer with the outline elevation token before the sheet opens.",
           element: <SheetClosedState />,
-          code: `<Card className="max-w-sm space-y-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+          code: `<Card className="max-w-sm space-y-[var(--space-3)] shadow-outline-subtle">
   <CardHeader>
     <CardTitle>Sheet closed</CardTitle>
     <CardDescription>
@@ -2944,7 +2944,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   <CardContent className="flex items-center gap-[var(--space-2)]">
     <Button
       size="sm"
-      className="shadow-[var(--shadow-control)] focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+      className="shadow-control focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
     >
       Open sheet
     </Button>
@@ -2960,7 +2960,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
           code: `<Sheet
   open
   onClose={() => {}}
-  className="shadow-[var(--shadow-neo-soft)]"
+  className="shadow-outer-sm"
 >
   <CardHeader>
     <CardTitle>Syncing tasks</CardTitle>
@@ -2968,7 +2968,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       Keep content visible while the sheet animates into place.
     </CardDescription>
   </CardHeader>
-  <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+  <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-outline-subtle">
     <Spinner size="md" />
     <span className="text-ui text-muted-foreground">Loading dashboard</span>
   </CardContent>
@@ -2988,7 +2988,7 @@ React.useEffect(() => {
 <Sheet
   open
   onClose={() => {}}
-  className="shadow-[var(--shadow-neo-strong)]"
+  className="shadow-outer-lg"
 >
   <CardHeader>
     <CardTitle>Focus trapped</CardTitle>
@@ -3024,7 +3024,7 @@ React.useEffect(() => {
           code: `<Sheet
   open
   onClose={() => {}}
-  className="shadow-[var(--shadow-neo)]"
+  className="shadow-outer-md"
 >
   <CardHeader>
     <CardTitle>Archive reminders</CardTitle>
@@ -3033,7 +3033,7 @@ React.useEffect(() => {
     </CardDescription>
   </CardHeader>
   <CardContent className="space-y-[var(--space-2)]">
-    <div className="rounded-card border border-border/40 bg-surface p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+    <div className="rounded-card border border-border/40 bg-surface p-[var(--space-3)] shadow-outline-subtle">
       <p className="text-ui text-muted-foreground">
         Archive includes 3 completed reminders.
       </p>
@@ -3084,7 +3084,7 @@ React.useEffect(() => {
           description:
             "Trigger sits on the outline elevation token until the modal is invoked.",
           element: <ModalClosedState />,
-          code: `<Card className="max-w-sm space-y-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+          code: `<Card className="max-w-sm space-y-[var(--space-3)] shadow-outline-subtle">
   <CardHeader>
     <CardTitle>Modal closed</CardTitle>
     <CardDescription>
@@ -3094,7 +3094,7 @@ React.useEffect(() => {
   <CardContent className="flex items-center gap-[var(--space-2)]">
     <Button
       size="sm"
-      className="shadow-[var(--shadow-control)] focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+      className="shadow-control focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
     >
       Open modal
     </Button>
@@ -3110,7 +3110,7 @@ React.useEffect(() => {
           code: `<Modal
   open
   onClose={() => {}}
-  className="shadow-[var(--shadow-neo-soft)]"
+  className="shadow-outer-sm"
 >
   <CardHeader>
     <CardTitle>Confirm selection</CardTitle>
@@ -3118,7 +3118,7 @@ React.useEffect(() => {
       Surface a loader while the dialog hydrates.
     </CardDescription>
   </CardHeader>
-  <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+  <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-outline-subtle">
     <Spinner size="md" />
     <span className="text-ui text-muted-foreground">Syncing choices...</span>
   </CardContent>
@@ -3138,7 +3138,7 @@ React.useEffect(() => {
 <Modal
   open
   onClose={() => {}}
-  className="shadow-[var(--shadow-neo-strong)]"
+  className="shadow-outer-lg"
 >
   <CardHeader>
     <CardTitle>Keyboard locked in</CardTitle>
@@ -3174,7 +3174,7 @@ React.useEffect(() => {
           code: `<Modal
   open
   onClose={() => {}}
-  className="shadow-[var(--shadow-neo)]"
+  className="shadow-outer-md"
 >
   <CardHeader>
     <CardTitle>Delete board</CardTitle>
@@ -3183,7 +3183,7 @@ React.useEffect(() => {
     </CardDescription>
   </CardHeader>
   <CardContent className="space-y-[var(--space-2)]">
-    <div className="rounded-card border border-border/40 bg-surface p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+    <div className="rounded-card border border-border/40 bg-surface p-[var(--space-3)] shadow-outline-subtle">
       <p className="text-ui text-muted-foreground">
         Deleting removes all tasks and cannot be undone.
       </p>
@@ -4428,7 +4428,7 @@ React.useEffect(() => {
             "Hovering a chip raises the group with the soft neo shadow so the upcoming selection is obvious to pointer users.",
           element: <PillarSelectorHoverState />,
           code: `<PillarSelector
-  className="rounded-card p-[var(--space-2)] shadow-[var(--shadow-neo-soft)]"
+  className="rounded-card p-[var(--space-2)] shadow-outer-sm"
 />`,
         },
         {
@@ -4475,7 +4475,7 @@ React.useEffect(() => {
           code: `<RoleSelector
   value="MID"
   onChange={() => {}}
-  className="shadow-[var(--shadow-neo-soft)]"
+  className="shadow-outer-sm"
 />`,
         },
         {

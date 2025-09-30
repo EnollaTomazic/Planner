@@ -133,7 +133,7 @@ export const Default: Story = {
 
 function EditorLoadingSkeleton() {
   return (
-    <div className="rounded-card border border-border/40 bg-[color-mix(in_oklab,var(--surface) 92%,transparent)] p-[var(--space-5)] shadow-[var(--shadow-outline-subtle)]">
+    <div className="rounded-card border border-border/40 bg-[color-mix(in_oklab,var(--surface) 92%,transparent)] p-[var(--space-5)] shadow-outline-subtle">
       <div className="flex flex-col gap-[var(--space-4)]">
         <Skeleton className="h-[var(--space-5)] w-full max-w-[calc(var(--space-8)*2)]" />
         <div className="grid gap-[var(--space-3)] sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
@@ -176,7 +176,7 @@ function ErrorBanner({ message }: { message: string }) {
   return (
     <div
       role="alert"
-      className="rounded-card border border-danger/40 bg-[color-mix(in_oklab,var(--danger)/15%,transparent)] px-[var(--space-4)] py-[var(--space-3)] text-label text-danger shadow-[var(--shadow-outline-subtle)]"
+      className="rounded-card border border-danger/40 bg-[color-mix(in_oklab,var(--danger)/15%,transparent)] px-[var(--space-4)] py-[var(--space-3)] text-label text-danger shadow-outline-subtle"
     >
       {message}
     </div>

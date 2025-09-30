@@ -53,7 +53,7 @@ const containerClassName = cn(
 
 const frameClassName = cn(
   "relative rounded-card r-card-md bg-[hsl(var(--background)/0.94)] p-[var(--space-4)]",
-  "shadow-[var(--shadow-inset-hairline)]",
+  "shadow-inset-hairline",
   "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:p-[var(--spacing-0-25)] before:bg-[var(--edge-iris)] before:opacity-35 before:[mask:linear-gradient(hsl(var(--foreground))_0_0)_content-box,linear-gradient(hsl(var(--foreground))_0_0)] before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]",
   "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--spacing-0-5)] after:rounded-[inherit] after:bg-[linear-gradient(90deg,hsl(var(--accent)/0.28),transparent_55%,hsl(var(--accent-2)/0.32))] after:opacity-70 after:mix-blend-screen",
   "group-focus-within/component-view:before:opacity-55",
@@ -385,7 +385,7 @@ function PropsTable({
         aria-labelledby={headingId}
         hidden={!expanded}
         aria-hidden={expanded ? undefined : true}
-        className="overflow-x-auto rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 shadow-[var(--shadow-inset-hairline)]"
+        className="overflow-x-auto rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 shadow-inset-hairline"
       >
         <table className="w-full min-w-[calc(var(--space-8)*7)] border-separate border-spacing-0 text-left">
           <thead>
@@ -459,7 +459,7 @@ function VariantsMatrix({ axes }: { axes: readonly GalleryAxis[] }) {
         {axes.map((axis) => (
           <article
             key={axis.id}
-            className="rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]"
+            className="rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] shadow-inset-hairline"
           >
             <div className="space-y-[var(--space-1)]">
               <h4 className="text-ui font-semibold tracking-[-0.01em] text-foreground">
@@ -630,7 +630,7 @@ function UsedOnSection({
     >
       <SectionHeading id={headingId}>Used on</SectionHeading>
       {hasSpecificSurfaces ? (
-        <div className="rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
+        <div className="rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] shadow-inset-hairline">
           <div
             className={cn(
               "space-y-[var(--space-4)]",
@@ -660,7 +660,7 @@ function UsedOnSection({
           </div>
         </div>
       ) : (
-        <div className="space-y-[var(--space-3)] rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] text-label text-muted-foreground shadow-[var(--shadow-inset-hairline)]">
+        <div className="space-y-[var(--space-3)] rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] text-label text-muted-foreground shadow-inset-hairline">
           <div className="flex flex-wrap gap-[var(--space-2)]">
             <Badge tone="support" size="md" className="text-muted-foreground">
               Global
@@ -701,7 +701,7 @@ function StatesSection({
     >
       <SectionHeading id={headingId}>States</SectionHeading>
       {stateAxes.length > 0 ? (
-        <div className="rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
+        <div className="rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] shadow-inset-hairline">
           <div className="grid gap-[var(--space-3)] md:grid-cols-2">
             {stateAxes.map((axis) => (
               <div key={axis.id} className="space-y-[var(--space-2)]">
@@ -816,7 +816,7 @@ function StatePreviewCard({
           id={codeId}
           hidden={!expanded}
           aria-hidden={expanded ? undefined : true}
-          className="rounded-card r-card-md bg-muted/80 p-[var(--space-4)] text-label shadow-[var(--shadow-inset-hairline)]"
+          className="rounded-card r-card-md bg-muted/80 p-[var(--space-4)] text-label shadow-inset-hairline"
         >
           <code>{state.code}</code>
         </pre>
@@ -950,7 +950,7 @@ export default function ComponentsView({
           id={componentCodeId}
           hidden={openSnippet !== "component"}
           aria-hidden={openSnippet === "component" ? undefined : true}
-          className="rounded-card r-card-md bg-muted/80 p-[var(--space-4)] text-label shadow-[var(--shadow-inset-hairline)]"
+          className="rounded-card r-card-md bg-muted/80 p-[var(--space-4)] text-label shadow-inset-hairline"
         >
           <code>{entry.code}</code>
         </pre>

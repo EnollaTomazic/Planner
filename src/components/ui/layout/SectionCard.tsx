@@ -43,7 +43,7 @@ const Root = React.forwardRef<HTMLElement, RootProps>(
         <section
           ref={ref}
           className={cn(
-            variant === "glitch" ? undefined : "shadow-neo-strong",
+            variant === "glitch" ? undefined : "shadow-outer-lg",
             "rounded-card r-card-lg text-card-foreground",
             variant === "neo"
               ? "card-neo-soft"

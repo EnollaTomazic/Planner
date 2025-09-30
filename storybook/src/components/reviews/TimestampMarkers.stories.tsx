@@ -98,7 +98,7 @@ export const Default: Story = {
 
 function MarkersLoadingSkeleton() {
   return (
-    <div className="rounded-card border border-border/40 bg-[color-mix(in_oklab,var(--surface) 92%,transparent)] p-[var(--space-4)] shadow-[var(--shadow-outline-subtle)]">
+    <div className="rounded-card border border-border/40 bg-[color-mix(in_oklab,var(--surface) 92%,transparent)] p-[var(--space-4)] shadow-outline-subtle">
       <div className="flex flex-col gap-[var(--space-3)]">
         <Skeleton className="h-[var(--space-4)] w-full max-w-[calc(var(--space-8)*2)]" />
         <div className="flex items-center gap-[var(--space-2)]">

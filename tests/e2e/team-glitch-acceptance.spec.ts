@@ -22,12 +22,18 @@ test.describe("Team glitch components acceptance", () => {
       (elements) =>
         elements.map((element) => {
           const style = getComputedStyle(element);
+          const baseShadow = style
+            .getPropertyValue("--shadow-glitch-card")
+            .trim();
+          const hoverShadow = style
+            .getPropertyValue("--shadow-glitch-card-hover")
+            .trim();
           return {
             className: element.className,
-            hasBaseShadow: style.getPropertyValue("--shadow-glitch-card").trim().length > 0,
-            hasHoverShadow: style
-              .getPropertyValue("--shadow-glitch-card-hover")
-              .trim().length > 0,
+            hasBaseShadow: baseShadow.length > 0,
+            hasHoverShadow: hoverShadow.length > 0,
+            baseShadow,
+            hoverShadow,
             hasSpectrum: style
               .getPropertyValue("--glitch-card-spectrum-a")
               .trim().length > 0,
@@ -43,6 +49,8 @@ test.describe("Team glitch components acceptance", () => {
       expect(audit.className).toContain("glitch-card");
       expect(audit.hasBaseShadow).toBe(true);
       expect(audit.hasHoverShadow).toBe(true);
+      expect(audit.baseShadow).toContain("var(--shadow-outer-md)");
+      expect(audit.hoverShadow).toContain("var(--shadow-outer-lg)");
       expect(audit.hasSpectrum).toBe(true);
       expect(audit.hasHaloOpacity).toBe(true);
       expect(/shadow-\[[^\]]*(?:px|rem)/.test(audit.className)).toBe(false);

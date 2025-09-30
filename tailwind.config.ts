@@ -214,6 +214,10 @@ const config: Config = {
       },
       borderRadius: borderRadiusTokens,
       boxShadow: {
+        "inner-sm": "var(--shadow-inner-sm)",
+        "outer-sm": "var(--shadow-outer-sm)",
+        "outer-md": "var(--shadow-outer-md)",
+        "outer-lg": "var(--shadow-outer-lg)",
         "neo-sm": "var(--shadow-neo-sm)",
         neo: "var(--shadow-neo)",
         "neo-strong": "var(--shadow-neo-strong)",
@@ -242,6 +246,12 @@ const config: Config = {
         "elev-1": "var(--elevation-1)",
         "elev-2": "var(--elevation-2)",
         "elev-3": "var(--elevation-3)",
+      },
+      dropShadow: {
+        "glow-secondary": "var(--glow-secondary)",
+        "glow-primary": "var(--glow-primary)",
+        "glow-tertiary": "var(--glow-tertiary)",
+        "glow-focus": "var(--glow-focus)",
       },
       transitionTimingFunction: {
         out: "var(--ease-out)",

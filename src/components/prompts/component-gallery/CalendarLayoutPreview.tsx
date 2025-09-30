@@ -471,7 +471,7 @@ function CalendarPreview({
             variant="primary"
             tone="accent"
             size="sm"
-            className="shadow-[var(--shadow-control)] hover:shadow-[var(--shadow-control-hover)]"
+            className="shadow-control hover:shadow-control-hover"
           >
             Retry sync
           </Button>
@@ -480,7 +480,7 @@ function CalendarPreview({
       <Button
         className={cn(
           styles.fab,
-          "flex items-center gap-[var(--space-2)] rounded-[var(--radius-full)] shadow-[var(--shadow-control)] hover:shadow-[var(--shadow-control-hover)] focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:outline-none",
+          "flex items-center gap-[var(--space-2)] rounded-[var(--radius-full)] shadow-control hover:shadow-control-hover focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:outline-none",
         )}
         variant="primary"
         size="lg"

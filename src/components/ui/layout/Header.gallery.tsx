@@ -72,7 +72,7 @@ function HeaderGalleryPreview() {
       {headerUnderlineToneExamples.map((example) => (
         <div
           key={example.underlineTone}
-          className="rounded-card border border-card-hairline-60 bg-panel/80 p-[var(--space-5)] shadow-[var(--shadow-outline-subtle)]"
+          className="rounded-card border border-card-hairline-60 bg-panel/80 p-[var(--space-5)] shadow-outline-subtle"
         >
           <p className="mb-[var(--space-3)] text-label font-medium text-muted-foreground">
             {example.label}
@@ -160,7 +160,7 @@ export default defineGallerySection({
         render: () => <HeaderGalleryPreview />,
       }),
       code: `<div className="grid gap-[var(--space-4)] lg:grid-cols-2">
-  <div className="rounded-card border border-card-hairline-60 bg-panel/80 p-[var(--space-5)] shadow-[var(--shadow-outline-subtle)]">
+  <div className="rounded-card border border-card-hairline-60 bg-panel/80 p-[var(--space-5)] shadow-outline-subtle">
     <p className="mb-[var(--space-3)] text-label font-medium text-muted-foreground">
       Neutral underline (default)
     </p>
@@ -239,7 +239,7 @@ export default defineGallerySection({
       </div>
     </div>
   </div>
-  <div className="rounded-card border border-card-hairline-60 bg-panel/80 p-[var(--space-5)] shadow-[var(--shadow-outline-subtle)]">
+  <div className="rounded-card border border-card-hairline-60 bg-panel/80 p-[var(--space-5)] shadow-outline-subtle">
     <p className="mb-[var(--space-3)] text-label font-medium text-muted-foreground">
       Brand underline
     </p>

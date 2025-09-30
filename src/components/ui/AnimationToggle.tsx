@@ -61,8 +61,8 @@ export default function AnimationToggle({
         disabled={loading}
         className={cn(
           "inline-flex h-[var(--control-h-sm)] w-[var(--control-h-sm)] shrink-0 items-center justify-center rounded-[var(--control-radius)]",
-          "border border-border bg-card shadow-[var(--shadow-control)]",
-          "hover:shadow-[var(--shadow-control-hover)]",
+          "border border-border bg-card shadow-control",
+          "hover:shadow-control-hover",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           "active:bg-surface",
           "disabled:opacity-disabled disabled:pointer-events-none disabled:cursor-not-allowed",

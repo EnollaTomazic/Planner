@@ -36,8 +36,8 @@
     --glitch-card-surface-top: hsl(var(--card) / 0.78);
     --glitch-card-surface-bottom: hsl(var(--panel) / 0.66);
     --glitch-card-border-color: hsl(var(--card-hairline));
-    --shadow-glitch-card: var(--shadow-neo);
-    --shadow-glitch-card-hover: var(--shadow-neo-strong);
+    --shadow-glitch-card: var(--shadow-outer-md);
+    --shadow-glitch-card-hover: var(--shadow-outer-lg);
     --glitch-card-spectrum-a: hsl(var(--primary) / 0.55);
     --glitch-card-spectrum-b: hsl(var(--accent) / 0.45);
     --glitch-card-spectrum-c: hsl(var(--ring) / 0.55);
@@ -623,7 +623,7 @@ html.bg-intense body::after {
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
     border: var(--hairline-w) solid hsl(var(--card-hairline));
-    box-shadow: var(--shadow-neo-soft);
+    box-shadow: var(--shadow-outer-sm);
   }
   .card-soft {
     background: linear-gradient(
@@ -679,7 +679,7 @@ html.bg-intense body::after {
       hsl(var(--shadow-color) / 0.25);
   }
   .card-neo-soft:hover {
-    box-shadow: var(--shadow-neo-soft);
+    box-shadow: var(--shadow-outer-sm);
   }
   .card-neo:hover::before,
   .card-neo-soft:hover::before {
@@ -700,7 +700,7 @@ html.bg-intense body::after {
     box-shadow:
       0 0 0 var(--hairline-w) hsl(var(--ring)) inset,
       0 0 0 var(--spacing-0-5) hsl(var(--ring) / 0.22),
-      var(--shadow-neo-soft);
+      var(--shadow-outer-sm);
   }
   .card-neo:focus-within {
     outline: none;
@@ -713,7 +713,7 @@ html.bg-intense body::after {
     outline: none;
     box-shadow:
       0 0 0 var(--spacing-0-75) hsl(var(--ring) / 0.35),
-      var(--shadow-neo-soft);
+      var(--shadow-outer-sm);
   }
 
   /* Buttons */
@@ -943,16 +943,16 @@ html.bg-intense body::after {
   .btn-like-segmented:hover {
     background: var(--hover, var(--seg-hover-base));
     color: hsl(var(--foreground));
-    --seg-shadow: var(--shadow-neo-soft);
+    --seg-shadow: var(--shadow-outer-sm);
   }
   .btn-like-segmented:active {
     background: var(--active, var(--seg-active-base));
     color: hsl(var(--foreground));
-    --seg-shadow: var(--shadow-neo-strong);
+    --seg-shadow: var(--shadow-outer-lg);
   }
   .btn-like-segmented:focus-visible {
     outline: none;
-    --seg-shadow: var(--shadow-neo-soft);
+    --seg-shadow: var(--shadow-outer-sm);
     box-shadow:
       0 0 0 var(--seg-ring-size) var(--seg-ring-offset),
       0 0 0 calc(var(--seg-ring-size) + var(--seg-ring-stroke))
@@ -981,7 +981,7 @@ html.bg-intense body::after {
       color-mix(in oklab, hsl(var(--card)) 88%, var(--seg-active-base) 12%)
     );
     border-color: hsl(var(--ring));
-    --seg-shadow: var(--shadow-neo-soft);
+    --seg-shadow: var(--shadow-outer-sm);
     box-shadow:
       0 0 0 var(--seg-ring-size) var(--seg-ring-offset),
       0 0 0 calc(var(--seg-ring-size) + var(--seg-ring-stroke))
@@ -1711,14 +1711,14 @@ textarea:-webkit-autofill {
     var(--glitch-card-surface-top),
     var(--glitch-card-surface-bottom)
   );
-  box-shadow: var(--shadow-glitch-card, var(--shadow-neo));
+  box-shadow: var(--shadow-glitch-card, var(--shadow-outer-md));
   transition:
     transform 0.12s ease,
     box-shadow 0.2s ease,
     background 0.2s ease;
 }
 .glitch-card:hover {
-  box-shadow: var(--shadow-glitch-card-hover, var(--shadow-neo-strong));
+  box-shadow: var(--shadow-glitch-card-hover, var(--shadow-outer-lg));
 }
 .glitch-card:focus-within {
   outline: none;
@@ -1727,7 +1727,7 @@ textarea:-webkit-autofill {
       --shadow-glitch-card-focus-ring,
       0 0 0 var(--spacing-0-75) hsl(var(--ring) / 0.35)
     ),
-    var(--shadow-glitch-card-hover, var(--shadow-neo-strong));
+    var(--shadow-glitch-card-hover, var(--shadow-outer-lg));
 }
 .glitch-card::after {
   content: "";
@@ -2539,7 +2539,7 @@ a:active .lucide {
       var(--tw-ring-offset-shadow, 0 0 #0000),
       var(--tw-ring-shadow, 0 0 #0000),
       var(--tw-shadow, 0 0 #0000),
-      var(--neo-inset-shadow, var(--shadow-neo-inset));
+      var(--neo-inset-shadow, var(--shadow-inner-sm));
   }
 
   .hero-focus:focus-visible {

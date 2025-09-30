@@ -139,7 +139,7 @@ export const Empty: Story = {
 
 function ReviewListSkeleton() {
   return (
-    <Card className="space-y-[var(--space-3)] p-[var(--space-4)] shadow-[var(--shadow-outline-subtle)]">
+    <Card className="space-y-[var(--space-3)] p-[var(--space-4)] shadow-outline-subtle">
       {[0, 1, 2].map((row) => (
         <div key={row} className="space-y-[var(--space-2)]">
           <Skeleton className="h-[var(--space-4)] w-full max-w-[calc(var(--space-8)*4)]" />
@@ -181,7 +181,7 @@ function ErrorBanner({ message }: { message: string }) {
   return (
     <div
       role="alert"
-      className="rounded-card border border-danger/40 bg-[color-mix(in_oklab,var(--danger)/15%,transparent)] px-[var(--space-4)] py-[var(--space-3)] text-label text-danger shadow-[var(--shadow-outline-subtle)]"
+      className="rounded-card border border-danger/40 bg-[color-mix(in_oklab,var(--danger)/15%,transparent)] px-[var(--space-4)] py-[var(--space-3)] text-label text-danger shadow-outline-subtle"
     >
       {message}
     </div>

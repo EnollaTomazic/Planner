@@ -48,7 +48,7 @@ export default function SiteChrome({ children }: SiteChromeProps) {
               className="relative flex size-[var(--space-4)] items-center justify-center"
             >
               <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_50%,hsl(var(--glow)/0.7),transparent_70%)] opacity-80" />
-              <span className="relative size-[calc(var(--space-2)+var(--spacing-0-5))] rounded-full bg-[linear-gradient(180deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-[var(--shadow-glow-sm)]" />
+              <span className="relative size-[calc(var(--space-2)+var(--spacing-0-5))] rounded-full bg-[linear-gradient(180deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-glow-sm" />
             </span>
             <BrandWordmark />
           </Link>
@@ -58,7 +58,7 @@ export default function SiteChrome({ children }: SiteChromeProps) {
           </div>
 
           <div className="col-span-full flex items-center justify-end md:col-span-3 md:justify-self-end">
-            <div className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-surface/70 px-[var(--space-2)] py-[var(--space-1)] shadow-[var(--shadow-glow-sm)] backdrop-blur">
+            <div className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-surface/70 px-[var(--space-2)] py-[var(--space-1)] shadow-glow-sm backdrop-blur">
               <ThemeToggle className="shrink-0" />
               <div className="shrink-0">
                 <AnimationToggle />

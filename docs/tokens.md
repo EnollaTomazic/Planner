@@ -235,6 +235,14 @@
 | ring-stroke-m | var(--ring-size-2) |
 | ring-stroke-l | var(--ring-size-2) |
 | ring-inset | calc(var(--space-3) / 2) |
+| shadow-inner-sm | var(--depth-shadow-inner) |
+| shadow-outer-sm | var(--depth-shadow-soft) |
+| shadow-outer-md | var(--depth-shadow-outer) |
+| shadow-outer-lg | var(--depth-shadow-outer-strong) |
+| glow-secondary | var(--shadow-glow-sm) |
+| glow-primary | var(--shadow-glow-md) |
+| glow-tertiary | var(--shadow-glow-lg) |
+| glow-focus | var(--shadow-glow-xl) |
 | spacing-0-125 | calc(var(--spacing-1) / 8) |
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |
