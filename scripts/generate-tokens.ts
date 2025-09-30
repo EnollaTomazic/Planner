@@ -317,6 +317,25 @@ async function buildTokens(): Promise<void> {
       "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-2) hsl(var(--ring) / 0.2)",
     "glow-ring":
       "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
+    "danger-surface-foreground": "var(--danger-foreground)",
+    "surface-overlay-soft": "0.12",
+    "surface-overlay-strong": "0.2",
+    "glitch-card-surface-top": "hsl(var(--card) / 0.78)",
+    "glitch-card-surface-bottom": "hsl(var(--panel) / 0.66)",
+    "surface-card-soft":
+      "linear-gradient(180deg, hsl(var(--card) / 0.65), hsl(var(--card) / 0.45))",
+    "surface-card-strong":
+      "linear-gradient(180deg, hsl(var(--card) / 0.85), hsl(var(--card) / 0.65))",
+    "surface-card-strong-hover":
+      "linear-gradient(180deg, hsl(var(--card) / 0.95), hsl(var(--card) / 0.75))",
+    "surface-card-strong-active":
+      "linear-gradient(180deg, hsl(var(--card) / 0.8), hsl(var(--card) / 0.6))",
+    "surface-card-strong-today":
+      "linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--card) / 0.7))",
+    "surface-card-strong-empty":
+      "linear-gradient(180deg, hsl(var(--card) / 0.6), hsl(var(--card) / 0.5))",
+    "surface-rail-accent":
+      "linear-gradient(180deg, hsl(var(--accent)), hsl(var(--primary)))",
     "glow-primary": "hsl(var(--primary) / 0.55)",
     "glow-pulse":
       "glow-pulse var(--dur-slow) var(--ease-out) infinite alternate",

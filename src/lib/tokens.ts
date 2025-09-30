@@ -91,6 +91,78 @@ export const colorTokens = [
   "bg-ring-contrast",
 ];
 
+export const depthTokenNames = [
+  "neo-depth-sm",
+  "neo-depth-md",
+  "neo-depth-lg",
+  "neo-surface",
+  "neo-surface-alt",
+  "neo-highlight",
+  "depth-shadow-outer",
+  "depth-shadow-outer-strong",
+  "depth-shadow-soft",
+  "depth-shadow-inner",
+  "shadow-outer-sm",
+  "shadow-outer-md",
+  "shadow-outer-lg",
+  "shadow-outer-xl",
+  "shadow-inner-sm",
+  "shadow-inner-md",
+  "shadow-inner-lg",
+  "depth-glow-highlight-soft",
+  "depth-glow-highlight-medium",
+  "depth-glow-highlight-strong",
+  "depth-glow-shadow-soft",
+  "depth-glow-shadow-medium",
+  "depth-glow-shadow-strong",
+  "depth-focus-ring-rest",
+  "depth-focus-ring-active",
+  "glow-ring-sm",
+  "glow-ring-md",
+  "glow-ring",
+  "card-elev-1",
+  "card-elev-2",
+  "card-elev-3",
+] as const;
+
+export type DepthTokenName = (typeof depthTokenNames)[number];
+
+export const surfaceTokenNames = [
+  "danger-surface-foreground",
+  "surface-overlay-soft",
+  "surface-overlay-strong",
+  "glitch-card-surface-top",
+  "glitch-card-surface-bottom",
+  "surface-card-soft",
+  "surface-card-strong",
+  "surface-card-strong-hover",
+  "surface-card-strong-active",
+  "surface-card-strong-today",
+  "surface-card-strong-empty",
+  "surface-rail-accent",
+] as const;
+
+export type SurfaceTokenName = (typeof surfaceTokenNames)[number];
+
+export const gradientTokenNames = [
+  "edge-iris",
+  "seg-active-grad",
+  "review-result-win-gradient",
+  "review-result-loss-gradient",
+  "gradient-blob-primary",
+  "gradient-glitch-primary",
+] as const;
+
+export type GradientTokenName = (typeof gradientTokenNames)[number];
+
+export const motionTokenNames = [
+  "glow-pulse",
+  "glitch-rgb-shift",
+  "glitch-scanline",
+] as const;
+
+export type MotionTokenName = (typeof motionTokenNames)[number];
+
 export const spacingTokens = [4, 8, 12, 16, 24, 32, 48, 64];
 
 export const shellWidthToken = "--shell-width";
