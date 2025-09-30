@@ -342,6 +342,9 @@ export default {
     "linear-gradient(180deg, hsl(var(--card) / 0.6), hsl(var(--card) / 0.5))",
   surfaceRailAccent:
     "linear-gradient(180deg, hsl(var(--accent)), hsl(var(--primary)))",
+  space9: "calc(var(--space-8) + var(--space-1))",
+  space10: "calc(var(--space-8) + var(--space-2))",
+  space11: "calc(var(--space-8) + var(--space-3))",
   spacing0125: "calc(var(--spacing-1) / 8)",
   spacing025: "calc(var(--spacing-1) / 4)",
   spacing05: "calc(var(--spacing-1) / 2)",

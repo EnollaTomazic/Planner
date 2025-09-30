@@ -176,6 +176,9 @@
   --space-6: var(--spacing-6);
   --space-7: var(--spacing-7);
   --space-8: var(--spacing-8);
+  --space-9: calc(var(--space-8) + var(--space-1));
+  --space-10: calc(var(--space-8) + var(--space-2));
+  --space-11: calc(var(--space-8) + var(--space-3));
   --font-size-md: var(--font-body);
   --font-weight-bold: 800;
   --shadow-neon: 0 0 var(--space-1) hsl(var(--neon) / 0.55),
