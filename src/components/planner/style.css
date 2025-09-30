@@ -454,10 +454,39 @@
   --tw-ring-shadow: 0 0 #0000;
   --tw-shadow: var(--chip-shadow);
   --tw-shadow-colored: var(--chip-shadow);
+  background: var(--chip-surface-rest, hsl(var(--card) / 0.7));
+  border-color: var(--chip-border-rest, hsl(var(--card-hairline)));
   box-shadow:
     var(--tw-ring-offset-shadow),
     var(--tw-ring-shadow),
     var(--tw-shadow);
+}
+
+.chip-surface {
+  --chip-surface-rest: hsl(var(--card) / 0.7);
+  --chip-surface-hover: var(
+    --surface-chip-hover,
+    color-mix(
+      in oklab,
+      hsl(var(--card)) 88%,
+      hsl(var(--accent-3)) 12% / 0.08
+    )
+  );
+  --chip-surface-active: hsl(var(--card) / 0.85);
+}
+
+.chip-border {
+  --chip-border-rest: hsl(var(--card-hairline));
+  --chip-border-hover: hsl(var(--accent-3) / 0.55);
+  --chip-border-active: var(--focus-outline, hsl(var(--ring)));
+  --chip-border-selected: var(
+    --chip-border-active,
+    var(--focus-outline, hsl(var(--ring)))
+  );
+}
+
+.chip-ring {
+  --ring-accent: var(--focus-outline, var(--theme-ring));
 }
 
 .chip-token {
@@ -472,22 +501,41 @@
 
 .chip:hover {
   background: var(
-    --surface-chip-hover,
-    color-mix(
-      in oklab,
-      hsl(var(--card)) 88%,
-      hsl(var(--accent-3)) 12% / 0.08
+    --chip-surface-hover,
+    var(
+      --surface-chip-hover,
+      color-mix(
+        in oklab,
+        hsl(var(--card)) 88%,
+        hsl(var(--accent-3)) 12% / 0.08
+      )
     )
   );
   border-color: var(
-    --border-chip-hover,
-    hsl(var(--accent-3) / 0.55)
+    --chip-border-hover,
+    var(--border-chip-hover, hsl(var(--accent-3) / 0.55))
   );
   --chip-shadow: var(--elev-chip-hover, var(--chip-elev-hover-fallback));
 }
 
+.chip:active {
+  background: var(
+    --chip-surface-active,
+    hsl(var(--card) / 0.85)
+  );
+  border-color: var(
+    --chip-border-active,
+    var(--focus-outline, hsl(var(--ring)))
+  );
+  --chip-shadow: var(--elev-chip-active, var(--chip-elev-active-fallback));
+}
+
 .chip[data-active] {
   --chip-shadow: var(--elev-chip-selected, var(--chip-elev-selected-fallback));
+  border-color: var(
+    --chip-border-selected,
+    var(--chip-border-active, var(--focus-outline, hsl(var(--ring))))
+  );
 }
 
 /* “Today” hint — faint ring and glow rail inside */
@@ -516,8 +564,8 @@
 /* Active selection: holo border + RGB split title */
 .chip--active {
   border-color: var(
-    --border-chip-active,
-    var(--focus-outline, hsl(var(--ring)))
+    --chip-border-selected,
+    var(--chip-border-active, var(--focus-outline, hsl(var(--ring))))
   );
   --chip-shadow: var(--elev-chip-active, var(--chip-elev-active-fallback));
 }

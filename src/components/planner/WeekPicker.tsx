@@ -68,6 +68,11 @@ type DayChipProps = {
   tabIndex: number;
 };
 
+const CHIP_SURFACE_CARD = "[--chip-surface-rest:hsl(var(--card))]";
+const CHIP_SURFACE_SUCCESS = "[--chip-surface-rest:hsl(var(--success) / 0.2)]";
+const CHIP_SURFACE_ACCENT_MED = "[--chip-surface-rest:hsl(var(--accent-3) / 0.2)]";
+const CHIP_SURFACE_ACCENT_LIGHT = "[--chip-surface-rest:hsl(var(--accent-3) / 0.3)]";
+
 const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayChip(
   {
     iso,
@@ -104,17 +109,17 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
     }
     return ratio;
   }, [done, total]);
-  const { tint: completionTint, text: completionTextClass } = React.useMemo(() => {
+  const { surface: completionSurfaceClass, text: completionTextClass } = React.useMemo(() => {
     if (total === 0) {
-      return { tint: "bg-card", text: "text-muted-foreground" };
+      return { surface: CHIP_SURFACE_CARD, text: "text-muted-foreground" };
     }
     if (completionRatio >= 2 / 3) {
-      return { tint: "bg-success-soft", text: "text-foreground" };
+      return { surface: CHIP_SURFACE_SUCCESS, text: "text-foreground" };
     }
     if (completionRatio >= 1 / 3) {
-      return { tint: "bg-accent-3/20", text: "text-foreground" };
+      return { surface: CHIP_SURFACE_ACCENT_MED, text: "text-foreground" };
     }
-    return { tint: "bg-accent-3/30", text: "text-foreground" };
+    return { surface: CHIP_SURFACE_ACCENT_LIGHT, text: "text-foreground" };
   }, [completionRatio, total]);
   const instructionsId = React.useId();
   const countsId = React.useId();
@@ -174,17 +179,12 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
           : "Click or press Enter to focus"
       }
       className={cn(
-        "chip chip-token relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left transition snap-start",
-        "focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-0 focus-visible:[--tw-ring-width:var(--ring-size-2)] focus-visible:[--tw-ring-color:var(--focus-outline,var(--theme-ring))]",
-        "data-[focus-visible]:outline-none data-[focus-visible]:ring data-[focus-visible]:ring-offset-0 data-[focus-visible]:[--tw-ring-width:var(--ring-size-2)] data-[focus-visible]:[--tw-ring-color:var(--focus-outline,var(--theme-ring))]",
-        // default border is NOT white; use card hairline tint
-        "border-card-hairline",
-        completionTint,
-        "active:border-primary/60 active:bg-card/85",
+        "chip chip-token relative flex-none w-[--chip-width] rounded-card r-card-lg border text-left transition snap-start chip-surface chip-border chip-ring",
+        "focus-visible:outline-none focus-visible:ring focus-visible:ring-offset-0 focus-visible:[--tw-ring-width:var(--ring-size-2)] focus-visible:[--tw-ring-color:var(--ring-accent)]",
+        "data-[focus-visible]:outline-none data-[focus-visible]:ring data-[focus-visible]:ring-offset-0 data-[focus-visible]:[--tw-ring-width:var(--ring-size-2)] data-[focus-visible]:[--tw-ring-color:var(--ring-accent)]",
+        completionSurfaceClass,
         today && "chip--today",
-        selected
-          ? "border-dashed border-primary/75"
-          : "hover:border-primary/40",
+        selected ? "chip--active border-dashed" : undefined,
       )}
       data-today={today || undefined}
       data-active={selected || undefined}
@@ -193,7 +193,9 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
         className={cn(
           "chip__date",
           completionTextClass,
-          today && completionTint === "bg-card" ? "text-accent-3" : undefined,
+          today && completionSurfaceClass === CHIP_SURFACE_CARD
+            ? "text-accent-3"
+            : undefined,
         )}
         data-text={displayLabel}
       >
@@ -406,7 +408,7 @@ export default function WeekPicker() {
           <div
             role="group"
             aria-label="Week navigation"
-            className="flex flex-wrap items-center gap-[var(--space-2)]"
+            className="flex flex-wrap items-center chip-gap-x-tight chip-gap-y-tight"
           >
             <Button
               variant="ghost"
@@ -440,7 +442,7 @@ export default function WeekPicker() {
           <span className="sr-only" aria-live="polite">
             Week range {accessibleRange}
           </span>
-          <span className="inline-flex items-baseline gap-[var(--space-1)] text-ui text-muted-foreground">
+          <span className="inline-flex items-baseline chip-gap-x-tight text-ui text-muted-foreground">
             <span>Total tasks:</span>
             <span className="font-medium tabular-nums text-foreground">
               {weekDone} / {weekTotal}
@@ -451,7 +453,7 @@ export default function WeekPicker() {
           <div
             role="listbox"
             aria-label={`Select a focus day between ${rangeLabel}`}
-            className="flex flex-nowrap gap-[var(--space-3)] overflow-x-auto snap-x snap-mandatory lg:flex-wrap lg:gap-y-[var(--space-3)] lg:overflow-visible lg:[scroll-snap-type:none]"
+            className="flex flex-nowrap chip-gap-x overflow-x-auto snap-x snap-mandatory lg:flex-wrap lg:chip-gap-y lg:overflow-visible lg:[scroll-snap-type:none]"
           >
             {days.map((d, i) => (
               <DayChip

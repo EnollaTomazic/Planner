@@ -169,6 +169,9 @@ describe("WeekPicker", () => {
     const srOnlyLabel = firstOption.querySelector('[data-chip-label="full"]');
     expect(srOnlyLabel?.textContent).toBe(accessibleText);
 
+    expect(firstOption).toHaveClass("chip-surface");
+    expect(firstOption).toHaveClass("chip-border");
+    expect(firstOption).toHaveClass("chip-ring");
     expect(firstOption).toHaveClass("focus-visible:outline-none");
     expect(firstOption).toHaveClass("focus-visible:ring");
     expect(firstOption).toHaveClass("focus-visible:ring-offset-0");
@@ -176,7 +179,7 @@ describe("WeekPicker", () => {
       "focus-visible:[--tw-ring-width:var(--ring-size-2)]",
     );
     expect(firstOption.className).toContain(
-      "focus-visible:[--tw-ring-color:var(--focus-outline,var(--theme-ring))]",
+      "focus-visible:[--tw-ring-color:var(--ring-accent)]",
     );
     expect(firstOption.className).toContain("data-[focus-visible]:outline-none");
     expect(firstOption.className).toContain("data-[focus-visible]:ring");
@@ -187,7 +190,7 @@ describe("WeekPicker", () => {
       "data-[focus-visible]:[--tw-ring-width:var(--ring-size-2)]",
     );
     expect(firstOption.className).toContain(
-      "data-[focus-visible]:[--tw-ring-color:var(--focus-outline,var(--theme-ring))]",
+      "data-[focus-visible]:[--tw-ring-color:var(--ring-accent)]",
     );
   });
 
