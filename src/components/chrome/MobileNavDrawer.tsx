@@ -7,7 +7,7 @@ import { X } from "lucide-react";
 import Sheet from "@/components/ui/Sheet";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { cn, withoutBasePath } from "@/lib/utils";
-import { NAV_ITEMS, type NavItem, isNavActive } from "./nav-items";
+import { NAV_ITEMS, type NavItem, isNavActive } from "@/config/nav";
 
 function useMediaQuery(query: string) {
   const getMatches = React.useCallback(() => {
@@ -112,19 +112,20 @@ export default function MobileNavDrawer({
                   <Link
                     href={href}
                     aria-current={active ? "page" : undefined}
+                    data-active={active ? "true" : undefined}
                     onClick={onClose}
                     className={cn(
                       "group flex items-center gap-[var(--space-2)] rounded-full px-[var(--space-3)] py-[var(--space-2)] text-ui font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0",
-                      "bg-surface/80 text-muted-foreground shadow-[var(--shadow-glow-sm)] backdrop-blur",
-                      "hover:text-foreground focus-visible:text-foreground",
+                      "bg-surface/80 text-[hsl(var(--fg-muted))] shadow-[var(--shadow-glow-sm)] backdrop-blur",
+                      "hover:text-[hsl(var(--accent))] focus-visible:text-[hsl(var(--accent))]",
                       active &&
-                        "text-foreground shadow-[var(--shadow-glow-md)] ring-1 ring-[hsl(var(--accent)/0.4)]",
+                        "text-[hsl(var(--accent-contrast))] shadow-[var(--shadow-glow-md)] ring-1 ring-[hsl(var(--accent)/0.4)]",
                     )}
                   >
                     {Icon ? (
                       <span
                         aria-hidden="true"
-                        className="flex size-[var(--space-4)] items-center justify-center text-muted-foreground transition-colors group-hover:text-foreground group-focus-visible:text-foreground"
+                        className="flex size-[var(--space-4)] items-center justify-center text-[hsl(var(--fg-muted))] transition-colors group-hover:text-[hsl(var(--accent))] group-focus-visible:text-[hsl(var(--accent))] group-data-[active=true]:text-[hsl(var(--accent-contrast))]"
                       >
                         <Icon className="size-full" strokeWidth={1.75} />
                       </span>
