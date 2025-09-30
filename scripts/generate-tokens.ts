@@ -142,6 +142,26 @@ async function buildTokens(): Promise<void> {
     colors[name] = { value: match[2].trim() };
   }
   colors.focus = { value: "var(--theme-ring)" };
+  const derivedColorTokens: Record<string, string> = {
+    "shadow-inner-sm":
+      "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)",
+    "shadow-inner-md":
+      "inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28)",
+    "shadow-outer-lg":
+      "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36)",
+    "glow-primary": "hsl(var(--primary) / 0.55)",
+    "blob-surface-1": "hsl(var(--surface))",
+    "blob-surface-2": "hsl(var(--surface-2))",
+    "blob-surface-3": "hsl(var(--card))",
+    "blob-surface-shadow": "hsl(var(--shadow-color) / 0.4)",
+    "glitch-noise-primary": "hsl(var(--accent) / 0.25)",
+    "glitch-noise-secondary": "hsl(var(--ring) / 0.2)",
+    "glitch-noise-contrast": "hsl(var(--foreground) / 0.12)",
+  };
+
+  for (const [name, value] of Object.entries(derivedColorTokens)) {
+    colors[name] = { value };
+  }
   const globalsPath = path.resolve(__dirname, "../src/app/globals.css");
   const globalsCss = await fs.readFile(globalsPath, "utf8");
   const glowTokens = ["--glow-strong", "--glow-soft"];
