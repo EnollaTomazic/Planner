@@ -15,6 +15,7 @@ const NeoCard = React.forwardRef<React.ElementRef<"div">, NeoCardProps>(
   ({ className, children, overlay, ...props }, ref) => (
     <Card
       ref={ref}
+      depth="raised"
       className={cn(NEO_CARD_BASE_CLASSNAME, className)}
       {...props}
     >

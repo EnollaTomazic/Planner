@@ -64,6 +64,7 @@ type ButtonBaseProps = {
   tone?: Tone;
   loading?: boolean;
   tactile?: boolean;
+  glitch?: boolean;
 };
 
 type ButtonAsButtonProps = ButtonBaseProps &
@@ -258,6 +259,7 @@ export const Button = React.forwardRef<
     children,
     loading,
     tactile = false,
+    glitch = false,
   } = props;
   const asChild = props.asChild ?? false;
   const reduceMotion = useReducedMotion();
@@ -275,6 +277,9 @@ export const Button = React.forwardRef<
     neumorphicStyles.neu,
     neumorphicStyles["neu-hover"],
     styles.root,
+    styles.organicControl,
+    glitch && "glitch-wrapper",
+    glitch && styles.glitch,
     "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
     "data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none",
     "[--neu-radius:var(--control-radius)]",
@@ -304,6 +309,15 @@ export const Button = React.forwardRef<
     contentClass ?? cn("inline-flex items-center", s.gap),
     loading && "opacity-0",
   );
+
+  const providedGlitchTextRaw = (props as Record<string, unknown>)["data-text"];
+  const providedGlitchText =
+    typeof providedGlitchTextRaw === "string" ? providedGlitchTextRaw : undefined;
+
+  const glitchText = glitch
+    ? providedGlitchText ??
+        (typeof children === "string" ? children : undefined)
+    : providedGlitchText;
 
   const mergedClassName = cn(
     base,
@@ -347,14 +361,18 @@ export const Button = React.forwardRef<
     delete slotProps.tone;
     delete slotProps.loading;
     delete slotProps.tactile;
+    delete slotProps.glitch;
     delete slotProps.className;
     delete slotProps.children;
     delete slotProps.disabled;
+    delete slotProps["data-text"];
     const baseProps = {
       className: mergedClassName,
       "data-loading": loading ? "true" : undefined,
       "data-disabled": isDisabled ? "true" : undefined,
       "data-tactile": tactile ? "true" : undefined,
+      "data-glitch": glitch ? "true" : undefined,
+      "data-text": glitchText,
       "aria-busy": loading ? true : undefined,
       whileHover: hoverAnimation,
       whileTap: reduceMotion ? undefined : whileTap,
@@ -419,13 +437,17 @@ export const Button = React.forwardRef<
     delete anchorProps.tone;
     delete anchorProps.loading;
     delete anchorProps.tactile;
+    delete anchorProps.glitch;
     delete anchorProps.className;
     delete anchorProps.children;
+    delete anchorProps["data-text"];
     const baseProps = {
       className: mergedClassName,
       "data-loading": loading ? "true" : undefined,
       "data-disabled": isDisabled ? "true" : undefined,
       "data-tactile": tactile ? "true" : undefined,
+      "data-glitch": glitch ? "true" : undefined,
+      "data-text": glitchText,
       "aria-busy": loading ? true : undefined,
       whileHover: hoverAnimation,
       whileTap: reduceMotion ? undefined : whileTap,
@@ -484,17 +506,21 @@ export const Button = React.forwardRef<
   delete buttonProps.asChild;
   delete buttonProps.size;
     delete buttonProps.variant;
-    delete buttonProps.tone;
-    delete buttonProps.loading;
-    delete buttonProps.tactile;
-    delete buttonProps.className;
-    delete buttonProps.children;
+  delete buttonProps.tone;
+  delete buttonProps.loading;
+  delete buttonProps.tactile;
+  delete buttonProps.glitch;
+  delete buttonProps.className;
+  delete buttonProps.children;
+  delete buttonProps["data-text"];
   delete buttonProps.disabled;
   const baseProps = {
     className: mergedClassName,
     "data-loading": loading ? "true" : undefined,
     "data-disabled": isDisabled ? "true" : undefined,
     "data-tactile": tactile ? "true" : undefined,
+    "data-glitch": glitch ? "true" : undefined,
+    "data-text": glitchText,
     "aria-busy": loading ? true : undefined,
     whileHover: hoverAnimation,
     whileTap: reduceMotion ? undefined : whileTap,

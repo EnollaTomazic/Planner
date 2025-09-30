@@ -1,13 +1,47 @@
 .root {
+  --slider-depth-sm: var(--neo-depth-sm);
+  --slider-depth-md: var(--neo-depth-md);
+  --slider-depth-lg: var(--neo-depth-lg);
+  --slider-track-shadow: inset var(--slider-depth-sm) var(--slider-depth-sm)
+      calc(var(--slider-depth-lg) * 1.1)
+      color-mix(in oklab, hsl(var(--panel)) 78%, hsl(var(--background)) 22%),
+    inset calc(var(--slider-depth-sm) * -1)
+      calc(var(--slider-depth-sm) * -1) calc(var(--slider-depth-lg) * 1.1)
+      hsl(var(--foreground) / 0.08);
+  --slider-fill-shadow: var(--slider-track-shadow);
+  --slider-fill-shadow-hover: inset var(--slider-depth-sm)
+      var(--slider-depth-sm) calc(var(--slider-depth-lg) * 1.35)
+      color-mix(in oklab, hsl(var(--panel)) 72%, hsl(var(--card)) 28%),
+    inset calc(var(--slider-depth-sm) * -1)
+      calc(var(--slider-depth-sm) * -1) calc(var(--slider-depth-lg) * 1.35)
+      hsl(var(--foreground) / 0.12);
+  --slider-fill-shadow-active: inset var(--slider-depth-sm)
+      var(--slider-depth-sm) calc(var(--slider-depth-lg) * 1.5)
+      color-mix(in oklab, hsl(var(--panel)) 68%, hsl(var(--card)) 32%),
+    inset calc(var(--slider-depth-sm) * -1)
+      calc(var(--slider-depth-sm) * -1) calc(var(--slider-depth-lg) * 1.5)
+      hsl(var(--foreground) / 0.16);
+  --slider-knob-shadow: 0 var(--slider-depth-sm)
+      calc(var(--slider-depth-lg) * 1.25) hsl(var(--shadow-color) / 0.38);
+  --slider-knob-shadow-hover: 0 var(--slider-depth-md)
+      calc(var(--slider-depth-lg) * 1.45) hsl(var(--shadow-color) / 0.45);
+  --slider-knob-shadow-active: 0 calc(var(--slider-depth-md) * 1.15)
+      calc(var(--slider-depth-lg) * 1.7) hsl(var(--shadow-color) / 0.52);
   --progress: 0%;
   --slider-fill-width: calc(0% + var(--space-2) + var(--space-1) / 2);
   --slider-knob-left: calc(0% - (var(--space-2) + var(--space-1) / 2));
 }
 
+.glitch {
+  isolation: isolate;
+}
+
 .fill {
+  box-shadow: var(--slider-fill-shadow);
 }
 
 .knob {
+  box-shadow: var(--slider-knob-shadow);
 }
 
 .root[data-variant="input"] .fill {
@@ -20,6 +54,41 @@
 
 .root[data-variant="display"] .knob {
   left: var(--progress);
+}
+
+.glitch .knob {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  --glitch-overlay-opacity: 0.35;
+}
+
+.glitch .knob::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: inherit;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity var(--dur-quick) var(--ease-out),
+    clip-path var(--dur-quick) steps(2, end);
+  clip-path: inset(0);
+}
+
+.glitch .knob:hover::before,
+.glitch .knob:focus-visible::before,
+.glitch .knob:focus-within::before {
+  opacity: var(--glitch-overlay-opacity);
+  animation: glitch var(--glitch-duration) steps(2, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch .knob::before {
+    transition: none;
+    animation: none;
+  }
 }
 
 .root[data-value="0"] {
