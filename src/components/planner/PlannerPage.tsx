@@ -33,6 +33,14 @@ const VIEW_MODE_OPTIONS: Array<{ value: PlannerViewMode; label: string }> = [
   { value: "agenda", label: "Agenda" },
 ];
 
+const VIEW_TAB_ID_BASE = "planner-view";
+const VIEW_COMPONENTS: Record<PlannerViewMode, React.ComponentType> = {
+  day: DayView,
+  week: WeekView,
+  month: MonthView,
+  agenda: AgendaView,
+};
+
 /* ───────── Page body under provider ───────── */
 
 function Inner() {
@@ -93,19 +101,43 @@ function Inner() {
             onChange={handleViewModeChange}
             ariaLabelledby={labelId}
           >
-            {VIEW_MODE_OPTIONS.map((option) => (
-              <GlitchSegmentedButton key={option.value} value={option.value}>
-                {option.label}
-              </GlitchSegmentedButton>
-            ))}
+            {VIEW_MODE_OPTIONS.map((option) => {
+              const tabId = `${VIEW_TAB_ID_BASE}-${option.value}-tab`;
+              const panelId = `${VIEW_TAB_ID_BASE}-${option.value}-panel`;
+              return (
+                <GlitchSegmentedButton
+                  key={option.value}
+                  value={option.value}
+                  id={tabId}
+                  aria-controls={panelId}
+                >
+                  {option.label}
+                </GlitchSegmentedButton>
+              );
+            })}
           </GlitchSegmentedGroup>
         </div>
       </PageShell>
 
-      {viewMode === "day" && <DayView />}
-      {viewMode === "week" && <WeekView />}
-      {viewMode === "month" && <MonthView />}
-      {viewMode === "agenda" && <AgendaView />}
+      {VIEW_MODE_OPTIONS.map((option) => {
+        const tabId = `${VIEW_TAB_ID_BASE}-${option.value}-tab`;
+        const panelId = `${VIEW_TAB_ID_BASE}-${option.value}-panel`;
+        const isActive = viewMode === option.value;
+        const ViewComponent = VIEW_COMPONENTS[option.value];
+
+        return (
+          <div
+            key={option.value}
+            role="tabpanel"
+            id={panelId}
+            aria-labelledby={tabId}
+            hidden={!isActive}
+            tabIndex={isActive ? 0 : -1}
+          >
+            {isActive ? <ViewComponent /> : null}
+          </div>
+        );
+      })}
     </>
   );
 }
