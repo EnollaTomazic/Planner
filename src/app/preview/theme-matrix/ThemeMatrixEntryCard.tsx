@@ -23,6 +23,7 @@ const BACKGROUND_LABELS: Record<number, string> = {
 };
 
 const GRID_TEMPLATE = `repeat(${VARIANTS.length}, minmax(320px, 1fr))`;
+const BACKGROUND_INDICES = [0, 1, 2, 3, 4] as const;
 
 const variantColumnsStyle = {
   gridTemplateColumns: GRID_TEMPLATE,
@@ -101,41 +102,56 @@ function ThemeMatrixVariantColumn({
   readonly variantLabel: string;
   readonly variant: ThemeMatrixVariantGroup | undefined;
 }) {
-  if (!variant || variant.previews.length === 0) {
-    return (
-      <div
-        className={cn(
-          PREVIEW_HEIGHT_VARIABLE,
-          PREVIEW_MIN_HEIGHT_CLASS,
-          "flex items-center justify-center rounded-card border border-dashed border-card-hairline-60 bg-surface/60 p-[var(--space-4)] text-center text-caption text-muted-foreground",
-        )}
-        role="gridcell"
-      >
-        <p className="max-w-[30ch]">
-          Missing preview for the {variant?.variantLabel ?? variantLabel} theme.
-        </p>
-      </div>
-    );
-  }
+  const previewLookup = new Map<number, ThemeMatrixVariantPreview>(
+    (variant?.previews ?? []).map((preview) => [preview.background, preview]),
+  );
 
-  const previews = [...variant.previews].sort((a, b) => {
-    if (a.background !== b.background) {
-      return a.background - b.background;
-    }
-    return a.slug.localeCompare(b.slug);
-  });
+  const emptyStateClassName = cn(
+    PREVIEW_HEIGHT_VARIABLE,
+    PREVIEW_MIN_HEIGHT_CLASS,
+    "flex items-center justify-center rounded-card border border-dashed border-card-hairline-60 bg-surface/60 p-[var(--space-4)] text-center text-caption text-muted-foreground",
+  );
+
+  const resolvedVariantLabel = variant?.variantLabel ?? variantLabel;
 
   return (
     <div className="space-y-[var(--space-3)]" role="gridcell">
-      {previews.map((preview) => (
-        <ThemeMatrixPreviewFrame
-          key={`${preview.slug}-${preview.background}`}
-          entryName={entryName}
-          stateName={stateName}
-          variantLabel={variant.variantLabel}
-          preview={preview}
-        />
-      ))}
+      {BACKGROUND_INDICES.map((background) => {
+        const preview = previewLookup.get(background);
+        if (preview) {
+          return (
+            <ThemeMatrixPreviewFrame
+              key={`${preview.slug}-${preview.background}`}
+              entryName={entryName}
+              stateName={stateName}
+              variantLabel={variant?.variantLabel ?? variantLabel}
+              preview={preview}
+            />
+          );
+        }
+
+        const backgroundLabel =
+          BACKGROUND_LABELS[background] ?? `Background ${background}`;
+
+        return (
+          <figure
+            key={`missing-${background}`}
+            className="space-y-[var(--space-2)]"
+            data-theme-matrix-cell
+            data-theme-matrix-missing-preview
+          >
+            <div className={emptyStateClassName} role="presentation">
+              <p className="max-w-[30ch]">
+                Missing preview for the {resolvedVariantLabel} theme on the {backgroundLabel}.
+              </p>
+            </div>
+            <figcaption className="flex items-center justify-between gap-[var(--space-2)] text-caption text-muted-foreground">
+              <span>{backgroundLabel}</span>
+              <span className="text-ui font-medium text-destructive">Missing preview</span>
+            </figcaption>
+          </figure>
+        );
+      })}
     </div>
   );
 }
