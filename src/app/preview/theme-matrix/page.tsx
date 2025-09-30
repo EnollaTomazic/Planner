@@ -7,12 +7,15 @@ import {
   type GalleryPreviewRoute,
 } from "@/components/gallery";
 import { PageShell } from "@/components/ui";
+import { VARIANT_LABELS, type Variant, type Background } from "@/lib/theme";
 
 import { ThemeMatrixEntryCard } from "./ThemeMatrixEntryCard";
 import type {
   ThemeMatrixEntry,
   ThemeMatrixGroup,
   ThemeMatrixSection,
+  ThemeMatrixVariantGroup,
+  ThemeMatrixVariantPreview,
   SerializableGalleryEntry,
   SerializableGallerySection,
 } from "./types";
@@ -36,24 +39,104 @@ const buildAxisSummary = (route: GalleryPreviewRoute): string | null => {
   return summary.length > 0 ? summary : null;
 };
 
+interface ThemeMatrixVariantBuilder {
+  readonly variant: Variant;
+  readonly variantLabel: string;
+  readonly previews: Map<string, ThemeMatrixVariantPreview>;
+}
+
+interface ThemeMatrixGroupBuilder {
+  key: string;
+  entryId: string;
+  entryName: string;
+  sectionId: ThemeMatrixGroup["sectionId"];
+  stateId: string | null;
+  stateName: string | null;
+  axisSummary: string | null;
+  variants: Map<Variant, ThemeMatrixVariantBuilder>;
+}
+
+const toThemeMatrixGroup = (
+  builder: ThemeMatrixGroupBuilder,
+): ThemeMatrixGroup => {
+  const variants: ThemeMatrixVariantGroup[] = [];
+  for (const variantBuilder of builder.variants.values()) {
+    const previews = Array.from(variantBuilder.previews.values()).sort(
+      (a, b) => {
+        if (a.background !== b.background) {
+          return a.background - b.background;
+        }
+        return a.slug.localeCompare(b.slug);
+      },
+    );
+    variants.push({
+      variant: variantBuilder.variant,
+      variantLabel: variantBuilder.variantLabel,
+      previews,
+    });
+  }
+
+  return {
+    key: builder.key,
+    entryId: builder.entryId,
+    entryName: builder.entryName,
+    sectionId: builder.sectionId,
+    stateId: builder.stateId,
+    stateName: builder.stateName,
+    axisSummary: builder.axisSummary,
+    variants,
+  };
+};
+
 const previewRoutes = getGalleryPreviewRoutes();
-const previewGroupsByKey = new Map<string, ThemeMatrixGroup>();
+const previewGroupsByKey = new Map<string, ThemeMatrixGroupBuilder>();
 
 for (const route of previewRoutes) {
   const key = createGroupKey(route.entryId, route.stateId);
-  if (previewGroupsByKey.has(key)) {
-    continue;
+  let group = previewGroupsByKey.get(key);
+  if (!group) {
+    group = {
+      key,
+      entryId: route.entryId,
+      entryName: route.entryName,
+      sectionId: route.sectionId,
+      stateId: route.stateId,
+      stateName: route.stateName,
+      axisSummary: buildAxisSummary(route),
+      variants: new Map<Variant, ThemeMatrixVariantBuilder>(),
+    };
+    previewGroupsByKey.set(key, group);
+  } else {
+    if (!group.axisSummary) {
+      group.axisSummary = buildAxisSummary(route);
+    }
+    if (route.stateName && !group.stateName) {
+      group.stateName = route.stateName;
+    }
   }
-  previewGroupsByKey.set(key, {
-    key,
-    entryId: route.entryId,
-    entryName: route.entryName,
-    sectionId: route.sectionId,
-    stateId: route.stateId,
-    stateName: route.stateName,
-    previewId: route.previewId,
-    axisSummary: buildAxisSummary(route),
-  });
+
+  const variantId = route.themeVariant as Variant;
+  const variantLabel = VARIANT_LABELS[variantId] ?? variantId;
+  let variantGroup = group.variants.get(variantId);
+  if (!variantGroup) {
+    variantGroup = {
+      variant: variantId,
+      variantLabel,
+      previews: new Map<string, ThemeMatrixVariantPreview>(),
+    };
+    group.variants.set(variantId, variantGroup);
+  }
+
+  const previewKey = route.slug;
+  if (!variantGroup.previews.has(previewKey)) {
+    variantGroup.previews.set(previewKey, {
+      variant: variantId,
+      variantLabel,
+      background: route.themeBackground as Background,
+      slug: route.slug,
+      previewId: route.previewId,
+    });
+  }
 }
 
 const gallerySections =
@@ -73,24 +156,36 @@ for (const section of gallerySections) {
     for (const stateId of stateOrder) {
       const key = createGroupKey(entry.id, stateId);
       const group = previewGroupsByKey.get(key);
-      if (!group || seen.has(group.key)) {
+      const stateMatch = stateId
+        ? entry.states?.find((state) => state.id === stateId)
+        : undefined;
+      const resolvedStateName = stateMatch?.name ?? null;
+
+      if (!group) {
+        groups.push({
+          key,
+          entryId: entry.id,
+          entryName: entry.name,
+          sectionId: section.id,
+          stateId,
+          stateName: resolvedStateName,
+          axisSummary: null,
+          variants: [],
+        });
+        seen.add(key);
         continue;
       }
 
-      let resolvedStateName = group.stateName;
-      if (stateId && !resolvedStateName) {
-        const stateMatch = entry.states?.find((state) => state.id === stateId);
-        resolvedStateName = stateMatch?.name ?? null;
+      if (seen.has(group.key)) {
+        continue;
       }
 
-      groups.push(
-        resolvedStateName === group.stateName
-          ? group
-          : {
-              ...group,
-              stateName: resolvedStateName,
-            },
-      );
+      let finalized = toThemeMatrixGroup(group);
+      if (resolvedStateName && finalized.stateName !== resolvedStateName) {
+        finalized = { ...finalized, stateName: resolvedStateName };
+      }
+
+      groups.push(finalized);
       seen.add(group.key);
     }
 
@@ -99,7 +194,7 @@ for (const section of gallerySections) {
         continue;
       }
 
-      groups.push(group);
+      groups.push(toThemeMatrixGroup(group));
       seen.add(group.key);
     }
 
