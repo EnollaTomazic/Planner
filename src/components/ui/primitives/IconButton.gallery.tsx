@@ -67,6 +67,17 @@ const ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
     },
     code: "<IconButton loading aria-label=\"Loading\">\n  <Plus />\n</IconButton>",
   },
+  {
+    id: "glitch",
+    name: "Glitch overlay",
+    props: {
+      "aria-label": "Glitch overlay",
+      children: <Plus aria-hidden />,
+      glitch: true,
+      glitchIntensity: "glitch-overlay-button-opacity",
+    },
+    code: "<IconButton glitch glitchIntensity=\"glitch-overlay-button-opacity\" aria-label=\"Glitch overlay\">\n  <Plus />\n</IconButton>",
+  },
 ];
 
 const PRIMARY_ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
@@ -114,6 +125,11 @@ function IconButtonStatePreview({ state }: { state: IconButtonStateSpec }) {
 const ICON_BUTTON_SIZES = ["sm", "md", "lg", "xl"] as const;
 
 function IconButtonGalleryPreview() {
+  const glitchState = ICON_BUTTON_STATES.find((state) => state.id === "glitch");
+  const standardIconStates = ICON_BUTTON_STATES.filter(
+    (state) => state.id !== "glitch",
+  );
+
   return (
     <div className="flex flex-col gap-[var(--space-4)]">
       <div className="flex flex-wrap gap-[var(--space-2)]">
@@ -143,10 +159,22 @@ function IconButtonGalleryPreview() {
         </IconButton>
       </div>
       <div className="flex flex-wrap gap-[var(--space-2)]">
-        {ICON_BUTTON_STATES.map((state) => (
+        {standardIconStates.map((state) => (
           <IconButtonStatePreview key={state.id} state={state} />
         ))}
       </div>
+      {glitchState ? (
+        <div className="space-y-[var(--space-1)]">
+          <div className="flex flex-wrap gap-[var(--space-2)]">
+            <IconButtonStatePreview state={glitchState} />
+          </div>
+          <p className="text-caption text-muted-foreground">
+            Primary glitch tokens hue-shift per theme; Noir and Hardstuck thin
+            the ring/halo alpha to hold ≥3:1 contrast around the control
+            silhouette.
+          </p>
+        </div>
+      ) : null}
       <div className="flex flex-wrap gap-[var(--space-2)]">
         {PRIMARY_ICON_BUTTON_STATES.map((state) => (
           <IconButtonStatePreview key={state.id} state={state} />
@@ -198,7 +226,13 @@ export default defineGallerySection({
           label: "State",
           type: "state",
           values: [...ICON_BUTTON_STATES, ...PRIMARY_ICON_BUTTON_STATES].map(
-            ({ name }) => ({ value: name }),
+            ({ name, id }) => ({
+              value: name,
+              description:
+                id === "glitch"
+                  ? "Glitch overlay uses theme hue + alpha adjustments so Noir and Hardstuck keep the halo readable."
+                  : undefined,
+            }),
           ),
         },
       ],

@@ -55,6 +55,16 @@ const BUTTON_STATES: readonly ButtonStateSpec[] = [
     props: { children: "Loading", loading: true },
     code: "<Button loading>Loading</Button>",
   },
+  {
+    id: "glitch",
+    name: "Glitch overlay",
+    props: {
+      children: "Glitch overlay",
+      glitch: true,
+      glitchIntensity: "glitch-overlay-button-opacity",
+    },
+    code: `<Button glitch glitchIntensity="glitch-overlay-button-opacity">Glitch overlay</Button>`,
+  },
 ];
 
 const BUTTON_SIZE_ORDER: readonly ButtonSize[] = ["sm", "md", "lg", "xl"];
@@ -77,6 +87,9 @@ function ButtonStatePreview({ state }: { state: ButtonStateSpec }) {
 }
 
 function ButtonGalleryPreview() {
+  const glitchState = BUTTON_STATES.find((state) => state.id === "glitch");
+  const standardStates = BUTTON_STATES.filter((state) => state.id !== "glitch");
+
   return (
     <div className="flex flex-col gap-[var(--space-4)]">
       <div className="flex flex-wrap gap-[var(--space-2)]">
@@ -120,10 +133,22 @@ function ButtonGalleryPreview() {
         ))}
       </div>
       <div className="flex flex-wrap gap-[var(--space-2)]">
-        {BUTTON_STATES.map((state) => (
+        {standardStates.map((state) => (
           <ButtonStatePreview key={state.id} state={state} />
         ))}
       </div>
+      {glitchState ? (
+        <div className="space-y-[var(--space-1)]">
+          <div className="flex flex-wrap gap-[var(--space-2)]">
+            <ButtonStatePreview state={glitchState} />
+          </div>
+          <p className="text-caption text-muted-foreground">
+            Glitch overlay uses theme noise tokens so Noir and Hardstuck clamp
+            the static mix for ≥3:1 contrast—keep copy on the default{" "}
+            <code className="ml-[var(--space-1)]">text-foreground</code> tone.
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -181,7 +206,13 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: BUTTON_STATES.map(({ name }) => ({ value: name })),
+          values: BUTTON_STATES.map(({ name, id }) => ({
+            value: name,
+            description:
+              id === "glitch"
+                ? "Glitch overlay relies on --glitch-overlay-button-opacity and theme noise tokens; Noir + Hardstuck clamp intensity for ≥3:1 contrast."
+                : undefined,
+          })),
         },
       ],
       preview: createGalleryPreview({
