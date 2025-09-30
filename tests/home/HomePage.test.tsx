@@ -56,4 +56,23 @@ describe("Home page", () => {
     const landmarks = container.querySelectorAll("main, [role=\"main\"]");
     expect(landmarks).toHaveLength(1);
   });
+
+  it("falls back to the legacy landing experience when the flag is disabled", () => {
+    render(
+      <ThemeProvider glitchLandingEnabled={false}>
+        <main id="main-content">
+          <Suspense fallback="loading">
+            <Page />
+          </Suspense>
+        </main>
+      </ThemeProvider>,
+    );
+
+    expect(
+      screen.getByRole("heading", { name: "Planner preview" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("region", { name: "Planner overview" }),
+    ).toBeInTheDocument();
+  });
 });

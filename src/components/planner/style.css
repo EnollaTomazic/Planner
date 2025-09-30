@@ -38,7 +38,7 @@
   max-height: clamp(var(--scroll-min), var(--scroll-ideal), var(--scroll-max));
   border-radius: var(--radius-md);
   background: hsl(var(--background) / 0.25);
-  box-shadow: inset 0 0 0 var(--hairline-w) hsl(var(--card-hairline) / 0.55);
+  box-shadow: var(--shadow-inset-hairline);
 }
 
 @media (max-width: 639px) {
@@ -63,6 +63,13 @@
   padding-bottom: var(--space-2);
   border: var(--hairline-w) solid hsl(var(--card-hairline));
   background: hsl(var(--card) / 0.55);
+  --planner-card-glow-color: var(--glow-primary);
+  --planner-card-title-glow: 0 0 var(--space-3) var(--planner-card-glow-color);
+  --planner-card-title-glow-strong: 0 0 var(--space-3)
+    color-mix(in oklab, var(--planner-card-glow-color) 82%, transparent);
+  --planner-card-active-shadow: var(--depth-shadow-outer, var(--shadow-outer-lg));
+  --planner-card-loading-glow: var(--shadow-glow-md);
+  --glow-active: var(--planner-card-glow-color);
   transition:
     background 0.15s var(--ease-out),
     border-color 0.15s var(--ease-out),
@@ -78,8 +85,7 @@
 }
 .proj-card--active {
   border-color: hsl(var(--ring));
-  box-shadow: 0 calc(var(--space-3) - var(--space-1) / 2) var(--space-5)
-    hsl(var(--shadow-color) / 0.26);
+  box-shadow: var(--planner-card-active-shadow);
   position: relative;
 }
 .proj-card--active::after {
@@ -118,8 +124,7 @@
   color: hsl(var(--foreground));
 }
 .proj-card:hover .proj-card__title {
-  text-shadow: 0 0 calc(var(--space-3) - var(--space-1) / 2)
-    hsl(var(--accent) / 0.18);
+  text-shadow: var(--planner-card-title-glow);
 }
 .proj-card[aria-disabled="true"] {
   background: hsl(var(--card) / 0.35);
@@ -139,12 +144,11 @@
   color: hsl(var(--muted-foreground));
   cursor: progress;
   pointer-events: none;
-  box-shadow: 0 0 calc(var(--space-4)) hsl(var(--accent) / 0.16);
+  box-shadow: var(--planner-card-loading-glow);
 }
 .proj-card[data-loading="true"] .proj-card__title {
   color: hsl(var(--muted-foreground));
-  text-shadow: 0 0 calc(var(--space-3) - var(--space-1) / 2)
-    hsl(var(--accent) / 0.18);
+  text-shadow: var(--planner-card-title-glow);
 }
 
 /* ============ Task rows (right column) ============ */
@@ -155,20 +159,22 @@
   text-align: left;
   cursor: pointer;
   color: hsl(var(--foreground));
+  --planner-task-glow-color: var(--glow-primary);
+  --planner-task-glow: 0 0 var(--space-3) var(--planner-task-glow-color);
+  --planner-task-glow-strong: 0 0 var(--space-3)
+    color-mix(in oklab, var(--planner-task-glow-color) 82%, transparent);
   transition:
     color 0.15s var(--ease-out),
     text-shadow 0.15s var(--ease-out);
 }
 .task-tile__text:hover {
   color: hsl(var(--primary-foreground));
-  text-shadow: 0 0 calc(var(--space-3) - var(--space-1) / 2)
-    hsl(var(--accent) / 0.18);
+  text-shadow: var(--planner-task-glow);
 }
 .task-tile__text:active {
   color: hsl(var(--primary-foreground));
   cursor: pointer;
-  text-shadow: 0 0 calc(var(--space-3) - var(--space-1) / 2)
-    hsl(var(--accent) / 0.28);
+  text-shadow: var(--planner-task-glow-strong);
 }
 .task-tile__text:focus-visible {
   outline: calc(var(--hairline-w) * 2) solid hsl(var(--ring));
@@ -184,7 +190,7 @@
 .task-tile__text[data-loading="true"] {
   color: hsl(var(--muted-foreground) / 0.85);
   cursor: progress;
-  text-shadow: 0 0 calc(var(--space-2)) hsl(var(--accent) / 0.16);
+  text-shadow: var(--planner-task-glow);
   pointer-events: none;
 }
 

@@ -297,6 +297,32 @@ export default {
     "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
   blobRadiusSoft: "calc(var(--radius-2xl) + var(--spacing-2))",
   glitchNoiseHover: "calc(var(--glitch-noise-level) * 1.3)",
+  gridColor: "var(--accent)",
+  gridAlpha: "0.1",
+  gridSize: "calc(var(--space-6) - var(--space-1))",
+  shadowOuterSm:
+    "0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.24)",
+  shadowOuterMd:
+    "0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.3)",
+  cardElev1: "var(--shadow-outline-faint), var(--shadow-outer-sm)",
+  cardElev2: "var(--shadow-outline-subtle), var(--shadow-outer-md)",
+  cardElev3: "var(--shadow-outline-subtle), var(--shadow-outer-lg)",
+  glowRingSm: "0 0 0 calc(var(--spacing-0-25)) hsl(var(--ring) / 0.45)",
+  glowRingMd:
+    "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-2) hsl(var(--ring) / 0.2)",
+  glowPulse: "glow-pulse var(--dur-slow) var(--ease-out) infinite alternate",
+  blobSurface:
+    "color-mix(in oklab, hsl(var(--surface)) 70%, hsl(var(--surface-2)) 30%)",
+  dripSurface:
+    "color-mix(in oklab, hsl(var(--accent)) 18%, hsl(var(--background)) 82%)",
+  gradientBlobPrimary:
+    "radial-gradient(120% 120% at 50% 10%, hsl(var(--surface) / 0.85), hsl(var(--surface-2) / 0.35), transparent 85%)",
+  gradientGlitchPrimary:
+    "linear-gradient(135deg, hsl(var(--accent) / 0.35), hsl(var(--accent-2) / 0.3))",
+  glitchRgbShift:
+    "drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45))",
+  glitchScanline:
+    "glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite",
   spacing0125: "calc(var(--spacing-1) / 8)",
   spacing025: "calc(var(--spacing-1) / 4)",
   spacing05: "calc(var(--spacing-1) / 2)",

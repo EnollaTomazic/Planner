@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import { usePersistentState } from "@/lib/db";
+import { glitchLandingEnabled as glitchLandingDefault } from "@/lib/features";
+import { reportFeatureFlagAnalytics } from "@/lib/feature-flags";
 import {
   BG_CLASSES,
   THEME_STORAGE_KEY,
@@ -19,7 +21,23 @@ const ThemeContext = React.createContext<
   | undefined
 >(undefined);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+type ThemeFeatureFlags = {
+  glitchLandingEnabled: boolean;
+};
+
+const ThemeFeatureFlagsContext = React.createContext<ThemeFeatureFlags>({
+  glitchLandingEnabled: false,
+});
+
+type ThemeProviderProps = {
+  children: React.ReactNode;
+  glitchLandingEnabled?: boolean;
+};
+
+export function ThemeProvider({
+  children,
+  glitchLandingEnabled = glitchLandingDefault,
+}: ThemeProviderProps) {
   const [hydrated, setHydrated] = React.useState(false);
   const defaultThemeValue = React.useMemo<ThemeState>(() => defaultTheme(), []);
   const initialThemeState = React.useMemo<ThemeState>(() => {
@@ -119,8 +137,38 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     applyTheme(theme);
   }, [theme, hydrated]);
 
+  React.useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    const state = glitchLandingEnabled ? "enabled" : "legacy";
+    document.documentElement.dataset.glitchLanding = state;
+
+    if (document.body) {
+      document.body.dataset.glitchLanding = state;
+    }
+  }, [glitchLandingEnabled]);
+
+  React.useEffect(() => {
+    reportFeatureFlagAnalytics({
+      flag: "ui-glitch-landing",
+      enabled: glitchLandingEnabled,
+      state: glitchLandingEnabled ? "enabled" : "legacy",
+    });
+  }, [glitchLandingEnabled]);
+
   const value = React.useMemo(() => [theme, setTheme] as const, [theme, setTheme]);
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  const featureValue = React.useMemo<ThemeFeatureFlags>(
+    () => ({ glitchLandingEnabled }),
+    [glitchLandingEnabled],
+  );
+
+  return (
+    <ThemeFeatureFlagsContext.Provider value={featureValue}>
+      <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+    </ThemeFeatureFlagsContext.Provider>
+  );
 }
 
 export function useTheme(): readonly [
@@ -138,6 +186,10 @@ export function useOptionalTheme():
   | readonly [ThemeState, React.Dispatch<React.SetStateAction<ThemeState>>]
   | undefined {
   return React.useContext(ThemeContext);
+}
+
+export function useUiFeatureFlags(): ThemeFeatureFlags {
+  return React.useContext(ThemeFeatureFlagsContext);
 }
 
 export default ThemeProvider;
