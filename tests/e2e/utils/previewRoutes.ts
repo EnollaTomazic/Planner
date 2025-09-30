@@ -1,4 +1,8 @@
-import { getGalleryPreviewRoutes, type GalleryPreviewRoute } from "@/components/gallery";
+import {
+  getGalleryPreviewAxisParams,
+  getGalleryPreviewRoutes,
+  type GalleryPreviewRoute,
+} from "@/components/gallery";
 
 export const DEPTH_PREVIEW_ENTRIES = new Set([
   "button",
@@ -32,7 +36,7 @@ export function buildPreviewRouteUrl(route: GalleryPreviewRoute) {
   const params = new URLSearchParams();
   const suffixParts: string[] = [];
 
-  for (const axis of route.axisParams) {
+  for (const axis of getGalleryPreviewAxisParams(route.entryId, route.stateId)) {
     const option = axis.options[0];
     if (!option) {
       continue;

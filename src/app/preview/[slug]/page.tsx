@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import {
   getGalleryPreviewRenderer,
+  getGalleryPreviewAxisSummary,
   getGalleryPreviewRoute,
   getGalleryPreviewRoutes,
   type GalleryPreviewRoute,
@@ -79,19 +80,13 @@ interface PreviewContentProps {
 }
 
 export function PreviewContent({ route }: PreviewContentProps) {
-  const axisSummary = route.axisParams
-    .map((axis) => `${axis.label}: ${axis.options.map((option) => option.label).join(", ")}`)
-    .join(" · ");
-
-  return <PreviewContentClient route={route} axisSummary={axisSummary} />;
+  return <PreviewContentClient route={route} />;
 }
 
 export function PreviewUnavailable({ route }: { readonly route: GalleryPreviewRoute }) {
   const themeLabel = VARIANT_LABELS[route.themeVariant];
   const stateLabel = route.stateName ?? null;
-  const axisSummary = route.axisParams
-    .map((axis) => `${axis.label}: ${axis.options.map((option) => option.label).join(", ")}`)
-    .join(" · ");
+  const axisSummary = getGalleryPreviewAxisSummary(route.entryId, route.stateId);
 
   return (
     <div
