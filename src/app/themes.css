@@ -275,6 +275,25 @@
   --lg-pink: var(--lav-deep);
   --lg-black: var(--background);
   --card-foreground: var(--foreground);
+  --surface-muted: 248 24% 13%;
+  --surface-raised: 248 26% 18%;
+  --surface-hover: 248 28% 22%;
+  --border-subtle: 253 26% 20%;
+  --border-strong: 253 30% 32%;
+  --ring-accent: color-mix(in oklab, hsl(var(--accent)) 65%, hsl(var(--ring)) 35%);
+  --focus-outline:
+    0 0 0 calc(var(--hairline-w) * 2) hsl(var(--ring) / 0.6),
+    0 0 0 calc(var(--hairline-w) * 4) hsl(var(--ring) / 0.18);
+  --elev-1:
+    0 0 0 var(--hairline-w) hsl(var(--border) / 0.2),
+    0 12px 28px hsl(var(--shadow-color) / 0.32);
+  --elev-2:
+    0 0 0 calc(var(--hairline-w) * 1.5) hsl(var(--border) / 0.25),
+    0 20px 52px hsl(var(--shadow-color) / 0.42);
+  --chip-gap: var(--spacing-1);
+  --chip-radius: var(--radius-full);
+  --chip-pad-x: var(--spacing-2);
+  --chip-pad-y: var(--spacing-0-75);
   --header-stack: calc(var(--spacing-8) + var(--spacing-4));
   --layout-gutter-sm: var(--spacing-4);
   --layout-gutter-md: var(--spacing-5);
@@ -428,6 +447,8 @@ html.theme-aurora {
   --card: 282 70% 8%;
   --panel: var(--card);
   --border: 280 58% 20%;
+  --border-subtle: 280 52% 18%;
+  --border-strong: 280 60% 32%;
   --line: var(--border);
   --input: 280 58% 13%;
   --ring: 152 100% 62%;
@@ -443,6 +464,9 @@ html.theme-aurora {
   --muted-foreground: 280 24% 76%;
   --surface: 282 64% 10%;
   --surface-2: 280 48% 18%;
+  --surface-muted: 282 60% 12%;
+  --surface-raised: 280 54% 20%;
+  --surface-hover: 280 58% 24%;
   --surface-vhs: 284 72% 6%;
   --surface-streak: 280 42% 14%;
   --shadow-color: 152 80% 50%;
@@ -494,6 +518,8 @@ html.theme-citrus {
   --card: 212 20% 11%;
   --panel: var(--card);
   --border: 212 22% 26%;
+  --border-subtle: 212 20% 18%;
+  --border-strong: 212 26% 34%;
   --line: var(--border);
   --input: 212 24% 15%;
   --ring: 28 95% 56%;
@@ -509,6 +535,9 @@ html.theme-citrus {
   --muted-foreground: 212 20% 70%;
   --surface: 212 22% 12%;
   --surface-2: 212 20% 20%;
+  --surface-muted: 212 20% 14%;
+  --surface-raised: 212 22% 22%;
+  --surface-hover: 212 24% 25%;
   --surface-vhs: 210 16% 6%;
   --surface-streak: 212 18% 16%;
   --shadow-color: 28 90% 42%;
@@ -541,6 +570,8 @@ html.theme-noir {
   --card: 352 62% 8%;
   --panel: var(--card);
   --border: 352 44% 24%;
+  --border-subtle: 352 38% 18%;
+  --border-strong: 352 48% 32%;
   --line: var(--border);
   --input: 352 48% 12%;
   --ring: 356 86% 60%;
@@ -556,6 +587,9 @@ html.theme-noir {
   --muted-foreground: 352 24% 68%;
   --surface: 352 56% 10%;
   --surface-2: 352 36% 18%;
+  --surface-muted: 352 48% 12%;
+  --surface-raised: 352 40% 20%;
+  --surface-hover: 352 44% 24%;
   --surface-vhs: 352 64% 5%;
   --surface-streak: 352 30% 14%;
   --shadow-color: 356 70% 50%;
@@ -591,6 +625,8 @@ html.theme-ocean {
   --card: 218 34% 12%;
   --panel: var(--card);
   --border: 218 26% 24%;
+  --border-subtle: 218 24% 18%;
+  --border-strong: 218 28% 32%;
   --line: var(--border);
   --input: 218 28% 14%;
   --ring: 194 88% 58%;
@@ -606,6 +642,9 @@ html.theme-ocean {
   --muted-foreground: 218 16% 74%;
   --surface: 218 30% 12%;
   --surface-2: 218 26% 18%;
+  --surface-muted: 218 28% 14%;
+  --surface-raised: 218 28% 20%;
+  --surface-hover: 218 30% 24%;
   --surface-vhs: 216 44% 7%;
   --surface-streak: 218 22% 15%;
   --shadow-color: 198 84% 52%;
@@ -639,6 +678,8 @@ html.theme-kitten {
   --card: 334 86% 7%;
   --panel: var(--card);
   --border: 334 70% 22%;
+  --border-subtle: 334 62% 18%;
+  --border-strong: 334 72% 32%;
   --line: var(--border);
   --input: 334 72% 11%;
   --ring: 336 90% 56%;
@@ -654,6 +695,9 @@ html.theme-kitten {
   --muted-foreground: 334 26% 74%;
   --surface: 334 74% 9%;
   --surface-2: 334 60% 15%;
+  --surface-muted: 334 66% 12%;
+  --surface-raised: 334 58% 18%;
+  --surface-hover: 334 62% 22%;
   --surface-vhs: 334 88% 4%;
   --surface-streak: 334 50% 12%;
   --shadow-color: 336 72% 48%;
@@ -688,6 +732,8 @@ html.theme-hardstuck {
   --card: 120 52% 6%;
   --panel: var(--card);
   --border: 120 42% 22%;
+  --border-subtle: 120 36% 16%;
+  --border-strong: 120 44% 30%;
   --line: var(--border);
   --input: 120 46% 9%;
   --ring: 120 100% 64%;
@@ -709,6 +755,9 @@ html.theme-hardstuck {
   --muted-foreground: 120 18% 74%;
   --surface: 120 32% 8%;
   --surface-2: 120 34% 13%;
+  --surface-muted: 120 30% 10%;
+  --surface-raised: 120 34% 16%;
+  --surface-hover: 120 36% 19%;
   --surface-vhs: 120 26% 4%;
   --surface-streak: 120 18% 11%;
   --shadow-color: 120 84% 44%;

@@ -46,7 +46,8 @@
     ],
     "incremental": true,
     "allowJs": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "disableSizeLimit": true
   },
   "include": [
     "next-env.d.ts",

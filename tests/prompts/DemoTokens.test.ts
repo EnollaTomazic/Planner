@@ -64,11 +64,14 @@ describe("DemoTokens", () => {
       acc[name] = `${value}px`;
       return acc;
     }, {});
-    expect(radius).toEqual(expectedRadius);
+    expect(radius).toEqual({
+      ...expectedRadius,
+      chip: "var(--chip-radius)",
+    });
 
-    const configRadiusTokens = Object.keys(radius).map(
-      (name) => `--radius-${name}`,
-    );
+    const configRadiusTokens = Object.keys(radius)
+      .filter((name) => name !== "chip")
+      .map((name) => `--radius-${name}`);
     expect(radiusTokens).toEqual(configRadiusTokens);
   });
 

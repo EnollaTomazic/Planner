@@ -44,6 +44,13 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 - If you need to introduce a new static color, map it to a token in [`COLOR_MAPPINGS.md`](../COLOR_MAPPINGS.md).
 - Name color tokens in kebab-case with hyphenated numeric variants (e.g. `accent-2`).
 - Input elements use `--control-radius` (16px) for consistent corner rounding.
+- Surface hierarchy now ships dedicated tokens so you never have to invent ad-hoc shades:
+  - `bg-surface-muted`, `bg-surface-raised`, and `bg-surface-hover` step through the background ladder for neutral panels and hover states.
+  - `border-border-subtle` and `border-border-strong` provide the low/high contrast rails that match the new surfaces.
+  - `ring-accent` and `shadow-focus-outline` expose the accent focus halo while staying aligned with each theme’s chroma.
+  - `shadow-elev-1` / `shadow-elev-2` apply the depth stacks for floating cards (outer + inset layers baked in).
+  - Chips and filters compose from `gap-chip-gap`, `px-chip-pad-x`, `py-chip-pad-y`, and `rounded-chip`. These tokens adapt per theme so spacing remains consistent without fallback pixel literals.
+  Theme overrides in `themes.css` keep the palette aligned across Glitch, Aurora, Kitten, Oceanic, Citrus, Noir, and Hardstuck—avoid hard-coded fallbacks in components and lean on the utilities above.
 
 ### Effects tokens
 

@@ -235,6 +235,22 @@
 | ring-stroke-m | var(--ring-size-2) |
 | ring-stroke-l | var(--ring-size-2) |
 | ring-inset | calc(var(--space-3) / 2) |
+| surface-muted | 248 24% 13% |
+| surface-raised | 248 26% 18% |
+| surface-hover | 248 28% 22% |
+| border-subtle | 253 26% 20% |
+| border-strong | 253 30% 32% |
+| elev-1 | 0 0 0 var(--hairline-w) hsl(var(--border) / 0.2),
+    0 12px 28px hsl(var(--shadow-color) / 0.32) |
+| elev-2 | 0 0 0 calc(var(--hairline-w) * 1.5) hsl(var(--border) / 0.25),
+    0 20px 52px hsl(var(--shadow-color) / 0.42) |
+| ring-accent | color-mix(in oklab, hsl(var(--accent)) 65%, hsl(var(--ring)) 35%) |
+| focus-outline | 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--ring) / 0.6),
+    0 0 0 calc(var(--hairline-w) * 4) hsl(var(--ring) / 0.18) |
+| chip-gap | var(--spacing-1) |
+| chip-radius | var(--radius-full) |
+| chip-pad-x | var(--spacing-2) |
+| chip-pad-y | var(--spacing-0-75) |
 | spacing-0-125 | calc(var(--spacing-1) / 8) |
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |

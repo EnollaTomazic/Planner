@@ -36,6 +36,7 @@ const tokenInputFiles = Array.from(
     path.join(__dirname, "generate-tokens.ts"),
     path.join(rootDir, "src/lib/tokens.ts"),
     path.join(rootDir, "src/app/globals.css"),
+    path.join(rootDir, "tokens/tokens.json"),
   ]),
 );
 

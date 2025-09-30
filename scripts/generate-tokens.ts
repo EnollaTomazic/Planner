@@ -57,6 +57,34 @@ async function loadBaseColors(): Promise<Record<string, { value: string }>> {
   return colors;
 }
 
+type TokenJson = {
+  base?: Record<string, string>;
+  themes?: Record<string, Record<string, string>>;
+};
+
+async function loadCustomTokenValues(): Promise<
+  Record<string, { value: string }>
+> {
+  const tokensPath = path.resolve(__dirname, "../tokens/tokens.json");
+  try {
+    const content = await fs.readFile(tokensPath, "utf8");
+    const parsed = JSON.parse(content) as TokenJson;
+    const base = parsed.base ?? {};
+    return Object.entries(base).reduce<Record<string, { value: string }>>(
+      (acc, [name, value]) => {
+        acc[name] = { value };
+        return acc;
+      },
+      {},
+    );
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
+      console.warn("Failed to load custom token values", error);
+    }
+  }
+  return {};
+}
+
 async function buildTokens(): Promise<void> {
   const spacing = spacingTokens.reduce<Record<string, { value: string }>>(
     (acc, val, idx) => {
@@ -166,6 +194,11 @@ async function buildTokens(): Promise<void> {
 
   for (const [name, value] of Object.entries(auroraLightFallbacks)) {
     colors[name] = { value };
+  }
+
+  const customTokens = await loadCustomTokenValues();
+  for (const [name, definition] of Object.entries(customTokens)) {
+    colors[name] = definition;
   }
 
   for (const token of DEPRECATED_TOKENS) {

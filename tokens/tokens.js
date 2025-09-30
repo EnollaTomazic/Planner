@@ -210,6 +210,23 @@ export default {
   ringStrokeM: "var(--ring-size-2)",
   ringStrokeL: "var(--ring-size-2)",
   ringInset: "calc(var(--space-3) / 2)",
+  surfaceMuted: "248 24% 13%",
+  surfaceRaised: "248 26% 18%",
+  surfaceHover: "248 28% 22%",
+  borderSubtle: "253 26% 20%",
+  borderStrong: "253 30% 32%",
+  elev1:
+    "0 0 0 var(--hairline-w) hsl(var(--border) / 0.2),\n    0 12px 28px hsl(var(--shadow-color) / 0.32)",
+  elev2:
+    "0 0 0 calc(var(--hairline-w) * 1.5) hsl(var(--border) / 0.25),\n    0 20px 52px hsl(var(--shadow-color) / 0.42)",
+  ringAccent:
+    "color-mix(in oklab, hsl(var(--accent)) 65%, hsl(var(--ring)) 35%)",
+  focusOutline:
+    "0 0 0 calc(var(--hairline-w) * 2) hsl(var(--ring) / 0.6),\n    0 0 0 calc(var(--hairline-w) * 4) hsl(var(--ring) / 0.18)",
+  chipGap: "var(--spacing-1)",
+  chipRadius: "var(--radius-full)",
+  chipPadX: "var(--spacing-2)",
+  chipPadY: "var(--spacing-0-75)",
   spacing0125: "calc(var(--spacing-1) / 8)",
   spacing025: "calc(var(--spacing-1) / 4)",
   spacing05: "calc(var(--spacing-1) / 2)",

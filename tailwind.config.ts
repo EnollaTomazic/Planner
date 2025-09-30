@@ -27,6 +27,8 @@ const borderRadiusTokens = Object.entries(radiusScale).reduce(
   {} as Record<string, string>,
 );
 
+borderRadiusTokens.chip = "var(--chip-radius)";
+
 const cardHairlineOpacity = (percent: number) =>
   `hsl(var(--border) / ${percent / 100})`;
 
@@ -62,6 +64,9 @@ const spacingScaleWithAliases = {
   ...spacingScale,
   ...fractionalSpacing,
   ...extendedSpaceAliases,
+  "chip-gap": "var(--chip-gap)",
+  "chip-pad-x": "var(--chip-pad-x)",
+  "chip-pad-y": "var(--chip-pad-y)",
 };
 
 const config: Config = {
@@ -75,11 +80,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        border: "hsl(var(--border))",
+        border: {
+          DEFAULT: "hsl(var(--border))",
+          subtle: "hsl(var(--border-subtle))",
+          strong: "hsl(var(--border-strong))",
+        },
         input: "hsl(var(--input))",
         ring: {
           DEFAULT: "hsl(var(--ring))",
           contrast: "var(--ring-contrast)",
+          accent: "hsl(var(--ring-accent))",
         },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -90,6 +100,9 @@ const config: Config = {
         surface: {
           DEFAULT: "hsl(var(--surface))",
           foreground: "hsl(var(--foreground))",
+          muted: "hsl(var(--surface-muted))",
+          raised: "hsl(var(--surface-raised))",
+          hover: "hsl(var(--surface-hover))",
         },
         "surface-2": {
           DEFAULT: "hsl(var(--surface-2))",
@@ -239,9 +252,10 @@ const config: Config = {
         control: "var(--shadow-control)",
         "control-hover": "var(--shadow-control-hover)",
         "elev-0": "var(--elevation-0)",
-        "elev-1": "var(--elevation-1)",
-        "elev-2": "var(--elevation-2)",
+        "elev-1": "var(--elev-1)",
+        "elev-2": "var(--elev-2)",
         "elev-3": "var(--elevation-3)",
+        "focus-outline": "var(--focus-outline)",
       },
       transitionTimingFunction: {
         out: "var(--ease-out)",
