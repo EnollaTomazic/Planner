@@ -28,13 +28,13 @@ describe("Card", () => {
         .trim(),
     ).toMatchInlineSnapshot(`"0.72"`);
 
-    const css = fs.readFileSync(
-      "src/components/ui/primitives/Card.module.css",
+    const source = fs.readFileSync(
+      "src/components/ui/primitives/Card.tsx",
       "utf8",
     );
 
-    expect(css).toContain(
-      "--glitch-overlay-opacity: var(--glitch-overlay-opacity-card);",
+    expect(source).toContain(
+      "opacity-[var(--glitch-overlay-opacity-card,0.38)]",
     );
 
     document.documentElement.style.removeProperty(

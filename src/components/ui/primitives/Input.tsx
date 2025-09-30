@@ -40,6 +40,13 @@ export type InputProps = Omit<
   "data-loading"?: string | boolean | number;
   /** Overrides the focus ring tone by mapping to semantic tokens */
   ringTone?: InputRingTone;
+  /** Enables the glitch overlay treatment */
+  glitch?: boolean;
+  /**
+   * Overrides the text surfaced in the glitch overlay.
+   * Falls back to `data-text`, `placeholder`, or `aria-label` when available.
+   */
+  glitchText?: string;
 };
 
 /**
@@ -61,6 +68,8 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     children,
     hasEndSlot = false,
     ringTone,
+    glitch = false,
+    glitchText,
     ...props
   },
   ref,
@@ -74,9 +83,11 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
       ariaLabelStrategy: "custom-id",
     },
   );
-  const disabled = props.disabled;
-  const readOnly = props.readOnly;
-  const loadingAttr = props["data-loading"];
+  const { ["data-text"]: providedGlitchTextRaw, ...inputProps } = props as
+    typeof props & { ["data-text"]?: unknown };
+  const disabled = inputProps.disabled;
+  const readOnly = inputProps.readOnly;
+  const loadingAttr = inputProps["data-loading"];
   const loading =
     loadingAttr === "" ||
     loadingAttr === true ||
@@ -84,6 +95,13 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     loadingAttr === 1;
 
   const showEndSlot = hasEndSlot || React.Children.count(children) > 0;
+  const placeholderText =
+    typeof inputProps.placeholder === "string" ? inputProps.placeholder : undefined;
+  const providedGlitchText =
+    typeof providedGlitchTextRaw === "string" ? providedGlitchTextRaw : undefined;
+  const resolvedGlitchText = glitch
+    ? glitchText ?? providedGlitchText ?? placeholderText ?? (typeof ariaLabel === "string" ? ariaLabel : undefined)
+    : providedGlitchText ?? glitchText;
 
   return (
     <Field.Root
@@ -92,6 +110,8 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
       disabled={disabled}
       readOnly={readOnly}
       loading={loading}
+      glitch={glitch}
+      glitchText={resolvedGlitchText}
       className={cn(ringTone ? RING_TONE_CLASS_MAP[ringTone] : undefined, className)}
     >
       <Field.Input
@@ -102,7 +122,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         indent={indent}
         hasEndSlot={showEndSlot || loading}
         aria-label={ariaLabel}
-        {...props}
+        {...inputProps}
       />
       {children}
     </Field.Root>
