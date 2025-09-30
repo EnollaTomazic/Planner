@@ -6,6 +6,7 @@ import {
   type ButtonSize,
 } from "../../src/components/ui/primitives/Button";
 import fs from "fs";
+import buttonStyles from "../../src/components/ui/primitives/Button.module.css";
 
 afterEach(cleanup);
 
@@ -20,6 +21,40 @@ describe("Button", () => {
       <Button className="btn-primary">Click me</Button>,
     );
     expect(getByRole("button")).toHaveClass("btn-primary");
+  });
+
+  it("applies blob background and shadow tokens for the primary variant", () => {
+    const { getByRole } = render(
+      <Button variant="primary">Blobbed</Button>,
+    );
+    const btn = getByRole("button");
+    expect(btn).toHaveClass(
+      "shadow-outer-md",
+      "!shadow-[var(--neo-shadow)]",
+      "blob-primary",
+    );
+  });
+
+  it("applies outer shadow tokens for the secondary variant", () => {
+    const { getByRole } = render(
+      <Button variant="secondary">Secondary</Button>,
+    );
+    const btn = getByRole("button");
+    expect(btn).toHaveClass(
+      "shadow-outer-md",
+      "!shadow-[var(--neo-shadow)]",
+    );
+    expect(btn).not.toHaveClass("blob-primary");
+  });
+
+  it("avoids blob and outer shadow tokens for the ghost variant", () => {
+    const { getByRole } = render(
+      <Button variant="ghost">Ghost</Button>,
+    );
+    const btn = getByRole("button");
+    expect(btn).not.toHaveClass("shadow-outer-md");
+    expect(btn).not.toHaveClass("blob-primary");
+    expect(btn.className.includes("!shadow-[var(--neo-shadow)]")).toBe(false);
   });
 
   it("keeps child button type when rendered asChild", () => {
@@ -123,6 +158,28 @@ describe("Button", () => {
 
     expect(getByRole("button")).toHaveAttribute("data-glitch", "true");
   });
+
+  it.each(["primary", "secondary", "ghost"] as const)(
+    "toggles glitch classes when glitch is %s",
+    (variant) => {
+      const { getByRole, rerender } = render(
+        <Button variant={variant}>Idle</Button>,
+      );
+      const btn = getByRole("button");
+      expect(btn.className).not.toContain("glitch-wrapper");
+      expect(btn.className).not.toContain(buttonStyles.glitch);
+
+      rerender(
+        <Button variant={variant} glitch>
+          Glitched
+        </Button>,
+      );
+
+      const glitched = getByRole("button");
+      expect(glitched.className).toContain("glitch-wrapper");
+      expect(glitched.className).toContain(buttonStyles.glitch);
+    },
+  );
 
   it("references glitch overlay tokens", () => {
     const css = fs.readFileSync(

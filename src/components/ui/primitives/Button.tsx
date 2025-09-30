@@ -208,6 +208,9 @@ export const variants: Record<
 > = {
   primary: ({ tone, tactile }) => ({
     className: cn(
+      "shadow-outer-md !shadow-[var(--neo-shadow)]",
+      styles.blobPrimary,
+      "blob-primary",
       "[--neo-shadow:var(--btn-primary-shadow-rest)] [--neo-shadow-hover:var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)]",
       tactile
         ? "active:translate-y-0"
@@ -228,6 +231,7 @@ export const variants: Record<
   }),
   secondary: ({ tactile }) => ({
     className: cn(
+      "shadow-outer-md !shadow-[var(--neo-shadow)]",
       "[--neu-surface:hsl(var(--panel)/0.8)] [--neo-shadow:var(--btn-secondary-shadow-rest)] [--neo-shadow-hover:var(--btn-secondary-shadow-hover)] active:shadow-[var(--btn-secondary-shadow-active)]",
       tactile && "active:translate-y-0",
     ),
