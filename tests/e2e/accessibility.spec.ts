@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
-import { test, expect } from "playwright/test";
+import { test, expect } from "./playwright";
 import AxeBuilder from "@axe-core/playwright";
 
 test.describe("Accessibility", () => {

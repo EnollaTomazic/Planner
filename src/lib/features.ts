@@ -1,24 +1,28 @@
 const rawSvgNumericFilters = process.env.NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS;
+const rawDepthTheme = process.env.NEXT_PUBLIC_DEPTH_THEME;
 
-const enabledSvgNumericFilterValues = new Set(["1", "true", "on", "yes"]);
-const disabledSvgNumericFilterValues = new Set(["0", "false", "off", "no"]);
+const enabledValues = new Set(["1", "true", "on", "yes"]);
+const disabledValues = new Set(["0", "false", "off", "no"]);
 
-const svgNumericFilters: boolean = (() => {
-  if (typeof rawSvgNumericFilters !== "string") {
+function parseBooleanFlag(raw: string | undefined, fallback: boolean): boolean {
+  if (typeof raw !== "string") {
+    return fallback;
+  }
+
+  const normalized = raw.trim().toLowerCase();
+
+  if (enabledValues.has(normalized)) {
     return true;
   }
 
-  const normalized = rawSvgNumericFilters.trim().toLowerCase();
-
-  if (enabledSvgNumericFilterValues.has(normalized)) {
-    return true;
-  }
-
-  if (disabledSvgNumericFilterValues.has(normalized)) {
+  if (disabledValues.has(normalized)) {
     return false;
   }
 
-  return true;
-})();
+  return fallback;
+}
 
-export { svgNumericFilters };
+const svgNumericFilters = parseBooleanFlag(rawSvgNumericFilters, true);
+const depthThemeEnabled = parseBooleanFlag(rawDepthTheme, false);
+
+export { depthThemeEnabled, svgNumericFilters };

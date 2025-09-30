@@ -3346,7 +3346,7 @@ export const galleryPayload = {
               "id": "focus",
               "name": "Focus-visible",
               "description": "Keyboard focus relies on the global `focus-visible` token, outlining the trigger without introducing extra wrappers.",
-              "code": "<ThemePicker\n  variant=\"lg\"\n  onVariantChange={() => {}}\n  className=\"ring-2 ring-[var(--focus)]\"\n  buttonClassName=\"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]\"\n/>",
+              "code": "<ThemePicker\n  variant=\"lg\"\n  onVariantChange={() => {}}\n  className=\"[--chip-trigger-ring-color:var(--focus)]\"\n  buttonClassName=\"[--chip-trigger-ring-color:var(--focus)]\"\n/>",
               "preview": {
                 "id": "prompts:components:theme-picker:state:focus"
               }
@@ -3406,7 +3406,7 @@ export const galleryPayload = {
               "id": "focus",
               "name": "Focus-visible",
               "description": "The `focus-visible` utility outlines the trigger directly, keeping the indicator consistent with other settings controls.",
-              "code": "<BackgroundPicker\n  bg={0}\n  onBgChange={() => {}}\n  className=\"ring-2 ring-[var(--focus)]\"\n  buttonClassName=\"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]\"\n/>",
+              "code": "<BackgroundPicker\n  bg={0}\n  onBgChange={() => {}}\n  className=\"[--chip-trigger-ring-color:var(--focus)]\"\n  buttonClassName=\"[--chip-trigger-ring-color:var(--focus)]\"\n/>",
               "preview": {
                 "id": "prompts:components:background-picker:state:focus"
               }
@@ -3466,7 +3466,7 @@ export const galleryPayload = {
               "id": "focus",
               "name": "Focus-visible",
               "description": "`focus-visible` keeps the focus ring within the control, matching buttons and toggles in the settings column.",
-              "code": "<SettingsSelect\n  ariaLabel=\"Theme\"\n  prefixLabel=\"Theme\"\n  items={[{ value: \"lg\", label: \"Glitch\" }, { value: \"aurora\", label: \"Aurora\" }]}\n  value=\"lg\"\n  onChange={() => {}}\n  className=\"ring-2 ring-[var(--focus)]\"\n  buttonClassName=\"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]\"\n/>",
+              "code": "<SettingsSelect\n  ariaLabel=\"Theme\"\n  prefixLabel=\"Theme\"\n  items={[{ value: \"lg\", label: \"Glitch\" }, { value: \"aurora\", label: \"Aurora\" }]}\n  value=\"lg\"\n  onChange={() => {}}\n  className=\"[--chip-trigger-ring-color:var(--focus)]\"\n  buttonClassName=\"[--chip-trigger-ring-color:var(--focus)]\"\n/>",
               "preview": {
                 "id": "prompts:components:settings-select:state:focus"
               }
@@ -6865,7 +6865,7 @@ export const galleryPayload = {
             "id": "focus",
             "name": "Focus-visible",
             "description": "Keyboard focus relies on the global `focus-visible` token, outlining the trigger without introducing extra wrappers.",
-            "code": "<ThemePicker\n  variant=\"lg\"\n  onVariantChange={() => {}}\n  className=\"ring-2 ring-[var(--focus)]\"\n  buttonClassName=\"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]\"\n/>",
+            "code": "<ThemePicker\n  variant=\"lg\"\n  onVariantChange={() => {}}\n  className=\"[--chip-trigger-ring-color:var(--focus)]\"\n  buttonClassName=\"[--chip-trigger-ring-color:var(--focus)]\"\n/>",
             "preview": {
               "id": "prompts:components:theme-picker:state:focus"
             }
@@ -6925,7 +6925,7 @@ export const galleryPayload = {
             "id": "focus",
             "name": "Focus-visible",
             "description": "The `focus-visible` utility outlines the trigger directly, keeping the indicator consistent with other settings controls.",
-            "code": "<BackgroundPicker\n  bg={0}\n  onBgChange={() => {}}\n  className=\"ring-2 ring-[var(--focus)]\"\n  buttonClassName=\"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]\"\n/>",
+            "code": "<BackgroundPicker\n  bg={0}\n  onBgChange={() => {}}\n  className=\"[--chip-trigger-ring-color:var(--focus)]\"\n  buttonClassName=\"[--chip-trigger-ring-color:var(--focus)]\"\n/>",
             "preview": {
               "id": "prompts:components:background-picker:state:focus"
             }
@@ -6985,7 +6985,7 @@ export const galleryPayload = {
             "id": "focus",
             "name": "Focus-visible",
             "description": "`focus-visible` keeps the focus ring within the control, matching buttons and toggles in the settings column.",
-            "code": "<SettingsSelect\n  ariaLabel=\"Theme\"\n  prefixLabel=\"Theme\"\n  items={[{ value: \"lg\", label: \"Glitch\" }, { value: \"aurora\", label: \"Aurora\" }]}\n  value=\"lg\"\n  onChange={() => {}}\n  className=\"ring-2 ring-[var(--focus)]\"\n  buttonClassName=\"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]\"\n/>",
+            "code": "<SettingsSelect\n  ariaLabel=\"Theme\"\n  prefixLabel=\"Theme\"\n  items={[{ value: \"lg\", label: \"Glitch\" }, { value: \"aurora\", label: \"Aurora\" }]}\n  value=\"lg\"\n  onChange={() => {}}\n  className=\"[--chip-trigger-ring-color:var(--focus)]\"\n  buttonClassName=\"[--chip-trigger-ring-color:var(--focus)]\"\n/>",
             "preview": {
               "id": "prompts:components:settings-select:state:focus"
             }

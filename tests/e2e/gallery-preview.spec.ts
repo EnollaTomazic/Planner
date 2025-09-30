@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./playwright";
 
 import { getGalleryPreviewRoutes } from "@/components/gallery";
 import { VARIANTS } from "@/lib/theme";

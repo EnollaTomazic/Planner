@@ -18,6 +18,8 @@ import Script from "next/script";
 import ThemeProvider from "@/lib/theme-context";
 import { THEME_BOOTSTRAP_SCRIPT_PATH } from "@/lib/theme";
 import StyledJsxRegistry from "@/lib/styled-jsx-registry";
+import DepthThemeProvider from "@/lib/depth-theme-context";
+import { depthThemeEnabled } from "@/lib/features";
 
 const createNonceInitializer = (nonce: string): string => {
   const nonceValue = JSON.stringify(nonce);
@@ -131,6 +133,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const depthThemeState = depthThemeEnabled;
+  const depthThemeDataAttribute = depthThemeState ? "enabled" : "legacy";
   const year = new Date().getFullYear();
   const assetUrlCss = [
     ":root {",
@@ -145,6 +149,7 @@ export default async function RootLayout({
       <html
         lang="en"
         className="theme-lg color-scheme-dark"
+        data-depth-theme={depthThemeDataAttribute}
         suppressHydrationWarning
       >
         <head>
@@ -172,6 +177,7 @@ export default async function RootLayout({
         </head>
         <body
           className={`${geistSansClassName} ${geistSansVariable} ${geistMonoVariable} min-h-screen bg-background text-foreground glitch-root`}
+          data-depth-theme={depthThemeDataAttribute}
         >
           <a
             className="fixed left-[var(--space-4)] top-[var(--space-4)] z-50 inline-flex items-center rounded-[var(--radius-lg)] bg-background px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium text-foreground shadow-outline-subtle outline-none transition-all duration-quick ease-out opacity-0 -translate-y-full pointer-events-none focus-visible:translate-y-0 focus-visible:opacity-100 focus-visible:pointer-events-auto focus-visible:shadow-ring focus-visible:no-underline focus-visible:outline-none hover:shadow-ring focus-visible:active:translate-y-[var(--space-1)]"
@@ -189,30 +195,32 @@ export default async function RootLayout({
           </noscript>
           <StyledJsxRegistry nonce={nonce}>
             <ThemeProvider>
-              <div aria-hidden className="page-backdrop">
-                <div className="page-shell">
-                  <div className="page-backdrop__layer" />
+              <DepthThemeProvider enabled={depthThemeState}>
+                <div aria-hidden className="page-backdrop">
+                  <div className="page-shell">
+                    <div className="page-backdrop__layer" />
+                  </div>
                 </div>
-              </div>
-              <SiteChrome>
-                <CatCompanion />
-                <div className="relative z-10">
-                  <main id="main-content" tabIndex={-1}>
-                    {children}
-                  </main>
-                  <footer
-                    role="contentinfo"
-                    className="mt-[var(--space-8)] border-t border-border bg-surface"
-                  >
-                    <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
-                      <p className="text-ui font-medium text-foreground">
-                        Planner keeps local-first goals organized so every ritual stays actionable.
-                      </p>
-                      <p>© {year} Planner Labs. All rights reserved.</p>
-                    </PageShell>
-                  </footer>
-                </div>
-              </SiteChrome>
+                <SiteChrome>
+                  <CatCompanion />
+                  <div className="relative z-10">
+                    <main id="main-content" tabIndex={-1}>
+                      {children}
+                    </main>
+                    <footer
+                      role="contentinfo"
+                      className="mt-[var(--space-8)] border-t border-border bg-surface"
+                    >
+                      <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
+                        <p className="text-ui font-medium text-foreground">
+                          Planner keeps local-first goals organized so every ritual stays actionable.
+                        </p>
+                        <p>© {year} Planner Labs. All rights reserved.</p>
+                      </PageShell>
+                    </footer>
+                  </div>
+                </SiteChrome>
+              </DepthThemeProvider>
             </ThemeProvider>
           </StyledJsxRegistry>
         </body>

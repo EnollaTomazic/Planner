@@ -242,6 +242,17 @@
   --ring-stroke-m: var(--ring-size-2);
   --ring-stroke-l: var(--ring-size-2);
   --ring-inset: calc(var(--space-3) / 2);
+  --shadow-inner-sm: inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18);
+  --shadow-inner-md: inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28);
+  --shadow-outer-lg: 0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36);
+  --glow-primary: hsl(var(--primary) / 0.55);
+  --blob-surface-1: hsl(var(--surface));
+  --blob-surface-2: hsl(var(--surface-2));
+  --blob-surface-3: hsl(var(--card));
+  --blob-surface-shadow: hsl(var(--shadow-color) / 0.4);
+  --glitch-noise-primary: hsl(var(--accent) / 0.25);
+  --glitch-noise-secondary: hsl(var(--ring) / 0.2);
+  --glitch-noise-contrast: hsl(var(--foreground) / 0.12);
   --spacing-0-125: calc(var(--spacing-1) / 8);
   --spacing-0-25: calc(var(--spacing-1) / 4);
   --spacing-0-5: calc(var(--spacing-1) / 2);
@@ -308,7 +319,7 @@
     0 0 0 0 hsl(var(--ring) / 0),
     0 0 0 0 hsl(var(--ring) / 0);
   --depth-focus-ring-active:
-    0 0 0 calc(var(--hairline-w) * 1) hsl(var(--ring)),
+    0 0 0 calc(var(--hairline-w) * 1) hsl(var(--ring))
     var(--shadow-glow-lg);
   /* Organic backdrops */
   --backdrop-blob-1: var(--lg-violet);
@@ -341,6 +352,8 @@
   /* overlay alpha */
   --glitch-static-opacity: 0.18;
   --glitch-noise-level: var(--glitch-static-opacity);
+  /* Card glitch overlay alpha */
+  --glitch-overlay-opacity-card: 0.38;
   /* Button glitch overlays */
   --glitch-overlay-button-opacity: 0.42;
   --glitch-overlay-button-opacity-reduced: 0.28;

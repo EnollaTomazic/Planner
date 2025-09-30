@@ -1215,6 +1215,54 @@ html.bg-intense body::after {
     border-color: hsl(var(--success));
     box-shadow: none;
   }
+
+  .chip-trigger-container {
+    --control-radius: var(--radius-full);
+    --chip-trigger-ring-color: var(--edge-iris);
+    --chip-trigger-ring-offset: var(--ring-size-1);
+    --tw-ring-color: var(--chip-trigger-ring-color);
+    --tw-ring-offset-color: hsl(var(--surface));
+    --tw-ring-offset-width: var(--chip-trigger-ring-offset);
+    --elevation-1: var(--shadow-neo-inset);
+    --elevation-2: var(--shadow-neo-soft);
+  }
+
+  .chip-trigger-container:focus-within {
+    --tw-ring-color: var(--chip-trigger-ring-color);
+    --tw-ring-offset-width: var(--chip-trigger-ring-offset);
+    --elevation-1: var(--shadow-neo-soft);
+  }
+
+  .chip-trigger {
+    --control-radius: var(--radius-full);
+    --chip-trigger-ring-color: var(--edge-iris);
+    --chip-trigger-ring-offset: var(--ring-size-1);
+    --tw-ring-color: var(--chip-trigger-ring-color);
+    --tw-ring-offset-color: hsl(var(--surface));
+    --tw-ring-offset-width: var(--chip-trigger-ring-offset);
+    --tw-shadow: var(--shadow-neo-inset);
+    --tw-shadow-colored: var(--shadow-neo-inset);
+    min-inline-size: var(
+      --settings-select-width,
+      var(--settings-column-width)
+    );
+    box-shadow:
+      var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000),
+      var(--tw-shadow);
+    @apply text-ui;
+  }
+
+  .chip-trigger:hover {
+    @apply ring;
+    --tw-ring-width: var(--ring-size-2);
+  }
+
+  .chip-trigger:focus-visible {
+    --tw-ring-width: var(--ring-size-2);
+    --tw-ring-offset-width: var(--chip-trigger-ring-offset);
+    --tw-ring-color: var(--chip-trigger-ring-color);
+  }
 }
 
 /* ---------- Planner visuals ---------- */
@@ -1451,6 +1499,53 @@ html.bg-intense body::after {
 }
 *::-webkit-scrollbar-track {
   background: hsl(var(--background));
+}
+
+/* ---------- Chip shell utilities ---------- */
+.chip-shell {
+  --chip-shell-gap-block: var(--space-4);
+  --chip-shell-gap-block-lg: var(--space-6);
+  --chip-shell-gap-inline: var(--space-3);
+  --chip-shell-gap-inline-tight: var(--space-2);
+  --radius-card: var(--radius-2xl);
+  display: grid;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  inline-size: 100%;
+  gap: var(--chip-shell-gap-block, var(--space-4));
+  padding: var(--space-4);
+  border: var(--hairline-w, 1px) solid hsl(var(--border) / 0.45);
+  border-radius: var(--radius-card);
+  background: hsl(var(--card) / 0.7);
+  box-shadow: var(--shadow-neo-soft);
+}
+
+@media (min-width: 48rem) {
+  .chip-shell {
+    padding: var(--space-5);
+  }
+}
+
+@media (min-width: 64rem) {
+  .chip-shell {
+    gap: var(--chip-shell-gap-block-lg, var(--space-6));
+  }
+}
+
+.chip-gap-x {
+  column-gap: var(--chip-shell-gap-inline, var(--space-3));
+}
+
+.chip-gap-x-tight {
+  column-gap: var(--chip-shell-gap-inline-tight, var(--space-2));
+}
+
+.chip-gap-y {
+  row-gap: var(--chip-shell-gap-inline, var(--space-3));
+}
+
+.chip-gap-y-tight {
+  row-gap: var(--chip-shell-gap-inline-tight, var(--space-2));
 }
 
 /* ---------- Week shell ---------- */
