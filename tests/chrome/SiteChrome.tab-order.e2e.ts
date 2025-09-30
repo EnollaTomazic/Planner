@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { NAV_ITEMS } from "@/components/chrome/nav-items";
+import { NAV_ITEMS } from "@/config/nav";
 
 test.describe("SiteChrome tab order", () => {
   test("focus follows the primary navigation order", async ({ page }) => {
