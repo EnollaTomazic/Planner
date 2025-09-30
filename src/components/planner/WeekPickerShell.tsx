@@ -71,17 +71,13 @@ const WeekPickerShellBase = React.forwardRef<HTMLDivElement, WeekPickerShellProp
     return (
       <div
         ref={ref}
-        className={cn(
-          "week-picker-shell grid flex-1 min-w-0 w-full gap-[var(--space-4)] rounded-card r-card-lg border border-border/45 bg-card/70 card-pad shadow-neo-soft",
-          "lg:gap-[var(--space-6)]",
-          className,
-        )}
+        className={cn("week-picker-shell chip-shell", className)}
         {...props}
       >
         {hasTopRow ? (
-          <div className="week-picker-shell__top flex w-full flex-wrap items-center gap-[var(--space-3)]">
+          <div className="week-picker-shell__top flex w-full flex-wrap items-center chip-gap-x chip-gap-y-tight">
             {controls.length > 0 ? (
-              <div className="week-picker-shell__controls flex flex-wrap items-center gap-[var(--space-2)]">
+              <div className="week-picker-shell__controls flex flex-wrap items-center chip-gap-x-tight chip-gap-y-tight">
                 {controls.map((slot) => {
                   const key = slot.key ?? slot.props.slotId;
                   return (
@@ -91,7 +87,7 @@ const WeekPickerShellBase = React.forwardRef<HTMLDivElement, WeekPickerShellProp
               </div>
             ) : null}
             {totals.length > 0 ? (
-              <div className="week-picker-shell__totals ml-auto flex flex-wrap items-center justify-end gap-[var(--space-3)]">
+              <div className="week-picker-shell__totals ml-auto flex flex-wrap items-center justify-end chip-gap-x chip-gap-y-tight">
                 {totals.map((slot) => {
                   const key = slot.key ?? slot.props.slotId;
                   return (
