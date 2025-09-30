@@ -218,6 +218,12 @@ const config: Config = {
         neo: "var(--shadow-neo)",
         "neo-strong": "var(--shadow-neo-strong)",
         "neo-inset": "var(--shadow-neo-inset)",
+        "inner-sm": "var(--shadow-inner-sm)",
+        "inner-md": "var(--shadow-inner-md)",
+        "inner-lg": "var(--shadow-inner-lg)",
+        "outer-sm": "var(--shadow-outer-sm)",
+        "outer-md": "var(--shadow-outer-md)",
+        "outer-lg": "var(--shadow-outer-lg)",
         ring: "var(--shadow-ring)",
         neoSoft: "var(--shadow-neo-soft)",
         "glow-sm": "var(--shadow-glow-sm)",
@@ -261,14 +267,47 @@ const config: Config = {
         disabled: "var(--disabled)",
         loading: "var(--loading)",
       },
+      backgroundImage: {
+        "blob-primary":
+          "radial-gradient(1200px 700px at 18% -10%, hsl(var(--backdrop-blob-1) / 0.16), transparent 60%), radial-gradient(1100px 600px at 110% 18%, hsl(var(--backdrop-blob-2) / 0.14), transparent 60%), radial-gradient(900px 480px at 50% 120%, hsl(var(--backdrop-blob-3) / 0.1), transparent 65%)",
+        "glitch-noise":
+          "var(--glitch-noise-image, var(--asset-noise-url, url(\"/noise.svg\")))",
+      },
       keyframes: {
         shimmer: {
           "0%": { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(100%)" },
         },
+        blobDrift: {
+          "0%": {
+            transform: "translate3d(0, 0, 0) scale3d(1, 1, 1)",
+          },
+          "50%": {
+            transform:
+              "translate3d(calc(var(--space-2) * -0.5), calc(var(--space-2) * -0.75), 0) scale3d(1.05, 1.05, 1)",
+          },
+          "100%": {
+            transform: "translate3d(0, 0, 0) scale3d(1, 1, 1)",
+          },
+        },
+        glitchNoise: {
+          "0%": {
+            opacity: "calc(var(--glitch-noise-level, 0.18) * 0.6)",
+          },
+          "50%": {
+            opacity: "var(--glitch-noise-level, 0.18)",
+          },
+          "100%": {
+            opacity: "calc(var(--glitch-noise-level, 0.18) * 0.6)",
+          },
+        },
       },
       animation: {
         shimmer: "shimmer 120ms linear",
+        "blob-drift":
+          "blobDrift var(--blob-drift-duration, 28s) ease-in-out infinite",
+        "glitch-noise":
+          "glitchNoise var(--glitch-duration, 450ms) steps(2, end) infinite",
       },
       fontSize: {
         label: ["var(--font-label)", { lineHeight: "1.2" }],
