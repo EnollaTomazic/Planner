@@ -58,14 +58,15 @@ export function AnimatedSelectTrigger({
     "relative flex items-center rounded-[var(--control-radius)] overflow-hidden",
     sizeStyles.height,
     sizeStyles.paddingX,
-    "bg-muted/12 hover:bg-muted/18",
-    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)]",
-    "transition-colors duration-quick ease-out motion-reduce:transition-none",
+    "bg-surface-muted hover:bg-surface-hover",
+    "transition-colors transition-shadow duration-quick ease-out motion-reduce:transition-none",
+    "focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface",
     buttonClassName,
   );
 
   const containerCls = cn(
-    "group inline-flex rounded-[var(--control-radius)] border border-[var(--ring-contrast)] focus-within:ring-2 focus-within:ring-[var(--ring-contrast)] focus-within:ring-offset-0 focus-within:shadow-[var(--shadow-glow-md)]",
+    "group inline-flex rounded-[var(--control-radius)] border border-border-subtle shadow-elev-1 transition-shadow duration-quick ease-out motion-reduce:transition-none",
+    "hover:shadow-elev-2 focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-surface focus-within:shadow-elev-2",
     containerClassName,
   );
 
@@ -77,15 +78,11 @@ export function AnimatedSelectTrigger({
   );
 
   const textCls = cn(
-    "font-medium",
+    "font-medium transition-colors duration-quick ease-out motion-reduce:transition-none",
     styles.glitchText,
     current
       ? [lit ? "text-foreground" : "text-muted-foreground", "group-hover:text-foreground"]
-      : [
-          "text-muted-foreground/70",
-          "group-hover:text-muted-foreground",
-          "transition-colors duration-quick ease-out motion-reduce:transition-none",
-        ],
+      : ["text-muted-foreground", "group-hover:text-muted-foreground"],
   );
 
   return (
@@ -109,7 +106,7 @@ export function AnimatedSelectTrigger({
           <ChevronRight
             aria-hidden="true"
             className={cn(
-              "shrink-0 text-muted-foreground/80 transition-colors duration-quick ease-out motion-reduce:transition-none",
+              "shrink-0 text-muted-foreground opacity-80 transition-colors duration-quick ease-out motion-reduce:transition-none",
               sizeStyles.prefix,
             )}
           />
