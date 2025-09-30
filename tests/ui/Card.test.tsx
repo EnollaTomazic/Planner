@@ -14,7 +14,7 @@ describe("Card", () => {
       sentinelOpacity,
     );
 
-    const { getByTestId } = render(
+    const { getByTestId, container } = render(
       <>
         <Card glitch data-testid="card-base">
           Token audit
@@ -26,6 +26,15 @@ describe("Card", () => {
     );
 
     await new Promise((resolve) => setTimeout(resolve, 0));
+
+    const baseCard = getByTestId("card-base");
+    const sunkenCard = getByTestId("card-sunken");
+
+    expect(baseCard.dataset.depth).toBe("base");
+    expect(sunkenCard.dataset.depth).toBe("sunken");
+
+    const root = container.firstElementChild as HTMLElement | null;
+    expect(root).not.toBeNull();
 
     expect(
       getComputedStyle(document.documentElement)
@@ -47,6 +56,8 @@ describe("Card", () => {
     expect(moduleSource).toContain(
       "opacity: var(--card-glitch-overlay-opacity-sunken);",
     );
+    expect(moduleSource).toContain("--card-depth-sm: var(--neo-depth-sm);");
+    expect(moduleSource).toContain("data-depth=\"raised\"");
 
     const source = fs.readFileSync(
       "src/components/ui/primitives/Card.tsx",
@@ -60,5 +71,16 @@ describe("Card", () => {
     document.documentElement.style.removeProperty(
       "--glitch-overlay-opacity-card",
     );
+  });
+
+  it("exposes the depth tokens through the Card API", () => {
+    const source = fs.readFileSync(
+      "src/components/ui/primitives/Card.tsx",
+      "utf8",
+    );
+
+    expect(source).toContain("data-depth");
+    expect(source).toContain("depthShadowClasses");
+    expect(source).toContain("shadow-elev-1");
   });
 });

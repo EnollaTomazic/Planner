@@ -1,36 +1,20 @@
 // @ts-nocheck
 import { expect, test } from "./playwright";
 
-import { getGalleryPreviewRoutes } from "@/components/gallery";
 import { VARIANTS } from "@/lib/theme";
 
-const previewRoutes = getGalleryPreviewRoutes();
+import {
+  buildPreviewRouteUrl,
+  createThemedUrl,
+  getDepthPreviewRoutes,
+} from "./utils/previewRoutes";
 
-function buildRouteUrl(route: (typeof previewRoutes)[number]) {
-  const params = new URLSearchParams();
-  const suffixParts: string[] = [];
-
-  for (const axis of route.axisParams) {
-    const option = axis.options[0];
-    if (!option) {
-      continue;
-    }
-    params.set(axis.key, option.value);
-    suffixParts.push(`${axis.key}-${option.value}`);
-  }
-
-  const query = params.toString();
-  const suffix = suffixParts.length > 0 ? `__${suffixParts.join("__")}` : "";
-  return {
-    url: query ? `/preview/${route.slug}?${query}` : `/preview/${route.slug}`,
-    suffix,
-  };
-}
+const previewRoutes = getDepthPreviewRoutes();
 
 test.describe("Gallery previews", () => {
-  test("@visual previews render for screenshot capture", async ({ page }) => {
+  test("@visual depth previews render for screenshot capture", async ({ page }) => {
     for (const route of previewRoutes) {
-      const { url, suffix } = buildRouteUrl(route);
+      const { url, suffix } = buildPreviewRouteUrl(route);
       await page.goto(url);
       await page.waitForLoadState("networkidle");
       await page.waitForSelector('[data-preview-ready="loaded"]');
@@ -42,6 +26,33 @@ test.describe("Gallery previews", () => {
       await expect(page).toHaveScreenshot(`${route.slug}${suffix}.png`, {
         fullPage: true,
       });
+    }
+  });
+
+  test("@visual depth previews capture per-theme snapshots", async ({ page }) => {
+    for (const route of previewRoutes) {
+      const { url, suffix } = buildPreviewRouteUrl(route);
+
+      for (const variant of VARIANTS) {
+        const themedUrl = createThemedUrl(url, variant.id, route.themeBackground);
+        await page.goto(themedUrl);
+        await page.waitForLoadState("networkidle");
+        await page.waitForSelector('[data-preview-ready="loaded"]');
+        await page.waitForFunction(
+          (variantId) =>
+            document.documentElement.classList.contains(`theme-${variantId}`),
+          variant.id,
+        );
+        await page.waitForFunction(
+          () => !document.body.innerText.includes("Loading preview…"),
+        );
+        await expect(page).toHaveScreenshot(
+          `${route.slug}${suffix}--${variant.id}.png`,
+          {
+            fullPage: true,
+          },
+        );
+      }
     }
   });
 
