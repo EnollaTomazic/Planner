@@ -273,7 +273,7 @@
   --depth-glow-shadow-strong: hsl(var(--shadow-color) / 0.42);
   --depth-focus-ring-rest: 0 0 0 0 hsl(var(--ring) / 0),
     0 0 0 0 hsl(var(--ring) / 0);
-  --depth-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 1) hsl(var(--ring)),
+  --depth-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 1) hsl(var(--ring))
     var(--shadow-glow-lg);
   --backdrop-blob-1: var(--lg-violet);
   --backdrop-blob-2: var(--lg-cyan);
@@ -308,6 +308,7 @@
   --retro-grid-step: 24px;
   --retro-grid-opacity: 0.15;
   --aa-min-contrast: 4.5;
+  --glitch-overlay-opacity-card: 0.55;
   --spacing-0-125: calc(var(--spacing-1) / 8);
   --spacing-0-25: calc(var(--spacing-1) / 4);
   --spacing-0-5: calc(var(--spacing-1) / 2);
