@@ -91,6 +91,68 @@ export const colorTokens = [
   "bg-ring-contrast",
 ];
 
+export const depthTokenNames = [
+  "--neo-depth-sm",
+  "--neo-depth-md",
+  "--neo-depth-lg",
+  "--neo-surface",
+  "--neo-surface-alt",
+  "--neo-highlight",
+  "--depth-shadow-outer",
+  "--depth-shadow-outer-strong",
+  "--depth-shadow-soft",
+  "--depth-shadow-inner",
+  "--shadow-inner-lg",
+  "--depth-glow-highlight-soft",
+  "--depth-glow-highlight-medium",
+  "--depth-glow-highlight-strong",
+  "--depth-glow-shadow-soft",
+  "--depth-glow-shadow-medium",
+  "--depth-glow-shadow-strong",
+  "--depth-focus-ring-rest",
+  "--depth-focus-ring-active",
+  "--shadow-outer-xl",
+  "--glow-ring",
+] as const;
+
+export type DepthTokenName = (typeof depthTokenNames)[number];
+
+export const surfaceTokenNames = [
+  "--blob-surface-1",
+  "--blob-surface-2",
+  "--blob-surface-3",
+  "--blob-surface-shadow",
+  "--blob-radius-soft",
+  "--surface-card-soft",
+  "--surface-card-strong",
+  "--surface-card-strong-hover",
+  "--surface-card-strong-active",
+  "--surface-card-strong-today",
+  "--surface-card-strong-empty",
+  "--surface-rail-accent",
+] as const;
+
+export type SurfaceTokenName = (typeof surfaceTokenNames)[number];
+
+export const motionTokenNames = [
+  "--ease-out",
+  "--ease-snap",
+  "--dur-quick",
+  "--dur-chill",
+  "--dur-slow",
+] as const;
+
+export type MotionTokenName = (typeof motionTokenNames)[number];
+
+export const gradientTokenNames = [
+  "--edge-iris",
+  "--seg-active-grad",
+  "--review-result-win-gradient",
+  "--review-result-loss-gradient",
+] as const;
+
+export type GradientTokenName = (typeof gradientTokenNames)[number];
+
 export const spacingTokens = [4, 8, 12, 16, 24, 32, 48, 64];
 
 export const shellWidthToken = "--shell-width";

@@ -100,6 +100,20 @@ export default {
     "linear-gradient(\n    90deg,\n    hsl(var(--success) / 0.22),\n    hsl(var(--accent) / 0.18)\n  )",
   reviewResultLossGradient:
     "linear-gradient(\n    90deg,\n    hsl(var(--danger) / 0.24),\n    hsl(var(--primary) / 0.2)\n  )",
+  surfaceCardSoft:
+    "linear-gradient(\n    180deg,\n    hsl(var(--card) / 0.65),\n    hsl(var(--card) / 0.45)\n  )",
+  surfaceCardStrong:
+    "linear-gradient(\n    180deg,\n    hsl(var(--card) / 0.85),\n    hsl(var(--card) / 0.65)\n  )",
+  surfaceCardStrongHover:
+    "linear-gradient(\n    180deg,\n    hsl(var(--card) / 0.95),\n    hsl(var(--card) / 0.75)\n  )",
+  surfaceCardStrongActive:
+    "linear-gradient(\n    180deg,\n    hsl(var(--card) / 0.8),\n    hsl(var(--card) / 0.6)\n  )",
+  surfaceCardStrongToday:
+    "linear-gradient(\n    180deg,\n    hsl(var(--card) / 0.9),\n    hsl(var(--card) / 0.7)\n  )",
+  surfaceCardStrongEmpty:
+    "linear-gradient(\n    180deg,\n    hsl(var(--card) / 0.6),\n    hsl(var(--card) / 0.5)\n  )",
+  surfaceRailAccent:
+    "linear-gradient(\n    180deg,\n    hsl(var(--accent)),\n    hsl(var(--primary))\n  )",
   segActiveBase: "hsl(var(--card))",
   shadow: "0 10px 30px hsl(250 38% 2% / 0.32)",
   shadowDropdown: "0 12px 40px hsl(var(--shadow-color) / 0.55)",
@@ -297,6 +311,9 @@ export default {
     "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
   blobRadiusSoft: "calc(var(--radius-2xl) + var(--spacing-2))",
   glitchNoiseHover: "calc(var(--glitch-noise-level) * 1.3)",
+  gridColor: "var(--accent)",
+  gridAlpha: "0.1",
+  gridSize: "calc(var(--space-6) - var(--space-1))",
   spacing0125: "calc(var(--spacing-1) / 8)",
   spacing025: "calc(var(--spacing-1) / 4)",
   spacing05: "calc(var(--spacing-1) / 2)",

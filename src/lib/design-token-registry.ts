@@ -49,12 +49,16 @@ const EXACT_CATEGORY_OVERRIDES = new Map<string, DesignTokenCategory>([
   ["shadow-color", "color"],
   ["glow-strong", "color"],
   ["glow-soft", "color"],
+  ["blob-radius-soft", "radius"],
 ]);
 
 const SPACING_SPECIFIC_NAMES = new Set<string>([
   "control-px",
   "header-stack",
   "hairline-w",
+  "neo-depth-sm",
+  "neo-depth-md",
+  "neo-depth-lg",
 ]);
 
 const MOTION_PREFIXES = ["ease-", "dur-", "motion-"];
