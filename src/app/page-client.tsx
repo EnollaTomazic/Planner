@@ -8,7 +8,7 @@ import {
   HomeSplash,
   useHomePlannerOverview,
 } from "@/components/home";
-import type { HeroPlannerHighlight } from "@/components/home";
+import type { HeroPlannerHighlight, PlannerOverviewProps } from "@/components/home";
 import { PageShell, Button, ThemeToggle, SectionCard } from "@/components/ui";
 import { PlannerProvider } from "@/components/planner";
 import { useTheme } from "@/lib/theme-context";
@@ -41,17 +41,25 @@ function HomePageContent() {
   const [theme] = useTheme();
   useThemeQuerySync();
 
-  const [isSplashVisible, setSplashVisible] = React.useState(true);
-  const [isSplashMounted, setSplashMounted] = React.useState(true);
-  const hideTimeoutRef = React.useRef<number | null>(null);
+  return (
+    <PlannerProvider>
+      <HomePagePlannerContent themeVariant={theme.variant} />
+    </PlannerProvider>
+  );
+}
 
-  const clearHideTimeout = React.useCallback(() => {
-    if (hideTimeoutRef.current === null) {
-      return;
-    }
-    window.clearTimeout(hideTimeoutRef.current);
-    hideTimeoutRef.current = null;
-  }, []);
+type HomePagePlannerContentProps = {
+  themeVariant: Variant;
+};
+
+function HomePagePlannerContent({
+  themeVariant,
+}: HomePagePlannerContentProps) {
+  const plannerOverviewProps = useHomePlannerOverview();
+  const { hydrating } = plannerOverviewProps;
+
+  const [isSplashVisible, setSplashVisible] = React.useState(hydrating);
+  const [isSplashMounted, setSplashMounted] = React.useState(hydrating);
 
   const beginHideSplash = React.useCallback(() => {
     setSplashVisible((prev) => {
@@ -60,16 +68,16 @@ function HomePageContent() {
       }
       return false;
     });
-    clearHideTimeout();
-  }, [clearHideTimeout]);
+  }, []);
 
   React.useEffect(() => {
-    if (!isSplashVisible) {
+    if (hydrating) {
+      setSplashMounted(true);
+      setSplashVisible(true);
       return;
     }
-    hideTimeoutRef.current = window.setTimeout(beginHideSplash, 2400);
-    return clearHideTimeout;
-  }, [beginHideSplash, clearHideTimeout, isSplashVisible]);
+    beginHideSplash();
+  }, [beginHideSplash, hydrating]);
 
   const handleClientReady = React.useCallback(() => {
     beginHideSplash();
@@ -90,12 +98,11 @@ function HomePageContent() {
         data-state={isSplashVisible ? "splash" : "ready"}
         aria-hidden={isSplashVisible ? true : undefined}
       >
-        <PlannerProvider>
-          <HomePageBody
-            themeVariant={theme.variant}
-            onClientReady={handleClientReady}
-          />
-        </PlannerProvider>
+        <HomePageBody
+          themeVariant={themeVariant}
+          plannerOverviewProps={plannerOverviewProps}
+          onClientReady={handleClientReady}
+        />
       </section>
     </div>
   );
@@ -103,11 +110,16 @@ function HomePageContent() {
 
 type HomePageBodyProps = {
   themeVariant: Variant;
+  plannerOverviewProps: PlannerOverviewProps;
   onClientReady?: () => void;
 };
 
-function HomePageBody({ themeVariant, onClientReady }: HomePageBodyProps) {
-  const plannerOverviewProps = useHomePlannerOverview();
+function HomePageBody({
+  themeVariant,
+  plannerOverviewProps,
+  onClientReady,
+}: HomePageBodyProps) {
+  const { hydrating } = plannerOverviewProps;
   const heroHeadingId = "home-hero-heading";
   const overviewHeadingId = "home-overview-heading";
   const heroActions = React.useMemo<React.ReactNode>(
@@ -131,12 +143,16 @@ function HomePageBody({ themeVariant, onClientReady }: HomePageBodyProps) {
   const hasAnnouncedReadyRef = React.useRef(false);
 
   React.useEffect(() => {
+    if (hydrating) {
+      hasAnnouncedReadyRef.current = false;
+      return;
+    }
     if (!onClientReady || hasAnnouncedReadyRef.current) {
       return;
     }
     onClientReady();
     hasAnnouncedReadyRef.current = true;
-  }, [onClientReady]);
+  }, [hydrating, onClientReady]);
 
   return (
     <>
