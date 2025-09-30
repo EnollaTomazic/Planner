@@ -14,6 +14,7 @@ import * as React from "react";
 import { GlitchSegmentedButton, GlitchSegmentedGroup } from "@/components/ui";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
+import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
 import WeekPicker from "./WeekPicker";
 import { PageHeader } from "@/components/ui";
 import PageShell from "@/components/ui/layout/PageShell";
@@ -35,12 +36,13 @@ const VIEW_MODE_OPTIONS: Array<{ value: PlannerViewMode; label: string }> = [
 /* ───────── Page body under provider ───────── */
 
 function Inner() {
-  const { iso } = useFocusDate();
+  const { iso, today } = useFocusDate();
   const { viewMode, setViewMode } = usePlanner();
   const { start, end } = useWeek(iso);
+  const hydrating = today === FOCUS_PLACEHOLDER;
   const weekAnnouncement = React.useMemo(
-    () => formatWeekRangeLabel(start, end),
-    [start, end],
+    () => (hydrating ? "Week preview loading…" : formatWeekRangeLabel(start, end)),
+    [end, hydrating, start],
   );
   const labelId = React.useId();
   const handleViewModeChange = React.useCallback(

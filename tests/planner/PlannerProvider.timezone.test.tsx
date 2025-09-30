@@ -60,11 +60,13 @@ describe("PlannerProvider", () => {
 
     const immediate = toISODate(new Date());
     expect(result.current.iso).toBe(immediate);
+    expect(result.current.today).toBe(immediate);
 
     const expected = toISODate(new ClientDate());
 
     await waitFor(() => {
       expect(result.current.iso).toBe(expected);
+      expect(result.current.today).toBe(expected);
     });
 
     unmount();
