@@ -6,8 +6,10 @@ import {
   getPreviewAxisParams,
   getPreviewAxes,
   getPreviewAxisSummary,
+  getPreviewEntry,
   getPreviewManifest,
   getPreviewRoute,
+  getPreviewState,
 } from "./preview-engine";
 import PreviewRendererClient from "./PreviewRendererClient";
 import type {
@@ -49,6 +51,8 @@ export const getGallerySection = (id: GallerySectionId) =>
 export const getGalleryPreviewRoute = getPreviewRoute;
 
 export const getGalleryPreviewRoutes = () => getAllPreviewRoutes();
+export const getGalleryPreviewEntry = getPreviewEntry;
+export const getGalleryPreviewState = getPreviewState;
 export const getGalleryPreviewAxes = getPreviewAxes;
 export const getGalleryPreviewAxisSummary = getPreviewAxisSummary;
 export const getGalleryPreviewAxisParams = getPreviewAxisParams;

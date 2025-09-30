@@ -5,11 +5,15 @@ import {
   type GalleryPreviewModuleManifest,
 } from "./generated-manifest";
 import {
-  getGalleryEntryAxes,
+  findGalleryEntry,
+  findGalleryState,
+  getGalleryPreviewAxesFromPayload,
   type GalleryAxis,
   type GalleryPreviewAxisParam,
   type GalleryPreviewRenderer,
   type GalleryPreviewRoute,
+  type GalleryRegistryEntryRef,
+  type GalleryRegistryStateRef,
   type GallerySection,
 } from "./registry";
 
@@ -33,18 +37,42 @@ for (const route of galleryPreviewRoutes) {
 }
 
 const stateOwnerIndex = new Map<string, string>();
-for (const route of galleryPreviewRoutes) {
-  if (!route.stateId) {
-    continue;
-  }
-  if (!stateOwnerIndex.has(route.stateId)) {
-    stateOwnerIndex.set(route.stateId, route.entryId);
+for (const section of galleryPayload.sections) {
+  for (const entry of section.entries) {
+    const entryStates =
+      "states" in entry && Array.isArray(entry.states) ? entry.states : [];
+    for (const state of entryStates) {
+      if (!stateOwnerIndex.has(state.id)) {
+        stateOwnerIndex.set(state.id, entry.id);
+      }
+    }
   }
 }
 
+const entryLookupCache = new Map<string, GalleryRegistryEntryRef | null>();
+const stateLookupCache = new Map<string, GalleryRegistryStateRef | null>();
 const entryAxisCache = new Map<string, readonly GalleryAxis[]>();
+const previewAxisCache = new Map<string, readonly GalleryAxis[]>();
 const axisSummaryCache = new Map<string, string>();
 const axisParamsCache = new Map<string, readonly GalleryPreviewAxisParam[]>();
+
+const getEntryLookup = (entryId: string): GalleryRegistryEntryRef | null => {
+  if (!entryLookupCache.has(entryId)) {
+    entryLookupCache.set(entryId, findGalleryEntry(galleryPayload, entryId));
+  }
+  return entryLookupCache.get(entryId) ?? null;
+};
+
+const getStateLookup = (stateId: string): GalleryRegistryStateRef | null => {
+  if (!stateLookupCache.has(stateId)) {
+    const entryHint = stateOwnerIndex.get(stateId) ?? null;
+    stateLookupCache.set(
+      stateId,
+      findGalleryState(galleryPayload, stateId, entryHint),
+    );
+  }
+  return stateLookupCache.get(stateId) ?? null;
+};
 
 const resolveEntryIdForState = (
   entryId: string,
@@ -61,8 +89,23 @@ const getCachedEntryAxes = (entryId: string): readonly GalleryAxis[] => {
   if (cached) {
     return cached;
   }
-  const axes = getGalleryEntryAxes(galleryPayload, entryId);
+  const axes = getGalleryPreviewAxesFromPayload(galleryPayload, entryId, null);
   entryAxisCache.set(entryId, axes);
+  return axes;
+};
+
+const getPreviewAxesForTarget = (
+  entryId: string,
+  stateId: string | null,
+): readonly GalleryAxis[] => {
+  const key = stateId ? `${entryId}:${stateId}` : entryId;
+  const cached = previewAxisCache.get(key);
+  if (cached) {
+    return cached;
+  }
+
+  const axes = getGalleryPreviewAxesFromPayload(galleryPayload, entryId, stateId);
+  previewAxisCache.set(key, axes);
   return axes;
 };
 
@@ -262,10 +305,27 @@ export const loadModulePreviews = (
 export const getPreviewManifest = (id: string) => previewModuleIndex.get(id) ?? null;
 export const getPreviewRoute = (slug: string) => previewRouteIndex.get(slug) ?? null;
 export const getAllPreviewRoutes = () => galleryPreviewRoutes;
+export const getPreviewEntry = (entryId: string) => getEntryLookup(entryId);
+export const getPreviewState = (
+  entryId: string,
+  stateId: string | null = null,
+) => {
+  if (!stateId) {
+    return null;
+  }
+  const lookup = getStateLookup(stateId);
+  if (!lookup) {
+    return null;
+  }
+  if (lookup.entry.id !== entryId) {
+    return lookup;
+  }
+  return lookup;
+};
 export const getPreviewAxes = (
   entryId: string,
   stateId: string | null = null,
-) => getCachedEntryAxes(resolveEntryIdForState(entryId, stateId));
+) => getPreviewAxesForTarget(resolveEntryIdForState(entryId, stateId), stateId);
 export const getPreviewAxisSummary = (
   entryId: string,
   stateId: string | null = null,

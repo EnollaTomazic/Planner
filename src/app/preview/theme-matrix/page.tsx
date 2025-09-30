@@ -4,6 +4,8 @@ import {
   galleryPayload,
   getGalleryPreviewRoutes,
   getGalleryPreviewAxisSummary,
+  getGalleryPreviewEntry,
+  getGalleryPreviewState,
   formatGallerySectionLabel,
   type GalleryPreviewRoute,
 } from "@/components/gallery";
@@ -84,14 +86,18 @@ const previewGroupsByKey = new Map<string, ThemeMatrixGroupBuilder>();
 for (const route of previewRoutes) {
   const key = createGroupKey(route.entryId, route.stateId);
   let group = previewGroupsByKey.get(key);
+  const entryLookup = getGalleryPreviewEntry(route.entryId);
+  const entryName = entryLookup?.entry.name ?? route.entryId;
+  const stateLookup = getGalleryPreviewState(route.entryId, route.stateId);
+  const stateName = stateLookup?.state.name ?? null;
   if (!group) {
     group = {
       key,
       entryId: route.entryId,
-      entryName: route.entryName,
+      entryName,
       sectionId: route.sectionId,
       stateId: route.stateId,
-      stateName: route.stateName,
+      stateName,
       axisSummary: buildAxisSummary(route),
       variants: new Map<Variant, ThemeMatrixVariantBuilder>(),
     };
@@ -100,8 +106,11 @@ for (const route of previewRoutes) {
     if (!group.axisSummary) {
       group.axisSummary = buildAxisSummary(route);
     }
-    if (route.stateName && !group.stateName) {
-      group.stateName = route.stateName;
+    if (stateName && !group.stateName) {
+      group.stateName = stateName;
+    }
+    if (!group.entryName) {
+      group.entryName = entryName;
     }
   }
 

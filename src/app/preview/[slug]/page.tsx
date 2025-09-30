@@ -3,10 +3,12 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
 import {
+  getGalleryPreviewEntry,
   getGalleryPreviewRenderer,
   getGalleryPreviewAxisSummary,
   getGalleryPreviewRoute,
   getGalleryPreviewRoutes,
+  getGalleryPreviewState,
   type GalleryPreviewRoute,
 } from "@/components/gallery";
 import PreviewContentClient from "./PreviewContentClient";
@@ -38,9 +40,13 @@ export async function generateMetadata({
   if (!route) {
     return { title: "Preview not found" };
   }
-  const parts = [route.entryName];
-  if (route.stateName) {
-    parts.push(route.stateName);
+  const entry = getGalleryPreviewEntry(route.entryId);
+  const entryName = entry?.entry.name ?? route.entryId;
+  const state = getGalleryPreviewState(route.entryId, route.stateId);
+  const stateName = state?.state.name ?? null;
+  const parts = [entryName];
+  if (stateName) {
+    parts.push(stateName);
   }
   const themeLabel = VARIANT_LABELS[route.themeVariant];
   parts.push(`${themeLabel} theme`);
@@ -85,7 +91,10 @@ export function PreviewContent({ route }: PreviewContentProps) {
 
 export function PreviewUnavailable({ route }: { readonly route: GalleryPreviewRoute }) {
   const themeLabel = VARIANT_LABELS[route.themeVariant];
-  const stateLabel = route.stateName ?? null;
+  const entry = getGalleryPreviewEntry(route.entryId);
+  const entryName = entry?.entry.name ?? route.entryId;
+  const state = getGalleryPreviewState(route.entryId, route.stateId);
+  const stateLabel = state?.state.name ?? null;
   const axisSummary = getGalleryPreviewAxisSummary(route.entryId, route.stateId);
 
   return (
@@ -102,7 +111,7 @@ export function PreviewUnavailable({ route }: { readonly route: GalleryPreviewRo
             Gallery preview
           </p>
           <h1 className="text-title font-semibold tracking-[-0.01em]">
-            {route.entryName}
+            {entryName}
             {stateLabel ? <span className="text-muted-foreground"> · {stateLabel}</span> : null}
           </h1>
           <p className="text-label text-muted-foreground">

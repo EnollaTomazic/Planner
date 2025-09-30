@@ -20,11 +20,9 @@ const baseRoute: GalleryPreviewRoute = {
   slug: "sample",
   previewId: "preview-id",
   entryId: "entry-id",
-  entryName: "Sample preview",
   sectionId: "components",
   stateId: null,
-  stateName: null,
-  themeVariant: "lg",
+  themeVariant: "aurora",
   themeBackground: 0,
 };
 

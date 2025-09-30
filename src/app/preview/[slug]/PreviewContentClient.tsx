@@ -8,7 +8,9 @@ import PreviewSurface, {
 } from "@/components/gallery/PreviewSurfaceClient";
 import PreviewThemeClient from "@/components/gallery/PreviewThemeClient";
 import {
+  getGalleryPreviewEntry,
   getGalleryPreviewAxisSummary,
+  getGalleryPreviewState,
   type GalleryPreviewRoute,
 } from "@/components/gallery";
 import { BackgroundPicker, Card, Label, ThemePicker, Spinner } from "@/components/ui";
@@ -88,6 +90,19 @@ export default function PreviewContentClient({ route }: PreviewContentClientProp
   const sliderId = React.useId();
   const sliderDescriptionId = React.useId();
   const sliderStatusId = React.useId();
+
+  const entry = React.useMemo(
+    () => getGalleryPreviewEntry(route.entryId),
+    [route.entryId],
+  );
+  const entryName = entry?.entry.name ?? route.entryId;
+  const stateName = React.useMemo(() => {
+    if (!route.stateId) {
+      return null;
+    }
+    const state = getGalleryPreviewState(route.entryId, route.stateId);
+    return state?.state.name ?? null;
+  }, [route.entryId, route.stateId]);
 
   const defaultState = React.useMemo<ControlState>(
     () => ({
@@ -196,7 +211,7 @@ export default function PreviewContentClient({ route }: PreviewContentClientProp
     controlState.bg === 0 ? "Default background" : `${backgroundLabel} background`;
 
   const sliderDescribedBy = `${sliderDescriptionId} ${sliderStatusId}`;
-  const stateLabel = route.stateName ? ` · ${route.stateName}` : "";
+  const stateLabel = stateName ? ` · ${stateName}` : "";
   const axisSummary = React.useMemo(
     () => getGalleryPreviewAxisSummary(route.entryId, route.stateId),
     [route.entryId, route.stateId],
@@ -219,7 +234,7 @@ export default function PreviewContentClient({ route }: PreviewContentClientProp
             Gallery preview
           </p>
           <h1 className="text-title font-semibold tracking-[-0.01em]">
-            {route.entryName}
+            {entryName}
             {stateLabel ? <span className="text-muted-foreground">{stateLabel}</span> : null}
           </h1>
           <p aria-live="polite" className="text-label text-muted-foreground">

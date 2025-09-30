@@ -156,25 +156,91 @@ export interface GalleryPreviewRoute {
   readonly slug: string;
   readonly previewId: string;
   readonly entryId: string;
-  readonly entryName: string;
   readonly sectionId: GallerySectionId;
   readonly stateId: string | null;
-  readonly stateName: string | null;
   readonly themeVariant: Variant;
   readonly themeBackground: Background;
+}
+
+export interface GalleryRegistryEntryRef {
+  readonly sectionId: GallerySectionId;
+  readonly entry: GallerySerializableEntry;
+}
+
+export interface GalleryRegistryStateRef extends GalleryRegistryEntryRef {
+  readonly state: GallerySerializableStateDefinition;
 }
 
 export const getGalleryEntryAxes = (
   payload: GalleryRegistryPayload,
   entryId: string,
 ): readonly GalleryAxis[] => {
+  const lookup = findGalleryEntry(payload, entryId);
+  if (!lookup) {
+    return [];
+  }
+  return lookup.entry.axes ?? [];
+};
+
+export const findGalleryEntry = (
+  payload: GalleryRegistryPayload,
+  entryId: string,
+): GalleryRegistryEntryRef | null => {
   for (const section of payload.sections) {
     const entry = section.entries.find((candidate) => candidate.id === entryId);
     if (entry) {
-      return entry.axes ?? [];
+      return { sectionId: section.id, entry } satisfies GalleryRegistryEntryRef;
     }
   }
-  return [];
+  return null;
+};
+
+export const findGalleryState = (
+  payload: GalleryRegistryPayload,
+  stateId: string,
+  entryHint: string | null = null,
+): GalleryRegistryStateRef | null => {
+  if (entryHint) {
+    const hinted = findGalleryEntry(payload, entryHint);
+    const hintedState = hinted?.entry.states?.find((state) => state.id === stateId);
+    if (hinted && hintedState) {
+      return {
+        sectionId: hinted.sectionId,
+        entry: hinted.entry,
+        state: hintedState,
+      } satisfies GalleryRegistryStateRef;
+    }
+  }
+
+  for (const section of payload.sections) {
+    for (const entry of section.entries) {
+      const match = entry.states?.find((state) => state.id === stateId);
+      if (match) {
+        return {
+          sectionId: section.id,
+          entry,
+          state: match,
+        } satisfies GalleryRegistryStateRef;
+      }
+    }
+  }
+
+  return null;
+};
+
+export const getGalleryPreviewAxesFromPayload = (
+  payload: GalleryRegistryPayload,
+  entryId: string,
+  stateId: string | null,
+): readonly GalleryAxis[] => {
+  if (stateId) {
+    const stateLookup = findGalleryState(payload, stateId, entryId);
+    if (stateLookup) {
+      return stateLookup.entry.axes ?? [];
+    }
+  }
+
+  return getGalleryEntryAxes(payload, entryId);
 };
 
 export const createGalleryRegistry = (

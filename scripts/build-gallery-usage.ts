@@ -292,10 +292,8 @@ function buildPreviewRoutes(
           slug,
           previewId: entry.preview.id,
           entryId: entry.id,
-          entryName: entry.name,
           sectionId: section.id,
           stateId: null,
-          stateName: null,
           themeVariant: theme.variant,
           themeBackground: theme.bg,
         });
@@ -330,15 +328,13 @@ function buildPreviewRoutes(
               slug,
               previewId: state.preview.id,
               entryId: entry.id,
-              entryName: entry.name,
               sectionId: section.id,
               stateId: state.id,
-            stateName: state.name ?? null,
-            themeVariant: theme.variant,
-            themeBackground: theme.bg,
-          });
+              themeVariant: theme.variant,
+              themeBackground: theme.bg,
+            });
+          }
         }
-      }
       }
     }
   }
