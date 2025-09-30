@@ -178,6 +178,14 @@ export default function PromptsDemos() {
           </div>
         </div>
       </Card>
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-3)]">
+        <h3 className="type-title">Decor backdrops</h3>
+        <p className="text-ui text-muted-foreground">
+          <code>DecorLayer</code> mounts theme-driven gradients inside the page
+          backdrop while preserving focus rings and overlays via isolation and
+          z-index tokens.
+        </p>
+      </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Feedback</h3>
         <div className="flex flex-wrap items-center gap-[var(--space-4)]">
