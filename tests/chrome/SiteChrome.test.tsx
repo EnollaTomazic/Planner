@@ -72,6 +72,22 @@ describe("SiteChrome", () => {
     expect(screen.getByTestId("inner")).toBeInTheDocument();
   });
 
+  it("groups the display toggles inside a labelled toolbar", () => {
+    render(
+      <SiteChrome>
+        <div />
+      </SiteChrome>,
+    );
+
+    const toolbarRegion = screen.getByRole("region", { name: "Display controls" });
+    const toolbar = within(toolbarRegion).getByRole("toolbar", {
+      name: "Display controls",
+    });
+
+    expect(toolbar).toBeInTheDocument();
+    expect(within(toolbar).getAllByRole("button")).toHaveLength(2);
+  });
+
   it("marks the active route inside the mobile drawer", async () => {
     const user = userEvent.setup();
     render(
