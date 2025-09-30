@@ -83,10 +83,20 @@ export default function SiteChrome({ children }: SiteChromeProps) {
                 <Menu aria-hidden="true" className="size-[calc(var(--control-h-md)/2)]" />
               </IconButton>
             </div>
-            <div className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-surface/70 px-[var(--space-2)] py-[var(--space-1)] shadow-[var(--shadow-glow-sm)] backdrop-blur">
-              <ThemeToggle className="shrink-0" />
-              <div className="shrink-0">
-                <AnimationToggle />
+            <div
+              role="region"
+              aria-label="Display controls"
+              className="rounded-full bg-surface/70 px-[var(--space-2)] py-[var(--space-1)] shadow-[var(--shadow-glow-sm)] backdrop-blur"
+            >
+              <div
+                role="toolbar"
+                aria-label="Display controls"
+                className="inline-flex items-center gap-[var(--space-1)]"
+              >
+                <ThemeToggle className="shrink-0" />
+                <div className="shrink-0">
+                  <AnimationToggle />
+                </div>
               </div>
             </div>
           </div>
