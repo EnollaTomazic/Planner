@@ -92,11 +92,16 @@ export function AnimatedSelectList({
             data-open="true"
             data-side={placement}
           >
-            <span aria-hidden className={styles.gbIris} />
-            <span aria-hidden className={styles.gbChroma} />
-            <span aria-hidden className={styles.gbFlicker} />
-            <span aria-hidden className={styles.gbScan} />
-
+            <li
+              aria-hidden
+              role="presentation"
+              className={cn(styles.glitchOverlays, styles.glitchOverlayItem)}
+            >
+              <span className={styles.gbIris} />
+              <span className={styles.gbChroma} />
+              <span className={styles.gbFlicker} />
+              <span className={styles.gbScan} />
+            </li>
             {items.map((item, index) => {
               const active = item.value === value;
               const disabledItem = !!item.disabled || item.loading;
