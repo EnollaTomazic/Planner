@@ -26,7 +26,6 @@ const baseRoute: GalleryPreviewRoute = {
   stateName: null,
   themeVariant: "lg",
   themeBackground: 0,
-  axisParams: [],
 };
 
 describe("Preview page landmarks", () => {

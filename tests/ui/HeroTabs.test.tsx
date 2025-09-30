@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, cleanup } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
-import { HeroTabs } from "@/components/ui";
+import { HeroTabs } from "@/components/ui/layout/hero/HeroTabs";
 
 afterEach(cleanup);
 

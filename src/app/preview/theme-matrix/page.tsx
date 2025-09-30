@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import {
   galleryPayload,
   getGalleryPreviewRoutes,
+  getGalleryPreviewAxisSummary,
   formatGallerySectionLabel,
   type GalleryPreviewRoute,
 } from "@/components/gallery";
@@ -24,19 +25,8 @@ const createGroupKey = (entryId: string, stateId: string | null) =>
   `${entryId}__${stateId ?? "default"}`;
 
 const buildAxisSummary = (route: GalleryPreviewRoute): string | null => {
-  if (!route.axisParams.length) {
-    return null;
-  }
-
-  const summary = route.axisParams
-    .map((axis) => {
-      const optionLabels = axis.options.map((option) => option.label).join(", ");
-      return optionLabels ? `${axis.label}: ${optionLabels}` : axis.label;
-    })
-    .filter(Boolean)
-    .join(" · ");
-
-  return summary.length > 0 ? summary : null;
+  const summary = getGalleryPreviewAxisSummary(route.entryId, route.stateId);
+  return summary || null;
 };
 
 interface ThemeMatrixVariantBuilder {

@@ -1,7 +1,7 @@
 import React from "react";
 import { render, cleanup, fireEvent } from "@testing-library/react";
 import { describe, it, expect, afterEach } from "vitest";
-import { Input } from "@/components/ui";
+import Input from "@/components/ui/primitives/Input";
 import { slugify } from "@/lib/utils";
 
 afterEach(cleanup);

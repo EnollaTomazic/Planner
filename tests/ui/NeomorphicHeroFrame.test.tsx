@@ -2,11 +2,10 @@ import React from "react";
 import { render, screen, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it } from "vitest";
-import {
-  NeomorphicHeroFrame,
+import NeomorphicHeroFrame, {
   type HeroVariant,
   type NeomorphicHeroFrameProps,
-} from "@/components/ui";
+} from "@/components/ui/layout/NeomorphicHeroFrame";
 
 afterEach(cleanup);
 

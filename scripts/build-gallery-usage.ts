@@ -11,7 +11,6 @@ import {
   type GallerySerializableEntry,
   type GallerySerializableSection,
   type GalleryPreviewRoute,
-  type GalleryPreviewAxisParam,
 } from "../src/components/gallery/registry";
 import { BG_CLASSES, VARIANTS } from "../src/lib/theme";
 import type { Background, Variant } from "../src/lib/theme";
@@ -227,54 +226,6 @@ function normalizeSlug(value: string | null | undefined): string {
     .replace(/^-+|-+$/gu, "");
 }
 
-function buildAxisParams(
-  entry: GallerySerializableEntry,
-): readonly GalleryPreviewAxisParam[] {
-  const axes = entry.axes ?? [];
-  const params: GalleryPreviewAxisParam[] = [];
-  const keySet = new Set<string>();
-
-  for (const axis of axes) {
-    if (axis.type !== "variant" && axis.type !== "state") {
-      continue;
-    }
-    const baseKey =
-      normalizeSlug(axis.id) || normalizeSlug(axis.label) || axis.type;
-    if (!baseKey) {
-      continue;
-    }
-    const key = `axis-${baseKey}`;
-    if (keySet.has(key)) {
-      continue;
-    }
-    keySet.add(key);
-    const seenValues = new Set<string>();
-    const options = axis.values.map((option, index) => {
-      const normalized = normalizeSlug(option.value);
-      let value = normalized || `value-${index + 1}`;
-      while (seenValues.has(value)) {
-        value = `${value}-${index + 1}`;
-      }
-      seenValues.add(value);
-      return {
-        value,
-        label: option.value,
-      } satisfies GalleryPreviewAxisParam["options"][number];
-    });
-    if (options.length === 0) {
-      continue;
-    }
-    params.push({
-      key,
-      label: axis.label,
-      type: axis.type,
-      options,
-    });
-  }
-
-  return params;
-}
-
 function formatPreviewSlug(
   sectionSlug: string,
   entrySlug: string,
@@ -318,7 +269,6 @@ function buildPreviewRoutes(
       entryIndex += 1
     ) {
       const entry = section.entries[entryIndex];
-      const axisParams = buildAxisParams(entry);
       const entrySlugBase =
         normalizeSlug(entry.id) || normalizeSlug(entry.name) || null;
       const fallbackEntrySlug =
@@ -348,7 +298,6 @@ function buildPreviewRoutes(
           stateName: null,
           themeVariant: theme.variant,
           themeBackground: theme.bg,
-          axisParams,
         });
       }
 
@@ -384,13 +333,12 @@ function buildPreviewRoutes(
               entryName: entry.name,
               sectionId: section.id,
               stateId: state.id,
-              stateName: state.name ?? null,
-              themeVariant: theme.variant,
-              themeBackground: theme.bg,
-              axisParams,
-            });
-          }
+            stateName: state.name ?? null,
+            themeVariant: theme.variant,
+            themeBackground: theme.bg,
+          });
         }
+      }
       }
     }
   }

@@ -2,7 +2,7 @@ import React from "react";
 import fs from "node:fs";
 import { render, cleanup } from "@testing-library/react";
 import { describe, it, expect, afterEach } from "vitest";
-import { Card } from "@/components/ui";
+import Card from "@/components/ui/primitives/Card";
 
 afterEach(cleanup);
 
