@@ -56,10 +56,10 @@ function HomePagePlannerContent({
   themeVariant,
 }: HomePagePlannerContentProps) {
   const plannerOverviewProps = useHomePlannerOverview();
-  const { hydrating } = plannerOverviewProps;
+  const { hydrated } = plannerOverviewProps;
 
-  const [isSplashVisible, setSplashVisible] = React.useState(hydrating);
-  const [isSplashMounted, setSplashMounted] = React.useState(hydrating);
+  const [isSplashVisible, setSplashVisible] = React.useState(() => !hydrated);
+  const [isSplashMounted, setSplashMounted] = React.useState(() => !hydrated);
 
   const beginHideSplash = React.useCallback(() => {
     setSplashVisible((prev) => {
@@ -71,13 +71,13 @@ function HomePagePlannerContent({
   }, []);
 
   React.useEffect(() => {
-    if (hydrating) {
+    if (!hydrated) {
       setSplashMounted(true);
       setSplashVisible(true);
       return;
     }
     beginHideSplash();
-  }, [beginHideSplash, hydrating]);
+  }, [beginHideSplash, hydrated]);
 
   const handleClientReady = React.useCallback(() => {
     beginHideSplash();
@@ -119,7 +119,7 @@ function HomePageBody({
   plannerOverviewProps,
   onClientReady,
 }: HomePageBodyProps) {
-  const { hydrating } = plannerOverviewProps;
+  const { hydrated } = plannerOverviewProps;
   const heroHeadingId = "home-hero-heading";
   const overviewHeadingId = "home-overview-heading";
   const heroActions = React.useMemo<React.ReactNode>(
@@ -143,7 +143,7 @@ function HomePageBody({
   const hasAnnouncedReadyRef = React.useRef(false);
 
   React.useEffect(() => {
-    if (hydrating) {
+    if (!hydrated) {
       hasAnnouncedReadyRef.current = false;
       return;
     }
@@ -152,7 +152,7 @@ function HomePageBody({
     }
     onClientReady();
     hasAnnouncedReadyRef.current = true;
-  }, [hydrating, onClientReady]);
+  }, [hydrated, onClientReady]);
 
   return (
     <>
