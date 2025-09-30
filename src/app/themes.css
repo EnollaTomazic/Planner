@@ -305,7 +305,7 @@
     0 0 0 0 hsl(var(--ring) / 0),
     0 0 0 0 hsl(var(--ring) / 0);
   --depth-focus-ring-active:
-    0 0 0 calc(var(--hairline-w) * 1) hsl(var(--ring))
+    0 0 0 calc(var(--hairline-w) * 1) hsl(var(--ring)),
     var(--shadow-glow-lg);
   /* Organic backdrops */
   --backdrop-blob-1: var(--lg-violet);
