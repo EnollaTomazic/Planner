@@ -251,7 +251,7 @@ export default {
   depthFocusRingRest:
     "0 0 0 0 hsl(var(--ring) / 0),\n    0 0 0 0 hsl(var(--ring) / 0)",
   depthFocusRingActive:
-    "0 0 0 calc(var(--hairline-w) * 1) hsl(var(--ring)),\n    var(--shadow-glow-lg)",
+    "0 0 0 calc(var(--hairline-w) * 1) hsl(var(--ring))\n    var(--shadow-glow-lg)",
   backdropBlob1: "var(--lg-violet)",
   backdropBlob2: "var(--lg-cyan)",
   backdropBlob3: "var(--lg-pink)",
@@ -286,6 +286,7 @@ export default {
   retroGridStep: "24px",
   retroGridOpacity: "0.15",
   aaMinContrast: "4.5",
+  glitchOverlayOpacityCard: "calc(var(--glitch-static-opacity) + 0.2)",
   spacing0125: "calc(var(--spacing-1) / 8)",
   spacing025: "calc(var(--spacing-1) / 4)",
   spacing05: "calc(var(--spacing-1) / 2)",

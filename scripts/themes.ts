@@ -143,7 +143,7 @@ export const rootVariables: VariableDefinition[] = [
   {
     comment: "Card glitch overlay alpha",
     name: "glitch-overlay-opacity-card",
-    value: "0.38",
+    value: "calc(var(--glitch-static-opacity) + 0.2)",
   },
   {
     comment: "Button glitch overlays",
@@ -264,6 +264,10 @@ export const themes: ThemeDefinition[] = [
       { name: "glitch-intensity", value: "0.4" },
       { name: "glitch-fringe", value: "8deg" },
       { name: "glitch-static-opacity", value: "0.1" },
+      {
+        name: "glitch-overlay-opacity-card",
+        value: "calc(var(--glitch-static-opacity) + 0.25)",
+      },
       { name: "lav-deep", value: "276 88% 68%" },
       { name: "success", value: "148 72% 48%" },
       { name: "success-glow", value: "148 72% 38% / 0.6" },
@@ -343,6 +347,10 @@ export const themes: ThemeDefinition[] = [
       { name: "glitch-intensity", value: "0.38" },
       { name: "glitch-fringe", value: "7deg" },
       { name: "glitch-static-opacity", value: "0.09" },
+      {
+        name: "glitch-overlay-opacity-card",
+        value: "calc(var(--glitch-static-opacity) + 0.25)",
+      },
       { name: "lav-deep", value: "28 90% 56%" },
       { name: "success", value: "150 68% 46%" },
       { name: "success-glow", value: "150 68% 36% / 0.6" },
@@ -407,6 +415,10 @@ export const themes: ThemeDefinition[] = [
       { name: "glitch-intensity", value: "0.34" },
       { name: "glitch-fringe", value: "6deg" },
       { name: "glitch-static-opacity", value: "0.08" },
+      {
+        name: "glitch-overlay-opacity-card",
+        value: "calc(var(--glitch-static-opacity) + 0.26)",
+      },
       { name: "glitch-noise-primary", value: "hsl(var(--ring) / 0.28)" },
       { name: "glitch-noise-secondary", value: "hsl(var(--accent) / 0.22)" },
       { name: "glitch-noise-contrast", value: "hsl(var(--foreground) / 0.14)" },
@@ -468,6 +480,10 @@ export const themes: ThemeDefinition[] = [
       { name: "glitch-intensity", value: "0.4" },
       { name: "glitch-fringe", value: "7deg" },
       { name: "glitch-static-opacity", value: "0.1" },
+      {
+        name: "glitch-overlay-opacity-card",
+        value: "calc(var(--glitch-static-opacity) + 0.24)",
+      },
       { name: "lav-deep", value: "254 78% 68%" },
       { name: "success", value: "158 72% 48%" },
       { name: "success-glow", value: "158 72% 38% / 0.6" },
@@ -519,6 +535,10 @@ export const themes: ThemeDefinition[] = [
       { name: "glitch-intensity", value: "0.36" },
       { name: "glitch-fringe", value: "6deg" },
       { name: "glitch-static-opacity", value: "0.085" },
+      {
+        name: "glitch-overlay-opacity-card",
+        value: "calc(var(--glitch-static-opacity) + 0.245)",
+      },
       { name: "lav-deep", value: "336 84% 64%" },
       { name: "success", value: "152 62% 48%" },
       { name: "success-glow", value: "152 62% 38% / 0.6" },
@@ -591,6 +611,10 @@ export const themes: ThemeDefinition[] = [
       { name: "glitch-intensity", value: "0.32" },
       { name: "glitch-fringe", value: "5deg" },
       { name: "glitch-static-opacity", value: "0.075" },
+      {
+        name: "glitch-overlay-opacity-card",
+        value: "calc(var(--glitch-static-opacity) + 0.245)",
+      },
       { name: "glitch-noise-primary", value: "hsl(var(--ring) / 0.24)" },
       { name: "glitch-noise-secondary", value: "hsl(var(--accent) / 0.18)" },
       {

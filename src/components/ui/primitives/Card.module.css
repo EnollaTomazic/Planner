@@ -2,6 +2,8 @@
   --card-depth-sm: var(--neo-depth-sm);
   --card-depth-md: var(--neo-depth-md);
   --card-depth-lg: var(--neo-depth-lg);
+  --card-overlay-opacity-hover: 0.55;
+  --card-overlay-opacity-sunken: 0.32;
   position: relative;
   isolation: isolate;
   border-radius: calc(var(--radius-card) * 1.05)
@@ -57,14 +59,15 @@
 .root[data-depth="raised"]:hover::after,
 .root[data-depth="raised"]:focus-visible::after,
 .root[data-depth="raised"]:focus-within::after {
-  opacity: 0.55;
+  opacity: var(--card-overlay-opacity-hover);
 }
 
 .root[data-depth="sunken"]::after {
-  opacity: 0.32;
+  opacity: var(--card-overlay-opacity-sunken);
 }
 
 .glitch {
+  --card-overlay-opacity-hover: var(--glitch-overlay-opacity-card);
   --glitch-overlay-opacity: var(--glitch-overlay-opacity-card);
 }
 
