@@ -46,6 +46,8 @@ export type TabElementProps = React.HTMLAttributes<HTMLElement> & {
   "aria-busy"?: boolean;
   "data-active"?: boolean;
   "data-loading"?: boolean;
+  "data-disabled"?: boolean;
+  "data-variant"?: Variant;
 };
 
 export type TabRenderContext<
@@ -185,20 +187,11 @@ export default function TabBar<
   const isGlitch = variant === "glitch";
 
   const neoVariantClassName = isNeo ? styles.neoTablist : undefined;
+  const defaultVariantClassName = !isNeo && !isGlitch ? styles.defaultTablist : undefined;
 
   const containerVariant = isNeo
     ? "hero2-frame border-border/45 bg-[var(--neo-tablist-bg)] shadow-[var(--neo-tablist-shadow)] [--hover:var(--neo-tab-bg)] [--active:var(--neo-tab-bg)] [--focus:var(--theme-ring)]"
-    : isGlitch
-      ? "[--focus:var(--theme-ring)]"
-      : cn(
-          "border-border/30 bg-card/60 shadow-[var(--shadow-neo-inset)]",
-          "[--hover:hsl(var(--primary)/0.18)]",
-          "[--active:hsl(var(--primary)/0.28)]",
-          "[--focus:var(--theme-ring)]",
-          "[--tab-shadow:inset_0_1px_0_hsl(var(--border)/0.18)]",
-          "[--tab-shadow-hover:inset_0_1px_0_hsl(var(--border)/0.24)]",
-          "[--tab-shadow-active:inset_0_1px_0_hsl(var(--border)/0.3)]",
-        );
+    : "[--focus:var(--theme-ring)]";
 
   const containerClasses = cn(
     "inline-flex max-w-full items-center overflow-x-auto",
@@ -213,7 +206,7 @@ export default function TabBar<
     ? "bg-[var(--neo-tab-bg)] shadow-[var(--shadow-raised)] hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] active:shadow-[var(--shadow-inset)] data-[active=true]:shadow-[var(--shadow-inset)] data-[active=true]:hover:shadow-[var(--shadow-inset)] data-[active=true]:active:shadow-[var(--shadow-inset)] data-[active=true]:ring-1 data-[active=true]:ring-ring/60"
     : isGlitch
       ? ""
-      : "shadow-[var(--tab-shadow)] hover:shadow-[var(--tab-shadow-hover,var(--tab-shadow))] active:shadow-[var(--tab-shadow-active,var(--tab-shadow-hover,var(--tab-shadow)))] data-[active=true]:shadow-ring data-[active=true]:hover:shadow-ring data-[active=true]:active:shadow-ring";
+      : styles.defaultTab;
 
   return (
     <div className={cn("relative w-full", className)}>
@@ -232,7 +225,7 @@ export default function TabBar<
           aria-orientation="horizontal"
           onKeyDown={onKeyDown}
           data-variant={variant}
-          className={cn(containerClasses, neoVariantClassName)}
+          className={cn(containerClasses, neoVariantClassName, defaultVariantClassName)}
         >
           {items.map((item) => {
             const active = item.key === activeKey;
@@ -305,6 +298,8 @@ export default function TabBar<
               tabIndex: isDisabled ? -1 : active ? 0 : -1,
               "data-active": active || undefined,
               "data-loading": isLoading || undefined,
+              "data-disabled": isDisabled || undefined,
+              "data-variant": variant,
               className: baseClass,
               onClick: (event) => {
                 if (isDisabled) {
