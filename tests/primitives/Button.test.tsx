@@ -6,6 +6,8 @@ import {
   type ButtonSize,
 } from "../../src/components/ui/primitives/Button";
 import fs from "fs";
+import DepthThemeProvider from "../../src/lib/depth-theme-context";
+import styles from "../../src/components/ui/primitives/Button.module.css";
 
 afterEach(cleanup);
 
@@ -170,5 +172,21 @@ describe("Button", () => {
     );
 
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("omits organic depth styles when the flag is disabled", () => {
+    const { getByRole } = render(<Button>Classic button</Button>);
+
+    expect(getByRole("button")).not.toHaveClass(styles.organicControl);
+  });
+
+  it("applies organic depth styles when the flag is enabled", () => {
+    const { getByRole } = render(
+      <DepthThemeProvider enabled={false} organicDepthEnabled>
+        <Button>Organic button</Button>
+      </DepthThemeProvider>,
+    );
+
+    expect(getByRole("button")).toHaveClass(styles.organicControl);
   });
 });
