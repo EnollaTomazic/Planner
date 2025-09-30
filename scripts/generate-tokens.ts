@@ -298,9 +298,9 @@ async function buildTokens(): Promise<void> {
     "shadow-inner-lg":
       "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)",
     "shadow-outer-sm":
-      "0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.24)",
+      "0 calc(var(--neo-depth-sm) * 2) var(--neo-depth-lg) hsl(var(--shadow-color) / 0.24)",
     "shadow-outer-md":
-      "0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.3)",
+      "0 var(--neo-depth-md) calc(var(--neo-depth-lg) * 2) hsl(var(--shadow-color) / 0.3)",
     "shadow-outer-lg":
       "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36)",
     "shadow-outer-xl":

@@ -301,9 +301,9 @@ export default {
   gridAlpha: "0.1",
   gridSize: "calc(var(--space-6) - var(--space-1))",
   shadowOuterSm:
-    "0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.24)",
+    "0 calc(var(--neo-depth-sm) * 2) var(--neo-depth-lg) hsl(var(--shadow-color) / 0.24)",
   shadowOuterMd:
-    "0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.3)",
+    "0 var(--neo-depth-md) calc(var(--neo-depth-lg) * 2) hsl(var(--shadow-color) / 0.3)",
   cardElev1: "var(--shadow-outline-faint), var(--shadow-outer-sm)",
   cardElev2: "var(--shadow-outline-subtle), var(--shadow-outer-md)",
   cardElev3: "var(--shadow-outline-subtle), var(--shadow-outer-lg)",

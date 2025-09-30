@@ -319,8 +319,8 @@
   --grid-color: var(--accent);
   --grid-alpha: 0.1;
   --grid-size: calc(var(--space-6) - var(--space-1));
-  --shadow-outer-sm: 0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.24);
-  --shadow-outer-md: 0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.3);
+  --shadow-outer-sm: 0 calc(var(--neo-depth-sm) * 2) var(--neo-depth-lg) hsl(var(--shadow-color) / 0.24);
+  --shadow-outer-md: 0 var(--neo-depth-md) calc(var(--neo-depth-lg) * 2) hsl(var(--shadow-color) / 0.3);
   --card-elev-1: var(--shadow-outline-faint), var(--shadow-outer-sm);
   --card-elev-2: var(--shadow-outline-subtle), var(--shadow-outer-md);
   --card-elev-3: var(--shadow-outline-subtle), var(--shadow-outer-lg);
