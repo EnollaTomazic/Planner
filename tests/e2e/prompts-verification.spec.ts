@@ -4,7 +4,7 @@ import { rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
-import { test } from "@playwright/test";
+import { test } from "./playwright";
 
 const execFileAsync = promisify(execFile);
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
