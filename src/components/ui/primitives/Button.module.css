@@ -1,21 +1,27 @@
 .root {
-  --btn-primary-shadow-rest: 0 0 calc(var(--space-4) / 2) var(--glow-active);
-  --btn-primary-shadow-hover: 0 0 var(--space-4) var(--glow-active);
+  --btn-depth-sm: var(--neo-depth-sm);
+  --btn-depth-md: var(--neo-depth-md);
+  --btn-depth-lg: var(--neo-depth-lg);
+  --btn-primary-shadow-rest: 0 0 calc(var(--btn-depth-lg) * 1.1)
+    var(--glow-active);
+  --btn-primary-shadow-hover: 0 0 calc(var(--btn-depth-lg) * 1.6)
+    var(--glow-active);
   --btn-primary-shadow-active: var(--btn-primary-active-shadow);
-  --btn-secondary-shadow-rest: var(--space-3) var(--space-3) var(--space-5)
+  --btn-secondary-shadow-rest: var(--btn-depth-md) var(--btn-depth-md)
+      calc(var(--btn-depth-lg) * 1.5) hsl(var(--panel) / 0.72),
+    calc(var(--btn-depth-md) * -1) calc(var(--btn-depth-md) * -1)
+      calc(var(--btn-depth-lg) * 1.5) hsl(var(--foreground) / 0.06);
+  --btn-secondary-shadow-hover: calc(var(--btn-depth-md) * 1.5)
+      calc(var(--btn-depth-md) * 1.5) calc(var(--btn-depth-lg) * 1.9)
       hsl(var(--panel) / 0.72),
-    calc(var(--space-3) * -1) calc(var(--space-3) * -1) var(--space-5)
-      hsl(var(--foreground) / 0.06);
-  --btn-secondary-shadow-hover: calc(var(--space-1) * 3.75)
-      calc(var(--space-1) * 3.75) calc(var(--space-1) * 7.5)
-      hsl(var(--panel) / 0.72),
-    calc(var(--space-1) * -3.75) calc(var(--space-1) * -3.75)
-      calc(var(--space-1) * 7.5) hsl(var(--foreground) / 0.06);
-  --btn-secondary-shadow-active: inset calc(var(--space-1) * 1.5)
-      calc(var(--space-1) * 1.5) calc(var(--space-1) * 3.5)
+    calc(var(--btn-depth-md) * -1.5) calc(var(--btn-depth-md) * -1.5)
+      calc(var(--btn-depth-lg) * 1.9) hsl(var(--foreground) / 0.06);
+  --btn-secondary-shadow-active: inset calc(var(--btn-depth-sm) * 1.5)
+      calc(var(--btn-depth-sm) * 1.5) calc(var(--btn-depth-lg) * 1.35)
       hsl(var(--panel) / 0.85),
-    inset calc(var(--space-1) * -1.5) calc(var(--space-1) * -1.5)
-      calc(var(--space-1) * 3.5) hsl(var(--foreground) / 0.08);
+    inset calc(var(--btn-depth-sm) * -1.5)
+      calc(var(--btn-depth-sm) * -1.5) calc(var(--btn-depth-lg) * 1.35)
+      hsl(var(--foreground) / 0.08);
 }
 
 .root[data-tone="primary"] {
@@ -68,6 +74,31 @@
     inset 0 calc(-1 * var(--spacing-0-5)) var(--space-2)
       hsl(var(--button-tone) / 0.28),
     0 0 0 var(--spacing-0-5) hsl(var(--button-tone) / 0.45);
+}
+
+.organicControl {
+  border-radius: calc(var(--control-radius) * 1.04)
+      calc(var(--control-radius) * 0.96)
+      calc(var(--control-radius) * 1.08)
+      calc(var(--control-radius) * 0.92)
+    /
+      calc(var(--control-radius) * 0.9)
+      calc(var(--control-radius) * 1.12)
+      calc(var(--control-radius) * 0.95)
+      calc(var(--control-radius) * 1.05) !important;
+}
+
+.glitch {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  --glitch-overlay-opacity: 0.42;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch {
+    --glitch-overlay-opacity: 0.28;
+  }
 }
 
 .root[data-variant="secondary"][data-tactile="true"] {

@@ -46,6 +46,7 @@ export type IconButtonProps =
       variant?: Variant;
       loading?: boolean;
       children?: React.ReactNode;
+      glitch?: boolean;
     };
 
 const iconMap: Record<Icon, string> = {
@@ -191,6 +192,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       title,
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
+      glitch = false,
       ...rest
     },
     ref,
@@ -234,6 +236,15 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
 
     const variantClass = variantBase[variant](tone);
 
+    const glitchText = glitch
+      ? resolvedAriaLabel ?? normalizedTitle ?? undefined
+      : resolvedAriaLabel ?? normalizedTitle ?? undefined;
+
+    const domProps = { ...rest } as Record<string, unknown>;
+    if ("data-text" in domProps) {
+      delete domProps["data-text"];
+    }
+
     return (
       <motion.button
         ref={ref}
@@ -242,6 +253,8 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           neumorphicStyles.neu,
           neumorphicStyles["neu-hover"],
           styles.root,
+          glitch && "glitch-wrapper",
+          glitch && styles.glitch,
           "inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
           "[--neu-radius:var(--radius-full)]",
           variantClass,
@@ -253,13 +266,15 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         data-loading={loading}
         data-variant={variant}
         data-tone={tone}
+        data-glitch={glitch ? "true" : undefined}
+        data-text={glitch ? glitchText : undefined}
         disabled={disabled || loading}
         whileHover={reduceMotion ? undefined : { scale: 1.05 }}
         whileTap={reduceMotion ? undefined : { scale: 0.95 }}
         aria-label={resolvedAriaLabel}
         aria-labelledby={normalizedAriaLabelledBy}
         title={normalizedTitle}
-        {...rest}
+        {...(domProps as typeof rest)}
       >
         {children}
       </motion.button>

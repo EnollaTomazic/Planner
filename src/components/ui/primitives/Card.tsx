@@ -1,22 +1,32 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
+import styles from "./Card.module.css";
+
+export type CardDepth = "base" | "raised" | "sunken";
 
 export type CardProps = React.HTMLAttributes<HTMLDivElement> & {
   asChild?: boolean;
+  depth?: CardDepth;
+  glitch?: boolean;
 };
 
 const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
-  ({ className, asChild = false, ...props }, ref) => {
+  ({ className, asChild = false, depth = "base", glitch = false, ...props }, ref) => {
     const Component = asChild ? Slot : "div";
 
     return (
       <Component
         ref={ref}
         className={cn(
-          "rounded-card r-card-lg p-[var(--space-4)] border border-border/25 bg-card/60 text-card-foreground shadow-outline-subtle",
+          styles.root,
+          glitch && "glitch-wrapper",
+          glitch && styles.glitch,
+          "rounded-card r-card-lg p-[var(--space-4)] border border-card-hairline/60 bg-card/60 text-card-foreground",
           className,
         )}
+        data-depth={depth}
+        data-glitch={glitch ? "true" : undefined}
         {...props}
       />
     );
