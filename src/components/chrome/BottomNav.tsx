@@ -42,7 +42,7 @@ export default function BottomNav({
     >
       <nav
         role="navigation"
-        aria-label="Primary mobile navigation"
+        aria-label="Primary"
         className={cn(
           "relative isolate mx-auto w-full max-w-2xl",
           "rounded-card r-card-lg card-neo-soft shadow-neo-strong",
