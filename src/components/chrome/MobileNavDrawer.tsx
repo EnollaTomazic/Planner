@@ -7,7 +7,12 @@ import { X } from "lucide-react";
 import Sheet from "@/components/ui/Sheet";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { cn, withoutBasePath } from "@/lib/utils";
-import { NAV_ITEMS, type NavItem, isNavActive } from "./nav-items";
+import {
+  NAV_ITEMS,
+  type NavItem,
+  isNavActive,
+  PRIMARY_NAV_LABEL,
+} from "@/config/nav";
 
 function useMediaQuery(query: string) {
   const getMatches = React.useCallback(() => {
@@ -99,7 +104,7 @@ export default function MobileNavDrawer({
         </div>
         <nav
           role="navigation"
-          aria-label="Primary mobile navigation"
+          aria-label={PRIMARY_NAV_LABEL}
           id={id}
           className="px-[var(--space-2)]"
         >
