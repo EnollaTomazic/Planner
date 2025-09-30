@@ -24,8 +24,93 @@ const DEPRECATED_TOKENS = new Set([
   "timer-ring-inset",
 ]);
 
+const REQUIRED_THEME_TOKEN_GROUPS = {
+  depth: [
+    "neo-depth-sm",
+    "neo-depth-md",
+    "neo-depth-lg",
+    "neo-surface",
+    "neo-surface-alt",
+    "neo-highlight",
+    "depth-shadow-outer",
+    "depth-shadow-outer-strong",
+    "depth-shadow-soft",
+    "depth-shadow-inner",
+    "depth-glow-highlight-soft",
+    "depth-glow-highlight-medium",
+    "depth-glow-highlight-strong",
+    "depth-glow-shadow-soft",
+    "depth-glow-shadow-medium",
+    "depth-glow-shadow-strong",
+    "depth-focus-ring-rest",
+    "depth-focus-ring-active",
+  ],
+  organicBackdrop: [
+    "backdrop-blob-1",
+    "backdrop-blob-2",
+    "backdrop-blob-3",
+    "backdrop-blob-shadow",
+    "backdrop-grid-primary",
+    "backdrop-grid-secondary",
+    "backdrop-grid-opacity",
+    "backdrop-drip-1",
+    "backdrop-drip-2",
+    "backdrop-drip-3",
+    "backdrop-drip-shadow",
+    "blob-surface-1",
+    "blob-surface-2",
+    "blob-surface-3",
+    "blob-surface-shadow",
+  ],
+  glitch: [
+    "neo-glow-strength",
+    "neon-outline-opacity",
+    "glitch-intensity",
+    "glitch-duration",
+    "glitch-fringe",
+    "glitch-static-opacity",
+    "glitch-noise-level",
+    "glitch-overlay-button-opacity",
+    "glitch-overlay-button-opacity-reduced",
+    "glitch-chromatic-offset-strong",
+    "glitch-chromatic-offset-medium",
+    "glitch-chromatic-offset-light",
+    "glitch-halo-opacity",
+    "glitch-ring-color",
+    "glitch-ring-blur",
+    "glitch-ring-shadow",
+    "glitch-accent-color",
+    "glitch-accent-blur",
+    "glitch-accent-shadow",
+    "glitch-noise-primary",
+    "glitch-noise-secondary",
+    "glitch-noise-contrast",
+  ],
+} as const;
+
 const isDeprecatedToken = (name: string): boolean =>
   DEPRECATED_TOKENS.has(name);
+
+function assertRequiredThemeTokens(
+  palette: Record<string, { value: string }>,
+): void {
+  const missingByGroup = Object.entries(REQUIRED_THEME_TOKEN_GROUPS).flatMap(
+    ([group, tokens]) =>
+      tokens
+        .filter((token) => !palette[token])
+        .map((token) => `${group}: ${token}`),
+  );
+
+  if (missingByGroup.length > 0) {
+    throw new Error(
+      [
+        "Missing theme token coverage for:",
+        ...missingByGroup.map((entry) => `- ${entry}`),
+        "Update src/app/themes.css or scripts/generate-tokens.ts to keep the token pipeline in sync.",
+      ].join("\n"),
+    );
+  }
+}
 
 StyleDictionary.registerFormat({
   name: "tokens/markdown",
@@ -275,6 +360,8 @@ async function buildTokens(): Promise<void> {
     "inset 0 var(--spacing-1) var(--spacing-2) 0 color-mix(in oklab, hsl(var(--shadow-color)) 18%, hsl(var(--background)) 82%),\n" +
     "    var(--shadow-outline-subtle)";
   colors["shadow-control"] = { value: controlShadowBase };
+
+  assertRequiredThemeTokens(colors);
 
   const sd = new StyleDictionary({
     tokens: {
