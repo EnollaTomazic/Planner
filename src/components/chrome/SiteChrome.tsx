@@ -11,6 +11,7 @@ import { PageShell } from "@/components/ui";
 import Link from "next/link";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { Menu } from "lucide-react";
+import Toolbar from "@/components/chrome/Toolbar";
 
 export type SiteChromeProps = {
   children?: React.ReactNode;
@@ -83,22 +84,12 @@ export default function SiteChrome({ children }: SiteChromeProps) {
                 <Menu aria-hidden="true" className="size-[calc(var(--control-h-md)/2)]" />
               </IconButton>
             </div>
-            <div
-              role="region"
-              aria-label="Display controls"
-              className="rounded-full bg-surface/70 px-[var(--space-2)] py-[var(--space-1)] shadow-[var(--shadow-glow-sm)] backdrop-blur"
-            >
-              <div
-                role="toolbar"
-                aria-label="Display controls"
-                className="inline-flex items-center gap-[var(--space-1)]"
-              >
-                <ThemeToggle className="shrink-0" />
-                <div className="shrink-0">
-                  <AnimationToggle />
-                </div>
+            <Toolbar label="Display controls">
+              <ThemeToggle className="shrink-0" />
+              <div className="shrink-0">
+                <AnimationToggle />
               </div>
-            </div>
+            </Toolbar>
           </div>
           <MobileNavDrawer
             id={navId}

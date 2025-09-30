@@ -99,6 +99,21 @@ const SearchFieldState: React.FC = () => {
   );
 };
 
+const GlitchFieldState: React.FC = () => (
+  <Field.Root
+    glitch
+    glitchText="Player lookup"
+    helper="Overlay pulls from accent + ring tokens"
+    helperId="field-glitch-helper"
+  >
+    <Field.Input
+      aria-describedby="field-glitch-helper"
+      placeholder="Glitch overlay"
+      indent
+    />
+  </Field.Root>
+);
+
 const FIELD_STATES: readonly FieldStateSpec[] = [
   {
     id: "default",
@@ -200,14 +215,33 @@ const FIELD_STATES: readonly FieldStateSpec[] = [
   />
 </Field.Root>`,
   },
+  {
+    id: "glitch",
+    name: "Glitch overlay",
+    Component: GlitchFieldState,
+    code: `<Field.Root glitch glitchText="Player lookup" helper="Overlay pulls from accent + ring tokens" helperId="field-glitch-helper">\n  <Field.Input aria-describedby="field-glitch-helper" placeholder="Glitch overlay" indent />\n</Field.Root>`,
+  },
 ];
 
 function FieldGalleryPreview() {
   return (
     <div className="flex flex-col gap-[var(--space-3)]">
-      {FIELD_STATES.map(({ id, Component }) => (
-        <Component key={id} />
-      ))}
+      {FIELD_STATES.filter((state) => state.id !== "glitch").map(
+        ({ id, Component }) => (
+          <Component key={id} />
+        ),
+      )}
+      <div className="space-y-[var(--space-1)]">
+        <GlitchFieldState />
+        <p className="text-caption text-muted-foreground">
+          Glitch fields default to{" "}
+          <code className="mx-[var(--space-1)]">
+            --glitch-overlay-button-opacity-reduced
+          </code>
+          so Noir and Hardstuck keep helper/counter copy legible while the
+          chroma noise animates.
+        </p>
+      </div>
     </div>
   );
 }
@@ -236,7 +270,13 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: FIELD_STATES.map(({ name }) => ({ value: name })),
+          values: FIELD_STATES.map(({ name, id }) => ({
+            value: name,
+            description:
+              id === "glitch"
+                ? "Glitch overlay rides reduced opacity + hue tokens to keep helper/counter text readable in Noir + Hardstuck."
+                : undefined,
+          })),
         },
       ],
       preview: createGalleryPreview({
