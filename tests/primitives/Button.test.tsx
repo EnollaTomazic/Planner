@@ -134,6 +134,25 @@ describe("Button", () => {
     expect(source).toContain("glitch-noise-level");
   });
 
+  it("captures the neumorphic depth token bundle", () => {
+    const neuModule = fs.readFileSync(
+      "src/components/ui/neumorphic.module.css",
+      "utf8",
+    );
+
+    expect(neuModule).toContain("--depth-shadow-outer");
+    expect(neuModule).toContain("--depth-shadow-inner");
+    expect(neuModule).toContain("--depth-shadow-outer-strong");
+
+    const buttonSource = fs.readFileSync(
+      "src/components/ui/primitives/Button.tsx",
+      "utf8",
+    );
+
+    expect(buttonSource).toContain("data-tactile");
+    expect(buttonSource).toContain("[--neu-surface:hsl(var(--panel)/0.8)]");
+  });
+
   it("defines button glitch overlay tokens in theme bundle", () => {
     const themeCss = fs.readFileSync("src/app/themes.css", "utf8");
 

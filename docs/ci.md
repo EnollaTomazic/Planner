@@ -29,6 +29,7 @@ This project standardises Node-based automation through the reusable workflow de
 
 - `ci.yml` runs the prompt verifier (`npm run verify-prompts`), linting, the design token guard (`npm run lint:design`), type-checking, and unit tests before the dedicated `next-build` job creates the production `.next` output (with audit reporting and cached `.next/cache`). That single build artefact feeds both the accessibility suite and the Playwright E2E matrix so we avoid redundant compiles.
 - The accessibility job downloads the `next-build` artefact, verifies it before starting the server, and then exercises any tests tagged `@axe` (or the full suite when none are tagged).
+- Visual E2E coverage now captures per-theme snapshots for the depth-aware button and card previews alongside rerunning axe against those preview routes. Keep `npx playwright test` wired into CI so this job remains the source of truth for depth and theme regressions.
 - The `Deploy Pages` workflow builds the static export on pushes to `main`, verifying prompts before the export, uploading the artefact for traceability, and executing the [`actions/deploy-pages`](https://github.com/actions/deploy-pages) step to publish the site.
 
 ## Prompt verification modes

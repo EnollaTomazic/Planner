@@ -4,6 +4,14 @@ import path from "path";
 import { test, expect } from "./playwright";
 import AxeBuilder from "@axe-core/playwright";
 
+import {
+  buildPreviewRouteUrl,
+  createThemedUrl,
+  getDepthPreviewRoutes,
+} from "./utils/previewRoutes";
+
+const depthPreviewRoutes = getDepthPreviewRoutes();
+
 test.describe("Accessibility", () => {
   test("@axe home page has no detectable accessibility violations", async ({ page }) => {
     await page.goto("/");
@@ -32,5 +40,27 @@ test.describe("Accessibility", () => {
     const results = await new AxeBuilder({ page }).analyze();
 
     expect(results.violations).toEqual([]);
+  });
+
+  test("@axe depth preview routes remain accessible", async ({ page }) => {
+    for (const route of depthPreviewRoutes) {
+      const { url } = buildPreviewRouteUrl(route);
+      const themedUrl = createThemedUrl(
+        url,
+        route.themeVariant,
+        route.themeBackground,
+      );
+
+      await page.goto(themedUrl);
+      await page.waitForLoadState("networkidle");
+      await page.waitForSelector('[data-preview-ready="loaded"]');
+      await page.waitForFunction(
+        () => !document.body.innerText.includes("Loading preview…"),
+      );
+
+      const results = await new AxeBuilder({ page }).analyze();
+
+      expect(results.violations).toEqual([]);
+    }
   });
 });
