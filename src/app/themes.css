@@ -1128,9 +1128,9 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
   --grid-stroke: hsl(var(--grid-color));
   --grid-mask: radial-gradient(
     circle at center,
-    rgba(0, 0, 0, 0.95) 0%,
-    rgba(0, 0, 0, 0.6) 48%,
-    rgba(0, 0, 0, 0) 78%
+    hsl(var(--shadow-color) / 0.95) 0%,
+    hsl(var(--shadow-color) / 0.6) 48%,
+    hsl(var(--shadow-color) / 0) 78%
   );
   background-image:
     linear-gradient(
