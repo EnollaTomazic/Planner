@@ -60,6 +60,16 @@ const INPUT_STATES: readonly InputStateSpec[] = [
     props: { placeholder: "Custom ring", ringTone: "danger" },
     code: "<Input placeholder=\"Custom ring\" ringTone=\"danger\" />",
   },
+  {
+    id: "glitch",
+    name: "Glitch overlay",
+    props: {
+      placeholder: "Glitch overlay",
+      glitch: true,
+      glitchText: "Summoner search",
+    },
+    code: `<Input glitch glitchText="Summoner search" placeholder="Glitch overlay" />`,
+  },
 ];
 
 function InputStatePreview({ state }: { state: InputStateSpec }) {
@@ -68,11 +78,27 @@ function InputStatePreview({ state }: { state: InputStateSpec }) {
 }
 
 function InputGalleryPreview() {
+  const glitchState = INPUT_STATES.find((state) => state.id === "glitch");
+  const standardStates = INPUT_STATES.filter((state) => state.id !== "glitch");
+
   return (
     <div className="flex flex-col gap-[var(--space-2)]">
-      {INPUT_STATES.map((state) => (
+      {standardStates.map((state) => (
         <InputStatePreview key={state.id} state={state} />
       ))}
+      {glitchState ? (
+        <div className="space-y-[var(--space-1)]">
+          <InputStatePreview state={glitchState} />
+          <p className="text-caption text-muted-foreground">
+            Field shells use{" "}
+            <code className="mx-[var(--space-1)]">
+              --glitch-overlay-button-opacity-reduced
+            </code>
+            so Noir and Hardstuck maintain ≥4.5:1 placeholder contrast while the
+            overlay animates.
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -102,7 +128,13 @@ export default defineGallerySection({
           id: "state",
           label: "State",
           type: "state",
-          values: INPUT_STATES.map(({ name }) => ({ value: name })),
+          values: INPUT_STATES.map(({ name, id }) => ({
+            value: name,
+            description:
+              id === "glitch"
+                ? "Glitch overlay inherits Field's reduced opacity token so Noir + Hardstuck stay above 4.5:1."
+                : undefined,
+          })),
         },
       ],
       preview: createGalleryPreview({

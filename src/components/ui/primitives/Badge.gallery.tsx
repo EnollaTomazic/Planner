@@ -52,6 +52,11 @@ function BadgeGalleryPreview() {
           </Badge>
         ))}
       </div>
+      <p className="text-caption text-muted-foreground">
+        Glitch rail tokens hue-shift per theme; Noir + Hardstuck clamp the
+        overlay alpha so these role badges keep ≥3:1 text contrast across the
+        noise.
+      </p>
     </div>
   );
 }
@@ -114,6 +119,11 @@ export default defineGallerySection({
             { value: "Interactive" },
             { value: "Selected" },
             { value: "Disabled" },
+            {
+              value: "Glitch overlay",
+              description:
+                "Glitch rail uses theme hue/alpha clamps so Noir + Hardstuck preserve ≥3:1 text contrast.",
+            },
           ],
         },
       ],
