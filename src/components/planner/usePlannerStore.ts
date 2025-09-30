@@ -113,6 +113,9 @@ export function usePlannerStore() {
 
   const upsertDay = React.useCallback(
     (date: ISODate, fn: (d: DayRecord) => DayRecord) => {
+      if (date === FOCUS_PLACEHOLDER) {
+        return;
+      }
       applyDaysUpdate(
         (prev) => {
           const base = ensureDay(prev, date);
@@ -132,6 +135,9 @@ export function usePlannerStore() {
 
   const setDay = React.useCallback(
     (date: ISODate, next: DayRecord) => {
+      if (date === FOCUS_PLACEHOLDER) {
+        return;
+      }
       applyDaysUpdate((prev) => ({ ...prev, [date]: next }), date);
     },
     [applyDaysUpdate],

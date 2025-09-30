@@ -16,6 +16,7 @@ import {
   usePlannerStore,
   useDay,
   type DayRecord,
+  FOCUS_PLACEHOLDER,
 } from "@/components/planner";
 
 describe("UsePlannerStore", () => {
@@ -194,6 +195,31 @@ describe("UsePlannerStore", () => {
       result.current.removeProject(projectId);
     });
     expectUntouched();
+  });
+
+  it("ignores planner mutations when target iso is placeholder", () => {
+    const { result } = renderHook(() => usePlannerStore(), { wrapper });
+
+    const newDay: DayRecord = {
+      projects: [
+        { id: "placeholder", name: "Blocked", done: false, createdAt: 1 },
+      ],
+      tasks: [],
+      tasksById: {},
+      tasksByProject: {},
+      doneCount: 0,
+      totalCount: 0,
+    };
+
+    act(() => {
+      result.current.upsertDay(FOCUS_PLACEHOLDER, (day) => ({
+        ...day,
+        projects: newDay.projects,
+      }));
+      result.current.setDay(FOCUS_PLACEHOLDER, newDay);
+    });
+
+    expect(result.current.days[FOCUS_PLACEHOLDER]).toBeUndefined();
   });
 
   it("provides day-scoped utilities via useDay", () => {
