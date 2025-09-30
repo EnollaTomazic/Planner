@@ -76,7 +76,7 @@
 }
 
 .root[data-tone="danger"] {
-  --ni-color: hsl(var(--destructive));
+  --ni-color: hsl(var(--danger));
 }
 
 .root[data-tone="info"] {
