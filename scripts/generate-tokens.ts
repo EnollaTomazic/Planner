@@ -57,6 +57,39 @@ async function loadBaseColors(): Promise<Record<string, { value: string }>> {
   return colors;
 }
 
+function stripSupportsBlocks(css: string): string {
+  let result = "";
+  for (let index = 0; index < css.length; ) {
+    if (css.startsWith("@supports", index)) {
+      const openIndex = css.indexOf("{", index);
+      if (openIndex === -1) {
+        result += css.slice(index);
+        break;
+      }
+      let depth = 0;
+      let cursor = openIndex;
+      while (cursor < css.length) {
+        const char = css[cursor];
+        if (char === "{") {
+          depth += 1;
+        } else if (char === "}") {
+          depth -= 1;
+          if (depth === 0) {
+            cursor += 1;
+            break;
+          }
+        }
+        cursor += 1;
+      }
+      index = cursor;
+    } else {
+      result += css[index];
+      index += 1;
+    }
+  }
+  return result;
+}
+
 async function buildTokens(): Promise<void> {
   const spacing = spacingTokens.reduce<Record<string, { value: string }>>(
     (acc, val, idx) => {
@@ -127,8 +160,13 @@ async function buildTokens(): Promise<void> {
   const colors: Record<string, { value: string }> = await loadBaseColors();
   const themePath = path.resolve(__dirname, "../src/app/themes.css");
   const themeCss = await fs.readFile(themePath, "utf8");
-  const themeRoot = themeCss.match(/:root\s*{([^}]*)}/);
-  const themeBase = themeRoot ? themeRoot[1] : themeCss;
+  const themeSegment = stripSupportsBlocks(themeCss);
+  const rootBlocks = Array.from(
+    themeSegment.matchAll(/:root\s*{([\s\S]*?)}/g),
+    (match) => match[1],
+  );
+  const themeBase =
+    rootBlocks.length > 0 ? rootBlocks.join("\n") : themeSegment;
   let match: RegExpExecArray | null;
   while ((match = colorRegex.exec(themeBase))) {
     const name = match[1];
