@@ -91,11 +91,11 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
 
     const slotWellSurface = cn(
       "group/hero-slot relative isolate flex w-full min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-lg border border-border/45 bg-card/70 px-[var(--space-4)] py-[var(--space-3)] text-foreground",
-      "[--neo-inset-shadow:var(--shadow-neo-inset)] neo-inset hero-focus transition-[box-shadow,transform] duration-chill ease-out",
+      "[--neo-inset-shadow:var(--depth-shadow-inner)] neo-inset hero-focus transition-[box-shadow,transform] duration-chill ease-out",
       "motion-reduce:transform-none motion-reduce:transition-none focus-within:ring-1 focus-within:ring-ring/60",
-      "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:content-[''] before:rounded-[inherit] before:bg-[radial-gradient(circle_at_top_left,hsl(var(--highlight)/0.35)_0%,transparent_62%)] before:opacity-70 before:mix-blend-screen",
-      "after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-[''] after:rounded-[inherit] after:translate-x-[calc(var(--space-1)/2)] after:translate-y-[calc(var(--space-1)/2)] after:bg-[radial-gradient(circle_at_bottom_right,hsl(var(--shadow-color)/0.28)_0%,transparent_65%)] after:shadow-[var(--shadow-neo-soft)] after:opacity-65",
-      "hover:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-visible:[--neo-inset-shadow:var(--shadow-neo-soft)] focus-within:[--neo-inset-shadow:var(--shadow-neo-soft)]",
+      "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:content-[''] before:rounded-[inherit] before:bg-[radial-gradient(circle_at_top_left,var(--depth-glow-highlight-medium)_0%,transparent_62%)] before:opacity-70 before:mix-blend-screen",
+      "after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-[''] after:rounded-[inherit] after:translate-x-[calc(var(--space-1)/2)] after:translate-y-[calc(var(--space-1)/2)] after:bg-[radial-gradient(circle_at_bottom_right,var(--depth-glow-shadow-medium)_0%,transparent_65%)] after:shadow-[var(--hero-slot-shadow,var(--depth-shadow-soft))] after:opacity-65",
+      "hover:[--neo-inset-shadow:var(--depth-shadow-soft)] focus-visible:[--neo-inset-shadow:var(--depth-shadow-soft)] focus-within:[--neo-inset-shadow:var(--depth-shadow-soft)]",
       "hover:-translate-y-[var(--hairline-w)] focus-visible:-translate-y-[var(--hairline-w)] focus-within:-translate-y-[var(--hairline-w)]",
     );
 

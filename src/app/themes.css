@@ -289,6 +289,36 @@
   --neo-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%);
   --neo-surface-alt: color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%);
   --neo-highlight: color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)));
+  /* Depth shadows (outer/inner) */
+  --depth-shadow-outer: var(--shadow-neo);
+  --depth-shadow-outer-strong: var(--shadow-neo-strong);
+  --depth-shadow-soft: var(--shadow-neo-soft);
+  --depth-shadow-inner: var(--shadow-neo-inset);
+  /* Depth glow ramps */
+  --depth-glow-highlight-soft: hsl(var(--highlight) / 0.08);
+  --depth-glow-highlight-medium: hsl(var(--highlight) / 0.35);
+  --depth-glow-highlight-strong: hsl(var(--highlight) / 0.55);
+  --depth-glow-shadow-soft: hsl(var(--shadow-color) / 0.14);
+  --depth-glow-shadow-medium: hsl(var(--shadow-color) / 0.28);
+  --depth-glow-shadow-strong: hsl(var(--shadow-color) / 0.42);
+  --depth-focus-ring-rest:
+    0 0 0 0 hsl(var(--ring) / 0),
+    0 0 0 0 hsl(var(--ring) / 0);
+  --depth-focus-ring-active:
+    0 0 0 calc(var(--hairline-w) * 1) hsl(var(--ring))
+    var(--shadow-glow-lg);
+  /* Organic backdrops */
+  --backdrop-blob-1: var(--lg-violet);
+  --backdrop-blob-2: var(--lg-cyan);
+  --backdrop-blob-3: var(--lg-pink);
+  --backdrop-blob-shadow: var(--lg-black);
+  --backdrop-grid-primary: var(--accent);
+  --backdrop-grid-secondary: var(--accent);
+  --backdrop-grid-opacity: 0.1;
+  --backdrop-drip-1: var(--backdrop-blob-1);
+  --backdrop-drip-2: var(--backdrop-blob-2);
+  --backdrop-drip-3: var(--backdrop-blob-3);
+  --backdrop-drip-shadow: var(--backdrop-blob-shadow);
   /* Glow parity (retro-futurism) */
   /* neo-glow-strength multiplies --shadow-neon */
   --neo-glow-strength: 0.45;
@@ -302,6 +332,18 @@
   --glitch-fringe: 12deg;
   /* overlay alpha */
   --glitch-static-opacity: 0.18;
+  --glitch-noise-level: var(--glitch-static-opacity);
+  /* Chromatic separation offsets */
+  --glitch-chromatic-offset-strong: calc(var(--spacing-0-25) / 4);
+  --glitch-chromatic-offset-medium: calc(var(--spacing-0-25) * 3 / 20);
+  --glitch-chromatic-offset-light: calc(var(--spacing-0-25) / 10);
+  --glitch-halo-opacity: 0.28;
+  --glitch-ring-color: hsl(var(--ring) / 0.55);
+  --glitch-ring-blur: var(--space-2);
+  --glitch-ring-shadow: 0 0 var(--glitch-ring-blur) var(--glitch-ring-color);
+  --glitch-accent-color: hsl(var(--accent) / 0.35);
+  --glitch-accent-blur: var(--spacing-0-5);
+  --glitch-accent-shadow: 0 0 var(--glitch-accent-blur) var(--glitch-accent-color);
   /* Retro grid parity */
   --retro-grid-step: 24px;
   --retro-grid-opacity: 0.15;
@@ -412,6 +454,16 @@ html.theme-aurora {
   --aurora-p: var(--accent);
   --aurora-p-light: 272 80% 85%;
   --shadow-base: 280 32% 6%;
+  --backdrop-blob-1: var(--accent-2);
+  --backdrop-blob-2: var(--accent);
+  --backdrop-blob-3: var(--accent-2);
+  --backdrop-blob-shadow: var(--card);
+  --backdrop-grid-primary: var(--accent-2);
+  --backdrop-grid-secondary: var(--accent);
+  --backdrop-drip-1: var(--accent-2);
+  --backdrop-drip-2: var(--accent);
+  --backdrop-drip-3: var(--accent-2);
+  --backdrop-drip-shadow: var(--card);
   --edge-iris: conic-gradient(
     from 180deg,
     hsl(var(--accent-2) / 0),
@@ -459,6 +511,17 @@ html.theme-citrus {
   --success: 150 68% 46%;
   --success-glow: 150 68% 36% / 0.6;
   --citrus-teal: 168 72% 42%;
+  --backdrop-blob-1: var(--ring);
+  --backdrop-blob-2: var(--citrus-teal);
+  --backdrop-blob-3: var(--ring);
+  --backdrop-blob-shadow: var(--card);
+  --backdrop-grid-primary: var(--ring);
+  --backdrop-grid-secondary: var(--citrus-teal);
+  --backdrop-grid-opacity: 0.08;
+  --backdrop-drip-1: var(--ring);
+  --backdrop-drip-2: var(--citrus-teal);
+  --backdrop-drip-3: var(--ring);
+  --backdrop-drip-shadow: var(--card);
 }
 /* ---------- Noir ---------- */
 html.theme-noir {
@@ -493,6 +556,17 @@ html.theme-noir {
   --noir-rose: 352 68% 54%;
   --noir-ink: 352 80% 6%;
   --noir-ruby: 12 76% 46%;
+  --backdrop-blob-1: var(--noir-red);
+  --backdrop-blob-2: var(--noir-rose);
+  --backdrop-blob-3: var(--noir-ruby);
+  --backdrop-blob-shadow: var(--noir-ink);
+  --backdrop-grid-primary: var(--noir-red);
+  --backdrop-grid-secondary: var(--noir-red);
+  --backdrop-grid-opacity: 0.2;
+  --backdrop-drip-1: var(--noir-ink);
+  --backdrop-drip-2: var(--noir-red);
+  --backdrop-drip-3: var(--noir-ruby);
+  --backdrop-drip-shadow: var(--noir-ink);
 }
 /* ---------- Oceanic ---------- */
 html.theme-ocean {
@@ -525,6 +599,17 @@ html.theme-ocean {
   --success-glow: 158 72% 38% / 0.6;
   --ocean-cyan: 194 88% 52%;
   --ocean-indigo: 230 72% 62%;
+  --backdrop-blob-1: var(--ring);
+  --backdrop-blob-2: var(--ocean-cyan);
+  --backdrop-blob-3: var(--ocean-indigo);
+  --backdrop-blob-shadow: var(--card);
+  --backdrop-grid-primary: var(--ring);
+  --backdrop-grid-secondary: var(--ocean-indigo);
+  --backdrop-grid-opacity: 0.1;
+  --backdrop-drip-1: var(--ring);
+  --backdrop-drip-2: var(--ocean-indigo);
+  --backdrop-drip-3: var(--success);
+  --backdrop-drip-shadow: var(--card);
 }
 /* ---------- Kitten ---------- */
 html.theme-kitten {
@@ -558,6 +643,17 @@ html.theme-kitten {
   --kitten-rose: 346 94% 42%;
   --kitten-pink: 342 96% 48%;
   --kitten-blush: 348 88% 88%;
+  --backdrop-blob-1: var(--kitten-rose);
+  --backdrop-blob-2: var(--kitten-pink);
+  --backdrop-blob-3: var(--kitten-blush);
+  --backdrop-blob-shadow: var(--card);
+  --backdrop-grid-primary: var(--kitten-rose);
+  --backdrop-grid-secondary: var(--kitten-pink);
+  --backdrop-grid-opacity: 0.1;
+  --backdrop-drip-1: var(--kitten-rose);
+  --backdrop-drip-2: var(--kitten-pink);
+  --backdrop-drip-3: var(--kitten-blush);
+  --backdrop-drip-shadow: var(--card);
 }
 /* ---------- Hardstuck ---------- */
 html.theme-hardstuck {
@@ -597,6 +693,17 @@ html.theme-hardstuck {
   --success-glow: 120 90% 42% / 0.6;
   --hardstuck-forest: 120 70% 42%;
   --hardstuck-deep: 120 82% 8%;
+  --backdrop-blob-1: var(--ring);
+  --backdrop-blob-2: var(--hardstuck-forest);
+  --backdrop-blob-3: var(--ring);
+  --backdrop-blob-shadow: var(--hardstuck-deep);
+  --backdrop-grid-primary: var(--ring);
+  --backdrop-grid-secondary: var(--ring);
+  --backdrop-grid-opacity: 0.2;
+  --backdrop-drip-1: var(--hardstuck-deep);
+  --backdrop-drip-2: var(--ring);
+  --backdrop-drip-3: var(--hardstuck-forest);
+  --backdrop-drip-shadow: var(--hardstuck-deep);
 }
 /* ---------- Retro ---------- */
 html.theme-retro {
@@ -646,6 +753,17 @@ html.theme-retro {
     0 var(--spacing-1) var(--spacing-5) hsl(var(--glow) / 0.45),
     0 var(--spacing-2) var(--spacing-7) hsl(var(--accent-2) / 0.32),
     0 var(--spacing-3) var(--spacing-8) hsl(var(--accent-3) / 0.24);
+  --backdrop-blob-1: var(--accent-3);
+  --backdrop-blob-2: var(--accent-2);
+  --backdrop-blob-3: var(--accent);
+  --backdrop-blob-shadow: var(--accent);
+  --backdrop-grid-primary: var(--accent-3);
+  --backdrop-grid-secondary: var(--accent-2);
+  --backdrop-grid-opacity: 0.18;
+  --backdrop-drip-1: var(--accent-3);
+  --backdrop-drip-2: var(--accent-2);
+  --backdrop-drip-3: var(--accent);
+  --backdrop-drip-shadow: var(--accent);
   --grid-lines:
     repeating-linear-gradient(
       90deg,
@@ -675,17 +793,17 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
   background-image:
     radial-gradient(
       1200px 700px at 18% -10%,
-      hsl(var(--lg-violet) / 0.16),
+      hsl(var(--backdrop-blob-1) / 0.16),
       transparent 60%
     ),
     radial-gradient(
       1100px 600px at 110% 18%,
-      hsl(var(--lg-cyan) / 0.14),
+      hsl(var(--backdrop-blob-2) / 0.14),
       transparent 60%
     ),
     radial-gradient(
       900px 480px at 50% 120%,
-      hsl(var(--lg-pink) / 0.1),
+      hsl(var(--backdrop-blob-3) / 0.1),
       transparent 65%
     );
   background-attachment: fixed, fixed, fixed;
@@ -701,16 +819,16 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.1;
+  opacity: var(--backdrop-grid-opacity);
   background:
     repeating-linear-gradient(
       90deg,
-      hsl(var(--accent)) 0 1px,
+      hsl(var(--backdrop-grid-primary)) 0 1px,
       transparent 1px 26px
     ),
     repeating-linear-gradient(
       0deg,
-      hsl(var(--accent)) 0 1px,
+      hsl(var(--backdrop-grid-secondary)) 0 1px,
       transparent 1px 26px
     );
   mix-blend-mode: screen;
@@ -730,22 +848,22 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
   background:
     radial-gradient(
       60% 40% at 10% 0%,
-      hsl(var(--lg-violet) / 0.2),
+      hsl(var(--backdrop-drip-1) / 0.2),
       transparent 60%
     ),
     radial-gradient(
       50% 35% at 100% 5%,
-      hsl(var(--lg-cyan) / 0.18),
+      hsl(var(--backdrop-drip-2) / 0.18),
       transparent 60%
     ),
     radial-gradient(
       55% 35% at 50% 120%,
-      hsl(var(--lg-pink) / 0.14),
+      hsl(var(--backdrop-drip-3) / 0.14),
       transparent 65%
     ),
     radial-gradient(
       120% 100% at 50% 100%,
-      hsl(var(--lg-black) / 0.35),
+      hsl(var(--backdrop-drip-shadow) / 0.35),
       transparent 70%
     );
   filter: blur(2px) saturate(110%);
@@ -756,7 +874,7 @@ html.theme-aurora body {
   background-image:
     radial-gradient(
       1000px 600px at 20% -10%,
-      hsl(var(--accent-2) / 0.2),
+      hsl(var(--backdrop-blob-1) / 0.2),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
@@ -773,9 +891,9 @@ html.theme-aurora body::before {
   z-index: 0;
   background: conic-gradient(
     from 0deg,
-    hsl(var(--aurora-g) / 0.4),
-    hsl(var(--aurora-p) / 0.4),
-    hsl(var(--aurora-g) / 0.4)
+    hsl(var(--backdrop-drip-1) / 0.4),
+    hsl(var(--backdrop-drip-2) / 0.4),
+    hsl(var(--backdrop-drip-1) / 0.4)
   );
   filter: blur(calc(var(--space-8) * 2)) saturate(150%);
 }
@@ -789,12 +907,12 @@ html.theme-citrus body {
   background-image:
     radial-gradient(
       1200px 700px at 20% -10%,
-      hsl(var(--ring) / 0.22),
+      hsl(var(--backdrop-blob-1) / 0.22),
       transparent 60%
     ),
     radial-gradient(
       1200px 600px at 120% 10%,
-      hsl(var(--citrus-teal) / 0.18),
+      hsl(var(--backdrop-blob-2) / 0.18),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
@@ -806,16 +924,16 @@ html.theme-citrus body::before {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.08;
+  opacity: var(--backdrop-grid-opacity);
   background:
     repeating-linear-gradient(
       90deg,
-      hsl(var(--ring) / 0.25) 0 1px,
+      hsl(var(--backdrop-grid-primary) / 0.25) 0 1px,
       transparent 1px 26px
     ),
     repeating-linear-gradient(
       0deg,
-      hsl(var(--citrus-teal) / 0.25) 0 1px,
+      hsl(var(--backdrop-grid-secondary) / 0.25) 0 1px,
       transparent 1px 26px
     );
   mix-blend-mode: screen;
@@ -830,17 +948,17 @@ html.theme-citrus body::after {
   background:
     radial-gradient(
       60% 40% at 12% -5%,
-      hsl(var(--ring) / 0.18),
+      hsl(var(--backdrop-drip-1) / 0.18),
       transparent 60%
     ),
     radial-gradient(
       50% 35% at 105% 10%,
-      hsl(var(--citrus-teal) / 0.16),
+      hsl(var(--backdrop-drip-2) / 0.16),
       transparent 60%
     ),
     radial-gradient(
       55% 35% at 50% 110%,
-      hsl(var(--ring) / 0.12),
+      hsl(var(--backdrop-drip-3) / 0.12),
       transparent 65%
     );
   filter: blur(2px) saturate(110%);
@@ -870,12 +988,12 @@ html.theme-noir body {
   background-image:
     radial-gradient(
       1000px 520px at 15% -10%,
-      hsl(var(--noir-red) / 0.15),
+      hsl(var(--backdrop-blob-1) / 0.15),
       transparent 60%
     ),
     radial-gradient(
       900px 520px at 110% 15%,
-      hsl(var(--noir-rose) / 0.12),
+      hsl(var(--backdrop-blob-2) / 0.12),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
@@ -889,11 +1007,11 @@ html.theme-noir body::before {
   z-index: 0;
   background: repeating-linear-gradient(
     0deg,
-    hsl(var(--noir-red) / 0.05) 0 1px,
+    hsl(var(--backdrop-grid-primary) / 0.05) 0 1px,
     transparent 1px 3px
   );
   mix-blend-mode: screen;
-  opacity: 0.2;
+  opacity: var(--backdrop-grid-opacity);
   animation: noir-scan 14s linear infinite;
 }
 html.theme-noir body::after {
@@ -905,17 +1023,17 @@ html.theme-noir body::after {
   background:
     radial-gradient(
       80% 60% at 50% 120%,
-      hsl(var(--noir-ink) / 0.45),
+      hsl(var(--backdrop-drip-1) / 0.45),
       transparent 70%
     ),
     radial-gradient(
       40% 25% at 6% 4%,
-      hsl(var(--noir-red) / 0.15),
+      hsl(var(--backdrop-drip-2) / 0.15),
       transparent 60%
     ),
     radial-gradient(
       40% 25% at 94% 10%,
-      hsl(var(--noir-ruby) / 0.12),
+      hsl(var(--backdrop-drip-3) / 0.12),
       transparent 60%
     );
   filter: blur(1.5px) saturate(110%);
@@ -943,12 +1061,12 @@ html.theme-ocean body {
   background-image:
     radial-gradient(
       1200px 700px at 12% -12%,
-      hsl(var(--ring) / 0.2),
+      hsl(var(--backdrop-blob-1) / 0.2),
       transparent 60%
     ),
     radial-gradient(
       1100px 600px at 108% 16%,
-      hsl(var(--ocean-cyan) / 0.16),
+      hsl(var(--backdrop-blob-2) / 0.16),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
@@ -963,16 +1081,16 @@ html.theme-ocean body::before {
   background:
     repeating-linear-gradient(
       90deg,
-      hsl(var(--ring) / 0.28) 0 1px,
+      hsl(var(--backdrop-grid-primary) / 0.28) 0 1px,
       transparent 1px 26px
     ),
     repeating-linear-gradient(
       0deg,
-      hsl(var(--ocean-indigo) / 0.22) 0 1px,
+      hsl(var(--backdrop-grid-secondary) / 0.22) 0 1px,
       transparent 1px 26px
     );
   mix-blend-mode: screen;
-  opacity: 0.1;
+  opacity: var(--backdrop-grid-opacity);
   animation: lg-grid-drift 20s linear infinite;
 }
 html.theme-ocean body::after {
@@ -984,17 +1102,17 @@ html.theme-ocean body::after {
   background:
     radial-gradient(
       60% 40% at 14% -6%,
-      hsl(var(--ring) / 0.18),
+      hsl(var(--backdrop-drip-1) / 0.18),
       transparent 60%
     ),
     radial-gradient(
       55% 35% at 50% 114%,
-      hsl(var(--ocean-indigo) / 0.12),
+      hsl(var(--backdrop-drip-2) / 0.12),
       transparent 65%
     ),
     radial-gradient(
       50% 35% at 102% 8%,
-      hsl(var(--success) / 0.1),
+      hsl(var(--backdrop-drip-3) / 0.1),
       transparent 60%
     );
   filter: blur(2px) saturate(112%);
@@ -1019,12 +1137,12 @@ html.theme-kitten body {
   background-image:
     radial-gradient(
       1100px 620px at 16% -8%,
-      hsl(var(--kitten-rose) / 0.2),
+      hsl(var(--backdrop-blob-1) / 0.2),
       transparent 60%
     ),
     radial-gradient(
       1000px 560px at 106% 14%,
-      hsl(var(--kitten-pink) / 0.16),
+      hsl(var(--backdrop-blob-2) / 0.16),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card) / 0.92), hsl(var(--background)));
@@ -1039,16 +1157,16 @@ html.theme-kitten body::before {
   background:
     repeating-linear-gradient(
       90deg,
-      hsl(var(--kitten-rose) / 0.3) 0 1px,
+      hsl(var(--backdrop-grid-primary) / 0.3) 0 1px,
       transparent 1px 26px
     ),
     repeating-linear-gradient(
       0deg,
-      hsl(var(--kitten-pink) / 0.26) 0 1px,
+      hsl(var(--backdrop-grid-secondary) / 0.26) 0 1px,
       transparent 1px 26px
     );
   mix-blend-mode: screen;
-  opacity: 0.1;
+  opacity: var(--backdrop-grid-opacity);
   animation: lg-grid-drift 18s linear infinite;
 }
 html.theme-kitten body::after {
@@ -1060,17 +1178,17 @@ html.theme-kitten body::after {
   background:
     radial-gradient(
       60% 40% at 12% -6%,
-      hsl(var(--kitten-rose) / 0.18),
+      hsl(var(--backdrop-drip-1) / 0.18),
       transparent 60%
     ),
     radial-gradient(
       55% 35% at 50% 116%,
-      hsl(var(--kitten-pink) / 0.12),
+      hsl(var(--backdrop-drip-2) / 0.12),
       transparent 65%
     ),
     radial-gradient(
       50% 35% at 100% 8%,
-      hsl(var(--kitten-blush) / 0.1),
+      hsl(var(--backdrop-drip-3) / 0.1),
       transparent 60%
     );
   filter: blur(2px) saturate(112%);
@@ -1089,12 +1207,12 @@ html.theme-hardstuck body {
   background-image:
     radial-gradient(
       1000px 520px at 20% -10%,
-      hsl(var(--ring) / 0.15),
+      hsl(var(--backdrop-blob-1) / 0.15),
       transparent 60%
     ),
     radial-gradient(
       900px 520px at 110% 15%,
-      hsl(var(--hardstuck-forest) / 0.12),
+      hsl(var(--backdrop-blob-2) / 0.12),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
@@ -1108,11 +1226,11 @@ html.theme-hardstuck body::before {
   z-index: 0;
   background: repeating-linear-gradient(
     0deg,
-    hsl(var(--ring) / 0.05) 0 1px,
+    hsl(var(--backdrop-grid-primary) / 0.05) 0 1px,
     transparent 1px 3px
   );
   mix-blend-mode: screen;
-  opacity: 0.2;
+  opacity: var(--backdrop-grid-opacity);
   animation: hardstuck-scan 14s linear infinite;
 }
 html.theme-hardstuck body::after {
@@ -1124,13 +1242,17 @@ html.theme-hardstuck body::after {
   background:
     radial-gradient(
       80% 60% at 50% 120%,
-      hsl(var(--hardstuck-deep) / 0.45),
+      hsl(var(--backdrop-drip-1) / 0.45),
       transparent 70%
     ),
-    radial-gradient(40% 25% at 6% 4%, hsl(var(--ring) / 0.15), transparent 60%),
+    radial-gradient(
+      40% 25% at 6% 4%,
+      hsl(var(--backdrop-drip-2) / 0.15),
+      transparent 60%
+    ),
     radial-gradient(
       40% 25% at 94% 10%,
-      hsl(var(--hardstuck-forest) / 0.12),
+      hsl(var(--backdrop-drip-3) / 0.12),
       transparent 60%
     );
   filter: blur(1.5px) saturate(110%);
@@ -1142,17 +1264,17 @@ html.theme-retro body {
   background-image:
     radial-gradient(
       1100px 640px at 18% -12%,
-      hsl(var(--accent-3) / 0.22),
+      hsl(var(--backdrop-blob-1) / 0.22),
       transparent 62%
     ),
     radial-gradient(
       1000px 560px at 108% 10%,
-      hsl(var(--accent-2) / 0.18),
+      hsl(var(--backdrop-blob-2) / 0.18),
       transparent 60%
     ),
     radial-gradient(
       1200px 760px at 50% 120%,
-      hsl(var(--accent) / 0.14),
+      hsl(var(--backdrop-blob-3) / 0.14),
       transparent 70%
     ),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
@@ -1178,17 +1300,17 @@ html.theme-retro body::after {
     var(--scan-lines),
     radial-gradient(
       65% 45% at 12% 0%,
-      hsl(var(--accent-3) / 0.28),
+      hsl(var(--backdrop-drip-1) / 0.28),
       transparent 62%
     ),
     radial-gradient(
       55% 38% at 88% 8%,
-      hsl(var(--accent-2) / 0.24),
+      hsl(var(--backdrop-drip-2) / 0.24),
       transparent 60%
     ),
     radial-gradient(
       70% 48% at 50% 115%,
-      hsl(var(--accent) / 0.2),
+      hsl(var(--backdrop-drip-3) / 0.2),
       transparent 72%
     );
   filter: blur(1.5px) saturate(115%);
@@ -1232,12 +1354,12 @@ html.bg-alt1 body {
   background-image:
     radial-gradient(
       1000px 600px at 10% -10%,
-      hsl(var(--accent) / 0.2),
+      hsl(var(--backdrop-blob-1) / 0.2),
       transparent 60%
     ),
     radial-gradient(
       900px 500px at 110% 20%,
-      hsl(var(--accent-2) / 0.18),
+      hsl(var(--backdrop-blob-2) / 0.18),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
@@ -1251,12 +1373,12 @@ html.bg-alt2 body {
   background-image:
     radial-gradient(
       1000px 600px at 50% 0%,
-      hsl(var(--primary) / 0.18),
+      hsl(var(--backdrop-blob-1) / 0.18),
       transparent 60%
     ),
     radial-gradient(
       900px 500px at 50% 120%,
-      hsl(var(--accent) / 0.16),
+      hsl(var(--backdrop-blob-3) / 0.16),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
@@ -1271,13 +1393,13 @@ html.bg-vhs body {
   background-image:
     radial-gradient(
       circle at 20% 30%,
-      hsl(var(--accent-2) / 0.15),
+      hsl(var(--backdrop-blob-2) / 0.15),
       transparent 60%
     ),
     repeating-linear-gradient(
       to bottom,
-      hsl(var(--accent-2) / 0.15),
-      hsl(var(--accent-2) / 0.15) 1px,
+      hsl(var(--backdrop-blob-2) / 0.15),
+      hsl(var(--backdrop-blob-2) / 0.15) 1px,
       transparent 1px,
       transparent 3px
     );
@@ -1292,13 +1414,13 @@ html.bg-streak body {
   background-image:
     radial-gradient(
       circle at 70% 40%,
-      hsl(var(--accent) / 0.25),
+      hsl(var(--backdrop-blob-3) / 0.25),
       transparent 40%
     ),
     repeating-linear-gradient(
       to right,
-      hsl(var(--accent) / 0.2),
-      hsl(var(--accent) / 0.2) 6px,
+      hsl(var(--backdrop-blob-3) / 0.2),
+      hsl(var(--backdrop-blob-3) / 0.2) 6px,
       transparent 6px,
       transparent 20px
     );
@@ -1367,11 +1489,11 @@ html.bg-intense body::after {
   pointer-events: none;
   background: conic-gradient(
     from 180deg,
-    hsl(var(--lg-violet) / 0),
-    hsl(var(--lg-violet) / 0.65),
-    hsl(var(--lg-cyan) / 0.65),
-    hsl(var(--lg-pink) / 0.65),
-    hsl(var(--lg-violet) / 0)
+    hsl(var(--backdrop-blob-1) / 0),
+    hsl(var(--backdrop-blob-1) / 0.65),
+    hsl(var(--backdrop-blob-2) / 0.65),
+    hsl(var(--backdrop-blob-3) / 0.65),
+    hsl(var(--backdrop-blob-1) / 0)
   );
   /* mask to only show the ring, not fill the card */
   -webkit-mask:
