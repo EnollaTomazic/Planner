@@ -4,10 +4,13 @@ import {
   galleryPreviewRoutes,
   type GalleryPreviewModuleManifest,
 } from "./generated-manifest";
-import type {
-  GalleryPreviewRenderer,
-  GalleryPreviewRoute,
-  GallerySection,
+import {
+  getGalleryEntryAxes,
+  type GalleryAxis,
+  type GalleryPreviewAxisParam,
+  type GalleryPreviewRenderer,
+  type GalleryPreviewRoute,
+  type GallerySection,
 } from "./registry";
 
 export { galleryPayload, galleryPreviewModules, galleryPreviewRoutes };
@@ -28,6 +31,135 @@ const previewRouteIndex = new Map<string, GalleryPreviewRoute>();
 for (const route of galleryPreviewRoutes) {
   previewRouteIndex.set(route.slug, route);
 }
+
+const stateOwnerIndex = new Map<string, string>();
+for (const route of galleryPreviewRoutes) {
+  if (!route.stateId) {
+    continue;
+  }
+  if (!stateOwnerIndex.has(route.stateId)) {
+    stateOwnerIndex.set(route.stateId, route.entryId);
+  }
+}
+
+const entryAxisCache = new Map<string, readonly GalleryAxis[]>();
+const axisSummaryCache = new Map<string, string>();
+const axisParamsCache = new Map<string, readonly GalleryPreviewAxisParam[]>();
+
+const resolveEntryIdForState = (
+  entryId: string,
+  stateId: string | null,
+): string => {
+  if (!stateId) {
+    return entryId;
+  }
+  return stateOwnerIndex.get(stateId) ?? entryId;
+};
+
+const getCachedEntryAxes = (entryId: string): readonly GalleryAxis[] => {
+  const cached = entryAxisCache.get(entryId);
+  if (cached) {
+    return cached;
+  }
+  const axes = getGalleryEntryAxes(galleryPayload, entryId);
+  entryAxisCache.set(entryId, axes);
+  return axes;
+};
+
+const normalizeAxisSlug = (value: string | null | undefined): string => {
+  if (!value) {
+    return "";
+  }
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s_-]/gu, "-")
+    .replace(/[\s_]+/gu, "-")
+    .replace(/-+/gu, "-")
+    .replace(/^-+|-+$/gu, "");
+};
+
+const getAxisParamsForEntry = (
+  entryId: string,
+): readonly GalleryPreviewAxisParam[] => {
+  if (axisParamsCache.has(entryId)) {
+    return axisParamsCache.get(entryId)!;
+  }
+
+  const params: GalleryPreviewAxisParam[] = [];
+  const keySet = new Set<string>();
+
+  for (const axis of getCachedEntryAxes(entryId)) {
+    if (axis.type !== "variant" && axis.type !== "state") {
+      continue;
+    }
+
+    const baseKey =
+      normalizeAxisSlug(axis.id) ||
+      normalizeAxisSlug(axis.label) ||
+      axis.type;
+
+    if (!baseKey) {
+      continue;
+    }
+
+    const key = `axis-${baseKey}`;
+    if (keySet.has(key)) {
+      continue;
+    }
+    keySet.add(key);
+
+    const seenValues = new Set<string>();
+    const options = axis.values
+      .map((option, index) => {
+        const normalized = normalizeAxisSlug(option.value);
+        let value = normalized || `value-${index + 1}`;
+        while (seenValues.has(value)) {
+          value = `${value}-${index + 1}`;
+        }
+        seenValues.add(value);
+        return {
+          value,
+          label: option.value,
+        } satisfies GalleryPreviewAxisParam["options"][number];
+      })
+      .filter((option) => option.label || option.value);
+
+    if (options.length === 0) {
+      continue;
+    }
+
+    params.push({
+      key,
+      label: axis.label,
+      type: axis.type,
+      options,
+    });
+  }
+
+  axisParamsCache.set(entryId, params);
+  return params;
+};
+
+const formatAxisSummary = (axes: readonly GalleryAxis[]): string =>
+  axes
+    .filter((axis) => axis.values.length > 0)
+    .map(
+      (axis) =>
+        `${axis.label}: ${axis.values
+          .map((option) => option.value)
+          .join(", ")}`,
+    )
+    .join(" · ");
+
+const getAxisSummaryForEntry = (entryId: string): string => {
+  if (axisSummaryCache.has(entryId)) {
+    return axisSummaryCache.get(entryId)!;
+  }
+  const summary = formatAxisSummary(getCachedEntryAxes(entryId));
+  axisSummaryCache.set(entryId, summary);
+  return summary;
+};
 
 const modulePreviewCache = new WeakMap<
   GalleryPreviewModuleManifest,
@@ -130,3 +262,15 @@ export const loadModulePreviews = (
 export const getPreviewManifest = (id: string) => previewModuleIndex.get(id) ?? null;
 export const getPreviewRoute = (slug: string) => previewRouteIndex.get(slug) ?? null;
 export const getAllPreviewRoutes = () => galleryPreviewRoutes;
+export const getPreviewAxes = (
+  entryId: string,
+  stateId: string | null = null,
+) => getCachedEntryAxes(resolveEntryIdForState(entryId, stateId));
+export const getPreviewAxisSummary = (
+  entryId: string,
+  stateId: string | null = null,
+) => getAxisSummaryForEntry(resolveEntryIdForState(entryId, stateId));
+export const getPreviewAxisParams = (
+  entryId: string,
+  stateId: string | null = null,
+) => getAxisParamsForEntry(resolveEntryIdForState(entryId, stateId));

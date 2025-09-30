@@ -3,6 +3,9 @@ import * as React from "react";
 import {
   galleryPayload,
   getAllPreviewRoutes,
+  getPreviewAxisParams,
+  getPreviewAxes,
+  getPreviewAxisSummary,
   getPreviewManifest,
   getPreviewRoute,
 } from "./preview-engine";
@@ -46,3 +49,6 @@ export const getGallerySection = (id: GallerySectionId) =>
 export const getGalleryPreviewRoute = getPreviewRoute;
 
 export const getGalleryPreviewRoutes = () => getAllPreviewRoutes();
+export const getGalleryPreviewAxes = getPreviewAxes;
+export const getGalleryPreviewAxisSummary = getPreviewAxisSummary;
+export const getGalleryPreviewAxisParams = getPreviewAxisParams;

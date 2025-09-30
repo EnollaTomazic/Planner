@@ -1,7 +1,11 @@
 {
-  "badge": [],
+  "badge": [
+    "/",
+    "/dashboard-layout"
+  ],
   "button": [
     "/",
+    "/dashboard-layout",
     "/preview/pages-check"
   ],
   "icon-button": [],
@@ -26,12 +30,17 @@
     "/",
     "/preview/[slug]"
   ],
-  "neo-card-demo": [],
+  "neo-card-demo": [
+    "/",
+    "/dashboard-layout"
+  ],
   "section-card-variants": [],
   "page-shell": [
     "/",
     "/components",
+    "/dashboard-layout",
     "/goals",
+    "/nav-and-bg",
     "/planner",
     "/preview/pages-check",
     "/preview/theme-matrix",
@@ -57,6 +66,7 @@
   "toast-demo": [],
   "skeleton": [
     "/",
+    "/dashboard-layout",
     "/goals",
     "/planner",
     "/prompts",
@@ -84,6 +94,7 @@
     "/",
     "/preview/pages-check"
   ],
+  "portrait-frame": [],
   "welcome-hero-figure": [],
   "review-surface": [],
   "review-slider-track": [],
@@ -98,7 +109,10 @@
   "reminders-tab": [],
   "timer-ring": [],
   "timer-tab": [],
-  "progress-ring-icon": [],
+  "progress-ring-icon": [
+    "/",
+    "/dashboard-layout"
+  ],
   "timer-ring-icon": [],
   "side-selector": [],
   "champ-list-editor": [],

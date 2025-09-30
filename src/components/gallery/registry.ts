@@ -162,8 +162,20 @@ export interface GalleryPreviewRoute {
   readonly stateName: string | null;
   readonly themeVariant: Variant;
   readonly themeBackground: Background;
-  readonly axisParams: readonly GalleryPreviewAxisParam[];
 }
+
+export const getGalleryEntryAxes = (
+  payload: GalleryRegistryPayload,
+  entryId: string,
+): readonly GalleryAxis[] => {
+  for (const section of payload.sections) {
+    const entry = section.entries.find((candidate) => candidate.id === entryId);
+    if (entry) {
+      return entry.axes ?? [];
+    }
+  }
+  return [];
+};
 
 export const createGalleryRegistry = (
   sections: readonly GallerySection[],
