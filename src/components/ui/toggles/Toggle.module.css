@@ -14,13 +14,13 @@
   transform: translateX(var(--toggle-indicator-translate));
   background: var(--toggle-indicator-gradient);
   box-shadow: var(--toggle-indicator-shadow, var(--shadow-glow-sm));
-  transition: transform var(--duration-quick, 220ms) var(--ease-snap, ease-out);
+  transition: transform var(--dur-quick) var(--ease-snap, ease-out);
 }
 
 .leftLabel,
 .rightLabel {
   text-shadow: none;
-  transition: text-shadow var(--duration-quick, 220ms) var(--ease-out, ease-out);
+  transition: text-shadow var(--dur-quick) var(--ease-out, ease-out);
 }
 
 .leftLabel[data-active="true"] {

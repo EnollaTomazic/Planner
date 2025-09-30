@@ -30,14 +30,14 @@
   transform: translateX(var(--side-indicator-translate));
   background: var(--side-indicator-gradient);
   box-shadow: var(--side-indicator-shadow);
-  transition: transform var(--duration-quick, 220ms) var(--ease-out, ease-out);
+  transition: transform var(--dur-quick) var(--ease-out, ease-out);
 }
 
 .label {
   text-shadow: none;
   transition:
-    color var(--duration-quick, 220ms) var(--ease-out, ease-out),
-    text-shadow var(--duration-quick, 220ms) var(--ease-out, ease-out);
+    color var(--dur-quick) var(--ease-out, ease-out),
+    text-shadow var(--dur-quick) var(--ease-out, ease-out);
 }
 
 .leftLabel[data-active="true"] {
@@ -56,7 +56,7 @@
 }
 
 .flicker[data-flick="true"] {
-  animation: side-selector-flicker var(--duration-quick, 220ms) var(--ease-out, ease-out);
+  animation: side-selector-flicker var(--dur-quick) var(--ease-out, ease-out);
 }
 
 @keyframes side-selector-flicker {
