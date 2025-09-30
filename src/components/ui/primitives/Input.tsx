@@ -40,6 +40,10 @@ export type InputProps = Omit<
   "data-loading"?: string | boolean | number;
   /** Overrides the focus ring tone by mapping to semantic tokens */
   ringTone?: InputRingTone;
+  /** Enables the glitch treatment for the enclosing field */
+  glitch?: boolean;
+  /** Optional overlay label when glitch is enabled */
+  glitchText?: string;
 };
 
 /**
@@ -61,6 +65,8 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     children,
     hasEndSlot = false,
     ringTone,
+    glitch = false,
+    glitchText,
     ...props
   },
   ref,
@@ -83,6 +89,15 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
     loadingAttr === "true" ||
     loadingAttr === 1;
 
+  const rawDataText = (props as Record<string, unknown>)["data-text"];
+  const providedGlitchText =
+    typeof rawDataText === "string" ? rawDataText : undefined;
+  const placeholderText =
+    typeof props.placeholder === "string" ? props.placeholder : undefined;
+  const resolvedGlitchText = glitch
+    ? glitchText ?? providedGlitchText ?? placeholderText
+    : undefined;
+
   const showEndSlot = hasEndSlot || React.Children.count(children) > 0;
 
   return (
@@ -92,6 +107,8 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
       disabled={disabled}
       readOnly={readOnly}
       loading={loading}
+      glitch={glitch}
+      glitchText={resolvedGlitchText}
       className={cn(ringTone ? RING_TONE_CLASS_MAP[ringTone] : undefined, className)}
     >
       <Field.Input
@@ -102,6 +119,7 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
         indent={indent}
         hasEndSlot={showEndSlot || loading}
         aria-label={ariaLabel}
+        data-glitch={glitch ? "true" : undefined}
         {...props}
       />
       {children}

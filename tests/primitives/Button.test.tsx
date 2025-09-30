@@ -125,13 +125,13 @@ describe("Button", () => {
   });
 
   it("references glitch overlay tokens", () => {
-    const css = fs.readFileSync(
-      "src/components/ui/primitives/Button.module.css",
+    const overlay = fs.readFileSync(
+      "src/components/ui/primitives/glitchOverlay.tsx",
       "utf8",
     );
 
-    expect(css).toContain("var(--glitch-overlay-button-opacity)");
-    expect(css).toContain("var(--glitch-overlay-button-opacity-reduced)");
+    expect(overlay).toContain("bg-blob-primary");
+    expect(overlay).toContain("bg-glitch-noise");
   });
 
   it("defines button glitch overlay tokens in theme bundle", () => {

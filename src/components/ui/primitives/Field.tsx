@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import Spinner from "../feedback/Spinner";
 import neumorphicStyles from "../neumorphic.module.css";
 import IconButton from "./IconButton";
+import { renderGlitchOverlay } from "./glitchOverlay";
 import styles from "./Field.module.css";
 
 export type FieldHeight = "sm" | "md" | "lg" | "xl";
@@ -60,6 +61,8 @@ export type FieldRootProps = React.HTMLAttributes<HTMLDivElement> & {
   counterId?: string;
   spinner?: React.ReactNode;
   wrapperClassName?: string;
+  glitch?: boolean;
+  glitchText?: string;
 };
 
 export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
@@ -78,6 +81,8 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
       spinner,
       wrapperClassName,
       className,
+      glitch = false,
+      glitchText,
       children,
       style: inlineStyle,
       ...props
@@ -130,6 +135,20 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
       };
     }, [customHeightStyle, inlineStyle]);
 
+    const forwardedProps = { ...props } as React.HTMLAttributes<HTMLDivElement> &
+      Record<string, unknown>;
+    const providedGlitchTextRaw = forwardedProps["data-text"];
+    const providedGlitchText =
+      typeof providedGlitchTextRaw === "string" ? providedGlitchTextRaw : undefined;
+    delete forwardedProps["data-text"];
+    if (Object.hasOwn(forwardedProps, "data-glitch")) {
+      delete forwardedProps["data-glitch"];
+    }
+
+    const resolvedGlitchText = glitch
+      ? glitchText ?? providedGlitchText ?? undefined
+      : undefined;
+
     return (
       <div
         className={cn(
@@ -144,6 +163,7 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
             neumorphicStyles["neu-hover"],
             FIELD_ROOT_BASE,
             styles.root,
+            glitch && "group/glitch focus-within:shadow-[var(--shadow-glow-md)]",
             className,
           )}
           data-field-height={heightKey}
@@ -153,16 +173,19 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
           data-invalid={invalid ? "true" : undefined}
           data-loading={loading ? "true" : undefined}
           data-readonly={readOnly ? "true" : undefined}
+          data-glitch={glitch ? "true" : undefined}
+          data-text={resolvedGlitchText}
           aria-disabled={disabled || undefined}
           aria-busy={loading || undefined}
           style={mergedStyle}
-          {...props}
+          {...forwardedProps}
         >
+          {glitch ? renderGlitchOverlay({ text: resolvedGlitchText }) : null}
           {children}
           {loading ? (
             <span
               data-slot="spinner"
-              className="pointer-events-none absolute right-[var(--space-4)] top-1/2 -translate-y-1/2 text-muted-foreground"
+              className="pointer-events-none absolute right-[var(--space-4)] top-1/2 -translate-y-1/2 text-muted-foreground z-10"
             >
               {spinner ?? <Spinner size="sm" />}
             </span>

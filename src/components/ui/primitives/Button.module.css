@@ -88,19 +88,6 @@
       calc(var(--control-radius) * 1.05) !important;
 }
 
-.glitch {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  --glitch-overlay-opacity: var(--glitch-overlay-button-opacity);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .glitch {
-    --glitch-overlay-opacity: var(--glitch-overlay-button-opacity-reduced);
-  }
-}
-
 .root[data-variant="secondary"][data-tactile="true"] {
   --btn-secondary-shadow-rest: inset 0 var(--spacing-0-5) var(--space-2)
       hsl(var(--button-secondary-accent) / 0.18),

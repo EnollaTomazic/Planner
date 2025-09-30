@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
+import { renderGlitchOverlay } from "./glitchOverlay";
 import styles from "./Card.module.css";
 
 export type CardDepth = "base" | "raised" | "sunken";
@@ -12,23 +13,71 @@ export type CardProps = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
-  ({ className, asChild = false, depth = "base", glitch = false, ...props }, ref) => {
-    const Component = asChild ? Slot : "div";
+  ({
+    className,
+    asChild = false,
+    depth = "base",
+    glitch = false,
+    children,
+    ...props
+  }, ref) => {
+    const baseProps = { ...props } as React.HTMLAttributes<HTMLDivElement> &
+      Record<string, unknown>;
+    const providedGlitchTextRaw = baseProps["data-text"];
+    const providedGlitchText =
+      typeof providedGlitchTextRaw === "string" ? providedGlitchTextRaw : undefined;
+    delete baseProps["data-text"];
+    if (Object.hasOwn(baseProps, "data-glitch")) {
+      delete baseProps["data-glitch"];
+    }
+
+    const glitchText = glitch ? providedGlitchText : undefined;
+
+    const mergedClassName = cn(
+      styles.root,
+      glitch && "group/glitch",
+      "rounded-card r-card-lg p-[var(--space-4)] border border-card-hairline/60 bg-card/60 text-card-foreground",
+      className,
+    );
+
+    const componentProps = {
+      ...baseProps,
+      className: mergedClassName,
+      "data-depth": depth,
+      "data-glitch": glitch ? "true" : undefined,
+      "data-text": glitchText,
+    } as React.HTMLAttributes<HTMLDivElement>;
+
+    if (asChild) {
+      const childCount = React.Children.count(children);
+      if (childCount !== 1 || !React.isValidElement(children)) {
+        if (process.env.NODE_ENV !== "production") {
+          console.warn("[Card] `asChild` requires a single valid React element child.");
+        }
+        return null;
+      }
+
+      const child = React.Children.only(children) as React.ReactElement<
+        React.HTMLAttributes<HTMLElement>
+      >;
+
+      return (
+        <Slot {...componentProps} ref={ref as React.ForwardedRef<HTMLElement>}>
+          {React.cloneElement(child, undefined, (
+            <>
+              {glitch ? renderGlitchOverlay({ text: glitchText }) : null}
+              {child.props.children}
+            </>
+          ))}
+        </Slot>
+      );
+    }
 
     return (
-      <Component
-        ref={ref}
-        className={cn(
-          styles.root,
-          glitch && "glitch-wrapper",
-          glitch && styles.glitch,
-          "rounded-card r-card-lg p-[var(--space-4)] border border-card-hairline/60 bg-card/60 text-card-foreground",
-          className,
-        )}
-        data-depth={depth}
-        data-glitch={glitch ? "true" : undefined}
-        {...props}
-      />
+      <div ref={ref} {...componentProps}>
+        {glitch ? renderGlitchOverlay({ text: glitchText }) : null}
+        {children}
+      </div>
     );
   },
 );

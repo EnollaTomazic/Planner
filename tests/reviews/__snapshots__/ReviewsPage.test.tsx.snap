@@ -281,7 +281,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         type="button"
                       >
                         <span
-                          class="absolute inset-0 pointer-events-none rounded-[inherit] bg-[linear-gradient(90deg,hsl(var(--primary)/.18),hsl(var(--primary)/.18))]"
+                          class="absolute inset-0 pointer-events-none rounded-[inherit] z-0 bg-[linear-gradient(90deg,hsl(var(--primary)/.18),hsl(var(--primary)/.18))]"
                         />
                         <span
                           class="relative z-10 inline-flex items-center gap-[var(--space-2)]"

@@ -10,6 +10,7 @@ import Spinner, { type SpinnerTone, type SpinnerSize } from "../feedback/Spinner
 import neumorphicStyles from "../neumorphic.module.css";
 import { neuRaised, neuInset } from "./Neu";
 import styles from "./Button.module.css";
+import { renderGlitchOverlay } from "./glitchOverlay";
 
 export const buttonSizes = {
   sm: {
@@ -278,8 +279,7 @@ export const Button = React.forwardRef<
     neumorphicStyles["neu-hover"],
     styles.root,
     styles.organicControl,
-    glitch && "glitch-wrapper",
-    glitch && styles.glitch,
+    glitch && "group/glitch",
     "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
     "data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none",
     "[--neu-radius:var(--control-radius)]",
@@ -327,10 +327,14 @@ export const Button = React.forwardRef<
 
   const renderInnerContent = (contentChildren: React.ReactNode) => (
     <>
+      {glitch
+        ? renderGlitchOverlay({ reduceMotion: Boolean(reduceMotion), text: glitchText })
+        : null}
       {variant === "primary" ? (
         <span
           className={cn(
             "absolute inset-0 pointer-events-none rounded-[inherit]",
+            "z-0",
             `bg-[linear-gradient(90deg,hsl(var(${toneColorVar})/.18),hsl(var(${toneColorVar})/.18))]`,
           )}
         />
