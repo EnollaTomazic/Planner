@@ -4,12 +4,23 @@ import {
   type GalleryPreviewRoute,
 } from "@/components/gallery";
 
+export const NAV_BACKDROP_ENTRY_ID = "nav-backdrop";
+
 export const DEPTH_PREVIEW_ENTRIES = new Set([
   "button",
   "icon-button",
   "card-demo",
   "neo-card-demo",
+  NAV_BACKDROP_ENTRY_ID,
 ]);
+
+const NAV_BACKDROP_BACKGROUNDS: GalleryPreviewRoute["themeBackground"][] = [
+  0,
+  1,
+  2,
+  3,
+  4,
+];
 
 export function getDepthPreviewRoutes(): GalleryPreviewRoute[] {
   const seen = new Set<string>();
@@ -30,6 +41,14 @@ export function getDepthPreviewRoutes(): GalleryPreviewRoute[] {
     seen.add(route.previewId);
     return true;
   });
+}
+
+export function getBackgroundsForRoute(route: GalleryPreviewRoute) {
+  if (route.entryId === NAV_BACKDROP_ENTRY_ID) {
+    return NAV_BACKDROP_BACKGROUNDS;
+  }
+
+  return [route.themeBackground];
 }
 
 export function buildPreviewRouteUrl(route: GalleryPreviewRoute) {
