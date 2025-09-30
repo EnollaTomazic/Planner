@@ -2,18 +2,21 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import Card from "./primitives/Card";
+import Card, { type CardDepth } from "./primitives/Card";
 import IconButton from "./primitives/IconButton";
 import { X } from "lucide-react";
 import { useDialogTrap } from "./hooks/useDialogTrap";
 import useMounted from "@/lib/useMounted";
 import { cn } from "@/lib/utils";
 
-export interface ModalProps extends React.ComponentProps<typeof Card> {
+export interface ModalProps
+  extends Omit<React.ComponentProps<typeof Card>, "depth" | "glitch"> {
   open: boolean;
   onClose: () => void;
   "aria-labelledby"?: string;
   "aria-describedby"?: string;
+  depth?: CardDepth;
+  glitch?: boolean;
 }
 
 export default function Modal({
@@ -23,6 +26,8 @@ export default function Modal({
   children,
   "aria-labelledby": ariaLabelledby,
   "aria-describedby": ariaDescribedby,
+  depth = "raised",
+  glitch = false,
   ...props
 }: ModalProps) {
   const mounted = useMounted();
@@ -46,7 +51,12 @@ export default function Modal({
         aria-modal="true"
         aria-labelledby={ariaLabelledby}
         aria-describedby={ariaDescribedby}
-        className={cn("relative w-full max-w-[calc(var(--space-8)*6)]", className)}
+        depth={depth}
+        glitch={glitch}
+        className={cn(
+          "relative w-full max-w-[calc(var(--space-8)*6)]",
+          className,
+        )}
         {...props}
       >
         <IconButton

@@ -1,20 +1,17 @@
 :global(.hero2-neomorph) {
   background: linear-gradient(145deg, hsl(var(--card)), hsl(var(--panel)));
-  --hero2-shadow-key: var(--shadow-neo);
-  --hero2-shadow-ambient: var(--shadow-neo-inset);
+  --hero2-shadow-key: var(--depth-shadow-outer);
+  --hero2-shadow-ambient: var(--depth-shadow-inner);
   box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
   position: relative;
   z-index: 0;
-  --hero2-focus-ring-rest: 0 0 0 0 hsl(var(--ring) / 0),
-    0 0 0 0 hsl(var(--ring) / 0);
-  --hero2-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 1)
-    hsl(var(--ring)),
-    var(--shadow-glow-lg);
+  --hero2-focus-ring-rest: var(--depth-focus-ring-rest);
+  --hero2-focus-ring-active: var(--depth-focus-ring-active);
   --hero2-focus-ring: var(--hero2-focus-ring-rest);
-  --hero2-glow-top-left-color: hsl(var(--highlight) / 0.55);
-  --hero2-glow-top-left-soft: hsl(var(--highlight) / 0.08);
-  --hero2-glow-bottom-right-color: hsl(var(--shadow-color) / 0.42);
-  --hero2-glow-bottom-right-soft: hsl(var(--shadow-color) / 0.14);
+  --hero2-glow-top-left-color: var(--depth-glow-highlight-strong);
+  --hero2-glow-top-left-soft: var(--depth-glow-highlight-soft);
+  --hero2-glow-bottom-right-color: var(--depth-glow-shadow-strong);
+  --hero2-glow-bottom-right-soft: var(--depth-glow-shadow-soft);
   --hero2-glow-top-left: radial-gradient(
     140% 140% at 0% 0%,
     var(--hero2-glow-top-left-color) 0%,
@@ -52,15 +49,15 @@
 }
 
 :global(.hero2-frame) {
-  --hero-slot-shadow: var(--shadow-neo-soft);
+  --hero-slot-shadow: var(--depth-shadow-soft);
 }
 
 :global(.hero2-frame[data-hero-slot-shadow="soft"]) {
-  --hero-slot-shadow: var(--shadow-neo-soft);
+  --hero-slot-shadow: var(--depth-shadow-soft);
 }
 
 :global(.hero2-frame[data-hero-slot-shadow="strong"]) {
-  --hero-slot-shadow: var(--shadow-neo-strong);
+  --hero-slot-shadow: var(--depth-shadow-outer-strong);
 }
 
 :global(.hero2-frame[data-hero-slot-shadow="none"]) {
@@ -133,8 +130,8 @@
     border-color: hsl(var(--foreground) / 0.7) !important;
   }
   :global(.hero2-neomorph) {
-    --hero2-shadow-key: var(--shadow-neo-strong);
-    --hero2-shadow-ambient: var(--shadow-neo-inset),
+    --hero2-shadow-key: var(--depth-shadow-outer-strong);
+    --hero2-shadow-ambient: var(--depth-shadow-inner),
       0 0 0 calc(var(--hairline-w) * 2) hsl(var(--foreground) / 0.7);
     box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);
     --hero2-glow-top-left: none;
