@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { SearchBar } from '@/components/ui';
+import SearchBar from "@/components/ui/primitives/SearchBar";
 
 afterEach(cleanup);
 

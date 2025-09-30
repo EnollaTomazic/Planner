@@ -1,7 +1,7 @@
 import React from "react";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { PageHeader } from "@/components/ui";
+import PageHeader from "@/components/ui/layout/PageHeader";
 
 afterEach(cleanup);
 

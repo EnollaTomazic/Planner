@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
-import { Toggle } from '@/components/ui';
+import Toggle from "@/components/ui/toggles/Toggle";
 
 afterEach(() => {
   cleanup();
