@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
-import { Badge } from '@/components/ui';
+import Badge from "@/components/ui/primitives/Badge";
 
 afterEach(() => {
   cleanup();
