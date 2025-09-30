@@ -210,7 +210,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                           Sort
                         </span>
                         <div
-                          class="glitch-wrap w-full"
+                          class="glitch-wrapper w-full"
                         >
                           <div
                             class="sr-only"
