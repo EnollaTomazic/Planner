@@ -72,6 +72,14 @@ export const rootVariables: VariableDefinition[] = [
       "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)",
   },
   {
+    name: "shadow-outer-sm",
+    value: "0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.24)",
+  },
+  {
+    name: "shadow-outer-md",
+    value: "0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.3)",
+  },
+  {
     name: "shadow-outer-lg",
     value: "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36)",
   },
@@ -481,6 +489,14 @@ export const themes: ThemeDefinition[] = [
           "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.38)",
       },
       {
+        name: "shadow-outer-sm",
+        value: "0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.3)",
+      },
+      {
+        name: "shadow-outer-md",
+        value: "0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.36)",
+      },
+      {
         name: "shadow-outer-lg",
         value: "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.42)",
       },
@@ -726,6 +742,14 @@ export const themes: ThemeDefinition[] = [
         name: "shadow-inner-lg",
         value:
           "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.3)",
+      },
+      {
+        name: "shadow-outer-sm",
+        value: "0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.22)",
+      },
+      {
+        name: "shadow-outer-md",
+        value: "0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.28)",
       },
       {
         name: "shadow-outer-lg",

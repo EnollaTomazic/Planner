@@ -313,6 +313,11 @@
 | glow-ring | 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22) |
 | blob-radius-soft | calc(var(--radius-2xl) + var(--spacing-2)) |
 | glitch-noise-hover | calc(var(--glitch-noise-level) * 1.3) |
+| grid-color | var(--accent) |
+| grid-alpha | 0.1 |
+| grid-size | calc(var(--space-6) - var(--space-1)) |
+| shadow-outer-sm | 0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.24) |
+| shadow-outer-md | 0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.3) |
 | spacing-0-125 | calc(var(--spacing-1) / 8) |
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |

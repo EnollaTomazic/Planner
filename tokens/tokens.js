@@ -297,6 +297,13 @@ export default {
     "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
   blobRadiusSoft: "calc(var(--radius-2xl) + var(--spacing-2))",
   glitchNoiseHover: "calc(var(--glitch-noise-level) * 1.3)",
+  gridColor: "var(--accent)",
+  gridAlpha: "0.1",
+  gridSize: "calc(var(--space-6) - var(--space-1))",
+  shadowOuterSm:
+    "0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.24)",
+  shadowOuterMd:
+    "0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.3)",
   spacing0125: "calc(var(--spacing-1) / 8)",
   spacing025: "calc(var(--spacing-1) / 4)",
   spacing05: "calc(var(--spacing-1) / 2)",
