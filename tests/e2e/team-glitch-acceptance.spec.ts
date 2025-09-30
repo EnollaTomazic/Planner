@@ -1,7 +1,7 @@
 // @ts-nocheck
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
-import type { Page } from "@playwright/test";
+import { expect, test } from "./playwright";
+import type { Page } from "./playwright";
 
 import { BG_CLASSES, VARIANTS } from "@/lib/theme";
 
