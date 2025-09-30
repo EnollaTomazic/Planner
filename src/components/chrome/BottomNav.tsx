@@ -37,6 +37,7 @@ export default function BottomNav({
 }: BottomNavProps = {}) {
   const rawPathname = usePathname() ?? "/";
   const pathname = withoutBasePath(rawPathname);
+  const navigationLabel = PRIMARY_NAV_LABEL;
   return (
     <div
       className={cn(
@@ -47,7 +48,7 @@ export default function BottomNav({
     >
       <nav
         role="navigation"
-        aria-label={PRIMARY_NAV_LABEL}
+        aria-label={navigationLabel}
         className={cn(
           "relative isolate mx-auto w-full max-w-2xl",
           "rounded-card r-card-lg card-neo-soft shadow-neo-strong",
