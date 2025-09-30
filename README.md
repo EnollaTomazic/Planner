@@ -75,6 +75,7 @@ The app reads configuration from your shell environment at build time. Use `.env
 | `GH_PAGES_BRANCH` | `gh-pages` | Target branch for the GitHub Pages deploy script. Override if your site publishes from a different branch. |
 | `GITHUB_PAGES_BRANCH` | `""` | Optional alias the deploy script reads when `GH_PAGES_BRANCH` is unset. Useful when reusing existing CI variables. |
 | `NEXT_PUBLIC_API_*` | _unset_ | Placeholder namespace for future API endpoints (for example, `NEXT_PUBLIC_API_BASE_URL`). Prefix additional public URLs with `NEXT_PUBLIC_` so Next.js exposes them to the client. |
+| `NEXT_PUBLIC_UI_GLITCH_LANDING` | `true` | Gates the glitch landing experience. Set to `false` to render the legacy landing layout without glitch overlays while retaining the standard planner preview. |
 
 > **Tip:** Keep `.env.local` out of version control. Only `.env.example` belongs in the repository so collaborators and CI pipelines can discover the supported configuration.
 

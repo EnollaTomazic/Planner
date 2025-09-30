@@ -25,7 +25,7 @@ const variantColumnsStyle = {
 } satisfies React.CSSProperties;
 
 const PREVIEW_HEIGHT_VARIABLE =
-  "[--theme-matrix-preview-min-h:calc(var(--space-8)*5+var(--space-4))]";
+  "[--theme-matrix-preview-min-h:calc(var(--space-8) * 5 + var(--space-4))]";
 const PREVIEW_MIN_HEIGHT_CLASS =
   "min-h-[var(--theme-matrix-preview-min-h)]";
 
