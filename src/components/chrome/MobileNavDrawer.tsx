@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 import Sheet from "@/components/ui/Sheet";
 import IconButton from "@/components/ui/primitives/IconButton";
+import { MEDIA_QUERY_MD } from "@/lib/breakpoints";
 import { cn, withoutBasePath } from "@/lib/utils";
 import { type NavItem, NAV_ITEMS, isNavActive } from "@/config/nav";
 
@@ -67,7 +68,7 @@ export default function MobileNavDrawer({
 }: MobileNavDrawerProps) {
   const rawPathname = usePathname() ?? "/";
   const pathname = withoutBasePath(rawPathname);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery(MEDIA_QUERY_MD);
 
   React.useEffect(() => {
     if (open && isDesktop) {
