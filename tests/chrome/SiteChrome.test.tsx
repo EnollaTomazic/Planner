@@ -18,7 +18,7 @@ vi.mock("@/components/ui/AnimationToggle", () => ({
 
 import SiteChrome from "@/components/chrome/SiteChrome";
 import BottomNav from "@/components/chrome/BottomNav";
-import { NAV_ITEMS } from "@/components/chrome/nav-items";
+import { NAV_ITEMS } from "@/config/nav";
 
 describe("SiteChrome", () => {
   it("links the brand to home", async () => {

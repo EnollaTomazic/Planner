@@ -78,7 +78,7 @@ import {
   PortraitFrame,
   WelcomeHeroFigure,
 } from "@/components/home";
-import { NAV_ITEMS, type NavItem } from "@/components/chrome/nav-items";
+import { NAV_ITEMS, type NavItem } from "@/config/nav";
 import ChampListEditor from "@/components/team/ChampListEditor";
 import {
   RoleSelector,
@@ -168,6 +168,7 @@ const heroPlannerHighlightsDemo = [
 ] as const satisfies readonly HeroPlannerHighlight[];
 
 const heroPlannerOverviewDemo = {
+  hydrating: false,
   summary: {
     label: "Planner overview",
     title: "Week of April 22",

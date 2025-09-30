@@ -6,6 +6,8 @@ import {
   type ButtonSize,
 } from "../../src/components/ui/primitives/Button";
 import fs from "fs";
+import DepthThemeProvider from "../../src/lib/depth-theme-context";
+import styles from "../../src/components/ui/primitives/Button.module.css";
 
 afterEach(cleanup);
 
@@ -134,6 +136,25 @@ describe("Button", () => {
     expect(source).toContain("glitch-noise-level");
   });
 
+  it("captures the neumorphic depth token bundle", () => {
+    const neuModule = fs.readFileSync(
+      "src/components/ui/neumorphic.module.css",
+      "utf8",
+    );
+
+    expect(neuModule).toContain("--depth-shadow-outer");
+    expect(neuModule).toContain("--depth-shadow-inner");
+    expect(neuModule).toContain("--depth-shadow-outer-strong");
+
+    const buttonSource = fs.readFileSync(
+      "src/components/ui/primitives/Button.tsx",
+      "utf8",
+    );
+
+    expect(buttonSource).toContain("data-tactile");
+    expect(buttonSource).toContain("[--neu-surface:hsl(var(--panel)/0.8)]");
+  });
+
   it("defines button glitch overlay tokens in theme bundle", () => {
     const themeCss = fs.readFileSync("src/app/themes.css", "utf8");
 
@@ -170,5 +191,21 @@ describe("Button", () => {
     );
 
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("omits organic depth styles when the flag is disabled", () => {
+    const { getByRole } = render(<Button>Classic button</Button>);
+
+    expect(getByRole("button")).not.toHaveClass(styles.organicControl);
+  });
+
+  it("applies organic depth styles when the flag is enabled", () => {
+    const { getByRole } = render(
+      <DepthThemeProvider enabled={false} organicDepthEnabled>
+        <Button>Organic button</Button>
+      </DepthThemeProvider>,
+    );
+
+    expect(getByRole("button")).toHaveClass(styles.organicControl);
   });
 });

@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn, withoutBasePath } from "@/lib/utils";
-import { NAV_ITEMS, type NavItem, isNavActive } from "./nav-items";
+import { NAV_ITEMS, type NavItem, isNavActive } from "@/config/nav";
 import Spinner from "@/components/ui/feedback/Spinner";
 
 type BottomNavState =
