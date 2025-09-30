@@ -333,6 +333,8 @@
   --gradient-glitch-primary: linear-gradient(135deg, hsl(var(--accent) / 0.35), hsl(var(--accent-2) / 0.3));
   --glitch-rgb-shift: drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45));
   --glitch-scanline: glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite;
+  --space-9: var(--spacing-9);
+  --space-9-plus: var(--space-9-plus);
   --spacing-0-125: calc(var(--spacing-1) / 8);
   --spacing-0-25: calc(var(--spacing-1) / 4);
   --spacing-0-5: calc(var(--spacing-1) / 2);
@@ -345,6 +347,7 @@
   --spacing-6: 32px;
   --spacing-7: 48px;
   --spacing-8: 64px;
+  --spacing-9: 72px;
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;

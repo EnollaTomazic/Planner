@@ -91,7 +91,7 @@ export const colorTokens = [
   "bg-ring-contrast",
 ];
 
-export const spacingTokens = [4, 8, 12, 16, 24, 32, 48, 64];
+export const spacingTokens = [4, 8, 12, 16, 24, 32, 48, 64, 72];
 
 export const shellWidthToken = "--shell-width";
 

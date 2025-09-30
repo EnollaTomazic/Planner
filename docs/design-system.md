@@ -63,7 +63,7 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 ## Layout and spacing
 
 - Use a 12‑column grid with 24px gutters.
-- Spacing tokens: `1`=4px, `2`=8px, `3`=12px, `4`=16px, `5`=24px, `6`=32px, `7`=48px, `8`=64px.
+- Spacing tokens: `1`=4px, `2`=8px, `3`=12px, `4`=16px, `5`=24px, `6`=32px, `7`=48px, `8`=64px, `9+`=72px.
 - Wrap page-level content with `.page-shell` or the `<PageShell />` component to get the shared container rhythm: `space-6` on
   small screens, `space-7` at `md`, and `space-8` at `lg`. Add vertical padding per view instead of redefining horizontal
   gutters. The shell's maximum width is governed by `--shell-width`, with `--shell-max` available for per-page overrides ([tokens.css](../tokens/tokens.css), [globals.css](../src/app/globals.css)).
@@ -95,6 +95,7 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 - Prefer icons from `lucide-react`.
 - Define any custom icons in `src/icons` and import them where needed.
 - Avoid embedding raw `<svg>` tags in components. An inline SVG remains in `Hero` for a noise texture background.
+- Icon wrappers (e.g. `NeonIcon`, `IconButton`) expose a `2xl` size tied to `--icon-size-2xl`, which resolves to the `space-9+` rhythm for large toggles.
 
 ## Primitive components
 

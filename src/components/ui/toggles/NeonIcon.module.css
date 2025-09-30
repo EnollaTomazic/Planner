@@ -52,7 +52,7 @@
 }
 
 .root[data-size="2xl"] {
-  --ni-size: var(--icon-size-2xl, var(--space-11));
+  --ni-size: var(--icon-size-2xl);
 }
 
 .root[data-tone="accent"] {

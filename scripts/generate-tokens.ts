@@ -223,6 +223,7 @@ async function buildTokens(): Promise<void> {
     {},
   );
   const extendedSpace: Record<string, { value: string }> = {
+    "space-9-plus": { value: "var(--space-9-plus)" },
     "space-12": { value: "calc(var(--space-8) + var(--space-4))" },
     "space-16": { value: "calc(var(--space-8) * 2)" },
   };

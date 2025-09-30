@@ -61,6 +61,7 @@
     --icon-size-md: calc(var(--space-5) - var(--space-1) - var(--spacing-0-5));
     --icon-size-lg: var(--space-5);
     --icon-size-xl: var(--space-6);
+    --icon-size-2xl: var(--space-9-plus);
     --viewport-width: 100vw;
     --viewport-height: 100vh;
     --viewport-height: 100dvh;

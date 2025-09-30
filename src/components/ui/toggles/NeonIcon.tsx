@@ -25,7 +25,7 @@ type NeonIconProps = {
   scanlines?: boolean;
   /** toggle wide aura layer */
   aura?: boolean;
-};
+} & Omit<React.HTMLAttributes<HTMLSpanElement>, "children" | "color">;
 
 const TONE_SET = new Set<NeonIconTone>([
   "accent",
@@ -58,6 +58,7 @@ export function NeonIcon({
   className,
   scanlines = true,
   aura = true,
+  ...rest
 }: NeonIconProps) {
   const prev = React.useRef(on);
   const [phase, setPhase] = React.useState<Phase>(on ? "steady-on" : "off");
@@ -94,6 +95,7 @@ export function NeonIcon({
       data-tone={toneAttr}
       aria-hidden
       title={title}
+      {...rest}
     >
       {/* Base glyph */}
       <Icon
@@ -148,3 +150,5 @@ export function NeonGlowWrap({ lit, children }: { lit: boolean; children: React.
     </span>
   );
 }
+
+export type { NeonIconSize, NeonIconTone };

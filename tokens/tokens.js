@@ -323,6 +323,8 @@ export default {
     "drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45))",
   glitchScanline:
     "glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite",
+  space9: "var(--spacing-9)",
+  space9Plus: "var(--space-9-plus)",
   spacing0125: "calc(var(--spacing-1) / 8)",
   spacing025: "calc(var(--spacing-1) / 4)",
   spacing05: "calc(var(--spacing-1) / 2)",
@@ -335,6 +337,7 @@ export default {
   spacing6: "32px",
   spacing7: "48px",
   spacing8: "64px",
+  spacing9: "72px",
   radiusSm: "6px",
   radiusMd: "8px",
   radiusLg: "12px",
