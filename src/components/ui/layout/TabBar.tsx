@@ -13,6 +13,7 @@ import { useId } from "react";
 import { cn } from "@/lib/utils";
 import { useRovingTabState } from "@/components/tabs/useRovingTabState";
 import styles from "./TabBar.module.css";
+import segmentedButtonStyles from "../primitives/SegmentedButton.module.css";
 
 export type TabItem<K extends string = string> = {
   key: K;
@@ -48,6 +49,9 @@ export type TabElementProps = React.HTMLAttributes<HTMLElement> & {
   "data-loading"?: boolean;
   "data-disabled"?: boolean;
   "data-variant"?: Variant;
+  "data-selected"?: string;
+  "data-glitch"?: string;
+  "data-depth"?: string;
 };
 
 export type TabRenderContext<
@@ -267,9 +271,11 @@ export default function TabBar<
 
             const baseClass = isGlitch
               ? cn(
-                  "btn-like-segmented font-mono text-ui",
+                  segmentedButtonStyles.root,
+                  "font-mono text-ui",
                   size === "lg" ? "text-body" : "text-ui",
-                  active && "btn-glitch is-active",
+                  active && segmentedButtonStyles.glitch,
+                  active && "glitch-wrapper group/glitch is-active",
                   isDisabled && "pointer-events-none opacity-disabled",
                   item.className,
                 )
@@ -300,6 +306,9 @@ export default function TabBar<
               "data-loading": isLoading || undefined,
               "data-disabled": isDisabled || undefined,
               "data-variant": variant,
+              "data-selected": active ? "true" : undefined,
+              "data-glitch": isGlitch && active ? "true" : undefined,
+              "data-depth": isGlitch ? "raised" : undefined,
               className: baseClass,
               onClick: (event) => {
                 if (isDisabled) {

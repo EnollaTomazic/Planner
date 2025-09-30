@@ -19,6 +19,8 @@ import {
 } from "@/lib/theme";
 import { useOptionalTheme } from "@/lib/theme-context";
 
+import segmentedButtonStyles from "@/components/ui/primitives/SegmentedButton.module.css";
+
 import { getGalleryPreview } from "./constants";
 
 export const PROPS_DISCLOSURE_COLLAPSE_THRESHOLD = 6;
@@ -217,12 +219,15 @@ export function ThemeMatrix({
                 role="radio"
                 aria-checked={selected}
                 className={cn(
-                  "btn-like-segmented min-h-[var(--control-h-md)] px-[var(--space-4)] py-[var(--space-2)] text-ui",
+                  segmentedButtonStyles.root,
+                  "min-h-[var(--control-h-md)] px-[var(--space-4)] py-[var(--space-2)] text-ui",
                   "text-muted-foreground",
                   selected && "is-active text-foreground",
                 )}
                 tabIndex={selected ? 0 : -1}
                 onClick={() => setActiveVariant(variant.id)}
+                data-selected={selected ? "true" : undefined}
+                data-depth="raised"
                 ref={(node) => registerButton(variant.id, node)}
               >
                 {variant.label}
