@@ -1,6 +1,6 @@
 // @ts-nocheck
 /// <reference types="@playwright/test" />
-import { test } from "playwright/test";
+import { test } from "./playwright";
 
 type ResponseLike = {
   url(): string;

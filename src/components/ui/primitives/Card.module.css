@@ -91,7 +91,7 @@
 }
 
 .glitch {
-  --glitch-overlay-opacity: 0.38;
+  --glitch-overlay-opacity: var(--glitch-overlay-opacity-card);
 }
 
 @media (prefers-reduced-motion: reduce) {
