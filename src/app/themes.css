@@ -341,6 +341,9 @@
   /* overlay alpha */
   --glitch-static-opacity: 0.18;
   --glitch-noise-level: var(--glitch-static-opacity);
+  /* Button glitch overlays */
+  --glitch-overlay-button-opacity: 0.42;
+  --glitch-overlay-button-opacity-reduced: 0.28;
   /* Chromatic separation offsets */
   --glitch-chromatic-offset-strong: calc(var(--spacing-0-25) / 4);
   --glitch-chromatic-offset-medium: calc(var(--spacing-0-25) * 3 / 20);
