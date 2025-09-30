@@ -323,6 +323,25 @@ export default {
     "drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45))",
   glitchScanline:
     "glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite",
+  dangerSurfaceForeground: "var(--danger-foreground)",
+  surfaceOverlaySoft: "0.12",
+  surfaceOverlayStrong: "0.2",
+  glitchCardSurfaceTop: "hsl(var(--card) / 0.78)",
+  glitchCardSurfaceBottom: "hsl(var(--panel) / 0.66)",
+  surfaceCardSoft:
+    "linear-gradient(180deg, hsl(var(--card) / 0.65), hsl(var(--card) / 0.45))",
+  surfaceCardStrong:
+    "linear-gradient(180deg, hsl(var(--card) / 0.85), hsl(var(--card) / 0.65))",
+  surfaceCardStrongHover:
+    "linear-gradient(180deg, hsl(var(--card) / 0.95), hsl(var(--card) / 0.75))",
+  surfaceCardStrongActive:
+    "linear-gradient(180deg, hsl(var(--card) / 0.8), hsl(var(--card) / 0.6))",
+  surfaceCardStrongToday:
+    "linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--card) / 0.7))",
+  surfaceCardStrongEmpty:
+    "linear-gradient(180deg, hsl(var(--card) / 0.6), hsl(var(--card) / 0.5))",
+  surfaceRailAccent:
+    "linear-gradient(180deg, hsl(var(--accent)), hsl(var(--primary)))",
   spacing0125: "calc(var(--spacing-1) / 8)",
   spacing025: "calc(var(--spacing-1) / 4)",
   spacing05: "calc(var(--spacing-1) / 2)",
