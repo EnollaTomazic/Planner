@@ -54,6 +54,9 @@ const fractionalSpacing: Record<string, string> = {
 };
 
 const extendedSpaceAliases: Record<string, string> = {
+  "space-9": "var(--space-9)",
+  "space-10": "var(--space-10)",
+  "space-11": "var(--space-11)",
   "space-12": "var(--space-12)",
   "space-16": "var(--space-16)",
 };

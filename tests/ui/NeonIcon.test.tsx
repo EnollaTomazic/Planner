@@ -25,6 +25,15 @@ const DANGER_THEMES: readonly ThemeVariant[] = [
 
 let stylesInjected = false;
 let neonIconCss: string | null = null;
+let globalsCss: string | null = null;
+let icon2xlSize: string;
+
+function sanitizeCss(value: string): string {
+  return value
+    .replace(/@tailwind[^;]+;/g, "")
+    .replace(/@reference[^;]+;/g, "")
+    .replace(/@import[^;]+;/g, "");
+}
 
 function injectThemeStyles() {
   if (stylesInjected) {
@@ -35,9 +44,11 @@ function injectThemeStyles() {
   const rootDir = path.resolve(currentDir, "../..");
   const tokensCss = fs.readFileSync(path.join(rootDir, "tokens/tokens.css"), "utf8");
   const themesCssRaw = fs.readFileSync(path.join(rootDir, "src/app/themes.css"), "utf8");
-  const themesCss = themesCssRaw.replace(/@import[^;]+;/g, "");
+  const globalsCssRaw = loadGlobalsCss();
+  const themesCss = sanitizeCss(themesCssRaw);
+  const normalizedGlobalsCss = sanitizeCss(globalsCssRaw);
   const style = document.createElement("style");
-  style.textContent = `${tokensCss}\n${themesCss}`;
+  style.textContent = `${tokensCss}\n${themesCss}\n${normalizedGlobalsCss}`;
   document.head.appendChild(style);
   stylesInjected = true;
 }
@@ -49,6 +60,15 @@ function resolveColorExpression(value: string): string {
   const resolved = getComputedStyle(scratch).color;
   scratch.remove();
   return resolved;
+}
+
+function resolveLength(value: string): string {
+  const scratch = document.createElement("div");
+  scratch.style.width = value;
+  document.body.appendChild(scratch);
+  const { width } = getComputedStyle(scratch);
+  scratch.remove();
+  return width;
 }
 
 function resolveDangerColor(): { color: string; value: string } {
@@ -73,6 +93,17 @@ function loadNeonIconCss(): string {
     "utf8",
   );
   return neonIconCss;
+}
+
+function loadGlobalsCss(): string {
+  if (globalsCss) {
+    return globalsCss;
+  }
+  const currentFile = fileURLToPath(import.meta.url);
+  const currentDir = path.dirname(currentFile);
+  const rootDir = path.resolve(currentDir, "../..");
+  globalsCss = fs.readFileSync(path.join(rootDir, "src/app/globals.css"), "utf8");
+  return globalsCss;
 }
 
 function applyTheme(variant: Variant) {
@@ -104,6 +135,7 @@ afterEach(() => {
 
 beforeAll(() => {
   injectThemeStyles();
+  icon2xlSize = resolveLength("var(--icon-size-2xl)");
 });
 
 describe("NeonIcon danger tone", () => {
@@ -120,6 +152,27 @@ describe("NeonIcon danger tone", () => {
       render(<NeonIcon icon={StubGlyph} on tone="danger" scanlines={false} aura={false} />);
       const { color: resolvedColor } = resolveDangerColor();
       expect(resolvedColor).toBe(baseDanger);
+    });
+  }
+});
+
+describe("NeonIcon size tokens", () => {
+  it("maps the 2xl size to the icon token", () => {
+    const css = loadNeonIconCss();
+    expect(css).toMatch(/data-size="2xl"[^}]+--ni-size:\s*var\(--icon-size-2xl\);/);
+  });
+
+  for (const { id, label } of DANGER_THEMES) {
+    it(`keeps the ${label} 2xl footprint`, () => {
+      applyTheme(id);
+      const { container } = render(
+        <NeonIcon icon={StubGlyph} on tone="accent" size="2xl" scanlines={false} aura={false} />,
+      );
+      const root = container.firstElementChild as HTMLElement | null;
+      expect(root).not.toBeNull();
+      const computed = getComputedStyle(root!);
+      expect(computed.width).toBe(icon2xlSize);
+      expect(computed.height).toBe(icon2xlSize);
     });
   }
 });

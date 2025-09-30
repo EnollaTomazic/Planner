@@ -345,6 +345,9 @@
   --surface-card-strong-today: linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--card) / 0.7));
   --surface-card-strong-empty: linear-gradient(180deg, hsl(var(--card) / 0.6), hsl(var(--card) / 0.5));
   --surface-rail-accent: linear-gradient(180deg, hsl(var(--accent)), hsl(var(--primary)));
+  --space-9: calc(var(--space-8) + var(--space-1));
+  --space-10: calc(var(--space-8) + var(--space-2));
+  --space-11: calc(var(--space-8) + var(--space-3));
   --spacing-0-125: calc(var(--spacing-1) / 8);
   --spacing-0-25: calc(var(--spacing-1) / 4);
   --spacing-0-5: calc(var(--spacing-1) / 2);

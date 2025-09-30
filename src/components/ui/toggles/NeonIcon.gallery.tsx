@@ -41,6 +41,12 @@ const NEON_ICON_STATES: readonly NeonIconState[] = [
     props: { tone: "danger", on: false },
     code: `<NeonIcon icon={Zap} on={false} tone="danger" />`,
   },
+  {
+    id: "accent-2xl",
+    name: "Accent 2xl",
+    props: { tone: "accent", size: "2xl" },
+    code: `<NeonIcon icon={Zap} on tone="accent" size="2xl" />`,
+  },
 ] as const;
 
 function NeonIconStatePreview({ state }: { readonly state: NeonIconState }) {
@@ -57,6 +63,7 @@ function NeonIconGalleryPreview() {
       <NeonIcon {...BASE_PROPS} tone="warning" />
       <NeonIcon {...BASE_PROPS} tone="danger" />
       <NeonIcon {...BASE_PROPS} tone="danger" on={false} />
+      <NeonIcon {...BASE_PROPS} tone="accent" size="2xl" />
     </div>
   );
 }
@@ -119,6 +126,7 @@ export default defineGallerySection({
   <NeonIcon icon={Zap} on tone="warning" />
   <NeonIcon icon={Zap} on tone="danger" />
   <NeonIcon icon={Zap} on={false} tone="danger" />
+  <NeonIcon icon={Zap} on tone="accent" size="2xl" />
 </div>`,
     },
   ],
