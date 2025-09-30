@@ -1,5 +1,15 @@
+import {
+  depthTokenNames,
+  gradientTokenNames,
+  motionTokenNames,
+  surfaceTokenNames,
+} from "./tokens";
+
 export type DesignTokenCategory =
   | "color"
+  | "surface"
+  | "gradient"
+  | "depth"
   | "state"
   | "spacing"
   | "radius"
@@ -25,6 +35,9 @@ export interface DesignTokenGroup {
 
 export const DESIGN_TOKEN_CATEGORY_ORDER: readonly DesignTokenCategory[] = [
   "color",
+  "surface",
+  "gradient",
+  "depth",
   "state",
   "spacing",
   "radius",
@@ -36,6 +49,9 @@ export const DESIGN_TOKEN_CATEGORY_ORDER: readonly DesignTokenCategory[] = [
 
 export const DESIGN_TOKEN_CATEGORY_LABELS: Record<DesignTokenCategory, string> = {
   color: "Color",
+  surface: "Surface",
+  gradient: "Gradient",
+  depth: "Depth",
   state: "State",
   spacing: "Spacing",
   radius: "Radius",
@@ -50,6 +66,11 @@ const EXACT_CATEGORY_OVERRIDES = new Map<string, DesignTokenCategory>([
   ["glow-strong", "color"],
   ["glow-soft", "color"],
 ]);
+
+const DEPTH_TOKEN_SET = new Set<string>(depthTokenNames);
+const SURFACE_TOKEN_SET = new Set<string>(surfaceTokenNames);
+const GRADIENT_TOKEN_SET = new Set<string>(gradientTokenNames);
+const MOTION_TOKEN_SET = new Set<string>(motionTokenNames);
 
 const SPACING_SPECIFIC_NAMES = new Set<string>([
   "control-px",
@@ -102,6 +123,22 @@ const categorizeDesignToken = (
   }
 
   const normalizedName = name.toLowerCase();
+
+  if (MOTION_TOKEN_SET.has(name)) {
+    return "motion";
+  }
+
+  if (DEPTH_TOKEN_SET.has(name)) {
+    return "depth";
+  }
+
+  if (SURFACE_TOKEN_SET.has(name)) {
+    return "surface";
+  }
+
+  if (GRADIENT_TOKEN_SET.has(name)) {
+    return "gradient";
+  }
 
   if (
     STATE_TOKEN_KEYWORDS.some((keyword) => normalizedName.includes(keyword)) ||
