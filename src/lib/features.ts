@@ -1,6 +1,7 @@
 const rawSvgNumericFilters = process.env.NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS;
 const rawDepthTheme = process.env.NEXT_PUBLIC_DEPTH_THEME;
 const rawOrganicDepth = process.env.NEXT_PUBLIC_ORGANIC_DEPTH;
+const rawGlitchLanding = process.env.NEXT_PUBLIC_FEATURE_GLITCH_LANDING;
 
 const enabledValues = new Set(["1", "true", "on", "yes"]);
 const disabledValues = new Set(["0", "false", "off", "no"]);
@@ -26,5 +27,11 @@ function parseBooleanFlag(raw: string | undefined, fallback: boolean): boolean {
 const svgNumericFilters = parseBooleanFlag(rawSvgNumericFilters, true);
 const depthThemeEnabled = parseBooleanFlag(rawDepthTheme, false);
 const organicDepthEnabled = parseBooleanFlag(rawOrganicDepth, false);
+const glitchLandingPreviewEnabled = parseBooleanFlag(rawGlitchLanding, true);
 
-export { depthThemeEnabled, organicDepthEnabled, svgNumericFilters };
+export {
+  depthThemeEnabled,
+  glitchLandingPreviewEnabled,
+  organicDepthEnabled,
+  svgNumericFilters,
+};

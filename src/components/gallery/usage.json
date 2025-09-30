@@ -1,4 +1,18 @@
 {
+  "glitch-landing": [],
+  "dashboard-card": [],
+  "dashboard-list": [],
+  "isometric-room": [],
+  "quick-action-grid": [],
+  "hero-planner-cards": [
+    "/"
+  ],
+  "hero-portrait-frame": [
+    "/",
+    "/preview/pages-check"
+  ],
+  "portrait-frame": [],
+  "welcome-hero-figure": [],
   "badge": [
     "/",
     "/dashboard-layout"
@@ -83,19 +97,6 @@
   "check-circle": [],
   "tab-bar": [],
   "tabs": [],
-  "dashboard-card": [],
-  "dashboard-list": [],
-  "isometric-room": [],
-  "quick-action-grid": [],
-  "hero-planner-cards": [
-    "/"
-  ],
-  "hero-portrait-frame": [
-    "/",
-    "/preview/pages-check"
-  ],
-  "portrait-frame": [],
-  "welcome-hero-figure": [],
   "review-surface": [],
   "review-slider-track": [],
   "score-meter": [],

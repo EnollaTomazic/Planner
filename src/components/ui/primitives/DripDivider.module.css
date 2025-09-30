@@ -1,0 +1,83 @@
+.root {
+  position: relative;
+  display: block;
+  inline-size: 100%;
+  block-size: var(--drip-divider-thickness, var(--hairline-w));
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  opacity: var(--drip-divider-opacity, 1);
+  transition: opacity var(--dur-quick) var(--ease-out);
+}
+
+.root[data-orientation="vertical"] {
+  inline-size: var(--drip-divider-thickness, var(--hairline-w));
+  block-size: 100%;
+}
+
+.inner {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 4% 50%,
+      hsl(
+        var(--drip-divider-stop-1, var(--backdrop-drip-1)) /
+          var(--drip-divider-alpha-1, var(--glitch-static-opacity))
+      ),
+      transparent 68%
+    ),
+    radial-gradient(
+      circle at 96% 50%,
+      hsl(
+        var(--drip-divider-stop-2, var(--backdrop-drip-2)) /
+          var(--drip-divider-alpha-2, var(--glitch-static-opacity))
+      ),
+      transparent 68%
+    ),
+    linear-gradient(
+      var(--drip-divider-angle, 90deg),
+      hsl(
+        var(--drip-divider-stop-3, var(--backdrop-drip-3)) /
+          var(--drip-divider-alpha-3, var(--glitch-overlay-button-opacity))
+      )
+        0%,
+      transparent 85%
+    );
+  transform: translateZ(0);
+}
+
+.inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--drip-divider-stop-3, var(--accent)) / 0.3),
+      transparent
+    );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity var(--dur-quick) var(--ease-out);
+}
+
+.root[data-animated="true"] .inner::after {
+  opacity: 1;
+  animation: drip-divider-scan var(--dur-slow) linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root[data-animated="true"] .inner::after {
+    animation: none;
+  }
+}
+
+@keyframes drip-divider-scan {
+  from {
+    transform: translateX(-60%);
+  }
+  to {
+    transform: translateX(60%);
+  }
+}

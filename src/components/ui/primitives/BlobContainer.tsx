@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { useReducedMotion } from "framer-motion";
 
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { cn } from "@/lib/utils";
 
 export type GlitchOverlayToken =
@@ -46,7 +46,7 @@ const BlobContainer = React.forwardRef<HTMLSpanElement, BlobContainerProps>(
     },
     ref,
   ) => {
-    const reduceMotion = useReducedMotion();
+    const reduceMotion = usePrefersReducedMotion();
     const overlayVar = resolveTokenVar(overlayToken);
     const noiseVar = resolveTokenVar(noiseToken);
     const activeNoiseVar = noiseActiveToken
@@ -65,14 +65,16 @@ const BlobContainer = React.forwardRef<HTMLSpanElement, BlobContainerProps>(
       mergedStyle["--blob-noise-active-target"] = noiseVar;
     }
 
+    const shouldAnimate = animate && !reduceMotion;
+
     const blobAnimationClass = cn(
       "motion-reduce:animate-none",
-      animate && !reduceMotion && "motion-safe:animate-blob-drift",
+      shouldAnimate && "motion-safe:animate-blob-drift",
     );
 
     const noiseAnimationClass = cn(
       "motion-reduce:animate-none",
-      animate && !reduceMotion && "motion-safe:animate-glitch-noise",
+      shouldAnimate && "motion-safe:animate-glitch-noise",
     );
 
     return (

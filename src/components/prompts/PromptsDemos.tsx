@@ -25,6 +25,9 @@ import {
   Toggle,
   BlobContainer,
   DripEdge,
+  DripDivider,
+  GlitchButton,
+  ProgressRing,
 } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -176,6 +179,25 @@ export default function PromptsDemos() {
               </p>
             </div>
           </div>
+        </div>
+      </Card>
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
+        <h3 className="type-title">Glitch controls</h3>
+        <p className="text-ui text-muted-foreground">
+          <code>GlitchButton</code>, <code>DripDivider</code>, and
+          <code>ProgressRing</code> consume the same overlay tokens so their
+          motion, color, and spacing stay in sync with the landing page hero.
+        </p>
+        <div className="flex flex-wrap items-center gap-[var(--space-3)]">
+          <GlitchButton>Launch planner</GlitchButton>
+          <GlitchButton tone="primary">Join beta</GlitchButton>
+        </div>
+        <DripDivider className="mx-auto w-full max-w-[calc(var(--space-8)*8)]" tone="accent" />
+        <div className="flex flex-wrap items-center gap-[var(--space-4)]">
+          <ProgressRing value={72}>Focus time</ProgressRing>
+          <ProgressRing value={36} size="s" tone="info">
+            Objectives hit
+          </ProgressRing>
         </div>
       </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-3)]">

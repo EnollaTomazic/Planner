@@ -1,0 +1,73 @@
+.page {
+  position: relative;
+  min-block-size: 100vh;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.heroBacker {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heroBlob {
+  position: absolute;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  inline-size: var(--hero-blob-size, calc(var(--space-8) * 14));
+  block-size: var(--hero-blob-size, calc(var(--space-8) * 14));
+  filter: blur(var(--space-2));
+  opacity: 0.68;
+}
+
+.heroBlobPrimary {
+  inset-inline-end: calc(var(--space-8));
+  inset-block-start: calc(var(--space-6));
+}
+
+.heroBlobSecondary {
+  inset-inline-start: calc(var(--space-6));
+  inset-block-end: calc(var(--space-4));
+  inline-size: calc(var(--hero-blob-size, calc(var(--space-8) * 14)) * 0.7);
+  block-size: calc(var(--hero-blob-size, calc(var(--space-8) * 14)) * 0.7);
+  filter: blur(var(--space-3));
+  opacity: 0.6;
+}
+
+.heroFrame {
+  position: relative;
+  z-index: 1;
+}
+
+.metrics {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(calc(var(--space-8) * 4), 1fr));
+}
+
+.featureGrid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 64rem) {
+  .featureGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
