@@ -176,7 +176,7 @@ describe("WeekPicker", () => {
       "focus-visible:[--tw-ring-width:var(--ring-size-2)]",
     );
     expect(firstOption.className).toContain(
-      "focus-visible:[--tw-ring-color:var(--theme-ring)]",
+      "focus-visible:[--tw-ring-color:var(--focus-outline,var(--theme-ring))]",
     );
     expect(firstOption.className).toContain("data-[focus-visible]:outline-none");
     expect(firstOption.className).toContain("data-[focus-visible]:ring");
@@ -187,7 +187,7 @@ describe("WeekPicker", () => {
       "data-[focus-visible]:[--tw-ring-width:var(--ring-size-2)]",
     );
     expect(firstOption.className).toContain(
-      "data-[focus-visible]:[--tw-ring-color:var(--theme-ring)]",
+      "data-[focus-visible]:[--tw-ring-color:var(--focus-outline,var(--theme-ring))]",
     );
   });
 
