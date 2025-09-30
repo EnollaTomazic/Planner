@@ -112,6 +112,9 @@ const HERO_SUBTITLE_IDS: Record<Tab, string> = {
 };
 
 const HERO_REGION_ID = "goals-hero-region";
+const GOALS_TABS_ID_BASE = "goals-tabs";
+const getGoalsTabId = (key: Tab) => `${GOALS_TABS_ID_BASE}-${key}-tab`;
+const getGoalsPanelId = (key: Tab) => `${GOALS_TABS_ID_BASE}-${key}-panel`;
 
 /* ====================================================================== */
 
@@ -481,6 +484,7 @@ function GoalsPageContent() {
               value: tab,
               onChange: handleTabChange,
               ariaLabel: "Goals header mode",
+              idBase: GOALS_TABS_ID_BASE,
             },
           }}
           hero={{
@@ -509,9 +513,9 @@ function GoalsPageContent() {
         <div className="grid gap-[var(--space-6)]">
           {/* ======= PANELS ======= */}
           <div
-            role="region"
-            id="goals-panel"
-            aria-labelledby="goals-tab"
+            role="tabpanel"
+            id={getGoalsPanelId("goals")}
+            aria-labelledby={getGoalsTabId("goals")}
             hidden={tab !== "goals"}
             tabIndex={tab === "goals" ? 0 : -1}
             ref={goalsRef}
@@ -617,9 +621,9 @@ function GoalsPageContent() {
           </div>
 
           <div
-            role="region"
-            id="reminders-panel"
-            aria-labelledby="reminders-tab"
+            role="tabpanel"
+            id={getGoalsPanelId("reminders")}
+            aria-labelledby={getGoalsTabId("reminders")}
             hidden={tab !== "reminders"}
             tabIndex={tab === "reminders" ? 0 : -1}
             ref={remindersRef}
@@ -629,9 +633,9 @@ function GoalsPageContent() {
           </div>
 
           <div
-            role="region"
-            id="timer-panel"
-            aria-labelledby="timer-tab"
+            role="tabpanel"
+            id={getGoalsPanelId("timer")}
+            aria-labelledby={getGoalsTabId("timer")}
             hidden={tab !== "timer"}
             tabIndex={tab === "timer" ? 0 : -1}
             ref={timerRef}

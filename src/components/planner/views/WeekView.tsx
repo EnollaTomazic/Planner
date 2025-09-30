@@ -15,7 +15,7 @@ export default function WeekView() {
 
   return (
     <PageShell
-      as="section"
+      as="div"
       grid
       className="py-[var(--space-6)]"
       contentClassName="gap-y-[var(--space-6)]"

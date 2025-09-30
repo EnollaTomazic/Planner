@@ -8,11 +8,7 @@ import { SectionCard } from "@/components/ui";
 import { VARIANTS, type Variant } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
-import type {
-  ThemeMatrixEntry,
-  ThemeMatrixVariantGroup,
-  ThemeMatrixVariantPreview,
-} from "./types";
+import type { ThemeMatrixEntry, ThemeMatrixVariantPreview } from "./types";
 
 const BACKGROUND_LABELS: Record<number, string> = {
   0: "Default background",
@@ -29,9 +25,13 @@ const variantColumnsStyle = {
 } satisfies React.CSSProperties;
 
 const PREVIEW_HEIGHT_VARIABLE =
-  "[--theme-matrix-preview-min-h:calc(var(--space-8)*5+var(--space-4))]";
+  "[--theme-matrix-preview-min-h:calc(var(--space-8) * 5 + var(--space-4))]";
 const PREVIEW_MIN_HEIGHT_CLASS =
   "min-h-[var(--theme-matrix-preview-min-h)]";
+
+function getBackgroundLabel(background: number): string {
+  return BACKGROUND_LABELS[background] ?? `Background ${background}`;
+}
 
 function ThemeMatrixPreviewFrame({
   entryName,
@@ -45,8 +45,7 @@ function ThemeMatrixPreviewFrame({
   readonly preview: ThemeMatrixVariantPreview;
 }) {
   const url = `/preview/${preview.slug}`;
-  const backgroundLabel =
-    BACKGROUND_LABELS[preview.background] ?? `Background ${preview.background}`;
+  const backgroundLabel = getBackgroundLabel(preview.background);
   const titleParts = [entryName];
   if (stateName) {
     titleParts.push(stateName);
@@ -90,52 +89,58 @@ function ThemeMatrixPreviewFrame({
   );
 }
 
-function ThemeMatrixVariantColumn({
+function ThemeMatrixMissingPreview({
+  variantLabel,
+  backgroundLabel,
+}: {
+  readonly variantLabel: string;
+  readonly backgroundLabel: string;
+}) {
+  return (
+    <div
+      className={cn(
+        PREVIEW_HEIGHT_VARIABLE,
+        PREVIEW_MIN_HEIGHT_CLASS,
+        "flex items-center justify-center rounded-card border border-dashed border-card-hairline-60 bg-surface/60 p-[var(--space-4)] text-center text-caption text-muted-foreground",
+      )}
+    >
+      <p className="max-w-[30ch]">
+        Missing preview for the {variantLabel} theme ({backgroundLabel}).
+      </p>
+    </div>
+  );
+}
+
+function ThemeMatrixVariantGridCell({
   entryName,
   stateName,
   variantLabel,
-  variant,
+  preview,
+  background,
 }: {
   readonly entryName: string;
   readonly stateName: string | null;
   readonly variantLabel: string;
-  readonly variant: ThemeMatrixVariantGroup | undefined;
+  readonly preview: ThemeMatrixVariantPreview | null;
+  readonly background: number;
 }) {
-  if (!variant || variant.previews.length === 0) {
-    return (
-      <div
-        className={cn(
-          PREVIEW_HEIGHT_VARIABLE,
-          PREVIEW_MIN_HEIGHT_CLASS,
-          "flex items-center justify-center rounded-card border border-dashed border-card-hairline-60 bg-surface/60 p-[var(--space-4)] text-center text-caption text-muted-foreground",
-        )}
-        role="gridcell"
-      >
-        <p className="max-w-[30ch]">
-          Missing preview for the {variant?.variantLabel ?? variantLabel} theme.
-        </p>
-      </div>
-    );
-  }
-
-  const previews = [...variant.previews].sort((a, b) => {
-    if (a.background !== b.background) {
-      return a.background - b.background;
-    }
-    return a.slug.localeCompare(b.slug);
-  });
+  const backgroundLabel = getBackgroundLabel(background);
 
   return (
     <div className="space-y-[var(--space-3)]" role="gridcell">
-      {previews.map((preview) => (
+      {preview ? (
         <ThemeMatrixPreviewFrame
-          key={`${preview.slug}-${preview.background}`}
           entryName={entryName}
           stateName={stateName}
-          variantLabel={variant.variantLabel}
+          variantLabel={preview.variantLabel}
           preview={preview}
         />
-      ))}
+      ) : (
+        <ThemeMatrixMissingPreview
+          variantLabel={variantLabel}
+          backgroundLabel={backgroundLabel}
+        />
+      )}
     </div>
   );
 }
@@ -164,9 +169,35 @@ export function ThemeMatrixEntryCard({ entry }: ThemeMatrixEntryCardProps) {
             ? `${group.entryId}--${group.stateId}`
             : group.entryId;
           const stateHeadingId = stateLabel ? `${themeMatrixEntryId}-state` : undefined;
-          const variantLookup = new Map<Variant, ThemeMatrixVariantGroup>(
-            group.variants.map((variant) => [variant.variant, variant]),
-          );
+          const variantPreviewLookup = new Map<
+            Variant,
+            Map<number, ThemeMatrixVariantPreview>
+          >();
+          const backgroundSet = new Set<number>();
+
+          for (const variantGroup of group.variants) {
+            const sortedPreviews = [...variantGroup.previews].sort((a, b) => {
+              if (a.background !== b.background) {
+                return a.background - b.background;
+              }
+              return a.slug.localeCompare(b.slug);
+            });
+
+            const backgroundLookup = new Map<number, ThemeMatrixVariantPreview>();
+            for (const preview of sortedPreviews) {
+              if (!backgroundLookup.has(preview.background)) {
+                backgroundLookup.set(preview.background, preview);
+              }
+              backgroundSet.add(preview.background);
+            }
+
+            variantPreviewLookup.set(variantGroup.variant, backgroundLookup);
+          }
+
+          const backgrounds =
+            backgroundSet.size > 0
+              ? [...backgroundSet].sort((a, b) => a - b)
+              : [0];
 
           return (
             <article
@@ -204,19 +235,28 @@ export function ThemeMatrixEntryCard({ entry }: ThemeMatrixEntryCardProps) {
                       </span>
                     ))}
                   </div>
-                  <div
-                    className="grid gap-[var(--space-3)]"
-                    style={variantColumnsStyle}
-                    role="rowgroup"
-                  >
-                    {VARIANTS.map((variant) => (
-                      <ThemeMatrixVariantColumn
-                        key={variant.id}
-                        entryName={entry.entryName}
-                        stateName={stateLabel ?? null}
-                        variantLabel={variant.label}
-                        variant={variantLookup.get(variant.id)}
-                      />
+                  <div className="space-y-[var(--space-3)]" role="rowgroup">
+                    {backgrounds.map((background) => (
+                      <div
+                        key={`background-${background}`}
+                        className="grid gap-[var(--space-3)]"
+                        style={variantColumnsStyle}
+                        role="row"
+                        aria-label={getBackgroundLabel(background)}
+                      >
+                        {VARIANTS.map((variant) => (
+                          <ThemeMatrixVariantGridCell
+                            key={variant.id}
+                            entryName={entry.entryName}
+                            stateName={stateLabel ?? null}
+                            variantLabel={variant.label}
+                            preview={
+                              variantPreviewLookup.get(variant.id)?.get(background) ?? null
+                            }
+                            background={background}
+                          />
+                        ))}
+                      </div>
                     ))}
                   </div>
                 </div>
