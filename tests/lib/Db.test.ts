@@ -590,6 +590,42 @@ describe("Db", () => {
       });
     });
 
+    it("uses the latest initial value provided after a key swap", async () => {
+      const { usePersistentState } = await import("@/lib/db");
+
+      const { result, rerender } = renderHook(
+        ({ storageKey, initial }) => usePersistentState(storageKey, initial),
+        {
+          initialProps: {
+            storageKey: "preview:first",
+            initial: { variant: "aurora" },
+          },
+        },
+      );
+
+      act(() => {
+        result.current[1]({ variant: "glitch" });
+      });
+
+      rerender({
+        storageKey: "preview:second",
+        initial: { variant: "aurora" },
+      });
+
+      await waitFor(() => {
+        expect(result.current[0]).toEqual({ variant: "aurora" });
+      });
+
+      rerender({
+        storageKey: "preview:second",
+        initial: { variant: "oceanic" },
+      });
+
+      await waitFor(() => {
+        expect(result.current[0]).toEqual({ variant: "oceanic" });
+      });
+    });
+
     it("persists prompts saved before hydration completes", async () => {
       const { usePromptLibrary } = await import(
         "@/components/prompts/usePromptLibrary"
