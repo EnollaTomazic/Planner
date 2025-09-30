@@ -2,16 +2,6 @@
   --card-depth-sm: var(--neo-depth-sm);
   --card-depth-md: var(--neo-depth-md);
   --card-depth-lg: var(--neo-depth-lg);
-  --card-shadow-base: 0 0 0 var(--hairline-w) hsl(var(--card-hairline) / 0.6),
-    0 var(--card-depth-sm) calc(var(--card-depth-lg) * 2)
-      hsl(var(--shadow-color) / 0.24);
-  --card-shadow-raised: 0 0 0 var(--hairline-w) hsl(var(--card-hairline) / 0.75),
-    0 var(--card-depth-md) calc(var(--card-depth-lg) * 2.35)
-      hsl(var(--shadow-color) / 0.32);
-  --card-shadow-sunken: inset 0 var(--card-depth-sm)
-      calc(var(--card-depth-lg) * 1.15) hsl(var(--shadow-color) / 0.32),
-    inset 0 calc(var(--card-depth-sm) * -1)
-      calc(var(--card-depth-lg) * 1.15) hsl(var(--card-hairline) / 0.28);
   position: relative;
   isolation: isolate;
   border-radius: calc(var(--radius-card) * 1.05)
@@ -28,7 +18,6 @@
     hsl(var(--card) / 0.82),
     hsl(var(--surface-2) / 0.68)
   );
-  box-shadow: var(--card-shadow, var(--card-shadow-base));
   transition:
     box-shadow var(--dur-quick) var(--ease-out),
     transform var(--dur-quick) var(--ease-out),
@@ -60,23 +49,8 @@
   transition: opacity var(--dur-quick) var(--ease-out);
 }
 
-.root[data-depth="base"] {
-  --card-shadow: var(--card-shadow-base);
-}
-
-.root[data-depth="raised"] {
-  --card-shadow: var(--card-shadow-raised);
-}
-
-.root[data-depth="sunken"] {
-  --card-shadow: var(--card-shadow-sunken);
-}
-
 .root[data-depth="raised"]:hover,
 .root[data-depth="raised"]:focus-visible {
-  box-shadow: 0 0 0 var(--hairline-w) hsl(var(--card-hairline) / 0.78),
-    0 calc(var(--card-depth-lg)) calc(var(--card-depth-lg) * 2.6)
-      hsl(var(--shadow-color) / 0.36);
   transform: translateY(calc(var(--card-depth-sm) * -0.35));
 }
 

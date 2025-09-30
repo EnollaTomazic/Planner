@@ -108,6 +108,17 @@ const toneForegroundVar: Record<Tone, string> = {
   danger: "--danger-foreground",
 };
 
+const primaryShadowVars: Record<Tone, string> = {
+  primary:
+    "[--glow-active:hsl(var(--primary)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--primary)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--primary)/0.6)]",
+  accent:
+    "[--glow-active:hsl(var(--accent)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--accent)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--accent)/0.6)]",
+  info:
+    "[--glow-active:hsl(var(--accent-2)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--accent-2)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--accent-2)/0.6)]",
+  danger:
+    "[--glow-active:hsl(var(--danger)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--danger)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--danger)/0.6)]",
+};
+
 const toneInteractionTokens: Record<Tone, string> = {
   primary: "[--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)]",
   accent: "[--hover:hsl(var(--accent)/0.14)] [--active:hsl(var(--accent)/0.2)]",
@@ -134,10 +145,10 @@ export const toneClasses: Record<
   Record<Tone, string>
 > = {
   primary: {
-    primary: toneInteractionTokens.primary,
-    accent: toneInteractionTokens.accent,
-    info: toneInteractionTokens.info,
-    danger: toneInteractionTokens.danger,
+    primary: cn(toneInteractionTokens.primary, primaryShadowVars.primary),
+    accent: cn(toneInteractionTokens.accent, primaryShadowVars.accent),
+    info: cn(toneInteractionTokens.info, primaryShadowVars.info),
+    danger: cn(toneInteractionTokens.danger, primaryShadowVars.danger),
   },
   secondary: {
     primary: cn(
@@ -208,7 +219,9 @@ export const variants: Record<
 > = {
   primary: ({ tone, tactile }) => ({
     className: cn(
-      "[--neo-shadow:var(--btn-primary-shadow-rest)] [--neo-shadow-hover:var(--btn-primary-shadow-hover)] active:shadow-[var(--btn-primary-shadow-active)]",
+      tactile
+        ? "shadow-inner-md hover:shadow-inner-lg active:shadow-inner-lg"
+        : "shadow-glow-md hover:shadow-btn-primary-hover active:shadow-btn-primary-active",
       tactile
         ? "active:translate-y-0"
         : "active:translate-y-[var(--spacing-0-25)]",
@@ -228,7 +241,10 @@ export const variants: Record<
   }),
   secondary: ({ tactile }) => ({
     className: cn(
-      "[--neu-surface:hsl(var(--panel)/0.8)] [--neo-shadow:var(--btn-secondary-shadow-rest)] [--neo-shadow-hover:var(--btn-secondary-shadow-hover)] active:shadow-[var(--btn-secondary-shadow-active)]",
+      "[--neu-surface:hsl(var(--panel)/0.8)]",
+      tactile
+        ? "shadow-inner-md hover:shadow-inner-lg active:shadow-inner-lg"
+        : "shadow-control hover:shadow-control-hover active:shadow-inner-md",
       tactile && "active:translate-y-0",
     ),
     whileHover: tactile
@@ -275,7 +291,6 @@ export const Button = React.forwardRef<
   const spinnerSize = buttonSpinnerSizes[size];
   const base = cn(
     neumorphicStyles.neu,
-    neumorphicStyles["neu-hover"],
     styles.root,
     styles.organicControl,
     glitch && "glitch-wrapper",
