@@ -17,6 +17,7 @@ import {
   Toggle,
 } from "@/components/ui";
 import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
+import segmentedButtonStyles from "@/components/ui/primitives/SegmentedButton.module.css";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn } from "@/lib/utils";
 import GalleryItem from "../GalleryItem";
@@ -220,9 +221,11 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
               renderItem={({ item, active, props, ref, disabled }) => {
                 const { className: baseClassName, onClick, ...restProps } = props;
                 const className = cn(
-                  "btn-like-segmented font-mono text-ui",
+                  segmentedButtonStyles.root,
+                  "font-mono text-ui",
                   baseClassName,
-                  active && "btn-glitch is-active",
+                  active && segmentedButtonStyles.glitch,
+                  active && "glitch-wrapper group/glitch is-active",
                   disabled && "pointer-events-none opacity-disabled",
                 );
                 const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
@@ -235,6 +238,9 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
                     ref={ref as React.Ref<HTMLButtonElement>}
                     className={className}
                     disabled={disabled}
+                    data-selected={active ? "true" : undefined}
+                    data-glitch={active ? "true" : undefined}
+                    data-depth="raised"
                     onClick={(event) => {
                       if (disabled) {
                         event.preventDefault();

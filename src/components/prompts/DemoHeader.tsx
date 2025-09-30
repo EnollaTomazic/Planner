@@ -12,6 +12,8 @@ import {
 import { SCORE_POOLS, scoreIcon } from "@/components/reviews/reviewData";
 import { FRUIT_ITEMS, NEON_ICONS } from "./demoData";
 import type { Role } from "@/lib/types";
+import { cn } from "@/lib/utils";
+import segmentedButtonStyles from "@/components/ui/primitives/SegmentedButton.module.css";
 
 const DEMO_SCORE = 7;
 const { Icon: DemoScoreIcon, cls: demoScoreCls } = scoreIcon(DEMO_SCORE);
@@ -70,7 +72,13 @@ export default function DemoHeader({
         <Input
           aria-label="Timer demo"
           defaultValue="25:00"
-          className="btn-like-segmented btn-glitch w-[5ch]"
+          className={cn(
+            segmentedButtonStyles.root,
+            segmentedButtonStyles.glitch,
+            "glitch-wrapper group/glitch w-[5ch]",
+          )}
+          data-depth="raised"
+          glitch
           inputClassName="text-center"
           type="text"
         />
