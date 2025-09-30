@@ -1,5 +1,5 @@
-// src/components/chrome/nav-items.ts
-// Navigation items shared across chrome components.
+// src/config/nav.ts
+// Shared navigation configuration for chrome components and documentation.
 
 import type { LucideIcon } from "lucide-react";
 import {

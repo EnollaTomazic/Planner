@@ -78,7 +78,7 @@ import {
   PortraitFrame,
   WelcomeHeroFigure,
 } from "@/components/home";
-import { NAV_ITEMS, type NavItem } from "@/components/chrome/nav-items";
+import { NAV_ITEMS, type NavItem } from "@/config/nav";
 import ChampListEditor from "@/components/team/ChampListEditor";
 import {
   RoleSelector,
