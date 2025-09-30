@@ -169,6 +169,7 @@ const heroPlannerHighlightsDemo = [
 
 const heroPlannerOverviewDemo = {
   hydrating: false,
+  hydrated: true,
   summary: {
     label: "Planner overview",
     title: "Week of April 22",
