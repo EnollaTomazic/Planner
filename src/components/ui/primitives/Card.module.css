@@ -64,10 +64,6 @@
   opacity: 0.32;
 }
 
-.glitch {
-  --glitch-overlay-opacity: var(--glitch-overlay-opacity-card);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .root {
     transition: none;
