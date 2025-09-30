@@ -99,7 +99,7 @@ export default function MobileNavDrawer({
         </div>
         <nav
           role="navigation"
-          aria-label="Primary mobile navigation"
+          aria-label="Primary"
           id={id}
           className="px-[var(--space-2)]"
         >
