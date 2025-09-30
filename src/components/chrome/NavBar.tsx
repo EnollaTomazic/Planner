@@ -11,7 +11,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { cn, withoutBasePath } from "@/lib/utils";
-import { NAV_ITEMS, NavItem, isNavActive } from "./nav-items";
+import { NAV_ITEMS, NavItem, isNavActive } from "@/config/nav";
 
 type NavBarProps = {
   items?: readonly NavItem[];

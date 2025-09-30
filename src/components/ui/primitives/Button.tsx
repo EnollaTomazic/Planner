@@ -6,6 +6,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { motion, useReducedMotion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
 import { cn, withBasePath } from "@/lib/utils";
+import { useOrganicDepthEnabled } from "@/lib/depth-theme-context";
 import Spinner, { type SpinnerTone, type SpinnerSize } from "../feedback/Spinner";
 import neumorphicStyles from "../neumorphic.module.css";
 import BlobContainer, { type GlitchOverlayToken } from "./BlobContainer";
@@ -292,10 +293,12 @@ export const Button = React.forwardRef<
     !asChild && "href" in props && typeof props.href !== "undefined";
   const s = buttonSizes[size];
   const spinnerSize = buttonSpinnerSizes[size];
+  const organicDepth = useOrganicDepthEnabled();
+
   const base = cn(
     neumorphicStyles.neu,
     styles.root,
-    styles.organicControl,
+    organicDepth && styles.organicControl,
     glitch && "group/glitch isolate overflow-hidden",
     "relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
     "data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none",
