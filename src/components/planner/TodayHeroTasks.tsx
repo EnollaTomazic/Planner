@@ -124,8 +124,8 @@ export default function TodayHeroTasks({
                     }}
                     className={cn(
                       "task-tile absolute inset-0 w-full rounded-card r-card-lg border transition-colors",
-                      "border-border bg-card/55 hover:bg-card/70 focus-visible:bg-card/70 active:bg-card/80",
-                      "group-hover:bg-card/70 group-active:bg-card/80 group-focus-within:bg-card/70",
+                      "border-border surface-card-soft hover:surface-card-strong focus-visible:surface-card-strong active:surface-card-strong-active",
+                      "group-hover:surface-card-strong group-active:surface-card-strong-active group-focus-within:surface-card-strong",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
                       "group-focus-within:ring-2 group-focus-within:ring-ring group-focus-within:ring-offset-0",
                     )}

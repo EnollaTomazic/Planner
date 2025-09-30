@@ -13,6 +13,18 @@ const plannerSurfaces = plugin(({ addUtilities }) => {
     ".surface-card-strong": {
       background: "var(--surface-card-strong)",
     },
+    ".surface-card-strong-hover": {
+      background: "var(--surface-card-strong-hover)",
+    },
+    ".surface-card-strong-active": {
+      background: "var(--surface-card-strong-active)",
+    },
+    ".surface-card-strong-today": {
+      background: "var(--surface-card-strong-today)",
+    },
+    ".surface-card-strong-empty": {
+      background: "var(--surface-card-strong-empty)",
+    },
     ".surface-rail-accent": {
       background: "var(--surface-rail-accent)",
     },

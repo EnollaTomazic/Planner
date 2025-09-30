@@ -118,7 +118,7 @@ export default function TodayHeroProjects({
                   <div
                     className={cn(
                       "group flex select-none items-center justify-between rounded-card r-card-lg border px-[var(--space-3)] py-[var(--space-2)] text-ui font-medium transition",
-                      "border-border bg-card/55 hover:bg-card/70 focus-visible:bg-card/70 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+                      "border-border surface-card-soft hover:surface-card-strong focus-visible:surface-card-strong focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
                       isSelected && "ring-1 ring-ring",
                     )}
                     tabIndex={0}

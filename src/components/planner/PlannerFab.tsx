@@ -65,7 +65,7 @@ function PlannerCreationDialog({
   if (!open || typeof document === "undefined") return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[hsl(var(--background)/0.85)] px-[var(--space-4)] pb-[var(--space-6)] pt-[var(--space-8)] sm:items-center sm:bg-[hsl(var(--background)/0.8)]">
+    <div className="planner-fab__backdrop fixed inset-0 z-50 flex items-end justify-center px-[var(--space-4)] pb-[var(--space-6)] pt-[var(--space-8)] sm:items-center">
       <div
         role="presentation"
         aria-hidden="true"
@@ -401,7 +401,7 @@ export default function PlannerFab() {
           {summaryText && (
             <div
               id={summaryId}
-              className="flex items-start gap-[var(--space-3)] rounded-[var(--radius-md)] bg-[hsl(var(--card)/0.6)] px-[var(--space-4)] py-[var(--space-3)] text-label text-muted-foreground"
+              className="flex items-start gap-[var(--space-3)] rounded-[var(--radius-md)] surface-card-strong-active px-[var(--space-4)] py-[var(--space-3)] text-label text-muted-foreground"
             >
               <CalendarClock className="mt-[var(--space-0_5)] size-[var(--space-5)]" aria-hidden />
               <div className="space-y-[var(--space-1)]">

@@ -13,6 +13,7 @@ This guide codifies how we keep the Planner design system consistent across impl
 
 - **Cause**: Our current ESLint preset focuses on React correctness but does not guard design decisions. **Impact**: Subtle violations (e.g., manual spacing, inline colors) pass code review undetected.
 - Layer style-specific rules into `eslint.config.mjs` by composing `no-restricted-syntax` blocks that disallow literal color strings, pixel-based spacing, or importing CSS files outside the themes/tokens pipeline. Mirror the allowed vocabulary by loading the token names from `tokens/tokens.js` so the rule set evolves with the design system.
+- The `design-tokens/no-raw-colors` rule (see [`docs/lint/no-raw-colors.md`](lint/no-raw-colors.md)) now blocks raw literals in Planner and theme components and points engineers toward the surface utilities exposed in `tailwind.config.ts`.
 - Keep the existing `npm run lint:design` command wired into `npm run check` (see `.github/workflows/ci.yml`, which now runs `npm run verify-prompts` ahead of the aggregate check). CI must continue running this task so the design lint gate always reports alongside the broader checks and blocks merges when it fails.
 - Surface actionable messages (e.g., "Use `space-5` instead of `20px`") to teach newcomers the preferred token. Pair the rule with a fixer where possible so migrations stay lightweight.
 

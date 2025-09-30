@@ -112,9 +112,9 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
       return { tint: "bg-success-soft", text: "text-foreground" };
     }
     if (completionRatio >= 1 / 3) {
-      return { tint: "bg-accent-3/20", text: "text-foreground" };
+      return { tint: "bg-interaction-info-tintActive", text: "text-foreground" };
     }
-    return { tint: "bg-accent-3/30", text: "text-foreground" };
+    return { tint: "bg-interaction-info-surfaceHover", text: "text-foreground" };
   }, [completionRatio, total]);
   const instructionsId = React.useId();
   const countsId = React.useId();
@@ -180,7 +180,7 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
         // default border is NOT white; use card hairline tint
         "border-card-hairline",
         completionTint,
-        "active:border-primary/60 active:bg-card/85",
+        "active:border-primary/60 active:surface-card-strong",
         today && "chip--today",
         selected
           ? "border-dashed border-primary/75"

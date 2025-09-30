@@ -26,6 +26,7 @@
     "e2e:ci": "playwright test",
     "lint:design": "tsx scripts/design-lint.ts",
     "design-lint": "npm run lint:design",
+    "codemod:planner-colors": "tsx scripts/codemods/replace-planner-colors.ts",
     "check": "concurrently \"npm test -- --run\" \"npm run lint\" \"npm run lint:design\" \"npm run typecheck\"",
     "format": "prettier --write .",
     "verify-prompts": "tsx scripts/verify-prompts.ts --verify",

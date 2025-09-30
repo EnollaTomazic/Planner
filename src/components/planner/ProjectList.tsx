@@ -187,7 +187,7 @@ export default function ProjectList({
                   }}
                   className={cn(
                     "proj-card group relative [overflow:visible] w-full text-left rounded-card r-card-lg border pl-[var(--space-4)] pr-[var(--space-2)] py-[var(--space-2)]",
-                    "bg-card/55 hover:bg-card/70 transition",
+                    "surface-card-soft hover:surface-card-strong transition",
                     "grid min-h-[var(--space-7)] grid-cols-[auto,1fr,auto] items-center gap-[var(--space-4)]",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     active && "proj-card--active ring-1 ring-ring",

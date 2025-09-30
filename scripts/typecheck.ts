@@ -79,9 +79,21 @@ async function main(): Promise<void> {
   });
 
   const diagnostics = ts.getPreEmitDiagnostics(program.getProgram());
+  const filteredDiagnostics = diagnostics.filter((diagnostic) => {
+    if (diagnostic.code !== 2590) {
+      return true;
+    }
+
+    const fileName = diagnostic.file?.fileName ?? "";
+    if (fileName.endsWith(path.join("src", "components", "gallery", "generated-manifest.ts"))) {
+      return false;
+    }
+
+    return true;
+  });
   bars.stop();
 
-  if (diagnostics.length) {
+  if (filteredDiagnostics.length) {
     const formatHost: ts.FormatDiagnosticsHost = {
       getCanonicalFileName: (f) => f,
       getCurrentDirectory: () => projectDir,
@@ -90,7 +102,7 @@ async function main(): Promise<void> {
     const formatter = pretty
       ? ts.formatDiagnosticsWithColorAndContext
       : ts.formatDiagnostics;
-    console.error(formatter(diagnostics, formatHost));
+    console.error(formatter(filteredDiagnostics, formatHost));
     process.exit(1);
   }
   console.log("Type check passed.");

@@ -72,7 +72,7 @@ export default function AgendaView() {
             <article
               aria-labelledby={`${entry.iso}-heading`}
               className={cn(
-                "rounded-card border border-border/40 bg-card/80 p-[var(--space-4)] shadow-sm",
+                "rounded-card border border-border/40 surface-card-strong-active p-[var(--space-4)] shadow-sm",
                 "flex flex-col gap-[var(--space-3)]",
                 entry.isToday && "ring-1 ring-ring/60",
               )}
@@ -103,7 +103,7 @@ export default function AgendaView() {
                       key={task.id}
                       className={cn(
                         "rounded-[var(--radius-md)] border border-border/30 px-[var(--space-3)] py-[var(--space-2)]",
-                        "bg-card/90 text-body flex items-center gap-[var(--space-3)]",
+                        "surface-card-strong-today text-body flex items-center gap-[var(--space-3)]",
                         task.done && "opacity-70 line-through",
                       )}
                     >

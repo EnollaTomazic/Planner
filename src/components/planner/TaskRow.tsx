@@ -364,7 +364,7 @@ export default function TaskRow({
           onKeyUp={handleRowKeyUp}
           className={cn(
             "absolute inset-0 w-full cursor-pointer rounded-card r-card-lg border transition-colors",
-            "bg-card/55 hover:bg-card/70 focus-visible:bg-card/70 active:bg-card/80",
+            "surface-card-soft hover:surface-card-strong focus-visible:surface-card-strong active:surface-card-strong-active",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
             "data-[focus-within=true]:ring-2 data-[focus-within=true]:ring-ring",
           )}
