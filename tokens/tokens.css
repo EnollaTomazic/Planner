@@ -21,6 +21,7 @@
   --accent-2: 190 88% 32%;
   --accent-3: 200 88% 34%;
   --accent-foreground: 0 0% 100%;
+  --accent-contrast: 294 92% 72%;
   --accent-soft: 294 90% 16%;
   --highlight: 0 0% 100%;
   --glow: 296 96% 56%;
@@ -31,6 +32,7 @@
   --warning-soft-strong: var(--warning) / 0.2;
   --muted: 248 24% 15%;
   --muted-foreground: 248 18% 74%;
+  --fg-muted: var(--muted-foreground);
   --surface: 248 26% 11%;
   --surface-2: 248 26% 16%;
   --surface-vhs: 210 24% 7%;
