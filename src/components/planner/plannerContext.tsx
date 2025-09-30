@@ -19,6 +19,7 @@ import {
   sanitizeDayRecord,
   todayISO,
   FOCUS_PLACEHOLDER,
+  HYDRATION_TODAY,
   ensureDay,
 } from "./plannerSerialization";
 import type {
@@ -232,7 +233,7 @@ function PlannerProviderInner({
     "planner:view-mode",
     "day",
   );
-  const [today, setToday] = React.useState(() => todayISO());
+  const [today, setToday] = React.useState<ISODate>(FOCUS_PLACEHOLDER);
   const [goalList, setGoalList] = usePersistentState<Goal[]>("goals.v2", [], {
     decode: decodeGoals,
   });
@@ -260,10 +261,16 @@ function PlannerProviderInner({
   }, [tasksById]);
 
   React.useEffect(() => {
-    if (focus === FOCUS_PLACEHOLDER) {
-      setFocus((prev) => (prev === FOCUS_PLACEHOLDER ? todayISO() : prev));
-    }
-  }, [focus, setFocus]);
+    if (typeof window === "undefined") return;
+    const localToday = todayISO();
+    setToday((prev) => (prev === localToday ? prev : localToday));
+    setFocus((prev) => {
+      if (prev === FOCUS_PLACEHOLDER || prev === HYDRATION_TODAY) {
+        return localToday;
+      }
+      return prev;
+    });
+  }, [setFocus]);
 
   React.useEffect(() => {
     return () => {
@@ -414,6 +421,7 @@ function PlannerProviderInner({
         setFocus((prevFocus) => {
           if (
             prevFocus === FOCUS_PLACEHOLDER ||
+            prevFocus === HYDRATION_TODAY ||
             prevFocus === prevToday
           ) {
             return nextToday;
@@ -619,15 +627,21 @@ function PlannerProviderInner({
   );
 
   const iso = focus === FOCUS_PLACEHOLDER ? today : focus;
-  const isToday = React.useCallback((candidate: ISODate) => candidate === today, [today]);
+  const normalizedIso =
+    iso === FOCUS_PLACEHOLDER ? HYDRATION_TODAY : iso;
+  const isToday = React.useCallback(
+    (candidate: ISODate) =>
+      today !== FOCUS_PLACEHOLDER && candidate === today,
+    [today],
+  );
   const week = React.useMemo(() => {
-    const { start, end } = weekRangeFromISO(iso);
+    const { start, end } = weekRangeFromISO(normalizedIso);
     const weekDays: ISODate[] = [];
     for (let i = 0; i < 7; i += 1) {
       weekDays.push(toISODate(addDays(start, i)));
     }
     return { start, end, days: weekDays, isToday } as const;
-  }, [iso, isToday]);
+  }, [normalizedIso, isToday]);
 
   const getDayFocus = React.useCallback(
     (targetIso: ISODate) => {

@@ -172,6 +172,12 @@ export function decodePlannerDays(value: unknown): Record<ISODate, DayRecord> {
 
 export const FOCUS_PLACEHOLDER: ISODate = "";
 
+/**
+ * Deterministic ISO date used while hydrating to keep SSR markup stable.
+ * Chosen as a Monday so week computations remain consistent.
+ */
+export const HYDRATION_TODAY: ISODate = "2000-01-03";
+
 export function decodePlannerFocus(value: unknown): ISODate | null {
   if (typeof value !== "string") return null;
   if (value === FOCUS_PLACEHOLDER) return value as ISODate;
