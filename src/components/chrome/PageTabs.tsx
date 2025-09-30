@@ -15,6 +15,7 @@ import TabBar, {
   type TabRenderContext,
 } from "@/components/ui/layout/TabBar";
 import { cn } from "@/lib/utils";
+import segmentedButtonStyles from "@/components/ui/primitives/SegmentedButton.module.css";
 
 import { useStickyOffsetClass } from "./useStickyOffsetClass";
 
@@ -109,9 +110,11 @@ export default function PageTabs({
     }: TabRenderContext<string, PageTabBarItem>) => {
       const { className: baseClassName, onClick, ...restProps } = props;
       const mergedClassName = cn(
-        "btn-like-segmented min-h-[var(--control-h-lg)] font-mono text-ui px-[var(--space-4)] py-[var(--space-3)]",
+        segmentedButtonStyles.root,
+        "min-h-[var(--control-h-lg)] font-mono text-ui px-[var(--space-4)] py-[var(--space-3)]",
         baseClassName,
-        active && "btn-glitch is-active",
+        active && segmentedButtonStyles.glitch,
+        active && "glitch-wrapper group/glitch is-active",
         disabled && "pointer-events-none opacity-disabled",
       );
 
@@ -140,6 +143,9 @@ export default function PageTabs({
             href={item.href}
             scroll={false}
             className={mergedClassName}
+            data-selected={active ? "true" : undefined}
+            data-glitch={active ? "true" : undefined}
+            data-depth="raised"
             onClick={(event) => {
               if (disabled) {
                 event.preventDefault();
@@ -161,6 +167,9 @@ export default function PageTabs({
           ref={ref as React.Ref<HTMLButtonElement>}
           disabled={disabled}
           className={mergedClassName}
+          data-selected={active ? "true" : undefined}
+          data-glitch={active ? "true" : undefined}
+          data-depth="raised"
           onClick={(event) => {
             if (disabled) {
               event.preventDefault();
