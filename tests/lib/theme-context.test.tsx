@@ -28,6 +28,8 @@ describe("ThemeProvider", () => {
     resetLocalStorage();
     document.documentElement.className = "";
     document.documentElement.removeAttribute("data-theme-pref");
+    document.documentElement.removeAttribute("data-glitch-landing");
+    document.body?.removeAttribute("data-glitch-landing");
     Consumer.lastTheme = undefined;
     Consumer.setTheme = undefined;
   });
