@@ -67,8 +67,17 @@ export const rootVariables: VariableDefinition[] = [
       "inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28)",
   },
   {
+    name: "shadow-inner-lg",
+    value:
+      "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)",
+  },
+  {
     name: "shadow-outer-lg",
     value: "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36)",
+  },
+  {
+    name: "shadow-outer-xl",
+    value: "0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45)",
   },
   {
     comment: "Depth glow ramps",
@@ -119,6 +128,10 @@ export const rootVariables: VariableDefinition[] = [
   { name: "blob-surface-3", value: "hsl(var(--card))" },
   { name: "blob-surface-shadow", value: "hsl(var(--shadow-color) / 0.4)" },
   {
+    name: "blob-radius-soft",
+    value: "calc(var(--radius-2xl) + var(--spacing-2))",
+  },
+  {
     comment: [
       "Glow parity (retro-futurism)",
       "neo-glow-strength multiplies --shadow-neon",
@@ -127,6 +140,11 @@ export const rootVariables: VariableDefinition[] = [
     value: "0.45",
   },
   { name: "glow-primary", value: "hsl(var(--primary) / 0.55)" },
+  {
+    name: "glow-ring",
+    value:
+      "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
+  },
   { name: "neon-outline-opacity", value: "0.35" },
   {
     comment: [
@@ -183,6 +201,10 @@ export const rootVariables: VariableDefinition[] = [
   { name: "glitch-noise-primary", value: "hsl(var(--accent) / 0.25)" },
   { name: "glitch-noise-secondary", value: "hsl(var(--ring) / 0.2)" },
   { name: "glitch-noise-contrast", value: "hsl(var(--foreground) / 0.12)" },
+  {
+    name: "glitch-noise-hover",
+    value: "calc(var(--glitch-noise-level) * 1.3)",
+  },
   { comment: "Retro grid parity", name: "retro-grid-step", value: "24px" },
   { name: "retro-grid-opacity", value: "0.15" },
   {
@@ -260,6 +282,15 @@ export const themes: ThemeDefinition[] = [
       { name: "surface-streak", value: "280 42% 14%" },
       { name: "shadow-color", value: "152 80% 50%" },
       { name: "shadow", value: "0 12px 32px hsl(var(--shadow-color) / 0.3)" },
+      {
+        name: "shadow-inner-lg",
+        value:
+          "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)",
+      },
+      {
+        name: "shadow-outer-xl",
+        value: "0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45)",
+      },
       { name: "neo-glow-strength", value: "0.4" },
       { name: "glitch-intensity", value: "0.4" },
       { name: "glitch-fringe", value: "8deg" },
@@ -282,6 +313,13 @@ export const themes: ThemeDefinition[] = [
       { name: "backdrop-drip-2", value: "var(--accent)" },
       { name: "backdrop-drip-3", value: "var(--accent-2)" },
       { name: "backdrop-drip-shadow", value: "var(--card)" },
+      {
+        name: "glow-ring",
+        value:
+          "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
+      },
+      { name: "blob-radius-soft", value: "calc(var(--radius-2xl) + var(--spacing-2))" },
+      { name: "glitch-noise-hover", value: "calc(var(--glitch-noise-level) * 1.3)" },
       {
         name: "edge-iris",
         value: [
@@ -339,6 +377,15 @@ export const themes: ThemeDefinition[] = [
       { name: "surface-streak", value: "212 18% 16%" },
       { name: "shadow-color", value: "28 90% 42%" },
       { name: "shadow", value: "0 14px 36px hsl(var(--shadow-color) / 0.32)" },
+      {
+        name: "shadow-inner-lg",
+        value:
+          "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)",
+      },
+      {
+        name: "shadow-outer-xl",
+        value: "0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45)",
+      },
       { name: "neo-glow-strength", value: "0.45" },
       { name: "glitch-intensity", value: "0.38" },
       { name: "glitch-fringe", value: "7deg" },
@@ -358,6 +405,13 @@ export const themes: ThemeDefinition[] = [
       { name: "backdrop-drip-2", value: "var(--citrus-teal)" },
       { name: "backdrop-drip-3", value: "var(--ring)" },
       { name: "backdrop-drip-shadow", value: "var(--card)" },
+      {
+        name: "glow-ring",
+        value:
+          "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
+      },
+      { name: "blob-radius-soft", value: "calc(var(--radius-2xl) + var(--spacing-2))" },
+      { name: "glitch-noise-hover", value: "calc(var(--glitch-noise-level) * 1.3)" },
     ],
   },
   {
@@ -400,8 +454,17 @@ export const themes: ThemeDefinition[] = [
           "inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.3)",
       },
       {
+        name: "shadow-inner-lg",
+        value:
+          "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.38)",
+      },
+      {
         name: "shadow-outer-lg",
         value: "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.42)",
+      },
+      {
+        name: "shadow-outer-xl",
+        value: "0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.48)",
       },
       { name: "neo-glow-strength", value: "0.6" },
       { name: "glitch-intensity", value: "0.34" },
@@ -418,10 +481,16 @@ export const themes: ThemeDefinition[] = [
       { name: "noir-ink", value: "352 80% 6%" },
       { name: "noir-ruby", value: "12 76% 46%" },
       { name: "glow-primary", value: "hsl(var(--ring) / 0.58)" },
+      {
+        name: "glow-ring",
+        value:
+          "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.52), 0 0 var(--spacing-3) hsl(var(--ring) / 0.24)",
+      },
       { name: "blob-surface-1", value: "hsl(352 46% 12%)" },
       { name: "blob-surface-2", value: "hsl(352 38% 18%)" },
       { name: "blob-surface-3", value: "hsl(184 68% 20%)" },
       { name: "blob-surface-shadow", value: "hsl(356 72% 10% / 0.42)" },
+      { name: "blob-radius-soft", value: "calc(var(--radius-2xl) + var(--spacing-2))" },
       { name: "backdrop-blob-1", value: "var(--noir-red)" },
       { name: "backdrop-blob-2", value: "var(--noir-rose)" },
       { name: "backdrop-blob-3", value: "var(--noir-ruby)" },
@@ -433,6 +502,10 @@ export const themes: ThemeDefinition[] = [
       { name: "backdrop-drip-2", value: "var(--noir-red)" },
       { name: "backdrop-drip-3", value: "var(--noir-ruby)" },
       { name: "backdrop-drip-shadow", value: "var(--noir-ink)" },
+      {
+        name: "glitch-noise-hover",
+        value: "calc(var(--glitch-noise-level) * 1.35)",
+      },
     ],
   },
   {
@@ -464,6 +537,15 @@ export const themes: ThemeDefinition[] = [
       { name: "surface-streak", value: "218 22% 15%" },
       { name: "shadow-color", value: "198 84% 52%" },
       { name: "shadow", value: "0 16px 40px hsl(var(--shadow-color) / 0.34)" },
+      {
+        name: "shadow-inner-lg",
+        value:
+          "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)",
+      },
+      {
+        name: "shadow-outer-xl",
+        value: "0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45)",
+      },
       { name: "neo-glow-strength", value: "0.52" },
       { name: "glitch-intensity", value: "0.4" },
       { name: "glitch-fringe", value: "7deg" },
@@ -484,6 +566,13 @@ export const themes: ThemeDefinition[] = [
       { name: "backdrop-drip-2", value: "var(--ocean-indigo)" },
       { name: "backdrop-drip-3", value: "var(--success)" },
       { name: "backdrop-drip-shadow", value: "var(--card)" },
+      {
+        name: "glow-ring",
+        value:
+          "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
+      },
+      { name: "blob-radius-soft", value: "calc(var(--radius-2xl) + var(--spacing-2))" },
+      { name: "glitch-noise-hover", value: "calc(var(--glitch-noise-level) * 1.3)" },
     ],
   },
   {
@@ -515,6 +604,15 @@ export const themes: ThemeDefinition[] = [
       { name: "surface-streak", value: "334 50% 12%" },
       { name: "shadow-color", value: "336 72% 48%" },
       { name: "shadow", value: "0 12px 30px hsl(var(--shadow-color) / 0.3)" },
+      {
+        name: "shadow-inner-lg",
+        value:
+          "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)",
+      },
+      {
+        name: "shadow-outer-xl",
+        value: "0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45)",
+      },
       { name: "neo-glow-strength", value: "0.42" },
       { name: "glitch-intensity", value: "0.36" },
       { name: "glitch-fringe", value: "6deg" },
@@ -536,6 +634,13 @@ export const themes: ThemeDefinition[] = [
       { name: "backdrop-drip-2", value: "var(--kitten-pink)" },
       { name: "backdrop-drip-3", value: "var(--kitten-blush)" },
       { name: "backdrop-drip-shadow", value: "var(--card)" },
+      {
+        name: "glow-ring",
+        value:
+          "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
+      },
+      { name: "blob-radius-soft", value: "calc(var(--radius-2xl) + var(--spacing-2))" },
+      { name: "glitch-noise-hover", value: "calc(var(--glitch-noise-level) * 1.3)" },
     ],
   },
   {
@@ -584,8 +689,17 @@ export const themes: ThemeDefinition[] = [
           "inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.24)",
       },
       {
+        name: "shadow-inner-lg",
+        value:
+          "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.3)",
+      },
+      {
         name: "shadow-outer-lg",
         value: "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.34)",
+      },
+      {
+        name: "shadow-outer-xl",
+        value: "0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.42)",
       },
       { name: "neo-glow-strength", value: "0.58" },
       { name: "glitch-intensity", value: "0.32" },
@@ -604,10 +718,16 @@ export const themes: ThemeDefinition[] = [
       { name: "hardstuck-forest", value: "120 70% 42%" },
       { name: "hardstuck-deep", value: "120 82% 8%" },
       { name: "glow-primary", value: "hsl(var(--ring) / 0.5)" },
+      {
+        name: "glow-ring",
+        value:
+          "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.48), 0 0 var(--spacing-3) hsl(var(--ring) / 0.2)",
+      },
       { name: "blob-surface-1", value: "hsl(120 38% 14%)" },
       { name: "blob-surface-2", value: "hsl(120 44% 18%)" },
       { name: "blob-surface-3", value: "hsl(120 48% 24%)" },
       { name: "blob-surface-shadow", value: "hsl(120 72% 12% / 0.45)" },
+      { name: "blob-radius-soft", value: "calc(var(--radius-2xl) + var(--spacing-2))" },
       { name: "backdrop-blob-1", value: "var(--ring)" },
       { name: "backdrop-blob-2", value: "var(--hardstuck-forest)" },
       { name: "backdrop-blob-3", value: "var(--ring)" },
@@ -619,6 +739,10 @@ export const themes: ThemeDefinition[] = [
       { name: "backdrop-drip-2", value: "var(--ring)" },
       { name: "backdrop-drip-3", value: "var(--hardstuck-forest)" },
       { name: "backdrop-drip-shadow", value: "var(--hardstuck-deep)" },
+      {
+        name: "glitch-noise-hover",
+        value: "calc(var(--glitch-noise-level) * 1.35)",
+      },
     ],
   },
   {
@@ -651,11 +775,25 @@ export const themes: ThemeDefinition[] = [
       { name: "surface-vhs", value: "258 76% 5%" },
       { name: "surface-streak", value: "260 44% 13%" },
       { name: "shadow-color", value: "304 92% 56%" },
+      {
+        name: "shadow-inner-lg",
+        value:
+          "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)",
+      },
+      {
+        name: "shadow-outer-xl",
+        value: "0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45)",
+      },
       { name: "lav-deep", value: "257.5 85.7% 72.5%" },
       { name: "success", value: "158 72% 48%" },
       { name: "success-glow", value: "158 72% 38% / 0.6" },
       { name: "glow", value: "304 100% 68%" },
       { name: "glow-active", value: "hsl(var(--accent-2))" },
+      {
+        name: "glow-ring",
+        value:
+          "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
+      },
       {
         name: "shadow-glow-sm",
         value: [
@@ -702,6 +840,7 @@ export const themes: ThemeDefinition[] = [
       { name: "backdrop-drip-2", value: "var(--accent-2)" },
       { name: "backdrop-drip-3", value: "var(--accent)" },
       { name: "backdrop-drip-shadow", value: "var(--accent)" },
+      { name: "blob-radius-soft", value: "calc(var(--radius-2xl) + var(--spacing-2))" },
       {
         name: "grid-lines",
         value: [
@@ -726,6 +865,7 @@ export const themes: ThemeDefinition[] = [
           ")",
         ],
       },
+      { name: "glitch-noise-hover", value: "calc(var(--glitch-noise-level) * 1.35)" },
     ],
   },
 ];

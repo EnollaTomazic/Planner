@@ -287,6 +287,14 @@ export default {
   retroGridOpacity: "0.15",
   aaMinContrast: "4.5",
   glitchOverlayOpacityCard: "0.55",
+  shadowInnerLg:
+    "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)",
+  shadowOuterXl:
+    "0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45)",
+  glowRing:
+    "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
+  blobRadiusSoft: "calc(var(--radius-2xl) + var(--spacing-2))",
+  glitchNoiseHover: "calc(var(--glitch-noise-level) * 1.3)",
   spacing0125: "calc(var(--spacing-1) / 8)",
   spacing025: "calc(var(--spacing-1) / 4)",
   spacing05: "calc(var(--spacing-1) / 2)",
