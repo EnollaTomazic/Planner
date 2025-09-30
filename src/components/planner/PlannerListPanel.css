@@ -1,13 +1,11 @@
-@layer components {
-  .planner-viewport--minHTasks {
-    min-height: calc(var(--space-8) * 2);
-  }
+.planner-viewport--minHTasks {
+  min-height: calc(var(--space-8) * 2);
+}
 
-  .planner-viewport--maxHTasks {
-    max-height: calc(var(--space-8) * 5);
-  }
+.planner-viewport--maxHTasks {
+  max-height: calc(var(--space-8) * 5);
+}
 
-  .planner-viewport--maxHProjects {
-    max-height: calc(var(--space-8) * 4 + var(--space-1));
-  }
+.planner-viewport--maxHProjects {
+  max-height: calc(var(--space-8) * 4 + var(--space-1));
 }
