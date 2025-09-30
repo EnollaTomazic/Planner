@@ -12,6 +12,9 @@ const compat = new FlatCompat({
 
 
 const eslintConfig = [
+  {
+    ignores: ["src/components/gallery/generated-manifest.ts"],
+  },
   ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
 ];
 

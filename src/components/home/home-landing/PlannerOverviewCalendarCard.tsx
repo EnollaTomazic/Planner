@@ -57,7 +57,7 @@ function PlannerOverviewCalendarCardComponent({
                     className={cn(
                       "flex w-full flex-col items-start gap-[var(--space-1)] rounded-[var(--control-radius)] border px-[var(--space-3)] py-[var(--space-2)] text-left transition",
                       "border-card-hairline bg-card/70 hover:border-primary/40 hover:bg-card/80",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 motion-reduce:transition-none",
                       "active:bg-card/90",
                       "disabled:pointer-events-none disabled:opacity-disabled data-[loading=true]:cursor-progress data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
                       day.selected && "border-primary/70 bg-card",

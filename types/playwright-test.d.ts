@@ -87,6 +87,7 @@ declare module "playwright/test" {
 
   interface ScreenshotOptions {
     readonly fullPage?: boolean;
+    readonly animations?: "disabled" | "allow";
   }
 
   interface PageAssertions {
@@ -96,10 +97,16 @@ declare module "playwright/test" {
   interface ValueAssertions {
     toEqual(value: unknown): void;
     toBe(value: unknown): void;
+    toBeGreaterThan(value: number): void;
   }
 
   interface Locator {
     focus(): Promise<void>;
+    first(): Locator;
+    locator(selector: string): Locator;
+    waitFor(options?: { state?: string }): Promise<void>;
+    count(): Promise<number>;
+    evaluate<T>(callback: (element: HTMLElement) => T): Promise<T>;
   }
 
   interface Keyboard {
@@ -110,10 +117,14 @@ declare module "playwright/test" {
     setViewportSize(size: ViewportSize): Promise<void>;
     goto(url: string): Promise<void>;
     waitForLoadState(state?: string): Promise<void>;
-    waitForSelector(selector: string): Promise<Locator>;
+    waitForSelector(selector: string, options?: { state?: string }): Promise<Locator>;
     waitForFunction<T>(fn: (...args: unknown[]) => T, ...args: unknown[]): Promise<T>;
     keyboard: Keyboard;
     getByRole(role: Role, options?: GetByRoleOptions): Locator;
+    locator(selector: string): Locator;
+    emulateMedia(options: { reducedMotion?: "reduce" | "no-preference" }): Promise<void>;
+    evaluate<T>(fn: (...args: unknown[]) => T, ...args: unknown[]): Promise<T>;
+    waitForTimeout(timeout: number): Promise<void>;
   }
 
   interface TestFixtures {

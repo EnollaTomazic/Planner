@@ -27,7 +27,7 @@ function PlannerOverviewSummaryCardComponent({
                 href={item.href}
                 className={cn(
                   "group flex items-center justify-between gap-[var(--space-3)] rounded-[var(--control-radius)] border border-border/60 bg-card/70 px-[var(--space-3)] py-[var(--space-2)] transition",
-                  "hover:border-primary/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+                  "hover:border-primary/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 motion-reduce:transition-none",
                   "active:border-primary/60 active:bg-card/80",
                 )}
               >
@@ -37,7 +37,7 @@ function PlannerOverviewSummaryCardComponent({
                     {item.value}
                   </span>
                 </div>
-                <span className="shrink-0 text-label font-medium text-primary transition-colors group-hover:text-primary-foreground group-active:text-primary-foreground">
+                <span className="shrink-0 text-label font-medium text-primary transition-colors group-hover:text-primary-foreground group-active:text-primary-foreground motion-reduce:transition-none">
                   {item.cta}
                 </span>
               </Link>
