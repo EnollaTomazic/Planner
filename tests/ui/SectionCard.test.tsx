@@ -28,7 +28,7 @@ describe("SectionCard", () => {
   it("uses the neumorphic token stack for the default variant", () => {
     const root = renderSectionCard();
 
-    expect(root.className).toContain("shadow-neo-strong");
+    expect(root.className).toContain("shadow-outer-lg");
     expect(root.className).toContain("card-neo-soft");
     expect(root.className).toContain("rounded-card");
   });

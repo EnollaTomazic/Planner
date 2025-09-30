@@ -57,19 +57,15 @@ export const rootVariables: VariableDefinition[] = [
   { name: "depth-shadow-soft", value: "var(--shadow-neo-soft)" },
   { name: "depth-shadow-inner", value: "var(--shadow-neo-inset)" },
   {
-    name: "shadow-inner-sm",
-    value:
-      "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)",
+    comment: "Shadow aliases for Tailwind utilities",
+    name: "shadow-outer-sm",
+    value: "var(--depth-shadow-soft)",
   },
-  {
-    name: "shadow-inner-md",
-    value:
-      "inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28)",
-  },
-  {
-    name: "shadow-outer-lg",
-    value: "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36)",
-  },
+  { name: "shadow-outer-md", value: "var(--depth-shadow-outer)" },
+  { name: "shadow-outer-lg", value: "var(--depth-shadow-outer-strong)" },
+  { name: "shadow-inner-sm", value: "var(--depth-shadow-inner)" },
+  { name: "shadow-inner-md", value: "var(--depth-shadow-inner)" },
+  { name: "shadow-inner-lg", value: "var(--depth-shadow-inner)" },
   {
     comment: "Depth glow ramps",
     name: "depth-glow-highlight-soft",

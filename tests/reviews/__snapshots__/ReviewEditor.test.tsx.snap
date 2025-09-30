@@ -3,7 +3,7 @@
 exports[`ReviewEditor > renders default state 1`] = `
 <div>
   <section
-    class="shadow-neo-strong rounded-card r-card-lg text-card-foreground card-soft transition-none shadow-none"
+    class="shadow-outer-lg rounded-card r-card-lg text-card-foreground card-soft transition-none shadow-none"
   >
     <div
       class="section-h sticky"
@@ -432,7 +432,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <span
             aria-hidden="true"
-            class="_indicator_1d5032 absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-chill motion-reduce:transition-none shadow-[var(--shadow-neo-soft)]"
+            class="_indicator_1d5032 absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-chill motion-reduce:transition-none shadow-outer-sm"
             data-result="Win"
           />
           <div

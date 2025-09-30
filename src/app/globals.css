@@ -36,8 +36,8 @@
     --glitch-card-surface-top: hsl(var(--card) / 0.78);
     --glitch-card-surface-bottom: hsl(var(--panel) / 0.66);
     --glitch-card-border-color: hsl(var(--card-hairline));
-    --shadow-glitch-card: var(--shadow-neo);
-    --shadow-glitch-card-hover: var(--shadow-neo-strong);
+    --shadow-glitch-card: var(--shadow-outer-md);
+    --shadow-glitch-card-hover: var(--shadow-outer-lg);
     --glitch-card-spectrum-a: hsl(var(--primary) / 0.55);
     --glitch-card-spectrum-b: hsl(var(--accent) / 0.45);
     --glitch-card-spectrum-c: hsl(var(--ring) / 0.55);

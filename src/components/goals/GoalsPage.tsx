@@ -647,7 +647,7 @@ function GoalsPageContent() {
           onClose={handleCloseNuke}
           aria-labelledby={nukeHeadingId}
           aria-describedby={nukeDescriptionId}
-          className="shadow-[var(--shadow-neo-soft)]"
+          className="shadow-outer-sm"
         >
           <CardHeader className="space-y-[var(--space-2)]">
             <CardTitle id={nukeHeadingId}>Delete all goals?</CardTitle>

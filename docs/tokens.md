@@ -235,9 +235,9 @@
 | ring-stroke-m | var(--ring-size-2) |
 | ring-stroke-l | var(--ring-size-2) |
 | ring-inset | calc(var(--space-3) / 2) |
-| shadow-inner-sm | inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18) |
-| shadow-inner-md | inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28) |
-| shadow-outer-lg | 0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36) |
+| shadow-inner-sm | var(--depth-shadow-inner) |
+| shadow-inner-md | var(--depth-shadow-inner) |
+| shadow-outer-lg | var(--depth-shadow-outer-strong) |
 | glow-primary | hsl(var(--primary) / 0.55) |
 | blob-surface-1 | hsl(var(--surface)) |
 | blob-surface-2 | hsl(var(--surface-2)) |
@@ -246,6 +246,9 @@
 | glitch-noise-primary | hsl(var(--accent) / 0.25) |
 | glitch-noise-secondary | hsl(var(--ring) / 0.2) |
 | glitch-noise-contrast | hsl(var(--foreground) / 0.12) |
+| shadow-outer-sm | var(--depth-shadow-soft) |
+| shadow-outer-md | var(--depth-shadow-outer) |
+| shadow-inner-lg | var(--depth-shadow-inner) |
 | spacing-0-125 | calc(var(--spacing-1) / 8) |
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |

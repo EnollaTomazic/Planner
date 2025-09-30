@@ -143,12 +143,12 @@ async function buildTokens(): Promise<void> {
   }
   colors.focus = { value: "var(--theme-ring)" };
   const derivedColorTokens: Record<string, string> = {
-    "shadow-inner-sm":
-      "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)",
-    "shadow-inner-md":
-      "inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28)",
-    "shadow-outer-lg":
-      "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36)",
+    "shadow-outer-sm": "var(--depth-shadow-soft)",
+    "shadow-outer-md": "var(--depth-shadow-outer)",
+    "shadow-outer-lg": "var(--depth-shadow-outer-strong)",
+    "shadow-inner-sm": "var(--depth-shadow-inner)",
+    "shadow-inner-md": "var(--depth-shadow-inner)",
+    "shadow-inner-lg": "var(--depth-shadow-inner)",
     "glow-primary": "hsl(var(--primary) / 0.55)",
     "blob-surface-1": "hsl(var(--surface))",
     "blob-surface-2": "hsl(var(--surface-2))",

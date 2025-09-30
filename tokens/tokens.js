@@ -210,12 +210,9 @@ export default {
   ringStrokeM: "var(--ring-size-2)",
   ringStrokeL: "var(--ring-size-2)",
   ringInset: "calc(var(--space-3) / 2)",
-  shadowInnerSm:
-    "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)",
-  shadowInnerMd:
-    "inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28)",
-  shadowOuterLg:
-    "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36)",
+  shadowInnerSm: "var(--depth-shadow-inner)",
+  shadowInnerMd: "var(--depth-shadow-inner)",
+  shadowOuterLg: "var(--depth-shadow-outer-strong)",
   glowPrimary: "hsl(var(--primary) / 0.55)",
   blobSurface1: "hsl(var(--surface))",
   blobSurface2: "hsl(var(--surface-2))",
@@ -224,6 +221,9 @@ export default {
   glitchNoisePrimary: "hsl(var(--accent) / 0.25)",
   glitchNoiseSecondary: "hsl(var(--ring) / 0.2)",
   glitchNoiseContrast: "hsl(var(--foreground) / 0.12)",
+  shadowOuterSm: "var(--depth-shadow-soft)",
+  shadowOuterMd: "var(--depth-shadow-outer)",
+  shadowInnerLg: "var(--depth-shadow-inner)",
   spacing0125: "calc(var(--spacing-1) / 8)",
   spacing025: "calc(var(--spacing-1) / 4)",
   spacing05: "calc(var(--spacing-1) / 2)",

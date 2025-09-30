@@ -249,6 +249,10 @@ const config: Config = {
         "elev-2": "var(--elevation-2)",
         "elev-3": "var(--elevation-3)",
       },
+      dropShadow: {
+        "glow-primary-sm": "0 0 var(--space-2) var(--glow-primary)",
+        "glow-primary": "0 0 var(--space-3) var(--glow-primary)",
+      },
       transitionTimingFunction: {
         out: "var(--ease-out)",
         snap: "var(--ease-snap)",
