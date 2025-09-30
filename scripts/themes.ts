@@ -143,7 +143,7 @@ export const rootVariables: VariableDefinition[] = [
   {
     comment: "Card glitch overlay alpha",
     name: "glitch-overlay-opacity-card",
-    value: "0.38",
+    value: "0.55",
   },
   {
     comment: "Button glitch overlays",
