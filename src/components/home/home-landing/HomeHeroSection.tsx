@@ -2,7 +2,9 @@
 
 import * as React from "react";
 import { Home } from "lucide-react";
+import { cn } from "@/lib/utils";
 import WelcomeHeroFigure from "../WelcomeHeroFigure";
+import styles from "./HomeHeroSection.module.css";
 import type { HomeHeroSectionProps } from "./types";
 
 const subtleVariants = new Set(["noir"]);
@@ -28,7 +30,10 @@ export default function HomeHeroSection({
 
   return (
     <div
-      className="grid gap-[var(--space-5)] md:grid-cols-12 md:items-center"
+      className={cn(
+        "grid gap-[var(--space-5)] md:grid-cols-12 md:items-center",
+        styles.root,
+      )}
       data-theme-variant={variant}
     >
       <div className="flex flex-col gap-[var(--space-4)] md:col-span-6">
@@ -59,7 +64,12 @@ export default function HomeHeroSection({
           </div>
         ) : null}
       </div>
-      <div className="flex justify-center md:col-span-6 md:justify-end">
+      <div
+        className={cn(
+          "flex justify-center md:col-span-6 md:justify-end",
+          styles.mediaColumn,
+        )}
+      >
         <WelcomeHeroFigure
           className="w-full max-w-[calc(var(--space-8)*4)] md:max-w-[calc(var(--space-8)*4.5)] lg:max-w-[calc(var(--space-8)*5)]"
           haloTone={haloTone}

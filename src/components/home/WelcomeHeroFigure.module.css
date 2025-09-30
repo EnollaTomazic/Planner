@@ -65,6 +65,22 @@
   background: var(--welcome-figure-inner);
 }
 
+.framelessWell {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--space-16);
+  aspect-ratio: 4 / 3;
+}
+
+@media (min-width: 48rem) {
+  .framelessWell {
+    min-height: calc(var(--space-16) + var(--space-4));
+  }
+}
+
 .haloPrimary {
   background: var(--welcome-figure-primary-halo);
 }
