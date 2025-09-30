@@ -25,6 +25,9 @@ import {
   Toggle,
   BlobContainer,
   DripEdge,
+  DripDivider,
+  GlitchButton,
+  ProgressRing,
 } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -128,10 +131,16 @@ export default function PromptsDemos() {
       </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Button</h3>
-        <div className="space-x-[var(--space-3)]">
+        <div className="flex flex-wrap items-center gap-[var(--space-3)]">
           <Button>Default</Button>
           <Button variant="primary">Primary</Button>
           <Button variant="ghost">Ghost</Button>
+          <GlitchButton variant="primary" tone="accent">
+            Glitch CTA
+          </GlitchButton>
+          <GlitchButton variant="secondary" tone="info">
+            Glitch secondary
+          </GlitchButton>
         </div>
       </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
@@ -176,6 +185,20 @@ export default function PromptsDemos() {
               </p>
             </div>
           </div>
+          <div className="relative isolate overflow-hidden rounded-card border border-card-hairline/60 bg-card/70 p-[var(--space-6)]">
+            <DripDivider
+              className="absolute left-[var(--space-4)] right-[var(--space-4)] top-1/2"
+              tone="accent"
+              style={{ "--drip-divider-height": "var(--space-3)" }}
+            />
+            <div className="relative z-10 space-y-[var(--space-2)]">
+              <p className="text-ui font-medium">DripDivider</p>
+              <p className="text-label text-muted-foreground">
+                Horizontal rails reuse the same overlay tokens to avoid layout shift
+                when timeline content streams in.
+              </p>
+            </div>
+          </div>
         </div>
       </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-3)]">
@@ -190,6 +213,7 @@ export default function PromptsDemos() {
         <h3 className="type-title">Feedback</h3>
         <div className="flex flex-wrap items-center gap-[var(--space-4)]">
           <Spinner />
+          <ProgressRing value={64} tone="accent" label="Sync progress" />
           <Badge>Badge</Badge>
           <Snackbar message="Saved" />
         </div>

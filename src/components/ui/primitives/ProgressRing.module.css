@@ -1,0 +1,29 @@
+.root {
+  display: inline-block;
+  color: inherit;
+}
+
+.svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: rotate(-90deg);
+}
+
+.track {
+  fill: none;
+  stroke: var(--progress-ring-track, hsl(var(--ring-muted) / 0.45));
+}
+
+.indicator {
+  fill: none;
+  stroke-linecap: round;
+  stroke: var(--progress-ring-indicator, hsl(var(--accent)));
+  transition: stroke-dashoffset var(--dur-chill) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    transition: none;
+  }
+}

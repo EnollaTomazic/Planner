@@ -1,0 +1,71 @@
+.root {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--drip-divider-height, var(--space-2));
+  border-radius: calc(var(--drip-divider-height, var(--space-2)) / 2);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.root::before,
+.root::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.root::before {
+  background: linear-gradient(
+    90deg,
+    hsl(
+      var(--drip-divider-stop-1, var(--backdrop-drip-1)) /
+        var(--drip-divider-alpha-1, var(--glitch-static-opacity))
+    ) 0%,
+    hsl(
+      var(--drip-divider-stop-2, var(--backdrop-drip-2)) /
+        var(--drip-divider-alpha-2, var(--glitch-static-opacity))
+    ) 48%,
+    hsl(
+      var(--drip-divider-stop-3, var(--backdrop-drip-3)) /
+        var(--drip-divider-alpha-3, var(--glitch-overlay-button-opacity))
+    ) 100%
+  );
+  opacity: var(--drip-divider-opacity, 1);
+  transition: opacity var(--dur-quick) var(--ease-out);
+}
+
+.root::after {
+  background:
+    radial-gradient(
+      60% 140% at 20% 50%,
+      hsl(
+        var(--drip-divider-stop-1, var(--backdrop-drip-1)) /
+          var(--drip-divider-glow-alpha, 0.35)
+      ) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      65% 150% at 80% 50%,
+      hsl(
+        var(--drip-divider-stop-3, var(--backdrop-drip-3)) /
+          var(--drip-divider-glow-alpha, 0.35)
+      ) 0%,
+      transparent 70%
+    );
+  filter: blur(calc(var(--space-1) * 1.5));
+  opacity: var(--drip-divider-glow-opacity, 0.7);
+  transform: translateZ(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
+
+  .root::before {
+    transition: none;
+  }
+}

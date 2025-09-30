@@ -1,0 +1,147 @@
+.root {
+  display: grid;
+  gap: var(--space-6);
+  padding: clamp(var(--space-5), 3vw, var(--space-8));
+  background: linear-gradient(
+    180deg,
+    hsl(var(--surface)) 0%,
+    hsl(var(--surface-2)) 50%,
+    hsl(var(--surface)) 100%
+  );
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.navLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.hero {
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+@media (min-width: 48rem) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.heroGraphic {
+  position: relative;
+  width: min(24rem, 100%);
+  aspect-ratio: 4 / 5;
+  margin-inline: auto;
+  border-radius: var(--blob-radius-soft);
+  background: var(--gradient-blob-primary);
+  box-shadow: var(--shadow-neo);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.heroGraphic::after {
+  content: "";
+  position: absolute;
+  inset: var(--space-4);
+  border-radius: inherit;
+  border: 1px solid hsl(var(--card-hairline));
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.heroMetric {
+  position: absolute;
+  inset-inline-end: var(--space-4);
+  inset-block-end: var(--space-4);
+  display: grid;
+  gap: var(--space-2);
+  align-items: center;
+  justify-items: center;
+  padding: var(--space-3);
+  border-radius: var(--radius-xl);
+  background: color-mix(
+    in oklab,
+    hsl(var(--surface)) 65%,
+    hsl(var(--surface-2)) 35%
+  );
+  box-shadow: var(--shadow-outline-subtle);
+}
+
+.cards {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 60rem) {
+  .cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.cardBody {
+  display: grid;
+  gap: var(--space-3);
+  min-height: calc(var(--space-8) * 5);
+}
+
+.cardFooter {
+  margin-top: auto;
+  color: hsl(var(--muted-foreground));
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.timelineItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-3);
+  align-items: start;
+}
+
+.timelineMarker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-6);
+  height: var(--space-6);
+  border-radius: var(--radius-full);
+  background: hsl(var(--surface-2));
+  color: hsl(var(--accent));
+  box-shadow: var(--shadow-outline-faint);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-5);
+  border-top: 1px solid hsl(var(--card-hairline));
+}

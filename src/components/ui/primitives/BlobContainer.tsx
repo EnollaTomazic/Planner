@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { useReducedMotion } from "framer-motion";
 
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { cn } from "@/lib/utils";
 
 export type GlitchOverlayToken =
@@ -46,7 +46,7 @@ const BlobContainer = React.forwardRef<HTMLSpanElement, BlobContainerProps>(
     },
     ref,
   ) => {
-    const reduceMotion = useReducedMotion();
+    const reduceMotion = usePrefersReducedMotion();
     const overlayVar = resolveTokenVar(overlayToken);
     const noiseVar = resolveTokenVar(noiseToken);
     const activeNoiseVar = noiseActiveToken
