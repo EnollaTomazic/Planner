@@ -71,13 +71,13 @@ export default function DayView() {
   return (
     <>
       <PageShell
-        as="section"
+        as="div"
         grid
         className="py-[var(--space-6)]"
         contentClassName="gap-y-[var(--space-6)]"
-        aria-label="Planner day view"
       >
-        <section
+        <div
+          role="group"
           aria-label="Today and weekly panels"
           className={`${layoutGridClassName} col-span-full lg:grid-cols-12`}
         >
@@ -91,7 +91,7 @@ export default function DayView() {
           >
             <WeekNotes iso={iso} />
           </aside>
-        </section>
+        </div>
 
         <ul
           aria-label="Week days (Monday to Sunday)"
