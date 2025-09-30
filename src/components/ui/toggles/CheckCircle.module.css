@@ -101,9 +101,9 @@
 .check {
   position: relative;
   z-index: 1;
-  transition: color var(--duration-quick, 220ms) var(--ease-out),
-    filter var(--duration-quick, 220ms) var(--ease-out),
-    opacity var(--duration-quick, 220ms) var(--ease-out);
+  transition: color var(--dur-quick) var(--ease-out),
+    filter var(--dur-quick) var(--ease-out),
+    opacity var(--dur-quick) var(--ease-out);
 }
 
 [data-lit="true"] .check {

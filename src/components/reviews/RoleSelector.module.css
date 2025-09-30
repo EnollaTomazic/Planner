@@ -21,7 +21,7 @@
   transform: translateX(
     calc(var(--indicator-index, 0) * (100% + var(--segment-gap)))
   );
-  transition: transform var(--duration-quick, 220ms) var(--ease-snap, ease-out);
+  transition: transform var(--dur-quick) var(--ease-snap, ease-out);
   will-change: transform;
 }
 
