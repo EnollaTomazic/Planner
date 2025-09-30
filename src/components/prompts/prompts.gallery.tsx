@@ -168,6 +168,7 @@ const heroPlannerHighlightsDemo = [
 ] as const satisfies readonly HeroPlannerHighlight[];
 
 const heroPlannerOverviewDemo = {
+  hydrating: false,
   summary: {
     label: "Planner overview",
     title: "Week of April 22",
