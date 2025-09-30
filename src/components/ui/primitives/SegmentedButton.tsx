@@ -1,7 +1,13 @@
 "use client";
 
 import * as React from "react";
+
 import { cn } from "@/lib/utils";
+
+import BlobContainer from "./BlobContainer";
+import styles from "./SegmentedButton.module.css";
+
+export type SegmentedButtonDepth = "flat" | "raised" | "sunken";
 
 export type SegmentedButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   as?: React.ElementType;
@@ -10,6 +16,8 @@ export type SegmentedButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
   isActive?: boolean;
   href?: string;
   loading?: boolean;
+  glitch?: boolean;
+  depth?: SegmentedButtonDepth;
 };
 
 const SegmentedButton = React.forwardRef<
@@ -28,12 +36,21 @@ const SegmentedButton = React.forwardRef<
       href,
       onClick,
       tabIndex,
+      glitch = false,
+      depth = "flat",
+      children,
       ...restProps
     },
     ref,
   ) => {
   const resolvedSelected = selected ?? isActive ?? false;
-  const cls = cn("btn-like-segmented", resolvedSelected && "is-active", className);
+  const cls = cn(
+    styles.root,
+    glitch && styles.glitch,
+    glitch && "glitch-wrapper group/glitch",
+    resolvedSelected && "is-active",
+    className,
+  );
   const typeProp = Comp === "button" ? { type: type ?? "button" } : {};
   const isDisabled = disabled || loading;
   const isButton = Comp === "button";
@@ -57,6 +74,9 @@ const SegmentedButton = React.forwardRef<
       ref={ref as React.Ref<HTMLElement>}
       className={cls}
       data-loading={loading}
+      data-selected={resolvedSelected ? "true" : undefined}
+      data-glitch={glitch ? "true" : undefined}
+      data-depth={depth}
       disabled={isButton ? isDisabled : undefined}
       aria-pressed={isButton ? resolvedSelected : undefined}
       aria-current={isLink ? (resolvedSelected ? "page" : undefined) : undefined}
@@ -66,7 +86,10 @@ const SegmentedButton = React.forwardRef<
       aria-disabled={isLink && isDisabled ? true : undefined}
       tabIndex={isLink && isDisabled ? -1 : tabIndex}
       onClick={shouldHandleClick ? handleClick : undefined}
-    />
+    >
+      {glitch ? <BlobContainer className={styles.glitchOverlay} /> : null}
+      <span className={styles.content}>{children}</span>
+    </Comp>
   );
   },
 );
