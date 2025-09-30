@@ -189,6 +189,7 @@ type PlannerGoalsState = {
 type PlannerState = {
   iso: ISODate;
   today: ISODate;
+  hydrated: boolean;
   setIso: React.Dispatch<React.SetStateAction<ISODate>>;
   viewMode: PlannerViewMode;
   setViewMode: React.Dispatch<React.SetStateAction<PlannerViewMode>>;
@@ -245,6 +246,7 @@ function PlannerProviderInner({
     null,
   );
   const reminders = useReminders();
+  const [hydrated, setHydrated] = React.useState(false);
 
   const days = rawDays;
   const [tasksById, setTasksById] = React.useState<TaskIdMap>(() => {
@@ -271,6 +273,24 @@ function PlannerProviderInner({
       return prev;
     });
   }, [setFocus]);
+
+  const markHydrated = React.useCallback(() => {
+    setHydrated((prev) => (prev ? prev : true));
+  }, []);
+
+  React.useEffect(() => {
+    if (hydrated) return;
+    if (today !== FOCUS_PLACEHOLDER) {
+      markHydrated();
+    }
+  }, [hydrated, markHydrated, today]);
+
+  React.useEffect(() => {
+    if (hydrated) return;
+    if (focus !== FOCUS_PLACEHOLDER && focus !== HYDRATION_TODAY) {
+      markHydrated();
+    }
+  }, [focus, hydrated, markHydrated]);
 
   React.useEffect(() => {
     return () => {
@@ -718,6 +738,7 @@ function PlannerProviderInner({
     () => ({
       iso,
       today,
+      hydrated,
       setIso: setFocus,
       viewMode,
       setViewMode,
@@ -732,6 +753,7 @@ function PlannerProviderInner({
     [
       iso,
       today,
+      hydrated,
       setFocus,
       viewMode,
       setViewMode,

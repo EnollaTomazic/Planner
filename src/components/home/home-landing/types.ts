@@ -77,6 +77,7 @@ export interface PlannerOverviewCalendarProps {
 
 export interface PlannerOverviewProps {
   hydrating: boolean;
+  hydrated: boolean;
   summary: PlannerOverviewSummaryProps;
   focus: PlannerOverviewFocusProps;
   goals: PlannerOverviewGoalsProps;
