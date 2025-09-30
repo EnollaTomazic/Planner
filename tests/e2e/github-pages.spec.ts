@@ -1,6 +1,6 @@
 // @ts-nocheck
 /// <reference types="@playwright/test" />
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./playwright";
 import AxeBuilder from "@axe-core/playwright";
 
 import { VARIANTS, VARIANT_LABELS } from "../../src/lib/theme";

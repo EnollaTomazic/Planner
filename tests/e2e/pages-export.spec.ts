@@ -1,6 +1,6 @@
 import { access } from "fs/promises";
 import path from "path";
-import { test, expect } from "playwright/test";
+import { test, expect } from "./playwright";
 
 type ResponseLike = { url(): string; status(): number };
 type ResponseListeningPage = {
