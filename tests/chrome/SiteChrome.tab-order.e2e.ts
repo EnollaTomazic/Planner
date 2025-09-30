@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { NAV_ITEMS } from "@/config/nav";
+import { NAV_ITEMS, PRIMARY_NAV_LABEL } from "@/config/nav";
 
 test.describe("SiteChrome tab order", () => {
   test("focus follows the primary navigation order", async ({ page }) => {
@@ -7,7 +7,7 @@ test.describe("SiteChrome tab order", () => {
 
     await page.goto("/");
     await expect(
-      page.getByRole("navigation", { name: "Primary" }),
+      page.getByRole("navigation", { name: PRIMARY_NAV_LABEL }),
     ).toBeVisible();
 
     const focusTargets = [
@@ -34,7 +34,7 @@ test.describe("SiteChrome tab order", () => {
     await page.keyboard.press("Enter");
 
     await expect(
-      page.getByRole("navigation", { name: "Primary" }),
+      page.getByRole("navigation", { name: PRIMARY_NAV_LABEL }),
     ).toBeVisible();
 
     const promptsItem = page.getByRole("link", { name: /Prompts/ });
