@@ -417,12 +417,37 @@
   isolation: isolate;
   contain: paint;
   will-change: box-shadow, background, border-color;
-  --neo-shadow:
+  --chip-elev-rest-fallback:
     calc(var(--space-1) / -2) calc(var(--space-1) / -2) var(--space-1)
       hsl(var(--background) / 0.6),
     calc(var(--space-1) / 2) calc(var(--space-1) / 2) var(--space-1)
       hsl(var(--shadow-color) / 0.3);
-  --chip-shadow: var(--neo-shadow);
+  --chip-elev-hover-fallback:
+    var(--shadow-outline-faint),
+    var(--chip-elev-rest-fallback),
+    0 calc(var(--space-2) - var(--space-1) / 2)
+      calc(var(--space-4) + var(--space-1) / 2) hsl(var(--shadow-color) / 0.18);
+  --chip-elev-selected-fallback:
+    var(--shadow-outline-subtle),
+    var(--chip-elev-rest-fallback),
+    0 var(--space-2) calc(var(--space-5) - var(--space-1) / 2)
+      hsl(var(--shadow-color) / 0.22);
+  --chip-elev-today-fallback:
+    var(--chip-today-ring),
+    var(--shadow-inset-hairline),
+    var(--shadow-inset-contrast);
+  --chip-elev-today-active-fallback:
+    var(--chip-today-ring),
+    var(--shadow-outline-subtle),
+    var(--chip-elev-rest-fallback),
+    0 var(--space-2) calc(var(--space-5) - var(--space-1) / 2)
+      hsl(var(--shadow-color) / 0.22);
+  --chip-elev-active-fallback:
+    var(--shadow-outline-subtle),
+    var(--chip-elev-rest-fallback),
+    0 var(--space-3) calc(var(--space-6) - var(--space-1))
+      hsl(var(--shadow-color) / 0.3);
+  --chip-shadow: var(--elev-chip-rest, var(--chip-elev-rest-fallback));
   --tw-ring-offset-width: 0px;
   --tw-ring-color: transparent;
   --tw-ring-offset-shadow: 0 0 #0000;
@@ -446,59 +471,55 @@
 }
 
 .chip:hover {
-  background: color-mix(
-    in oklab,
-    hsl(var(--card)) 88%,
-    hsl(var(--accent-3)) 12% / 0.08
+  background: var(
+    --surface-chip-hover,
+    color-mix(
+      in oklab,
+      hsl(var(--card)) 88%,
+      hsl(var(--accent-3)) 12% / 0.08
+    )
   );
-  border-color: hsl(var(--accent-3) / 0.55);
-  --chip-shadow:
-    var(--shadow-outline-faint),
-    var(--neo-shadow),
-    0 calc(var(--space-2) - var(--space-1) / 2)
-      calc(var(--space-4) + var(--space-1) / 2) hsl(var(--shadow-color) / 0.18);
+  border-color: var(
+    --border-chip-hover,
+    hsl(var(--accent-3) / 0.55)
+  );
+  --chip-shadow: var(--elev-chip-hover, var(--chip-elev-hover-fallback));
 }
 
 .chip[data-active] {
-  --chip-shadow:
-    var(--shadow-outline-subtle),
-    var(--neo-shadow),
-    0 var(--space-2) calc(var(--space-5) - var(--space-1) / 2)
-      hsl(var(--shadow-color) / 0.22);
+  --chip-shadow: var(--elev-chip-selected, var(--chip-elev-selected-fallback));
 }
 
 /* “Today” hint — faint ring and glow rail inside */
 .chip--today {
-  --chip-today-ring: 0 0 0 var(--ring-size-2) var(--theme-ring);
-  --chip-shadow:
-    var(--chip-today-ring),
-    var(--shadow-inset-hairline),
-    var(--shadow-inset-contrast);
+  --chip-today-ring: 0 0 0 var(--ring-size-2)
+    var(--ring-accent, var(--focus-outline, var(--theme-ring)));
+  --chip-shadow: var(--elev-chip-today, var(--chip-elev-today-fallback));
 }
 .chip--today:not([data-active]) {
-  border-color: hsl(var(--ring) / 0.55);
+  border-color: var(
+    --border-chip-today,
+    hsl(var(--ring) / 0.55)
+  );
 }
 .chip--today .chip__date {
   text-shadow: 0 0 var(--space-2) hsl(var(--accent) / 0.35);
 }
 
 .chip--today[data-active] {
-  --chip-shadow:
-    var(--chip-today-ring),
-    var(--shadow-outline-subtle),
-    var(--neo-shadow),
-    0 var(--space-2) calc(var(--space-5) - var(--space-1) / 2)
-      hsl(var(--shadow-color) / 0.22);
+  --chip-shadow: var(
+    --elev-chip-today-active,
+    var(--chip-elev-today-active-fallback)
+  );
 }
 
 /* Active selection: holo border + RGB split title */
 .chip--active {
-  border-color: hsl(var(--ring));
-  --chip-shadow:
-    var(--shadow-outline-subtle),
-    var(--neo-shadow),
-    0 var(--space-3) calc(var(--space-6) - var(--space-1))
-      hsl(var(--shadow-color) / 0.3);
+  border-color: var(
+    --border-chip-active,
+    var(--focus-outline, hsl(var(--ring)))
+  );
+  --chip-shadow: var(--elev-chip-active, var(--chip-elev-active-fallback));
 }
 .chip--active .chip__edge {
   opacity: 0.75;
@@ -507,7 +528,17 @@
 .chip--active .chip__date {
   position: relative;
   text-shadow: 0 0 calc(var(--space-3) - var(--space-1) / 2)
-    hsl(var(--ring) / 0.35);
+    color-mix(
+      in oklab,
+      var(--focus-outline, hsl(var(--ring))) 35%,
+      transparent
+    );
+}
+@supports not (color: color-mix(in oklab, white 50%, black)) {
+  .chip--active .chip__date {
+    text-shadow: 0 0 calc(var(--space-3) - var(--space-1) / 2)
+      hsl(var(--ring) / 0.35);
+  }
 }
 .chip--active .chip__date::before,
 .chip--active .chip__date::after {
@@ -626,11 +657,7 @@
     transition: none !important;
   }
   .chip:hover {
-    --chip-shadow:
-      var(--shadow-outline-faint),
-      var(--neo-shadow),
-      0 calc(var(--space-2) - var(--space-1) / 2)
-        calc(var(--space-4) + var(--space-1) / 2) hsl(var(--shadow-color) / 0.18);
+    --chip-shadow: var(--elev-chip-hover, var(--chip-elev-hover-fallback));
   }
   .chip--active .chip__date::before,
   .chip--active .chip__date::after {
