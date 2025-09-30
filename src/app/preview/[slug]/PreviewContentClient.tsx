@@ -7,7 +7,10 @@ import PreviewSurface, {
   PREVIEW_SURFACE_CONTAINER_CLASSNAME,
 } from "@/components/gallery/PreviewSurfaceClient";
 import PreviewThemeClient from "@/components/gallery/PreviewThemeClient";
-import type { GalleryPreviewRoute } from "@/components/gallery";
+import {
+  getGalleryPreviewAxisSummary,
+  type GalleryPreviewRoute,
+} from "@/components/gallery";
 import { BackgroundPicker, Card, Label, ThemePicker, Spinner } from "@/components/ui";
 import { usePersistentState } from "@/lib/db";
 import {
@@ -42,7 +45,6 @@ type ControlState = {
 
 interface PreviewContentClientProps {
   readonly route: GalleryPreviewRoute;
-  readonly axisSummary: string;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -81,10 +83,7 @@ function PreviewLoadingFallback({ containerSize }: { containerSize: ContainerSiz
   );
 }
 
-export default function PreviewContentClient({
-  route,
-  axisSummary,
-}: PreviewContentClientProps) {
+export default function PreviewContentClient({ route }: PreviewContentClientProps) {
   const controlsHeadingId = React.useId();
   const sliderId = React.useId();
   const sliderDescriptionId = React.useId();
@@ -198,6 +197,10 @@ export default function PreviewContentClient({
 
   const sliderDescribedBy = `${sliderDescriptionId} ${sliderStatusId}`;
   const stateLabel = route.stateName ? ` · ${route.stateName}` : "";
+  const axisSummary = React.useMemo(
+    () => getGalleryPreviewAxisSummary(route.entryId, route.stateId),
+    [route.entryId, route.stateId],
+  );
 
   return (
     <div

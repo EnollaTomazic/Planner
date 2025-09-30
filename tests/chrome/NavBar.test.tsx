@@ -11,8 +11,17 @@ vi.mock("framer-motion", async () => {
 });
 
 import NavBar from "@/components/chrome/NavBar";
+import { PRIMARY_NAV_LABEL } from "@/config/nav";
 
 describe("NavBar", () => {
+  it("exposes a labelled primary navigation landmark", () => {
+    render(<NavBar />);
+
+    expect(
+      screen.getByRole("navigation", { name: PRIMARY_NAV_LABEL }),
+    ).toBeInTheDocument();
+  });
+
   it("disables underline animation with reduced motion", () => {
     render(<NavBar />);
     const underline = screen.getByTestId("nav-underline");
