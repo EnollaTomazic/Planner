@@ -1501,6 +1501,53 @@ html.bg-intense body::after {
   background: hsl(var(--background));
 }
 
+/* ---------- Chip shell utilities ---------- */
+.chip-shell {
+  --chip-shell-gap-block: var(--space-4);
+  --chip-shell-gap-block-lg: var(--space-6);
+  --chip-shell-gap-inline: var(--space-3);
+  --chip-shell-gap-inline-tight: var(--space-2);
+  --radius-card: var(--radius-2xl);
+  display: grid;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  inline-size: 100%;
+  gap: var(--chip-shell-gap-block, var(--space-4));
+  padding: var(--space-4);
+  border: var(--hairline-w, 1px) solid hsl(var(--border) / 0.45);
+  border-radius: var(--radius-card);
+  background: hsl(var(--card) / 0.7);
+  box-shadow: var(--shadow-neo-soft);
+}
+
+@media (min-width: 48rem) {
+  .chip-shell {
+    padding: var(--space-5);
+  }
+}
+
+@media (min-width: 64rem) {
+  .chip-shell {
+    gap: var(--chip-shell-gap-block-lg, var(--space-6));
+  }
+}
+
+.chip-gap-x {
+  column-gap: var(--chip-shell-gap-inline, var(--space-3));
+}
+
+.chip-gap-x-tight {
+  column-gap: var(--chip-shell-gap-inline-tight, var(--space-2));
+}
+
+.chip-gap-y {
+  row-gap: var(--chip-shell-gap-inline, var(--space-3));
+}
+
+.chip-gap-y-tight {
+  row-gap: var(--chip-shell-gap-inline-tight, var(--space-2));
+}
+
 /* ---------- Week shell ---------- */
 .week-outline {
   position: relative;
