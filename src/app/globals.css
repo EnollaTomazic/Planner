@@ -1215,6 +1215,54 @@ html.bg-intense body::after {
     border-color: hsl(var(--success));
     box-shadow: none;
   }
+
+  .chip-trigger-container {
+    --control-radius: var(--radius-full);
+    --chip-trigger-ring-color: var(--edge-iris);
+    --chip-trigger-ring-offset: var(--ring-size-1);
+    --tw-ring-color: var(--chip-trigger-ring-color);
+    --tw-ring-offset-color: hsl(var(--surface));
+    --tw-ring-offset-width: var(--chip-trigger-ring-offset);
+    --elevation-1: var(--shadow-neo-inset);
+    --elevation-2: var(--shadow-neo-soft);
+  }
+
+  .chip-trigger-container:focus-within {
+    --tw-ring-color: var(--chip-trigger-ring-color);
+    --tw-ring-offset-width: var(--chip-trigger-ring-offset);
+    --elevation-1: var(--shadow-neo-soft);
+  }
+
+  .chip-trigger {
+    --control-radius: var(--radius-full);
+    --chip-trigger-ring-color: var(--edge-iris);
+    --chip-trigger-ring-offset: var(--ring-size-1);
+    --tw-ring-color: var(--chip-trigger-ring-color);
+    --tw-ring-offset-color: hsl(var(--surface));
+    --tw-ring-offset-width: var(--chip-trigger-ring-offset);
+    --tw-shadow: var(--shadow-neo-inset);
+    --tw-shadow-colored: var(--shadow-neo-inset);
+    min-inline-size: var(
+      --settings-select-width,
+      var(--settings-column-width)
+    );
+    box-shadow:
+      var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000),
+      var(--tw-shadow);
+    @apply text-ui;
+  }
+
+  .chip-trigger:hover {
+    @apply ring;
+    --tw-ring-width: var(--ring-size-2);
+  }
+
+  .chip-trigger:focus-visible {
+    --tw-ring-width: var(--ring-size-2);
+    --tw-ring-offset-width: var(--chip-trigger-ring-offset);
+    --tw-ring-color: var(--chip-trigger-ring-color);
+  }
 }
 
 /* ---------- Planner visuals ---------- */

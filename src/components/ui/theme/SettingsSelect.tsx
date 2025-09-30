@@ -5,8 +5,8 @@ import Select from "../Select";
 import type { AnimatedSelectProps } from "../select/shared";
 import { cn } from "@/lib/utils";
 
-const SETTINGS_SELECT_BUTTON_CLASS =
-  "!rounded-full !text-ui !shadow-neo-inset [--settings-select-width:var(--settings-column-width)] min-w-[var(--settings-select-width)] hover:ring-2 hover:ring-[var(--edge-iris)] focus-visible:ring-2 focus-visible:ring-[var(--edge-iris)]";
+const SETTINGS_SELECT_BUTTON_CLASS = "chip-trigger";
+const SETTINGS_SELECT_CONTAINER_CLASS = "chip-trigger-container";
 
 export type SettingsSelectProps = Omit<
   AnimatedSelectProps,
@@ -26,7 +26,7 @@ export default function SettingsSelect({
       size="sm"
       matchTriggerWidth={false}
       buttonClassName={cn(SETTINGS_SELECT_BUTTON_CLASS, buttonClassName)}
-      containerClassName={cn("rounded-full", containerClassName)}
+      containerClassName={cn(SETTINGS_SELECT_CONTAINER_CLASS, containerClassName)}
       {...props}
     />
   );
