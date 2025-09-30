@@ -70,6 +70,7 @@ const REQUIRED_THEME_TOKEN_GROUPS = {
     "glitch-fringe",
     "glitch-static-opacity",
     "glitch-noise-level",
+    "glitch-overlay-opacity-card",
     "glitch-overlay-button-opacity",
     "glitch-overlay-button-opacity-reduced",
     "glitch-chromatic-offset-strong",
