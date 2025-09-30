@@ -34,6 +34,9 @@ test.describe("Team glitch components acceptance", () => {
             hasHaloOpacity: style
               .getPropertyValue("--glitch-card-halo-opacity")
               .trim().length > 0,
+            hasOverlayOpacityToken: style
+              .getPropertyValue("--glitch-overlay-opacity-card")
+              .trim().length > 0,
           };
         }),
     );
@@ -45,6 +48,7 @@ test.describe("Team glitch components acceptance", () => {
       expect(audit.hasHoverShadow).toBe(true);
       expect(audit.hasSpectrum).toBe(true);
       expect(audit.hasHaloOpacity).toBe(true);
+      expect(audit.hasOverlayOpacityToken).toBe(true);
       expect(/shadow-\[[^\]]*(?:px|rem)/.test(audit.className)).toBe(false);
     }
 
