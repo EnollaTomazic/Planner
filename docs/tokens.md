@@ -21,6 +21,7 @@
 | accent-soft | 294 90% 16% |
 | highlight | 0 0% 100% |
 | glow | 296 96% 56% |
+| glitch-overlay-opacity-card | 0.38 |
 | ring-muted | 248 22% 24% |
 | danger | 0 84% 60% |
 | warning | 43 96% 56% |

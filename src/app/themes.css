@@ -332,6 +332,8 @@
   --glitch-fringe: 12deg;
   /* overlay alpha */
   --glitch-static-opacity: 0.18;
+  /* card overlay alpha */
+  --glitch-overlay-opacity-card: 0.38;
   --glitch-noise-level: var(--glitch-static-opacity);
   /* Chromatic separation offsets */
   --glitch-chromatic-offset-strong: calc(var(--spacing-0-25) / 4);
@@ -451,6 +453,7 @@ html.theme-aurora {
   --glitch-intensity: 0.4;
   --glitch-fringe: 8deg;
   --glitch-static-opacity: 0.1;
+  --glitch-overlay-opacity-card: 0.21;
   --lav-deep: 276 88% 68%;
   --success: 148 72% 48%;
   --success-glow: 148 72% 38% / 0.6;
@@ -517,6 +520,7 @@ html.theme-citrus {
   --glitch-intensity: 0.38;
   --glitch-fringe: 7deg;
   --glitch-static-opacity: 0.09;
+  --glitch-overlay-opacity-card: 0.19;
   --lav-deep: 28 90% 56%;
   --success: 150 68% 46%;
   --success-glow: 150 68% 36% / 0.6;
@@ -564,6 +568,7 @@ html.theme-noir {
   --glitch-intensity: 0.34;
   --glitch-fringe: 6deg;
   --glitch-static-opacity: 0.08;
+  --glitch-overlay-opacity-card: 0.17;
   --lav-deep: 356 80% 62%;
   --success: 136 56% 52%;
   --success-glow: 136 56% 42% / 0.6;
@@ -614,6 +619,7 @@ html.theme-ocean {
   --glitch-intensity: 0.4;
   --glitch-fringe: 7deg;
   --glitch-static-opacity: 0.1;
+  --glitch-overlay-opacity-card: 0.21;
   --lav-deep: 254 78% 68%;
   --success: 158 72% 48%;
   --success-glow: 158 72% 38% / 0.6;
@@ -662,6 +668,7 @@ html.theme-kitten {
   --glitch-intensity: 0.36;
   --glitch-fringe: 6deg;
   --glitch-static-opacity: 0.085;
+  --glitch-overlay-opacity-card: 0.18;
   --lav-deep: 336 84% 64%;
   --success: 152 62% 48%;
   --success-glow: 152 62% 38% / 0.6;
@@ -717,6 +724,7 @@ html.theme-hardstuck {
   --glitch-intensity: 0.32;
   --glitch-fringe: 5deg;
   --glitch-static-opacity: 0.075;
+  --glitch-overlay-opacity-card: 0.16;
   --lav-deep: 120 90% 52%;
   --icon-fg: 120 92% 64%;
   --success: 120 94% 52%;

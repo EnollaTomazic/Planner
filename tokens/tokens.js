@@ -24,6 +24,7 @@ export default {
   accentSoft: "294 90% 16%",
   highlight: "0 0% 100%",
   glow: "296 96% 56%",
+  glitchOverlayOpacityCard: "0.38",
   ringMuted: "248 22% 24%",
   danger: "0 84% 60%",
   warning: "43 96% 56%",
