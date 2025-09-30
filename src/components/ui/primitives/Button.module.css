@@ -92,12 +92,12 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  --glitch-overlay-opacity: 0.42;
+  --glitch-overlay-opacity: var(--glitch-overlay-button-opacity);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .glitch {
-    --glitch-overlay-opacity: 0.28;
+    --glitch-overlay-opacity: var(--glitch-overlay-button-opacity-reduced);
   }
 }
 

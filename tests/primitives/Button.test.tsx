@@ -114,6 +114,33 @@ describe("Button", () => {
     expect(content).not.toMatch(/\bpx-(5|6)\b/);
   });
 
+  it("passes data-glitch through", () => {
+    const { getByRole } = render(
+      <Button glitch>
+        Glitched
+      </Button>,
+    );
+
+    expect(getByRole("button")).toHaveAttribute("data-glitch", "true");
+  });
+
+  it("references glitch overlay tokens", () => {
+    const css = fs.readFileSync(
+      "src/components/ui/primitives/Button.module.css",
+      "utf8",
+    );
+
+    expect(css).toContain("var(--glitch-overlay-button-opacity)");
+    expect(css).toContain("var(--glitch-overlay-button-opacity-reduced)");
+  });
+
+  it("defines button glitch overlay tokens in theme bundle", () => {
+    const themeCss = fs.readFileSync("src/app/themes.css", "utf8");
+
+    expect(themeCss).toContain("--glitch-overlay-button-opacity:");
+    expect(themeCss).toContain("--glitch-overlay-button-opacity-reduced:");
+  });
+
   it("warns and renders nothing when asChild is missing a valid child", () => {
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     let renderResult: ReturnType<typeof render> | undefined;

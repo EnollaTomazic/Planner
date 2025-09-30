@@ -294,6 +294,9 @@
   --depth-shadow-outer-strong: var(--shadow-neo-strong);
   --depth-shadow-soft: var(--shadow-neo-soft);
   --depth-shadow-inner: var(--shadow-neo-inset);
+  --shadow-inner-sm: inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18);
+  --shadow-inner-md: inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28);
+  --shadow-outer-lg: 0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36);
   /* Depth glow ramps */
   --depth-glow-highlight-soft: hsl(var(--highlight) / 0.08);
   --depth-glow-highlight-medium: hsl(var(--highlight) / 0.35);
@@ -305,7 +308,7 @@
     0 0 0 0 hsl(var(--ring) / 0),
     0 0 0 0 hsl(var(--ring) / 0);
   --depth-focus-ring-active:
-    0 0 0 calc(var(--hairline-w) * 1) hsl(var(--ring))
+    0 0 0 calc(var(--hairline-w) * 1) hsl(var(--ring)),
     var(--shadow-glow-lg);
   /* Organic backdrops */
   --backdrop-blob-1: var(--lg-violet);
@@ -319,9 +322,14 @@
   --backdrop-drip-2: var(--backdrop-blob-2);
   --backdrop-drip-3: var(--backdrop-blob-3);
   --backdrop-drip-shadow: var(--backdrop-blob-shadow);
+  --blob-surface-1: hsl(var(--surface));
+  --blob-surface-2: hsl(var(--surface-2));
+  --blob-surface-3: hsl(var(--card));
+  --blob-surface-shadow: hsl(var(--shadow-color) / 0.4);
   /* Glow parity (retro-futurism) */
   /* neo-glow-strength multiplies --shadow-neon */
   --neo-glow-strength: 0.45;
+  --glow-primary: hsl(var(--primary) / 0.55);
   --neon-outline-opacity: 0.35;
   /* Glitch normalization (identical amplitude & cadence) */
   /* 0–1 scaling for transforms/opacity */
@@ -333,6 +341,9 @@
   /* overlay alpha */
   --glitch-static-opacity: 0.18;
   --glitch-noise-level: var(--glitch-static-opacity);
+  /* Button glitch overlays */
+  --glitch-overlay-button-opacity: 0.42;
+  --glitch-overlay-button-opacity-reduced: 0.28;
   /* Chromatic separation offsets */
   --glitch-chromatic-offset-strong: calc(var(--spacing-0-25) / 4);
   --glitch-chromatic-offset-medium: calc(var(--spacing-0-25) * 3 / 20);
@@ -344,6 +355,9 @@
   --glitch-accent-color: hsl(var(--accent) / 0.35);
   --glitch-accent-blur: var(--spacing-0-5);
   --glitch-accent-shadow: 0 0 var(--glitch-accent-blur) var(--glitch-accent-color);
+  --glitch-noise-primary: hsl(var(--accent) / 0.25);
+  --glitch-noise-secondary: hsl(var(--ring) / 0.2);
+  --glitch-noise-contrast: hsl(var(--foreground) / 0.12);
   /* Retro grid parity */
   --retro-grid-step: 24px;
   --retro-grid-opacity: 0.15;
@@ -387,11 +401,32 @@
       hsl(var(--background)) 30%
     );
     --glow-active: color-mix(in oklab, hsl(var(--glow)) 50%, transparent);
+    --glow-primary: color-mix(in oklab, hsl(var(--primary)) 58%, transparent);
     --neon-soft: color-mix(in oklab, hsl(var(--neon)) 50%, transparent);
     --card-hairline: color-mix(
       in oklab,
       hsl(var(--border)) 82%,
       hsl(var(--accent)) 18%
+    );
+    --blob-surface-1: color-mix(
+      in oklab,
+      hsl(var(--surface)) 72%,
+      hsl(var(--accent)) 28%
+    );
+    --blob-surface-2: color-mix(
+      in oklab,
+      hsl(var(--surface-2)) 68%,
+      hsl(var(--accent-2)) 32%
+    );
+    --blob-surface-3: color-mix(
+      in oklab,
+      hsl(var(--card)) 70%,
+      hsl(var(--ring)) 30%
+    );
+    --blob-surface-shadow: color-mix(
+      in oklab,
+      hsl(var(--shadow-color)) 68%,
+      hsl(var(--background)) 32%
     );
     --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
     --aurora-g-light-color: var(--aurora-g-light);
@@ -403,6 +438,52 @@
     --aurora-g-light-color: var(--aurora-g-light);
     --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
     --aurora-p-light-color: var(--aurora-p-light);
+  }
+  html.theme-hardstuck {
+    --blob-surface-1: color-mix(
+      in oklab,
+      hsl(var(--surface)) 62%,
+      hsl(var(--hardstuck-foreground)) 38%
+    );
+    --blob-surface-2: color-mix(
+      in oklab,
+      hsl(var(--surface-2)) 58%,
+      hsl(var(--hardstuck-foreground)) 42%
+    );
+    --blob-surface-3: color-mix(
+      in oklab,
+      hsl(var(--card)) 60%,
+      hsl(var(--ring)) 40%
+    );
+    --blob-surface-shadow: color-mix(
+      in oklab,
+      hsl(var(--shadow-color)) 64%,
+      hsl(var(--background)) 36%
+    );
+    --glow-primary: color-mix(in oklab, hsl(var(--ring)) 52%, transparent);
+  }
+  html.theme-noir {
+    --blob-surface-1: color-mix(
+      in oklab,
+      hsl(var(--surface)) 66%,
+      hsl(var(--foreground)) 34%
+    );
+    --blob-surface-2: color-mix(
+      in oklab,
+      hsl(var(--surface-2)) 60%,
+      hsl(var(--foreground)) 40%
+    );
+    --blob-surface-3: color-mix(
+      in oklab,
+      hsl(var(--card)) 64%,
+      hsl(var(--accent)) 36%
+    );
+    --blob-surface-shadow: color-mix(
+      in oklab,
+      hsl(var(--shadow-color)) 66%,
+      hsl(var(--background)) 34%
+    );
+    --glow-primary: color-mix(in oklab, hsl(var(--ring)) 56%, transparent);
   }
 }
 /* Upgrade contrast token when color-contrast is supported */
@@ -560,10 +641,16 @@ html.theme-noir {
   --surface-streak: 352 30% 14%;
   --shadow-color: 356 70% 50%;
   --shadow: 0 18px 44px hsl(var(--shadow-color) / 0.38);
+  --shadow-inner-sm: inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.2);
+  --shadow-inner-md: inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.3);
+  --shadow-outer-lg: 0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.42);
   --neo-glow-strength: 0.6;
   --glitch-intensity: 0.34;
   --glitch-fringe: 6deg;
   --glitch-static-opacity: 0.08;
+  --glitch-noise-primary: hsl(var(--ring) / 0.28);
+  --glitch-noise-secondary: hsl(var(--accent) / 0.22);
+  --glitch-noise-contrast: hsl(var(--foreground) / 0.14);
   --lav-deep: 356 80% 62%;
   --success: 136 56% 52%;
   --success-glow: 136 56% 42% / 0.6;
@@ -571,6 +658,11 @@ html.theme-noir {
   --noir-rose: 352 68% 54%;
   --noir-ink: 352 80% 6%;
   --noir-ruby: 12 76% 46%;
+  --glow-primary: hsl(var(--ring) / 0.58);
+  --blob-surface-1: hsl(352 46% 12%);
+  --blob-surface-2: hsl(352 38% 18%);
+  --blob-surface-3: hsl(184 68% 20%);
+  --blob-surface-shadow: hsl(356 72% 10% / 0.42);
   --backdrop-blob-1: var(--noir-red);
   --backdrop-blob-2: var(--noir-rose);
   --backdrop-blob-3: var(--noir-ruby);
@@ -713,16 +805,27 @@ html.theme-hardstuck {
   --surface-streak: 120 18% 11%;
   --shadow-color: 120 84% 44%;
   --shadow: 0 18px 46px hsl(var(--shadow-color) / 0.4);
+  --shadow-inner-sm: inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.16);
+  --shadow-inner-md: inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.24);
+  --shadow-outer-lg: 0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.34);
   --neo-glow-strength: 0.58;
   --glitch-intensity: 0.32;
   --glitch-fringe: 5deg;
   --glitch-static-opacity: 0.075;
+  --glitch-noise-primary: hsl(var(--ring) / 0.24);
+  --glitch-noise-secondary: hsl(var(--accent) / 0.18);
+  --glitch-noise-contrast: hsl(var(--hardstuck-foreground) / 0.18);
   --lav-deep: 120 90% 52%;
   --icon-fg: 120 92% 64%;
   --success: 120 94% 52%;
   --success-glow: 120 90% 42% / 0.6;
   --hardstuck-forest: 120 70% 42%;
   --hardstuck-deep: 120 82% 8%;
+  --glow-primary: hsl(var(--ring) / 0.5);
+  --blob-surface-1: hsl(120 38% 14%);
+  --blob-surface-2: hsl(120 44% 18%);
+  --blob-surface-3: hsl(120 48% 24%);
+  --blob-surface-shadow: hsl(120 72% 12% / 0.45);
   --backdrop-blob-1: var(--ring);
   --backdrop-blob-2: var(--hardstuck-forest);
   --backdrop-blob-3: var(--ring);

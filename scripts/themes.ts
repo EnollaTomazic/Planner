@@ -57,6 +57,20 @@ export const rootVariables: VariableDefinition[] = [
   { name: "depth-shadow-soft", value: "var(--shadow-neo-soft)" },
   { name: "depth-shadow-inner", value: "var(--shadow-neo-inset)" },
   {
+    name: "shadow-inner-sm",
+    value:
+      "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)",
+  },
+  {
+    name: "shadow-inner-md",
+    value:
+      "inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28)",
+  },
+  {
+    name: "shadow-outer-lg",
+    value: "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36)",
+  },
+  {
     comment: "Depth glow ramps",
     name: "depth-glow-highlight-soft",
     value: "hsl(var(--highlight) / 0.08)",
@@ -100,6 +114,10 @@ export const rootVariables: VariableDefinition[] = [
   { name: "backdrop-drip-2", value: "var(--backdrop-blob-2)" },
   { name: "backdrop-drip-3", value: "var(--backdrop-blob-3)" },
   { name: "backdrop-drip-shadow", value: "var(--backdrop-blob-shadow)" },
+  { name: "blob-surface-1", value: "hsl(var(--surface))" },
+  { name: "blob-surface-2", value: "hsl(var(--surface-2))" },
+  { name: "blob-surface-3", value: "hsl(var(--card))" },
+  { name: "blob-surface-shadow", value: "hsl(var(--shadow-color) / 0.4)" },
   {
     comment: [
       "Glow parity (retro-futurism)",
@@ -108,6 +126,7 @@ export const rootVariables: VariableDefinition[] = [
     name: "neo-glow-strength",
     value: "0.45",
   },
+  { name: "glow-primary", value: "hsl(var(--primary) / 0.55)" },
   { name: "neon-outline-opacity", value: "0.35" },
   {
     comment: [
@@ -121,6 +140,15 @@ export const rootVariables: VariableDefinition[] = [
   { comment: "hue-rotate magnitude", name: "glitch-fringe", value: "12deg" },
   { comment: "overlay alpha", name: "glitch-static-opacity", value: "0.18" },
   { name: "glitch-noise-level", value: "var(--glitch-static-opacity)" },
+  {
+    comment: "Button glitch overlays",
+    name: "glitch-overlay-button-opacity",
+    value: "0.42",
+  },
+  {
+    name: "glitch-overlay-button-opacity-reduced",
+    value: "0.28",
+  },
   {
     comment: "Chromatic separation offsets",
     name: "glitch-chromatic-offset-strong",
@@ -147,6 +175,9 @@ export const rootVariables: VariableDefinition[] = [
     name: "glitch-accent-shadow",
     value: "0 0 var(--glitch-accent-blur) var(--glitch-accent-color)",
   },
+  { name: "glitch-noise-primary", value: "hsl(var(--accent) / 0.25)" },
+  { name: "glitch-noise-secondary", value: "hsl(var(--ring) / 0.2)" },
+  { name: "glitch-noise-contrast", value: "hsl(var(--foreground) / 0.12)" },
   { comment: "Retro grid parity", name: "retro-grid-step", value: "24px" },
   { name: "retro-grid-opacity", value: "0.15" },
   {
@@ -353,10 +384,27 @@ export const themes: ThemeDefinition[] = [
       { name: "surface-streak", value: "352 30% 14%" },
       { name: "shadow-color", value: "356 70% 50%" },
       { name: "shadow", value: "0 18px 44px hsl(var(--shadow-color) / 0.38)" },
+      {
+        name: "shadow-inner-sm",
+        value:
+          "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.2)",
+      },
+      {
+        name: "shadow-inner-md",
+        value:
+          "inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.3)",
+      },
+      {
+        name: "shadow-outer-lg",
+        value: "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.42)",
+      },
       { name: "neo-glow-strength", value: "0.6" },
       { name: "glitch-intensity", value: "0.34" },
       { name: "glitch-fringe", value: "6deg" },
       { name: "glitch-static-opacity", value: "0.08" },
+      { name: "glitch-noise-primary", value: "hsl(var(--ring) / 0.28)" },
+      { name: "glitch-noise-secondary", value: "hsl(var(--accent) / 0.22)" },
+      { name: "glitch-noise-contrast", value: "hsl(var(--foreground) / 0.14)" },
       { name: "lav-deep", value: "356 80% 62%" },
       { name: "success", value: "136 56% 52%" },
       { name: "success-glow", value: "136 56% 42% / 0.6" },
@@ -364,6 +412,11 @@ export const themes: ThemeDefinition[] = [
       { name: "noir-rose", value: "352 68% 54%" },
       { name: "noir-ink", value: "352 80% 6%" },
       { name: "noir-ruby", value: "12 76% 46%" },
+      { name: "glow-primary", value: "hsl(var(--ring) / 0.58)" },
+      { name: "blob-surface-1", value: "hsl(352 46% 12%)" },
+      { name: "blob-surface-2", value: "hsl(352 38% 18%)" },
+      { name: "blob-surface-3", value: "hsl(184 68% 20%)" },
+      { name: "blob-surface-shadow", value: "hsl(356 72% 10% / 0.42)" },
       { name: "backdrop-blob-1", value: "var(--noir-red)" },
       { name: "backdrop-blob-2", value: "var(--noir-rose)" },
       { name: "backdrop-blob-3", value: "var(--noir-ruby)" },
@@ -515,16 +568,41 @@ export const themes: ThemeDefinition[] = [
       { name: "surface-streak", value: "120 18% 11%" },
       { name: "shadow-color", value: "120 84% 44%" },
       { name: "shadow", value: "0 18px 46px hsl(var(--shadow-color) / 0.4)" },
+      {
+        name: "shadow-inner-sm",
+        value:
+          "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.16)",
+      },
+      {
+        name: "shadow-inner-md",
+        value:
+          "inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.24)",
+      },
+      {
+        name: "shadow-outer-lg",
+        value: "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.34)",
+      },
       { name: "neo-glow-strength", value: "0.58" },
       { name: "glitch-intensity", value: "0.32" },
       { name: "glitch-fringe", value: "5deg" },
       { name: "glitch-static-opacity", value: "0.075" },
+      { name: "glitch-noise-primary", value: "hsl(var(--ring) / 0.24)" },
+      { name: "glitch-noise-secondary", value: "hsl(var(--accent) / 0.18)" },
+      {
+        name: "glitch-noise-contrast",
+        value: "hsl(var(--hardstuck-foreground) / 0.18)",
+      },
       { name: "lav-deep", value: "120 90% 52%" },
       { name: "icon-fg", value: "120 92% 64%" },
       { name: "success", value: "120 94% 52%" },
       { name: "success-glow", value: "120 90% 42% / 0.6" },
       { name: "hardstuck-forest", value: "120 70% 42%" },
       { name: "hardstuck-deep", value: "120 82% 8%" },
+      { name: "glow-primary", value: "hsl(var(--ring) / 0.5)" },
+      { name: "blob-surface-1", value: "hsl(120 38% 14%)" },
+      { name: "blob-surface-2", value: "hsl(120 44% 18%)" },
+      { name: "blob-surface-3", value: "hsl(120 48% 24%)" },
+      { name: "blob-surface-shadow", value: "hsl(120 72% 12% / 0.45)" },
       { name: "backdrop-blob-1", value: "var(--ring)" },
       { name: "backdrop-blob-2", value: "var(--hardstuck-forest)" },
       { name: "backdrop-blob-3", value: "var(--ring)" },
