@@ -107,14 +107,22 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
-    expect(classes).toContain("[--neo-shadow:var(--btn-primary-shadow-rest)]");
-    expect(classes).toContain(
-      "[--neo-shadow-hover:var(--btn-primary-shadow-hover)]",
-    );
+    expect(classes).toContain("shadow-glow-sm");
+    expect(classes).toContain("hover:shadow-btn-primary-hover");
+    expect(classes).toContain("active:shadow-btn-primary-active");
     expect(classes).toContain(
       "border-[hsl(var(--accent)/0.35)] [--neu-surface:hsl(var(--accent)/0.12)]",
     );
     expect(classes).toContain("text-on-accent");
+    expect(classes).toContain(
+      "[--glow-active:hsl(var(--accent)/0.35)]",
+    );
+    expect(classes).toContain(
+      "[--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--accent)/0.25)]",
+    );
+    expect(classes).toContain(
+      "[--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--accent)/0.6)]",
+    );
     expect(classes).toContain("[--hover:hsl(var(--accent)/0.14)]");
     expect(classes).toContain("[--active:hsl(var(--accent)/0.2)]");
   });
@@ -125,9 +133,9 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
-    expect(classes).toContain(
-      "[--neo-shadow:var(--btn-secondary-shadow-rest)]",
-    );
+    expect(classes).toContain("shadow-control");
+    expect(classes).toContain("hover:shadow-control-hover");
+    expect(classes).toContain("active:shadow-inner-md");
     expect(classes).toContain("text-on-accent");
     expect(classes).toContain("[--neu-surface:hsl(var(--accent-2)/0.25)]");
     expect(classes).toContain("[--hover:hsl(var(--accent-2)/0.2)]");

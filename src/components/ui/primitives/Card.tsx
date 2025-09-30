@@ -11,6 +11,13 @@ export type CardProps = React.HTMLAttributes<HTMLDivElement> & {
   glitch?: boolean;
 };
 
+const depthShadowClasses: Record<CardDepth, string> = {
+  base: "shadow-elev-0",
+  raised:
+    "shadow-elev-1 hover:shadow-elev-2 focus-visible:shadow-elev-2 focus-within:shadow-elev-2",
+  sunken: "shadow-inner-md",
+};
+
 const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
   ({ className, asChild = false, depth = "base", glitch = false, ...props }, ref) => {
     const Component = asChild ? Slot : "div";
@@ -23,6 +30,7 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
           glitch && "glitch-wrapper",
           glitch && styles.glitch,
           "rounded-card r-card-lg p-[var(--space-4)] border border-card-hairline/60 bg-card/60 text-card-foreground",
+          depthShadowClasses[depth],
           className,
         )}
         data-depth={depth}
