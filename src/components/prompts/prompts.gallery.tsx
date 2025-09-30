@@ -690,8 +690,8 @@ function useSelectOpen(
 const HOVER_BG_TOKENS = "bg-[--hover] hover:bg-[--hover]";
 const ACTIVE_BG_TOKENS = "bg-[--active] data-[open=true]:bg-[--active]";
 const BUTTON_FOCUS_VISIBLE_TOKENS =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]";
-const WRAPPER_FOCUS_RING_TOKENS = "ring-2 ring-[var(--focus)]";
+  "[--chip-trigger-ring-color:var(--focus)]";
+const WRAPPER_FOCUS_RING_TOKENS = "[--chip-trigger-ring-color:var(--focus)]";
 const THEME_TOGGLE_TRIGGER_SELECTOR = "[&_button[aria-haspopup='listbox']]";
 const THEME_TOGGLE_HOVER_CLASS = `${THEME_TOGGLE_TRIGGER_SELECTOR}:bg-[--hover] ${THEME_TOGGLE_TRIGGER_SELECTOR}:hover:bg-[--hover]`;
 const THEME_TOGGLE_FOCUS_CLASS = [
@@ -4542,8 +4542,8 @@ React.useEffect(() => {
           code: `<ThemePicker
   variant="lg"
   onVariantChange={() => {}}
-  className="ring-2 ring-[var(--focus)]"
-  buttonClassName="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+  className="[--chip-trigger-ring-color:var(--focus)]"
+  buttonClassName="[--chip-trigger-ring-color:var(--focus)]"
 />`,
         },
         {
@@ -4609,8 +4609,8 @@ React.useEffect(() => {
           code: `<BackgroundPicker
   bg={0}
   onBgChange={() => {}}
-  className="ring-2 ring-[var(--focus)]"
-  buttonClassName="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+  className="[--chip-trigger-ring-color:var(--focus)]"
+  buttonClassName="[--chip-trigger-ring-color:var(--focus)]"
 />`,
         },
         {
@@ -4696,8 +4696,8 @@ React.useEffect(() => {
   items={[{ value: "lg", label: "Glitch" }, { value: "aurora", label: "Aurora" }]}
   value="lg"
   onChange={() => {}}
-  className="ring-2 ring-[var(--focus)]"
-  buttonClassName="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+  className="[--chip-trigger-ring-color:var(--focus)]"
+  buttonClassName="[--chip-trigger-ring-color:var(--focus)]"
 />`,
         },
         {
