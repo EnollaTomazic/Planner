@@ -34,7 +34,7 @@ test.describe("SiteChrome tab order", () => {
     await page.keyboard.press("Enter");
 
     await expect(
-      page.getByRole("navigation", { name: "Primary mobile navigation" }),
+      page.getByRole("navigation", { name: "Primary" }),
     ).toBeVisible();
 
     const promptsItem = page.getByRole("link", { name: /Prompts/ });
