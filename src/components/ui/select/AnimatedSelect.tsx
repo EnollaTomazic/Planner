@@ -126,7 +126,7 @@ const AnimatedSelect = React.forwardRef<
   }, [scheduleMeasure, setOpen]);
 
   return (
-    <div id={id} className={cn("glitch-wrap", className)}>
+    <div id={id} className={cn("glitch-wrapper", className)}>
       {label ? (
         <div
           id={labelId}

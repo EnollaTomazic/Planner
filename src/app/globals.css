@@ -15,6 +15,9 @@
     --settings-column-width: calc(var(--space-4) * 14);
     --surface-overlay-soft: 0.12;
     --surface-overlay-strong: 0.2;
+    --surface-muted: var(--muted) / 0.12;
+    --surface-hover: var(--muted) / 0.18;
+    --border-subtle: var(--ring);
     --select-glitch-caret-shift: calc(var(--spacing-0-25) * 3 / 5);
     --select-glitch-text-shadow-offset: var(--select-glitch-caret-shift);
     --select-glitch-caret-shadow-blur: var(--spacing-1);
