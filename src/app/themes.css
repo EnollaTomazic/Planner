@@ -609,6 +609,7 @@ html.theme-aurora {
   --accent-2: 152 96% 56%;
   --accent-foreground: 0 0% 100%;
   --accent-soft: 274 78% 22%;
+  --glow: 152 100% 68%;
   --muted: 280 52% 16%;
   --muted-foreground: 280 24% 76%;
   --surface: 282 64% 10%;
@@ -683,6 +684,7 @@ html.theme-citrus {
   --accent-2: 168 72% 32%;
   --accent-foreground: 0 0% 100%;
   --accent-soft: 26 92% 18%;
+  --glow: 28 96% 62%;
   --muted: 212 18% 22%;
   --muted-foreground: 212 20% 70%;
   --surface: 212 22% 12%;
@@ -738,6 +740,7 @@ html.theme-noir {
   --accent-2: 32 92% 38%;
   --accent-foreground: 0 0% 100%;
   --accent-soft: 184 86% 14%;
+  --glow: 356 90% 62%;
   --muted: 352 34% 18%;
   --muted-foreground: 352 24% 68%;
   --surface: 352 56% 10%;
@@ -807,6 +810,7 @@ html.theme-ocean {
   --accent-2: 230 78% 36%;
   --accent-foreground: 0 0% 100%;
   --accent-soft: 204 92% 14%;
+  --glow: 194 94% 64%;
   --muted: 218 24% 17%;
   --muted-foreground: 218 16% 74%;
   --surface: 218 30% 12%;
@@ -863,6 +867,7 @@ html.theme-kitten {
   --accent-2: 194 90% 40%;
   --accent-foreground: 0 0% 100%;
   --accent-soft: 340 86% 14%;
+  --glow: 336 94% 64%;
   --muted: 334 64% 18%;
   --muted-foreground: 334 26% 74%;
   --surface: 334 74% 9%;
