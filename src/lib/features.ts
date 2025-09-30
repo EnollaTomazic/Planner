@@ -1,5 +1,6 @@
 const rawSvgNumericFilters = process.env.NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS;
 const rawDepthTheme = process.env.NEXT_PUBLIC_DEPTH_THEME;
+const rawOrganicDepth = process.env.NEXT_PUBLIC_ORGANIC_DEPTH;
 
 const enabledValues = new Set(["1", "true", "on", "yes"]);
 const disabledValues = new Set(["0", "false", "off", "no"]);
@@ -24,5 +25,6 @@ function parseBooleanFlag(raw: string | undefined, fallback: boolean): boolean {
 
 const svgNumericFilters = parseBooleanFlag(rawSvgNumericFilters, true);
 const depthThemeEnabled = parseBooleanFlag(rawDepthTheme, false);
+const organicDepthEnabled = parseBooleanFlag(rawOrganicDepth, false);
 
-export { depthThemeEnabled, svgNumericFilters };
+export { depthThemeEnabled, organicDepthEnabled, svgNumericFilters };

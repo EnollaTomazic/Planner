@@ -4,10 +4,12 @@ import * as React from "react";
 
 type DepthThemeContextValue = {
   enabled: boolean;
+  organicDepthEnabled: boolean;
 };
 
 const defaultContext: DepthThemeContextValue = Object.freeze({
   enabled: false,
+  organicDepthEnabled: false,
 });
 
 const DepthThemeContext = React.createContext<DepthThemeContextValue>(defaultContext);
@@ -59,22 +61,40 @@ function reportDepthThemeAnalytics(enabled: boolean) {
 
 type DepthThemeProviderProps = {
   enabled: boolean;
+  organicDepthEnabled?: boolean;
   children: React.ReactNode;
 };
 
-export function DepthThemeProvider({ enabled, children }: DepthThemeProviderProps) {
+export function DepthThemeProvider({
+  enabled,
+  organicDepthEnabled = false,
+  children,
+}: DepthThemeProviderProps) {
   React.useEffect(() => {
-    if (typeof document !== "undefined") {
-      const state = enabled ? "enabled" : "legacy";
-      document.documentElement.dataset.depthTheme = state;
-      if (document.body) {
-        document.body.dataset.depthTheme = state;
-      }
+    if (typeof document === "undefined") {
+      return;
     }
+
+    const themeState = enabled ? "enabled" : "legacy";
+    const organicState = organicDepthEnabled ? "organic" : "legacy";
+
+    document.documentElement.dataset.depthTheme = themeState;
+    document.documentElement.dataset.organicDepth = organicState;
+
+    if (document.body) {
+      document.body.dataset.depthTheme = themeState;
+      document.body.dataset.organicDepth = organicState;
+    }
+  }, [enabled, organicDepthEnabled]);
+
+  React.useEffect(() => {
     reportDepthThemeAnalytics(enabled);
   }, [enabled]);
 
-  const value = React.useMemo<DepthThemeContextValue>(() => ({ enabled }), [enabled]);
+  const value = React.useMemo<DepthThemeContextValue>(
+    () => ({ enabled, organicDepthEnabled }),
+    [enabled, organicDepthEnabled],
+  );
 
   return <DepthThemeContext.Provider value={value}>{children}</DepthThemeContext.Provider>;
 }
@@ -85,6 +105,10 @@ export function useDepthTheme(): DepthThemeContextValue {
 
 export function useDepthThemeEnabled(): boolean {
   return useDepthTheme().enabled;
+}
+
+export function useOrganicDepthEnabled(): boolean {
+  return useDepthTheme().organicDepthEnabled;
 }
 
 export default DepthThemeProvider;
