@@ -36,6 +36,7 @@ const REQUIRED_THEME_TOKEN_GROUPS = {
     "depth-shadow-outer-strong",
     "depth-shadow-soft",
     "depth-shadow-inner",
+    "shadow-inner-lg",
     "depth-glow-highlight-soft",
     "depth-glow-highlight-medium",
     "depth-glow-highlight-strong",
@@ -44,6 +45,8 @@ const REQUIRED_THEME_TOKEN_GROUPS = {
     "depth-glow-shadow-strong",
     "depth-focus-ring-rest",
     "depth-focus-ring-active",
+    "shadow-outer-xl",
+    "glow-ring",
   ],
   organicBackdrop: [
     "backdrop-blob-1",
@@ -61,6 +64,7 @@ const REQUIRED_THEME_TOKEN_GROUPS = {
     "blob-surface-2",
     "blob-surface-3",
     "blob-surface-shadow",
+    "blob-radius-soft",
   ],
   glitch: [
     "neo-glow-strength",
@@ -86,6 +90,7 @@ const REQUIRED_THEME_TOKEN_GROUPS = {
     "glitch-noise-primary",
     "glitch-noise-secondary",
     "glitch-noise-contrast",
+    "glitch-noise-hover",
   ],
 } as const;
 
@@ -271,16 +276,24 @@ async function buildTokens(): Promise<void> {
       "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)",
     "shadow-inner-md":
       "inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28)",
+    "shadow-inner-lg":
+      "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)",
     "shadow-outer-lg":
       "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36)",
+    "shadow-outer-xl":
+      "0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45)",
+    "glow-ring":
+      "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
     "glow-primary": "hsl(var(--primary) / 0.55)",
     "blob-surface-1": "hsl(var(--surface))",
     "blob-surface-2": "hsl(var(--surface-2))",
     "blob-surface-3": "hsl(var(--card))",
     "blob-surface-shadow": "hsl(var(--shadow-color) / 0.4)",
+    "blob-radius-soft": "calc(var(--radius-2xl) + var(--spacing-2))",
     "glitch-noise-primary": "hsl(var(--accent) / 0.25)",
     "glitch-noise-secondary": "hsl(var(--ring) / 0.2)",
     "glitch-noise-contrast": "hsl(var(--foreground) / 0.12)",
+    "glitch-noise-hover": "calc(var(--glitch-noise-level) * 1.3)",
   };
 
   for (const [name, value] of Object.entries(derivedColorTokens)) {

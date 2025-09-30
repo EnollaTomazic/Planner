@@ -313,6 +313,11 @@
   --retro-grid-opacity: 0.15;
   --aa-min-contrast: 4.5;
   --glitch-overlay-opacity-card: 0.55;
+  --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36);
+  --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
+  --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22);
+  --blob-radius-soft: calc(var(--radius-2xl) + var(--spacing-2));
+  --glitch-noise-hover: calc(var(--glitch-noise-level) * 1.3);
   --spacing-0-125: calc(var(--spacing-1) / 8);
   --spacing-0-25: calc(var(--spacing-1) / 4);
   --spacing-0-5: calc(var(--spacing-1) / 2);
@@ -367,7 +372,9 @@
   --depth-shadow-inner: var(--shadow-neo-inset);
   --shadow-inner-sm: inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18);
   --shadow-inner-md: inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28);
+  --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36);
   --shadow-outer-lg: 0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36);
+  --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
   /* Depth glow ramps */
   --depth-glow-highlight-soft: hsl(var(--highlight) / 0.08);
   --depth-glow-highlight-medium: hsl(var(--highlight) / 0.35);
@@ -397,10 +404,12 @@
   --blob-surface-2: hsl(var(--surface-2));
   --blob-surface-3: hsl(var(--card));
   --blob-surface-shadow: hsl(var(--shadow-color) / 0.4);
+  --blob-radius-soft: calc(var(--radius-2xl) + var(--spacing-2));
   /* Glow parity (retro-futurism) */
   /* neo-glow-strength multiplies --shadow-neon */
   --neo-glow-strength: 0.45;
   --glow-primary: hsl(var(--primary) / 0.55);
+  --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22);
   --neon-outline-opacity: 0.35;
   /* Glitch normalization (identical amplitude & cadence) */
   /* 0–1 scaling for transforms/opacity */
@@ -431,6 +440,7 @@
   --glitch-noise-primary: hsl(var(--accent) / 0.25);
   --glitch-noise-secondary: hsl(var(--ring) / 0.2);
   --glitch-noise-contrast: hsl(var(--foreground) / 0.12);
+  --glitch-noise-hover: calc(var(--glitch-noise-level) * 1.3);
   /* Retro grid parity */
   --retro-grid-step: 24px;
   --retro-grid-opacity: 0.15;
@@ -601,6 +611,8 @@ html.theme-aurora {
   --surface-streak: 280 42% 14%;
   --shadow-color: 152 80% 50%;
   --shadow: 0 12px 32px hsl(var(--shadow-color) / 0.3);
+  --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36);
+  --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
   --neo-glow-strength: 0.4;
   --glitch-intensity: 0.4;
   --glitch-fringe: 8deg;
@@ -623,6 +635,9 @@ html.theme-aurora {
   --backdrop-drip-2: var(--accent);
   --backdrop-drip-3: var(--accent-2);
   --backdrop-drip-shadow: var(--card);
+  --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22);
+  --blob-radius-soft: calc(var(--radius-2xl) + var(--spacing-2));
+  --glitch-noise-hover: calc(var(--glitch-noise-level) * 1.3);
   --edge-iris: conic-gradient(
     from 180deg,
     hsl(var(--accent-2) / 0),
@@ -667,6 +682,8 @@ html.theme-citrus {
   --surface-streak: 212 18% 16%;
   --shadow-color: 28 90% 42%;
   --shadow: 0 14px 36px hsl(var(--shadow-color) / 0.32);
+  --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36);
+  --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
   --neo-glow-strength: 0.45;
   --glitch-intensity: 0.38;
   --glitch-fringe: 7deg;
@@ -686,6 +703,9 @@ html.theme-citrus {
   --backdrop-drip-2: var(--citrus-teal);
   --backdrop-drip-3: var(--ring);
   --backdrop-drip-shadow: var(--card);
+  --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22);
+  --blob-radius-soft: calc(var(--radius-2xl) + var(--spacing-2));
+  --glitch-noise-hover: calc(var(--glitch-noise-level) * 1.3);
 }
 /* ---------- Noir ---------- */
 html.theme-noir {
@@ -716,7 +736,9 @@ html.theme-noir {
   --shadow: 0 18px 44px hsl(var(--shadow-color) / 0.38);
   --shadow-inner-sm: inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.2);
   --shadow-inner-md: inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.3);
+  --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.38);
   --shadow-outer-lg: 0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.42);
+  --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.48);
   --neo-glow-strength: 0.6;
   --glitch-intensity: 0.34;
   --glitch-fringe: 6deg;
@@ -732,10 +754,12 @@ html.theme-noir {
   --noir-ink: 352 80% 6%;
   --noir-ruby: 12 76% 46%;
   --glow-primary: hsl(var(--ring) / 0.58);
+  --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.52), 0 0 var(--spacing-3) hsl(var(--ring) / 0.24);
   --blob-surface-1: hsl(352 46% 12%);
   --blob-surface-2: hsl(352 38% 18%);
   --blob-surface-3: hsl(184 68% 20%);
   --blob-surface-shadow: hsl(356 72% 10% / 0.42);
+  --blob-radius-soft: calc(var(--radius-2xl) + var(--spacing-2));
   --backdrop-blob-1: var(--noir-red);
   --backdrop-blob-2: var(--noir-rose);
   --backdrop-blob-3: var(--noir-ruby);
@@ -747,6 +771,7 @@ html.theme-noir {
   --backdrop-drip-2: var(--noir-red);
   --backdrop-drip-3: var(--noir-ruby);
   --backdrop-drip-shadow: var(--noir-ink);
+  --glitch-noise-hover: calc(var(--glitch-noise-level) * 1.35);
 }
 /* ---------- Oceanic ---------- */
 html.theme-ocean {
@@ -775,6 +800,8 @@ html.theme-ocean {
   --surface-streak: 218 22% 15%;
   --shadow-color: 198 84% 52%;
   --shadow: 0 16px 40px hsl(var(--shadow-color) / 0.34);
+  --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36);
+  --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
   --neo-glow-strength: 0.52;
   --glitch-intensity: 0.4;
   --glitch-fringe: 7deg;
@@ -795,6 +822,9 @@ html.theme-ocean {
   --backdrop-drip-2: var(--ocean-indigo);
   --backdrop-drip-3: var(--success);
   --backdrop-drip-shadow: var(--card);
+  --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22);
+  --blob-radius-soft: calc(var(--radius-2xl) + var(--spacing-2));
+  --glitch-noise-hover: calc(var(--glitch-noise-level) * 1.3);
 }
 /* ---------- Kitten ---------- */
 html.theme-kitten {
@@ -823,6 +853,8 @@ html.theme-kitten {
   --surface-streak: 334 50% 12%;
   --shadow-color: 336 72% 48%;
   --shadow: 0 12px 30px hsl(var(--shadow-color) / 0.3);
+  --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36);
+  --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
   --neo-glow-strength: 0.42;
   --glitch-intensity: 0.36;
   --glitch-fringe: 6deg;
@@ -844,6 +876,9 @@ html.theme-kitten {
   --backdrop-drip-2: var(--kitten-pink);
   --backdrop-drip-3: var(--kitten-blush);
   --backdrop-drip-shadow: var(--card);
+  --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22);
+  --blob-radius-soft: calc(var(--radius-2xl) + var(--spacing-2));
+  --glitch-noise-hover: calc(var(--glitch-noise-level) * 1.3);
 }
 /* ---------- Hardstuck ---------- */
 html.theme-hardstuck {
@@ -880,7 +915,9 @@ html.theme-hardstuck {
   --shadow: 0 18px 46px hsl(var(--shadow-color) / 0.4);
   --shadow-inner-sm: inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.16);
   --shadow-inner-md: inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.24);
+  --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.3);
   --shadow-outer-lg: 0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.34);
+  --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.42);
   --neo-glow-strength: 0.58;
   --glitch-intensity: 0.32;
   --glitch-fringe: 5deg;
@@ -895,10 +932,12 @@ html.theme-hardstuck {
   --hardstuck-forest: 120 70% 42%;
   --hardstuck-deep: 120 82% 8%;
   --glow-primary: hsl(var(--ring) / 0.5);
+  --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.48), 0 0 var(--spacing-3) hsl(var(--ring) / 0.2);
   --blob-surface-1: hsl(120 38% 14%);
   --blob-surface-2: hsl(120 44% 18%);
   --blob-surface-3: hsl(120 48% 24%);
   --blob-surface-shadow: hsl(120 72% 12% / 0.45);
+  --blob-radius-soft: calc(var(--radius-2xl) + var(--spacing-2));
   --backdrop-blob-1: var(--ring);
   --backdrop-blob-2: var(--hardstuck-forest);
   --backdrop-blob-3: var(--ring);
@@ -910,6 +949,7 @@ html.theme-hardstuck {
   --backdrop-drip-2: var(--ring);
   --backdrop-drip-3: var(--hardstuck-forest);
   --backdrop-drip-shadow: var(--hardstuck-deep);
+  --glitch-noise-hover: calc(var(--glitch-noise-level) * 1.35);
 }
 /* ---------- Retro ---------- */
 html.theme-retro {
@@ -939,11 +979,14 @@ html.theme-retro {
   --surface-vhs: 258 76% 5%;
   --surface-streak: 260 44% 13%;
   --shadow-color: 304 92% 56%;
+  --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36);
+  --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
   --lav-deep: 257.5 85.7% 72.5%;
   --success: 158 72% 48%;
   --success-glow: 158 72% 38% / 0.6;
   --glow: 304 100% 68%;
   --glow-active: hsl(var(--accent-2));
+  --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22);
   --shadow-glow-sm:
     0 0 var(--spacing-2) hsl(var(--glow) / 0.7),
     0 0 var(--spacing-4) hsl(var(--accent-2) / 0.45);
@@ -970,6 +1013,7 @@ html.theme-retro {
   --backdrop-drip-2: var(--accent-2);
   --backdrop-drip-3: var(--accent);
   --backdrop-drip-shadow: var(--accent);
+  --blob-radius-soft: calc(var(--radius-2xl) + var(--spacing-2));
   --grid-lines:
     repeating-linear-gradient(
       90deg,
@@ -984,6 +1028,7 @@ html.theme-retro {
       hsl(var(--accent-3) / 0.12) 14px 15px,
       transparent 15px 28px
   );
+  --glitch-noise-hover: calc(var(--glitch-noise-level) * 1.35);
 }
 /* =========================================================
    Per-theme glitch backdrops
