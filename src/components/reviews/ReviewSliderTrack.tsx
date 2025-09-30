@@ -14,6 +14,7 @@ type ReviewSliderTrackProps = {
   trackClassName?: string;
   fillClassName?: string;
   knobClassName?: string;
+  glitch?: boolean;
 };
 
 const toneTokenClassNames: Record<ReviewSliderTone, string> = {
@@ -37,6 +38,7 @@ const ReviewSliderTrack = ({
   trackClassName,
   fillClassName,
   knobClassName,
+  glitch = false,
 }: ReviewSliderTrackProps) => {
   const clamped = Math.round(Math.min(10, Math.max(0, value)));
   const isInteractive = variant === "input";
@@ -45,8 +47,8 @@ const ReviewSliderTrack = ({
     <div
       className={cn(
         "group/slider absolute left-[var(--space-4)] right-[var(--space-4)] top-1/2 -translate-y-1/2",
-        "[--slider-fill-background:var(--edge-iris)] [--slider-fill-shadow:var(--shadow-glow-sm)] [--slider-fill-shadow-hover:var(--shadow-glow-md)] [--slider-fill-shadow-active:var(--shadow-glow-lg)]",
-        "[--slider-knob-shadow:var(--shadow-glow-sm)] [--slider-knob-shadow-hover:var(--shadow-glow-md)] [--slider-knob-shadow-active:var(--shadow-glow-lg)]",
+        "[--slider-fill-background:var(--edge-iris)]",
+        glitch && styles.glitch,
         toneTokenClassNames[tone],
         styles.root,
         className,
@@ -54,10 +56,11 @@ const ReviewSliderTrack = ({
       data-tone={tone}
       data-variant={variant}
       data-value={clamped}
+      data-glitch={glitch ? "true" : undefined}
     >
       <div
         className={cn(
-          "relative h-[var(--space-2)] w-full overflow-hidden rounded-full bg-muted shadow-[var(--shadow-neo-inset)]",
+          "relative h-[var(--space-2)] w-full overflow-hidden rounded-full bg-muted shadow-[var(--slider-track-shadow)]",
           "before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:bg-[var(--card-overlay-scanlines)] before:opacity-0 before:transition-opacity before:duration-quick before:ease-out",
           isInteractive
             ? "group-hover/slider:before:opacity-70 group-active/slider:before:opacity-90 group-focus-visible/slider:before:opacity-80"
