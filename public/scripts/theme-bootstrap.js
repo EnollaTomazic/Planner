@@ -111,6 +111,38 @@
       return value;
     }
 
+    const STORAGE_PREFIX = "noxis-planner:";
+    const OLD_STORAGE_PREFIX = "13lr:";
+    let migrated = false;
+
+    function ensureMigration(key) {
+      if (migrated) {
+        return;
+      }
+      migrated = true;
+      try {
+        if (typeof window === "undefined" || !window.localStorage) {
+          return;
+        }
+        const legacyKey = OLD_STORAGE_PREFIX + key;
+        const prefixedKey = STORAGE_PREFIX + key;
+        const legacyValue = window.localStorage.getItem(legacyKey);
+        if (legacyValue !== null && window.localStorage.getItem(prefixedKey) === null) {
+          window.localStorage.setItem(prefixedKey, legacyValue);
+        }
+        if (legacyValue !== null) {
+          window.localStorage.removeItem(legacyKey);
+        }
+      } catch {
+        // ignore
+      }
+    }
+
+    function createStorageKey(key) {
+      ensureMigration(key);
+      return STORAGE_PREFIX + key;
+    }
+
     function parseJSON(raw) {
       if (!raw) return null;
       try {
@@ -143,7 +175,8 @@
       }
     }
 
-    const THEME_STORAGE_KEY = "noxis-planner:ui:theme";
+    const THEME_STORAGE_KEY = "ui:theme";
+    const PERSISTED_THEME_KEY = createStorageKey(THEME_STORAGE_KEY);
     const BG_CLASSES = ["", "bg-alt1", "bg-alt2", "bg-vhs", "bg-streak"];
     const BG_CLASS_SET = new Set(BG_CLASSES.filter(Boolean));
 
@@ -159,11 +192,11 @@
       }
     }
 
-    let data = readLocal(THEME_STORAGE_KEY);
+    let data = readLocal(PERSISTED_THEME_KEY);
     const hasStoredTheme = Boolean(data);
     if (!data) {
       data = { variant: "lg", bg: 0 };
-      writeLocal(THEME_STORAGE_KEY, data);
+      writeLocal(PERSISTED_THEME_KEY, data);
     }
 
     const { classList: cl, dataset } = document.documentElement;

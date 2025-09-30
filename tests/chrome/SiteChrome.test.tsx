@@ -18,7 +18,7 @@ vi.mock("@/components/ui/AnimationToggle", () => ({
 
 import SiteChrome from "@/components/chrome/SiteChrome";
 import BottomNav from "@/components/chrome/BottomNav";
-import { NAV_ITEMS } from "@/config/nav";
+import { NAV_ITEMS, PRIMARY_NAV_LABEL } from "@/config/nav";
 
 describe("SiteChrome", () => {
   it("links the brand to home", async () => {
@@ -41,14 +41,14 @@ describe("SiteChrome", () => {
     );
 
     expect(
-      screen.queryByRole("navigation", { name: "Primary" }),
+      screen.queryByRole("navigation", { name: PRIMARY_NAV_LABEL }),
     ).not.toBeInTheDocument();
 
     const trigger = screen.getByRole("button", { name: "Open navigation" });
     await user.click(trigger);
 
     const drawerNav = await screen.findByRole("navigation", {
-      name: "Primary",
+      name: PRIMARY_NAV_LABEL,
     });
     expect(drawerNav).toBeInTheDocument();
     expect(trigger).toHaveAttribute("aria-expanded", "true");
@@ -57,7 +57,7 @@ describe("SiteChrome", () => {
 
     await waitFor(() => {
       expect(
-        screen.queryByRole("navigation", { name: "Primary" }),
+        screen.queryByRole("navigation", { name: PRIMARY_NAV_LABEL }),
       ).not.toBeInTheDocument();
     });
     expect(trigger).toHaveAttribute("aria-expanded", "false");
@@ -99,7 +99,7 @@ describe("SiteChrome", () => {
     await user.click(screen.getByRole("button", { name: "Open navigation" }));
 
     const drawerNav = await screen.findByRole("navigation", {
-      name: "Primary",
+      name: PRIMARY_NAV_LABEL,
     });
     const plannerLink = within(drawerNav).getByRole("link", { name: "Planner" });
     expect(plannerLink).toHaveAttribute("aria-current", "page");
@@ -119,7 +119,7 @@ describe("BottomNav", () => {
     );
 
     const bottomNav = screen.getByRole("navigation", {
-      name: "Primary",
+      name: PRIMARY_NAV_LABEL,
     });
     const syncingItem = within(bottomNav).getByRole("button", { name: /Reviews/ });
     expect(syncingItem).toHaveAttribute("aria-busy", "true");

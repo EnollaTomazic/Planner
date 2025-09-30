@@ -527,7 +527,10 @@ async function buildGalleryManifest(
     "",
     `export const galleryPayload = ${JSON.stringify(payload, null, 2)} satisfies GalleryRegistryPayload;`,
     "",
-    `export const galleryPreviewRoutes = ${JSON.stringify(previewRoutes, null, 2)} satisfies readonly GalleryPreviewRoute[];`,
+    `const galleryPreviewRoutesData = ${JSON.stringify(previewRoutes, null, 2)} as const;`,
+    "",
+    "export const galleryPreviewRoutes =",
+    "  galleryPreviewRoutesData as unknown as readonly GalleryPreviewRoute[];",
     "",
     "export const galleryPreviewModules = [",
   ];
