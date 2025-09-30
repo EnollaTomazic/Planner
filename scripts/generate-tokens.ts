@@ -57,6 +57,73 @@ async function loadBaseColors(): Promise<Record<string, { value: string }>> {
   return colors;
 }
 
+type Range = { start: number; end: number };
+
+const findAtRuleRanges = (css: string, atRule: string): Range[] => {
+  const ranges: Range[] = [];
+  const pattern = new RegExp(`@${atRule}\\b`, "g");
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(css))) {
+    const openBraceIndex = css.indexOf("{", pattern.lastIndex);
+    if (openBraceIndex === -1) {
+      break;
+    }
+
+    let depth = 1;
+    let cursor = openBraceIndex + 1;
+
+    while (cursor < css.length && depth > 0) {
+      const char = css[cursor];
+      if (char === "{") {
+        depth += 1;
+      } else if (char === "}") {
+        depth -= 1;
+      }
+      cursor += 1;
+    }
+
+    ranges.push({ start: openBraceIndex, end: cursor });
+    pattern.lastIndex = cursor;
+  }
+
+  return ranges;
+};
+
+const isWithinRanges = (index: number, ranges: Range[]): boolean =>
+  ranges.some((range) => index >= range.start && index <= range.end);
+
+const extractRootBlocks = (css: string, rangesToSkip: Range[]): string[] => {
+  const blocks: string[] = [];
+  const pattern = /:root\s*{/g;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(css))) {
+    if (isWithinRanges(match.index ?? 0, rangesToSkip)) {
+      continue;
+    }
+
+    let depth = 1;
+    let cursor = pattern.lastIndex;
+
+    while (cursor < css.length && depth > 0) {
+      const char = css[cursor];
+      if (char === "{") {
+        depth += 1;
+      } else if (char === "}") {
+        depth -= 1;
+      }
+      cursor += 1;
+    }
+
+    const block = css.slice(pattern.lastIndex, cursor - 1).trim();
+    blocks.push(block);
+    pattern.lastIndex = cursor;
+  }
+
+  return blocks;
+};
+
 async function buildTokens(): Promise<void> {
   const spacing = spacingTokens.reduce<Record<string, { value: string }>>(
     (acc, val, idx) => {
@@ -123,23 +190,26 @@ async function buildTokens(): Promise<void> {
     return acc;
   }, {});
 
-  const colorRegex = /--([a-zA-Z0-9-]+):\s*([^;]+);/g;
   const colors: Record<string, { value: string }> = await loadBaseColors();
   const themePath = path.resolve(__dirname, "../src/app/themes.css");
   const themeCss = await fs.readFile(themePath, "utf8");
-  const themeRoot = themeCss.match(/:root\s*{([^}]*)}/);
-  const themeBase = themeRoot ? themeRoot[1] : themeCss;
-  let match: RegExpExecArray | null;
-  while ((match = colorRegex.exec(themeBase))) {
-    const name = match[1];
-    if (
-      name.startsWith("radius-") ||
-      name.startsWith("spacing-") ||
-      isDeprecatedToken(name)
-    ) {
-      continue;
+  const supportsRanges = findAtRuleRanges(themeCss, "supports");
+  const rootBlocks = extractRootBlocks(themeCss, supportsRanges);
+  const themePropRegex = /--([a-zA-Z0-9-]+):\s*([^;]+);/g;
+  for (const block of rootBlocks) {
+    let match: RegExpExecArray | null;
+    while ((match = themePropRegex.exec(block))) {
+      const name = match[1];
+      if (
+        name.startsWith("radius-") ||
+        name.startsWith("spacing-") ||
+        isDeprecatedToken(name)
+      ) {
+        continue;
+      }
+      colors[name] = { value: match[2].trim() };
     }
-    colors[name] = { value: match[2].trim() };
+    themePropRegex.lastIndex = 0;
   }
   colors.focus = { value: "var(--theme-ring)" };
   const derivedColorTokens: Record<string, string> = {
