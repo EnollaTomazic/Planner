@@ -8,6 +8,9 @@ export default defineConfig({
     include: ["tests/**/*.test.{ts,tsx}"],
     exclude: ["**/node_modules/**", "**/dist/**"],
     testTimeout: 15000,
+    coverage: {
+      exclude: ["src/components/gallery/generated-manifest.ts"],
+    },
   },
   resolve: {
     alias: {
