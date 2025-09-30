@@ -1724,6 +1724,12 @@ textarea:-webkit-autofill {
     box-shadow 0.15s ease,
     transform 0.12s ease;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    transition: none;
+  }
+}
 .badge--xs {
   padding: calc(var(--space-1) - var(--space-1) / 4) var(--space-2);
   font-size: var(--font-label);
