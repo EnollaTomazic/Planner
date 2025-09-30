@@ -17,6 +17,8 @@ export type NavItem = {
   mobileIcon?: LucideIcon;
 };
 
+export const PRIMARY_NAV_LABEL = "Primary" as const;
+
 export const NAV_ITEMS = [
   { href: "/reviews", label: "Reviews", mobileIcon: BookOpen },
   { href: "/planner", label: "Planner", mobileIcon: CalendarDays },

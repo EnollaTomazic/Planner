@@ -4,7 +4,12 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn, withoutBasePath } from "@/lib/utils";
-import { NAV_ITEMS, type NavItem, isNavActive } from "@/config/nav";
+import {
+  NAV_ITEMS,
+  PRIMARY_NAV_LABEL,
+  type NavItem,
+  isNavActive,
+} from "@/config/nav";
 import Spinner from "@/components/ui/feedback/Spinner";
 
 type BottomNavState =
@@ -42,7 +47,7 @@ export default function BottomNav({
     >
       <nav
         role="navigation"
-        aria-label="Primary mobile navigation"
+        aria-label={PRIMARY_NAV_LABEL}
         className={cn(
           "relative isolate mx-auto w-full max-w-2xl",
           "rounded-card r-card-lg card-neo-soft shadow-neo-strong",
