@@ -11,7 +11,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { cn, withoutBasePath } from "@/lib/utils";
-import { NAV_ITEMS, NavItem, isNavActive } from "@/config/nav";
+import {
+  NAV_ITEMS,
+  NavItem,
+  isNavActive,
+  PRIMARY_NAV_ARIA_LABEL,
+} from "@/config/nav";
 
 type NavBarProps = {
   items?: readonly NavItem[];
@@ -24,7 +29,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
   return (
     <nav
       role="navigation"
-      aria-label="Primary"
+      aria-label={PRIMARY_NAV_ARIA_LABEL}
       className="max-w-full overflow-x-auto pb-[var(--space-1)] lg:overflow-x-visible"
     >
       <ul className="flex list-none flex-nowrap items-center justify-center gap-[var(--space-1)] md:gap-[var(--space-2)]">
