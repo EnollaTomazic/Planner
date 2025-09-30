@@ -1,5 +1,5 @@
 import { existsSync } from "node:fs";
-import { registry } from "playwright-core/lib/server/registry";
+import { registry } from "playwright-core/lib/server/registry/index";
 
 type BrowserName = "chromium" | "firefox" | "webkit";
 
