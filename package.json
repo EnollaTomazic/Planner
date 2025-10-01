@@ -24,7 +24,7 @@
     "test": "vitest",
     "test:ci": "node --max-old-space-size=8192 ./node_modules/vitest/vitest.mjs run --reporter=default --reporter=junit --outputFile artifacts/unit/junit.xml --coverage --coverage.reporter=lcov --coverage.reporter=json-summary",
     "e2e:ci": "playwright test",
-    "lint:design": "tsx scripts/design-lint.ts",
+    "lint:design": "node -r ./scripts/setup-eslint-flat.cjs ./node_modules/eslint/bin/eslint.js --cache --cache-location .eslintcache --no-warn-ignored \"{app,src}/**/*.{js,jsx,ts,tsx}\"",
     "design-lint": "npm run lint:design",
     "check": "concurrently \"npm test -- --run\" \"npm run lint\" \"npm run lint:design\" \"npm run typecheck\"",
     "format": "prettier --write .",

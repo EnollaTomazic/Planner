@@ -319,6 +319,7 @@ function resolveColorPreviewValue(token: TokenMeta): string {
   const value = token.value.trim();
   const lower = value.toLowerCase();
 
+  /* eslint-disable design/no-raw-design-values -- Allow explicit color syntax checks. */
   const requiresDirect =
     value.startsWith("#") ||
     lower.startsWith("rgb(") ||
@@ -335,6 +336,7 @@ function resolveColorPreviewValue(token: TokenMeta): string {
     lower === "currentcolor" ||
     lower === "inherit" ||
     lower === "none";
+  /* eslint-enable design/no-raw-design-values */
 
   if (requiresDirect) {
     return `var(${token.cssVar})`;

@@ -23,6 +23,8 @@ const HOURS: readonly string[] = [
   "13:00",
 ];
 
+const HEADER_CONTROLS_COLLAPSE_BELOW = "calc(var(--space-8) * 8)" as const;
+
 type CalendarEventTone = "accent" | "primary" | "info";
 
 type CalendarEvent = {
@@ -384,7 +386,7 @@ function HeaderControls({ status }: { status: CalendarPreviewStatus }) {
       justify="flex-end"
       wrap={false}
       collapse="stack"
-      collapseBelow="32rem"
+      collapseBelow={HEADER_CONTROLS_COLLAPSE_BELOW}
     >
       <span className="rounded-[var(--radius-lg)] border border-[hsl(var(--card-hairline)/0.55)] bg-[hsl(var(--surface-2)/0.6)] px-[var(--space-3)] py-[var(--space-1)] text-label text-muted-foreground">
         Auto-sync is on
