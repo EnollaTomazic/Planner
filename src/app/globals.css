@@ -403,6 +403,16 @@ html.no-animations *::after {
   box-shadow: 0 0 calc(var(--space-2) - var(--spacing-0-5)) hsl(var(--glow) / 0.6);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *:focus-visible {
+    box-shadow: none;
+  }
+}
+
+html.no-animations *:focus-visible {
+  box-shadow: none;
+}
+
 @media (forced-colors: active) {
   *:focus-visible {
     outline: var(--spacing-0-5) solid CanvasText;
