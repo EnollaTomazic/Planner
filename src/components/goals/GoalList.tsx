@@ -8,11 +8,7 @@ import { shortDate } from "@/lib/date";
 import type { Goal } from "@/lib/types";
 
 const ICON_SM = "size-[var(--icon-size-sm)]";
-const ICON_XS = "size-[var(--icon-size-xs)]";
-const ICON_CLASS = {
-  sm: ICON_SM,
-  xs: ICON_XS,
-} as const;
+const ICON_MD = "size-[var(--icon-size-md)]";
 
 interface GoalListProps {
   goals: Goal[];
@@ -64,7 +60,7 @@ export default function GoalList({
       {goals.length === 0 ? (
         <li className="flex">
           <div className="card-pad flex h-full w-full flex-1 flex-col items-center justify-center gap-[var(--space-2)] text-center text-ui font-medium text-muted-foreground rounded-card border border-card-hairline-60 bg-surface">
-            <Flag aria-hidden className={cn(ICON_CLASS.sm, "text-accent")} />
+            <Flag aria-hidden className={cn(ICON_MD, "text-accent")} />
             <p className="max-w-[calc(var(--space-7)*5)]">
               No goals here. Add one simple, finishable thing.
             </p>
@@ -114,8 +110,9 @@ export default function GoalList({
                             variant="ghost"
                             tone="accent"
                             className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
+                            iconSize="sm"
                           >
-                            <X />
+                            <X aria-hidden className={ICON_SM} />
                           </IconButton>
                           <IconButton
                             aria-label="Save"
@@ -124,8 +121,9 @@ export default function GoalList({
                             variant="soft"
                             tone="accent"
                             className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
+                            iconSize="sm"
                           >
-                            <Check />
+                            <Check aria-hidden className={ICON_SM} />
                           </IconButton>
                         </>
                       ) : (
@@ -145,8 +143,9 @@ export default function GoalList({
                             variant="ghost"
                             tone="accent"
                             className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
+                            iconSize="sm"
                           >
-                            <Pencil />
+                            <Pencil aria-hidden className={ICON_SM} />
                           </IconButton>
                           <IconButton
                             title="Delete"
@@ -156,8 +155,9 @@ export default function GoalList({
                             variant="soft"
                             tone="accent"
                             className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
+                            iconSize="sm"
                           >
-                            <Trash2 />
+                            <Trash2 aria-hidden className={ICON_SM} />
                           </IconButton>
                         </>
                       )}
