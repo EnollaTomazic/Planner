@@ -124,7 +124,10 @@
 }
 
 .glitch {
-  --glitch-overlay-opacity: var(--glitch-overlay-button-opacity, 0.5);
+  --glitch-overlay-opacity: calc(
+    var(--glitch-intensity-subtle, 1) *
+      var(--glitch-overlay-button-opacity, 0.5)
+  );
   color: hsl(var(--primary-foreground));
   background-color: var(--seg-active-base);
   background-image: var(--seg-active-grad);

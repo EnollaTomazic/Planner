@@ -5,11 +5,11 @@
   isolation: isolate;
   overflow: hidden;
   border-radius: var(--radius-full) !important;
-  --glitch-overlay-opacity: 0.5;
+  --glitch-overlay-opacity: calc(var(--glitch-intensity-subtle, 1) * 0.5);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .glitch {
-    --glitch-overlay-opacity: 0.32;
+    --glitch-overlay-opacity: calc(var(--glitch-intensity-subtle, 1) * 0.32);
   }
 }

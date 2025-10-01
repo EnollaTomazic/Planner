@@ -64,7 +64,7 @@ export default function Toggle({
         "w-[calc(var(--space-8)*4)]",
         "border-border bg-card overflow-hidden",
         "hover:bg-[--toggle-hover-surface] active:bg-[--toggle-active-surface]",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--toggle-focus-ring)] focus-visible:shadow-[var(--toggle-focus-glow)]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--toggle-focus-ring)] focus-visible:[--focus-ring-shadow:var(--toggle-focus-glow)]",
         "disabled:opacity-disabled disabled:pointer-events-none",
         "data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
         "before:pointer-events-none before:absolute before:inset-[calc(var(--space-1)/2)] before:rounded-full before:bg-[var(--card-overlay-scanlines)] before:opacity-0 before:transition-opacity before:duration-quick before:ease-out",

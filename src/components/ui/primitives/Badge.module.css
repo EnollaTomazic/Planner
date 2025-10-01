@@ -56,7 +56,10 @@
 
 .glitch {
   overflow: hidden;
-  --glitch-overlay-opacity: var(--glitch-overlay-button-opacity, 0.45);
+  --glitch-overlay-opacity: calc(
+    var(--glitch-intensity-subtle, 1) *
+      var(--glitch-overlay-button-opacity, 0.45)
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -75,9 +78,9 @@
     transform: none;
   }
   .glitch {
-    --glitch-overlay-opacity: var(
-      --glitch-overlay-button-opacity-reduced,
-      0.32
+    --glitch-overlay-opacity: calc(
+      var(--glitch-intensity-subtle, 1) *
+        var(--glitch-overlay-button-opacity-reduced, 0.32)
     );
   }
 }

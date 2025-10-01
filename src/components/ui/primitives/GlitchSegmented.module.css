@@ -1,6 +1,12 @@
 .glitchScanlines {
   position: relative;
   overflow: hidden;
+  --glitch-scanline-opacity-base: calc(var(--glitch-intensity-subtle, 1) * 0.12);
+  --glitch-scanline-opacity-hover: calc(var(--glitch-intensity, 1) * 0.28);
+  --glitch-scanline-opacity-focus: calc(var(--glitch-intensity, 1) * 0.35);
+  --glitch-scanline-opacity-active: calc(var(--glitch-intensity, 1) * 0.45);
+  --glitch-scanline-glow-hover: calc(var(--glitch-intensity, 1) * var(--space-3));
+  --glitch-scanline-glow-focus: calc(var(--glitch-intensity, 1) * var(--space-4));
 }
 
 .glitchScanlines::after {
@@ -13,7 +19,7 @@
     hsl(var(--accent) / 0.08) 0 var(--spacing-0-25),
     transparent var(--spacing-0-25) var(--spacing-0-75)
   );
-  opacity: 0.12;
+  opacity: var(--glitch-scanline-opacity-base);
   mix-blend-mode: overlay;
   transition:
     opacity 200ms,
@@ -21,21 +27,28 @@
 }
 
 .glitchScanlines:hover::after {
-  opacity: 0.28;
-  filter: drop-shadow(0 0 var(--space-3) var(--hover, hsl(var(--glow) / 0.5)));
+  opacity: var(--glitch-scanline-opacity-hover);
+  filter: drop-shadow(
+    0 0 var(--glitch-scanline-glow-hover) var(--hover, hsl(var(--glow) / 0.5))
+  );
   animation: crt-scan 4s linear infinite;
 }
 
 .glitchScanlines:focus-visible::after {
-  opacity: 0.35;
-  filter: drop-shadow(0 0 var(--space-4) var(--focus, hsl(var(--ring))));
+  opacity: var(--glitch-scanline-opacity-focus);
+  filter: drop-shadow(
+    0 0 var(--glitch-scanline-glow-focus) var(--focus, hsl(var(--ring)))
+  );
 }
 
 .glitchScanlines:active::after,
 .glitchScanlines[aria-pressed="true"]::after,
 .glitchScanlines[data-selected="true"]::after {
-  opacity: 0.45;
-  filter: drop-shadow(0 0 var(--space-4) var(--active, hsl(var(--glow))));
+  opacity: var(--glitch-scanline-opacity-active);
+  filter: drop-shadow(
+    0 0 calc(var(--glitch-intensity, 1) * var(--space-4))
+      var(--active, hsl(var(--glow)))
+  );
   animation:
     crt-scan 1s linear infinite,
     crt-jitter 200ms steps(2, end) infinite;
@@ -69,18 +82,18 @@
 }
 
 .glitchScanlines:hover::before {
-  opacity: 0.25;
+  opacity: calc(var(--glitch-intensity, 1) * 0.25);
   animation: crt-glow 2.4s ease-in-out infinite alternate;
 }
 
 .glitchScanlines:focus-visible::before {
-  opacity: 0.35;
+  opacity: calc(var(--glitch-intensity, 1) * 0.35);
 }
 
 .glitchScanlines:active::before,
 .glitchScanlines[aria-pressed="true"]::before,
 .glitchScanlines[data-selected="true"]::before {
-  opacity: 0.45;
+  opacity: calc(var(--glitch-intensity, 1) * 0.45);
 }
 
 .glitchScanlines:disabled::before,
@@ -128,4 +141,15 @@
   .glitchScanlines[data-selected="true"]::before {
     animation: none;
   }
+}
+
+html.no-animations .glitchScanlines:hover::after,
+html.no-animations .glitchScanlines:active::after,
+html.no-animations .glitchScanlines[aria-pressed="true"]::after,
+html.no-animations .glitchScanlines[data-selected="true"]::after,
+html.no-animations .glitchScanlines:hover::before,
+html.no-animations .glitchScanlines:active::before,
+html.no-animations .glitchScanlines[aria-pressed="true"]::before,
+html.no-animations .glitchScanlines[data-selected="true"]::before {
+  animation: none;
 }

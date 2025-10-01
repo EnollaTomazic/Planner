@@ -17,14 +17,14 @@ describe("BlobContainer", () => {
     }
 
     expect(root.style.getPropertyValue("--blob-overlay-target").trim()).toBe(
-      "var(--glitch-overlay-button-opacity)",
+      "calc(var(--glitch-intensity-subtle, 1) * var(--glitch-overlay-button-opacity))",
     );
     expect(root.style.getPropertyValue("--blob-noise-target").trim()).toBe(
-      "var(--glitch-noise-level)",
+      "calc(var(--glitch-intensity-subtle, 1) * var(--glitch-noise-level))",
     );
     expect(
       root.style.getPropertyValue("--blob-noise-active-target").trim(),
-    ).toBe("var(--glitch-noise-level)");
+    ).toBe("calc(var(--glitch-intensity, 1) * var(--glitch-noise-level))");
   });
 
   it("respects explicit overlay and noise token overrides", () => {
@@ -43,14 +43,14 @@ describe("BlobContainer", () => {
     }
 
     expect(root.style.getPropertyValue("--blob-overlay-target").trim()).toBe(
-      "var(--glitch-overlay-opacity-card)",
+      "calc(var(--glitch-intensity-subtle, 1) * var(--glitch-overlay-opacity-card))",
     );
     expect(root.style.getPropertyValue("--blob-noise-target").trim()).toBe(
-      "var(--glitch-static-opacity)",
+      "calc(var(--glitch-intensity-subtle, 1) * var(--glitch-static-opacity))",
     );
     expect(
       root.style.getPropertyValue("--blob-noise-active-target").trim(),
-    ).toBe("var(--glitch-noise-level)");
+    ).toBe("calc(var(--glitch-intensity, 1) * var(--glitch-noise-level))");
   });
 });
 

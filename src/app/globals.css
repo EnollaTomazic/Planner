@@ -381,6 +381,10 @@ html.color-scheme-light {
 
 html.no-animations {
   scroll-behavior: auto;
+  --glitch-intensity-default: 0;
+  --glitch-intensity-subtle: 0;
+  --glitch-intensity: 0;
+  --glitch-noise-level: 0;
 }
 html.no-animations *,
 html.no-animations *::before,
@@ -398,9 +402,13 @@ html.no-animations *::after {
 
 /* Global focus & selection styling */
 *:focus-visible {
-  outline: var(--spacing-0-5) solid var(--ring-contrast);
-  outline-offset: var(--spacing-0-5);
-  box-shadow: 0 0 calc(var(--space-2) - var(--spacing-0-5)) hsl(var(--glow) / 0.6);
+  outline: var(--focus-outline-width, var(--spacing-0-5)) solid var(--ring-contrast);
+  outline-offset: var(--focus-outline-offset, var(--spacing-0-5));
+  box-shadow: var(--focus-ring-shadow, var(--glow-ring));
+}
+
+html.no-animations *:focus-visible {
+  box-shadow: none;
 }
 
 @media (forced-colors: active) {

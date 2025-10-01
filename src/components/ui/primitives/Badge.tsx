@@ -168,7 +168,7 @@ export default function Badge<T extends React.ElementType = "span">(
           cn(
             styles.interactive,
             toneInteraction[tone],
-            "focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]",
+            "focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:[--focus-ring-shadow:var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]",
             "data-[disabled=true]:cursor-default",
             !isButtonElement && "data-[disabled=true]:pointer-events-none",
           ),

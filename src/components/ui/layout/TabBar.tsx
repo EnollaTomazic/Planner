@@ -287,7 +287,7 @@ export default function TabBar<
                   size === "lg" ? "font-medium" : "font-normal",
                   "text-foreground/85 hover:text-foreground hover:bg-[--hover] active:bg-[--active]",
                   tabVariant,
-                  "focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)]",
+                  "focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:[--focus-ring-shadow:var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)]",
                   "data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)]",
                   "disabled:opacity-disabled disabled:pointer-events-none",
                   "data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",

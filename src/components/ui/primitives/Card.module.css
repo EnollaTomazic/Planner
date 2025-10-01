@@ -2,9 +2,9 @@
   --card-depth-sm: var(--neo-depth-sm);
   --card-depth-md: var(--neo-depth-md);
   --card-depth-lg: var(--neo-depth-lg);
-  --card-glitch-overlay-opacity: var(
-    --glitch-overlay-opacity-card,
-    0.55
+  --card-glitch-overlay-opacity: calc(
+    var(--glitch-intensity-subtle, 1) *
+      var(--glitch-overlay-opacity-card, 0.55)
   );
   --card-glitch-overlay-opacity-sunken: calc(
     var(--card-glitch-overlay-opacity) * 0.58

@@ -46,33 +46,67 @@ const BlobContainer = React.forwardRef<HTMLSpanElement, BlobContainerProps>(
     },
     ref,
   ) => {
-    const reduceMotion = useReducedMotion();
+    const prefersReducedMotion = useReducedMotion();
+    const [forcedReduceMotion, setForcedReduceMotion] = React.useState(() => {
+      if (typeof document === "undefined") {
+        return false;
+      }
+
+      return document.documentElement.classList.contains("no-animations");
+    });
+    React.useEffect(() => {
+      if (typeof document === "undefined") {
+        return;
+      }
+
+      const root = document.documentElement;
+      const syncForcedReduceMotion = () => {
+        setForcedReduceMotion(root.classList.contains("no-animations"));
+      };
+
+      syncForcedReduceMotion();
+
+      if (typeof MutationObserver === "undefined") {
+        return;
+      }
+
+      const observer = new MutationObserver(syncForcedReduceMotion);
+      observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+
+      return () => {
+        observer.disconnect();
+      };
+    }, []);
+    const shouldReduceMotion = prefersReducedMotion || forcedReduceMotion;
     const overlayVar = resolveTokenVar(overlayToken);
     const noiseVar = resolveTokenVar(noiseToken);
     const activeNoiseVar = noiseActiveToken
       ? resolveTokenVar(noiseActiveToken)
       : undefined;
+    const overlayTarget = `calc(var(--glitch-intensity-subtle, 1) * ${overlayVar})`;
+    const noiseTarget = `calc(var(--glitch-intensity-subtle, 1) * ${noiseVar})`;
+    const activeNoiseTarget = activeNoiseVar
+      ? `calc(var(--glitch-intensity, 1) * ${activeNoiseVar})`
+      : `calc(var(--glitch-intensity, 1) * ${noiseVar})`;
 
     const mergedStyle: StyleWithCustomVars = {
       ...(style as StyleWithCustomVars | undefined),
-      "--blob-overlay-target": overlayVar,
-      "--blob-noise-target": noiseVar,
+      "--blob-overlay-target": overlayTarget,
+      "--blob-noise-target": noiseTarget,
     };
 
-    if (activeNoiseVar) {
-      mergedStyle["--blob-noise-active-target"] = activeNoiseVar;
-    } else if (!mergedStyle["--blob-noise-active-target"]) {
-      mergedStyle["--blob-noise-active-target"] = noiseVar;
+    if (!mergedStyle["--blob-noise-active-target"]) {
+      mergedStyle["--blob-noise-active-target"] = activeNoiseTarget;
     }
 
     const blobAnimationClass = cn(
       "motion-reduce:animate-none",
-      animate && !reduceMotion && "motion-safe:animate-blob-drift",
+      animate && !shouldReduceMotion && "motion-safe:animate-blob-drift",
     );
 
     const noiseAnimationClass = cn(
       "motion-reduce:animate-none",
-      animate && !reduceMotion && "motion-safe:animate-glitch-noise",
+      animate && !shouldReduceMotion && "motion-safe:animate-glitch-noise",
     );
 
     return (
