@@ -112,6 +112,7 @@ export * from "./Toast";
 export { default as CheckCircle } from "./toggles/CheckCircle";
 export * from "./toggles/NeonIcon";
 export { default as Toggle } from "./toggles/Toggle";
+export * from "./variants";
 export { default as LabelGallery } from "./Label.gallery";
 export { default as HeaderGallery } from "./layout/Header.gallery";
 export { default as TabBarGallery } from "./layout/TabBar.gallery";
