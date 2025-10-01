@@ -21,7 +21,7 @@ describe("NeoCard", () => {
     }
 
     expect(root.className).toContain("card-neo-soft");
-    expect(root.className).toContain("[box-shadow:var(--shadow-neo-soft)]");
+    expect(root.className).toContain("[box-shadow:var(--depth-shadow-soft)]");
     expect(root.className).toContain("[--neo-card-overlay-inset:0px]");
     expect(root.className).toContain(
       "[--neo-card-overlay-opacity:var(--surface-overlay-strong,0.2)]",

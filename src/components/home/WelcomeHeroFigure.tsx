@@ -80,13 +80,13 @@ export default function WelcomeHeroFigure({
           ) : null}
           <div
             className={cn(
-              "relative flex h-full w-full items-center justify-center rounded-full shadow-neoSoft ring-1 ring-border/50",
+              "relative flex h-full w-full items-center justify-center rounded-full shadow-depth-soft ring-1 ring-border/50",
               styles.rim,
             )}
           >
             <div
               className={cn(
-                "relative flex h-full w-full items-center justify-center overflow-hidden rounded-full shadow-neo-inset",
+                "relative flex h-full w-full items-center justify-center overflow-hidden rounded-full shadow-depth-inner",
                 styles.inner,
               )}
             >

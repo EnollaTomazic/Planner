@@ -16,7 +16,7 @@ export default function PromptsLoading() {
   return (
     <>
       <PageShell as="header" className="py-[var(--space-6)]">
-        <div className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-4)]">
+        <div className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-4)] space-y-[var(--space-4)]">
           <div className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
             <div className="space-y-[var(--space-2)]">
               <Skeleton className="h-[var(--space-3)] w-1/4" radius="sm" />
@@ -47,7 +47,7 @@ export default function PromptsLoading() {
         className="space-y-[var(--space-6)] py-[var(--space-6)]"
         aria-busy="true"
       >
-        <nav className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)]">
+        <nav className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-4)]">
           <div className="flex flex-wrap gap-[var(--space-3)]">
             {TAB_PLACEHOLDERS.map((label) => (
               <Skeleton
@@ -62,7 +62,7 @@ export default function PromptsLoading() {
           {PROMPT_CARDS.map((card) => (
             <article
               key={card}
-              className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-3)]"
+              className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-4)] space-y-[var(--space-3)]"
             >
               <Skeleton className="h-[var(--space-5)] w-2/3" radius="sm" />
               <Skeleton className="w-full" />

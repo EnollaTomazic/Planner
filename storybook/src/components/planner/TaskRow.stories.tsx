@@ -183,7 +183,7 @@ function TaskRowStoryWrapper({
 
   return (
     <ThemeSandbox variant={variant}>
-      <div className="max-w-2xl rounded-card r-card-lg border border-border/40 bg-card/70 p-[var(--space-4)] shadow-neo-soft">
+      <div className="max-w-2xl rounded-card r-card-lg border border-border/40 bg-card/70 p-[var(--space-4)] shadow-depth-soft">
         {body}
       </div>
     </ThemeSandbox>

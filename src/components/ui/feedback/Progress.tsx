@@ -9,13 +9,13 @@ export default function Progress({ value, label }: { value: number; label?: stri
 
   return (
     <div
-      className="h-[var(--space-2)] w-full rounded-full bg-muted shadow-neo-inset"
+      className="h-[var(--space-2)] w-full rounded-full bg-muted shadow-depth-inner"
     >
-      <div
-        className="h-full w-full overflow-hidden rounded-full bg-panel/90 shadow-neo-inset"
-      >
-        <span
-          className={`progress-fill progress-${v} block h-full rounded-full shadow-neo-sm`}
+        <div
+          className="h-full w-full overflow-hidden rounded-full bg-panel/90 shadow-depth-inner"
+        >
+          <span
+            className={`progress-fill progress-${v} block h-full rounded-full shadow-depth-soft`}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={v}
