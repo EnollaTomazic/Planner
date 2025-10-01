@@ -89,6 +89,16 @@
 | shell-width | 1280px |
 | shell-max | var(--shell-width) |
 | header-stack | calc(var(--spacing-8) + var(--spacing-4)) |
+| hero-illustration-opacity | 0.84 |
+| hero-illustration-blur | calc(var(--space-4) + var(--space-1)) |
+| glitch-intensity-hero-rail | 0.74 |
+| glitch-intensity-backdrop-blob-1 | 0.18 |
+| glitch-intensity-backdrop-blob-2 | 0.16 |
+| glitch-intensity-backdrop-blob-3 | 0.12 |
+| glitch-intensity-backdrop-drip-1 | 0.23 |
+| glitch-intensity-backdrop-drip-2 | 0.2 |
+| glitch-intensity-backdrop-drip-3 | 0.16 |
+| glitch-intensity-backdrop-shadow | 0.38 |
 | edge-iris | conic-gradient(
     from 180deg,
     hsl(262 88% 60% / 0),
