@@ -25,6 +25,7 @@ export * from "./layout/Hero";
 export { default as Hero } from "./layout/hero/Hero";
 export * from "./layout/hero/Hero";
 export * from "./layout/hero/HeroGlitchStyles";
+export * from "./layout/hero/HeroImage";
 export * from "./layout/hero/HeroSearchBar";
 export * from "./layout/hero/HeroTabs";
 export * from "./layout/hero/useHeroStyles";

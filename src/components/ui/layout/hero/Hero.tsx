@@ -11,6 +11,7 @@ import type { HeaderTabsProps } from "@/components/ui/layout/Header";
 import { cn } from "@/lib/utils";
 import { NeomorphicFrameStyles } from "../NeomorphicFrameStyles";
 import { HeroGlitchStyles } from "./HeroGlitchStyles";
+import { HeroImage, type HeroImageProps } from "./HeroImage";
 import { HeroSearchBar, type HeroSearchBarProps } from "./HeroSearchBar";
 import { useHeroStyles } from "./useHeroStyles";
 
@@ -78,6 +79,12 @@ export interface HeroProps<Key extends string = string>
 
   /** Built-in bottom search (preferred). `round` makes it pill. */
   search?: (HeroSearchBarProps & { round?: boolean }) | null;
+
+  /** Visual state for the hero illustration background. */
+  illustrationState?: HeroImageProps["state"];
+
+  /** Custom alt text for the hero illustration background. */
+  illustrationAlt?: string;
 }
 
 function Hero<Key extends string = string>({
@@ -100,6 +107,8 @@ function Hero<Key extends string = string>({
   subTabs,
   tabs,
   search,
+  illustrationState,
+  illustrationAlt,
   className,
   as,
   padding = "default",
@@ -214,12 +223,32 @@ function Hero<Key extends string = string>({
         }
       : search;
 
+  const heroIllustrationAlt = React.useMemo(() => {
+    if (typeof illustrationAlt === "string") {
+      const trimmed = illustrationAlt.trim();
+      if (trimmed.length > 0) {
+        return trimmed;
+      }
+    }
+    if (typeof headingStr === "string" && headingStr.trim().length > 0) {
+      return `${headingStr.trim()} hero illustration`;
+    }
+    return undefined;
+  }, [illustrationAlt, headingStr]);
+
   return (
     <Component className={className} {...(rest as React.HTMLAttributes<HTMLElement>)}>
       {shouldRenderGlitchStyles ? <HeroGlitchStyles /> : null}
       {frame || isRaisedBar ? <NeomorphicFrameStyles /> : null}
 
       <div className={classes.shell}>
+        {frame ? (
+          <HeroImage
+            state={illustrationState}
+            alt={heroIllustrationAlt}
+            className="z-[1]"
+          />
+        ) : null}
         <div className={cn(classes.bar, barClassName)}>
           <div className={classes.labelCluster}>
             {isRaisedBar ? (
