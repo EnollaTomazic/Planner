@@ -281,7 +281,7 @@ async function buildTokens(): Promise<void> {
     (match) => match[1],
   );
   const themeBase =
-    rootBlocks.length > 0 ? rootBlocks.join("\n") : themeSegment;
+    rootBlocks.length > 0 ? rootBlocks[0] : themeSegment;
   let match: RegExpExecArray | null;
   while ((match = colorRegex.exec(themeBase))) {
     const name = match[1];
@@ -292,7 +292,9 @@ async function buildTokens(): Promise<void> {
     ) {
       continue;
     }
-    colors[name] = { value: match[2].trim() };
+    if (!colors[name]) {
+      colors[name] = { value: match[2].trim() };
+    }
   }
   colors.focus = { value: "var(--theme-ring)" };
   const derivedColorTokens: Record<string, string> = {
@@ -322,7 +324,10 @@ async function buildTokens(): Promise<void> {
       "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-2) hsl(var(--ring) / 0.2)",
     "glow-ring":
       "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
+    "border-subtle": "var(--ring)",
     "danger-surface-foreground": "var(--danger-foreground)",
+    "danger-foreground": "var(--highlight)",
+    "danger-tint-foreground": "var(--danger-foreground)",
     "surface-overlay-soft": "0.12",
     "surface-overlay-strong": "0.2",
     "glitch-card-surface-top": "hsl(var(--card) / 0.78)",
@@ -341,6 +346,17 @@ async function buildTokens(): Promise<void> {
       "linear-gradient(180deg, hsl(var(--card) / 0.6), hsl(var(--card) / 0.5))",
     "surface-rail-accent":
       "linear-gradient(180deg, hsl(var(--accent)), hsl(var(--primary)))",
+    "surface-muted": "var(--muted) / 0.12",
+    "surface-hover": "var(--muted) / 0.18",
+    "accent-2-foreground": "var(--accent-foreground)",
+    "glitch-intensity-hero-rail": "0.74",
+    "glitch-intensity-backdrop-blob-1": "0.18",
+    "glitch-intensity-backdrop-blob-2": "0.16",
+    "glitch-intensity-backdrop-blob-3": "0.12",
+    "glitch-intensity-backdrop-drip-1": "0.23",
+    "glitch-intensity-backdrop-drip-2": "0.2",
+    "glitch-intensity-backdrop-drip-3": "0.16",
+    "glitch-intensity-backdrop-shadow": "0.38",
     "glow-primary": "hsl(var(--primary) / 0.55)",
     "glow-pulse":
       "glow-pulse var(--dur-slow) var(--ease-out) infinite alternate",
@@ -350,6 +366,7 @@ async function buildTokens(): Promise<void> {
     "blob-surface-2": "hsl(var(--surface-2))",
     "blob-surface-3": "hsl(var(--card))",
     "blob-surface-shadow": "hsl(var(--shadow-color) / 0.4)",
+    "hero-illustration-opacity": "0.84",
     "blob-radius-soft": "calc(var(--radius-2xl) + var(--spacing-2))",
     "drip-surface":
       "color-mix(in oklab, hsl(var(--accent)) 18%, hsl(var(--background)) 82%)",
@@ -505,6 +522,10 @@ async function buildTokens(): Promise<void> {
             destination: "tokens.js",
             format: "javascript/esm",
             options: { flat: true },
+          },
+          {
+            destination: "tokens.json",
+            format: "json/flat",
           },
         ],
       },

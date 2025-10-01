@@ -212,7 +212,7 @@
     transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
   );
   --hero-divider-blur: calc(var(--spacing-1) * 1.5);
-  --hero-illustration-opacity: 0.8;
+  --hero-illustration-opacity: 0.84;
   --hero-illustration-blur: calc(var(--space-4) + var(--space-1));
   --visually-hidden-top: -9999px;
   --warning-foreground: 0 0% 6%;
@@ -363,6 +363,20 @@
   --space-11: calc(var(--space-8) + var(--space-3));
   --glitch-intensity-default: 1.0;
   --glitch-intensity-subtle: calc(var(--glitch-intensity-default) * 0.68);
+  --border-subtle: var(--ring);
+  --danger-foreground: var(--highlight);
+  --danger-tint-foreground: var(--danger-foreground);
+  --surface-muted: var(--muted) / 0.12;
+  --surface-hover: var(--muted) / 0.18;
+  --accent-2-foreground: var(--accent-foreground);
+  --glitch-intensity-hero-rail: 0.74;
+  --glitch-intensity-backdrop-blob-1: 0.18;
+  --glitch-intensity-backdrop-blob-2: 0.16;
+  --glitch-intensity-backdrop-blob-3: 0.12;
+  --glitch-intensity-backdrop-drip-1: 0.23;
+  --glitch-intensity-backdrop-drip-2: 0.2;
+  --glitch-intensity-backdrop-drip-3: 0.16;
+  --glitch-intensity-backdrop-shadow: 0.38;
   --spacing-0-125: calc(var(--spacing-1) / 8);
   --spacing-0-25: calc(var(--spacing-1) / 4);
   --spacing-0-5: calc(var(--spacing-1) / 2);

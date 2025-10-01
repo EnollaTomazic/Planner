@@ -30,6 +30,8 @@ const TOKEN_SOURCE_FILES = [
   path.join(rootDir, "src/app/globals.css"),
 ];
 
+const TOKEN_MANIFEST_PATH = path.join(rootDir, "tokens/tokens.json");
+
 const CLASS_UTILITY_IDENTIFIERS = new Set(["cn", "clsx"]);
 const IGNORED_TOKEN_PREFIXES = ["tw-", "radix-", "sb-", "swiper-", "geist-"];
 
@@ -43,8 +45,24 @@ const BRACKET_USAGE_PATTERN = /\[\s*(--[a-z0-9-]+)\s*\]/gi;
 const shouldIgnoreToken = (token: string): boolean =>
   IGNORED_TOKEN_PREFIXES.some((prefix) => token.startsWith(prefix));
 
+const toManifestKey = (token: string): string =>
+  token
+    .trim()
+    .toLowerCase()
+    .replace(/-([a-z0-9])/g, (_match, char: string) => char.toUpperCase());
+
+const loadManifestTokens = async (): Promise<Set<string>> => {
+  try {
+    const raw = await fs.readFile(TOKEN_MANIFEST_PATH, "utf8");
+    const manifest = JSON.parse(raw) as Record<string, unknown>;
+    return new Set(Object.keys(manifest).map((key) => key.toLowerCase()));
+  } catch (error) {
+    return new Set();
+  }
+};
+
 async function loadTokenVocabulary(): Promise<Set<string>> {
-  const tokens = new Set<string>();
+  const tokens = await loadManifestTokens();
   const cssFiles = new Set<string>(TOKEN_SOURCE_FILES);
   const discovered = await fg("src/**/*.css", {
     cwd: rootDir,
@@ -64,7 +82,11 @@ async function loadTokenVocabulary(): Promise<Set<string>> {
     const tokenPattern = /--([a-z0-9-]+)\s*:/gi;
     let match: RegExpExecArray | null;
     while ((match = tokenPattern.exec(css))) {
-      tokens.add(match[1].toLowerCase());
+      const raw = match[1].toLowerCase();
+      if (shouldIgnoreToken(raw)) {
+        continue;
+      }
+      tokens.add(toManifestKey(raw).toLowerCase());
     }
   }
 
@@ -82,7 +104,11 @@ async function loadTokenVocabulary(): Promise<Set<string>> {
     }
     let match: RegExpExecArray | null;
     while ((match = definitionPattern.exec(contents))) {
-      tokens.add(match[1].toLowerCase());
+      const raw = match[1].toLowerCase();
+      if (shouldIgnoreToken(raw)) {
+        continue;
+      }
+      tokens.add(toManifestKey(raw).toLowerCase());
     }
   }
   return tokens;
@@ -122,7 +148,11 @@ const addLocalCssVar = (
   }
   const { name } = node;
   if (ts.isStringLiteralLike(name) && name.text.startsWith("--")) {
-    localTokens.add(name.text.slice(2).toLowerCase());
+    const raw = name.text.slice(2).toLowerCase();
+    if (shouldIgnoreToken(raw)) {
+      return;
+    }
+    localTokens.add(toManifestKey(raw).toLowerCase());
   }
 };
 
@@ -240,16 +270,19 @@ const analyzeSegments = (
     }
 
     const checkToken = (token: string, hasFallback: boolean): void => {
-      const normalized = token.toLowerCase();
-      if (
-        shouldIgnoreToken(normalized) ||
-        hasFallback ||
-        globalTokens.has(normalized) ||
-        localTokens.has(normalized)
-      ) {
+      const rawToken = token.trim();
+      if (!rawToken) {
         return;
       }
-      const message = `Unknown design token "--${token}" referenced in ${context} context.`;
+      const lowerToken = rawToken.toLowerCase();
+      if (shouldIgnoreToken(lowerToken) || hasFallback) {
+        return;
+      }
+      const manifestKey = toManifestKey(lowerToken).toLowerCase();
+      if (globalTokens.has(manifestKey) || localTokens.has(manifestKey)) {
+        return;
+      }
+      const message = `Unknown design token "--${rawToken}" referenced in ${context} context.`;
       violations.push(createViolation(sourceFile, node, message));
     };
 
@@ -358,14 +391,22 @@ async function lintFile(
       BRACKET_DEFINITION_PATTERN.lastIndex = 0;
       let match: RegExpExecArray | null;
       while ((match = BRACKET_DEFINITION_PATTERN.exec(node.text))) {
-        localTokens.add(match[1].toLowerCase());
+        const raw = match[1].toLowerCase();
+        if (shouldIgnoreToken(raw)) {
+          continue;
+        }
+        localTokens.add(toManifestKey(raw).toLowerCase());
       }
     } else if (ts.isTemplateExpression(node)) {
       if (node.head.text) {
         BRACKET_DEFINITION_PATTERN.lastIndex = 0;
         let match: RegExpExecArray | null;
         while ((match = BRACKET_DEFINITION_PATTERN.exec(node.head.text))) {
-          localTokens.add(match[1].toLowerCase());
+          const raw = match[1].toLowerCase();
+          if (shouldIgnoreToken(raw)) {
+            continue;
+          }
+          localTokens.add(toManifestKey(raw).toLowerCase());
         }
       }
       for (const span of node.templateSpans) {
@@ -373,7 +414,11 @@ async function lintFile(
           BRACKET_DEFINITION_PATTERN.lastIndex = 0;
           let match: RegExpExecArray | null;
           while ((match = BRACKET_DEFINITION_PATTERN.exec(span.literal.text))) {
-            localTokens.add(match[1].toLowerCase());
+            const raw = match[1].toLowerCase();
+            if (shouldIgnoreToken(raw)) {
+              continue;
+            }
+            localTokens.add(toManifestKey(raw).toLowerCase());
           }
         }
       }
