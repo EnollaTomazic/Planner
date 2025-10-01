@@ -508,6 +508,16 @@ async function buildTokens(): Promise<void> {
           },
         ],
       },
+      json: {
+        transforms: ["attribute/cti", "name/camel"],
+        buildPath: "tokens/",
+        files: [
+          {
+            destination: "tokens.json",
+            format: "json/flat",
+          },
+        ],
+      },
       docs: {
         transforms: ["attribute/cti", "name/kebab"],
         buildPath: "docs/",
@@ -516,13 +526,15 @@ async function buildTokens(): Promise<void> {
     },
   });
 
-  const bar = createProgressBar(3);
+  const bar = createProgressBar(4);
   sd.buildPlatform("css");
   bar.update(1);
   sd.buildPlatform("js");
   bar.update(2);
-  sd.buildPlatform("docs");
+  sd.buildPlatform("json");
   bar.update(3);
+  sd.buildPlatform("docs");
+  bar.update(4);
   stopBars();
 
   const tokensPath = path.resolve(__dirname, "../tokens/tokens.css");
