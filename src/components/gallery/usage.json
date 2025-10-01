@@ -1,11 +1,14 @@
 {
   "badge": [
     "/",
-    "/dashboard-layout"
+    "/dashboard-layout",
+    "/preview/a11y",
+    "/preview/perf"
   ],
   "button": [
     "/",
     "/dashboard-layout",
+    "/preview/a11y",
     "/preview/pages-check"
   ],
   "icon-button": [],
@@ -42,7 +45,9 @@
     "/goals",
     "/nav-and-bg",
     "/planner",
+    "/preview/a11y",
     "/preview/pages-check",
+    "/preview/perf",
     "/preview/theme-matrix",
     "/prompts",
     "/reviews",
@@ -60,7 +65,10 @@
   ],
   "demo-header": [],
   "hero": [],
-  "progress": [],
+  "progress": [
+    "/",
+    "/preview/perf"
+  ],
   "outline-glow": [],
   "snackbar": [],
   "toast-demo": [],
@@ -95,6 +103,7 @@
   "hero-planner-cards": [
     "/"
   ],
+  "avatar-frame": [],
   "hero-portrait-frame": [
     "/",
     "/preview/pages-check"
@@ -136,6 +145,7 @@
   "theme-toggle": [
     "/"
   ],
+  "hero-image": [],
   "cat-companion": [
     "/"
   ]

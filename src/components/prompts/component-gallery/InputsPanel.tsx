@@ -17,6 +17,7 @@ import GalleryItem from "../GalleryItem";
 import { selectItems } from "./ComponentGallery.demoData";
 import type { InputsPanelData } from "./useComponentGalleryState";
 
+const INLINE_ICON_SIZE = "size-[var(--icon-size-sm)]";
 const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
 const sampleWidth = "calc(var(--space-8) * 3.5)";
 const sampleWidthStyle: React.CSSProperties = { width: sampleWidth };
@@ -219,7 +220,9 @@ export default function InputsPanel({ data }: InputsPanelProps) {
                 hasEndSlot
                 className="w-full"
               >
-                <Plus className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                <Plus
+                  className={`absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 ${INLINE_ICON_SIZE} text-muted-foreground`}
+                />
               </Input>
             </div>
           ),

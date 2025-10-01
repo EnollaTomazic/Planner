@@ -86,19 +86,21 @@ export default function GoalSlot({
               <div className="flex items-center gap-[var(--space-1)]">
                 <IconButton
                   size="sm"
+                  iconSize="xs"
                   tone="accent"
                   onClick={saveEdit}
                   aria-label="Save goal title"
                 >
-                  <Check className="h-4 w-4" />
+                  <Check />
                 </IconButton>
                 <IconButton
                   size="sm"
+                  iconSize="xs"
                   tone="danger"
                   onClick={cancelEdit}
                   aria-label="Cancel editing"
                 >
-                  <X className="h-4 w-4" />
+                  <X />
                 </IconButton>
               </div>
             </div>
@@ -126,7 +128,7 @@ export default function GoalSlot({
                 aria-pressed={goal.done}
                 onClick={() => onToggleDone?.(goal.id)}
               >
-                <Check className="h-4 w-4" />
+                <Check />
               </IconButton>
               <div
                 className="pointer-events-none absolute bottom-[var(--space-1)] left-[var(--space-1)] flex items-center gap-[var(--space-1)] opacity-0 transition-opacity duration-quick ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100"
@@ -140,7 +142,7 @@ export default function GoalSlot({
                   title="Edit goal"
                   onClick={startEdit}
                 >
-                  <Pencil className="h-4 w-4" />
+                  <Pencil />
                 </IconButton>
                 <IconButton
                   size="sm"
@@ -151,7 +153,7 @@ export default function GoalSlot({
                   title="Delete goal"
                   onClick={() => onDelete?.(goal.id)}
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash2 />
                 </IconButton>
               </div>
             </>
