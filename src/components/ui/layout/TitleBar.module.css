@@ -6,7 +6,7 @@
       hsl(var(--shadow-color) / 0.05)
     ),
     hsl(var(--card));
-  box-shadow: var(--shadow-neo-soft), var(--shadow-neo-strong);
+  box-shadow: var(--depth-shadow-soft), var(--depth-shadow-outer-strong);
 }
 
 .termMiniText {

@@ -35,7 +35,7 @@ export default function PlannerLoading() {
               ))}
             </div>
           </div>
-          <div className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-3)]">
+          <div className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-4)] space-y-[var(--space-3)]">
             <Skeleton className="h-[var(--space-5)] w-1/3" radius="sm" />
             <div className="grid gap-[var(--space-2)] sm:grid-cols-7">
               {WEEKDAY_PLACEHOLDERS.map((day) => (
@@ -56,7 +56,7 @@ export default function PlannerLoading() {
       >
         <section className="grid gap-[var(--space-6)] lg:grid-cols-12">
           <div className="space-y-[var(--space-4)] lg:col-span-8">
-            <div className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-3)]">
+            <div className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-4)] space-y-[var(--space-3)]">
               <Skeleton className="h-[var(--space-6)] w-1/2" radius="sm" />
               <div className="space-y-[var(--space-2)]">
                 <Skeleton className="w-full" radius="card" />
@@ -73,7 +73,7 @@ export default function PlannerLoading() {
             {PANEL_PLACEHOLDERS.map((panel) => (
               <div
                 key={panel}
-                className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-3)]"
+                className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-4)] space-y-[var(--space-3)]"
               >
                 <Skeleton className="h-[var(--space-6)] w-1/2" radius="sm" />
                 <Skeleton className="w-full" />
@@ -89,7 +89,7 @@ export default function PlannerLoading() {
             {WEEKDAY_PLACEHOLDERS.map((day) => (
               <li
                 key={day}
-                className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-2)]"
+                className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-4)] space-y-[var(--space-2)]"
               >
                 <Skeleton className="h-[var(--space-5)] w-1/3" radius="sm" />
                 <Skeleton className="w-full" />

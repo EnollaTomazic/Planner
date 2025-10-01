@@ -65,7 +65,7 @@ export default function GoalSlot({
   }
 
   return (
-    <div className="group relative rounded-card r-card-lg border border-border bg-surface p-[var(--space-1)] shadow-neoSoft">
+    <div className="group relative rounded-card r-card-lg border border-border bg-surface p-[var(--space-1)] shadow-depth-soft">
       <div
         className={cn(
           "relative flex aspect-[4/3] w-full items-center justify-center rounded-card r-card-lg bg-surface-2 font-mono text-center text-ui font-medium text-foreground",

@@ -201,7 +201,7 @@ describe("NeomorphicHeroFrame", () => {
     expect(slotWells).not.toHaveLength(0);
     slotWells.forEach((slot) => {
       expect(slot).toHaveClass("neo-inset");
-      expect(slot).not.toHaveClass("shadow-neo-inset");
+      expect(slot).not.toHaveClass("shadow-depth-inner");
     });
   });
 });

@@ -23,8 +23,8 @@ const NEO_TABLIST_SHARED_CLASSES = [
   "data-[variant=neo]:py-[var(--space-2)]",
   "data-[variant=neo]:[--neo-tablist-bg:linear-gradient(135deg,hsl(var(--card)/0.9),hsl(var(--panel)/0.74))]",
   "data-[variant=neo]:[--neo-tab-bg:linear-gradient(135deg,hsl(var(--card)/0.96),hsl(var(--panel)/0.82))]",
-  "data-[variant=neo]:shadow-neo",
-  "data-[variant=neo]:hover:shadow-neo-soft",
+  "data-[variant=neo]:shadow-depth-outer",
+  "data-[variant=neo]:hover:shadow-depth-soft",
   "data-[variant=neo]:[&_[data-active=true]]:relative",
   "data-[variant=neo]:[&_[data-active=true]::after]:content-['']",
   "data-[variant=neo]:[&_[data-active=true]::after]:pointer-events-none",
@@ -38,7 +38,7 @@ const NEO_TABLIST_SHARED_CLASSES = [
 ].join(" ");
 
 const HEADER_FRAME_CLASSNAME = [
-  "shadow-neo",
+  "shadow-depth-outer",
   "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit]",
   "before:bg-[radial-gradient(120%_82%_at_12%_-20%,hsl(var(--accent)/0.3),transparent_65%),radial-gradient(110%_78%_at_88%_-12%,hsl(var(--ring)/0.28),transparent_70%)]",
   "before:opacity-80 before:mix-blend-screen",
@@ -171,7 +171,7 @@ export default function ComponentsPageClient({
                   variant: "default",
                   showBaseline: true,
                   tablistClassName: cn(
-                    "max-w-full shadow-neo-inset rounded-card r-card-lg",
+                    "max-w-full shadow-depth-inner rounded-card r-card-lg",
                     "w-full md:w-auto",
                   ),
                   className: "max-w-full w-full md:w-auto",
@@ -244,13 +244,13 @@ export default function ComponentsPageClient({
                     placeholder: searchPlaceholder,
                     fieldClassName: cn(
                       "bg-[linear-gradient(135deg,hsl(var(--card)/0.95),hsl(var(--panel)/0.82))]",
-                      "!shadow-neo-soft",
-                      "hover:!shadow-neo-soft",
-                      "active:!shadow-neo-soft",
-                      "focus-within:!shadow-neo-soft",
+                      "!shadow-depth-soft",
+                      "hover:!shadow-depth-soft",
+                      "active:!shadow-depth-soft",
+                      "focus-within:!shadow-depth-soft",
                       "focus-within:[--tw-ring-offset-width:var(--space-1)]",
                       "focus-within:[--tw-ring-offset-color:hsl(var(--panel)/0.82)]",
-                      "motion-reduce:transition-none motion-reduce:hover:!shadow-neo-soft motion-reduce:active:!shadow-neo-soft motion-reduce:focus-within:!shadow-neo-soft",
+                      "motion-reduce:transition-none motion-reduce:hover:!shadow-depth-soft motion-reduce:active:!shadow-depth-soft motion-reduce:focus-within:!shadow-depth-soft",
                     ),
                   }
                 : undefined,

@@ -134,7 +134,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     const raisedLabelBar = cn(
       "flex w-full min-w-0 flex-wrap items-start md:flex-nowrap md:items-center",
       clusterGapClass,
-      "z-0 overflow-hidden rounded-card r-card-lg border border-border/45 bg-card/70 px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-4)] text-foreground shadow-neoSoft backdrop-blur-md hero2-frame hero2-neomorph",
+      "z-0 overflow-hidden rounded-card r-card-lg border border-border/45 bg-card/70 px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-4)] text-foreground shadow-depth-soft backdrop-blur-md hero2-frame hero2-neomorph",
     );
 
     const utilities = cn(

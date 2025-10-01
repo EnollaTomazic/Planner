@@ -51,7 +51,7 @@ export default function BottomNav({
         aria-label={navigationLabel}
         className={cn(
           "relative isolate mx-auto w-full max-w-2xl",
-          "rounded-card r-card-lg card-neo-soft shadow-neo-strong",
+          "rounded-card r-card-lg card-neo-soft shadow-depth-outer-strong",
           "px-[var(--space-4)] pb-[var(--space-2)] pt-[calc(var(--space-3)+var(--hairline-w))]",
           className,
         )}
