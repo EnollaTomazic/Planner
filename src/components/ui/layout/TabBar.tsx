@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { useRovingTabState } from "@/components/tabs/useRovingTabState";
 import styles from "./TabBar.module.css";
 import segmentedButtonStyles from "../primitives/SegmentedButton.module.css";
+import { resolveUIVariant, type UIVariant } from "@/components/ui/variants";
 
 export type TabItem<K extends string = string> = {
   key: K;
@@ -31,7 +32,8 @@ export type TabItem<K extends string = string> = {
 
 type Align = "start" | "center" | "end" | "between";
 type Size = "sm" | "md" | "lg";
-type Variant = "default" | "neo" | "glitch";
+const TAB_BAR_VARIANTS = ["default", "neo", "glitch"] as const satisfies readonly UIVariant[];
+type TabBarVariant = (typeof TAB_BAR_VARIANTS)[number];
 
 type WithExtras<
   K extends string,
@@ -48,7 +50,7 @@ export type TabElementProps = React.HTMLAttributes<HTMLElement> & {
   "data-active"?: boolean;
   "data-loading"?: boolean;
   "data-disabled"?: boolean;
-  "data-variant"?: Variant;
+  "data-variant"?: TabBarVariant;
   "data-selected"?: string;
   "data-glitch"?: string;
   "data-depth"?: string;
@@ -67,7 +69,7 @@ export type TabRenderContext<
   props: TabElementProps;
   defaultChildren: React.ReactNode;
   size: Size;
-  variant: Variant;
+  variant: TabBarVariant;
 };
 
 export type TabBarA11yProps =
@@ -94,7 +96,7 @@ type TabBarBaseProps<
   right?: React.ReactNode;
   showBaseline?: boolean;
   linkPanels?: boolean;
-  variant?: Variant;
+  variant?: TabBarVariant;
   tablistClassName?: string;
   renderItem?: (
     context: TabRenderContext<K, WithExtras<K, Extra>>,
@@ -113,7 +115,7 @@ export type TabBarProps<
 
 const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
   sm: {
-    h: "h-[var(--space-8)]",
+    h: "h-[var(--control-h-sm)]",
     px: "px-[var(--space-3)]",
     text: "text-ui",
   },
@@ -187,8 +189,12 @@ export default function TabBar<
   }[align];
 
   const s = sizeMap[size];
-  const isNeo = variant === "neo";
-  const isGlitch = variant === "glitch";
+  const resolvedVariant = resolveUIVariant<TabBarVariant>(variant, {
+    allowed: TAB_BAR_VARIANTS,
+    fallback: "default",
+  });
+  const isNeo = resolvedVariant === "neo";
+  const isGlitch = resolvedVariant === "glitch";
 
   const neoVariantClassName = isNeo ? styles.neoTablist : undefined;
   const defaultVariantClassName = !isNeo && !isGlitch ? styles.defaultTablist : undefined;
@@ -201,7 +207,7 @@ export default function TabBar<
     "inline-flex max-w-full items-center overflow-x-auto",
     isGlitch
       ? "gap-[var(--space-2)] py-[var(--space-2)]"
-      : "gap-[var(--space-1)] rounded-[var(--control-radius)] border p-[var(--space-1)]",
+      : "gap-[var(--space-1)] rounded-card r-card-md border p-[var(--space-1)]",
     containerVariant,
     tablistClassName,
   );
@@ -228,7 +234,7 @@ export default function TabBar<
           aria-labelledby={ariaLabelledByAttr}
           aria-orientation="horizontal"
           onKeyDown={onKeyDown}
-          data-variant={variant}
+          data-variant={resolvedVariant}
           className={cn(containerClasses, neoVariantClassName, defaultVariantClassName)}
         >
           {items.map((item) => {
@@ -280,7 +286,7 @@ export default function TabBar<
                   item.className,
                 )
               : cn(
-                  "relative inline-flex items-center justify-center select-none rounded-[var(--control-radius)] transition-[background,box-shadow,color] duration-quick ease-out",
+                  "relative inline-flex items-center justify-center select-none rounded-card r-card-md transition-[background,box-shadow,color] duration-quick ease-out",
                   s.h,
                   s.px,
                   s.text,
@@ -305,7 +311,7 @@ export default function TabBar<
               "data-active": active || undefined,
               "data-loading": isLoading || undefined,
               "data-disabled": isDisabled || undefined,
-              "data-variant": variant,
+              "data-variant": resolvedVariant,
               "data-selected": active ? "true" : undefined,
               "data-glitch": isGlitch && active ? "true" : undefined,
               "data-depth": isGlitch ? "raised" : undefined,
@@ -330,7 +336,7 @@ export default function TabBar<
               props: tabProps,
               defaultChildren,
               size,
-              variant,
+              variant: resolvedVariant,
             };
 
             const customNode = renderItem?.(context);

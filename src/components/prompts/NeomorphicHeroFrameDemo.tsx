@@ -79,10 +79,10 @@ export default function NeomorphicHeroFrameDemo() {
             node: (
               <div className="flex items-center gap-[var(--space-2)]">
                 <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
-                <Button size="sm" variant="secondary">
+                <Button size="sm" variant="soft">
                   Draft
                 </Button>
-                <Button size="sm" variant="primary" loading>
+                <Button size="sm" variant="default" loading>
                   Deploy
                 </Button>
                 <Button size="sm" variant="ghost" disabled>
@@ -162,7 +162,7 @@ export default function NeomorphicHeroFrameDemo() {
           actions: {
             node: (
               <div className="flex items-center gap-[var(--space-2)]">
-                <Button size="sm" variant="secondary">
+                <Button size="sm" variant="soft">
                   Pin view
                 </Button>
                 <Button size="sm" variant="ghost">

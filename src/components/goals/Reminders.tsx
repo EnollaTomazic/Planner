@@ -285,7 +285,7 @@ export default function Reminders() {
               onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addQuick(); } }}
               className="flex-1"
             />
-            <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} size="md" variant="primary">
+            <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} size="md" variant="default">
               <Plus />
             </IconButton>
             <p className="text-label sm:text-ui font-medium tracking-[0.02em] italic text-muted-foreground">
@@ -456,7 +456,7 @@ function ReminderCard({
               placeholder="Short, skimmable sentence. Keep it actionable."
               value={body}
               onChange={(e) => setBody(e.currentTarget.value)}
-              textareaClassName="min-h-24"
+              textareaClassName="min-h-[calc(var(--space-8)*3)]"
             />
             <Input
               aria-label="Tags (comma separated)"

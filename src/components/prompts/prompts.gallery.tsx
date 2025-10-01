@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import {
   createGalleryPreview,
   defineGallerySection,
@@ -9,6 +10,7 @@ import {
   type GallerySectionId,
 } from "@/components/gallery/registry";
 import {
+  AvatarFrame,
   Badge,
   Button,
   Card,
@@ -42,6 +44,7 @@ import {
   PillarBadge,
   PillarSelector,
   Hero,
+  HeroImage,
   SearchBar,
   TabBar,
   NeomorphicHeroFrame,
@@ -104,7 +107,7 @@ import {
 } from "@/components/goals";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 import { ProgressRingIcon, TimerRingIcon } from "@/icons";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 type LegacySpec = {
   id: string;
@@ -166,6 +169,8 @@ const heroPlannerHighlightsDemo = [
     summary: "Encourage everyone to log highlights before the week wraps.",
   },
 ] as const satisfies readonly HeroPlannerHighlight[];
+
+const heroAvatarSrc = withBasePath("/hero_image.png");
 
 const heroPlannerOverviewDemo = {
   hydrating: false,
@@ -336,6 +341,21 @@ const heroPlannerOverviewDemo = {
       },
     ],
     onSelectDay: () => {},
+  },
+  activity: {
+    loading: false,
+    hasData: true,
+    totalCompleted: 12,
+    totalScheduled: 18,
+    points: [
+      { iso: "2024-04-22", label: "Mon", completed: 2, total: 3 },
+      { iso: "2024-04-23", label: "Tue", completed: 1, total: 2 },
+      { iso: "2024-04-24", label: "Wed", completed: 3, total: 4 },
+      { iso: "2024-04-25", label: "Thu", completed: 2, total: 3 },
+      { iso: "2024-04-26", label: "Fri", completed: 3, total: 4 },
+      { iso: "2024-04-27", label: "Sat", completed: 1, total: 1 },
+      { iso: "2024-04-28", label: "Sun", completed: 0, total: 1 },
+    ],
   },
 } satisfies PlannerOverviewProps;
 
@@ -3270,7 +3290,7 @@ React.useEffect(() => {
       node: (
         <div className="flex items-center gap-[var(--space-2)]">
           <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
-          <Button size="sm" variant="primary" loading>
+          <Button size="sm" variant="default" loading>
             Deploy
           </Button>
           <Button size="sm" variant="ghost" disabled>
@@ -3554,13 +3574,13 @@ React.useEffect(() => {
             "Primary action lifts with shadow-depth-soft to reflect the hover state used across hero quick actions.",
           element: (
             <div className="flex items-center gap-[var(--space-2)]">
-              <Button size="sm" variant="primary" className="shadow-depth-soft">
+              <Button size="sm" variant="default" className="shadow-depth-soft">
                 Launch event
               </Button>
             </div>
           ),
           code: `<div className="flex items-center gap-[var(--space-2)]">
-  <Button size="sm" variant="primary" className="shadow-depth-soft">
+  <Button size="sm" variant="default" className="shadow-depth-soft">
     Launch event
   </Button>
 </div>`,
@@ -3574,7 +3594,7 @@ React.useEffect(() => {
             <div className="flex items-center gap-[var(--space-2)]">
               <Button
                 size="sm"
-                variant="primary"
+                variant="default"
                 className="shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
               >
                 Focused deploy
@@ -3584,7 +3604,7 @@ React.useEffect(() => {
           code: `<div className="flex items-center gap-[var(--space-2)]">
   <Button
     size="sm"
-    variant="primary"
+    variant="default"
     className="shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
   >
     Focused deploy
@@ -3598,13 +3618,13 @@ React.useEffect(() => {
             "Loading CTA keeps the raised hover shadow while dimming interactions so progress reads instantly.",
           element: (
             <div className="flex items-center gap-[var(--space-2)]">
-              <Button size="sm" variant="primary" loading className="shadow-depth-soft">
+              <Button size="sm" variant="default" loading className="shadow-depth-soft">
                 Saving
               </Button>
             </div>
           ),
           code: `<div className="flex items-center gap-[var(--space-2)]">
-  <Button size="sm" variant="primary" loading className="shadow-depth-soft">
+  <Button size="sm" variant="default" loading className="shadow-depth-soft">
     Saving
   </Button>
 </div>`,
@@ -4015,6 +4035,93 @@ React.useEffect(() => {
     />
   </SectionCard.Body>
 </SectionCard>`,
+    },
+    {
+      id: "avatar-frame",
+      name: "AvatarFrame",
+      description:
+        "Token-driven avatar treatment with responsive sizing, rim glow, and glitch rail powered by design tokens.",
+      element: (
+        <div className="flex flex-wrap items-center justify-center gap-[var(--space-3)]">
+          <AvatarFrame
+            size="sm"
+            media={
+              <Image
+                src={heroAvatarSrc}
+                alt="Planner hero avatar scaled to a small framed treatment"
+                loading="lazy"
+                sizes="(max-width: 640px) 96px, 128px"
+                fill
+              />
+            }
+          />
+          <AvatarFrame
+            size="md"
+            media={
+              <Image
+                src={heroAvatarSrc}
+                alt="Planner hero avatar in the default framed treatment"
+                loading="lazy"
+                sizes="(max-width: 640px) 136px, 168px"
+                fill
+              />
+            }
+          />
+          <AvatarFrame
+            size="lg"
+            frame={false}
+            media={
+              <Image
+                src={heroAvatarSrc}
+                alt="Planner hero avatar without the rim treatment"
+                loading="lazy"
+                sizes="(max-width: 640px) 168px, 208px"
+                fill
+              />
+            }
+          />
+        </div>
+      ),
+      tags: ["avatar", "glow", "frame"],
+      code: `<div className="flex flex-wrap items-center justify-center gap-[var(--space-3)]">
+  <AvatarFrame
+    size="sm"
+    media={
+      <Image
+        src={withBasePath("/hero_image.png")}
+        alt="Planner hero avatar scaled to a small framed treatment"
+        loading="lazy"
+        sizes="(max-width: 640px) 96px, 128px"
+        fill
+      />
+    }
+  />
+  <AvatarFrame
+    size="md"
+    media={
+      <Image
+        src={withBasePath("/hero_image.png")}
+        alt="Planner hero avatar in the default framed treatment"
+        loading="lazy"
+        sizes="(max-width: 640px) 136px, 168px"
+        fill
+      />
+    }
+  />
+  <AvatarFrame
+    size="lg"
+    frame={false}
+    media={
+      <Image
+        src={withBasePath("/hero_image.png")}
+        alt="Planner hero avatar without the rim treatment"
+        loading="lazy"
+        sizes="(max-width: 640px) 168px, 208px"
+        fill
+      />
+    }
+  />
+</div>`,
     },
     {
       id: "hero-portrait-frame",
@@ -4812,6 +4919,14 @@ React.useEffect(() => {
     },
   ],
   misc: [
+    {
+      id: "hero-image",
+      name: "HeroImage",
+      description: "Theme-aware illustration for hero layouts honoring theme variants.",
+      element: <HeroImage />,
+      tags: ["hero", "illustration"],
+      code: `<HeroImage />`,
+    },
     {
       id: "cat-companion",
       name: "CatCompanion",

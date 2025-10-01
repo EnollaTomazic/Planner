@@ -18,7 +18,9 @@ const BACKGROUND_LABELS: Record<number, string> = {
   4: "Streak background",
 };
 
-const GRID_TEMPLATE = `repeat(${VARIANTS.length}, minmax(320px, 1fr))`;
+const COLUMN_WIDTH = "calc(var(--space-8) * 5)";
+
+const GRID_TEMPLATE = `repeat(${VARIANTS.length}, minmax(${COLUMN_WIDTH}, 1fr))`;
 
 const variantColumnsStyle = {
   gridTemplateColumns: GRID_TEMPLATE,
@@ -145,9 +147,8 @@ function ThemeMatrixVariantGridCell({
   );
 }
 
-const COLUMN_MIN_WIDTH = 320;
 const matrixContainerStyle = {
-  minWidth: `${VARIANTS.length * COLUMN_MIN_WIDTH}px`,
+  minWidth: `calc(${VARIANTS.length} * ${COLUMN_WIDTH})`,
 } satisfies React.CSSProperties;
 
 interface ThemeMatrixEntryCardProps {
