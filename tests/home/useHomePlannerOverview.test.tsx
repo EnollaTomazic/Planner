@@ -227,6 +227,25 @@ describe("useHomePlannerOverview", () => {
       const selectedEntry = calendar.days.find((day) => day.iso === focusIso);
       expect(selectedEntry?.selected).toBe(true);
 
+      const activity = result.current.overview.activity;
+      expect(activity.loading).toBe(false);
+      expect(activity.hasData).toBe(true);
+      expect(activity.points).toHaveLength(7);
+      const totals = calendar.days.reduce(
+        (acc, day) => {
+          acc.completed += day.done;
+          acc.scheduled += day.total;
+          return acc;
+        },
+        { completed: 0, scheduled: 0 },
+      );
+      expect(activity.totalCompleted).toBe(totals.completed);
+      expect(activity.totalScheduled).toBe(totals.scheduled);
+      const focusPoint = activity.points.find((point) => point.iso === focusIso);
+      expect(focusPoint).toBeDefined();
+      expect(focusPoint?.completed).toBe(selectedEntry?.done ?? 0);
+      expect(focusPoint?.total).toBe(selectedEntry?.total ?? 0);
+
       act(() => {
         calendar.onSelectDay("2024-01-10");
       });
@@ -260,6 +279,8 @@ describe("useHomePlannerOverview", () => {
       expect(goalsCard.active).toHaveLength(0);
 
       expect(result.current.overview.focus.remainingTasks).toBe(0);
+      expect(result.current.overview.activity.hasData).toBe(false);
+      expect(result.current.overview.activity.totalScheduled).toBe(0);
     } finally {
       unmount();
     }
@@ -287,6 +308,12 @@ describe("useHomePlannerOverview", () => {
       const summaryItems = result.current.overview.summary.items;
       expect(getSummaryValue(summaryItems, "reviews")).toBe("Start a review");
       expect(getSummaryValue(summaryItems, "prompts")).toBe("Start a prompt");
+
+      const activity = result.current.overview.activity;
+      expect(activity.loading).toBe(false);
+      expect(activity.hasData).toBe(false);
+      expect(activity.totalScheduled).toBe(0);
+      expect(activity.points).toHaveLength(7);
     } finally {
       unmount();
     }

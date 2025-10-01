@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import DashboardCard from "./DashboardCard";
-import QuickActionGrid from "./QuickActionGrid";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn } from "@/lib/utils";
+import TeamQuickActions from "@/components/team/TeamQuickActions";
 import styles from "./TeamPromptsCard.module.css";
 
 const teamQuickActions = [
@@ -33,13 +33,7 @@ export default function TeamPromptsCard() {
     <div className={`${layoutGridClassName} md:grid-cols-12`}>
       <div className="md:col-span-6">
         <DashboardCard title="Team quick actions">
-          <QuickActionGrid
-            actions={teamQuickActions}
-            layout="twelveColumn"
-            buttonVariant="ghost"
-            buttonSize="lg"
-            buttonClassName="col-span-12 min-w-0 justify-start text-left whitespace-normal text-balance border-card-hairline bg-card/60 md:col-span-6 lg:col-span-4"
-          />
+          <TeamQuickActions actions={teamQuickActions} />
         </DashboardCard>
       </div>
       <div className="md:col-span-6">
