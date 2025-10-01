@@ -40,6 +40,7 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 
 - Color, radius, shadows and transitions are defined as CSS variables in `tailwind.config.ts` and `src/app/themes.css`.
 - Use semantic classes like `bg-background`, `text-foreground` and `ring` instead of hard-coded values.
+- Gradient utilities such as `bg-panel-tilt-strong`, `before:bg-gradient-drip-overlay-compact`, and `after:bg-glitch-overlay` map directly to the tokenized backgrounds documented in [`docs/tokens.md`](tokens.md); prefer them over ad-hoc `linear-gradient(...)` strings so themes can tune overlays without component changes.
 - Pair high-chroma fills with the semantic text tokens: `text-warning-foreground` for alert banners, `text-success-foreground` for celebratory fills (including the success glow), `text-on-accent` for accent gradients, `text-accent-foreground` / `text-accent-2-foreground` for accent rails, and `text-danger-foreground` for destructive actions. This ensures the `color-contrast()` fallbacks in `themes.css` stay effective.
 - If you need to introduce a new static color, map it to a token in [`COLOR_MAPPINGS.md`](../COLOR_MAPPINGS.md).
 - Name color tokens in kebab-case with hyphenated numeric variants (e.g. `accent-2`).

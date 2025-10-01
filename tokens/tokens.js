@@ -319,8 +319,30 @@ export default {
     "color-mix(in oklab, hsl(var(--accent)) 18%, hsl(var(--background)) 82%)",
   gradientBlobPrimary:
     "radial-gradient(120% 120% at 50% 10%, hsl(var(--surface) / 0.85), hsl(var(--surface-2) / 0.35), transparent 85%)",
+  gradientDripOverlay:
+    "radial-gradient(60% 40% at 10% 0%, hsl(var(--backdrop-drip-1) / 0.2), transparent 60%), radial-gradient(50% 35% at 100% 5%, hsl(var(--backdrop-drip-2) / 0.18), transparent 60%), radial-gradient(55% 35% at 50% 120%, hsl(var(--backdrop-drip-3) / 0.14), transparent 65%), radial-gradient(120% 100% at 50% 100%, hsl(var(--backdrop-drip-shadow) / 0.35), transparent 70%)",
+  gradientDripOverlayCompact:
+    "radial-gradient(125% 85% at 18% -20%, hsl(var(--backdrop-drip-1) / 0.28), transparent 65%), radial-gradient(115% 85% at 82% -15%, hsl(var(--backdrop-drip-2) / 0.24), transparent 62%), radial-gradient(120% 95% at 50% 110%, hsl(var(--backdrop-drip-3) / 0.16), transparent 70%)",
   gradientGlitchPrimary:
     "linear-gradient(135deg, hsl(var(--accent) / 0.35), hsl(var(--accent-2) / 0.3))",
+  gradientGlitchOverlay:
+    "linear-gradient(120deg, hsl(var(--accent) / 0.12) 0%, transparent 58%, hsl(var(--ring) / 0.16) 100%), var(--card-overlay-scanlines)",
+  gradientGlitchRail:
+    "linear-gradient(180deg, hsl(var(--primary) / 0.6) 0%, hsl(var(--accent) / 0.45) 45%, hsl(var(--ring) / 0.6) 100%)",
+  gradientHeroSlotHighlight:
+    "radial-gradient(circle at top left, var(--depth-glow-highlight-medium) 0%, transparent 62%)",
+  gradientHeroSlotShadow:
+    "radial-gradient(circle at bottom right, var(--depth-glow-shadow-medium) 0%, transparent 65%)",
+  gradientHeroTopline:
+    "linear-gradient(90deg, hsl(var(--accent) / 0.28), transparent 55%, hsl(var(--accent-2) / 0.32))",
+  gradientHeroActionHalo:
+    "radial-gradient(120% 95% at 50% 0%, hsl(var(--accent) / 0.24), transparent 65%)",
+  gradientPanelTiltStrong:
+    "linear-gradient(140deg, hsl(var(--card) / 0.95), hsl(var(--surface-2) / 0.78))",
+  gradientPanelTiltBright:
+    "linear-gradient(140deg, hsl(var(--card) / 0.98), hsl(var(--surface-2) / 0.82))",
+  gradientPanelTiltMuted:
+    "linear-gradient(140deg, hsl(var(--card) / 0.94), hsl(var(--surface-2) / 0.72))",
   glitchRgbShift:
     "drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45))",
   glitchScanline:
