@@ -42,6 +42,16 @@ import styles from "./MiscPanel.module.css";
 
 const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
 const ROW_HEIGHT: number = spacingTokens[5] ?? 32;
+const SWATCH_WIDTH = "calc(var(--space-8) * 3.5)";
+const REVIEW_LAYOUT_SIDEBAR_WIDTH = "calc(var(--space-8) * 3.75)";
+const REVIEW_LAYOUT_SIDEBAR_CLAMP = `min(100%, ${REVIEW_LAYOUT_SIDEBAR_WIDTH})`;
+const WIDTH_COMPARE_MEDIUM = "calc(var(--space-8) * 4.5)";
+const WIDTH_COMPARE_LARGE = "calc(var(--space-8) * 5)";
+const HEIGHT_COMPACT = "calc(var(--space-4) + var(--space-2))";
+const HEIGHT_BASE = "var(--space-6)";
+const HEIGHT_RELAXED = "calc(var(--space-6) + var(--space-2))";
+const HEIGHT_BACKGROUND = "calc(var(--space-8) * 1.5)";
+const HEIGHT_STACKED = "calc(var(--space-8) * 3.5)";
 type PanelItem = { label: string; element: React.ReactNode; className?: string };
 
 interface MiscPanelProps {
@@ -95,7 +105,10 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Accent Overlay Box",
           element: (
-            <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-accent-overlay text-accent-foreground">
+            <div
+              className="flex items-center justify-center rounded-[var(--radius-md)] bg-accent-overlay text-accent-foreground"
+              style={{ width: SWATCH_WIDTH, height: HEIGHT_COMPACT }}
+            >
               Overlay
             </div>
           ),
@@ -103,7 +116,10 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Foreground Overlay Box",
           element: (
-            <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] border border-border/10 bg-foreground/5 text-foreground/70">
+            <div
+              className="flex items-center justify-center rounded-[var(--radius-md)] border border-border/10 bg-foreground/5 text-foreground/70"
+              style={{ width: SWATCH_WIDTH, height: HEIGHT_COMPACT }}
+            >
               FG Overlay
             </div>
           ),
@@ -111,7 +127,10 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Surface",
           element: (
-            <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-surface">
+            <div
+              className="flex items-center justify-center rounded-[var(--radius-md)] bg-surface"
+              style={{ width: SWATCH_WIDTH, height: HEIGHT_COMPACT }}
+            >
               Surface
             </div>
           ),
@@ -119,7 +138,10 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Surface 2",
           element: (
-            <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] bg-surface-2">
+            <div
+              className="flex items-center justify-center rounded-[var(--radius-md)] bg-surface-2"
+              style={{ width: SWATCH_WIDTH, height: HEIGHT_COMPACT }}
+            >
               Surface 2
             </div>
           ),
@@ -127,7 +149,10 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Ring Subtle",
           element: (
-            <div className="w-56 h-6 flex items-center justify-center rounded-[var(--radius-md)] ring-1 ring-ring/5">
+            <div
+              className="flex items-center justify-center rounded-[var(--radius-md)] ring-1 ring-ring/5"
+              style={{ width: SWATCH_WIDTH, height: HEIGHT_COMPACT }}
+            >
               Ring 5%
             </div>
           ),
@@ -135,7 +160,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Progress",
           element: (
-            <div className="w-56">
+            <div style={{ width: SWATCH_WIDTH }}>
               <Progress value={50} />
             </div>
           ),
@@ -147,7 +172,8 @@ export default function MiscPanel({ data }: MiscPanelProps) {
               current={3}
               total={5}
               showPercentage
-              className="w-56 flex items-center gap-[var(--space-3)]"
+              className="flex items-center gap-[var(--space-3)]"
+              style={{ width: SWATCH_WIDTH }}
               trackClassName="flex-1"
               percentageClassName="w-12 text-right"
             />
@@ -156,7 +182,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Spinner",
           element: (
-            <div className="w-56 flex justify-center">
+            <div className="flex justify-center" style={{ width: SWATCH_WIDTH }}>
               <Spinner />
             </div>
           ),
@@ -164,7 +190,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "NeonIcon",
           element: (
-            <div className="w-56 flex justify-center">
+            <div className="flex justify-center" style={{ width: SWATCH_WIDTH }}>
               <NeonIcon icon={Star} on={true} />
             </div>
           ),
@@ -172,7 +198,12 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Card",
           element: (
-            <Card className="w-56 h-8 flex items-center justify-center">Card content</Card>
+            <Card
+              className="flex items-center justify-center"
+              style={{ width: SWATCH_WIDTH, height: HEIGHT_BASE }}
+            >
+              Card content
+            </Card>
           ),
         },
         {
@@ -202,7 +233,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "TitleBar",
           element: (
-            <div className="w-56">
+            <div style={{ width: SWATCH_WIDTH }}>
               <TitleBar label="Navigation" />
             </div>
           ),
@@ -210,7 +241,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Banner",
           element: (
-            <div className="w-56">
+            <div style={{ width: SWATCH_WIDTH }}>
               <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
             </div>
           ),
@@ -218,7 +249,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "BrandWordmark",
           element: (
-            <div className="w-56 flex justify-center">
+            <div className="flex justify-center" style={{ width: SWATCH_WIDTH }}>
               <BrandWordmark />
             </div>
           ),
@@ -227,7 +258,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "ReviewListItem",
           element: (
-            <div className="w-56">
+            <div style={{ width: SWATCH_WIDTH }}>
               <ReviewListItem review={demoReview} />
             </div>
           ),
@@ -235,7 +266,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "ReviewListItem Loading",
           element: (
-            <div className="w-56">
+            <div style={{ width: SWATCH_WIDTH }}>
               <ReviewListItem loading />
             </div>
           ),
@@ -248,7 +279,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "ReviewSurface",
           element: (
-            <div className="w-56">
+            <div style={{ width: SWATCH_WIDTH }}>
               <ReviewSurface padding="md" tone="muted">
                 <div className="text-ui text-foreground/70">Surface content</div>
               </ReviewSurface>
@@ -258,7 +289,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "ReviewSliderTrack",
           element: (
-            <div className="w-56 space-y-[var(--space-2)]">
+            <div className="space-y-[var(--space-2)]" style={{ width: SWATCH_WIDTH }}>
               <ReviewSurface padding="inline" className="relative h-[var(--control-h-lg)]">
                 <ReviewSliderTrack value={7} tone="score" variant="display" />
               </ReviewSurface>
@@ -271,7 +302,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "ScoreMeter",
           element: (
-            <div className="w-56">
+            <div style={{ width: SWATCH_WIDTH }}>
               <ScoreMeter label="Score" value={8} detail={<span>Great positioning</span>} />
             </div>
           ),
@@ -285,8 +316,14 @@ export default function MiscPanel({ data }: MiscPanelProps) {
           label: "Review Layout",
           element: (
             <div className="grid w-full gap-[var(--space-4)] md:grid-cols-12">
-              <div className="md:col-span-4 md:w-60 bg-panel h-10 rounded-[var(--radius-md)]" />
-              <div className="md:col-span-8 bg-muted h-10 rounded-[var(--radius-md)]" />
+              <div
+                className="w-full rounded-[var(--radius-md)] bg-panel md:col-span-4"
+                style={{ width: REVIEW_LAYOUT_SIDEBAR_CLAMP, height: HEIGHT_RELAXED }}
+              />
+              <div
+                className="rounded-[var(--radius-md)] bg-muted md:col-span-8"
+                style={{ height: HEIGHT_RELAXED }}
+              />
             </div>
           ),
           className: "sm:col-span-2 md:col-span-12 w-full",
@@ -294,7 +331,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Snackbar",
           element: (
-            <div className="w-56 flex justify-center">
+            <div className="flex justify-center" style={{ width: SWATCH_WIDTH }}>
               <Snackbar message="Saved" actionLabel="Undo" onAction={() => {}} />
             </div>
           ),
@@ -310,7 +347,10 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Aurora Background",
           element: (
-            <div className="glitch-root bg-aurora-layers bg-noise w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center">
+            <div
+              className="glitch-root flex items-center justify-center rounded-[var(--radius-md)] bg-aurora-layers bg-noise"
+              style={{ width: SWATCH_WIDTH, height: HEIGHT_BACKGROUND }}
+            >
               Backdrop
             </div>
           ),
@@ -320,9 +360,10 @@ export default function MiscPanel({ data }: MiscPanelProps) {
           element: (
             <div
               className={cn(
-                "w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center",
+                "flex items-center justify-center rounded-[var(--radius-md)]",
                 styles.chipNoir,
               )}
+              style={{ width: SWATCH_WIDTH, height: HEIGHT_BACKGROUND }}
             >
               Noir
             </div>
@@ -333,9 +374,10 @@ export default function MiscPanel({ data }: MiscPanelProps) {
           element: (
             <div
               className={cn(
-                "w-56 h-24 rounded-[var(--radius-md)] flex items-center justify-center",
+                "flex items-center justify-center rounded-[var(--radius-md)]",
                 styles.chipHardstuck,
               )}
+              style={{ width: SWATCH_WIDTH, height: HEIGHT_BACKGROUND }}
             >
               Hardstuck
             </div>
@@ -344,7 +386,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Header",
           element: (
-            <div className="w-56">
+            <div style={{ width: SWATCH_WIDTH }}>
               <Header
                 heading="Header"
                 eyebrow="Eyebrow"
@@ -367,7 +409,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Hero",
           element: (
-            <div className="w-56 space-y-[var(--space-4)]">
+            <div className="space-y-[var(--space-4)]" style={{ width: SWATCH_WIDTH }}>
               <div className="space-y-[var(--space-2)]">
                 <p className="text-label font-medium text-muted-foreground">Glitch (default)</p>
                 <Hero
@@ -485,7 +527,10 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Header + Hero",
           element: (
-            <div className="w-56 h-56 overflow-auto space-y-[var(--space-6)]">
+            <div
+              className="overflow-auto space-y-[var(--space-6)]"
+              style={{ width: SWATCH_WIDTH, height: HEIGHT_STACKED }}
+            >
               <Header heading="Stacked" icon={<Star className="opacity-80" />} />
               <Hero heading="Stacked" topClassName="top-[var(--header-stack)]" />
               <div className="h-96" />
@@ -495,13 +540,18 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Card Neo",
           element: (
-            <NeoCard className="w-56 flex items-center justify-center text-center">Card Neo</NeoCard>
+            <NeoCard
+              className="flex items-center justify-center text-center"
+              style={{ width: SWATCH_WIDTH }}
+            >
+              Card Neo
+            </NeoCard>
           ),
         },
         {
           label: "Save Status",
           element: (
-            <div className="w-56">
+            <div style={{ width: SWATCH_WIDTH }}>
               <div className="text-label font-medium tracking-[0.02em] text-muted-foreground" aria-live="polite">
                 All changes saved
               </div>
@@ -511,7 +561,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Muted Text",
           element: (
-            <p className="w-56 text-ui font-medium text-muted-foreground text-center">
+            <p className="text-ui font-medium text-muted-foreground text-center" style={{ width: SWATCH_WIDTH }}>
               Example of muted foreground text
             </p>
           ),
@@ -519,7 +569,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Badge Tones",
           element: (
-            <div className="w-56 flex justify-center gap-[var(--space-2)]">
+            <div className="flex justify-center gap-[var(--space-2)]" style={{ width: SWATCH_WIDTH }}>
               <Badge tone="neutral">Neutral</Badge>
               <Badge tone="accent">Accent</Badge>
               <Badge tone="primary">Primary</Badge>
@@ -529,7 +579,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Badge Sizes",
           element: (
-            <div className="w-56 flex flex-wrap justify-center gap-[var(--space-2)]">
+            <div className="flex flex-wrap justify-center gap-[var(--space-2)]" style={{ width: SWATCH_WIDTH }}>
               <Badge size="sm">SM</Badge>
               <Badge size="md">MD</Badge>
               <Badge size="lg">LG</Badge>
@@ -542,9 +592,10 @@ export default function MiscPanel({ data }: MiscPanelProps) {
           element: (
             <div
               className={cn(
-                "w-56 h-8 flex items-center justify-center text-danger-foreground bg-danger",
+                "flex items-center justify-center text-danger-foreground bg-danger",
                 "bg-accent-2",
               )}
+              style={{ width: SWATCH_WIDTH, height: HEIGHT_BASE }}
             >
               Accent wins
             </div>
@@ -553,7 +604,10 @@ export default function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "Grid Auto Rows",
           element: (
-            <div className="w-56 grid grid-cols-2 gap-[var(--space-2)] [grid-auto-rows:minmax(0,1fr)]">
+            <div
+              className="grid grid-cols-2 gap-[var(--space-2)] [grid-auto-rows:minmax(0,1fr)]"
+              style={{ width: SWATCH_WIDTH }}
+            >
               <div className="card-neo p-[var(--space-2)]">A</div>
               <div className="card-neo p-[var(--space-4)]">B with more content</div>
               <div className="card-neo p-[var(--space-4)]">C</div>
@@ -565,10 +619,16 @@ export default function MiscPanel({ data }: MiscPanelProps) {
           label: "Widths",
           element: (
             <div className="flex gap-[var(--space-2)]">
-              <div className="h-10 w-72 border rounded-[var(--radius-md)] flex items-center justify-center text-label font-medium tracking-[0.02em] text-muted-foreground">
+              <div
+                className="flex items-center justify-center rounded-[var(--radius-md)] border text-label font-medium tracking-[0.02em] text-muted-foreground"
+                style={{ width: WIDTH_COMPARE_MEDIUM, height: HEIGHT_RELAXED }}
+              >
                 w-72
               </div>
-              <div className="h-10 w-80 border rounded-[var(--radius-md)] flex items-center justify-center text-label font-medium tracking-[0.02em] text-muted-foreground">
+              <div
+                className="flex items-center justify-center rounded-[var(--radius-md)] border text-label font-medium tracking-[0.02em] text-muted-foreground"
+                style={{ width: WIDTH_COMPARE_LARGE, height: HEIGHT_RELAXED }}
+              >
                 w-80
               </div>
             </div>
