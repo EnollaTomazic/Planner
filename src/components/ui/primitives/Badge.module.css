@@ -1,0 +1,83 @@
+.root {
+  position: relative;
+  isolation: isolate;
+  --badge-radius: var(--card-radius);
+  --badge-depth: var(--neo-depth-sm);
+  --badge-shadow-rest: var(--depth-shadow-outer);
+  --badge-shadow-hover: var(--depth-shadow-soft);
+  --badge-shadow-active: var(--depth-shadow-outer-strong);
+  --badge-translate-hover: calc(var(--badge-depth) * -0.35);
+  --badge-translate-active: calc(var(--badge-depth) * 0.25);
+  --badge-surface: hsl(var(--muted) / 0.18);
+  --hover: hsl(var(--muted) / 0.28);
+  --active: hsl(var(--muted) / 0.36);
+  --neo-shadow: var(--badge-shadow-rest);
+  --neu-radius: var(--badge-radius);
+  background: var(--badge-surface);
+  transition-property: color, background-color, border-color, box-shadow, transform,
+    filter;
+  transition-duration: var(--dur-quick);
+  transition-timing-function: var(--ease-out);
+}
+
+.organicBadge {
+  border-radius: calc(var(--badge-radius) * 1.04) calc(var(--badge-radius) * 0.96)
+      calc(var(--badge-radius) * 1.08) calc(var(--badge-radius) * 0.92)
+    /
+      calc(var(--badge-radius) * 0.9) calc(var(--badge-radius) * 1.12)
+      calc(var(--badge-radius) * 0.95) calc(var(--badge-radius) * 1.05);
+}
+
+.interactive:where(
+    :not(:disabled):not([disabled]):not([aria-disabled="true"]):not([data-disabled="true"]) 
+  ) {
+  cursor: pointer;
+}
+
+.interactive:where(
+    :not(:disabled):not([disabled]):not([aria-disabled="true"]):not([data-disabled="true"]) 
+  ):hover {
+  --neo-shadow: var(--badge-shadow-hover);
+  background: var(--hover);
+  transform: translateY(var(--badge-translate-hover));
+}
+
+.interactive:where(
+    :not(:disabled):not([disabled]):not([aria-disabled="true"]):not([data-disabled="true"]) 
+  ):active {
+  --neo-shadow: var(--badge-shadow-active);
+  background: var(--active);
+  transform: translateY(var(--badge-translate-active));
+}
+
+.interactive:focus-visible {
+  --neo-shadow: var(--badge-shadow-hover);
+}
+
+.glitch {
+  overflow: hidden;
+  --glitch-overlay-opacity: var(--glitch-overlay-button-opacity, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
+  .interactive:where(
+      :not(:disabled):not([disabled]):not([aria-disabled="true"]):not([data-disabled="true"]) 
+    ) {
+    transform: none;
+  }
+  .interactive:where(
+      :not(:disabled):not([disabled]):not([aria-disabled="true"]):not([data-disabled="true"]) 
+    ):is(:hover, :active),
+  .interactive:focus-visible {
+    transform: none;
+  }
+  .glitch {
+    --glitch-overlay-opacity: var(
+      --glitch-overlay-button-opacity-reduced,
+      0.32
+    );
+  }
+}
