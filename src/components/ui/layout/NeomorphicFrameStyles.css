@@ -1,5 +1,5 @@
 :global(.hero2-neomorph) {
-  background: linear-gradient(145deg, hsl(var(--card)), hsl(var(--panel)));
+  background: var(--gradient-hero-frame);
   --hero2-shadow-key: var(--depth-shadow-outer);
   --hero2-shadow-ambient: var(--depth-shadow-inner);
   box-shadow: var(--hero2-shadow-ambient), var(--hero2-shadow-key);

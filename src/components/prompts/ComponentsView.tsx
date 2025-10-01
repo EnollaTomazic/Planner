@@ -41,15 +41,15 @@ const containerClassName = cn(
   "group/component-view relative isolate flex flex-col gap-[var(--space-6)] overflow-hidden",
   "rounded-card r-card-lg",
   "rounded-[var(--radius-card)] border border-card-hairline-75",
-  "bg-[linear-gradient(140deg,hsl(var(--card)/0.95),hsl(var(--surface-2)/0.78))]",
+  "bg-shell-card",
   "px-[var(--space-6)] py-[var(--space-5)]",
   "shadow-neo",
   "focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--card))]",
   "before:pointer-events-none before:absolute before:-inset-px before:-z-10 before:rounded-[inherit]",
-  "before:bg-[radial-gradient(125%_85%_at_18%_-25%,hsl(var(--accent)/0.3),transparent_65%),radial-gradient(125%_85%_at_82%_-20%,hsl(var(--ring)/0.28),transparent_60%)]",
+  "before:bg-shell-bloom",
   "before:opacity-75 before:mix-blend-screen motion-reduce:before:opacity-55",
   "after:pointer-events-none after:absolute after:-inset-px after:-z-10 after:rounded-[inherit]",
-  "after:bg-[linear-gradient(120deg,hsl(var(--accent)/0.12)_0%,transparent_58%,hsl(var(--ring)/0.16)_100%),repeating-linear-gradient(0deg,hsl(var(--ring)/0.12)_0,hsl(var(--ring)/0.12)_var(--hairline-w),transparent_var(--hairline-w),transparent_calc(var(--space-3)))]",
+  "after:bg-shell-veil",
   "after:opacity-65 after:mix-blend-soft-light motion-reduce:after:opacity-45",
 );
 
@@ -57,7 +57,7 @@ const frameClassName = cn(
   "relative rounded-card r-card-md bg-[hsl(var(--background)/0.94)] p-[var(--space-4)]",
   "shadow-[var(--shadow-inset-hairline)]",
   "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:p-[var(--spacing-0-25)] before:bg-[var(--edge-iris)] before:opacity-35 before:[mask:linear-gradient(hsl(var(--foreground))_0_0)_content-box,linear-gradient(hsl(var(--foreground))_0_0)] before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]",
-  "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--spacing-0-5)] after:rounded-[inherit] after:bg-[linear-gradient(90deg,hsl(var(--accent)/0.28),transparent_55%,hsl(var(--accent-2)/0.32))] after:opacity-70 after:mix-blend-screen",
+  "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--spacing-0-5)] after:rounded-[inherit] after:bg-shell-divider after:opacity-70 after:mix-blend-screen",
   "group-focus-within/component-view:before:opacity-55",
 );
 
@@ -293,7 +293,7 @@ function ShowCodeButton({
       className={cn(
         "group/button relative inline-flex h-[var(--control-h-md)] items-center justify-center gap-[var(--space-1)]",
         "rounded-full px-[var(--space-5)] text-ui font-medium tracking-[-0.01em]",
-        "bg-[linear-gradient(140deg,hsl(var(--card)/0.98),hsl(var(--surface-2)/0.82))] text-foreground",
+        "bg-shell-card-strong text-foreground",
         "border border-[hsl(var(--ring)/0.45)]",
         "shadow-neo",
         "hover:shadow-neo-soft focus-visible:shadow-neo-soft",
@@ -307,7 +307,7 @@ function ShowCodeButton({
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--card))]",
         "before:pointer-events-none before:absolute before:-inset-px before:rounded-full before:border before:border-[hsl(var(--ring)/0.35)] before:opacity-0 before:transition-opacity before:duration-quick before:ease-out",
         "focus-visible:before:opacity-100",
-        "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[radial-gradient(120%_95%_at_50%_0%,hsl(var(--accent)/0.24),transparent_65%)] after:opacity-0 after:transition-opacity after:duration-quick after:ease-out",
+        "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-shell-spotlight after:opacity-0 after:transition-opacity after:duration-quick after:ease-out",
         "hover:after:opacity-100 focus-visible:after:opacity-100",
         "disabled:cursor-not-allowed disabled:opacity-disabled disabled:translate-y-0",
         "disabled:shadow-outline-subtle",
@@ -786,7 +786,7 @@ function StatePreviewCard({
 
   return (
     <article
-      className="flex flex-col gap-[var(--space-3)] rounded-card r-card-lg border border-card-hairline-60 bg-[linear-gradient(140deg,hsl(var(--card)/0.94),hsl(var(--surface-2)/0.72))] p-[var(--space-4)] shadow-neo"
+      className="flex flex-col gap-[var(--space-3)] rounded-card r-card-lg border border-card-hairline-60 bg-shell-card-soft p-[var(--space-4)] shadow-neo"
       aria-labelledby={headingId}
       aria-describedby={descriptionId}
     >

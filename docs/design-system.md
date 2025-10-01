@@ -134,6 +134,7 @@ export function Submit() {
 
 - `ThemeToggle` (in `src/components/ui/theme`) lets users switch among preset themes and backgrounds while persisting preferences in local storage.
 - Apply the provided classes (`bg-intense`, variant names, etc.) to opt into specific theme behavior.
+- Gradient utilities like `bg-shell-card`, `bg-shell-bloom`, and `bg-drip-overlay` now point at the tokenized backgrounds so overlays stay consistent across themes.
 
 ```tsx
 import ThemeToggle from "@/components/ui/theme/ThemeToggle";

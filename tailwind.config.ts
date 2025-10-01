@@ -276,8 +276,17 @@ const config: Config = {
         loading: "var(--loading)",
       },
       backgroundImage: {
-        "blob-primary":
-          "radial-gradient(1200px 700px at 18% -10%, hsl(var(--backdrop-blob-1) / 0.16), transparent 60%), radial-gradient(1100px 600px at 110% 18%, hsl(var(--backdrop-blob-2) / 0.14), transparent 60%), radial-gradient(900px 480px at 50% 120%, hsl(var(--backdrop-blob-3) / 0.1), transparent 65%)",
+        "blob-primary": "var(--gradient-blob-primary)",
+        "glitch-primary": "var(--gradient-glitch-primary)",
+        "shell-card": "var(--gradient-shell-card)",
+        "shell-card-strong": "var(--gradient-shell-card-strong)",
+        "shell-card-soft": "var(--gradient-shell-card-soft)",
+        "shell-bloom": "var(--gradient-shell-bloom)",
+        "shell-veil": "var(--gradient-shell-veil)",
+        "shell-spotlight": "var(--gradient-shell-spotlight)",
+        "shell-divider": "var(--gradient-shell-divider)",
+        "hero-frame": "var(--gradient-hero-frame)",
+        "drip-overlay": "var(--gradient-drip-overlay)",
         "glitch-noise":
           "var(--glitch-noise-image, var(--asset-noise-url, url(\"/noise.svg\")))",
       },

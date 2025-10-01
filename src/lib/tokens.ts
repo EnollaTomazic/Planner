@@ -151,6 +151,15 @@ export const gradientTokenNames = [
   "review-result-loss-gradient",
   "gradient-blob-primary",
   "gradient-glitch-primary",
+  "gradient-shell-card",
+  "gradient-shell-card-strong",
+  "gradient-shell-card-soft",
+  "gradient-shell-bloom",
+  "gradient-shell-veil",
+  "gradient-shell-spotlight",
+  "gradient-shell-divider",
+  "gradient-hero-frame",
+  "gradient-drip-overlay",
 ] as const;
 
 export type GradientTokenName = (typeof gradientTokenNames)[number];
