@@ -2,7 +2,9 @@
 
 import * as React from "react";
 
+import { IssueBadge } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
+import type { IssueBadgeSeverity } from "@/components/ui/primitives/IssueBadge";
 import {
   type GalleryAxis,
   type GalleryRelatedSurface,
@@ -18,6 +20,12 @@ import {
   type Variant,
 } from "@/lib/theme";
 import { useOptionalTheme } from "@/lib/theme-context";
+import {
+  getComponentIssues,
+  type ComponentIssue,
+  type ComponentIssueSeverity,
+  type ComponentIssueStatus,
+} from "@/components/gallery-page/component-issues";
 
 import segmentedButtonStyles from "@/components/ui/primitives/SegmentedButton.module.css";
 
@@ -497,6 +505,137 @@ function VariantsMatrix({ axes }: { axes: readonly GalleryAxis[] }) {
   );
 }
 
+interface IssuesSectionProps {
+  readonly issues: readonly ComponentIssue[];
+  readonly panelId: string;
+  readonly badgeId: string;
+  readonly expanded: boolean;
+  readonly onToggle: () => void;
+}
+
+function IssuesSection({
+  issues,
+  panelId,
+  badgeId,
+  expanded,
+  onToggle,
+}: IssuesSectionProps) {
+  const headingId = React.useId();
+  const issueCount = issues.length;
+  const hasIssues = issueCount > 0;
+  const labelledBy = `${headingId} ${badgeId}`;
+
+  const severity: IssueBadgeSeverity = hasIssues
+    ? issues.some((issue) => issue.severity === "high")
+      ? "critical"
+      : issues.some((issue) => issue.severity === "medium")
+        ? "warning"
+        : "info"
+    : "success";
+
+  const badgeLabel = hasIssues
+    ? `${issueCount} open ${issueCount === 1 ? "issue" : "issues"}`
+    : "All clear";
+
+  return (
+    <section aria-labelledby={headingId} className="space-y-[var(--space-3)]">
+      <div className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
+        <SectionHeading id={headingId}>Known issues</SectionHeading>
+        <IssueBadge
+          id={badgeId}
+          targetId={panelId}
+          expanded={expanded}
+          severity={severity}
+          onClick={onToggle}
+        >
+          {badgeLabel}
+        </IssueBadge>
+      </div>
+      <div
+        id={panelId}
+        role="region"
+        aria-labelledby={labelledBy}
+        hidden={!expanded}
+        aria-hidden={expanded ? undefined : true}
+        className="rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]"
+      >
+        {hasIssues ? (
+          <ul className="space-y-[var(--space-3)]">
+            {issues.map((issue) => (
+              <li key={issue.id}>
+                <IssueCard issue={issue} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-label text-muted-foreground">
+            No open issues logged for this spec.
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
+type IssueCardProps = {
+  readonly issue: ComponentIssue;
+};
+
+const ISSUE_SEVERITY_LABEL: Record<ComponentIssueSeverity, string> = {
+  low: "Low impact",
+  medium: "Medium impact",
+  high: "High impact",
+};
+
+const ISSUE_SEVERITY_CLASS: Record<ComponentIssueSeverity, string> = {
+  low: "border-accent/40 bg-accent/15 text-accent-foreground",
+  medium: "border-warning/45 bg-warning/15 text-warning-foreground",
+  high: "border-danger/45 bg-danger/18 text-danger-foreground",
+};
+
+const ISSUE_STATUS_LABEL: Record<ComponentIssueStatus, string> = {
+  open: "Open",
+  "in-progress": "In progress",
+  blocked: "Blocked",
+  resolved: "Resolved",
+};
+
+function IssueCard({ issue }: IssueCardProps) {
+  const severityLabel = ISSUE_SEVERITY_LABEL[issue.severity];
+  const statusLabel = ISSUE_STATUS_LABEL[issue.status];
+  const severityChipClass = ISSUE_SEVERITY_CLASS[issue.severity];
+
+  return (
+    <article className="space-y-[var(--space-2)] rounded-card r-card-md border border-card-hairline-60 bg-card/80 p-[var(--space-4)] text-card-foreground shadow-depth-outer">
+      <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+        <span
+          className={cn(
+            "inline-flex items-center rounded-full border px-[var(--space-2)] py-[var(--space-1)] text-caption font-semibold uppercase tracking-[0.12em]",
+            severityChipClass,
+          )}
+        >
+          {severityLabel}
+        </span>
+        <span className="text-label text-muted-foreground">{statusLabel}</span>
+        {issue.link ? (
+          <a
+            href={issue.link}
+            target="_blank"
+            rel="noreferrer"
+            className="text-label font-medium text-accent-foreground underline-offset-4 transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--card))]"
+          >
+            View discussion
+          </a>
+        ) : null}
+      </div>
+      <h4 className="text-ui font-semibold tracking-[-0.01em] text-foreground">
+        {issue.title}
+      </h4>
+      <p className="text-label text-muted-foreground">{issue.summary}</p>
+    </article>
+  );
+}
+
 type UsageNotes = NonNullable<GallerySerializableEntry["usage"]>;
 
 function UsageSection({ notes }: { notes: UsageNotes }) {
@@ -858,9 +997,25 @@ export default function ComponentsView({
 
   const [openSnippet, setOpenSnippet] = React.useState<string | null>(null);
 
+  const issues = React.useMemo(
+    () => getComponentIssues(entry.id),
+    [entry.id],
+  );
+  const issueCount = issues.length;
+  const [issuesExpanded, setIssuesExpanded] = React.useState(issueCount > 0);
+  const issuePanelId = React.useMemo(
+    () => `${entry.id}-issues-panel`,
+    [entry.id],
+  );
+  const issueBadgeId = `${issuePanelId}-badge`;
+
   React.useEffect(() => {
     setOpenSnippet(null);
   }, [entry.id]);
+
+  React.useEffect(() => {
+    setIssuesExpanded(issueCount > 0);
+  }, [entry.id, issueCount]);
 
   const stateMap = React.useMemo(() => {
     const map = new Map<string, GallerySerializableStateDefinition>();
@@ -949,6 +1104,13 @@ export default function ComponentsView({
           />
         ) : null}
       </header>
+      <IssuesSection
+        issues={issues}
+        panelId={issuePanelId}
+        badgeId={issueBadgeId}
+        expanded={issuesExpanded}
+        onToggle={() => setIssuesExpanded((prev) => !prev)}
+      />
       <ThemeMatrix entryId={entry.id} previewRenderer={previewRenderer} />
       {entry.code ? (
         <pre
