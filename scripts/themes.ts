@@ -51,11 +51,11 @@ export const rootVariables: VariableDefinition[] = [
   {
     comment: "Depth shadows (outer/inner)",
     name: "depth-shadow-outer",
-    value: "var(--shadow-neo)",
+    value: "var(--shadow-depth-outer)",
   },
-  { name: "depth-shadow-outer-strong", value: "var(--shadow-neo-strong)" },
-  { name: "depth-shadow-soft", value: "var(--shadow-neo-soft)" },
-  { name: "depth-shadow-inner", value: "var(--shadow-neo-inset)" },
+  { name: "depth-shadow-outer-strong", value: "var(--shadow-depth-outer-strong)" },
+  { name: "depth-shadow-soft", value: "var(--shadow-depth-soft)" },
+  { name: "depth-shadow-inner", value: "var(--shadow-depth-inner)" },
   {
     name: "shadow-inner-sm",
     value:

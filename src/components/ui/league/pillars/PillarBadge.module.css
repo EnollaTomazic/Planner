@@ -7,7 +7,7 @@
   background: hsl(var(--card) / 0.75);
   color: hsl(var(--foreground));
   border: 1px solid hsl(var(--border));
-  box-shadow: var(--shadow-neo-soft);
+  box-shadow: var(--depth-shadow-soft);
   transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
   backdrop-filter: blur(calc(var(--space-3) / 2));
   -webkit-backdrop-filter: blur(calc(var(--space-3) / 2));
@@ -24,7 +24,7 @@
 
 .root:hover,
 .root:focus-visible {
-  box-shadow: var(--shadow-neo-strong);
+  box-shadow: var(--depth-shadow-outer-strong);
   outline: none;
 }
 

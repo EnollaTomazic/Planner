@@ -98,7 +98,7 @@ function ResultScoreSection(
             data-result={result}
             className={cn(
               styles.indicator,
-              "absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-chill motion-reduce:transition-none shadow-[var(--shadow-neo-soft)]",
+              "absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-chill motion-reduce:transition-none shadow-[var(--depth-shadow-soft)]",
             )}
           />
           <div className="relative z-10 grid w-full grid-cols-2 text-ui font-mono">

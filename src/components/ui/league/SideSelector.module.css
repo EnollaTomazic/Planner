@@ -2,7 +2,7 @@
   --side-indicator-width: calc(50% - var(--space-1));
   --side-indicator-translate: 0%;
   --side-indicator-gradient: var(--seg-active-grad);
-  --side-indicator-shadow: var(--shadow-neo-soft);
+  --side-indicator-shadow: var(--depth-shadow-soft);
   --side-label-glow-blue: hsl(var(--team-blue) / 0.35);
   --side-label-glow-red: hsl(var(--team-red) / 0.35);
   --side-flicker-overlay: radial-gradient(

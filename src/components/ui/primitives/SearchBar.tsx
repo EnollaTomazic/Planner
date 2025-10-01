@@ -88,7 +88,7 @@ export default function SearchBar({
   const labelFor = resolvedId;
   const variantFieldClasses =
     variant === "neo"
-      ? "hero2-neomorph z-0 !border border-border/40 !shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent]"
+      ? "hero2-neomorph z-0 !border border-border/40 !shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft focus-within:!shadow-depth-soft [--hover:transparent] [--active:transparent]"
       : undefined;
 
   const inputField = (

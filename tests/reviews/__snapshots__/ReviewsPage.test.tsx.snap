@@ -128,7 +128,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="flex w-full flex-col gap-[var(--space-1)] min-w-0"
                           >
                             <div
-                              class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] transition-[background,box-shadow,filter] duration-quick ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--shadow-neo-inset)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger _root_46b156 w-full hero2-neomorph z-0 !border border-border/40 !shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft focus-within:!shadow-neo-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
+                              class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] transition-[background,box-shadow,filter] duration-quick ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger _root_46b156 w-full hero2-neomorph z-0 !border border-border/40 !shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft focus-within:!shadow-depth-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
                               data-field-height="md"
                               data-field-state="default"
                             >
@@ -389,7 +389,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                       />
                       <span
-                        class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[0.02em] border bg-muted/18 shadow-outline-subtle transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)] border-card-hairline px-[var(--space-1)]"
+                        class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[0.02em] border bg-muted/18 shadow-outline-subtle transition-[background,box-shadow,transform] duration-140 ease-out motion-reduce:transition-none motion-reduce:duration-0 motion-reduce:hover:transition-none motion-reduce:active:transition-none motion-reduce:focus-visible:transition-none py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)] border-card-hairline px-[var(--space-1)]"
                       >
                         MID
                       </span>
@@ -433,7 +433,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                       />
                       <span
-                        class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[0.02em] border bg-muted/18 shadow-outline-subtle transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)] border-card-hairline px-[var(--space-1)]"
+                        class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[0.02em] border bg-muted/18 shadow-outline-subtle transition-[background,box-shadow,transform] duration-140 ease-out motion-reduce:transition-none motion-reduce:duration-0 motion-reduce:hover:transition-none motion-reduce:active:transition-none motion-reduce:focus-visible:transition-none py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)] border-card-hairline px-[var(--space-1)]"
                       >
                         BOT
                       </span>
@@ -477,7 +477,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         class="h-[var(--space-2)] w-[var(--space-2)] rounded-full ring-2 motion-safe:animate-[blink_1s_steps(2)_infinite] motion-reduce:animate-none bg-muted-foreground ring-muted-foreground"
                       />
                       <span
-                        class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[0.02em] border bg-muted/18 shadow-outline-subtle transition-[background,box-shadow,transform] duration-140 ease-out py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)] border-card-hairline px-[var(--space-1)]"
+                        class="inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[0.02em] border bg-muted/18 shadow-outline-subtle transition-[background,box-shadow,transform] duration-140 ease-out motion-reduce:transition-none motion-reduce:duration-0 motion-reduce:hover:transition-none motion-reduce:active:transition-none motion-reduce:focus-visible:transition-none py-[var(--space-1)] text-label leading-none [&_svg]:size-[var(--icon-size-xs)] border-card-hairline px-[var(--space-1)]"
                       >
                         TOP
                       </span>
