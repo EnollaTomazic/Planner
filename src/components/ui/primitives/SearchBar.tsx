@@ -7,9 +7,9 @@ import useDebouncedCallback from "@/lib/useDebouncedCallback";
 import Label from "../Label";
 import Field from "./Field";
 import type { InputSize } from "./Input";
-import { resolveUIVariant, type UIVariant } from "@/components/ui/variants";
+import { resolveControlVariant, type ControlVariant } from "@/components/ui/variants";
 
-const SEARCH_BAR_VARIANTS = ["default", "neo"] as const satisfies readonly UIVariant[];
+const SEARCH_BAR_VARIANTS = ["default", "neo"] as const satisfies readonly ControlVariant[];
 type SearchBarVariant = (typeof SEARCH_BAR_VARIANTS)[number];
 
 export type SearchBarProps = Omit<
@@ -90,7 +90,7 @@ export default function SearchBar({
   const ariaLabelledby = restProps["aria-labelledby"];
   const hasCustomAriaLabel = restProps["aria-label"] !== undefined;
   const labelFor = resolvedId;
-  const resolvedVariant = resolveUIVariant<SearchBarVariant>(variant, {
+  const resolvedVariant = resolveControlVariant<SearchBarVariant>(variant, {
     allowed: SEARCH_BAR_VARIANTS,
     fallback: "default",
   });

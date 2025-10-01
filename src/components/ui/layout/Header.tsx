@@ -18,12 +18,12 @@ import {
 } from "@/components/tabs/HeaderTabs";
 import TabBar, { type TabBarProps } from "./TabBar";
 import {
-  resolveUIVariant,
-  type DeprecatedUIVariant,
-  type UIVariant,
+  resolveControlVariant,
+  type ControlVariant,
+  type DeprecatedControlVariant,
 } from "@/components/ui/variants";
 
-const HEADER_VARIANTS = ["default", "neo", "minimal"] as const satisfies readonly UIVariant[];
+const HEADER_VARIANTS = ["default", "neo", "minimal"] as const satisfies readonly ControlVariant[];
 type HeaderVariant = (typeof HEADER_VARIANTS)[number];
 
 function cx(...parts: Array<string | false | null | undefined>) {
@@ -76,7 +76,7 @@ export interface HeaderProps<Key extends string = string>
   /** Built-in top-right segmented tabs (preferred). */
   tabs?: HeaderTabsProps<Key>;
   /** Optional card-style framing. */
-  variant?: HeaderVariant | Extract<DeprecatedUIVariant, "plain">;
+  variant?: HeaderVariant | Extract<DeprecatedControlVariant, "plain">;
   /** Show neon underline */
   underline?: boolean;
   /** Controls the underline gradient tone. Defaults to a neutral treatment. */
@@ -112,7 +112,7 @@ export default function Header<Key extends string = string>({
   void _deprecatedRailTone;
   void _deprecatedRailVariant;
   void _deprecatedRailClassName;
-  const resolvedVariant = resolveUIVariant<HeaderVariant>(variant, {
+  const resolvedVariant = resolveControlVariant<HeaderVariant>(variant, {
     allowed: HEADER_VARIANTS,
     fallback: "default",
   });

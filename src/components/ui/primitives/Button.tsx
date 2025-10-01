@@ -14,9 +14,9 @@ import DripEdge from "./DripEdge";
 import { neuRaised, neuInset } from "./Neu";
 import styles from "./Button.module.css";
 import {
-  resolveUIVariant,
-  type DeprecatedUIVariant,
-  type UIVariant,
+  resolveControlVariant,
+  type ControlVariant,
+  type DeprecatedControlVariant,
 } from "@/components/ui/variants";
 
 export const buttonSizes = {
@@ -54,11 +54,15 @@ export type ButtonSize = keyof typeof buttonSizes;
 
 export const BUTTON_VARIANTS = [
   "default",
-  "soft",
+  "neo",
   "ghost",
-] as const satisfies readonly UIVariant[];
+  "glitch",
+] as const satisfies readonly ControlVariant[];
 export type ButtonVariant = (typeof BUTTON_VARIANTS)[number];
-type LegacyButtonVariant = Extract<DeprecatedUIVariant, "primary" | "secondary">;
+type LegacyButtonVariant = Extract<
+  DeprecatedControlVariant,
+  "plain" | "primary" | "secondary" | "soft"
+>;
 type ButtonVariantProp = ButtonVariant | LegacyButtonVariant;
 
 type Tone = SpinnerTone;
@@ -158,7 +162,9 @@ const ghostSurfaceTokens: Record<Tone, string> = {
   danger: "[--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",
 };
 
-export const toneClasses: Record<ButtonVariant, Record<Tone, string>> = {
+type InternalButtonVariant = "default" | "soft" | "ghost";
+
+const toneClassesByInternalVariant: Record<InternalButtonVariant, Record<Tone, string>> = {
   default: {
     primary: cn(toneInteractionTokens.primary, primaryShadowVars.primary),
     accent: cn(toneInteractionTokens.accent, primaryShadowVars.accent),
@@ -215,6 +221,13 @@ export const toneClasses: Record<ButtonVariant, Record<Tone, string>> = {
   },
 };
 
+export const toneClasses: Record<ButtonVariant, Record<Tone, string>> = {
+  default: toneClassesByInternalVariant.default,
+  neo: toneClassesByInternalVariant.soft,
+  ghost: toneClassesByInternalVariant.ghost,
+  glitch: toneClassesByInternalVariant.default,
+};
+
 type VariantConfigResult = {
   className: string;
   whileHover?: HTMLMotionProps<"button">["whileHover"];
@@ -228,7 +241,7 @@ type VariantConfig = (options: {
   tactile: boolean;
 }) => VariantConfigResult;
 
-export const variants: Record<ButtonVariant, VariantConfig> = {
+const variantConfigByInternal: Record<InternalButtonVariant, VariantConfig> = {
   default: ({ tone, tactile }) => ({
     className: cn(
       tactile
@@ -275,19 +288,37 @@ export const variants: Record<ButtonVariant, VariantConfig> = {
   }),
 } as const;
 
+export const variants: Record<ButtonVariant, VariantConfig> = {
+  default: variantConfigByInternal.default,
+  neo: variantConfigByInternal.soft,
+  ghost: variantConfigByInternal.ghost,
+  glitch: variantConfigByInternal.default,
+} as const;
+
+const VARIANT_GLITCH_DEFAULT: Record<ButtonVariant, boolean> = {
+  default: false,
+  neo: false,
+  ghost: false,
+  glitch: true,
+};
+
 export const Button = React.forwardRef<
   HTMLButtonElement | HTMLAnchorElement,
   ButtonProps
 >((props, ref) => {
+  const glitchPropProvided = Object.prototype.hasOwnProperty.call(
+    props,
+    "glitch",
+  );
   const {
     className,
     size = "md",
-    variant = "soft",
+    variant = "neo",
     tone = "primary",
     children,
     loading,
     tactile = false,
-    glitch = false,
+    glitch: glitchProp = false,
     glitchIntensity = "glitch-overlay-button-opacity",
   } = props;
   const asChild = props.asChild ?? false;
@@ -302,10 +333,14 @@ export const Button = React.forwardRef<
   const s = buttonSizes[size];
   const spinnerSize = buttonSpinnerSizes[size];
   const organicDepth = useOrganicDepthEnabled();
-  const resolvedVariant = resolveUIVariant<ButtonVariant>(variant, {
+  const resolvedVariant = resolveControlVariant<ButtonVariant>(variant, {
     allowed: BUTTON_VARIANTS,
-    fallback: "soft",
+    fallback: "neo",
   });
+
+  const glitch = glitchPropProvided
+    ? glitchProp
+    : VARIANT_GLITCH_DEFAULT[resolvedVariant];
 
   const base = cn(
     neumorphicStyles.neu,
@@ -333,7 +368,7 @@ export const Button = React.forwardRef<
 
   const hoverAnimation = reduceMotion
     ? undefined
-    : resolvedVariant === "default"
+    : resolvedVariant === "default" || resolvedVariant === "glitch"
       ? { scale: tactile ? 1.02 : 1.03 }
       : variantHover;
 
@@ -360,7 +395,7 @@ export const Button = React.forwardRef<
   const renderInnerContent = (contentChildren: React.ReactNode) => (
     <>
       {glitch ? <BlobContainer overlayToken={glitchIntensity} /> : null}
-      {resolvedVariant === "default" ? (
+      {resolvedVariant === "default" || resolvedVariant === "glitch" ? (
         <DripEdge
           className="absolute inset-0 z-0"
           overlayToken={glitchIntensity}

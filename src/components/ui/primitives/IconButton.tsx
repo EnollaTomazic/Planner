@@ -9,9 +9,9 @@ import BlobContainer, { type GlitchOverlayToken } from "./BlobContainer";
 import DripEdge from "./DripEdge";
 import styles from "./IconButton.module.css";
 import {
-  resolveUIVariant,
-  type DeprecatedUIVariant,
-  type UIVariant,
+  resolveControlVariant,
+  type ControlVariant,
+  type DeprecatedControlVariant,
 } from "@/components/ui/variants";
 
 export type IconButtonSize = "sm" | "md" | "lg" | "xl";
@@ -20,11 +20,15 @@ type Icon = "xs" | "sm" | "md" | "lg" | "xl";
 type Tone = "primary" | "accent" | "info" | "danger";
 export const ICON_BUTTON_VARIANTS = [
   "default",
-  "soft",
+  "neo",
   "ghost",
-] as const satisfies readonly UIVariant[];
+  "glitch",
+] as const satisfies readonly ControlVariant[];
 export type IconButtonVariant = (typeof ICON_BUTTON_VARIANTS)[number];
-type LegacyIconButtonVariant = Extract<DeprecatedUIVariant, "primary" | "secondary">;
+type LegacyIconButtonVariant = Extract<
+  DeprecatedControlVariant,
+  "plain" | "primary" | "secondary" | "soft"
+>;
 type IconButtonVariantProp = IconButtonVariant | LegacyIconButtonVariant;
 
 type RequireAtLeastOne<T, Keys extends keyof T> = Pick<
@@ -133,7 +137,9 @@ const primaryVariantBase = (tone: Tone): string =>
     primaryShadowVars[tone],
   );
 
-const variantBase: Record<IconButtonVariant, (tone: Tone) => string> = {
+type InternalIconButtonVariant = "default" | "soft" | "ghost";
+
+const variantBaseByInternal: Record<InternalIconButtonVariant, (tone: Tone) => string> = {
   ghost: (tone) =>
     cn(
       "border transition-[box-shadow,background-color,color]",
@@ -144,7 +150,14 @@ const variantBase: Record<IconButtonVariant, (tone: Tone) => string> = {
     "border transition-[box-shadow,background-color,color] shadow-control hover:shadow-control-hover active:shadow-inner-md",
 };
 
-const toneClasses: Record<IconButtonVariant, Record<Tone, string>> = {
+const variantBase: Record<IconButtonVariant, (tone: Tone) => string> = {
+  default: variantBaseByInternal.default,
+  neo: variantBaseByInternal.soft,
+  ghost: variantBaseByInternal.ghost,
+  glitch: variantBaseByInternal.default,
+};
+
+const toneClassesByInternal: Record<InternalIconButtonVariant, Record<Tone, string>> = {
   ghost: {
     primary: cn(
       "border-[hsl(var(--line)/0.35)] text-foreground",
@@ -205,9 +218,23 @@ const toneClasses: Record<IconButtonVariant, Record<Tone, string>> = {
   },
 };
 
+const toneClasses: Record<IconButtonVariant, Record<Tone, string>> = {
+  default: toneClassesByInternal.default,
+  neo: toneClassesByInternal.soft,
+  ghost: toneClassesByInternal.ghost,
+  glitch: toneClassesByInternal.default,
+};
+
+const ICON_BUTTON_GLITCH_DEFAULT: Record<IconButtonVariant, boolean> = {
+  default: false,
+  neo: false,
+  ghost: false,
+  glitch: true,
+};
+
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
-  (
-    {
+  (props, ref) => {
+    const {
       size = "md",
       iconSize,
       className,
@@ -219,12 +246,14 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       title,
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
-      glitch = false,
+      glitch: glitchProp = false,
       glitchIntensity = "glitch-overlay-button-opacity",
       ...rest
-    },
-    ref,
-  ) => {
+    } = props;
+    const glitchPropProvided = Object.prototype.hasOwnProperty.call(
+      props,
+      "glitch",
+    );
     const reduceMotion = useReducedMotion();
     const sizeClass = getSizeClass(size);
     const appliedIconSize = iconSize ?? defaultIcon[size];
@@ -262,10 +291,14 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       );
     }, [shouldWarn]);
 
-    const resolvedVariant = resolveUIVariant<IconButtonVariant>(variant, {
+    const resolvedVariant = resolveControlVariant<IconButtonVariant>(variant, {
       allowed: ICON_BUTTON_VARIANTS,
       fallback: "ghost",
     });
+
+    const glitch = glitchPropProvided
+      ? glitchProp
+      : ICON_BUTTON_GLITCH_DEFAULT[resolvedVariant];
 
     const variantClass = variantBase[resolvedVariant](tone);
 
@@ -310,7 +343,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         {...(domProps as typeof rest)}
       >
         {glitch ? <BlobContainer overlayToken={glitchIntensity} /> : null}
-        {resolvedVariant === "default" ? (
+        {resolvedVariant === "default" || resolvedVariant === "glitch" ? (
           <DripEdge
             className="absolute inset-0 z-0"
             overlayToken={glitchIntensity}

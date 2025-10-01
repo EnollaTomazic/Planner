@@ -73,10 +73,10 @@ const ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
     props: {
       "aria-label": "Glitch overlay",
       children: <Plus aria-hidden />,
-      glitch: true,
+      variant: "glitch",
       glitchIntensity: "glitch-overlay-button-opacity",
     },
-    code: "<IconButton glitch glitchIntensity=\"glitch-overlay-button-opacity\" aria-label=\"Glitch overlay\">\n  <Plus />\n</IconButton>",
+    code: "<IconButton variant=\"glitch\" glitchIntensity=\"glitch-overlay-button-opacity\" aria-label=\"Glitch overlay\">\n  <Plus />\n</IconButton>",
   },
 ];
 
@@ -145,8 +145,8 @@ function IconButtonGalleryPreview() {
         ))}
         <IconButton
           size="md"
-          variant="soft"
-          aria-label="Add item soft"
+          variant="neo"
+          aria-label="Add item neo"
         >
           <Plus aria-hidden />
         </IconButton>
@@ -196,9 +196,9 @@ export default defineGallerySection({
       props: [
         {
           name: "variant",
-          type: '"default" | "soft" | "ghost"',
+          type: '"default" | "neo" | "ghost" | "glitch"',
           description:
-            'Visual treatment of the button. Use "default" for solid, "soft" for tinted, and legacy aliases "primary"/"secondary" map respectively.',
+            'Visual treatment of the button. "default" is solid, "neo" applies the soft depth treatment, and "glitch" enables the overlay. Legacy aliases map to "default"/"neo" automatically.',
         },
         {
           name: "size",
@@ -217,8 +217,9 @@ export default defineGallerySection({
           type: "variant",
           values: [
             { value: "Ghost" },
-            { value: "Soft" },
+            { value: "Neo" },
             { value: "Default" },
+            { value: "Glitch" },
           ],
         },
         {
@@ -265,7 +266,7 @@ export default defineGallerySection({
     <IconButton size="xl" variant="ghost" aria-label="Add item xl">
       <Plus />
     </IconButton>
-    <IconButton size="md" variant="soft" aria-label="Add item soft">
+    <IconButton size="md" variant="neo" aria-label="Add item neo">
       <Plus />
     </IconButton>
     <IconButton size="md" variant="default" aria-label="Add item default">

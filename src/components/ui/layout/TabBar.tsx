@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 import { useRovingTabState } from "@/components/tabs/useRovingTabState";
 import styles from "./TabBar.module.css";
 import segmentedButtonStyles from "../primitives/SegmentedButton.module.css";
-import { resolveUIVariant, type UIVariant } from "@/components/ui/variants";
+import { resolveControlVariant, type ControlVariant } from "@/components/ui/variants";
 
 export type TabItem<K extends string = string> = {
   key: K;
@@ -32,7 +32,7 @@ export type TabItem<K extends string = string> = {
 
 type Align = "start" | "center" | "end" | "between";
 type Size = "sm" | "md" | "lg";
-const TAB_BAR_VARIANTS = ["default", "neo", "glitch"] as const satisfies readonly UIVariant[];
+const TAB_BAR_VARIANTS = ["default", "neo", "glitch"] as const satisfies readonly ControlVariant[];
 type TabBarVariant = (typeof TAB_BAR_VARIANTS)[number];
 
 type WithExtras<
@@ -189,7 +189,7 @@ export default function TabBar<
   }[align];
 
   const s = sizeMap[size];
-  const resolvedVariant = resolveUIVariant<TabBarVariant>(variant, {
+  const resolvedVariant = resolveControlVariant<TabBarVariant>(variant, {
     allowed: TAB_BAR_VARIANTS,
     fallback: "default",
   });

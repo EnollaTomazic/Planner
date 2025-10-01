@@ -60,10 +60,10 @@ const BUTTON_STATES: readonly ButtonStateSpec[] = [
     name: "Glitch overlay",
     props: {
       children: "Glitch overlay",
-      glitch: true,
+      variant: "glitch",
       glitchIntensity: "glitch-overlay-button-opacity",
     },
-    code: `<Button glitch glitchIntensity="glitch-overlay-button-opacity">Glitch overlay</Button>`,
+    code: `<Button variant="glitch" glitchIntensity="glitch-overlay-button-opacity">Glitch overlay</Button>`,
   },
 ];
 
@@ -165,8 +165,9 @@ export default defineGallerySection({
       props: [
         {
           name: "variant",
-          type: '"default" | "soft" | "ghost"',
-          description: 'Legacy aliases: "primary" → "default", "secondary" → "soft".',
+          type: '"default" | "neo" | "ghost" | "glitch"',
+          description:
+            'Legacy aliases: "soft" → "neo", "primary" → "default", "secondary" → "neo".',
         },
         {
           name: "tone",
