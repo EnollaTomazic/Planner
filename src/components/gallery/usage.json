@@ -48,6 +48,7 @@
     "/preview/a11y",
     "/preview/pages-check",
     "/preview/perf",
+    "/preview/tabs",
     "/preview/theme-matrix",
     "/prompts",
     "/reviews",
@@ -89,12 +90,8 @@
   "toggle": [],
   "animation-toggle": [],
   "check-circle": [],
-  "tab-bar": [
-    "/preview/tabs"
-  ],
-  "tabs": [
-    "/preview/tabs"
-  ],
+  "tab-bar": [],
+  "tabs": [],
   "neon-icon": [],
   "dashboard-card": [],
   "dashboard-list": [],
