@@ -3,6 +3,9 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+export const GLITCH_PERCENT_WIDTH = "var(--space-6)";
+export const TOKEN_WIDTH_CLASS = `w-[${GLITCH_PERCENT_WIDTH}]`;
+
 export type GlitchProgressProps = React.HTMLAttributes<HTMLDivElement> & {
   current: number;
   total: number;

@@ -1,0 +1,89 @@
+.root {
+  --avatar-size-sm: clamp(
+    calc(var(--space-6) + var(--space-1)),
+    calc(var(--space-6) + var(--space-1) + 2vw),
+    calc(var(--space-7) + var(--space-2))
+  );
+  --avatar-size-md: clamp(
+    calc(var(--space-7)),
+    calc(var(--space-7) + var(--space-2) + 3vw),
+    calc(var(--space-8) + var(--space-1))
+  );
+  --avatar-size-lg: clamp(
+    calc(var(--space-7) + var(--space-1)),
+    calc(var(--space-7) + var(--space-1) + 4vw),
+    calc(var(--space-8) + var(--space-4))
+  );
+  --avatar-size: var(--avatar-size-md);
+  --avatar-rim: calc(var(--space-2) / 2);
+  --avatar-surface: hsl(var(--card) / 0.92);
+  --avatar-outline: 0 0 0 var(--hairline-w) hsl(var(--card-hairline) / 0.65);
+  --avatar-rim-gradient: conic-gradient(
+    from 140deg at 50% 50%,
+    hsl(var(--accent) / 0.88),
+    hsl(var(--accent-2) / 0.9),
+    hsl(var(--ring) / 0.85),
+    hsl(var(--accent) / 0.88)
+  );
+  --avatar-glow-gradient: radial-gradient(
+    circle at 50% 32%,
+    hsl(var(--lav-deep) / 0.55),
+    transparent 70%
+  );
+  --avatar-glow-mask: radial-gradient(
+    circle at 50% 32%,
+    hsl(var(--shadow-color) / 0.95) 24%,
+    hsl(var(--shadow-color) / 0.35) 60%,
+    transparent 78%
+  );
+  --avatar-glow-blur: var(
+    --hero-illustration-blur,
+    calc(var(--space-4) + var(--space-1))
+  );
+  --portrait-size: var(--avatar-size);
+  --portrait-rim: var(--avatar-rim);
+  --portrait-glow: var(--avatar-glow-blur);
+}
+
+.sizeSm {
+  --avatar-size: var(--avatar-size-sm);
+}
+
+.sizeMd {
+  --avatar-size: var(--avatar-size-md);
+}
+
+.sizeLg {
+  --avatar-size: var(--avatar-size-lg);
+}
+
+.framelessSurface {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  background: var(--avatar-surface);
+  box-shadow: var(--avatar-outline);
+}
+
+.rim {
+  width: calc(var(--avatar-size) + var(--avatar-rim) * 2);
+  height: calc(var(--avatar-size) + var(--avatar-rim) * 2);
+  padding: var(--avatar-rim);
+  background: var(--avatar-rim-gradient);
+}
+
+.inner {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  background: var(--avatar-surface);
+  box-shadow: var(--avatar-outline);
+}
+
+.glow {
+  background: var(--avatar-glow-gradient);
+  mask-image: var(--avatar-glow-mask);
+  -webkit-mask-image: var(--avatar-glow-mask);
+}
+
+.media {
+  object-position: center 20%;
+}

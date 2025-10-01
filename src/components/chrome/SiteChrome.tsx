@@ -76,7 +76,7 @@ export default function SiteChrome({ children }: SiteChromeProps) {
                 aria-haspopup="dialog"
                 aria-expanded={mobileNavOpen}
                 aria-controls={navId}
-                variant="secondary"
+                variant="soft"
                 size="md"
                 onClick={openMobileNav}
                 className="shadow-[var(--shadow-glow-sm)]"

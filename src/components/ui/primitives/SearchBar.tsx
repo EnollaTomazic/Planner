@@ -7,6 +7,10 @@ import useDebouncedCallback from "@/lib/useDebouncedCallback";
 import Label from "../Label";
 import Field from "./Field";
 import type { InputSize } from "./Input";
+import { resolveUIVariant, type UIVariant } from "@/components/ui/variants";
+
+const SEARCH_BAR_VARIANTS = ["default", "neo"] as const satisfies readonly UIVariant[];
+type SearchBarVariant = (typeof SEARCH_BAR_VARIANTS)[number];
 
 export type SearchBarProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -28,7 +32,7 @@ export type SearchBarProps = Omit<
   /** Optional accessible label rendered above the input */
   label?: React.ReactNode;
   /** Visual treatment of the field shell. */
-  variant?: "default" | "neo";
+  variant?: SearchBarVariant;
 };
 
 export default function SearchBar({
@@ -86,8 +90,13 @@ export default function SearchBar({
   const ariaLabelledby = restProps["aria-labelledby"];
   const hasCustomAriaLabel = restProps["aria-label"] !== undefined;
   const labelFor = resolvedId;
+  const resolvedVariant = resolveUIVariant<SearchBarVariant>(variant, {
+    allowed: SEARCH_BAR_VARIANTS,
+    fallback: "default",
+  });
+
   const variantFieldClasses =
-    variant === "neo"
+    resolvedVariant === "neo"
       ? "hero2-neomorph z-0 !border border-border/40 !shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft focus-within:!shadow-depth-soft [--hover:transparent] [--active:transparent]"
       : undefined;
 

@@ -25,6 +25,7 @@ import {
   Toggle,
   BlobContainer,
   DripEdge,
+  IssueBadge,
 } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -42,6 +43,9 @@ import {
 
 export default function PromptsDemos() {
   const labelDemoId = React.useId();
+  const issueDemoPanelId = React.useId();
+  const issueDemoBadgeId = `${issueDemoPanelId}-badge`;
+  const [issueDemoExpanded, setIssueDemoExpanded] = React.useState(false);
 
   return (
     <>
@@ -130,7 +134,7 @@ export default function PromptsDemos() {
         <h3 className="type-title">Button</h3>
         <div className="space-x-[var(--space-3)]">
           <Button>Default</Button>
-          <Button variant="primary">Primary</Button>
+          <Button variant="default">Primary</Button>
           <Button variant="ghost">Ghost</Button>
         </div>
       </Card>
@@ -192,6 +196,25 @@ export default function PromptsDemos() {
           <Spinner />
           <Badge>Badge</Badge>
           <Snackbar message="Saved" />
+          <IssueBadge
+            id={issueDemoBadgeId}
+            targetId={issueDemoPanelId}
+            expanded={issueDemoExpanded}
+            severity="success"
+            onClick={() => setIssueDemoExpanded((prev) => !prev)}
+          >
+            {issueDemoExpanded ? "Hide issues" : "0 open issues"}
+          </IssueBadge>
+        </div>
+        <div
+          id={issueDemoPanelId}
+          role="region"
+          aria-labelledby={issueDemoBadgeId}
+          hidden={!issueDemoExpanded}
+          aria-hidden={issueDemoExpanded ? undefined : true}
+          className="rounded-card r-card-md border border-card-hairline-60 bg-surface/80 p-[var(--space-3)] text-label text-muted-foreground"
+        >
+          No open issues logged for this demo.
         </div>
       </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
