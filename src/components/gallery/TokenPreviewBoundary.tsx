@@ -7,7 +7,7 @@ import { useTokenOverrides } from "./token-overrides-store";
 const TOKEN_TO_CSS_VARIABLE: Record<string, readonly string[]> = {
   color: ["--accent"],
   radius: ["--radius-card"],
-  shadow: ["--shadow-neo", "--shadow-neo-soft"],
+  shadow: ["--depth-shadow-outer", "--depth-shadow-soft"],
 };
 
 type PreviewStyle = React.CSSProperties & Record<string, string>;

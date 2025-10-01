@@ -332,7 +332,11 @@ function HeaderContent({ status }: { status: CalendarPreviewStatus }) {
           />
           <Skeleton ariaHidden radius="md" className="h-[var(--space-4)] w-1/2" />
         </div>
-        <Skeleton ariaHidden radius="full" className="h-[var(--space-5)] w-[min(10rem,100%)]" />
+        <Skeleton
+          ariaHidden
+          radius="full"
+          className="h-[var(--space-5)] w-[min(calc(var(--space-8)*2+var(--space-6)),100%)]"
+        />
       </div>
     );
   }
@@ -361,7 +365,7 @@ function HeaderControls({ status }: { status: CalendarPreviewStatus }) {
         <Skeleton
           ariaHidden
           radius="lg"
-          className="h-[var(--space-6)] w-[min(12rem,100%)]"
+          className="h-[var(--space-6)] w-[min(calc(var(--space-8)*3),100%)]"
         />
         <Skeleton
           ariaHidden
@@ -444,7 +448,7 @@ function CalendarPreview({
         <Switcher
           className={styles.daySwitcher}
           threshold="var(--preview-cq-md)"
-          minItemWidth="13rem"
+          minItemWidth="calc(var(--space-8)*3 + var(--space-4))"
           gap="4"
           align="stretch"
         >
