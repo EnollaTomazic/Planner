@@ -49,9 +49,11 @@ function extractParam(value: string | string[] | undefined): string | undefined 
   return value;
 }
 
-interface HeroImagesPreviewPageProps {
-  readonly searchParams?: Record<string, string | string[] | undefined>;
-}
+type HeroImagesPreviewSearchParams = Record<string, string | string[] | undefined>;
+
+type HeroImagesPreviewPageProps = {
+  readonly searchParams?: Promise<HeroImagesPreviewSearchParams>;
+};
 
 export const metadata: Metadata = {
   title: "Hero illustrations preview",
@@ -61,12 +63,14 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-static";
 
-export default function HeroImagesPreviewPage({
+export default async function HeroImagesPreviewPage({
   searchParams,
 }: HeroImagesPreviewPageProps) {
-  const variant = coerceVariant(extractParam(searchParams?.variant));
-  const state = coerceState(extractParam(searchParams?.state));
-  const autoplay = coerceAutoplay(extractParam(searchParams?.autoplay));
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+
+  const variant = coerceVariant(extractParam(resolvedSearchParams?.variant));
+  const state = coerceState(extractParam(resolvedSearchParams?.state));
+  const autoplay = coerceAutoplay(extractParam(resolvedSearchParams?.autoplay));
 
   return (
     <PageShell
