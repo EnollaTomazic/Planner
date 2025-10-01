@@ -400,7 +400,7 @@ function HeaderControls({ status }: { status: CalendarPreviewStatus }) {
         >
           <ChevronLeft />
         </IconButton>
-        <Button variant="secondary" size="sm">
+        <Button variant="soft" size="sm">
           Today
         </Button>
         <IconButton
@@ -474,7 +474,7 @@ function CalendarPreview({
             </p>
           </div>
           <Button
-            variant="primary"
+            variant="default"
             tone="accent"
             size="sm"
             className="shadow-[var(--shadow-control)] hover:shadow-[var(--shadow-control-hover)]"
@@ -488,7 +488,7 @@ function CalendarPreview({
           styles.fab,
           "flex items-center gap-[var(--space-2)] rounded-[var(--radius-full)] shadow-[var(--shadow-control)] hover:shadow-[var(--shadow-control-hover)] focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:outline-none",
         )}
-        variant="primary"
+        variant="default"
         size="lg"
         tone="accent"
       >

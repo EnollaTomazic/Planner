@@ -3289,7 +3289,7 @@ React.useEffect(() => {
       node: (
         <div className="flex items-center gap-[var(--space-2)]">
           <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
-          <Button size="sm" variant="primary" loading>
+          <Button size="sm" variant="default" loading>
             Deploy
           </Button>
           <Button size="sm" variant="ghost" disabled>
@@ -3573,13 +3573,13 @@ React.useEffect(() => {
             "Primary action lifts with shadow-depth-soft to reflect the hover state used across hero quick actions.",
           element: (
             <div className="flex items-center gap-[var(--space-2)]">
-              <Button size="sm" variant="primary" className="shadow-depth-soft">
+              <Button size="sm" variant="default" className="shadow-depth-soft">
                 Launch event
               </Button>
             </div>
           ),
           code: `<div className="flex items-center gap-[var(--space-2)]">
-  <Button size="sm" variant="primary" className="shadow-depth-soft">
+  <Button size="sm" variant="default" className="shadow-depth-soft">
     Launch event
   </Button>
 </div>`,
@@ -3593,7 +3593,7 @@ React.useEffect(() => {
             <div className="flex items-center gap-[var(--space-2)]">
               <Button
                 size="sm"
-                variant="primary"
+                variant="default"
                 className="shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
               >
                 Focused deploy
@@ -3603,7 +3603,7 @@ React.useEffect(() => {
           code: `<div className="flex items-center gap-[var(--space-2)]">
   <Button
     size="sm"
-    variant="primary"
+    variant="default"
     className="shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
   >
     Focused deploy
@@ -3617,13 +3617,13 @@ React.useEffect(() => {
             "Loading CTA keeps the raised hover shadow while dimming interactions so progress reads instantly.",
           element: (
             <div className="flex items-center gap-[var(--space-2)]">
-              <Button size="sm" variant="primary" loading className="shadow-depth-soft">
+              <Button size="sm" variant="default" loading className="shadow-depth-soft">
                 Saving
               </Button>
             </div>
           ),
           code: `<div className="flex items-center gap-[var(--space-2)]">
-  <Button size="sm" variant="primary" loading className="shadow-depth-soft">
+  <Button size="sm" variant="default" loading className="shadow-depth-soft">
     Saving
   </Button>
 </div>`,

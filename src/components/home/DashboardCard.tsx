@@ -41,7 +41,7 @@ export default function DashboardCard({
         </div>
       )}
       {cta && (
-        <Button asChild variant="primary" size="md" className="self-start">
+        <Button asChild variant="default" size="md" className="self-start">
           <Link href={cta.href}>{cta.label}</Link>
         </Button>
       )}

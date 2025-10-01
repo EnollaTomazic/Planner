@@ -51,7 +51,7 @@ export default function FocusPanel({ iso }: Props) {
           />
           <Button
             type="submit"
-            variant="primary"
+            variant="default"
             size="sm"
             disabled={!isDirty || saving}
             aria-disabled={!isDirty || saving}

@@ -455,7 +455,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
                   }}
                   search={{ value: "", onValueChange: () => {}, round: true }}
                   actions={
-                    <Button size="sm" variant="secondary">
+                    <Button size="sm" variant="soft">
                       Calm action
                     </Button>
                   }
@@ -482,7 +482,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
                   },
                   actions: {
                     node: (
-                      <Button size="sm" variant="secondary" className="whitespace-nowrap">
+                      <Button size="sm" variant="soft" className="whitespace-nowrap">
                         Assign scout
                       </Button>
                     ),

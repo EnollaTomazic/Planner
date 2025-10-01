@@ -111,9 +111,10 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 - `Button` automatically sizes any `svg` icons based on the `size` option
   and sets icon gaps: `gap-1` for `sm`, `gap-2` for `md`, `gap-3` for `lg`.
 - `Button` and `IconButton` share the `variant` options
-  `"primary" | "secondary" | "ghost"`. Update any IconButton usage from
-  `solid` → `primary`, `glow` → `secondary`, and `ring` → `ghost`.
-- When you need the chromatic fill, pick the primary variant (or another
+  `"default" | "soft" | "ghost"`. Legacy aliases `"primary"` → `"default"`
+  and `"secondary"` → `"soft"` remain temporarily for compatibility while
+  migrating call sites.
+- When you need the chromatic fill, pick the default variant (or another
   tone/variant pairing from the gallery) so the accent-tinted backgrounds
   and focus shadows replace the neutral panel treatment.
 

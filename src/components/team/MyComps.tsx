@@ -273,7 +273,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                 aria-label="Add comp"
                 size="md"
                 className="shrink-0"
-                variant="primary"
+                variant="default"
               >
                 <Plus />
               </IconButton>
