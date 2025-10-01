@@ -19,6 +19,9 @@ import { cn } from "@/lib/utils";
 import type { PromptsPanelData } from "./useComponentGalleryState";
 
 const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
+const selectorWidth = "calc(var(--space-8) * 3.5)";
+const composePanelMaxWidth = "calc(var(--space-8) * 7)";
+const layoutPreviewHeight = "calc(var(--space-8) * 3)";
 type PanelItem = { label: string; element: React.ReactNode; className?: string };
 
 interface PromptsPanelProps {
@@ -33,7 +36,7 @@ export default function PromptsPanel({ data }: PromptsPanelProps) {
         {
           label: "PillarSelector",
           element: (
-            <div className="w-56">
+            <div style={{ width: selectorWidth }}>
               <PillarSelector
                 value={data.pillarSelector.value}
                 onChange={data.pillarSelector.onChange}
@@ -62,7 +65,7 @@ export default function PromptsPanel({ data }: PromptsPanelProps) {
         {
           label: "Prompts Compose",
           element: (
-            <div className="w-full max-w-md">
+            <div className="w-full" style={{ maxWidth: composePanelMaxWidth }}>
               <PromptsComposePanel
                 title=""
                 onTitleChange={() => {}}
@@ -124,7 +127,7 @@ export default function PromptsPanel({ data }: PromptsPanelProps) {
                     ariaLabel="Demo tabs"
                     linkPanels={false}
                   />
-                  <Card className="h-24" />
+                  <Card style={{ height: layoutPreviewHeight }} />
                 </div>
               </div>
             </div>
