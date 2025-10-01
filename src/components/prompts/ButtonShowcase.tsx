@@ -6,16 +6,16 @@ export default function ButtonShowcase() {
   return (
     <div className="mb-[var(--space-8)] space-y-[var(--space-4)]">
       <div className="flex flex-wrap gap-[var(--space-2)]">
-        <Button tone="primary" variant="primary">
+        <Button tone="primary" variant="default">
           Primary tone
         </Button>
-        <Button tone="accent" variant="primary">
+        <Button tone="accent" variant="default">
           Accent tone
         </Button>
         <Button tone="info" variant="ghost">
           Info ghost
         </Button>
-        <Button tone="danger" variant="primary">
+        <Button tone="danger" variant="default">
           Danger primary
         </Button>
         <Button disabled>Disabled</Button>

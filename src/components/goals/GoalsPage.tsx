@@ -455,7 +455,7 @@ function GoalsPageContent() {
     if (tab !== "reminders") return undefined;
     return (
       <Button
-        variant="primary"
+        variant="default"
         size="md"
         className="whitespace-nowrap"
         onClick={handleAddReminder}
@@ -537,7 +537,7 @@ function GoalsPageContent() {
                       <Button
                         type="button"
                         size="sm"
-                        variant="primary"
+                        variant="default"
                         className="w-full shrink-0 sm:w-auto"
                         onClick={startGoalCreation}
                       >
@@ -548,7 +548,7 @@ function GoalsPageContent() {
                       <Button
                         type="button"
                         size="sm"
-                        variant="secondary"
+                        variant="soft"
                         tone="danger"
                         className="w-full shrink-0 sm:w-auto"
                         onClick={handleOpenNuke}
@@ -566,7 +566,7 @@ function GoalsPageContent() {
                     {totalCount === 0 ? (
                       <div className="flex flex-col items-center gap-[var(--space-4)] py-[var(--space-6)] text-center">
                         <p className="text-ui font-medium text-muted-foreground">No goals yet.</p>
-                        <Button onClick={handleAddFirst} size="sm" variant="primary">
+                        <Button onClick={handleAddFirst} size="sm" variant="default">
                           Add a first goal
                         </Button>
                       </div>
@@ -674,7 +674,7 @@ function GoalsPageContent() {
               ref={confirmButtonRef}
               type="button"
               size="sm"
-              variant="primary"
+              variant="default"
               tone="danger"
               tactile
               onClick={handleConfirmNuke}

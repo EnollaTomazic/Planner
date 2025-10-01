@@ -8,7 +8,8 @@
 
 import { useEffect, useMemo } from "react";
 
-import GlitchProgress from "@/components/ui/primitives/GlitchProgress";
+import { GlitchProgress, TOKEN_WIDTH_CLASS } from "@/components/ui";
+import { cn } from "@/lib/utils";
 
 import type { ISODate } from "./plannerTypes";
 import TodayHeroHeader from "./TodayHeroHeader";
@@ -103,7 +104,7 @@ export default function TodayHero({ iso }: Props) {
         showPercentage
         className="mb-[var(--space-4)] flex items-center gap-[var(--space-3)]"
         trackClassName="w-full"
-        percentageClassName="glitch-percent w-[var(--space-7)] text-right text-ui font-medium"
+        percentageClassName={cn("text-right", TOKEN_WIDTH_CLASS)}
         aria-label={heroProgressLabel}
       />
 
