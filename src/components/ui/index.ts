@@ -12,6 +12,8 @@ export { default as Spinner } from "./feedback/Spinner";
 export * from "./feedback/Spinner";
 export { default as Grid } from "./Grid";
 export * from "./Grid";
+export { default as HeroImage } from "./HeroImage";
+export * from "./HeroImage";
 export * from "./hooks/useDialogTrap";
 export * from "./hooks/useFloatingStyleClass";
 export * from "./hooks/useScopedCssVars";
