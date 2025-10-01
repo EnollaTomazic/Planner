@@ -1,7 +1,14 @@
 import * as React from "react";
 import type { ComponentProps } from "react";
 import Image from "next/image";
-import { cn, withBasePath } from "@/lib/utils";
+import type { Variant } from "@/lib/theme";
+import {
+  DEFAULT_HERO_STATE,
+  DEFAULT_HERO_VARIANT,
+  getHeroIllustration,
+  type HeroIllustrationState,
+} from "@/data/heroImages";
+import { cn } from "@/lib/utils";
 import styles from "./WelcomeHeroFigure.module.css";
 
 type WelcomeHeroFigureTone = "default" | "subtle";
@@ -9,7 +16,6 @@ type WelcomeHeroFigureTone = "default" | "subtle";
 const defaultSizes =
   "(max-width: 767px) 100vw, (max-width: 1023px) calc(100vw / 3), calc(100vw * 5 / 12)";
 
-const heroImageSrc = "/BEST_ONE_EVAH.png";
 export interface WelcomeHeroFigureProps {
   className?: string;
   imageSizes?: string;
@@ -17,6 +23,8 @@ export interface WelcomeHeroFigureProps {
   showGlitchRail?: boolean;
   framed?: boolean;
   eager?: boolean;
+  variant?: Variant;
+  state?: HeroIllustrationState;
 }
 
 export default function WelcomeHeroFigure({
@@ -26,14 +34,18 @@ export default function WelcomeHeroFigure({
   showGlitchRail,
   framed = true,
   eager = false,
+  variant = DEFAULT_HERO_VARIANT,
+  state = DEFAULT_HERO_STATE,
 }: WelcomeHeroFigureProps) {
   const shouldShowGlitchRail = framed && (showGlitchRail ?? haloTone === "default");
   const imageClassName = cn(
     "relative z-[1] object-contain object-center",
     framed ? "h-full w-full rounded-full" : "h-full w-full",
   );
-  const imageAlt = "Planner assistant sharing a colorful dashboard scene";
-  const resolvedHeroImageSrc = withBasePath(heroImageSrc);
+  const { src: resolvedHeroImageSrc, alt: imageAlt } = React.useMemo(
+    () => getHeroIllustration(variant, state),
+    [variant, state],
+  );
   const sharedImageProps = {
     decoding: "async" as const,
     sizes: imageSizes,

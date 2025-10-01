@@ -1,6 +1,6 @@
 import * as React from "react";
+import AvatarFrame from "@/components/ui/primitives/AvatarFrame";
 import { cn } from "@/lib/utils";
-import frameStyles from "./HeroPortraitFrame.module.css";
 import styles from "./PortraitFrame.module.css";
 
 export type PoseVariant =
@@ -97,72 +97,53 @@ export default function PortraitFrame({
   const demonId = React.useId();
 
   return (
-    <figure
+    <AvatarFrame
+      as="figure"
+      frame
+      size="lg"
       role="img"
       aria-labelledby={`${figureId} ${angelId} ${demonId}`}
-      className={cn(
-        "relative isolate flex shrink-0 items-center justify-center",
-        frameStyles.framed,
-        className,
+      className={className}
+      innerClassName={cn(
+        "flex h-full w-full items-center justify-center",
+        transparentBackground && styles.innerTransparent,
       )}
+      before={
+        <>
+          <span id={figureId} className="sr-only">
+            {config.label}
+          </span>
+          <span id={angelId} className="sr-only">
+            {config.angel.description}
+          </span>
+          <span id={demonId} className="sr-only">
+            {config.demon.description}
+          </span>
+        </>
+      }
     >
-      <span id={figureId} className="sr-only">
-        {config.label}
-      </span>
-      <span id={angelId} className="sr-only">
-        {config.angel.description}
-      </span>
-      <span id={demonId} className="sr-only">
-        {config.demon.description}
-      </span>
-      <span
-        aria-hidden
-        className={cn(
-          "pointer-events-none absolute -inset-[calc(var(--portrait-rim)*1.6)] rounded-full blur-[var(--hero-illustration-blur,var(--portrait-glow))] opacity-[var(--hero-illustration-opacity,0.8)]",
-          frameStyles.glow,
-        )}
-      />
-      <span
-        aria-hidden
-        className="glitch-rail pointer-events-none absolute -inset-[calc(var(--portrait-rim)*1.1)] rounded-full mix-blend-screen opacity-[var(--glitch-intensity-hero-rail,0.74)]"
-      />
+      <span aria-hidden className={styles.rimLighting} />
       <div
+        aria-hidden
         className={cn(
-          "relative flex items-center justify-center rounded-full shadow-depth-outer",
-          frameStyles.rim,
+          styles.stage,
+          config.stageClassName,
+          transparentBackground && styles.stageTransparent,
         )}
       >
-        <div
-          className={cn(
-            "relative flex h-full w-full items-center justify-center overflow-hidden rounded-full",
-            frameStyles.inner,
-            transparentBackground && styles.innerTransparent,
-          )}
-        >
-          <span aria-hidden className={styles.rimLighting} />
-          <div
-            aria-hidden
-            className={cn(
-              styles.stage,
-              config.stageClassName,
-              transparentBackground && styles.stageTransparent,
-            )}
-          >
-            <div className={cn(styles.character, styles.angel, config.angel.className)}>
-              <span aria-hidden className={styles.angelWings} />
-              <span aria-hidden className={styles.characterBody} />
-              <span aria-hidden className={styles.characterCollar} />
-              <span aria-hidden className={styles.characterHead} />
-            </div>
-            <div className={cn(styles.character, styles.demon, config.demon.className)}>
-              <span aria-hidden className={styles.demonHorns} />
-              <span aria-hidden className={styles.characterBody} />
-              <span aria-hidden className={styles.characterCollar} />
-              <span aria-hidden className={styles.characterHead} />
-            </div>
-          </div>
+        <div className={cn(styles.character, styles.angel, config.angel.className)}>
+          <span aria-hidden className={styles.angelWings} />
+          <span aria-hidden className={styles.characterBody} />
+          <span aria-hidden className={styles.characterCollar} />
+          <span aria-hidden className={styles.characterHead} />
+        </div>
+        <div className={cn(styles.character, styles.demon, config.demon.className)}>
+          <span aria-hidden className={styles.demonHorns} />
+          <span aria-hidden className={styles.characterBody} />
+          <span aria-hidden className={styles.characterCollar} />
+          <span aria-hidden className={styles.characterHead} />
         </div>
       </div>
-    </figure>
+    </AvatarFrame>
   );
 }

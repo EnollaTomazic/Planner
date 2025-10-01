@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import {
   createGalleryPreview,
   defineGallerySection,
@@ -9,6 +10,7 @@ import {
   type GallerySectionId,
 } from "@/components/gallery/registry";
 import {
+  AvatarFrame,
   Badge,
   Button,
   Card,
@@ -104,7 +106,7 @@ import {
 } from "@/components/goals";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 import { ProgressRingIcon, TimerRingIcon } from "@/icons";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 type LegacySpec = {
   id: string;
@@ -166,6 +168,8 @@ const heroPlannerHighlightsDemo = [
     summary: "Encourage everyone to log highlights before the week wraps.",
   },
 ] as const satisfies readonly HeroPlannerHighlight[];
+
+const heroAvatarSrc = withBasePath("/hero_image.png");
 
 const heroPlannerOverviewDemo = {
   hydrating: false,
@@ -4030,6 +4034,93 @@ React.useEffect(() => {
     />
   </SectionCard.Body>
 </SectionCard>`,
+    },
+    {
+      id: "avatar-frame",
+      name: "AvatarFrame",
+      description:
+        "Token-driven avatar treatment with responsive sizing, rim glow, and glitch rail powered by design tokens.",
+      element: (
+        <div className="flex flex-wrap items-center justify-center gap-[var(--space-3)]">
+          <AvatarFrame
+            size="sm"
+            media={
+              <Image
+                src={heroAvatarSrc}
+                alt="Planner hero avatar scaled to a small framed treatment"
+                loading="lazy"
+                sizes="(max-width: 640px) 96px, 128px"
+                fill
+              />
+            }
+          />
+          <AvatarFrame
+            size="md"
+            media={
+              <Image
+                src={heroAvatarSrc}
+                alt="Planner hero avatar in the default framed treatment"
+                loading="lazy"
+                sizes="(max-width: 640px) 136px, 168px"
+                fill
+              />
+            }
+          />
+          <AvatarFrame
+            size="lg"
+            frame={false}
+            media={
+              <Image
+                src={heroAvatarSrc}
+                alt="Planner hero avatar without the rim treatment"
+                loading="lazy"
+                sizes="(max-width: 640px) 168px, 208px"
+                fill
+              />
+            }
+          />
+        </div>
+      ),
+      tags: ["avatar", "glow", "frame"],
+      code: `<div className="flex flex-wrap items-center justify-center gap-[var(--space-3)]">
+  <AvatarFrame
+    size="sm"
+    media={
+      <Image
+        src={withBasePath("/hero_image.png")}
+        alt="Planner hero avatar scaled to a small framed treatment"
+        loading="lazy"
+        sizes="(max-width: 640px) 96px, 128px"
+        fill
+      />
+    }
+  />
+  <AvatarFrame
+    size="md"
+    media={
+      <Image
+        src={withBasePath("/hero_image.png")}
+        alt="Planner hero avatar in the default framed treatment"
+        loading="lazy"
+        sizes="(max-width: 640px) 136px, 168px"
+        fill
+      />
+    }
+  />
+  <AvatarFrame
+    size="lg"
+    frame={false}
+    media={
+      <Image
+        src={withBasePath("/hero_image.png")}
+        alt="Planner hero avatar without the rim treatment"
+        loading="lazy"
+        sizes="(max-width: 640px) 168px, 208px"
+        fill
+      />
+    }
+  />
+</div>`,
     },
     {
       id: "hero-portrait-frame",
