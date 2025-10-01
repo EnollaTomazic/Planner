@@ -29,6 +29,7 @@ interface ButtonsPanelProps {
 }
 
 const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
+const TABS_MAX_WIDTH = "calc(var(--space-8) * 4)";
 const sampleWidth = "calc(var(--space-8) * 3.5)";
 const sampleWidthStyle: React.CSSProperties = { width: sampleWidth };
 type PanelItem = { label: string; element: React.ReactNode; className?: string };
@@ -159,7 +160,7 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
         {
           label: "Tabs primitive",
           element: (
-            <Tabs defaultValue="chat" className="max-w-md">
+            <Tabs defaultValue="chat" style={{ maxWidth: TABS_MAX_WIDTH }}>
               <TabList
                 items={[
                   { key: "chat", label: "Chat" },
