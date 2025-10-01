@@ -6,7 +6,10 @@
     calc(var(--space-8) + var(--space-4))
   );
   --portrait-rim: calc(var(--space-2) / 2);
-  --portrait-glow: calc(var(--space-4) + var(--space-1));
+  --portrait-glow: var(
+    --hero-illustration-blur,
+    calc(var(--space-4) + var(--space-1))
+  );
   --portrait-rim-gradient: conic-gradient(
     from 140deg at 50% 50%,
     hsl(var(--accent) / 0.88),

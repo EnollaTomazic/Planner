@@ -184,6 +184,8 @@ export default {
   cardOverlayScanlines:
     "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / 0.035) 0,\n    hsl(var(--foreground) / 0.035) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )",
   heroDividerBlur: "calc(var(--spacing-1) * 1.5)",
+  heroIllustrationOpacity: "0.8",
+  heroIllustrationBlur: "calc(var(--space-4) + var(--space-1))",
   visuallyHiddenTop: "-9999px",
   warningForeground: "0 0% 6%",
   successForeground: "0 0% 6%",
