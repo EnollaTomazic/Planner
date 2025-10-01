@@ -7,4 +7,6 @@ export type {
   PlannerOverviewFocusProps,
   PlannerOverviewGoalsProps,
   PlannerOverviewCalendarProps,
+  PlannerOverviewActivityProps,
+  PlannerOverviewActivityPoint,
 } from "./types";

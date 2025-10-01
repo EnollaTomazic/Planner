@@ -101,9 +101,9 @@ describe("IconButton", () => {
     expect(classes).toContain("[--active:hsl(var(--foreground)/0.2)]");
   });
 
-  it("applies primary variant with accent tone", () => {
+  it("applies default variant with accent tone", () => {
     const { getByRole } = render(
-      <IconButton variant="primary" tone="accent" aria-label="pa" />,
+      <IconButton variant="default" tone="accent" aria-label="pa" />,
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
@@ -127,9 +127,9 @@ describe("IconButton", () => {
     expect(classes).toContain("[--active:hsl(var(--accent)/0.2)]");
   });
 
-  it("applies secondary variant with info tone", () => {
+  it("applies soft variant with info tone", () => {
     const { getByRole } = render(
-      <IconButton variant="secondary" tone="info" aria-label="si" />,
+      <IconButton variant="soft" tone="info" aria-label="si" />,
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border");

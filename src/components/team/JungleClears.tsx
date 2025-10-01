@@ -493,7 +493,7 @@ const BucketSection = React.memo(function BucketSection({
               iconSize="xs"
               aria-label="Add row"
               onClick={handleAddRow}
-              variant="primary"
+              variant="default"
             >
               <Plus />
             </IconButton>

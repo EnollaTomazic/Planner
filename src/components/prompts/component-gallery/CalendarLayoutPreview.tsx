@@ -23,7 +23,8 @@ const HOURS: readonly string[] = [
   "13:00",
 ];
 
-const HEADER_CONTROLS_COLLAPSE_BELOW = "calc(var(--space-8) * 8)" as const;
+const HEADER_COLLAPSE_BELOW = "calc(var(--space-8) * 4)" as const;
+const FAB_ICON_SIZE = "size-[var(--icon-size-md)]" as const;
 
 type CalendarEventTone = "accent" | "primary" | "info";
 
@@ -386,7 +387,7 @@ function HeaderControls({ status }: { status: CalendarPreviewStatus }) {
       justify="flex-end"
       wrap={false}
       collapse="stack"
-      collapseBelow={HEADER_CONTROLS_COLLAPSE_BELOW}
+      collapseBelow={HEADER_COLLAPSE_BELOW}
     >
       <span className="rounded-[var(--radius-lg)] border border-[hsl(var(--card-hairline)/0.55)] bg-[hsl(var(--surface-2)/0.6)] px-[var(--space-3)] py-[var(--space-1)] text-label text-muted-foreground">
         Auto-sync is on
@@ -400,7 +401,7 @@ function HeaderControls({ status }: { status: CalendarPreviewStatus }) {
         >
           <ChevronLeft />
         </IconButton>
-        <Button variant="secondary" size="sm">
+        <Button variant="soft" size="sm">
           Today
         </Button>
         <IconButton
@@ -474,7 +475,7 @@ function CalendarPreview({
             </p>
           </div>
           <Button
-            variant="primary"
+            variant="default"
             tone="accent"
             size="sm"
             className="shadow-[var(--shadow-control)] hover:shadow-[var(--shadow-control-hover)]"
@@ -488,11 +489,11 @@ function CalendarPreview({
           styles.fab,
           "flex items-center gap-[var(--space-2)] rounded-[var(--radius-full)] shadow-[var(--shadow-control)] hover:shadow-[var(--shadow-control-hover)] focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:outline-none",
         )}
-        variant="primary"
+        variant="default"
         size="lg"
         tone="accent"
       >
-        <CalendarPlus className="size-5" aria-hidden />
+        <CalendarPlus className={cn("size-5", FAB_ICON_SIZE)} aria-hidden />
         <span className="text-ui font-semibold tracking-[-0.01em]">
           Quick create
         </span>

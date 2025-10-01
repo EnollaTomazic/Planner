@@ -100,6 +100,10 @@ declare module "playwright/test" {
 
   interface Locator {
     focus(): Promise<void>;
+    evaluate<T, Args extends unknown[]>(
+      fn: (element: Element, ...args: Args) => T,
+      ...args: Args
+    ): Promise<T>;
   }
 
   interface Keyboard {
@@ -108,12 +112,16 @@ declare module "playwright/test" {
 
   interface Page {
     setViewportSize(size: ViewportSize): Promise<void>;
+    viewportSize(): ViewportSize | null;
     goto(url: string): Promise<void>;
     waitForLoadState(state?: string): Promise<void>;
     waitForSelector(selector: string): Promise<Locator>;
     waitForFunction<T>(fn: (...args: unknown[]) => T, ...args: unknown[]): Promise<T>;
+    evaluate<T>(fn: (...args: unknown[]) => T, ...args: unknown[]): Promise<T>;
+    addInitScript(script: () => void): Promise<void>;
     keyboard: Keyboard;
     getByRole(role: Role, options?: GetByRoleOptions): Locator;
+    getByLabel(text: string | RegExp): Locator;
   }
 
   interface TestFixtures {

@@ -8,12 +8,24 @@ import neumorphicStyles from "../neumorphic.module.css";
 import BlobContainer, { type GlitchOverlayToken } from "./BlobContainer";
 import DripEdge from "./DripEdge";
 import styles from "./IconButton.module.css";
+import {
+  resolveUIVariant,
+  type DeprecatedUIVariant,
+  type UIVariant,
+} from "@/components/ui/variants";
 
 export type IconButtonSize = "sm" | "md" | "lg" | "xl";
 type Icon = "xs" | "sm" | "md" | "lg" | "xl";
 
 type Tone = "primary" | "accent" | "info" | "danger";
-type Variant = "primary" | "secondary" | "ghost";
+export const ICON_BUTTON_VARIANTS = [
+  "default",
+  "soft",
+  "ghost",
+] as const satisfies readonly UIVariant[];
+export type IconButtonVariant = (typeof ICON_BUTTON_VARIANTS)[number];
+type LegacyIconButtonVariant = Extract<DeprecatedUIVariant, "primary" | "secondary">;
+type IconButtonVariantProp = IconButtonVariant | LegacyIconButtonVariant;
 
 type RequireAtLeastOne<T, Keys extends keyof T> = Pick<
   T,
@@ -45,7 +57,7 @@ export type IconButtonProps =
       size?: IconButtonSize;
       iconSize?: Icon;
       tone?: Tone;
-      variant?: Variant;
+      variant?: IconButtonVariantProp;
       loading?: boolean;
       children?: React.ReactNode;
       glitch?: boolean;
@@ -121,18 +133,18 @@ const primaryVariantBase = (tone: Tone): string =>
     primaryShadowVars[tone],
   );
 
-const variantBase: Record<Variant, (tone: Tone) => string> = {
+const variantBase: Record<IconButtonVariant, (tone: Tone) => string> = {
   ghost: (tone) =>
     cn(
       "border transition-[box-shadow,background-color,color]",
       toneTintTokens[tone],
     ),
-  primary: primaryVariantBase,
-  secondary: () =>
+  default: primaryVariantBase,
+  soft: () =>
     "border transition-[box-shadow,background-color,color] shadow-control hover:shadow-control-hover active:shadow-inner-md",
 };
 
-const toneClasses: Record<Variant, Record<Tone, string>> = {
+const toneClasses: Record<IconButtonVariant, Record<Tone, string>> = {
   ghost: {
     primary: cn(
       "border-[hsl(var(--line)/0.35)] text-foreground",
@@ -151,7 +163,7 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
       "[--neu-surface:hsl(var(--danger)/0.12)]",
     ),
   },
-  primary: {
+  default: {
     primary: cn(
       "border-[hsl(var(--primary)/0.35)] [--neu-surface:hsl(var(--primary-soft))]",
       `text-[hsl(var(${toneForegroundVar.primary}))]`,
@@ -169,7 +181,7 @@ const toneClasses: Record<Variant, Record<Tone, string>> = {
       "text-[hsl(var(--danger-surface-foreground))]",
     ),
   },
-  secondary: {
+  soft: {
     primary: cn(
       secondarySurfaceTokens.primary,
       "text-muted-foreground hover:text-foreground active:text-foreground focus-visible:text-foreground",
@@ -250,7 +262,12 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       );
     }, [shouldWarn]);
 
-    const variantClass = variantBase[variant](tone);
+    const resolvedVariant = resolveUIVariant<IconButtonVariant>(variant, {
+      allowed: ICON_BUTTON_VARIANTS,
+      fallback: "ghost",
+    });
+
+    const variantClass = variantBase[resolvedVariant](tone);
 
     const glitchText = glitch
       ? resolvedAriaLabel ?? normalizedTitle ?? undefined
@@ -271,16 +288,16 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           glitch && "glitch-wrapper",
           glitch && styles.glitch,
           glitch && "group/glitch isolate overflow-hidden",
-          "inline-flex items-center justify-center select-none rounded-[var(--radius-full)] transition-colors duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
+          "inline-flex items-center justify-center select-none rounded-full transition-colors duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
           "[--neu-radius:var(--radius-full)]",
           variantClass,
-          toneClasses[variant][tone],
+          toneClasses[resolvedVariant][tone],
           sizeClass,
           iconMap[appliedIconSize],
           className,
         )}
         data-loading={loading}
-        data-variant={variant}
+        data-variant={resolvedVariant}
         data-tone={tone}
         data-glitch={glitch ? "true" : undefined}
         data-text={glitch ? glitchText : undefined}
@@ -293,7 +310,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         {...(domProps as typeof rest)}
       >
         {glitch ? <BlobContainer overlayToken={glitchIntensity} /> : null}
-        {variant === "primary" ? (
+        {resolvedVariant === "default" ? (
           <DripEdge
             className="absolute inset-0 z-0"
             overlayToken={glitchIntensity}
