@@ -85,7 +85,8 @@ const withBundleAnalyzer = bundleAnalyzer({
   logLevel: "warn",
 });
 
-const baseNextConfig = {
+/** @type {import("next").NextConfig} */
+let nextConfig = {
   reactStrictMode: true,
   output: "export",
   trailingSlash: true,
@@ -125,6 +126,6 @@ const baseNextConfig = {
   },
 };
 
-const nextConfig = withBundleAnalyzer(baseNextConfig);
+nextConfig = withBundleAnalyzer(nextConfig);
 
 export default nextConfig;
