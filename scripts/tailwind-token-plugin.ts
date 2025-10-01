@@ -1,4 +1,5 @@
 import plugin from "tailwindcss/plugin";
+import type { RecursiveKeyValuePair } from "tailwindcss/types/config";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -126,7 +127,7 @@ const buildBorderRadiusScale = (
 
 const buildColorPalette = (
   manifest: TokenManifest,
-): Record<string, unknown> => {
+): RecursiveKeyValuePair<string, string> => {
   const auroraLight = hslToken(manifest, "auroraGLight");
   const auroraPurpleLight = hslToken(manifest, "auroraPLight");
 
