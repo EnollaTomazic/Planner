@@ -28,6 +28,7 @@ import WeekPickerDemo from "./WeekPickerDemo";
 import type { PlannerPanelData } from "./useComponentGalleryState";
 
 const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
+const PANEL_ITEM_WIDTH = "calc(var(--space-8) * 3 + var(--space-2))" as const;
 
 type WeekPickerShellDemoDay = {
   readonly iso: string;
@@ -214,7 +215,13 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
       [
         {
           label: "GoalsProgress",
-          element: <GoalsProgress total={5} pct={60} maxWidth={200} />,
+          element: (
+            <GoalsProgress
+              total={5}
+              pct={60}
+              maxWidth={PANEL_ITEM_WIDTH}
+            />
+          ),
         },
         {
           label: "Goals Tabs",
@@ -247,7 +254,7 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
         {
           label: "TaskRow",
           element: (
-            <ul className="w-64">
+            <ul style={{ width: PANEL_ITEM_WIDTH }}>
               <TaskRow
                 task={{
                   id: "t1",

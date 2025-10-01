@@ -209,6 +209,8 @@
     transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
   ) |
 | hero-divider-blur | calc(var(--spacing-1) * 1.5) |
+| hero-illustration-opacity | 0.8 |
+| hero-illustration-blur | calc(var(--space-4) + var(--space-1)) |
 | visually-hidden-top | -9999px |
 | warning-foreground | 0 0% 6% |
 | success-foreground | 0 0% 6% |
@@ -287,7 +289,7 @@
 | backdrop-drip-shadow | var(--backdrop-blob-shadow) |
 | neo-glow-strength | 0.45 |
 | neon-outline-opacity | 0.35 |
-| glitch-intensity | 1.0 |
+| glitch-intensity | var(--glitch-intensity-default) |
 | glitch-duration | 450ms |
 | glitch-fringe | 12deg |
 | glitch-static-opacity | 0.18 |
@@ -345,6 +347,8 @@
 | space-9 | calc(var(--space-8) + var(--space-1)) |
 | space-10 | calc(var(--space-8) + var(--space-2)) |
 | space-11 | calc(var(--space-8) + var(--space-3)) |
+| glitch-intensity-default | 1.0 |
+| glitch-intensity-subtle | calc(var(--glitch-intensity-default) * 0.68) |
 | spacing-0-125 | calc(var(--spacing-1) / 8) |
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |
