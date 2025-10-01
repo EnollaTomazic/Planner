@@ -33,6 +33,12 @@ This project standardises Node-based automation through the reusable workflow de
 - Visual E2E coverage now captures per-theme snapshots for the depth-aware button and card previews alongside rerunning axe against those preview routes. Keep `npx playwright test` wired into CI so this job remains the source of truth for depth and theme regressions.
 - The `Deploy Pages` workflow builds the static export on pushes to `main`, verifying prompts before the export, uploading the artefact for traceability, and executing the [`actions/deploy-pages`](https://github.com/actions/deploy-pages) step to publish the site.
 
+## Bundle analysis and performance budgets
+
+- Run `npm run analyze` locally to generate static HTML bundle reports. The command seeds `docs/bundle-report/` with the latest client, edge, and Node bundle snapshots so you can diff asset growth without leaving the repo. Pass a custom `BUNDLE_ANALYZE_OUTPUT_DIR` when you need the artefacts somewhere else (for example, an absolute path inside a CI workspace).
+- The `build:analyze` script is CI-friendly: it respects existing `prebuild` hooks, emits static analyser output without attempting to open a browser, and prints the destination folder after completion. Upload the `docs/bundle-report/` directory as a workflow artefact to keep bundle deltas visible in job summaries.
+- Per-route performance budgets stay enforced manually until automated checks land. Keep the JavaScript payload under **180 KB gzipped** for every exported route, target **≤ 2.5 s Largest Contentful Paint** on a cold mobile profile, and hold **Cumulative Layout Shift below 0.10**. Flag any regression breaching those numbers so we can prioritise the fix before merging.
+
 ## Prompt verification modes
 
 Prompt checks default to the consolidated matcher that scans every prompt file for references, but some teams still rely on the legacy behaviour that only inspects `src/app/prompts/page.tsx` and `src/components/prompts/PromptsDemos.tsx`. Opt in to the legacy pass by setting `PROMPT_CHECK_MODE=legacy` for any invocation (for example, `PROMPT_CHECK_MODE=legacy npm run verify-prompts`). When the variable is unset or holds another value the modern path runs.
