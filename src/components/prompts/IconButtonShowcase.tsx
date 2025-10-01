@@ -13,25 +13,25 @@ type ShowcaseButtonProps = Pick<
 const ICON_BUTTONS = [
   {
     size: "sm",
-    variant: "ghost",
+    variant: "quiet",
     "aria-label": "Add item sm",
     title: "Add item sm",
   },
   {
     size: "md",
-    variant: "ghost",
+    variant: "quiet",
     "aria-label": "Add item md",
     title: "Add item md",
   },
   {
     size: "lg",
-    variant: "ghost",
+    variant: "quiet",
     "aria-label": "Add item lg",
     title: "Add item lg",
   },
   {
     size: "xl",
-    variant: "ghost",
+    variant: "quiet",
     "aria-label": "Add item xl",
     title: "Add item xl",
   },
@@ -51,7 +51,7 @@ const ICON_BUTTONS = [
 
 const PRESSED_ICON_BUTTONS = [
   {
-    variant: "ghost",
+    variant: "quiet",
     size: "md",
     className: "bg-[--active]",
     "aria-pressed": true,

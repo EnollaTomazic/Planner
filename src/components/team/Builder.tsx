@@ -373,7 +373,7 @@ function SideEditor(props: {
           <IconButton
             title={`Clear ${title}`}
             aria-label={`Clear ${title}`}
-            variant="ghost"
+            variant="quiet"
             onClick={onClear}
             size="sm"
             iconSize="sm"

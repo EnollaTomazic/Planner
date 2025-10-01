@@ -411,7 +411,7 @@ export default function WeekPicker() {
             className="flex flex-wrap items-center chip-gap-x-tight chip-gap-y-tight"
           >
             <Button
-              variant="ghost"
+              variant="quiet"
               size="sm"
               aria-label="Go to previous week"
               onClick={prevWeek}
@@ -428,7 +428,7 @@ export default function WeekPicker() {
               Today
             </Button>
             <Button
-              variant="ghost"
+              variant="quiet"
               size="sm"
               aria-label="Go to next week"
               onClick={nextWeek}

@@ -22,7 +22,7 @@ type Story = StoryObj<typeof IconButton>;
 
 export const WithAriaLabel: Story = {
   args: {
-    variant: "ghost",
+    variant: "quiet",
     tone: "primary",
     size: "md",
   },

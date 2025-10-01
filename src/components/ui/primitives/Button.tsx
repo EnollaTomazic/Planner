@@ -55,11 +55,15 @@ export type ButtonSize = keyof typeof buttonSizes;
 
 export const BUTTON_VARIANTS = [
   "default",
-  "soft",
-  "ghost",
+  "neo",
+  "quiet",
+  "glitch",
 ] as const satisfies readonly UIVariant[];
 export type ButtonVariant = (typeof BUTTON_VARIANTS)[number];
-type LegacyButtonVariant = Extract<DeprecatedUIVariant, "primary" | "secondary">;
+type LegacyButtonVariant = Extract<
+  DeprecatedUIVariant,
+  "primary" | "secondary" | "soft" | "ghost"
+>;
 type ButtonVariantProp = ButtonVariant | LegacyButtonVariant;
 
 type Tone = SpinnerTone;
@@ -159,14 +163,17 @@ const ghostSurfaceTokens: Record<Tone, string> = {
   danger: "[--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",
 };
 
-export const toneClasses: Record<ButtonVariant, Record<Tone, string>> = {
+const baseToneClasses: Record<
+  Exclude<ButtonVariant, "glitch">,
+  Record<Tone, string>
+> = {
   default: {
     primary: cn(toneInteractionTokens.primary, primaryShadowVars.primary),
     accent: cn(toneInteractionTokens.accent, primaryShadowVars.accent),
     info: cn(toneInteractionTokens.info, primaryShadowVars.info),
     danger: cn(toneInteractionTokens.danger, primaryShadowVars.danger),
   },
-  soft: {
+  neo: {
     primary: cn(
       secondarySurfaceTokens.primary,
       "text-muted-foreground hover:text-foreground active:text-foreground focus-visible:text-foreground",
@@ -188,7 +195,7 @@ export const toneClasses: Record<ButtonVariant, Record<Tone, string>> = {
       "[--neu-surface:hsl(var(--danger)/0.25)]",
     ),
   },
-  ghost: {
+  quiet: {
     primary: cn(
       ghostSurfaceTokens.primary,
       "text-foreground",
@@ -216,6 +223,11 @@ export const toneClasses: Record<ButtonVariant, Record<Tone, string>> = {
   },
 };
 
+export const toneClasses: Record<ButtonVariant, Record<Tone, string>> = {
+  ...baseToneClasses,
+  glitch: baseToneClasses.default,
+};
+
 type VariantConfigResult = {
   className: string;
   whileHover?: HTMLMotionProps<"button">["whileHover"];
@@ -229,7 +241,7 @@ type VariantConfig = (options: {
   tactile: boolean;
 }) => VariantConfigResult;
 
-export const variants: Record<ButtonVariant, VariantConfig> = {
+const baseVariants: Record<Exclude<ButtonVariant, "glitch">, VariantConfig> = {
   default: ({ tone, tactile }) => ({
     className: cn(
       tactile
@@ -252,7 +264,7 @@ export const variants: Record<ButtonVariant, VariantConfig> = {
     contentClass:
       "relative z-10 inline-flex items-center gap-[var(--space-2)]",
   }),
-  soft: ({ tactile }) => ({
+  neo: ({ tactile }) => ({
     className: cn(
       "[--neu-surface:hsl(var(--panel)/0.8)]",
       tactile
@@ -270,11 +282,16 @@ export const variants: Record<ButtonVariant, VariantConfig> = {
           boxShadow: neuInset(9) as CSSProperties["boxShadow"],
         },
   }),
-  ghost: () => ({
+  quiet: () => ({
     className: "",
     whileTap: { scale: 0.97 },
   }),
-} as const;
+};
+
+export const variants: Record<ButtonVariant, VariantConfig> = {
+  ...baseVariants,
+  glitch: (options) => baseVariants.default(options),
+};
 
 export const Button = React.forwardRef<
   HTMLButtonElement | HTMLAnchorElement,
@@ -283,7 +300,7 @@ export const Button = React.forwardRef<
   const {
     className,
     size = "md",
-    variant = "soft",
+    variant = "neo",
     tone = "primary",
     children,
     loading,
@@ -307,14 +324,16 @@ export const Button = React.forwardRef<
   const organicDepth = useOrganicDepthEnabled();
   const resolvedVariant = resolveUIVariant<ButtonVariant>(variant, {
     allowed: BUTTON_VARIANTS,
-    fallback: "soft",
+    fallback: "neo",
   });
+  const shouldGlitch = glitch || resolvedVariant === "glitch";
+  const toneKey = resolvedVariant === "glitch" ? "default" : resolvedVariant;
 
   const base = cn(
     neumorphicStyles.neu,
     styles.root,
     organicDepth && styles.organicControl,
-    glitch && "group/glitch isolate overflow-hidden",
+    shouldGlitch && "group/glitch isolate overflow-hidden",
     "relative inline-flex items-center justify-center rounded-card r-card-md border font-medium tracking-[0.02em] transition-all duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
     "data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none]",
     "data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none",
@@ -337,7 +356,7 @@ export const Button = React.forwardRef<
 
   const hoverAnimation = reduceMotion
     ? undefined
-    : resolvedVariant === "default"
+    : toneKey === "default"
       ? { scale: tactile ? 1.02 : 1.03 }
       : variantHover;
 
@@ -350,7 +369,7 @@ export const Button = React.forwardRef<
   const providedGlitchText =
     typeof providedGlitchTextRaw === "string" ? providedGlitchTextRaw : undefined;
 
-  const glitchText = glitch
+  const glitchText = shouldGlitch
     ? providedGlitchText ??
         (typeof children === "string" ? children : undefined)
     : providedGlitchText;
@@ -363,8 +382,10 @@ export const Button = React.forwardRef<
 
   const renderInnerContent = (contentChildren: React.ReactNode) => (
     <>
-      {glitch ? <BlobContainer overlayToken={glitchIntensity} /> : null}
-      {resolvedVariant === "default" ? (
+      {shouldGlitch ? (
+        <BlobContainer overlayToken={glitchIntensity} />
+      ) : null}
+      {toneKey === "default" ? (
         <DripEdge
           className="absolute inset-0 z-0"
           overlayToken={glitchIntensity}
@@ -408,7 +429,7 @@ export const Button = React.forwardRef<
       "data-loading": loading ? "true" : undefined,
       "data-disabled": isDisabled ? "true" : undefined,
       "data-tactile": tactile ? "true" : undefined,
-      "data-glitch": glitch ? "true" : undefined,
+      "data-glitch": shouldGlitch ? "true" : undefined,
       "data-text": glitchText,
       "aria-busy": loading ? true : undefined,
       whileHover: hoverAnimation,
@@ -485,7 +506,7 @@ export const Button = React.forwardRef<
       "data-loading": loading ? "true" : undefined,
       "data-disabled": isDisabled ? "true" : undefined,
       "data-tactile": tactile ? "true" : undefined,
-      "data-glitch": glitch ? "true" : undefined,
+      "data-glitch": shouldGlitch ? "true" : undefined,
       "data-text": glitchText,
       "aria-busy": loading ? true : undefined,
       whileHover: hoverAnimation,
@@ -560,7 +581,7 @@ export const Button = React.forwardRef<
     "data-loading": loading ? "true" : undefined,
     "data-disabled": isDisabled ? "true" : undefined,
     "data-tactile": tactile ? "true" : undefined,
-    "data-glitch": glitch ? "true" : undefined,
+    "data-glitch": shouldGlitch ? "true" : undefined,
     "data-text": glitchText,
     "aria-busy": loading ? true : undefined,
     whileHover: hoverAnimation,

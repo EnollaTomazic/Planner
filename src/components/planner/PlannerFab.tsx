@@ -83,7 +83,7 @@ function PlannerCreationDialog({
       >
         <IconButton
           aria-label="Close creation sheet"
-          variant="ghost"
+          variant="quiet"
           tone="primary"
           size="sm"
           className="absolute right-[var(--space-3)] top-[var(--space-3)]"
@@ -421,7 +421,7 @@ export default function PlannerFab() {
                   <Button
                     key={iso}
                     type="button"
-                    variant="soft"
+                    variant="neo"
                     size="sm"
                     onClick={() => handleSubmit(iso)}
                     className="rounded-full"
@@ -438,7 +438,7 @@ export default function PlannerFab() {
             </p>
           )}
           <div className="flex items-center justify-end gap-[var(--space-3)]">
-            <Button type="button" variant="ghost" onClick={closeSheet}>
+            <Button type="button" variant="quiet" onClick={closeSheet}>
               Cancel
             </Button>
             <Button type="submit" variant="default" tone="primary">

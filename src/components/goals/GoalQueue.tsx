@@ -88,7 +88,7 @@ export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
                         onClick={() => onRemove(it.id)}
                         size="sm"
                         iconSize="sm"
-                        variant="ghost"
+                        variant="quiet"
                         className={revealOnInteractionClass}
                       >
                         <Trash2 />

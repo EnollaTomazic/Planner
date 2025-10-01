@@ -92,7 +92,7 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
               </Button>
               <Button
                 size="sm"
-                variant="soft"
+                variant="neo"
                 tone="accent"
                 tactile
                 aria-pressed={data.tactile.secondary.active}

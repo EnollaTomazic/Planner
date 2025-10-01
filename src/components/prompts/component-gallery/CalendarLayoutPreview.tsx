@@ -395,18 +395,18 @@ function HeaderControls({ status }: { status: CalendarPreviewStatus }) {
       <Cluster gap="1" wrap={false} align="center">
         <IconButton
           aria-label="Go to previous week"
-          variant="ghost"
+          variant="quiet"
           tone="primary"
           size="sm"
         >
           <ChevronLeft />
         </IconButton>
-        <Button variant="soft" size="sm">
+        <Button variant="neo" size="sm">
           Today
         </Button>
         <IconButton
           aria-label="Go to next week"
-          variant="ghost"
+          variant="quiet"
           tone="primary"
           size="sm"
         >

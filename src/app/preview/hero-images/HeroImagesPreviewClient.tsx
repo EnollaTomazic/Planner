@@ -187,7 +187,7 @@ export default function HeroImagesPreviewClient({
                 key={id}
                 size="sm"
                 type="button"
-                variant={currentCombo.variant === id ? "default" : "soft"}
+                variant={currentCombo.variant === id ? "default" : "neo"}
                 tone={currentCombo.variant === id ? "accent" : "primary"}
                 aria-pressed={currentCombo.variant === id}
                 onClick={() => handleVariantClick(id)}
@@ -208,7 +208,7 @@ export default function HeroImagesPreviewClient({
                 key={state}
                 size="sm"
                 type="button"
-                variant={currentCombo.state === state ? "default" : "soft"}
+                variant={currentCombo.state === state ? "default" : "neo"}
                 tone={currentCombo.state === state ? "accent" : "primary"}
                 aria-pressed={currentCombo.state === state}
                 onClick={() => handleStateClick(state)}
@@ -220,16 +220,16 @@ export default function HeroImagesPreviewClient({
         </div>
 
         <div className="flex flex-wrap gap-[var(--space-2)]">
-          <Button size="sm" type="button" variant="soft" onClick={handlePrevious}>
+          <Button size="sm" type="button" variant="neo" onClick={handlePrevious}>
             Previous
           </Button>
-          <Button size="sm" type="button" variant="soft" onClick={handleNext}>
+          <Button size="sm" type="button" variant="neo" onClick={handleNext}>
             Next
           </Button>
           <Button
             size="sm"
             type="button"
-            variant="ghost"
+            variant="quiet"
             aria-pressed={autoPlayEnabled}
             onClick={handleToggleAutoplay}
           >

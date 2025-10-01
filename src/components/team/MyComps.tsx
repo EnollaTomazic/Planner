@@ -338,7 +338,7 @@ export default function MyComps({ query = "", editing = false }: MyCompsProps) {
                               title="Delete"
                               aria-label="Delete"
                               size="sm"
-                              variant="ghost"
+                              variant="quiet"
                               onClick={() => remove(c.id)}
                             >
                               <Trash2 />

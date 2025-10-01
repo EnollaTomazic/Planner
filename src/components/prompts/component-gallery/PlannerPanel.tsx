@@ -118,14 +118,14 @@ function WeekPickerShellPreview() {
           aria-label="Week navigation"
           className="flex flex-wrap items-center gap-[var(--space-2)]"
         >
-          <Button variant="ghost" size="sm" aria-label="Go to previous week">
+          <Button variant="quiet" size="sm" aria-label="Go to previous week">
             <ChevronLeft />
             <span>Prev</span>
           </Button>
           <Button size="sm" aria-label="Jump to today" disabled>
             Today
           </Button>
-          <Button variant="ghost" size="sm" aria-label="Go to next week">
+          <Button variant="quiet" size="sm" aria-label="Go to next week">
             <span>Next</span>
             <ChevronRight />
           </Button>

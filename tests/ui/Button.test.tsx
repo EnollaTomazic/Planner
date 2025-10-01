@@ -17,99 +17,106 @@ describe("Button", () => {
     xl: "h-[var(--control-h-xl)]",
   };
 
+  const defaultToneClassMap = {
+    primary: [
+      "text-[hsl(var(--primary-foreground))]",
+      "[--neu-surface:hsl(var(--primary-soft))]",
+      "border-[hsl(var(--primary)/0.35)]",
+      "[--hover:hsl(var(--primary)/0.14)]",
+      "[--active:hsl(var(--primary)/0.2)]",
+    ],
+    accent: [
+      "text-on-accent",
+      "[--neu-surface:hsl(var(--accent)/0.12)]",
+      "border-[hsl(var(--accent)/0.35)]",
+      "[--hover:hsl(var(--accent)/0.14)]",
+      "[--active:hsl(var(--accent)/0.2)]",
+    ],
+    info: [
+      "text-on-accent",
+      "[--neu-surface:hsl(var(--accent-2)/0.12)]",
+      "border-[hsl(var(--accent-2)/0.35)]",
+      "[--hover:hsl(var(--accent-2)/0.14)]",
+      "[--active:hsl(var(--accent-2)/0.2)]",
+    ],
+    danger: [
+      "text-[hsl(var(--danger-foreground))]",
+      "[--neu-surface:hsl(var(--danger)/0.12)]",
+      "border-[hsl(var(--danger)/0.35)]",
+      "[--hover:hsl(var(--danger)/0.14)]",
+      "[--active:hsl(var(--danger)/0.2)]",
+    ],
+  } as const;
+
+  const neoToneClassMap = {
+    primary: [
+      "text-muted-foreground",
+      "hover:text-foreground",
+      "active:text-foreground",
+      "focus-visible:text-foreground",
+      "[--neu-surface:hsl(var(--panel)/0.6)]",
+      "[--hover:hsl(var(--primary)/0.25)]",
+      "[--active:hsl(var(--primary)/0.35)]",
+    ],
+    accent: [
+      "text-on-accent",
+      "[--neu-surface:hsl(var(--accent)/0.3)]",
+      "[--hover:hsl(var(--accent)/0.25)]",
+      "[--active:hsl(var(--accent)/0.2)]",
+    ],
+    info: [
+      "text-on-accent",
+      "[--neu-surface:hsl(var(--accent-2)/0.25)]",
+      "[--hover:hsl(var(--accent-2)/0.2)]",
+      "[--active:hsl(var(--accent-2)/0.15)]",
+    ],
+    danger: [
+      "text-[hsl(var(--danger-tint-foreground))]",
+      "[--neu-surface:hsl(var(--danger)/0.25)]",
+      "[--hover:hsl(var(--danger)/0.14)]",
+      "[--active:hsl(var(--danger)/0.2)]",
+    ],
+  } as const;
+
+  const quietToneClassMap = {
+    primary: [
+      "text-foreground",
+      "[--neu-surface:hsl(var(--card)/0.6)]",
+      "border-[hsl(var(--line)/0.35)]",
+      "[--hover:hsl(var(--bg)/0.8)]",
+      "[--active:hsl(var(--bg))]",
+    ],
+    accent: [
+      "text-on-accent",
+      "[--neu-surface:hsl(var(--accent)/0.2)]",
+      "border-accent/35",
+      "[--hover:hsl(var(--accent)/0.25)]",
+      "[--active:hsl(var(--accent)/0.35)]",
+    ],
+    info: [
+      "text-on-accent",
+      "[--neu-surface:hsl(var(--accent-2)/0.2)]",
+      "border-accent-2/35",
+      "[--hover:hsl(var(--accent-2)/0.25)]",
+      "[--active:hsl(var(--accent-2)/0.35)]",
+    ],
+    danger: [
+      "text-danger",
+      "[--neu-surface:hsl(var(--danger)/0.12)]",
+      "border-danger/35",
+      "[--hover:hsl(var(--danger)/0.1)]",
+      "[--active:hsl(var(--danger)/0.2)]",
+    ],
+  } as const;
+
   const variantToneClasses: Record<
     ButtonVariant,
-    Record<NonNullable<ButtonProps["tone"]>, string[]>
+    Record<NonNullable<ButtonProps["tone"]>, readonly string[]>
   > = {
-    default: {
-      primary: [
-        "text-[hsl(var(--primary-foreground))]",
-        "[--neu-surface:hsl(var(--primary-soft))]",
-        "border-[hsl(var(--primary)/0.35)]",
-        "[--hover:hsl(var(--primary)/0.14)]",
-        "[--active:hsl(var(--primary)/0.2)]",
-      ],
-      accent: [
-        "text-on-accent",
-        "[--neu-surface:hsl(var(--accent)/0.12)]",
-        "border-[hsl(var(--accent)/0.35)]",
-        "[--hover:hsl(var(--accent)/0.14)]",
-        "[--active:hsl(var(--accent)/0.2)]",
-      ],
-      info: [
-        "text-on-accent",
-        "[--neu-surface:hsl(var(--accent-2)/0.12)]",
-        "border-[hsl(var(--accent-2)/0.35)]",
-        "[--hover:hsl(var(--accent-2)/0.14)]",
-        "[--active:hsl(var(--accent-2)/0.2)]",
-      ],
-      danger: [
-        "text-[hsl(var(--danger-foreground))]",
-        "[--neu-surface:hsl(var(--danger)/0.12)]",
-        "border-[hsl(var(--danger)/0.35)]",
-        "[--hover:hsl(var(--danger)/0.14)]",
-        "[--active:hsl(var(--danger)/0.2)]",
-      ],
-    },
-    soft: {
-      primary: [
-        "text-muted-foreground",
-        "hover:text-foreground",
-        "active:text-foreground",
-        "focus-visible:text-foreground",
-        "[--neu-surface:hsl(var(--panel)/0.6)]",
-        "[--hover:hsl(var(--primary)/0.25)]",
-        "[--active:hsl(var(--primary)/0.35)]",
-      ],
-      accent: [
-        "text-on-accent",
-        "[--neu-surface:hsl(var(--accent)/0.3)]",
-        "[--hover:hsl(var(--accent)/0.25)]",
-        "[--active:hsl(var(--accent)/0.2)]",
-      ],
-      info: [
-        "text-on-accent",
-        "[--neu-surface:hsl(var(--accent-2)/0.25)]",
-        "[--hover:hsl(var(--accent-2)/0.2)]",
-        "[--active:hsl(var(--accent-2)/0.15)]",
-      ],
-      danger: [
-        "text-[hsl(var(--danger-tint-foreground))]",
-        "[--neu-surface:hsl(var(--danger)/0.25)]",
-        "[--hover:hsl(var(--danger)/0.14)]",
-        "[--active:hsl(var(--danger)/0.2)]",
-      ],
-    },
-    ghost: {
-      primary: [
-        "text-foreground",
-        "[--neu-surface:hsl(var(--card)/0.6)]",
-        "border-[hsl(var(--line)/0.35)]",
-        "[--hover:hsl(var(--background)/0.8)]",
-        "[--active:hsl(var(--background))]",
-      ],
-      accent: [
-        "text-on-accent",
-        "[--neu-surface:hsl(var(--accent)/0.2)]",
-        "border-accent/35",
-        "[--hover:hsl(var(--accent)/0.25)]",
-        "[--active:hsl(var(--accent)/0.35)]",
-      ],
-      info: [
-        "text-on-accent",
-        "[--neu-surface:hsl(var(--accent-2)/0.2)]",
-        "border-accent-2/35",
-        "[--hover:hsl(var(--accent-2)/0.25)]",
-        "[--active:hsl(var(--accent-2)/0.35)]",
-      ],
-      danger: [
-        "text-danger",
-        "[--neu-surface:hsl(var(--danger)/0.12)]",
-        "border-danger/35",
-        "[--hover:hsl(var(--danger)/0.1)]",
-        "[--active:hsl(var(--danger)/0.2)]",
-      ],
-    },
+    default: defaultToneClassMap,
+    neo: neoToneClassMap,
+    quiet: quietToneClassMap,
+    glitch: defaultToneClassMap,
   };
 
   const cases: [
@@ -117,7 +124,7 @@ describe("Button", () => {
     ButtonVariant,
     NonNullable<ButtonProps["tone"]>,
     string,
-    string[],
+    readonly string[],
   ][] = [];
 
   for (const [size, sizeCls] of Object.entries(sizes) as [

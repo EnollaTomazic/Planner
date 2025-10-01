@@ -509,7 +509,7 @@ export default function DashboardLayoutPreviewPage() {
                           Start trial
                         </Link>
                       </Button>
-                      <Button size="md" variant="ghost" tone="accent" asChild>
+                      <Button size="md" variant="quiet" tone="accent" asChild>
                         <Link href="#compare" aria-label="Compare plans">
                           Compare plans
                         </Link>

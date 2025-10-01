@@ -185,7 +185,7 @@ describe("Button", () => {
 
   it("matches snapshot for secondary danger tone", () => {
     const { container } = render(
-      <Button variant="soft" tone="danger">
+      <Button variant="neo" tone="danger">
         Delete
       </Button>,
     );

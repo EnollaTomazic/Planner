@@ -145,7 +145,7 @@ function RemTileBase({ reminder, onChange, onDelete }: RemTileProps) {
               </h4>
               <Button
                 size="sm"
-                variant="ghost"
+                variant="quiet"
                 onClick={() => {
                   setEditing(true);
                 }}
@@ -168,7 +168,7 @@ function RemTileBase({ reminder, onChange, onDelete }: RemTileProps) {
             onClick={handleDelete}
             size="sm"
             iconSize="sm"
-            variant="ghost"
+            variant="quiet"
             className="opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto focus-visible:opacity-100 focus-visible:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto transition-opacity"
           >
             <Trash2 />
@@ -280,7 +280,7 @@ function RemTileBase({ reminder, onChange, onDelete }: RemTileProps) {
               </Button>
               <Button
                 size="sm"
-                variant="ghost"
+                variant="quiet"
                 onClick={() => {
                   setEditing(false);
                   setTitle(reminder.title);

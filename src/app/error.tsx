@@ -50,7 +50,7 @@ export function RouteErrorContent({
           <Button variant="default" onClick={reset}>
             {retryLabel}
           </Button>
-          <Button asChild variant="ghost">
+          <Button asChild variant="quiet">
             <Link href={homeHref}>{homeLabel}</Link>
           </Button>
         </div>
