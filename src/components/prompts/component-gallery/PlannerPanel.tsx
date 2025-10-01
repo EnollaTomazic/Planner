@@ -27,6 +27,7 @@ import {
 import WeekPickerDemo from "./WeekPickerDemo";
 import type { PlannerPanelData } from "./useComponentGalleryState";
 
+const GOALS_TABS_WIDTH = "calc(var(--space-8)*3.5)" as const;
 const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
 const PANEL_ITEM_WIDTH = "calc(var(--space-8) * 3 + var(--space-2))" as const;
 
@@ -226,7 +227,7 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
         {
           label: "Goals Tabs",
           element: (
-            <div className="w-56">
+            <div style={{ width: GOALS_TABS_WIDTH }}>
               <GoalsTabs value={data.goalFilter.value} onChange={data.goalFilter.onChange} />
             </div>
           ),
