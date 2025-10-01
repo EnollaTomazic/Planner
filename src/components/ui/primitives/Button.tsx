@@ -6,6 +6,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { motion, useReducedMotion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
 import { cn, withBasePath } from "@/lib/utils";
+import { useAnimationsDisabled } from "@/lib/useAnimationsDisabled";
 import { useOrganicDepthEnabled } from "@/lib/depth-theme-context";
 import Spinner, { type SpinnerTone, type SpinnerSize } from "../feedback/Spinner";
 import neumorphicStyles from "../neumorphic.module.css";
@@ -152,7 +153,7 @@ const secondarySurfaceTokens: Record<Tone, string> = {
 };
 
 const ghostSurfaceTokens: Record<Tone, string> = {
-  primary: "[--hover:hsl(var(--background)/0.8)] [--active:hsl(var(--background))]",
+  primary: "[--hover:hsl(var(--bg)/0.8)] [--active:hsl(var(--bg))]",
   accent: "[--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
   info: "[--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
   danger: "[--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",
@@ -291,7 +292,9 @@ export const Button = React.forwardRef<
     glitchIntensity = "glitch-overlay-button-opacity",
   } = props;
   const asChild = props.asChild ?? false;
-  const reduceMotion = useReducedMotion();
+  const animationsDisabled = useAnimationsDisabled();
+  const reduceMotionPreference = useReducedMotion();
+  const reduceMotion = reduceMotionPreference || animationsDisabled;
   const disabledProp =
     "disabled" in props && typeof props.disabled !== "undefined"
       ? props.disabled
@@ -313,6 +316,7 @@ export const Button = React.forwardRef<
     organicDepth && styles.organicControl,
     glitch && "group/glitch isolate overflow-hidden",
     "relative inline-flex items-center justify-center rounded-card r-card-md border font-medium tracking-[0.02em] transition-all duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
+    "data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none]",
     "data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none",
     "[--neu-radius:var(--radius-card)]",
     s.height,
@@ -412,6 +416,7 @@ export const Button = React.forwardRef<
       tabIndex: tabIndex ?? (isDisabled ? -1 : undefined),
       "data-variant": resolvedVariant,
       "data-tone": tone,
+      "data-reduce-motion": reduceMotion ? "true" : undefined,
       ...slotProps,
     };
     const childCount = React.Children.count(children);
@@ -488,6 +493,7 @@ export const Button = React.forwardRef<
       tabIndex: tabIndex ?? (isDisabled ? -1 : undefined),
       "data-variant": resolvedVariant,
       "data-tone": tone,
+      "data-reduce-motion": reduceMotion ? "true" : undefined,
       ...anchorProps,
     };
     let resolvedHref = href;
@@ -562,6 +568,7 @@ export const Button = React.forwardRef<
     tabIndex,
     "data-variant": resolvedVariant,
     "data-tone": tone,
+    "data-reduce-motion": reduceMotion ? "true" : undefined,
     ...buttonProps,
   };
 
