@@ -9,7 +9,11 @@ import Field from "./Field";
 import type { InputSize } from "./Input";
 import { resolveUIVariant, type UIVariant } from "@/components/ui/variants";
 
-const SEARCH_BAR_VARIANTS = ["default", "neo"] as const satisfies readonly UIVariant[];
+const SEARCH_BAR_VARIANTS = [
+  "default",
+  "neo",
+  "quiet",
+] as const satisfies readonly UIVariant[];
 type SearchBarVariant = (typeof SEARCH_BAR_VARIANTS)[number];
 
 export type SearchBarProps = Omit<

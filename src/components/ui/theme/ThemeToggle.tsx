@@ -122,7 +122,7 @@ export default function ThemeToggle({
       {/* background cycle */}
       <Button
         id={id}
-        variant="soft"
+        variant="neo"
         size="sm"
         tactile
         className="shrink-0 px-[var(--space-2)]"
@@ -139,7 +139,7 @@ export default function ThemeToggle({
       {/* dropdown — no visible title; uses aria label */}
       {showFallback ? (
         <Button
-          variant="soft"
+          variant="neo"
           size="sm"
           className="pointer-events-none !rounded-full !px-[var(--space-3)] !text-ui text-muted-foreground"
           aria-label={`${aria}: waiting for theme controls`}

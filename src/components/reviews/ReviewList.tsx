@@ -256,7 +256,7 @@ export default function ReviewList({
                 <Button
                   type="button"
                   size="sm"
-                  variant="ghost"
+                  variant="quiet"
                   onClick={handleToggleAutoLoad}
                   className="shrink-0"
                   aria-pressed={autoLoadEnabled}
@@ -266,7 +266,7 @@ export default function ReviewList({
                 <Button
                   type="button"
                   size="sm"
-                  variant="soft"
+                  variant="neo"
                   onClick={handleLoadMore}
                   className="shrink-0"
                 >

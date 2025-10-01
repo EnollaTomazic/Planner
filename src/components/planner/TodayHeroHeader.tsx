@@ -67,7 +67,7 @@ export default function TodayHeroHeader({
           title={viewIso}
           onClick={openPicker}
           size="md"
-          variant="ghost"
+          variant="quiet"
           iconSize="md"
         >
           <Calendar />

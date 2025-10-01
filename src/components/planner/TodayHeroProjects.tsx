@@ -202,7 +202,7 @@ export default function TodayHeroProjects({
                           onProjectEditOpen(project.id, project.name);
                         }}
                         size="sm"
-                        variant="ghost"
+                        variant="quiet"
                         iconSize="xs"
                       >
                         <Pencil />
@@ -215,7 +215,7 @@ export default function TodayHeroProjects({
                           onProjectDelete(project.id);
                         }}
                         size="sm"
-                        variant="ghost"
+                        variant="quiet"
                         iconSize="xs"
                       >
                         <Trash2 />
@@ -235,7 +235,7 @@ export default function TodayHeroProjects({
             <div className="flex justify-end">
               <Button
                 size="sm"
-                variant="ghost"
+                variant="quiet"
                 onClick={onToggleShowAllProjects}
                 aria-expanded={showAllProjects}
                 aria-controls={projectsListId}

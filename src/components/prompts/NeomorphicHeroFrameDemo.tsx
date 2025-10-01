@@ -50,7 +50,7 @@ export default function NeomorphicHeroFrameDemo() {
                 ariaLabel="Switch mission focus"
                 right={
                   <Button
-                    variant="ghost"
+                    variant="quiet"
                     size="sm"
                     className="px-[var(--space-2)] text-label font-semibold uppercase tracking-[0.08em]"
                   >
@@ -79,13 +79,13 @@ export default function NeomorphicHeroFrameDemo() {
             node: (
               <div className="flex items-center gap-[var(--space-2)]">
                 <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
-                <Button size="sm" variant="soft">
+                <Button size="sm" variant="neo">
                   Draft
                 </Button>
                 <Button size="sm" variant="default" loading>
                   Deploy
                 </Button>
-                <Button size="sm" variant="ghost" disabled>
+                <Button size="sm" variant="quiet" disabled>
                   Disabled
                 </Button>
               </div>
@@ -162,10 +162,10 @@ export default function NeomorphicHeroFrameDemo() {
           actions: {
             node: (
               <div className="flex items-center gap-[var(--space-2)]">
-                <Button size="sm" variant="soft">
+                <Button size="sm" variant="neo">
                   Pin view
                 </Button>
-                <Button size="sm" variant="ghost">
+                <Button size="sm" variant="quiet">
                   More
                 </Button>
               </div>

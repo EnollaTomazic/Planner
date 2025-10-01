@@ -107,7 +107,7 @@ export default function GoalList({
                             aria-label="Cancel"
                             onClick={cancelEdit}
                             size="sm"
-                            variant="ghost"
+                            variant="quiet"
                             tone="accent"
                             className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
                             iconSize="sm"
@@ -118,7 +118,7 @@ export default function GoalList({
                             aria-label="Save"
                             onClick={() => saveEdit(g.id)}
                             size="sm"
-                            variant="soft"
+                            variant="neo"
                             tone="accent"
                             className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
                             iconSize="sm"
@@ -140,7 +140,7 @@ export default function GoalList({
                             aria-label="Edit goal"
                             onClick={() => startEdit(g)}
                             size="sm"
-                            variant="ghost"
+                            variant="quiet"
                             tone="accent"
                             className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
                             iconSize="sm"
@@ -152,7 +152,7 @@ export default function GoalList({
                             aria-label="Delete goal"
                             onClick={() => onRemove(g.id)}
                             size="sm"
-                            variant="soft"
+                            variant="neo"
                             tone="accent"
                             className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
                             iconSize="sm"

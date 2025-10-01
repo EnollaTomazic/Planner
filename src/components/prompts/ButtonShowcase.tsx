@@ -12,8 +12,8 @@ export default function ButtonShowcase() {
         <Button tone="accent" variant="default">
           Accent tone
         </Button>
-        <Button tone="info" variant="ghost">
-          Info ghost
+        <Button tone="info" variant="quiet">
+          Info quiet
         </Button>
         <Button tone="danger" variant="default">
           Danger primary

@@ -99,7 +99,7 @@ function ButtonGalleryPreview() {
         <Button tone="accent" variant="default">
           Accent tone
         </Button>
-        <Button tone="info" variant="ghost">
+        <Button tone="info" variant="quiet">
           Info ghost
         </Button>
         <Button tone="danger" variant="default">
@@ -165,8 +165,9 @@ export default defineGallerySection({
       props: [
         {
           name: "variant",
-          type: '"default" | "soft" | "ghost"',
-          description: 'Legacy aliases: "primary" → "default", "secondary" → "soft".',
+          type: '"default" | "neo" | "quiet" | "glitch"',
+          description:
+            'Canonical variants. Legacy aliases map as: "primary" → "default", "secondary"/"soft" → "neo", "ghost"/"minimal" → "quiet".',
         },
         {
           name: "tone",
@@ -237,7 +238,7 @@ export default defineGallerySection({
     <Button tone="accent" variant="default">
       Accent tone
     </Button>
-    <Button tone="info" variant="ghost">
+    <Button tone="info" variant="quiet">
       Info ghost
     </Button>
     <Button tone="danger" variant="default">

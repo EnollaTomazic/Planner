@@ -137,7 +137,7 @@ function IconButtonGalleryPreview() {
           <IconButton
             key={size}
             size={size}
-            variant="ghost"
+            variant="quiet"
             aria-label={`Add item ${size}`}
           >
             <Plus aria-hidden />
@@ -145,7 +145,7 @@ function IconButtonGalleryPreview() {
         ))}
         <IconButton
           size="md"
-          variant="soft"
+          variant="neo"
           aria-label="Add item soft"
         >
           <Plus aria-hidden />
@@ -196,9 +196,9 @@ export default defineGallerySection({
       props: [
         {
           name: "variant",
-          type: '"default" | "soft" | "ghost"',
+          type: '"default" | "neo" | "quiet" | "glitch"',
           description:
-            'Visual treatment of the button. Use "default" for solid, "soft" for tinted, and legacy aliases "primary"/"secondary" map respectively.',
+            'Visual treatment. Use "default" for solid, "neo" for tinted depth, "quiet" for low-emphasis. Legacy aliases (primary/secondary/soft/ghost/minimal) map to these.',
         },
         {
           name: "size",
@@ -216,9 +216,10 @@ export default defineGallerySection({
           label: "Variant",
           type: "variant",
           values: [
-            { value: "Ghost" },
-            { value: "Soft" },
+            { value: "Quiet" },
+            { value: "Neo" },
             { value: "Default" },
+            { value: "Glitch" },
           ],
         },
         {
@@ -253,19 +254,19 @@ export default defineGallerySection({
       ),
       code: `<div className="flex flex-col gap-[var(--space-4)]">
   <div className="flex flex-wrap gap-[var(--space-2)]">
-    <IconButton size="sm" variant="ghost" aria-label="Add item sm">
+    <IconButton size="sm" variant="quiet" aria-label="Add item sm">
       <Plus />
     </IconButton>
-    <IconButton size="md" variant="ghost" aria-label="Add item md">
+    <IconButton size="md" variant="quiet" aria-label="Add item md">
       <Plus />
     </IconButton>
-    <IconButton size="lg" variant="ghost" aria-label="Add item lg">
+    <IconButton size="lg" variant="quiet" aria-label="Add item lg">
       <Plus />
     </IconButton>
-    <IconButton size="xl" variant="ghost" aria-label="Add item xl">
+    <IconButton size="xl" variant="quiet" aria-label="Add item xl">
       <Plus />
     </IconButton>
-    <IconButton size="md" variant="soft" aria-label="Add item soft">
+    <IconButton size="md" variant="neo" aria-label="Add item neo">
       <Plus />
     </IconButton>
     <IconButton size="md" variant="default" aria-label="Add item default">

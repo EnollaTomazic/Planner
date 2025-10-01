@@ -256,7 +256,7 @@ export default function ProjectList({
                       }}
                       size="sm"
                       iconSize="xs"
-                      variant="ghost"
+                      variant="quiet"
                       disabled={isRowInactive}
                     >
                       <Pencil />
@@ -273,7 +273,7 @@ export default function ProjectList({
                       }}
                       size="sm"
                       iconSize="xs"
-                      variant="ghost"
+                      variant="quiet"
                       disabled={isRowInactive}
                     >
                       <Trash2 />

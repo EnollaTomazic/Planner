@@ -382,7 +382,7 @@ function ReminderCard({
             </h3>
             <Button
               size="sm"
-              variant="ghost"
+              variant="quiet"
               onClick={() => setEditing(true)}
               aria-label={value.title ? `Edit reminder ${value.title}` : "Edit reminder"}
               className="shrink-0"

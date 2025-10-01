@@ -128,7 +128,7 @@ function TimestampMarkers(
           title="Timestamp mode"
           aria-pressed={useTimestamp}
           size="xl"
-          variant="ghost"
+          variant="quiet"
           tone="primary"
           onClick={() => {
             setUseTimestamp(true);
@@ -144,7 +144,7 @@ function TimestampMarkers(
           title="Note-only mode"
           aria-pressed={!useTimestamp}
           size="xl"
-          variant="ghost"
+          variant="quiet"
           tone="accent"
           onClick={() => {
             setUseTimestamp(false);
@@ -259,7 +259,7 @@ function TimestampMarkers(
                   title="Delete timestamp"
                   size="sm"
                   iconSize="sm"
-                  variant="ghost"
+                  variant="quiet"
                   onClick={() => removeMarker(m.id)}
                 >
                   <Trash2 />

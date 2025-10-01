@@ -1,48 +1,68 @@
-export const UI_VARIANTS = [
+export const CONTROL_VARIANTS = [
   "default",
-  "soft",
-  "ghost",
+  "quiet",
   "neo",
-  "minimal",
   "glitch",
 ] as const;
 
-export type UIVariant = (typeof UI_VARIANTS)[number];
+export type ControlVariant = (typeof CONTROL_VARIANTS)[number];
 
-export const UI_VARIANT_ALIASES = {
+export const CONTROL_VARIANT_ALIASES = {
+  soft: "neo",
+  ghost: "quiet",
+  minimal: "quiet",
   plain: "default",
   primary: "default",
-  secondary: "soft",
-} as const satisfies Record<string, UIVariant>;
+  secondary: "neo",
+} as const satisfies Record<string, ControlVariant>;
 
-export type DeprecatedUIVariant = keyof typeof UI_VARIANT_ALIASES;
+export type DeprecatedControlVariant = keyof typeof CONTROL_VARIANT_ALIASES;
 
-export type AnyUIVariant = UIVariant | DeprecatedUIVariant;
+export type AnyControlVariant = ControlVariant | DeprecatedControlVariant;
 
-export function normalizeUIVariant(
-  variant: AnyUIVariant | null | undefined,
-): UIVariant | undefined {
+const warnedAliases = new Set<DeprecatedControlVariant>();
+
+function warnDeprecatedAlias(alias: DeprecatedControlVariant, canonical: ControlVariant) {
+  if (process.env.NODE_ENV === "production") {
+    return;
+  }
+
+  if (warnedAliases.has(alias)) {
+    return;
+  }
+
+  warnedAliases.add(alias);
+  console.warn(
+    `ui variant "${alias}" is deprecated. Use "${canonical}" instead.`,
+  );
+}
+
+export function normalizeControlVariant(
+  variant: AnyControlVariant | null | undefined,
+): ControlVariant | undefined {
   if (!variant) {
     return undefined;
   }
 
-  if ((UI_VARIANTS as readonly string[]).includes(variant)) {
-    return variant as UIVariant;
+  if ((CONTROL_VARIANTS as readonly string[]).includes(variant)) {
+    return variant as ControlVariant;
   }
 
-  if (variant in UI_VARIANT_ALIASES) {
-    const mapped = UI_VARIANT_ALIASES[variant as DeprecatedUIVariant];
+  if (variant in CONTROL_VARIANT_ALIASES) {
+    const alias = variant as DeprecatedControlVariant;
+    const mapped = CONTROL_VARIANT_ALIASES[alias];
+    warnDeprecatedAlias(alias, mapped);
     return mapped;
   }
 
   return undefined;
 }
 
-export function resolveUIVariant<Allowed extends UIVariant>(
-  variant: AnyUIVariant | null | undefined,
+export function resolveControlVariant<Allowed extends ControlVariant>(
+  variant: AnyControlVariant | null | undefined,
   options: { allowed: readonly Allowed[]; fallback: Allowed },
 ): Allowed {
-  const normalized = normalizeUIVariant(variant);
+  const normalized = normalizeControlVariant(variant);
 
   if (normalized && options.allowed.includes(normalized as Allowed)) {
     return normalized as Allowed;
@@ -50,3 +70,13 @@ export function resolveUIVariant<Allowed extends UIVariant>(
 
   return options.fallback;
 }
+
+// Backwards-compatible exports. Prefer the `Control*` names above for new code.
+export const UI_VARIANTS = CONTROL_VARIANTS;
+export type UIVariant = ControlVariant;
+export const UI_VARIANT_ALIASES = CONTROL_VARIANT_ALIASES;
+export type DeprecatedUIVariant = DeprecatedControlVariant;
+export type AnyUIVariant = AnyControlVariant;
+
+export const normalizeUIVariant = normalizeControlVariant;
+export const resolveUIVariant = resolveControlVariant;

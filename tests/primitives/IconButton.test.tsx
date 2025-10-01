@@ -92,7 +92,7 @@ describe("IconButton", () => {
 
   it("applies ghost variant with primary tone", () => {
     const { getByRole } = render(
-      <IconButton variant="ghost" tone="primary" aria-label="gp" />,
+      <IconButton variant="quiet" tone="primary" aria-label="gp" />,
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border-[hsl(var(--line)/0.35)] text-foreground");
@@ -129,7 +129,7 @@ describe("IconButton", () => {
 
   it("applies soft variant with info tone", () => {
     const { getByRole } = render(
-      <IconButton variant="soft" tone="info" aria-label="si" />,
+      <IconButton variant="neo" tone="info" aria-label="si" />,
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
@@ -144,7 +144,7 @@ describe("IconButton", () => {
 
   it("applies ghost variant with danger tone", () => {
     const { getByRole } = render(
-      <IconButton variant="ghost" tone="danger" aria-label="gd" />,
+      <IconButton variant="quiet" tone="danger" aria-label="gd" />,
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border-danger/35 text-danger");

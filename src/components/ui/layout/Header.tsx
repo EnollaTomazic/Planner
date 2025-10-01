@@ -23,7 +23,7 @@ import {
   type UIVariant,
 } from "@/components/ui/variants";
 
-const HEADER_VARIANTS = ["default", "neo", "minimal"] as const satisfies readonly UIVariant[];
+const HEADER_VARIANTS = ["default", "neo", "quiet"] as const satisfies readonly UIVariant[];
 type HeaderVariant = (typeof HEADER_VARIANTS)[number];
 
 function cx(...parts: Array<string | false | null | undefined>) {
@@ -117,7 +117,7 @@ export default function Header<Key extends string = string>({
     fallback: "default",
   });
   const isNeo = resolvedVariant === "neo";
-  const isMinimal = resolvedVariant === "minimal";
+  const isQuiet = resolvedVariant === "quiet";
   const shouldRenderNeomorphicFrameStyles = isNeo;
   const shouldUseTranslucentSurface = resolvedVariant === "default";
   const translucentSurfaceClasses = shouldUseTranslucentSurface
@@ -208,14 +208,14 @@ export default function Header<Key extends string = string>({
 
   const stickyClasses = sticky ? cx("sticky", topClassName) : "";
 
-  const defaultBarPx = isMinimal ? "var(--space-4)" : "var(--space-3)";
+  const defaultBarPx = isQuiet ? "var(--space-4)" : "var(--space-3)";
   const defaultBarSmPx = "var(--space-4)";
   const barPadding = cx(
     `px-[var(--header-bar-px,${defaultBarPx})]`,
     `sm:px-[var(--header-bar-sm-px,${defaultBarSmPx})]`,
     compact
       ? "py-[var(--space-3)]"
-      : isMinimal
+      : isQuiet
         ? "py-[var(--space-4)]"
         : "py-[var(--space-3)] sm:py-[var(--space-4)]",
   );
@@ -223,12 +223,12 @@ export default function Header<Key extends string = string>({
     ? "min-h-[var(--control-h-sm)]"
     : "min-h-[var(--space-7)]";
 
-  const defaultBodyPx = isMinimal ? "var(--space-4)" : "var(--space-3)";
+  const defaultBodyPx = isQuiet ? "var(--space-4)" : "var(--space-3)";
   const defaultBodySmPx = "var(--space-4)";
   const bodyPadding = cx(
     `px-[var(--header-body-px,${defaultBodyPx})]`,
     `sm:px-[var(--header-body-sm-px,${defaultBodySmPx})]`,
-    isMinimal
+    isQuiet
       ? "py-[var(--space-4)]"
       : "py-[var(--space-3)] sm:py-[var(--space-4)]",
   );

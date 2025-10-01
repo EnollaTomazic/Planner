@@ -132,7 +132,7 @@ function FocusTrapDemo() {
                 </label>
               </fieldset>
               <div className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
-                <Button type="button" variant="soft" onClick={() => setOpen(false)}>
+                <Button type="button" variant="neo" onClick={() => setOpen(false)}>
                   Cancel
                 </Button>
                 <Button type="submit" variant="default">

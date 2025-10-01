@@ -217,7 +217,7 @@ export default function TodayHeroTasks({
                         }}
                         onPointerDown={(event) => event.stopPropagation()}
                         size="sm"
-                        variant="ghost"
+                        variant="quiet"
                         iconSize="xs"
                       >
                         <Pencil />
@@ -231,7 +231,7 @@ export default function TodayHeroTasks({
                         }}
                         onPointerDown={(event) => event.stopPropagation()}
                         size="sm"
-                        variant="ghost"
+                        variant="quiet"
                         iconSize="xs"
                       >
                         <Trash2 />
@@ -246,7 +246,7 @@ export default function TodayHeroTasks({
             <div className="flex justify-end">
               <Button
                 size="sm"
-                variant="ghost"
+                variant="quiet"
                 onClick={onToggleShowAllTasks}
                 aria-expanded={showAllTasks}
                 aria-controls={tasksListId}

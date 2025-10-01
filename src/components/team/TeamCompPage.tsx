@@ -314,7 +314,7 @@ export default function TeamCompPage() {
         actions: (
           <Button
             size="md"
-            variant="ghost"
+            variant="quiet"
             onClick={() => toggleEditing(editingKey)}
             aria-pressed={editing[editingKey]}
           >
@@ -434,7 +434,7 @@ export default function TeamCompPage() {
             </IconButton>
             <Button
               size="md"
-              variant="ghost"
+              variant="quiet"
               onClick={() => toggleEditing("builder")}
               aria-pressed={editing.builder}
             >
@@ -489,7 +489,7 @@ export default function TeamCompPage() {
           </div>
           <Button
             size="md"
-            variant="ghost"
+            variant="quiet"
             onClick={() => toggleEditing("clears")}
             aria-pressed={editing.clears}
           >

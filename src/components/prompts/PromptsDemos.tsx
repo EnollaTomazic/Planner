@@ -135,7 +135,7 @@ export default function PromptsDemos() {
         <div className="space-x-[var(--space-3)]">
           <Button>Default</Button>
           <Button variant="default">Primary</Button>
-          <Button variant="ghost">Ghost</Button>
+          <Button variant="quiet">Quiet</Button>
         </div>
       </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">

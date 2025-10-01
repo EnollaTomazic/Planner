@@ -548,7 +548,7 @@ function GoalsPageContent() {
                       <Button
                         type="button"
                         size="sm"
-                        variant="soft"
+                        variant="neo"
                         tone="danger"
                         className="w-full shrink-0 sm:w-auto"
                         onClick={handleOpenNuke}
@@ -686,7 +686,7 @@ function GoalsPageContent() {
             <Button
               type="button"
               size="sm"
-              variant="ghost"
+              variant="quiet"
               onClick={handleCloseNuke}
               className="shrink-0"
             >

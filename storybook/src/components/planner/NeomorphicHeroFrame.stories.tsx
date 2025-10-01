@@ -118,13 +118,13 @@ function HeroPreview({
           node: (
             <div className="flex flex-wrap items-center gap-[var(--space-2)]">
               <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
-              <Button size="sm" variant="soft">
+              <Button size="sm" variant="neo">
                 Save view
               </Button>
               <Button size="sm" variant="default" loading>
                 Sync
               </Button>
-              <Button size="sm" variant="ghost" disabled>
+              <Button size="sm" variant="quiet" disabled>
                 Disabled
               </Button>
             </div>

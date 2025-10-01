@@ -190,7 +190,7 @@ export default function ReviewEditor({
                 title="Delete review"
                 size="lg"
                 iconSize="md"
-                variant="ghost"
+                variant="quiet"
                 onClick={onDelete}
               >
                 <Trash2 />
@@ -203,7 +203,7 @@ export default function ReviewEditor({
                 title="Save and close"
                 size="lg"
                 iconSize="md"
-                variant="ghost"
+                variant="quiet"
                 onClick={() => {
                   saveAll();
                   onDone?.();
@@ -235,7 +235,7 @@ export default function ReviewEditor({
               title={focusOn ? "Brain light on" : "Brain light off"}
               aria-pressed={focusOn}
               size="xl"
-              variant="ghost"
+              variant="quiet"
               tone="primary"
               onClick={() => {
                 const v = !focusOn;

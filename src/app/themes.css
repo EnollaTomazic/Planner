@@ -375,6 +375,13 @@
   --glitch-intensity-backdrop-drip-2: 0.2;
   --glitch-intensity-backdrop-drip-3: 0.16;
   --glitch-intensity-backdrop-shadow: 0.38;
+  --bg: var(--background);
+  --depth-shadow-inset: var(--shadow-depth-inner);
+  --scanline: var(--glitch-scanline);
+  --glitch-pixel: var(--glitch-noise-level);
+  --stat-good: var(--success);
+  --stat-warn: var(--warning);
+  --stat-bad: var(--danger);
   --spacing-0-125: calc(var(--spacing-1) / 8);
   --spacing-0-25: calc(var(--spacing-1) / 4);
   --spacing-0-5: calc(var(--spacing-1) / 2);

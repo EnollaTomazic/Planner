@@ -155,7 +155,7 @@ export default function PageHeaderDemo() {
       </Header>
 
       <Header
-        variant="minimal"
+        variant="quiet"
         eyebrow="Planner"
         heading="Minimal Header Layout for Extended Multi-line Titles"
         subtitle="Lean chrome with neon focus even when headlines wrap"
@@ -173,7 +173,7 @@ export default function PageHeaderDemo() {
         <div className="flex flex-wrap items-center gap-[var(--space-3)]">
           <p className="text-ui text-muted-foreground">{tabCopy[activeTab]}</p>
           <div className="flex items-center gap-[var(--space-2)]">
-            <Button size="sm" variant="soft">
+            <Button size="sm" variant="neo">
               Invite teammate
             </Button>
             <Button size="sm" variant="default">
@@ -243,7 +243,7 @@ export default function PageHeaderDemo() {
           },
           actions: {
             node: (
-              <Button size="sm" variant="soft" className="whitespace-nowrap">
+              <Button size="sm" variant="neo" className="whitespace-nowrap">
                 Assign scout
               </Button>
             ),

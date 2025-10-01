@@ -231,7 +231,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
               </p>
               <div className="col-span-full flex flex-wrap justify-end gap-[var(--space-2)] md:col-span-5 md:justify-self-end">
                 <Button size="sm">Primary</Button>
-                <Button size="sm" variant="ghost">
+                <Button size="sm" variant="quiet">
                   Ghost
                 </Button>
               </div>
@@ -464,7 +464,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
                   }}
                   search={{ value: "", onValueChange: () => {}, round: true }}
                   actions={
-                    <Button size="sm" variant="soft">
+                    <Button size="sm" variant="neo">
                       Calm action
                     </Button>
                   }
@@ -491,7 +491,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
                   },
                   actions: {
                     node: (
-                      <Button size="sm" variant="soft" className="whitespace-nowrap">
+                      <Button size="sm" variant="neo" className="whitespace-nowrap">
                         Assign scout
                       </Button>
                     ),
@@ -550,7 +550,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
                     topClassName="top-0"
                     illustrationState={state}
                     actions={
-                      <Button size="sm" variant="soft">
+                      <Button size="sm" variant="neo">
                         Primary action
                       </Button>
                     }

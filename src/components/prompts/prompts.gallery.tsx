@@ -1680,7 +1680,7 @@ function SheetFocusTrapState() {
         >
           Save
         </Button>
-        <Button variant="ghost" size="sm" className="order-first">
+        <Button variant="quiet" size="sm" className="order-first">
           Cancel
         </Button>
       </CardFooter>
@@ -1719,7 +1719,7 @@ function SheetConfirmState() {
         >
           Confirm
         </Button>
-        <Button variant="ghost" size="sm" className="order-first">
+        <Button variant="quiet" size="sm" className="order-first">
           Cancel
         </Button>
       </CardFooter>
@@ -1827,7 +1827,7 @@ function ModalFocusTrapState() {
         >
           Confirm
         </Button>
-        <Button variant="ghost" size="sm" className="order-first">
+        <Button variant="quiet" size="sm" className="order-first">
           Back
         </Button>
       </CardFooter>
@@ -1877,7 +1877,7 @@ function ModalConfirmState() {
         >
           Delete
         </Button>
-        <Button variant="ghost" size="sm" className="order-first">
+        <Button variant="quiet" size="sm" className="order-first">
           Cancel
         </Button>
       </CardFooter>
@@ -2910,7 +2910,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
           </div>
           <div className="col-span-full flex items-center justify-end gap-[var(--space-3)] md:col-span-5 md:justify-self-end">
             <Button size="sm">Primary</Button>
-            <Button size="sm" variant="ghost">
+            <Button size="sm" variant="quiet">
               Secondary
             </Button>
           </div>
@@ -2927,7 +2927,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   </div>
   <div className="col-span-full flex items-center justify-end gap-[var(--space-3)] md:col-span-5 md:justify-self-end">
     <Button size="sm">Primary</Button>
-    <Button size="sm" variant="ghost">
+    <Button size="sm" variant="quiet">
       Secondary
     </Button>
   </div>
@@ -3031,7 +3031,7 @@ React.useEffect(() => {
     >
       Save
     </Button>
-    <Button variant="ghost" size="sm" className="order-first">
+    <Button variant="quiet" size="sm" className="order-first">
       Cancel
     </Button>
   </CardFooter>
@@ -3072,7 +3072,7 @@ React.useEffect(() => {
     >
       Confirm
     </Button>
-    <Button variant="ghost" size="sm" className="order-first">
+    <Button variant="quiet" size="sm" className="order-first">
       Cancel
     </Button>
   </CardFooter>
@@ -3181,7 +3181,7 @@ React.useEffect(() => {
     >
       Confirm
     </Button>
-    <Button variant="ghost" size="sm" className="order-first">
+    <Button variant="quiet" size="sm" className="order-first">
       Back
     </Button>
   </CardFooter>
@@ -3219,7 +3219,7 @@ React.useEffect(() => {
     >
       Delete
     </Button>
-    <Button variant="ghost" size="sm" className="order-first">
+    <Button variant="quiet" size="sm" className="order-first">
       Cancel
     </Button>
   </CardFooter>
@@ -3293,7 +3293,7 @@ React.useEffect(() => {
           <Button size="sm" variant="default" loading>
             Deploy
           </Button>
-          <Button size="sm" variant="ghost" disabled>
+          <Button size="sm" variant="quiet" disabled>
             Disabled
           </Button>
         </div>
@@ -3631,18 +3631,18 @@ React.useEffect(() => {
         },
         {
           id: "demo-header-cta-disabled",
-          name: "Ghost CTA — Disabled",
+          name: "Quiet CTA — Disabled",
           description:
             "Disabled secondary action leans on the built-in opacity tokens so the hero still communicates availability clearly.",
           element: (
             <div className="flex items-center gap-[var(--space-2)]">
-              <Button size="sm" variant="ghost" disabled className="shadow-depth-soft">
+              <Button size="sm" variant="quiet" disabled className="shadow-depth-soft">
                 Disabled action
               </Button>
             </div>
           ),
           code: `<div className="flex items-center gap-[var(--space-2)]">
-  <Button size="sm" variant="ghost" disabled className="shadow-depth-soft">
+  <Button size="sm" variant="quiet" disabled className="shadow-depth-soft">
     Disabled action
   </Button>
 </div>`,
