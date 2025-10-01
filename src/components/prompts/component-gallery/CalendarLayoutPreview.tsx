@@ -493,7 +493,7 @@ function CalendarPreview({
         size="lg"
         tone="accent"
       >
-        <CalendarPlus className={cn("size-5", FAB_ICON_SIZE)} aria-hidden />
+        <CalendarPlus className={cn(FAB_ICON_SIZE)} aria-hidden />
         <span className="text-ui font-semibold tracking-[-0.01em]">
           Quick create
         </span>
