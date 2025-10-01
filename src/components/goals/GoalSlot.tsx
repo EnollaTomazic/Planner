@@ -9,6 +9,9 @@ import { PillarBadge } from "@/components/ui";
 import Input from "@/components/ui/primitives/Input";
 import IconButton from "@/components/ui/primitives/IconButton";
 
+const ICON_SM = "size-[var(--icon-size-sm)]";
+const ICON_MD = "size-[var(--icon-size-md)]";
+
 interface GoalSlotProps {
   goal?: Goal | null;
   onToggleDone?: (id: string) => void;
@@ -86,21 +89,21 @@ export default function GoalSlot({
               <div className="flex items-center gap-[var(--space-1)]">
                 <IconButton
                   size="sm"
-                  iconSize="xs"
+                  iconSize="sm"
                   tone="accent"
                   onClick={saveEdit}
                   aria-label="Save goal title"
                 >
-                  <Check />
+                  <Check aria-hidden className={ICON_SM} />
                 </IconButton>
                 <IconButton
                   size="sm"
-                  iconSize="xs"
+                  iconSize="sm"
                   tone="danger"
                   onClick={cancelEdit}
                   aria-label="Cancel editing"
                 >
-                  <X />
+                  <X aria-hidden className={ICON_SM} />
                 </IconButton>
               </div>
             </div>
@@ -118,42 +121,42 @@ export default function GoalSlot({
                   />
                 )}
               </div>
-              <IconButton
-                size="sm"
-                iconSize="xs"
-                tone={goal.done ? "accent" : "primary"}
-                variant="ghost"
-                className="absolute bottom-[var(--space-1)] right-[var(--space-1)]"
-                aria-label={goal.done ? "Mark goal undone" : "Mark goal done"}
-                aria-pressed={goal.done}
-                onClick={() => onToggleDone?.(goal.id)}
-              >
-                <Check />
-              </IconButton>
+                <IconButton
+                  size="sm"
+                  iconSize="md"
+                  tone={goal.done ? "accent" : "primary"}
+                  variant="ghost"
+                  className="absolute bottom-[var(--space-1)] right-[var(--space-1)]"
+                  aria-label={goal.done ? "Mark goal undone" : "Mark goal done"}
+                  aria-pressed={goal.done}
+                  onClick={() => onToggleDone?.(goal.id)}
+                >
+                  <Check aria-hidden className={ICON_MD} />
+                </IconButton>
               <div
                 className="pointer-events-none absolute bottom-[var(--space-1)] left-[var(--space-1)] flex items-center gap-[var(--space-1)] opacity-0 transition-opacity duration-quick ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100"
               >
                 <IconButton
                   ref={editButtonRef}
                   size="sm"
-                  iconSize="xs"
+                  iconSize="sm"
                   variant="ghost"
                   aria-label="Edit goal"
                   title="Edit goal"
                   onClick={startEdit}
                 >
-                  <Pencil />
+                  <Pencil aria-hidden className={ICON_SM} />
                 </IconButton>
                 <IconButton
                   size="sm"
-                  iconSize="xs"
+                  iconSize="sm"
                   tone="danger"
                   variant="ghost"
                   aria-label="Delete goal"
                   title="Delete goal"
                   onClick={() => onDelete?.(goal.id)}
                 >
-                  <Trash2 />
+                  <Trash2 aria-hidden className={ICON_SM} />
                 </IconButton>
               </div>
             </>
