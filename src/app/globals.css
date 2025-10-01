@@ -1709,12 +1709,7 @@ textarea:-webkit-autofill {
 
 /* ===== Lavender-Glitch FX ===== */
 .glitch-rail {
-  background: linear-gradient(
-    180deg,
-    hsl(var(--primary) / 0.6) 0%,
-    hsl(var(--accent) / 0.45) 45%,
-    hsl(var(--ring) / 0.6) 100%
-  );
+  background: var(--gradient-glitch-rail);
   background-size: 100% 200%;
   animation: lg-railShift 5.5s ease-in-out infinite;
   box-shadow:
