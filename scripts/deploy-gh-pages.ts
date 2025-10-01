@@ -199,16 +199,58 @@ export function flattenBasePathDirectory(outDir: string, slug: string): void {
   const temporaryDir = createTemporarySlugDirectoryPath(outDir, slug);
   fs.renameSync(nestedDir, temporaryDir);
 
+  const moveEntry = (sourcePath: string, targetPath: string, originalSource: string): void => {
+    if (!fs.existsSync(targetPath)) {
+      fs.renameSync(sourcePath, targetPath);
+      return;
+    }
+
+    const sourceStat = fs.statSync(sourcePath);
+    const targetStat = fs.statSync(targetPath);
+    const sourceIsDirectory = sourceStat.isDirectory();
+    const targetIsDirectory = targetStat.isDirectory();
+
+    if (sourceIsDirectory && targetIsDirectory) {
+      for (const entry of fs.readdirSync(sourcePath)) {
+        moveEntry(
+          path.join(sourcePath, entry),
+          path.join(targetPath, entry),
+          path.join(originalSource, entry),
+        );
+      }
+      fs.rmSync(sourcePath, { recursive: true, force: true });
+      return;
+    }
+
+    if (!sourceIsDirectory && !targetIsDirectory) {
+      if (sourceStat.size !== targetStat.size) {
+        throw new Error(
+          `Cannot move "${originalSource}" to "${targetPath}" because the destination already exists with different content.`,
+        );
+      }
+
+      const sourceBuffer = fs.readFileSync(sourcePath);
+      const targetBuffer = fs.readFileSync(targetPath);
+      if (!sourceBuffer.equals(targetBuffer)) {
+        throw new Error(
+          `Cannot move "${originalSource}" to "${targetPath}" because the destination already exists with different content.`,
+        );
+      }
+
+      fs.rmSync(sourcePath);
+      return;
+    }
+
+    throw new Error(
+      `Cannot move "${originalSource}" to "${targetPath}" because the destination has a different type.`,
+    );
+  };
+
   for (const entry of fs.readdirSync(temporaryDir)) {
     const temporarySourcePath = path.join(temporaryDir, entry);
     const originalSourcePath = path.join(nestedDir, entry);
     const targetPath = path.join(outDir, entry);
-    if (fs.existsSync(targetPath)) {
-      throw new Error(
-        `Cannot move \"${originalSourcePath}\" to \"${targetPath}\" because the destination already exists.`,
-      );
-    }
-    fs.renameSync(temporarySourcePath, targetPath);
+    moveEntry(temporarySourcePath, targetPath, originalSourcePath);
   }
 
   fs.rmSync(temporaryDir, { recursive: true, force: true });
