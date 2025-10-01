@@ -216,6 +216,8 @@
     transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
   );
   --hero-divider-blur: calc(var(--spacing-1) * 1.5);
+  --hero-illustration-opacity: 0.8;
+  --hero-illustration-blur: calc(var(--space-4) + var(--space-1));
   --visually-hidden-top: -9999px;
   --warning-foreground: 0 0% 6%;
   --success-foreground: 0 0% 6%;
