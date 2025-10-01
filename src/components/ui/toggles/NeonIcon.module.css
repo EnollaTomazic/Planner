@@ -3,10 +3,11 @@
   display: inline-grid;
   place-items: center;
   overflow: visible;
-  border-radius: 9999px;
+  border-radius: var(--ni-radius);
   width: var(--ni-size);
   height: var(--ni-size);
   --ni-size: var(--icon-size-md);
+  --ni-radius: var(--radius-full);
   --ni-k: calc(0.56 * var(--ni-size));
   --ni-color: hsl(var(--accent));
   --ni-core-blur: calc(var(--hairline-w) * 2.5);
@@ -146,7 +147,7 @@
   pointer-events: none;
   position: absolute;
   inset: 0;
-  border-radius: 9999px;
+  border-radius: var(--ni-radius);
   mix-blend-mode: overlay;
   background: repeating-linear-gradient(
     0deg,
@@ -167,7 +168,7 @@
   pointer-events: none;
   position: absolute;
   inset: 0;
-  border-radius: 9999px;
+  border-radius: var(--ni-radius);
   mix-blend-mode: screen;
   opacity: 0;
 }
