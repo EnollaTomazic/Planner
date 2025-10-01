@@ -36,7 +36,7 @@ export default function PagesCheckPage() {
             imageAlt="Illustration used to confirm static asset routing."
             className="shadow-outline-subtle"
           />
-          <Button asChild variant="secondary">
+          <Button asChild variant="soft">
             <Link href="/">Return home</Link>
           </Button>
         </div>

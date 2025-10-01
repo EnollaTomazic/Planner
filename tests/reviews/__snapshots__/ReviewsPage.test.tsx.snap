@@ -280,7 +280,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                       <button
                         class="_neu_0e7b1b _root_2452a7 relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none [--neu-radius:var(--control-radius)] h-[var(--control-h-md)] px-[var(--space-4)] text-ui gap-[var(--space-2)] [&_svg]:size-[var(--space-5)] btn-glitch w-full whitespace-nowrap md:col-span-2 md:justify-self-end shadow-glow-md hover:shadow-btn-primary-hover active:shadow-btn-primary-active active:translate-y-[var(--spacing-0-25)] [--neu-surface:hsl(var(--primary-soft))] border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)] [--glow-active:hsl(var(--primary)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--primary)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--primary)/0.6)]"
                         data-tone="primary"
-                        data-variant="primary"
+                        data-variant="default"
                         tabindex="0"
                         type="button"
                       >
