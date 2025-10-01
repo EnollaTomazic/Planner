@@ -124,7 +124,7 @@ export default function PortraitFrame({
       />
       <span
         aria-hidden
-        className="glitch-rail pointer-events-none absolute -inset-[calc(var(--portrait-rim)*1.1)] rounded-full mix-blend-screen opacity-70"
+        className="glitch-rail pointer-events-none absolute -inset-[calc(var(--portrait-rim)*1.1)] rounded-full mix-blend-screen opacity-[var(--glitch-intensity-hero-rail,0.74)]"
       />
       <div
         className={cn(
