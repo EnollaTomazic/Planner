@@ -59,6 +59,9 @@ type CalendarCell = {
   readonly isCurrent?: boolean;
 };
 
+const SWITCHER_MIN_ITEM_WIDTH = "calc(var(--space-8) * 4)";
+const SWITCHER_THRESHOLD = "calc(var(--space-8) * 5 + var(--space-12) * 2)";
+
 const MOBILE_TEMPLATE: GridTemplate<DashboardArea> = [
   ["summary"],
   ["switcher"],
@@ -318,8 +321,8 @@ export default function DashboardLayoutPreviewPage() {
                   </div>
                   <Switcher
                     className={styles.switcher}
-                    minItemWidth="16rem"
-                    threshold="30rem"
+                    minItemWidth={SWITCHER_MIN_ITEM_WIDTH}
+                    threshold={SWITCHER_THRESHOLD}
                   >
                     {QUICK_PANELS.map((panel) => {
                       const Icon = panel.icon;
