@@ -18,6 +18,7 @@ import Input from "@/components/ui/primitives/Input";
 import VirtualizedList, {
   VirtualizedSpacer,
 } from "@/components/ui/primitives/VirtualizedList";
+import { spacingTokens } from "@/lib/tokens";
 import { usePersistentState, uid } from "@/lib/db";
 import { isRecord, isStringArray } from "@/lib/validators";
 import { Timer, Pencil, Trash2, Check, X, Plus } from "lucide-react";
@@ -197,18 +198,23 @@ const SPEED_TIME: Record<ClearSpeed, string> = {
 };
 
 const TABLE_COLUMN_COUNT = 4;
-const ROW_HEIGHT_TOKEN = "calc(var(--space-6) + var(--space-2))";
-const ROW_HEIGHT_PX = 40;
-const HEADER_ROW_HEIGHT_TOKEN = "calc(var(--space-6) + var(--space-1))";
-const HEADER_ACTION_WIDTH = "var(--space-7)";
-const DEFAULT_ROW_HEIGHT = ROW_HEIGHT_PX;
+const ROW_HEIGHT = "calc(var(--space-6) + var(--space-2))";
+const HEADER_ROW_HEIGHT = "calc(var(--space-6) + var(--space-1))";
+const ACTION_COLUMN_WIDTH = "var(--space-7)";
+const DEFAULT_ROW_HEIGHT_PX =
+  (spacingTokens[5] ?? 32) + (spacingTokens[1] ?? 8);
 
-const TABLE_ROW_STYLE: React.CSSProperties = { height: ROW_HEIGHT_TOKEN };
-const TABLE_HEADER_ROW_STYLE: React.CSSProperties = {
-  height: HEADER_ROW_HEIGHT_TOKEN,
+const TABLE_ROW_STYLE: React.CSSProperties = {
+  blockSize: ROW_HEIGHT,
+  height: ROW_HEIGHT,
 };
-const TABLE_HEADER_ACTION_STYLE: React.CSSProperties = {
-  width: HEADER_ACTION_WIDTH,
+const TABLE_HEADER_ROW_STYLE: React.CSSProperties = {
+  blockSize: HEADER_ROW_HEIGHT,
+  height: HEADER_ROW_HEIGHT,
+};
+const TABLE_ACTION_CELL_STYLE: React.CSSProperties = {
+  inlineSize: ACTION_COLUMN_WIDTH,
+  width: ACTION_COLUMN_WIDTH,
 };
 
 type BucketSectionProps = {
@@ -291,7 +297,10 @@ const EditingRow = React.memo(function EditingRow({
           onChange={updateDraft("notes")}
         />
       </td>
-      <td className="py-[var(--space-2)] pr-[var(--space-3)]">
+      <td
+        className="py-[var(--space-2)] pr-[var(--space-3)]"
+        style={TABLE_ACTION_CELL_STYLE}
+      >
         <div className="flex gap-[var(--space-1)]">
           <IconButton
             size="sm"
@@ -343,7 +352,10 @@ const ReadOnlyRow = React.memo(function ReadOnlyRow({
       <td className="py-[var(--space-2)] pr-[var(--space-3)]">
         {row.notes ?? "-"}
       </td>
-      <td className="py-[var(--space-2)] pr-[var(--space-3)]">
+      <td
+        className="py-[var(--space-2)] pr-[var(--space-3)]"
+        style={TABLE_ACTION_CELL_STYLE}
+      >
         {editing && (
           <div className="flex gap-[var(--space-1)]">
             <IconButton
@@ -385,7 +397,7 @@ const BucketSection = React.memo(function BucketSection({
   setEditingRow,
 }: BucketSectionProps) {
   const scrollParentRef = React.useRef<HTMLDivElement>(null);
-  const [rowHeight, setRowHeight] = React.useState(DEFAULT_ROW_HEIGHT);
+  const [rowHeight, setRowHeight] = React.useState(DEFAULT_ROW_HEIGHT_PX);
 
   React.useLayoutEffect(() => {
     const container = scrollParentRef.current;
@@ -533,7 +545,7 @@ const BucketSection = React.memo(function BucketSection({
                 <th
                   scope="col"
                   className="pr-[var(--space-3)]"
-                  style={TABLE_HEADER_ACTION_STYLE}
+                  style={TABLE_ACTION_CELL_STYLE}
                 >
                   <span className="sr-only">Actions</span>
                 </th>
