@@ -75,6 +75,21 @@ export interface PlannerOverviewCalendarProps {
   onSelectDay: (iso: string) => void;
 }
 
+export interface PlannerOverviewActivityPoint {
+  iso: string;
+  label: string;
+  completed: number;
+  total: number;
+}
+
+export interface PlannerOverviewActivityProps {
+  loading: boolean;
+  hasData: boolean;
+  totalCompleted: number;
+  totalScheduled: number;
+  points: readonly PlannerOverviewActivityPoint[];
+}
+
 export interface PlannerOverviewProps {
   hydrating: boolean;
   hydrated: boolean;
@@ -82,6 +97,7 @@ export interface PlannerOverviewProps {
   focus: PlannerOverviewFocusProps;
   goals: PlannerOverviewGoalsProps;
   calendar: PlannerOverviewCalendarProps;
+  activity: PlannerOverviewActivityProps;
 }
 
 export interface HomeHeroSectionProps {

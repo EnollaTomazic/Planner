@@ -341,6 +341,21 @@ const heroPlannerOverviewDemo = {
     ],
     onSelectDay: () => {},
   },
+  activity: {
+    loading: false,
+    hasData: true,
+    totalCompleted: 12,
+    totalScheduled: 18,
+    points: [
+      { iso: "2024-04-22", label: "Mon", completed: 2, total: 3 },
+      { iso: "2024-04-23", label: "Tue", completed: 1, total: 2 },
+      { iso: "2024-04-24", label: "Wed", completed: 3, total: 4 },
+      { iso: "2024-04-25", label: "Thu", completed: 2, total: 3 },
+      { iso: "2024-04-26", label: "Fri", completed: 3, total: 4 },
+      { iso: "2024-04-27", label: "Sat", completed: 1, total: 1 },
+      { iso: "2024-04-28", label: "Sun", completed: 0, total: 1 },
+    ],
+  },
 } satisfies PlannerOverviewProps;
 
 const FIELD_HOVER_SHADOW =
