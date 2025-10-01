@@ -47,6 +47,8 @@ export { default as SideSelector } from "./league/SideSelector";
 export * from "./league/SideSelector";
 export { default as Modal } from "./Modal";
 export * from "./Modal";
+export { default as AvatarFrame } from "./primitives/AvatarFrame";
+export * from "./primitives/AvatarFrame";
 export { default as Badge } from "./primitives/Badge";
 export * from "./primitives/Badge";
 export { default as BlobContainer } from "./primitives/BlobContainer";

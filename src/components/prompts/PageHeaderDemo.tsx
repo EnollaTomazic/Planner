@@ -103,7 +103,7 @@ export default function PageHeaderDemo() {
         className="text-muted-foreground data-[state=active]:text-foreground"
         data-state="active"
       >
-        <Bell className="h-4 w-4" />
+        <Bell className="size-[var(--icon-size-sm)]" />
       </IconButton>
       <button
         type="button"
@@ -120,7 +120,7 @@ export default function PageHeaderDemo() {
         data-state={profileOpen ? "open" : "inactive"}
         className="inline-flex items-center gap-[var(--space-2)] rounded-full border border-transparent bg-[hsl(var(--card)/0.55)] px-[var(--space-3)] py-[var(--spacing-0-75)] text-ui font-medium transition-colors hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-[hsl(var(--card)/0.85)]"
       >
-        <CircleUser className="h-4 w-4" />
+        <CircleUser className="size-[var(--icon-size-sm)]" />
         <span className="hidden sm:inline">Profile</span>
       </button>
     </>
