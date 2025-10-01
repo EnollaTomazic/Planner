@@ -484,8 +484,10 @@ html.bg-intense body::after {
 /* Glitch utility (subtle RGB offset) */
 .glitch {
   position: relative;
-  filter: drop-shadow(var(--spacing-0-25) 0 0 hsl(var(--accent-2)))
-    drop-shadow(calc(var(--spacing-0-25) * -1) 0 0 hsl(var(--lav-deep)));
+  filter: drop-shadow(var(--glitch-chromatic-offset-strong) 0 0 hsl(var(--accent-2)))
+    drop-shadow(
+      calc(var(--glitch-chromatic-offset-strong) * -1) 0 0 hsl(var(--lav-deep))
+    );
 }
 /* Hero glow rim (used on Hero card) */
 /* Neon text glow */
@@ -1818,8 +1820,9 @@ textarea:-webkit-autofill {
   .glitch-title:hover,
   .glitch-title:focus-visible {
     text-shadow:
-      var(--spacing-0-25) 0 hsl(var(--accent) / 0.9),
-      calc(var(--spacing-0-25) * -1) 0 hsl(var(--primary) / 0.9),
+      var(--glitch-chromatic-offset-strong) 0 hsl(var(--accent) / 0.9),
+      calc(var(--glitch-chromatic-offset-strong) * -1) 0
+        hsl(var(--primary) / 0.9),
       0 0 var(--space-3) hsl(var(--ring) / 0.6),
       0 0 calc(var(--space-5) + var(--spacing-0-5)) hsl(var(--accent) / 0.35);
   }
