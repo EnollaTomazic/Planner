@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import fg from "fast-glob";
 import ts from "typescript";
+import { loadTokenManifest, toCssVarName } from "./tailwind-token-plugin";
 
 type LintContext = "class" | "style" | "style-object" | "utility" | "unknown";
 
@@ -45,6 +46,10 @@ const shouldIgnoreToken = (token: string): boolean =>
 
 async function loadTokenVocabulary(): Promise<Set<string>> {
   const tokens = new Set<string>();
+  const manifest = loadTokenManifest();
+  for (const key of Object.keys(manifest)) {
+    tokens.add(toCssVarName(key).toLowerCase());
+  }
   const cssFiles = new Set<string>(TOKEN_SOURCE_FILES);
   const discovered = await fg("src/**/*.css", {
     cwd: rootDir,
