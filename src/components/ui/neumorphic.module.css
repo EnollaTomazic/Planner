@@ -31,3 +31,15 @@
     )
   );
 }
+
+:global(html.no-animations) .neu-hover:hover,
+:global(html.no-animations) .neu-hover:focus-visible,
+:global(html.no-animations) .neu-hover:focus-within {
+  box-shadow: var(
+    --neo-shadow,
+    var(
+      --depth-shadow-outer,
+      var(--shadow-outer-lg, var(--shadow-neo))
+    )
+  );
+}

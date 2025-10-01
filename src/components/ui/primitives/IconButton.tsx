@@ -4,6 +4,7 @@ import * as React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { hasTextContent } from "@/lib/react";
 import { cn } from "@/lib/utils";
+import { useAnimationsDisabled } from "@/lib/useAnimationsDisabled";
 import neumorphicStyles from "../neumorphic.module.css";
 import BlobContainer, { type GlitchOverlayToken } from "./BlobContainer";
 import DripEdge from "./DripEdge";
@@ -225,7 +226,9 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     },
     ref,
   ) => {
-    const reduceMotion = useReducedMotion();
+    const animationsDisabled = useAnimationsDisabled();
+    const reduceMotionPreference = useReducedMotion();
+    const reduceMotion = reduceMotionPreference || animationsDisabled;
     const sizeClass = getSizeClass(size);
     const appliedIconSize = iconSize ?? defaultIcon[size];
     const trimmedAriaLabel =
@@ -289,6 +292,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           glitch && styles.glitch,
           glitch && "group/glitch isolate overflow-hidden",
           "inline-flex items-center justify-center select-none rounded-full transition-colors duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
+          "data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none]",
           "[--neu-radius:var(--radius-full)]",
           variantClass,
           toneClasses[resolvedVariant][tone],
@@ -307,6 +311,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         aria-label={resolvedAriaLabel}
         aria-labelledby={normalizedAriaLabelledBy}
         title={normalizedTitle}
+        data-reduce-motion={reduceMotion ? "true" : undefined}
         {...(domProps as typeof rest)}
       >
         {glitch ? <BlobContainer overlayToken={glitchIntensity} /> : null}
