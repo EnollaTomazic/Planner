@@ -29,18 +29,27 @@ interface ButtonsPanelProps {
 }
 
 const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
+const sampleWidth = "calc(var(--space-8) * 3.5)";
+const sampleWidthStyle: React.CSSProperties = { width: sampleWidth };
 type PanelItem = { label: string; element: React.ReactNode; className?: string };
 
 export default function ButtonsPanel({ data }: ButtonsPanelProps) {
   const items = React.useMemo<PanelItem[]>(
     () =>
       [
-        { label: "Button", element: <Button className="w-56">Click me</Button> },
+        {
+          label: "Button",
+          element: (
+            <div style={sampleWidthStyle}>
+              <Button className="w-full">Click me</Button>
+            </div>
+          ),
+        },
         { label: "IconButton", element: <IconButtonShowcase /> },
         {
           label: "SegmentedButton",
           element: (
-            <div className="w-56 flex gap-[var(--space-2)]">
+            <div className="flex gap-[var(--space-2)]" style={sampleWidthStyle}>
               <SegmentedButton>Default</SegmentedButton>
               <SegmentedButton selected>Active</SegmentedButton>
               <SegmentedButton disabled>Disabled</SegmentedButton>
@@ -50,21 +59,19 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
         {
           label: "GlitchSegmented",
           element: (
-            <GlitchSegmentedGroup
-              value={data.segmented.value}
-              onChange={data.segmented.onChange}
-              className="w-56"
-            >
-              <GlitchSegmentedButton value="one">One</GlitchSegmentedButton>
-              <GlitchSegmentedButton value="two">Two</GlitchSegmentedButton>
-              <GlitchSegmentedButton value="three">Three</GlitchSegmentedButton>
-            </GlitchSegmentedGroup>
+            <div style={sampleWidthStyle}>
+              <GlitchSegmentedGroup value={data.segmented.value} onChange={data.segmented.onChange}>
+                <GlitchSegmentedButton value="one">One</GlitchSegmentedButton>
+                <GlitchSegmentedButton value="two">Two</GlitchSegmentedButton>
+                <GlitchSegmentedButton value="three">Three</GlitchSegmentedButton>
+              </GlitchSegmentedGroup>
+            </div>
           ),
         },
         {
           label: "ThemeToggle",
           element: (
-            <div className="w-56 flex justify-center">
+            <div className="flex justify-center" style={sampleWidthStyle}>
               <ThemeToggle />
             </div>
           ),
@@ -72,7 +79,7 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
         {
           label: "Button (tactile toggle)",
           element: (
-            <div className="w-56 flex flex-col gap-[var(--space-2)]">
+            <div className="flex flex-col gap-[var(--space-2)]" style={sampleWidthStyle}>
               <Button
                 size="sm"
                 variant="primary"
@@ -98,7 +105,7 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
         {
           label: "AnimationToggle",
           element: (
-            <div className="w-56 flex justify-center">
+            <div className="flex justify-center" style={sampleWidthStyle}>
               <AnimationToggle />
             </div>
           ),
@@ -106,7 +113,7 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
         {
           label: "CheckCircle",
           element: (
-            <div className="w-56 flex justify-center gap-[var(--space-2)]">
+            <div className="flex justify-center gap-[var(--space-2)]" style={sampleWidthStyle}>
               <CheckCircle
                 checked={data.checkCircle.checked}
                 onChange={data.checkCircle.onChange}
@@ -128,22 +135,25 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
         {
           label: "Toggle",
           element: (
-            <Toggle value={data.toggle.value} onChange={data.toggle.onChange} className="w-56" />
+            <div style={sampleWidthStyle}>
+              <Toggle value={data.toggle.value} onChange={data.toggle.onChange} />
+            </div>
           ),
         },
         {
           label: "TabBar (default)",
           element: (
-            <TabBar
-              items={[
-                { key: "one", label: "One" },
-                { key: "two", label: "Two" },
-                { key: "three", label: "Three" },
-              ]}
-              className="w-56"
-              ariaLabel="Sample tabs"
-              linkPanels={false}
-            />
+            <div style={sampleWidthStyle}>
+              <TabBar
+                items={[
+                  { key: "one", label: "One" },
+                  { key: "two", label: "Two" },
+                  { key: "three", label: "Three" },
+                ]}
+                ariaLabel="Sample tabs"
+                linkPanels={false}
+              />
+            </div>
           ),
         },
         {
@@ -174,35 +184,37 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
         {
           label: "TabBar (app nav)",
           element: (
-            <TabBar
-              items={[
-                { key: "reviews", label: "Reviews" },
-                { key: "planner", label: "Planner" },
-                { key: "goals", label: "Goals" },
-              ]}
-              value={data.appTabs.value}
-              onValueChange={data.appTabs.onValueChange}
-              ariaLabel="Component gallery sections"
-              className="w-56"
-              linkPanels={false}
-            />
+            <div style={sampleWidthStyle}>
+              <TabBar
+                items={[
+                  { key: "reviews", label: "Reviews" },
+                  { key: "planner", label: "Planner" },
+                  { key: "goals", label: "Goals" },
+                ]}
+                value={data.appTabs.value}
+                onValueChange={data.appTabs.onValueChange}
+                ariaLabel="Component gallery sections"
+                linkPanels={false}
+              />
+            </div>
           ),
         },
         {
           label: "TabBar (filters)",
           element: (
-            <TabBar
-              items={[
-                { key: "all", label: "All" },
-                { key: "active", label: "Active" },
-                { key: "done", label: "Done" },
-              ]}
-              value={data.filterTabs.value}
-              onValueChange={data.filterTabs.onValueChange}
-              ariaLabel="Filter items"
-              className="w-56"
-              linkPanels={false}
-            />
+            <div style={sampleWidthStyle}>
+              <TabBar
+                items={[
+                  { key: "all", label: "All" },
+                  { key: "active", label: "Active" },
+                  { key: "done", label: "Done" },
+                ]}
+                value={data.filterTabs.value}
+                onValueChange={data.filterTabs.onValueChange}
+                ariaLabel="Filter items"
+                linkPanels={false}
+              />
+            </div>
           ),
         },
         {
@@ -263,11 +275,9 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
         {
           label: "SideSelector",
           element: (
-            <SideSelector
-              value={data.sideSelector.value}
-              onChange={data.sideSelector.onChange}
-              className="w-56"
-            />
+            <div style={sampleWidthStyle}>
+              <SideSelector value={data.sideSelector.value} onChange={data.sideSelector.onChange} />
+            </div>
           ),
         },
       ],

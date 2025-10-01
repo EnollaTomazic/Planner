@@ -13,17 +13,26 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
   background-image:
     radial-gradient(
       1200px 700px at 18% -10%,
-      hsl(var(--backdrop-blob-1) / 0.16),
+      hsl(
+        var(--backdrop-blob-1) /
+          var(--glitch-intensity-backdrop-blob-1, 0.18)
+      ),
       transparent 60%
     ),
     radial-gradient(
       1100px 600px at 110% 18%,
-      hsl(var(--backdrop-blob-2) / 0.14),
+      hsl(
+        var(--backdrop-blob-2) /
+          var(--glitch-intensity-backdrop-blob-2, 0.16)
+      ),
       transparent 60%
     ),
     radial-gradient(
       900px 480px at 50% 120%,
-      hsl(var(--backdrop-blob-3) / 0.1),
+      hsl(
+        var(--backdrop-blob-3) /
+          var(--glitch-intensity-backdrop-blob-3, 0.12)
+      ),
       transparent 65%
     );
   background-attachment: fixed, fixed, fixed;
@@ -90,22 +99,34 @@ html:not(.theme-citrus):not(.theme-noir):not(.theme-ocean):not(
   background:
     radial-gradient(
       60% 40% at 10% 0%,
-      hsl(var(--backdrop-drip-1) / 0.2),
+      hsl(
+        var(--backdrop-drip-1) /
+          var(--glitch-intensity-backdrop-drip-1, 0.23)
+      ),
       transparent 60%
     ),
     radial-gradient(
       50% 35% at 100% 5%,
-      hsl(var(--backdrop-drip-2) / 0.18),
+      hsl(
+        var(--backdrop-drip-2) /
+          var(--glitch-intensity-backdrop-drip-2, 0.2)
+      ),
       transparent 60%
     ),
     radial-gradient(
       55% 35% at 50% 120%,
-      hsl(var(--backdrop-drip-3) / 0.14),
+      hsl(
+        var(--backdrop-drip-3) /
+          var(--glitch-intensity-backdrop-drip-3, 0.16)
+      ),
       transparent 65%
     ),
     radial-gradient(
       120% 100% at 50% 100%,
-      hsl(var(--backdrop-drip-shadow) / 0.35),
+      hsl(
+        var(--backdrop-drip-shadow) /
+          var(--glitch-intensity-backdrop-shadow, 0.38)
+      ),
       transparent 70%
     );
   filter: blur(2px) saturate(110%);
@@ -117,7 +138,10 @@ html.theme-aurora body {
   background-image:
     radial-gradient(
       1000px 600px at 20% -10%,
-      hsl(var(--backdrop-blob-1) / 0.2),
+      hsl(
+        var(--backdrop-blob-1) /
+          var(--glitch-intensity-backdrop-blob-1, 0.2)
+      ),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
@@ -135,9 +159,18 @@ html.theme-aurora body::before {
   z-index: 0;
   background: conic-gradient(
     from 0deg,
-    hsl(var(--backdrop-drip-1) / 0.4),
-    hsl(var(--backdrop-drip-2) / 0.4),
-    hsl(var(--backdrop-drip-1) / 0.4)
+    hsl(
+      var(--backdrop-drip-1) /
+        var(--glitch-intensity-backdrop-drip-1, 0.4)
+    ),
+    hsl(
+      var(--backdrop-drip-2) /
+        var(--glitch-intensity-backdrop-drip-2, 0.4)
+    ),
+    hsl(
+      var(--backdrop-drip-1) /
+        var(--glitch-intensity-backdrop-drip-1, 0.4)
+    )
   );
   filter: blur(calc(var(--space-8) * 2)) saturate(150%);
 }
@@ -153,12 +186,18 @@ html.theme-citrus body {
   background-image:
     radial-gradient(
       1200px 700px at 20% -10%,
-      hsl(var(--backdrop-blob-1) / 0.22),
+      hsl(
+        var(--backdrop-blob-1) /
+          var(--glitch-intensity-backdrop-blob-1, 0.22)
+      ),
       transparent 60%
     ),
     radial-gradient(
       1200px 600px at 120% 10%,
-      hsl(var(--backdrop-blob-2) / 0.18),
+      hsl(
+        var(--backdrop-blob-2) /
+          var(--glitch-intensity-backdrop-blob-2, 0.18)
+      ),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
@@ -173,17 +212,26 @@ html.theme-citrus body::after {
   background:
     radial-gradient(
       60% 40% at 12% -5%,
-      hsl(var(--backdrop-drip-1) / 0.18),
+      hsl(
+        var(--backdrop-drip-1) /
+          var(--glitch-intensity-backdrop-drip-1, 0.18)
+      ),
       transparent 60%
     ),
     radial-gradient(
       50% 35% at 105% 10%,
-      hsl(var(--backdrop-drip-2) / 0.16),
+      hsl(
+        var(--backdrop-drip-2) /
+          var(--glitch-intensity-backdrop-drip-2, 0.16)
+      ),
       transparent 60%
     ),
     radial-gradient(
       55% 35% at 50% 110%,
-      hsl(var(--backdrop-drip-3) / 0.12),
+      hsl(
+        var(--backdrop-drip-3) /
+          var(--glitch-intensity-backdrop-drip-3, 0.12)
+      ),
       transparent 65%
     );
   filter: blur(2px) saturate(110%);
@@ -209,12 +257,18 @@ html.theme-noir body {
   background-image:
     radial-gradient(
       1000px 520px at 15% -10%,
-      hsl(var(--backdrop-blob-1) / 0.15),
+      hsl(
+        var(--backdrop-blob-1) /
+          var(--glitch-intensity-backdrop-blob-1, 0.15)
+      ),
       transparent 60%
     ),
     radial-gradient(
       900px 520px at 110% 15%,
-      hsl(var(--backdrop-blob-2) / 0.12),
+      hsl(
+        var(--backdrop-blob-2) /
+          var(--glitch-intensity-backdrop-blob-2, 0.12)
+      ),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
@@ -229,17 +283,26 @@ html.theme-noir body::after {
   background:
     radial-gradient(
       80% 60% at 50% 120%,
-      hsl(var(--backdrop-drip-1) / 0.45),
+      hsl(
+        var(--backdrop-drip-1) /
+          var(--glitch-intensity-backdrop-drip-1, 0.45)
+      ),
       transparent 70%
     ),
     radial-gradient(
       40% 25% at 6% 4%,
-      hsl(var(--backdrop-drip-2) / 0.15),
+      hsl(
+        var(--backdrop-drip-2) /
+          var(--glitch-intensity-backdrop-drip-2, 0.15)
+      ),
       transparent 60%
     ),
     radial-gradient(
       40% 25% at 94% 10%,
-      hsl(var(--backdrop-drip-3) / 0.12),
+      hsl(
+        var(--backdrop-drip-3) /
+          var(--glitch-intensity-backdrop-drip-3, 0.12)
+      ),
       transparent 60%
     );
   filter: blur(1.5px) saturate(110%);
@@ -260,12 +323,18 @@ html.theme-ocean body {
   background-image:
     radial-gradient(
       1200px 700px at 12% -12%,
-      hsl(var(--backdrop-blob-1) / 0.2),
+      hsl(
+        var(--backdrop-blob-1) /
+          var(--glitch-intensity-backdrop-blob-1, 0.2)
+      ),
       transparent 60%
     ),
     radial-gradient(
       1100px 600px at 108% 16%,
-      hsl(var(--backdrop-blob-2) / 0.16),
+      hsl(
+        var(--backdrop-blob-2) /
+          var(--glitch-intensity-backdrop-blob-2, 0.16)
+      ),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
@@ -280,17 +349,26 @@ html.theme-ocean body::after {
   background:
     radial-gradient(
       60% 40% at 14% -6%,
-      hsl(var(--backdrop-drip-1) / 0.18),
+      hsl(
+        var(--backdrop-drip-1) /
+          var(--glitch-intensity-backdrop-drip-1, 0.18)
+      ),
       transparent 60%
     ),
     radial-gradient(
       55% 35% at 50% 114%,
-      hsl(var(--backdrop-drip-2) / 0.12),
+      hsl(
+        var(--backdrop-drip-2) /
+          var(--glitch-intensity-backdrop-drip-2, 0.12)
+      ),
       transparent 65%
     ),
     radial-gradient(
       50% 35% at 102% 8%,
-      hsl(var(--backdrop-drip-3) / 0.1),
+      hsl(
+        var(--backdrop-drip-3) /
+          var(--glitch-intensity-backdrop-drip-3, 0.1)
+      ),
       transparent 60%
     );
   filter: blur(2px) saturate(112%);
@@ -316,12 +394,18 @@ html.theme-kitten body {
   background-image:
     radial-gradient(
       1100px 620px at 16% -8%,
-      hsl(var(--backdrop-blob-1) / 0.2),
+      hsl(
+        var(--backdrop-blob-1) /
+          var(--glitch-intensity-backdrop-blob-1, 0.2)
+      ),
       transparent 60%
     ),
     radial-gradient(
       1000px 560px at 106% 14%,
-      hsl(var(--backdrop-blob-2) / 0.16),
+      hsl(
+        var(--backdrop-blob-2) /
+          var(--glitch-intensity-backdrop-blob-2, 0.16)
+      ),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card) / 0.92), hsl(var(--background)));
@@ -336,17 +420,26 @@ html.theme-kitten body::after {
   background:
     radial-gradient(
       60% 40% at 12% -6%,
-      hsl(var(--backdrop-drip-1) / 0.18),
+      hsl(
+        var(--backdrop-drip-1) /
+          var(--glitch-intensity-backdrop-drip-1, 0.18)
+      ),
       transparent 60%
     ),
     radial-gradient(
       55% 35% at 50% 116%,
-      hsl(var(--backdrop-drip-2) / 0.12),
+      hsl(
+        var(--backdrop-drip-2) /
+          var(--glitch-intensity-backdrop-drip-2, 0.12)
+      ),
       transparent 65%
     ),
     radial-gradient(
       50% 35% at 100% 8%,
-      hsl(var(--backdrop-drip-3) / 0.1),
+      hsl(
+        var(--backdrop-drip-3) /
+          var(--glitch-intensity-backdrop-drip-3, 0.1)
+      ),
       transparent 60%
     );
   filter: blur(2px) saturate(112%);
@@ -366,12 +459,18 @@ html.theme-hardstuck body {
   background-image:
     radial-gradient(
       1000px 520px at 20% -10%,
-      hsl(var(--backdrop-blob-1) / 0.15),
+      hsl(
+        var(--backdrop-blob-1) /
+          var(--glitch-intensity-backdrop-blob-1, 0.15)
+      ),
       transparent 60%
     ),
     radial-gradient(
       900px 520px at 110% 15%,
-      hsl(var(--backdrop-blob-2) / 0.12),
+      hsl(
+        var(--backdrop-blob-2) /
+          var(--glitch-intensity-backdrop-blob-2, 0.12)
+      ),
       transparent 60%
     ),
     linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background)));
@@ -386,17 +485,26 @@ html.theme-hardstuck body::after {
   background:
     radial-gradient(
       80% 60% at 50% 120%,
-      hsl(var(--backdrop-drip-1) / 0.45),
+      hsl(
+        var(--backdrop-drip-1) /
+          var(--glitch-intensity-backdrop-drip-1, 0.45)
+      ),
       transparent 70%
     ),
     radial-gradient(
       40% 25% at 6% 4%,
-      hsl(var(--backdrop-drip-2) / 0.15),
+      hsl(
+        var(--backdrop-drip-2) /
+          var(--glitch-intensity-backdrop-drip-2, 0.15)
+      ),
       transparent 60%
     ),
     radial-gradient(
       40% 25% at 94% 10%,
-      hsl(var(--backdrop-drip-3) / 0.12),
+      hsl(
+        var(--backdrop-drip-3) /
+          var(--glitch-intensity-backdrop-drip-3, 0.12)
+      ),
       transparent 60%
     );
   filter: blur(1.5px) saturate(110%);
@@ -409,17 +517,26 @@ html.theme-retro body {
   background-image:
     radial-gradient(
       1100px 640px at 18% -12%,
-      hsl(var(--backdrop-blob-1) / 0.22),
+      hsl(
+        var(--backdrop-blob-1) /
+          var(--glitch-intensity-backdrop-blob-1, 0.22)
+      ),
       transparent 62%
     ),
     radial-gradient(
       1000px 560px at 108% 10%,
-      hsl(var(--backdrop-blob-2) / 0.18),
+      hsl(
+        var(--backdrop-blob-2) /
+          var(--glitch-intensity-backdrop-blob-2, 0.18)
+      ),
       transparent 60%
     ),
     radial-gradient(
       1200px 760px at 50% 120%,
-      hsl(var(--backdrop-blob-3) / 0.14),
+      hsl(
+        var(--backdrop-blob-3) /
+          var(--glitch-intensity-backdrop-blob-3, 0.14)
+      ),
       transparent 70%
     ),
     linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
@@ -436,17 +553,26 @@ html.theme-retro body::after {
     var(--scan-lines),
     radial-gradient(
       65% 45% at 12% 0%,
-      hsl(var(--backdrop-drip-1) / 0.28),
+      hsl(
+        var(--backdrop-drip-1) /
+          var(--glitch-intensity-backdrop-drip-1, 0.28)
+      ),
       transparent 62%
     ),
     radial-gradient(
       55% 38% at 88% 8%,
-      hsl(var(--backdrop-drip-2) / 0.24),
+      hsl(
+        var(--backdrop-drip-2) /
+          var(--glitch-intensity-backdrop-drip-2, 0.24)
+      ),
       transparent 60%
     ),
     radial-gradient(
       70% 48% at 50% 115%,
-      hsl(var(--backdrop-drip-3) / 0.2),
+      hsl(
+        var(--backdrop-drip-3) /
+          var(--glitch-intensity-backdrop-drip-3, 0.2)
+      ),
       transparent 72%
     );
   filter: blur(1.5px) saturate(115%);
