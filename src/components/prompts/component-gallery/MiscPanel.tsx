@@ -22,6 +22,7 @@ import {
   Snackbar,
   Spinner,
   TitleBar,
+  TOKEN_WIDTH_CLASS,
 } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import VirtualizedList from "@/components/ui/primitives/VirtualizedList";
@@ -52,6 +53,7 @@ const HEIGHT_BASE = "var(--space-6)";
 const HEIGHT_RELAXED = "calc(var(--space-6) + var(--space-2))";
 const HEIGHT_BACKGROUND = "calc(var(--space-8) * 1.5)";
 const HEIGHT_STACKED = "calc(var(--space-8) * 3.5)";
+const HERO_SPACER_HEIGHT = "calc(var(--space-8) * 3)";
 type PanelItem = { label: string; element: React.ReactNode; className?: string };
 
 interface MiscPanelProps {
@@ -175,7 +177,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
               className="flex items-center gap-[var(--space-3)]"
               style={{ width: SWATCH_WIDTH }}
               trackClassName="flex-1"
-              percentageClassName="w-12 text-right"
+              percentageClassName={cn("text-right", TOKEN_WIDTH_CLASS)}
             />
           ),
         },
@@ -533,7 +535,7 @@ export default function MiscPanel({ data }: MiscPanelProps) {
             >
               <Header heading="Stacked" icon={<Star className="opacity-80" />} />
               <Hero heading="Stacked" topClassName="top-[var(--header-stack)]" />
-              <div className="h-96" />
+              <div style={{ height: HERO_SPACER_HEIGHT }} />
             </div>
           ),
         },
