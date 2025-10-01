@@ -197,7 +197,19 @@ const SPEED_TIME: Record<ClearSpeed, string> = {
 };
 
 const TABLE_COLUMN_COUNT = 4;
-const DEFAULT_ROW_HEIGHT = 48;
+const ROW_HEIGHT_TOKEN = "calc(var(--space-6) + var(--space-2))";
+const ROW_HEIGHT_PX = 40;
+const HEADER_ROW_HEIGHT_TOKEN = "calc(var(--space-6) + var(--space-1))";
+const HEADER_ACTION_WIDTH = "var(--space-7)";
+const DEFAULT_ROW_HEIGHT = ROW_HEIGHT_PX;
+
+const TABLE_ROW_STYLE: React.CSSProperties = { height: ROW_HEIGHT_TOKEN };
+const TABLE_HEADER_ROW_STYLE: React.CSSProperties = {
+  height: HEADER_ROW_HEIGHT_TOKEN,
+};
+const TABLE_HEADER_ACTION_STYLE: React.CSSProperties = {
+  width: HEADER_ACTION_WIDTH,
+};
 
 type BucketSectionProps = {
   bucket: ClearSpeed;
@@ -251,7 +263,8 @@ const EditingRow = React.memo(function EditingRow({
   return (
     <tr
       data-row-kind="jungle-row"
-      className="h-10 border-t border-border/40 hover:bg-card/45"
+      className="border-t border-border/40 hover:bg-card/45"
+      style={TABLE_ROW_STYLE}
     >
       <td className="py-[var(--space-2)] pr-[var(--space-3)] font-medium">
         <Input
@@ -312,7 +325,8 @@ const ReadOnlyRow = React.memo(function ReadOnlyRow({
   return (
     <tr
       data-row-kind="jungle-row"
-      className="h-10 border-t border-border/40 hover:bg-card/45"
+      className="border-t border-border/40 hover:bg-card/45"
+      style={TABLE_ROW_STYLE}
     >
       <td className="py-[var(--space-2)] pr-[var(--space-3)] font-medium">
         {row.champ}
@@ -506,7 +520,7 @@ const BucketSection = React.memo(function BucketSection({
               {bucket} junglers with types and notes
             </caption>
             <thead className="text-left text-muted-foreground">
-              <tr className="h-9">
+              <tr style={TABLE_HEADER_ROW_STYLE}>
                 <th scope="col" className="pr-[var(--space-3)]">
                   Champion
                 </th>
@@ -516,7 +530,11 @@ const BucketSection = React.memo(function BucketSection({
                 <th scope="col" className="pr-[var(--space-3)]">
                   Notes
                 </th>
-                <th scope="col" className="w-12 pr-[var(--space-3)]">
+                <th
+                  scope="col"
+                  className="pr-[var(--space-3)]"
+                  style={TABLE_HEADER_ACTION_STYLE}
+                >
                   <span className="sr-only">Actions</span>
                 </th>
               </tr>
