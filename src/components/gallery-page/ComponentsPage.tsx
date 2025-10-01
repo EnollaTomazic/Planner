@@ -17,7 +17,7 @@ import type {
 } from "@/components/gallery/types";
 import { buildDesignTokenGroups } from "@/lib/design-token-registry";
 
-const DESIGN_TOKEN_GROUPS = buildDesignTokenGroups(tokens);
+export const DESIGN_TOKEN_GROUPS = buildDesignTokenGroups(tokens);
 
 const formatSectionLabel = (section: GallerySectionMeta): string => {
   if (section.label) {
@@ -48,7 +48,7 @@ const buildGroupSections = (
   return sections;
 };
 
-const buildGalleryNavigation = (): GalleryNavigationData => {
+export const buildGalleryNavigation = (): GalleryNavigationData => {
   const knownSectionIds = new Set<GalleryNavigationSection["id"]>(
     GALLERY_SECTION_IDS,
   );
