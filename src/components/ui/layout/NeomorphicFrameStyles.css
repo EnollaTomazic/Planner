@@ -80,7 +80,7 @@
   color: color-mix(
     in oklab,
     hsl(var(--highlight)),
-    hsl(var(--background))
+    hsl(var(--bg))
   )
 ) {
   :global(.hero2-neomorph) {
@@ -92,7 +92,7 @@
     --hero2-glow-top-left-soft: color-mix(
       in oklab,
       hsl(var(--highlight)) 22%,
-      hsl(var(--background) / 0)
+      hsl(var(--bg) / 0)
     );
     --hero2-glow-bottom-right-color: color-mix(
       in oklab,
@@ -102,7 +102,7 @@
     --hero2-glow-bottom-right-soft: color-mix(
       in oklab,
       hsl(var(--shadow-color)) 28%,
-      hsl(var(--background) / 0)
+      hsl(var(--bg) / 0)
     );
   }
 
@@ -111,7 +111,7 @@
       color-mix(
         in oklab,
         hsl(var(--ring)) 68%,
-        hsl(var(--background))
+        hsl(var(--bg))
       );
   }
 
@@ -120,7 +120,7 @@
       color-mix(
         in oklab,
         hsl(var(--accent-3)) 78%,
-        hsl(var(--background))
+        hsl(var(--bg))
       );
   }
 }

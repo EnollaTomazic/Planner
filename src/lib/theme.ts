@@ -46,6 +46,7 @@ export const COLOR_PALETTES = {
   aurora: ["aurora-g", "aurora-g-light", "aurora-p", "aurora-p-light"],
   neutrals: [
     "background",
+    "bg",
     "foreground",
     "text",
     "card",
@@ -71,6 +72,9 @@ export const COLOR_PALETTES = {
     "success",
     "glow-strong",
     "glow-soft",
+    "stat-good",
+    "stat-warn",
+    "stat-bad",
   ],
 } as const;
 

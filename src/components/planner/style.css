@@ -37,7 +37,7 @@
   min-height: var(--scroll-min);
   max-height: clamp(var(--scroll-min), var(--scroll-ideal), var(--scroll-max));
   border-radius: var(--radius-md);
-  background: hsl(var(--background) / 0.25);
+  background: hsl(var(--bg) / 0.25);
   box-shadow: var(--shadow-inset-hairline);
 }
 
@@ -430,7 +430,7 @@
   will-change: box-shadow, background, border-color;
   --chip-elev-rest-fallback:
     calc(var(--space-1) / -2) calc(var(--space-1) / -2) var(--space-1)
-      hsl(var(--background) / 0.6),
+      hsl(var(--bg) / 0.6),
     calc(var(--space-1) / 2) calc(var(--space-1) / 2) var(--space-1)
       hsl(var(--shadow-color) / 0.3);
   --chip-elev-hover-fallback:
