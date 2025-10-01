@@ -85,16 +85,7 @@ const withBundleAnalyzer = bundleAnalyzer({
   logLevel: "warn",
 });
 
-const securityHeaders = async () => {
-  return [
-    {
-      source: "/:path*",
-      headers: baseSecurityHeaders.map((header) => ({ ...header })),
-    },
-  ];
-};
-
-const nextConfig = {
+export default withBundleAnalyzer({
   reactStrictMode: true,
   output: "export",
   trailingSlash: true,
@@ -116,19 +107,20 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_BASE_PATH: normalizedBasePathValue,
   },
+  headers: async () => {
+    if (isProduction || isExportStatic) {
+      return [];
+    }
+
+    return [
+      {
+        source: "/:path*",
+        headers: baseSecurityHeaders.map((header) => ({ ...header })),
+      },
+    ];
+  },
   webpack: (config) => {
     config.resolve.alias["@"] = path.resolve(__dirname, "src");
     return config;
   },
-};
-
-const configWithAnalyzer = shouldCollectBundleStats ? withBundleAnalyzer(nextConfig) : nextConfig;
-
-const finalConfig = !(isProduction || isExportStatic)
-  ? {
-      ...configWithAnalyzer,
-      headers: securityHeaders,
-    }
-  : configWithAnalyzer;
-
-export default finalConfig;
+});
