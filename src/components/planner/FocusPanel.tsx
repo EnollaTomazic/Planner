@@ -31,7 +31,12 @@ export default function FocusPanel({ iso }: Props) {
 
   return (
     <SectionCard className="card-neo-soft">
-      <SectionCard.Header id={headerId} title="Daily Focus" />
+      <SectionCard.Header
+        id={headerId}
+        title="Daily Focus"
+        titleAs="h6"
+        titleClassName="text-title font-semibold tracking-tight"
+      />
       <SectionCard.Body>
         <form onSubmit={onSubmit} className="flex items-center gap-[var(--space-2)]">
           <Input
