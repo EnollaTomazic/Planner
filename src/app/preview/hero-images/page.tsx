@@ -6,7 +6,12 @@ import {
   HERO_ILLUSTRATION_STATES,
   type HeroIllustrationState,
 } from "@/data/heroImages";
-import { PageShell, SectionCard } from "@/components/ui";
+import {
+  PageShell,
+  SectionCard,
+  SectionCardHeader,
+  SectionCardBody,
+} from "@/components/ui";
 import { VARIANTS, type Variant } from "@/lib/theme";
 
 import HeroImagesPreviewClient from "./HeroImagesPreviewClient";
@@ -81,7 +86,7 @@ export default async function HeroImagesPreviewPage({
       contentClassName="gap-y-[var(--space-6)] md:gap-y-[var(--space-7)]"
     >
       <SectionCard className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3">
-        <SectionCard.Header className="space-y-[var(--space-2)]">
+        <SectionCardHeader className="space-y-[var(--space-2)]">
           <div className="space-y-[var(--space-1)]">
             <p className="text-caption font-medium uppercase tracking-[0.2em] text-muted-foreground">
               Gallery preview
@@ -98,14 +103,14 @@ export default async function HeroImagesPreviewPage({
             controls below to pin a theme/state combination or disable the automatic cycle for motion-sensitive
             reviews.
           </p>
-        </SectionCard.Header>
-        <SectionCard.Body>
+        </SectionCardHeader>
+        <SectionCardBody>
           <HeroImagesPreviewClient
             initialVariant={variant}
             initialState={state}
             autoplay={autoplay}
           />
-        </SectionCard.Body>
+        </SectionCardBody>
       </SectionCard>
     </PageShell>
   );

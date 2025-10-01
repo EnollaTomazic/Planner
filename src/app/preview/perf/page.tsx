@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 
-import { PageShell, SectionCard } from "@/components/ui";
+import {
+  PageShell,
+  SectionCard,
+  SectionCardHeader,
+  SectionCardBody,
+} from "@/components/ui";
 
 import PerfPreviewClient from "./PerfPreviewClient";
 
@@ -21,21 +26,21 @@ export default function PerfPreviewPage() {
       className="py-[var(--space-6)] md:py-[var(--space-8)]"
     >
       <SectionCard className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3">
-        <SectionCard.Header>
+        <SectionCardHeader>
           <div className="space-y-[var(--space-2)]" id="perf-preview-heading">
             <p className="text-caption font-medium uppercase tracking-[0.2em] text-muted-foreground">
               Virtualization demo
             </p>
             <h1 className="text-title font-semibold tracking-[-0.01em]">Performance guard rails</h1>
           </div>
-        </SectionCard.Header>
-        <SectionCard.Body className="space-y-[var(--space-6)] text-ui text-muted-foreground">
+        </SectionCardHeader>
+        <SectionCardBody className="space-y-[var(--space-6)] text-ui text-muted-foreground">
           <p>
             Preview how Planner keeps large datasets responsive. Lists flip to windowed rendering when row counts
             spike, while charts downsample heavy series so Playwright and axe sweeps stay deterministic across themes.
           </p>
           <PerfPreviewClient />
-        </SectionCard.Body>
+        </SectionCardBody>
       </SectionCard>
     </PageShell>
   );

@@ -30,7 +30,7 @@ const SectionCardContext = React.createContext<SectionCardContextValue | null>(
   null,
 );
 
-const Root = React.forwardRef<HTMLElement, RootProps>(
+const SectionCardRoot = React.forwardRef<HTMLElement, RootProps>(
   ({ variant = "neo", className, children, ...props }, ref) => {
     const [headingId, setHeadingId] = React.useState<string | undefined>();
     const contextValue = React.useMemo(
@@ -60,9 +60,9 @@ const Root = React.forwardRef<HTMLElement, RootProps>(
     );
   },
 );
-Root.displayName = "SectionCard";
+SectionCardRoot.displayName = "SectionCard";
 
-function Header({
+function SectionCardHeader({
   sticky,
   topClassName = "top-[var(--space-8)]",
   className,
@@ -138,7 +138,7 @@ function Header({
   );
 }
 
-function Body({ className, ...props }: BodyProps) {
+function SectionCardBody({ className, ...props }: BodyProps) {
   const context = React.useContext(SectionCardContext);
   const labelledBy =
     (props as React.HTMLAttributes<HTMLDivElement>)["aria-labelledby"] ??
@@ -153,5 +153,10 @@ function Body({ className, ...props }: BodyProps) {
   );
 }
 
-const SectionCard = Object.assign(Root, { Header, Body });
+const SectionCard = Object.assign(SectionCardRoot, {
+  Header: SectionCardHeader,
+  Body: SectionCardBody,
+});
+
+export { SectionCardHeader, SectionCardBody };
 export default SectionCard;
