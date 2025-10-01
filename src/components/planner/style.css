@@ -107,7 +107,12 @@
   mask-composite: exclude;
   pointer-events: none;
   opacity: 0.42;
-  animation: sheen-rotate 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .proj-card--active::after {
+    animation: sheen-rotate 6s linear infinite;
+  }
 }
 
 @keyframes sheen-rotate {
@@ -577,7 +582,6 @@
 }
 .chip--active .chip__edge {
   opacity: 0.75;
-  animation: sheen-rotate 8s linear infinite;
 }
 .chip--active .chip__date {
   position: relative;
@@ -676,6 +680,9 @@
   .chip:hover {
     animation: chip-flicker 3.2s steps(1, end) infinite;
   }
+  .chip--active .chip__edge {
+    animation: sheen-rotate 8s linear infinite;
+  }
   .chip--active .chip__date::before {
     transform: translate(
       calc(var(--hairline-w) / 2),
@@ -696,6 +703,12 @@
 @media (prefers-reduced-motion: reduce) {
   .proj-card--active::after {
     animation: none;
+    background: var(
+      --edge-iris,
+      linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary)))
+    );
+    background-size: 140% 140%;
+    background-position: 30% 50%;
   }
   .ws-tile {
     transition: none;

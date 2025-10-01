@@ -18,6 +18,8 @@ import { selectItems } from "./ComponentGallery.demoData";
 import type { InputsPanelData } from "./useComponentGalleryState";
 
 const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
+const sampleWidth = "calc(var(--space-8) * 3.5)";
+const sampleWidthStyle: React.CSSProperties = { width: sampleWidth };
 const fieldStoryHref = "/storybook/?path=/story/primitives-field--state-gallery";
 type PanelItem = { label: string; element: React.ReactNode; className?: string };
 
@@ -32,19 +34,31 @@ export default function InputsPanel({ data }: InputsPanelProps) {
         {
           label: "Input",
           element: (
-            <Input aria-label="Demo input" placeholder="Type here" className="w-56" />
+            <div style={sampleWidthStyle}>
+              <Input
+                aria-label="Demo input"
+                placeholder="Type here"
+                className="w-full"
+              />
+            </div>
           ),
         },
         {
           label: "Textarea",
           element: (
-            <Textarea aria-label="Demo textarea" placeholder="Write here" className="w-56" />
+            <div style={sampleWidthStyle}>
+              <Textarea
+                aria-label="Demo textarea"
+                placeholder="Write here"
+                className="w-full"
+              />
+            </div>
           ),
         },
         {
           label: "Field",
           element: (
-            <div className="w-56 space-y-[var(--space-2)]">
+            <div style={sampleWidthStyle} className="space-y-[var(--space-2)]">
               <Field.Root>
                 <Field.Input aria-label="Field input demo" placeholder="Primitive input" />
               </Field.Root>
@@ -62,68 +76,76 @@ export default function InputsPanel({ data }: InputsPanelProps) {
         {
           label: "Label",
           element: (
-            <div className="w-56">
+            <div style={sampleWidthStyle}>
               <Label htmlFor={data.labelId}>Label</Label>
-              <Input id={data.labelId} placeholder="With spacing" />
+              <Input id={data.labelId} placeholder="With spacing" className="w-full" />
             </div>
           ),
         },
         {
           label: "SearchBar",
           element: (
-            <SearchBar
-              value={data.searchBar.value}
-              onValueChange={data.searchBar.onValueChange}
-              className="w-56"
-            />
+            <div style={sampleWidthStyle}>
+              <SearchBar
+                value={data.searchBar.value}
+                onValueChange={data.searchBar.onValueChange}
+                className="w-full"
+              />
+            </div>
           ),
         },
         {
           label: "SearchBar (loading)",
           element: (
-            <SearchBar
-              value={data.searchBar.value}
-              onValueChange={data.searchBar.onValueChange}
-              className="w-56"
-              loading
-            />
+            <div style={sampleWidthStyle}>
+              <SearchBar
+                value={data.searchBar.value}
+                onValueChange={data.searchBar.onValueChange}
+                className="w-full"
+                loading
+              />
+            </div>
           ),
         },
         {
           label: "Select",
           element: (
-            <Select
-              variant="native"
-              aria-label="Fruit"
-              className="w-56"
-              items={[
-                { value: "", label: "Choose…" },
-                { value: "apple", label: "Apple" },
-                { value: "orange", label: "Orange" },
-                { value: "pear", label: "Pear" },
-              ]}
-              value={data.selects.native.value}
-              onChange={data.selects.native.onChange}
-            />
+            <div style={sampleWidthStyle}>
+              <Select
+                variant="native"
+                aria-label="Fruit"
+                className="w-full"
+                items={[
+                  { value: "", label: "Choose…" },
+                  { value: "apple", label: "Apple" },
+                  { value: "orange", label: "Orange" },
+                  { value: "pear", label: "Pear" },
+                ]}
+                value={data.selects.native.value}
+                onChange={data.selects.native.onChange}
+              />
+            </div>
           ),
         },
         {
           label: "SettingsSelect",
           element: (
-            <SettingsSelect
-              ariaLabel="Theme"
-              prefixLabel="Theme"
-              items={selectItems}
-              value={data.selects.settings.value}
-              onChange={data.selects.settings.onChange}
-              className="w-56"
-            />
+            <div style={sampleWidthStyle}>
+              <SettingsSelect
+                ariaLabel="Theme"
+                prefixLabel="Theme"
+                items={selectItems}
+                value={data.selects.settings.value}
+                onChange={data.selects.settings.onChange}
+                className="w-full"
+              />
+            </div>
           ),
         },
         {
           label: "Select Variants",
           element: (
-            <div className="w-56 space-y-[var(--space-2)]">
+            <div style={sampleWidthStyle} className="space-y-[var(--space-2)]">
               <Select
                 variant="native"
                 items={[
@@ -134,6 +156,7 @@ export default function InputsPanel({ data }: InputsPanelProps) {
                 value={data.selects.defaultVariant.value}
                 onChange={data.selects.defaultVariant.onChange}
                 aria-label="Default native select demo"
+                className="w-full"
               />
               <Select
                 variant="native"
@@ -145,6 +168,7 @@ export default function InputsPanel({ data }: InputsPanelProps) {
                 value={data.selects.successVariant.value}
                 onChange={data.selects.successVariant.onChange}
                 aria-label="Success native select demo"
+                className="w-full"
               />
             </div>
           ),
@@ -153,20 +177,48 @@ export default function InputsPanel({ data }: InputsPanelProps) {
         {
           label: "Textarea Variants",
           element: (
-            <div className="w-56 space-y-[var(--space-2)]">
-              <Textarea aria-label="Default textarea demo" placeholder="Default" />
+            <div style={sampleWidthStyle} className="space-y-[var(--space-2)]">
+              <Textarea
+                aria-label="Default textarea demo"
+                placeholder="Default"
+                className="w-full"
+              />
             </div>
           ),
         },
         {
           label: "Input Variants",
           element: (
-            <div className="w-56 space-y-[var(--space-2)]">
-              <Input aria-label="Small input demo" height="sm" placeholder="Small" />
-              <Input aria-label="Medium input demo" placeholder="Medium" />
-              <Input aria-label="Large input demo" height="lg" placeholder="Large" />
-              <Input aria-label="Tall input demo" height="xl" placeholder="Extra large" />
-              <Input aria-label="Input with icon demo" placeholder="With icon" hasEndSlot>
+            <div style={sampleWidthStyle} className="space-y-[var(--space-2)]">
+              <Input
+                aria-label="Small input demo"
+                height="sm"
+                placeholder="Small"
+                className="w-full"
+              />
+              <Input
+                aria-label="Medium input demo"
+                placeholder="Medium"
+                className="w-full"
+              />
+              <Input
+                aria-label="Large input demo"
+                height="lg"
+                placeholder="Large"
+                className="w-full"
+              />
+              <Input
+                aria-label="Tall input demo"
+                height="xl"
+                placeholder="Extra large"
+                className="w-full"
+              />
+              <Input
+                aria-label="Input with icon demo"
+                placeholder="With icon"
+                hasEndSlot
+                className="w-full"
+              >
                 <Plus className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
               </Input>
             </div>
@@ -176,7 +228,7 @@ export default function InputsPanel({ data }: InputsPanelProps) {
         {
           label: "AnimatedSelect",
           element: (
-            <div className="w-56 space-y-[var(--space-2)]">
+            <div style={sampleWidthStyle} className="space-y-[var(--space-2)]">
               <Select
                 variant="animated"
                 size="sm"

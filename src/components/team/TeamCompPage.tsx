@@ -380,7 +380,7 @@ export default function TeamCompPage() {
                     key={lane.key}
                     size="sm"
                     tone={lane.key as LaneTone}
-                    className="min-w-[calc(var(--space-8)+var(--space-3))]"
+                    className="min-w-[calc(var(--space-8)+var(--space-3))] whitespace-normal text-left text-balance"
                   >
                     {`${lane.label}: ${lane.ally || "Open"} / ${lane.enemy || "Open"}`}
                   </Badge>
@@ -388,14 +388,26 @@ export default function TeamCompPage() {
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-2)]">
-              <Badge size="sm" tone={gapTone}>
+              <Badge
+                size="sm"
+                tone={gapTone}
+                className="whitespace-normal text-left text-balance"
+              >
                 {openLabel}
               </Badge>
-              <Badge size="sm" tone={clashTone}>
+              <Badge
+                size="sm"
+                tone={clashTone}
+                className="whitespace-normal text-left text-balance"
+              >
                 {clashLabel}
               </Badge>
               {active?.hint ? (
-                <Badge size="sm" tone="accent">
+                <Badge
+                  size="sm"
+                  tone="accent"
+                  className="whitespace-normal text-left text-balance"
+                >
                   {active.hint}
                 </Badge>
               ) : null}
@@ -466,7 +478,11 @@ export default function TeamCompPage() {
             </Button>
             <div className="flex items-center gap-[var(--space-1)] text-label text-muted-foreground">
               <span>Sends to</span>
-              <Badge size="sm" tone="accent">
+              <Badge
+                size="sm"
+                tone="accent"
+                className="whitespace-normal text-left text-balance"
+              >
                 {targetBucket}
               </Badge>
             </div>
