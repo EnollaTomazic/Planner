@@ -1934,8 +1934,8 @@ textarea:-webkit-autofill {
     filter: blur(1px);
   }
   .title-glow {
-    font-size: 1.5rem;
-    line-height: 2rem;
+    font-size: var(--font-title);
+    line-height: 1.35;
     font-weight: 600;
   }
 }
@@ -2417,10 +2417,7 @@ textarea:-webkit-autofill {
     hsl(var(--ring)) 55%,
     hsl(var(--card-hairline))
   );
-  box-shadow:
-    0 0 0 var(--spacing-0-25) hsl(var(--ring) / 0.28),
-    0 var(--space-3) calc(var(--space-5) + var(--space-1))
-      hsl(var(--shadow-color) / 0.28);
+  box-shadow: var(--card-elev-3);
 }
 .btn-cta.is-active,
 .btn-cta[aria-current="page"],
@@ -2429,10 +2426,7 @@ textarea:-webkit-autofill {
   background-image: var(--seg-active-grad);
   background-repeat: no-repeat;
   color: hsl(var(--primary-foreground));
-  box-shadow:
-    0 0 0 var(--spacing-0-5) hsl(var(--ring) / 0.38),
-    0 var(--space-4) calc(var(--space-6) + var(--space-1))
-      hsl(var(--shadow-color) / 0.35);
+  box-shadow: var(--shadow-nav-active), var(--shadow-outer-xl);
 }
 /* ---------- Icon styling ---------- */
 .lucide {
