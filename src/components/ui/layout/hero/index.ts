@@ -3,6 +3,9 @@
 export { default } from "./Hero";
 export type { HeroProps } from "./Hero";
 export * from "./Hero";
+export { HeroImage } from "./HeroImage";
+export type { HeroImageProps } from "./HeroImage";
+export type { HeroIllustrationState } from "@/data/heroImages";
 export { HeroTabs } from "./HeroTabs";
 export type { HeroTabsProps, HeroTab } from "./HeroTabs";
 export { HeroSearchBar } from "./HeroSearchBar";

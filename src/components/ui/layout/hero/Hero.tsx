@@ -8,9 +8,16 @@ import TabBar, {
   type TabItem,
 } from "../TabBar";
 import type { HeaderTabsProps } from "@/components/ui/layout/Header";
+import {
+  DEFAULT_HERO_STATE,
+  DEFAULT_HERO_VARIANT,
+  getHeroIllustration,
+  type HeroIllustrationState,
+} from "@/data/heroImages";
 import { cn } from "@/lib/utils";
 import { NeomorphicFrameStyles } from "../NeomorphicFrameStyles";
 import { HeroGlitchStyles } from "./HeroGlitchStyles";
+import { HeroImage } from "./HeroImage";
 import { HeroSearchBar, type HeroSearchBarProps } from "./HeroSearchBar";
 import { useHeroStyles } from "./useHeroStyles";
 
@@ -27,6 +34,10 @@ export interface HeroProps<Key extends string = string>
   icon?: React.ReactNode;
   children?: React.ReactNode;
   actions?: React.ReactNode;
+  /** Illustration state from the hero library. */
+  illustrationState?: HeroIllustrationState;
+  /** Explicit alternate text for the illustration (defaults to heading or library description). */
+  illustrationAlt?: string;
   sticky?: boolean;
   topClassName?: string;
   barClassName?: string;
@@ -80,6 +91,11 @@ export interface HeroProps<Key extends string = string>
   search?: (HeroSearchBarProps & { round?: boolean }) | null;
 }
 
+const defaultIllustrationAlt = getHeroIllustration(
+  DEFAULT_HERO_VARIANT,
+  DEFAULT_HERO_STATE,
+).alt;
+
 function Hero<Key extends string = string>({
   eyebrow,
   heading,
@@ -87,6 +103,8 @@ function Hero<Key extends string = string>({
   icon,
   children,
   actions,
+  illustrationState,
+  illustrationAlt,
   tone = "heroic",
   frame = true,
   glitch = "subtle",
@@ -107,6 +125,8 @@ function Hero<Key extends string = string>({
 }: HeroProps<Key>) {
   void _deprecatedRail;
   const headingStr = typeof heading === "string" ? heading : undefined;
+  const illustrationAltText =
+    illustrationAlt ?? headingStr ?? defaultIllustrationAlt;
   const Component: HeroElement = as ?? "section";
 
   const {
@@ -214,8 +234,15 @@ function Hero<Key extends string = string>({
         }
       : search;
 
+  const rootClassName = cn("relative", className);
+
   return (
-    <Component className={className} {...(rest as React.HTMLAttributes<HTMLElement>)}>
+    <Component className={rootClassName} {...(rest as React.HTMLAttributes<HTMLElement>)}>
+      <HeroImage
+        variant={heroVariant}
+        state={illustrationState ?? DEFAULT_HERO_STATE}
+        alt={illustrationAltText}
+      />
       {shouldRenderGlitchStyles ? <HeroGlitchStyles /> : null}
       {frame || isRaisedBar ? <NeomorphicFrameStyles /> : null}
 
