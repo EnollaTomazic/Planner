@@ -197,7 +197,10 @@ const SPEED_TIME: Record<ClearSpeed, string> = {
 };
 
 const TABLE_COLUMN_COUNT = 4;
-const DEFAULT_ROW_HEIGHT = 48;
+const TABLE_ROW_HEIGHT = "var(--space-7)";
+const TABLE_ROW_HEIGHT_PX = 48;
+const TABLE_HEADER_HEIGHT = "calc(var(--space-7) - var(--space-3))";
+const HEADER_ACTION_WIDTH = "var(--space-7)";
 
 type BucketSectionProps = {
   bucket: ClearSpeed;
@@ -251,7 +254,8 @@ const EditingRow = React.memo(function EditingRow({
   return (
     <tr
       data-row-kind="jungle-row"
-      className="h-10 border-t border-border/40 hover:bg-card/45"
+      style={{ height: TABLE_ROW_HEIGHT }}
+      className="border-t border-border/40 hover:bg-card/45"
     >
       <td className="py-[var(--space-2)] pr-[var(--space-3)] font-medium">
         <Input
@@ -312,7 +316,8 @@ const ReadOnlyRow = React.memo(function ReadOnlyRow({
   return (
     <tr
       data-row-kind="jungle-row"
-      className="h-10 border-t border-border/40 hover:bg-card/45"
+      style={{ height: TABLE_ROW_HEIGHT }}
+      className="border-t border-border/40 hover:bg-card/45"
     >
       <td className="py-[var(--space-2)] pr-[var(--space-3)] font-medium">
         {row.champ}
@@ -371,7 +376,7 @@ const BucketSection = React.memo(function BucketSection({
   setEditingRow,
 }: BucketSectionProps) {
   const scrollParentRef = React.useRef<HTMLDivElement>(null);
-  const [rowHeight, setRowHeight] = React.useState(DEFAULT_ROW_HEIGHT);
+  const [rowHeight, setRowHeight] = React.useState(TABLE_ROW_HEIGHT_PX);
 
   React.useLayoutEffect(() => {
     const container = scrollParentRef.current;
@@ -506,7 +511,7 @@ const BucketSection = React.memo(function BucketSection({
               {bucket} junglers with types and notes
             </caption>
             <thead className="text-left text-muted-foreground">
-              <tr className="h-9">
+              <tr style={{ height: TABLE_HEADER_HEIGHT }}>
                 <th scope="col" className="pr-[var(--space-3)]">
                   Champion
                 </th>
@@ -516,7 +521,11 @@ const BucketSection = React.memo(function BucketSection({
                 <th scope="col" className="pr-[var(--space-3)]">
                   Notes
                 </th>
-                <th scope="col" className="w-12 pr-[var(--space-3)]">
+                <th
+                  scope="col"
+                  style={{ width: HEADER_ACTION_WIDTH }}
+                  className="pr-[var(--space-3)]"
+                >
                   <span className="sr-only">Actions</span>
                 </th>
               </tr>

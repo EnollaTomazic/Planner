@@ -3848,7 +3848,11 @@ React.useEffect(() => {
     radius="card"
   />
   <Skeleton className="w-3/4" />
-  <Skeleton radius="full" className="h-10 w-10" />
+  <Skeleton
+    radius="full"
+    className="flex-none"
+    style={{ width: "var(--space-12)", height: "var(--space-8)" }}
+  />
 </div>`,
     },
     {
