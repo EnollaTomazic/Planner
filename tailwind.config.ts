@@ -283,6 +283,19 @@ const config: Config = {
       backgroundImage: {
         "blob-primary":
           "radial-gradient(1200px 700px at 18% -10%, hsl(var(--backdrop-blob-1) / 0.16), transparent 60%), radial-gradient(1100px 600px at 110% 18%, hsl(var(--backdrop-blob-2) / 0.14), transparent 60%), radial-gradient(900px 480px at 50% 120%, hsl(var(--backdrop-blob-3) / 0.1), transparent 65%)",
+        "gradient-blob-primary": "var(--gradient-blob-primary)",
+        "drip-overlay": "var(--gradient-drip-overlay)",
+        "drip-overlay-compact": "var(--gradient-drip-overlay-compact)",
+        "glitch-primary": "var(--gradient-glitch-primary)",
+        "glitch-overlay": "var(--gradient-glitch-overlay)",
+        "glitch-rail": "var(--gradient-glitch-rail)",
+        "hero-slot-highlight": "var(--gradient-hero-slot-highlight)",
+        "hero-slot-shadow": "var(--gradient-hero-slot-shadow)",
+        "hero-topline": "var(--gradient-hero-topline)",
+        "hero-action-halo": "var(--gradient-hero-action-halo)",
+        "panel-tilt-strong": "var(--gradient-panel-tilt-strong)",
+        "panel-tilt-bright": "var(--gradient-panel-tilt-bright)",
+        "panel-tilt-muted": "var(--gradient-panel-tilt-muted)",
         "glitch-noise":
           "var(--glitch-noise-image, var(--asset-noise-url, url(\"/noise.svg\")))",
       },

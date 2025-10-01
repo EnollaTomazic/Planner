@@ -329,7 +329,18 @@
 | blob-surface | color-mix(in oklab, hsl(var(--surface)) 70%, hsl(var(--surface-2)) 30%) |
 | drip-surface | color-mix(in oklab, hsl(var(--accent)) 18%, hsl(var(--background)) 82%) |
 | gradient-blob-primary | radial-gradient(120% 120% at 50% 10%, hsl(var(--surface) / 0.85), hsl(var(--surface-2) / 0.35), transparent 85%) |
+| gradient-drip-overlay | radial-gradient(60% 40% at 10% 0%, hsl(var(--backdrop-drip-1) / 0.2), transparent 60%), radial-gradient(50% 35% at 100% 5%, hsl(var(--backdrop-drip-2) / 0.18), transparent 60%), radial-gradient(55% 35% at 50% 120%, hsl(var(--backdrop-drip-3) / 0.14), transparent 65%), radial-gradient(120% 100% at 50% 100%, hsl(var(--backdrop-drip-shadow) / 0.35), transparent 70%) |
+| gradient-drip-overlay-compact | radial-gradient(125% 85% at 18% -20%, hsl(var(--backdrop-drip-1) / 0.28), transparent 65%), radial-gradient(115% 85% at 82% -15%, hsl(var(--backdrop-drip-2) / 0.24), transparent 62%), radial-gradient(120% 95% at 50% 110%, hsl(var(--backdrop-drip-3) / 0.16), transparent 70%) |
 | gradient-glitch-primary | linear-gradient(135deg, hsl(var(--accent) / 0.35), hsl(var(--accent-2) / 0.3)) |
+| gradient-glitch-overlay | linear-gradient(120deg, hsl(var(--accent) / 0.12) 0%, transparent 58%, hsl(var(--ring) / 0.16) 100%), var(--card-overlay-scanlines) |
+| gradient-glitch-rail | linear-gradient(180deg, hsl(var(--primary) / 0.6) 0%, hsl(var(--accent) / 0.45) 45%, hsl(var(--ring) / 0.6) 100%) |
+| gradient-hero-slot-highlight | radial-gradient(circle at top left, var(--depth-glow-highlight-medium) 0%, transparent 62%) |
+| gradient-hero-slot-shadow | radial-gradient(circle at bottom right, var(--depth-glow-shadow-medium) 0%, transparent 65%) |
+| gradient-hero-topline | linear-gradient(90deg, hsl(var(--accent) / 0.28), transparent 55%, hsl(var(--accent-2) / 0.32)) |
+| gradient-hero-action-halo | radial-gradient(120% 95% at 50% 0%, hsl(var(--accent) / 0.24), transparent 65%) |
+| gradient-panel-tilt-strong | linear-gradient(140deg, hsl(var(--card) / 0.95), hsl(var(--surface-2) / 0.78)) |
+| gradient-panel-tilt-bright | linear-gradient(140deg, hsl(var(--card) / 0.98), hsl(var(--surface-2) / 0.82)) |
+| gradient-panel-tilt-muted | linear-gradient(140deg, hsl(var(--card) / 0.94), hsl(var(--surface-2) / 0.72)) |
 | glitch-rgb-shift | drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45)) |
 | glitch-scanline | glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite |
 | danger-surface-foreground | var(--danger-foreground) |
