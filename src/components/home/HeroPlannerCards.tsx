@@ -2,8 +2,7 @@
 
 import * as React from "react";
 
-import DashboardCard from "./DashboardCard";
-import DashboardList from "./DashboardList";
+import ActivityCard from "./ActivityCard";
 import GoalsCard from "./GoalsCard";
 import IsometricRoom from "./IsometricRoom";
 import PlannerOverview from "./home-landing/PlannerOverview";
@@ -33,9 +32,19 @@ export interface HeroPlannerCardsProps {
 export default function HeroPlannerCards({
   variant,
   plannerOverviewProps,
-  highlights,
+  highlights: _highlights,
   className,
 }: HeroPlannerCardsProps) {
+  const { activity } = plannerOverviewProps;
+  void _highlights;
+
+  const activityColumnClass = activity.hasData || activity.loading
+    ? "col-span-full md:col-span-6 lg:col-span-4"
+    : "col-span-full";
+  const promptsColumnClass = activity.hasData || activity.loading
+    ? "col-span-full md:col-span-6 lg:col-span-8"
+    : "col-span-full";
+
   return (
     <div
       className={cn(layoutGridClassName, "md:grid-cols-12", className)}
@@ -69,33 +78,10 @@ export default function HeroPlannerCards({
         <div className="md:col-span-4">
           <ReviewsCard />
         </div>
-        <div className="md:col-span-6 lg:col-span-4">
-          <DashboardCard
-            title="Weekly focus"
-            cta={{ label: "Open planner", href: "/planner" }}
-          >
-            <DashboardList
-              items={highlights}
-              getKey={(highlight) => highlight.id}
-              itemClassName="py-[var(--space-2)]"
-              empty="No highlights scheduled"
-              renderItem={(highlight) => (
-                <div className="flex flex-col gap-[var(--space-2)]">
-                  <div className="flex items-baseline justify-between gap-[var(--space-3)]">
-                    <p className="text-ui font-medium">{highlight.title}</p>
-                    <span className="text-label text-muted-foreground">
-                      {highlight.schedule}
-                    </span>
-                  </div>
-                  <p className="text-body text-muted-foreground">
-                    {highlight.summary}
-                  </p>
-                </div>
-              )}
-            />
-          </DashboardCard>
+        <div className={activityColumnClass}>
+          <ActivityCard {...activity} />
         </div>
-        <div className="md:col-span-6 lg:col-span-8">
+        <div className={promptsColumnClass}>
           <TeamPromptsCard />
         </div>
       </section>

@@ -23,6 +23,8 @@ const HOURS: readonly string[] = [
   "13:00",
 ];
 
+const HEADER_CONTROLS_COLLAPSE_BELOW = "calc(var(--space-8) * 8)" as const;
+
 type CalendarEventTone = "accent" | "primary" | "info";
 
 type CalendarEvent = {
@@ -384,7 +386,7 @@ function HeaderControls({ status }: { status: CalendarPreviewStatus }) {
       justify="flex-end"
       wrap={false}
       collapse="stack"
-      collapseBelow="32rem"
+      collapseBelow={HEADER_CONTROLS_COLLAPSE_BELOW}
     >
       <span className="rounded-[var(--radius-lg)] border border-[hsl(var(--card-hairline)/0.55)] bg-[hsl(var(--surface-2)/0.6)] px-[var(--space-3)] py-[var(--space-1)] text-label text-muted-foreground">
         Auto-sync is on
@@ -398,7 +400,7 @@ function HeaderControls({ status }: { status: CalendarPreviewStatus }) {
         >
           <ChevronLeft />
         </IconButton>
-        <Button variant="secondary" size="sm">
+        <Button variant="soft" size="sm">
           Today
         </Button>
         <IconButton
@@ -472,7 +474,7 @@ function CalendarPreview({
             </p>
           </div>
           <Button
-            variant="primary"
+            variant="default"
             tone="accent"
             size="sm"
             className="shadow-[var(--shadow-control)] hover:shadow-[var(--shadow-control-hover)]"
@@ -486,7 +488,7 @@ function CalendarPreview({
           styles.fab,
           "flex items-center gap-[var(--space-2)] rounded-[var(--radius-full)] shadow-[var(--shadow-control)] hover:shadow-[var(--shadow-control-hover)] focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:outline-none",
         )}
-        variant="primary"
+        variant="default"
         size="lg"
         tone="accent"
       >

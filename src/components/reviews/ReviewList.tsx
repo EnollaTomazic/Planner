@@ -215,7 +215,7 @@ export default function ReviewList({
           </div>
           <Button
             type="button"
-            variant="primary"
+            variant="default"
             size="md"
             onClick={onCreate}
             className={cn("btn-glitch")}
@@ -266,7 +266,7 @@ export default function ReviewList({
                 <Button
                   type="button"
                   size="sm"
-                  variant="secondary"
+                  variant="soft"
                   onClick={handleLoadMore}
                   className="shrink-0"
                 >
