@@ -42,6 +42,7 @@ import {
   PillarBadge,
   PillarSelector,
   Hero,
+  HeroImage,
   SearchBar,
   TabBar,
   NeomorphicHeroFrame,
@@ -4812,6 +4813,14 @@ React.useEffect(() => {
     },
   ],
   misc: [
+    {
+      id: "hero-image",
+      name: "HeroImage",
+      description: "Theme-aware illustration for hero layouts honoring theme variants.",
+      element: <HeroImage />,
+      tags: ["hero", "illustration"],
+      code: `<HeroImage />`,
+    },
     {
       id: "cat-companion",
       name: "CatCompanion",
