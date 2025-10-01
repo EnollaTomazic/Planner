@@ -65,7 +65,7 @@ function PlannerCreationDialog({
   if (!open || typeof document === "undefined") return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[hsl(var(--background)/0.85)] px-[var(--space-4)] pb-[var(--space-6)] pt-[var(--space-8)] sm:items-center sm:bg-[hsl(var(--background)/0.8)]">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[hsl(var(--bg)/0.85)] px-[var(--space-4)] pb-[var(--space-6)] pt-[var(--space-8)] sm:items-center sm:bg-[hsl(var(--bg)/0.8)]">
       <div
         role="presentation"
         aria-hidden="true"

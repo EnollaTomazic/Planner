@@ -3,12 +3,14 @@
     "/",
     "/dashboard-layout",
     "/preview/a11y",
+    "/preview/hero-images",
     "/preview/perf"
   ],
   "button": [
     "/",
     "/dashboard-layout",
     "/preview/a11y",
+    "/preview/hero-images",
     "/preview/pages-check"
   ],
   "icon-button": [],
@@ -46,6 +48,7 @@
     "/nav-and-bg",
     "/planner",
     "/preview/a11y",
+    "/preview/hero-images",
     "/preview/pages-check",
     "/preview/perf",
     "/preview/tabs",
@@ -65,7 +68,10 @@
     "/"
   ],
   "demo-header": [],
-  "hero": [],
+  "hero": [
+    "/",
+    "/preview/hero-images"
+  ],
   "progress": [
     "/",
     "/preview/perf"

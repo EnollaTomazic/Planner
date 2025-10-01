@@ -15,6 +15,15 @@
     --settings-column-width: calc(var(--space-4) * 14);
     --surface-overlay-soft: 0.12;
     --surface-overlay-strong: 0.2;
+    --bg: var(--background);
+    --scanline: var(--glitch-scanline);
+    --glitch-pixel: var(--glitch-noise-level);
+    --stat-good: var(--success);
+    --stat-warn: var(--warning);
+    --stat-bad: var(--danger);
+    --depth-shadow-inset: var(--shadow-depth-inner);
+    --depth-shadow-outer: var(--shadow-depth-outer);
+    --depth-shadow-outer-strong: var(--shadow-depth-outer-strong);
     --surface-muted: var(--muted) / 0.12;
     --surface-hover: var(--muted) / 0.18;
     --border-subtle: var(--ring);
@@ -323,15 +332,15 @@ body.fx-gifbars::before {
   @supports (color: color-contrast(white vs black)) {
     :root {
       --danger-foreground: color-contrast(
-        hsl(var(--danger)) vs hsl(var(--background)),
+        hsl(var(--danger)) vs hsl(var(--bg)),
         hsl(var(--highlight))
       );
       --danger-surface-foreground: color-contrast(
-        hsl(var(--danger)) vs hsl(var(--background)),
+        hsl(var(--danger)) vs hsl(var(--bg)),
         hsl(var(--highlight))
       );
       --danger-tint-foreground: color-contrast(
-        hsl(var(--danger)) vs hsl(var(--background)),
+        hsl(var(--danger)) vs hsl(var(--bg)),
         hsl(var(--highlight))
       );
     }
@@ -341,12 +350,12 @@ body.fx-gifbars::before {
     :root {
       --danger-surface-foreground: color-contrast(
         color-mix(in oklab, hsl(var(--danger)) 12%, hsl(var(--surface))) vs
-          hsl(var(--background)),
+          hsl(var(--bg)),
         hsl(var(--highlight))
       );
       --danger-tint-foreground: color-contrast(
         color-mix(in oklab, hsl(var(--danger)) 25%, hsl(var(--surface))) vs
-          hsl(var(--background)),
+          hsl(var(--bg)),
         hsl(var(--highlight))
       );
     }
@@ -429,7 +438,7 @@ html.no-animations *:focus-visible {
 /* ---------- Background & typography ---------- */
 body {
   color: hsl(var(--foreground));
-  background: hsl(var(--background));
+  background: hsl(var(--bg));
   font-size: var(--font-body);
   line-height: 1.6;
   min-height: var(--viewport-height);
@@ -510,7 +519,7 @@ html.bg-intense body::after {
 .glitch-root {
   position: relative;
   isolation: isolate;
-  background-color: hsl(var(--background));
+  background-color: hsl(var(--bg));
   color: hsl(var(--foreground));
   --glitch-root-overlay-opacity: 0.05;
 }
@@ -646,7 +655,7 @@ html.bg-intense body::after {
     background: linear-gradient(
       180deg,
       hsl(var(--card)),
-      hsl(var(--background))
+      hsl(var(--bg))
     );
     border: var(--hairline-w) solid hsl(var(--card-hairline));
     box-shadow: var(--shadow-outline-subtle);
@@ -1076,7 +1085,7 @@ html.bg-intense body::after {
         hsl(var(--accent) / 0.18),
         transparent 60%
       ),
-      linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+      linear-gradient(180deg, hsl(var(--card)), hsl(var(--bg)));
     box-shadow:
       0 var(--spacing-0-25) 0 hsl(var(--foreground) / 0.08) inset,
       0 0 0 var(--spacing-0-25) hsl(var(--card-hairline) / 0.65),
@@ -1204,7 +1213,7 @@ html.bg-intense body::after {
   position: relative;
   background: linear-gradient(
     180deg,
-    hsl(var(--background)) 0%,
+    hsl(var(--bg)) 0%,
     hsl(var(--card)) 100%
   );
   border-bottom: 1px solid hsl(var(--card-hairline));
@@ -1338,7 +1347,7 @@ html.bg-intense body::after {
 }
 .meta-strip .pill {
   --b: hsl(var(--card-hairline));
-  --bg: hsl(var(--background));
+  --bg: hsl(var(--bg));
   font-size: var(--font-label);
   line-height: 1.2;
   font-weight: 500;
@@ -1347,7 +1356,7 @@ html.bg-intense body::after {
   padding: 0.45rem 0.55rem;
   border-radius: var(--radius-full);
   border: 1px solid var(--b);
-  background: linear-gradient(180deg, var(--bg), hsl(var(--card)));
+  background: linear-gradient(180deg, hsl(var(--bg)), hsl(var(--card)));
   color: hsl(var(--muted-foreground));
   text-transform: uppercase;
   box-shadow: inset 0 0 0 var(--spacing-0-25) hsl(var(--card-hairline) / 0.4);
@@ -1429,10 +1438,10 @@ html.bg-intense body::after {
     hsl(var(--accent) / 0.7)
   );
   border-radius: var(--radius-full);
-  border: 2px solid hsl(var(--background));
+  border: 2px solid hsl(var(--bg));
 }
 *::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: hsl(var(--bg));
 }
 
 /* ---------- Chip shell utilities ---------- */
@@ -1498,7 +1507,7 @@ html.bg-intense body::after {
       hsl(var(--primary) / 0.08),
       transparent 60%
     ),
-    linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+    linear-gradient(180deg, hsl(var(--card)), hsl(var(--bg)));
   box-shadow:
     0 calc(var(--space-4) + var(--spacing-0-5)) var(--space-7)
       hsl(var(--shadow-color) / 0.35),
@@ -1564,7 +1573,7 @@ html.bg-intense body::after {
 .week-outline .section-header {
   border-bottom: 0;
   box-shadow: 0 var(--spacing-0-25) 0 hsl(var(--accent) / 0.14) inset;
-  background: color-mix(in oklab, hsl(var(--background)) 72%, transparent);
+  background: color-mix(in oklab, hsl(var(--bg)) 72%, transparent);
   backdrop-filter: blur(8px);
 }
 
@@ -2601,7 +2610,7 @@ a:active .lucide {
 
   .sticky-blur {
     backdrop-filter: saturate(120%) blur(12px);
-    background: color-mix(in oklab, hsl(var(--background)) 65%, transparent);
+    background: color-mix(in oklab, hsl(var(--bg)) 65%, transparent);
     border-bottom: var(
       --sticky-blur-border,
       1px solid hsl(var(--card-hairline))
@@ -2780,7 +2789,7 @@ a:active .lucide {
     border-bottom-width: var(--hairline-w);
     border-bottom-style: solid;
     border-bottom-color: hsl(var(--border));
-    background-color: hsl(var(--background) / 0.6);
+    background-color: hsl(var(--bg) / 0.6);
     --page-tabs-top: var(--header-stack);
   }
 
@@ -2792,7 +2801,7 @@ a:active .lucide {
     .page-tabs-surface {
       background-color: color-mix(
         in oklab,
-        hsl(var(--background)) 60%,
+        hsl(var(--bg)) 60%,
         transparent
       );
     }
