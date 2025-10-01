@@ -389,6 +389,19 @@ async function buildTokens(): Promise<void> {
       "glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite",
   };
 
+  const aliasColorTokens: Record<string, string> = {
+    bg: "var(--background)",
+    "depth-shadow-inset": "var(--shadow-depth-inner)",
+    "depth-shadow-outer": "var(--shadow-depth-outer)",
+    "depth-shadow-outer-strong": "var(--shadow-depth-outer-strong)",
+    "depth-shadow-soft": "var(--shadow-depth-soft)",
+    scanline: "var(--glitch-scanline)",
+    "glitch-pixel": "var(--glitch-noise-level)",
+    "stat-good": "var(--success)",
+    "stat-warn": "var(--warning)",
+    "stat-bad": "var(--danger)",
+  };
+
   const reducedMotionTokens: Record<string, string> = {
     "glitch-scanline": "none",
     "glitch-rgb-shift": "none",
@@ -396,6 +409,9 @@ async function buildTokens(): Promise<void> {
   };
 
   for (const [name, value] of Object.entries(derivedColorTokens)) {
+    colors[name] = { value };
+  }
+  for (const [name, value] of Object.entries(aliasColorTokens)) {
     colors[name] = { value };
   }
   const globalsPath = path.resolve(__dirname, "../src/app/globals.css");
