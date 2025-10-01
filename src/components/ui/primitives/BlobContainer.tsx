@@ -88,7 +88,7 @@ const BlobContainer = React.forwardRef<HTMLSpanElement, BlobContainerProps>(
       >
         <span
           className={cn(
-            "absolute inset-0 rounded-[inherit] bg-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-quick ease-out",
+            "absolute inset-0 rounded-[inherit] bg-gradient-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-quick ease-out",
             blobAnimationClass,
             "group-hover/glitch:opacity-[var(--blob-overlay-target)] group-focus-visible/glitch:opacity-[var(--blob-overlay-target)] group-focus-within/glitch:opacity-[var(--blob-overlay-target)] group-active/glitch:opacity-[var(--blob-overlay-target)]",
           )}

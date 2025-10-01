@@ -53,36 +53,46 @@ export default function WeekSummary({
       ? "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-[var(--space-2)]"
       : "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-[var(--space-3)]";
 
-  const headingRow =
-    variant === "inline" ? (
-      showLabel ? (
-        <div className="mb-[var(--space-2)] flex items-center justify-between gap-[var(--space-2)] text-label font-medium tracking-[0.02em] text-muted-foreground">
-          <div className="flex items-center gap-[var(--space-2)]">
-            <span className="uppercase tracking-[0.02em]">Week</span>
-            <span aria-hidden>•</span>
-            <span>{rangeLabel}</span>
-          </div>
-          <span className="pill pill--medium font-semibold">
-            <span className="tabular-nums">{doneAll}</span>/
-            <span className="tabular-nums">{totalAll}</span>
-          </span>
+  const completionDescription = "Completed / Total items this week";
+
+  const completionContent = (
+    <>
+      <span className="badge__icon">✅</span>
+      <span className="tabular-nums">{doneAll}</span>/
+      <span className="tabular-nums">{totalAll}</span>
+    </>
+  );
+
+  const completionBadge = (
+    <span
+      className="badge badge--sm"
+      role="status"
+      aria-live="polite"
+      title={completionDescription}
+      aria-label={completionDescription}
+    >
+      {completionContent}
+    </span>
+  );
+
+  const inlineHeader =
+    variant === "inline" && showLabel ? (
+      <div className="mb-[var(--space-2)] flex items-start justify-between gap-[var(--space-2)]">
+        <div className="flex flex-col gap-[var(--space-2)] text-label tracking-[0.02em] text-muted-foreground">
+          <span className="uppercase font-semibold">Week</span>
+          {rangeLabel ? <span className="font-medium">{rangeLabel}</span> : null}
         </div>
-      ) : null
-    ) : (
-      <div className="mb-[var(--space-3)] flex items-center gap-[var(--space-3)]">
-        <div className="text-ui font-medium text-muted-foreground">{rangeLabel}</div>
         <span
-          className="ml-auto badge badge--sm"
+          className="pill pill--medium font-semibold"
           role="status"
           aria-live="polite"
-          title="Completed / Total items this week"
+          aria-label={completionDescription}
+          title={completionDescription}
         >
-          <span className="badge__icon">✅</span>
-          <span className="tabular-nums">{doneAll}</span>/
-          <span className="tabular-nums">{totalAll}</span>
+          {completionContent}
         </span>
       </div>
-    );
+    ) : null;
 
   const tiles = (
     <div className={grid} role="list" aria-label="Week days summary">
@@ -126,7 +136,7 @@ export default function WeekSummary({
 
   const content = (
     <div className={cn(className, bleed && "ws-bleed")}>
-      {headingRow}
+      {inlineHeader}
       {tiles}
     </div>
   );
@@ -135,7 +145,22 @@ export default function WeekSummary({
 
   return (
     <SectionCard className="card-neo">
-      <SectionCard.Header title="Week Summary" />
+      <SectionCard.Header
+        className="items-start gap-[var(--space-3)]"
+        titleAs="h6"
+        titleClassName="flex flex-col gap-[var(--space-2)]"
+        title={
+          <>
+            <span className="text-title font-semibold tracking-tight">Week Summary</span>
+            {rangeLabel ? (
+              <span className="text-label font-medium text-muted-foreground">
+                {rangeLabel}
+              </span>
+            ) : null}
+          </>
+        }
+        actions={completionBadge}
+      />
       <SectionCard.Body>{content}</SectionCard.Body>
     </SectionCard>
   );
