@@ -22,7 +22,12 @@ export default function WeekNotes({ iso }: Props) {
 
   return (
     <SectionCard className="card-neo-soft">
-      <SectionCard.Header id={headerId} title="Day notes" />
+      <SectionCard.Header
+        id={headerId}
+        title="Day notes"
+        titleAs="h6"
+        titleClassName="text-title font-semibold tracking-tight"
+      />
       <SectionCard.Body>
         <Textarea
           placeholder="Jot down anything related to this day…"
