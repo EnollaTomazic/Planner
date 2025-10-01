@@ -105,14 +105,14 @@ export default {
   shadowDropdown: "0 12px 40px hsl(var(--shadow-color) / 0.55)",
   shadowNeoSm:
     "calc(var(--spacing-1)) calc(var(--spacing-1)) calc(var(--spacing-2))\n      hsl(var(--panel) / 0.72),\n    calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) calc(var(--spacing-2))\n      hsl(var(--foreground) / 0.06)",
-  shadowNeo:
+  shadowDepthOuter:
     "calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5)\n      hsl(var(--panel) / 0.72),\n    calc(var(--spacing-3) * -1) calc(var(--spacing-3) * -1) var(--spacing-5)\n      hsl(var(--foreground) / 0.06)",
-  shadowNeoStrong:
+  shadowDepthOuterStrong:
     "var(--spacing-4) var(--spacing-4) var(--spacing-6) hsl(var(--panel) / 0.72),\n    calc(var(--spacing-4) * -1) calc(var(--spacing-4) * -1) var(--spacing-6)\n      hsl(var(--foreground) / 0.08)",
-  shadowNeoInset:
+  shadowDepthInner:
     "inset var(--spacing-1) var(--spacing-1) var(--spacing-3)\n      hsl(var(--panel) / 0.85),\n    inset calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) var(--spacing-3)\n      hsl(var(--foreground) / 0.08)",
   shadowRing: "0 0 var(--spacing-3) hsl(var(--ring))",
-  shadowNeoSoft:
+  shadowDepthSoft:
     "0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1)\n      hsl(var(--shadow-color))",
   shadowGlowSm: "0 0 var(--spacing-2) var(--glow-active)",
   shadowGlowMd: "0 0 var(--spacing-4) var(--glow-active)",
@@ -184,6 +184,8 @@ export default {
   cardOverlayScanlines:
     "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / 0.035) 0,\n    hsl(var(--foreground) / 0.035) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )",
   heroDividerBlur: "calc(var(--spacing-1) * 1.5)",
+  heroIllustrationOpacity: "0.8",
+  heroIllustrationBlur: "calc(var(--space-4) + var(--space-1))",
   visuallyHiddenTop: "-9999px",
   warningForeground: "0 0% 6%",
   successForeground: "0 0% 6%",
@@ -240,10 +242,10 @@ export default {
   neoSurfaceAlt:
     "color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%)",
   neoHighlight: "color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)))",
-  depthShadowOuter: "var(--shadow-neo)",
-  depthShadowOuterStrong: "var(--shadow-neo-strong)",
-  depthShadowSoft: "var(--shadow-neo-soft)",
-  depthShadowInner: "var(--shadow-neo-inset)",
+  depthShadowOuter: "var(--shadow-depth-outer)",
+  depthShadowOuterStrong: "var(--shadow-depth-outer-strong)",
+  depthShadowSoft: "var(--shadow-depth-soft)",
+  depthShadowInner: "var(--shadow-depth-inner)",
   depthGlowHighlightSoft: "hsl(var(--highlight) / 0.08)",
   depthGlowHighlightMedium: "hsl(var(--highlight) / 0.35)",
   depthGlowHighlightStrong: "hsl(var(--highlight) / 0.55)",
