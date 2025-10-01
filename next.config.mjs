@@ -122,14 +122,13 @@ const nextConfig = {
   },
 };
 
-let finalConfig = nextConfig;
+const configWithAnalyzer = shouldCollectBundleStats ? withBundleAnalyzer(nextConfig) : nextConfig;
 
-if (shouldCollectBundleStats) {
-  finalConfig = withBundleAnalyzer(finalConfig);
-}
-
-if (!(isProduction || isExportStatic)) {
-  finalConfig.headers = securityHeaders;
-}
+const finalConfig = !(isProduction || isExportStatic)
+  ? {
+      ...configWithAnalyzer,
+      headers: securityHeaders,
+    }
+  : configWithAnalyzer;
 
 export default finalConfig;
