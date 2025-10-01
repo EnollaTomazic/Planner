@@ -216,6 +216,8 @@
     transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
   );
   --hero-divider-blur: calc(var(--spacing-1) * 1.5);
+  --hero-illustration-opacity: 0.8;
+  --hero-illustration-blur: calc(var(--space-4) + var(--space-1));
   --visually-hidden-top: -9999px;
   --warning-foreground: 0 0% 6%;
   --success-foreground: 0 0% 6%;
@@ -294,7 +296,9 @@
   --backdrop-drip-shadow: var(--backdrop-blob-shadow);
   --neo-glow-strength: 0.45;
   --neon-outline-opacity: 0.35;
-  --glitch-intensity: 1.0;
+  --glitch-intensity-default: 1.0;
+  --glitch-intensity-subtle: calc(var(--glitch-intensity-default) * 0.68);
+  --glitch-intensity: var(--glitch-intensity-default);
   --glitch-duration: 450ms;
   --glitch-fringe: 12deg;
   --glitch-static-opacity: 0.18;
@@ -478,7 +482,9 @@
   --neon-outline-opacity: 0.35;
   /* Glitch normalization (identical amplitude & cadence) */
   /* 0–1 scaling for transforms/opacity */
-  --glitch-intensity: 1.0;
+  --glitch-intensity-default: 1.0;
+  --glitch-intensity-subtle: calc(var(--glitch-intensity-default) * 0.68);
+  --glitch-intensity: var(--glitch-intensity-default);
   /* base animation length */
   --glitch-duration: 450ms;
   /* hue-rotate magnitude */
@@ -680,7 +686,9 @@ html.theme-aurora {
   --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36);
   --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
   --neo-glow-strength: 0.4;
-  --glitch-intensity: 0.4;
+  --glitch-intensity-default: 0.4;
+  --glitch-intensity-subtle: calc(var(--glitch-intensity-default) * 0.68);
+  --glitch-intensity: var(--glitch-intensity-default);
   --glitch-fringe: 8deg;
   --glitch-static-opacity: 0.1;
   --lav-deep: 276 88% 68%;
@@ -755,7 +763,9 @@ html.theme-citrus {
   --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36);
   --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
   --neo-glow-strength: 0.45;
-  --glitch-intensity: 0.38;
+  --glitch-intensity-default: 0.38;
+  --glitch-intensity-subtle: calc(var(--glitch-intensity-default) * 0.68);
+  --glitch-intensity: var(--glitch-intensity-default);
   --glitch-fringe: 7deg;
   --glitch-static-opacity: 0.09;
   --lav-deep: 28 90% 56%;
@@ -814,7 +824,9 @@ html.theme-noir {
   --shadow-outer-lg: 0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.42);
   --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.48);
   --neo-glow-strength: 0.6;
-  --glitch-intensity: 0.34;
+  --glitch-intensity-default: 0.34;
+  --glitch-intensity-subtle: calc(var(--glitch-intensity-default) * 0.68);
+  --glitch-intensity: var(--glitch-intensity-default);
   --glitch-fringe: 6deg;
   --glitch-static-opacity: 0.08;
   --glitch-noise-primary: hsl(var(--ring) / 0.28);
@@ -881,7 +893,9 @@ html.theme-ocean {
   --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36);
   --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
   --neo-glow-strength: 0.52;
-  --glitch-intensity: 0.4;
+  --glitch-intensity-default: 0.4;
+  --glitch-intensity-subtle: calc(var(--glitch-intensity-default) * 0.68);
+  --glitch-intensity: var(--glitch-intensity-default);
   --glitch-fringe: 7deg;
   --glitch-static-opacity: 0.1;
   --lav-deep: 254 78% 68%;
@@ -938,7 +952,9 @@ html.theme-kitten {
   --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36);
   --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
   --neo-glow-strength: 0.42;
-  --glitch-intensity: 0.36;
+  --glitch-intensity-default: 0.36;
+  --glitch-intensity-subtle: calc(var(--glitch-intensity-default) * 0.68);
+  --glitch-intensity: var(--glitch-intensity-default);
   --glitch-fringe: 6deg;
   --glitch-static-opacity: 0.085;
   --lav-deep: 336 84% 64%;
@@ -1004,7 +1020,9 @@ html.theme-hardstuck {
   --shadow-outer-lg: 0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.34);
   --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.42);
   --neo-glow-strength: 0.58;
-  --glitch-intensity: 0.32;
+  --glitch-intensity-default: 0.32;
+  --glitch-intensity-subtle: calc(var(--glitch-intensity-default) * 0.68);
+  --glitch-intensity: var(--glitch-intensity-default);
   --glitch-fringe: 5deg;
   --glitch-static-opacity: 0.075;
   --glitch-noise-primary: hsl(var(--ring) / 0.24);

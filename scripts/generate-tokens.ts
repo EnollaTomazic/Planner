@@ -82,6 +82,8 @@ const REQUIRED_THEME_TOKEN_GROUPS = {
   glitch: [
     "neo-glow-strength",
     "neon-outline-opacity",
+    "glitch-intensity-default",
+    "glitch-intensity-subtle",
     "glitch-intensity",
     "glitch-duration",
     "glitch-fringe",
