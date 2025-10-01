@@ -3,8 +3,16 @@
 import * as React from "react";
 import { IconButton, Input, Textarea, CheckCircle } from "@/components/ui";
 import { Trash2, Flag, Pencil, X, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { shortDate } from "@/lib/date";
 import type { Goal } from "@/lib/types";
+
+const ICON_SM = "size-[var(--icon-size-sm)]";
+const ICON_XS = "size-[var(--icon-size-xs)]";
+const ICON_CLASS = {
+  sm: ICON_SM,
+  xs: ICON_XS,
+} as const;
 
 interface GoalListProps {
   goals: Goal[];
@@ -56,7 +64,7 @@ export default function GoalList({
       {goals.length === 0 ? (
         <li className="flex">
           <div className="card-pad flex h-full w-full flex-1 flex-col items-center justify-center gap-[var(--space-2)] text-center text-ui font-medium text-muted-foreground rounded-card border border-card-hairline-60 bg-surface">
-            <Flag aria-hidden className="h-6 w-6 text-accent" />
+            <Flag aria-hidden className={cn(ICON_CLASS.sm, "text-accent")} />
             <p className="max-w-[calc(var(--space-7)*5)]">
               No goals here. Add one simple, finishable thing.
             </p>
