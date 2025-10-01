@@ -104,7 +104,7 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             Notes (optional)
             <Textarea
               id="goal-notes"
-              textareaClassName="min-h-24 text-ui font-medium"
+              textareaClassName="min-h-[calc(var(--space-8)*3)] text-ui font-medium"
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
               aria-describedby={describedBy || undefined}

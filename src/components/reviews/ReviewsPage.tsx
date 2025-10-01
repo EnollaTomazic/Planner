@@ -149,7 +149,7 @@ export default function ReviewsPage({
                 </div>
                 <Button
                   type="button"
-                  variant="primary"
+                  variant="default"
                   size="md"
                   className={cn(
                     "btn-glitch",
@@ -182,7 +182,7 @@ export default function ReviewsPage({
                 </p>
                 <Button
                   type="button"
-                  variant="primary"
+                  variant="default"
                   size="md"
                   className={cn(
                     "btn-glitch",

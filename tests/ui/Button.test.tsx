@@ -4,6 +4,7 @@ import { describe, it, expect, afterEach, vi } from "vitest";
 import Button, {
   type ButtonProps,
   type ButtonSize,
+  type ButtonVariant,
 } from "@/components/ui/primitives/Button";
 
 afterEach(cleanup);
@@ -17,10 +18,10 @@ describe("Button", () => {
   };
 
   const variantToneClasses: Record<
-    NonNullable<ButtonProps["variant"]>,
+    ButtonVariant,
     Record<NonNullable<ButtonProps["tone"]>, string[]>
   > = {
-    primary: {
+    default: {
       primary: [
         "text-[hsl(var(--primary-foreground))]",
         "[--neu-surface:hsl(var(--primary-soft))]",
@@ -50,7 +51,7 @@ describe("Button", () => {
         "[--active:hsl(var(--danger)/0.2)]",
       ],
     },
-    secondary: {
+    soft: {
       primary: [
         "text-muted-foreground",
         "hover:text-foreground",
@@ -113,7 +114,7 @@ describe("Button", () => {
 
   const cases: [
     ButtonSize,
-    NonNullable<ButtonProps["variant"]>,
+    ButtonVariant,
     NonNullable<ButtonProps["tone"]>,
     string,
     string[],
@@ -123,9 +124,7 @@ describe("Button", () => {
     ButtonSize,
     string
   ][]) {
-    for (const variant of Object.keys(variantToneClasses) as Array<
-      NonNullable<ButtonProps["variant"]>
-    >) {
+    for (const variant of Object.keys(variantToneClasses) as ButtonVariant[]) {
       for (const tone of Object.keys(variantToneClasses[variant]) as Array<
         NonNullable<ButtonProps["tone"]>
       >) {
