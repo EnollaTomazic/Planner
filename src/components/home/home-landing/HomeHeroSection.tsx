@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Home } from "lucide-react";
+import { DEFAULT_HERO_STATE, type HeroIllustrationState } from "@/data/heroImages";
 import { cn } from "@/lib/utils";
 import WelcomeHeroFigure from "../WelcomeHeroFigure";
 import styles from "./HomeHeroSection.module.css";
@@ -14,6 +15,9 @@ export default function HomeHeroSection({
   actions,
   headingId,
 }: HomeHeroSectionProps) {
+  const [heroState, setHeroState] = React.useState<HeroIllustrationState>(
+    DEFAULT_HERO_STATE,
+  );
   const haloTone = React.useMemo(
     () => (subtleVariants.has(variant) ? "subtle" : "default"),
     [variant],
@@ -28,6 +32,45 @@ export default function HomeHeroSection({
     [actions],
   );
 
+  const handleHeroPointerEnter = React.useCallback(() => {
+    setHeroState("hover");
+  }, []);
+
+  const handleHeroPointerLeave = React.useCallback<
+    React.PointerEventHandler<HTMLDivElement>
+  >((event) => {
+    const nextTarget = event.relatedTarget;
+    if (nextTarget instanceof Node && event.currentTarget.contains(nextTarget)) {
+      return;
+    }
+    if (typeof document !== "undefined") {
+      const activeElement = document.activeElement;
+      if (
+        activeElement instanceof Node &&
+        event.currentTarget.contains(activeElement)
+      ) {
+        setHeroState("focus");
+        return;
+      }
+    }
+    setHeroState(DEFAULT_HERO_STATE);
+  }, []);
+
+  const handleHeroFocus = React.useCallback(() => {
+    setHeroState("focus");
+  }, []);
+
+  const handleHeroBlur = React.useCallback<React.FocusEventHandler<HTMLDivElement>>(
+    (event) => {
+      const nextTarget = event.relatedTarget;
+      if (nextTarget instanceof Node && event.currentTarget.contains(nextTarget)) {
+        return;
+      }
+      setHeroState(DEFAULT_HERO_STATE);
+    },
+    [],
+  );
+
   return (
     <div
       className={cn(
@@ -35,6 +78,11 @@ export default function HomeHeroSection({
         styles.root,
       )}
       data-theme-variant={variant}
+      data-hero-state={heroState}
+      onPointerEnter={handleHeroPointerEnter}
+      onPointerLeave={handleHeroPointerLeave}
+      onFocusCapture={handleHeroFocus}
+      onBlurCapture={handleHeroBlur}
     >
       <div className="flex flex-col gap-[var(--space-4)] md:col-span-6">
         <div className="flex items-center gap-[var(--space-2)] text-muted-foreground">
@@ -75,6 +123,8 @@ export default function HomeHeroSection({
           haloTone={haloTone}
           showGlitchRail={showGlitchRail}
           framed={false}
+          variant={variant}
+          state={heroState}
         />
       </div>
     </div>

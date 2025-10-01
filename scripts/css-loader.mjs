@@ -1,3 +1,6 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 const runtimeUrl = new URL(
   "../src/components/gallery/runtime.ts",
   import.meta.url,
@@ -8,6 +11,28 @@ export async function load(url, context, defaultLoad) {
     return {
       format: "module",
       source: "export default {};\n",
+      shortCircuit: true,
+    };
+  }
+  if (url.endsWith(".png")) {
+    const filePath = fileURLToPath(url);
+    const projectRoot = process.cwd();
+    const publicDir = path.join(projectRoot, "public");
+    let relativePath = path.relative(publicDir, filePath).replace(/\\/g, "/");
+
+    if (relativePath.startsWith("..")) {
+      relativePath = path
+        .relative(projectRoot, filePath)
+        .replace(/\\/g, "/");
+    }
+
+    const assetPath = relativePath.startsWith("/")
+      ? relativePath
+      : `/${relativePath}`;
+
+    return {
+      format: "module",
+      source: `export default ${JSON.stringify(assetPath)};\n`,
       shortCircuit: true,
     };
   }
