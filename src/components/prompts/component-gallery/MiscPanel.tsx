@@ -26,6 +26,7 @@ import {
 } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import VirtualizedList from "@/components/ui/primitives/VirtualizedList";
+import { HERO_ILLUSTRATION_STATES, type HeroIllustrationState } from "@/data/heroImages";
 import { spacingTokens } from "@/lib/tokens";
 import {
   ReviewListItem,
@@ -54,6 +55,12 @@ const HEIGHT_RELAXED = "calc(var(--space-6) + var(--space-2))";
 const HEIGHT_BACKGROUND = "calc(var(--space-8) * 1.5)";
 const HEIGHT_STACKED = "calc(var(--space-8) * 3.5)";
 const HERO_SPACER_HEIGHT = "calc(var(--space-8) * 3)";
+const HERO_STATE_LABELS: Record<HeroIllustrationState, string> = {
+  idle: "Idle default",
+  hover: "Hover highlight",
+  focus: "Focus emphasis ring",
+  alternate: "Alternate palette",
+};
 type PanelItem = { label: string; element: React.ReactNode; className?: string };
 
 interface MiscPanelProps {
@@ -523,6 +530,37 @@ export default function MiscPanel({ data }: MiscPanelProps) {
                   </HeroGrid>
                 </Hero>
               </NeomorphicHeroFrame>
+            </div>
+          ),
+        },
+        {
+          label: "Hero illustration states",
+          element: (
+            <div className="space-y-[var(--space-3)]" style={{ width: SWATCH_WIDTH }}>
+              {HERO_ILLUSTRATION_STATES.map((state) => (
+                <div key={state} className="space-y-[var(--space-2)]">
+                  <p className="text-label font-medium text-muted-foreground">
+                    {HERO_STATE_LABELS[state]}
+                  </p>
+                  <Hero
+                    heading={`Planner hero (${HERO_STATE_LABELS[state]})`}
+                    eyebrow="Component preview"
+                    subtitle={`Illustration ${HERO_STATE_LABELS[state].toLowerCase()}.`}
+                    sticky={false}
+                    topClassName="top-0"
+                    illustrationState={state}
+                    actions={
+                      <Button size="sm" variant="soft">
+                        Primary action
+                      </Button>
+                    }
+                  >
+                    <div className="text-ui text-muted-foreground">
+                      Hero body copy placeholder for the {HERO_STATE_LABELS[state].toLowerCase()} state.
+                    </div>
+                  </Hero>
+                </div>
+              ))}
             </div>
           ),
         },
