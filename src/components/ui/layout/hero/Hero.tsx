@@ -8,10 +8,17 @@ import TabBar, {
   type TabItem,
 } from "../TabBar";
 import type { HeaderTabsProps } from "@/components/ui/layout/Header";
+import { useOptionalTheme } from "@/lib/theme-context";
 import { cn } from "@/lib/utils";
+import {
+  DEFAULT_HERO_STATE,
+  DEFAULT_HERO_VARIANT,
+  getHeroIllustration,
+  type HeroIllustrationState,
+} from "@/data/heroImages";
 import { NeomorphicFrameStyles } from "../NeomorphicFrameStyles";
 import { HeroGlitchStyles } from "./HeroGlitchStyles";
-import { HeroImage, type HeroImageProps } from "./HeroImage";
+import { HeroImage } from "./HeroImage";
 import { HeroSearchBar, type HeroSearchBarProps } from "./HeroSearchBar";
 import { useHeroStyles } from "./useHeroStyles";
 
@@ -81,7 +88,7 @@ export interface HeroProps<Key extends string = string>
   search?: (HeroSearchBarProps & { round?: boolean }) | null;
 
   /** Visual state for the hero illustration background. */
-  illustrationState?: HeroImageProps["state"];
+  illustrationState?: HeroIllustrationState;
 
   /** Custom alt text for the hero illustration background. */
   illustrationAlt?: string;
@@ -117,6 +124,8 @@ function Hero<Key extends string = string>({
   void _deprecatedRail;
   const headingStr = typeof heading === "string" ? heading : undefined;
   const Component: HeroElement = as ?? "section";
+  const theme = useOptionalTheme();
+  const themeState = theme?.[0];
 
   const {
     heroVariant,
@@ -223,32 +232,49 @@ function Hero<Key extends string = string>({
         }
       : search;
 
-  const heroIllustrationAlt = React.useMemo(() => {
+  const illustrationThemeVariant = themeState?.variant ?? DEFAULT_HERO_VARIANT;
+  const resolvedIllustrationState = illustrationState ?? DEFAULT_HERO_STATE;
+
+  const defaultAlt = React.useMemo(
+    () =>
+      getHeroIllustration(
+        illustrationThemeVariant,
+        resolvedIllustrationState,
+      ).alt,
+    [illustrationThemeVariant, resolvedIllustrationState],
+  );
+
+  const sanitizedIllustrationAlt = React.useMemo(() => {
     if (typeof illustrationAlt === "string") {
       const trimmed = illustrationAlt.trim();
       if (trimmed.length > 0) {
         return trimmed;
       }
     }
-    if (typeof headingStr === "string" && headingStr.trim().length > 0) {
-      return `${headingStr.trim()} hero illustration`;
-    }
     return undefined;
-  }, [illustrationAlt, headingStr]);
+  }, [illustrationAlt]);
+
+  const illustrationAltText = sanitizedIllustrationAlt ?? headingStr ?? defaultAlt;
+
+  const componentClassName = cn(frame ? "relative" : undefined, className);
 
   return (
-    <Component className={className} {...(rest as React.HTMLAttributes<HTMLElement>)}>
+    <Component
+      className={componentClassName}
+      {...(rest as React.HTMLAttributes<HTMLElement>)}
+    >
+      {frame ? (
+        <HeroImage
+          variant={heroVariant}
+          state={resolvedIllustrationState}
+          alt={illustrationAltText}
+          className="z-[1]"
+        />
+      ) : null}
       {shouldRenderGlitchStyles ? <HeroGlitchStyles /> : null}
       {frame || isRaisedBar ? <NeomorphicFrameStyles /> : null}
 
       <div className={classes.shell}>
-        {frame ? (
-          <HeroImage
-            state={illustrationState}
-            alt={heroIllustrationAlt}
-            className="z-[1]"
-          />
-        ) : null}
         <div className={cn(classes.bar, barClassName)}>
           <div className={classes.labelCluster}>
             {isRaisedBar ? (

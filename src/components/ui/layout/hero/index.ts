@@ -12,3 +12,4 @@ export { HeroImage } from "./HeroImage";
 export type { HeroImageProps } from "./HeroImage";
 export { useHeroStyles } from "./useHeroStyles";
 export type { HeroStyleOptions, HeroStyleResult } from "./useHeroStyles";
+export type { HeroIllustrationState } from "@/data/heroImages";

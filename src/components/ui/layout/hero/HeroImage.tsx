@@ -11,23 +11,27 @@ import {
 import { useOptionalTheme } from "@/lib/theme-context";
 import { cn } from "@/lib/utils";
 
+type HeroImageVariant = "neo" | undefined;
+
 export interface HeroImageProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: HeroImageVariant;
   state?: HeroIllustrationState;
   alt?: string;
 }
 
 export function HeroImage({
+  variant,
   state = DEFAULT_HERO_STATE,
   alt,
   className,
   ...rest
 }: HeroImageProps) {
   const theme = useOptionalTheme();
-  const variant = theme?.[0].variant ?? DEFAULT_HERO_VARIANT;
+  const themeVariant = theme?.[0].variant ?? DEFAULT_HERO_VARIANT;
 
   const { src, alt: defaultAlt } = React.useMemo(
-    () => getHeroIllustration(variant, state),
-    [variant, state],
+    () => getHeroIllustration(themeVariant, state),
+    [themeVariant, state],
   );
 
   const resolvedAlt = React.useMemo(() => {
@@ -40,8 +44,11 @@ export function HeroImage({
     return defaultAlt;
   }, [alt, defaultAlt]);
 
+  const dataVariant = variant ?? undefined;
+
   return (
     <div
+      data-hero-variant={dataVariant}
       className={cn(
         "pointer-events-none absolute inset-0 overflow-hidden",
         className,

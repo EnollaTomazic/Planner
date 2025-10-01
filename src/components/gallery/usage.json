@@ -43,6 +43,7 @@
     "/nav-and-bg",
     "/planner",
     "/preview/pages-check",
+    "/preview/tabs",
     "/preview/theme-matrix",
     "/prompts",
     "/reviews",
@@ -81,12 +82,8 @@
   "toggle": [],
   "animation-toggle": [],
   "check-circle": [],
-  "tab-bar": [
-    "/preview/tabs"
-  ],
-  "tabs": [
-    "/preview/tabs"
-  ],
+  "tab-bar": [],
+  "tabs": [],
   "neon-icon": [],
   "dashboard-card": [],
   "dashboard-list": [],
@@ -95,6 +92,7 @@
   "hero-planner-cards": [
     "/"
   ],
+  "avatar-frame": [],
   "hero-portrait-frame": [
     "/",
     "/preview/pages-check"
@@ -136,6 +134,7 @@
   "theme-toggle": [
     "/"
   ],
+  "hero-image": [],
   "cat-companion": [
     "/"
   ]
