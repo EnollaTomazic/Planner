@@ -6,6 +6,8 @@ import { CircleSlash } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+const EMPTY_ICON_SIZE = "size-[var(--icon-size-xs)]";
+
 function isReactKey(value: unknown): value is React.Key {
   return typeof value === "string" || typeof value === "number";
 }
@@ -115,7 +117,7 @@ export default function DashboardList<T>({
               )}
             >
               <span className="flex items-center gap-[var(--space-2)]">
-                <CircleSlash aria-hidden className="size-3" />
+                <CircleSlash aria-hidden className={EMPTY_ICON_SIZE} />
                 {empty}
               </span>
               {cta ? (

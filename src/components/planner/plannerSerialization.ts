@@ -191,14 +191,19 @@ export type PruneOldDaysOptions = {
   now?: Date | number | string;
 };
 
+export type PruneOldDaysReport = {
+  days: Record<ISODate, DayRecord>;
+  pruned?: ISODate[];
+};
+
 export function pruneOldDays(
   days: Record<ISODate, DayRecord>,
   options: PruneOldDaysOptions = {},
-) {
+): PruneOldDaysReport {
   const { maxAgeDays = DEFAULT_MAX_DAY_AGE_DAYS, now } = options;
   const normalizedMaxAge = Math.floor(maxAgeDays);
   if (!Number.isFinite(normalizedMaxAge) || normalizedMaxAge < 0) {
-    return days;
+    return { days, pruned: undefined };
   }
 
   let reference: Date;
@@ -210,7 +215,7 @@ export function pruneOldDays(
     reference = new Date(now);
   }
   if (Number.isNaN(reference.getTime())) {
-    return days;
+    return { days, pruned: undefined };
   }
 
   const cutoff = new Date(reference.getTime());
@@ -223,7 +228,7 @@ export function pruneOldDays(
 
   const keys = Object.keys(days);
   if (!keys.length) {
-    return days;
+    return { days, pruned: undefined };
   }
 
   type ParsedEntry = { iso: ISODate; time: number | null };
@@ -250,11 +255,12 @@ export function pruneOldDays(
   }
 
   if (hasValid && oldestTime >= cutoffTime && newestTime <= ceilingTime) {
-    return days;
+    return { days, pruned: undefined };
   }
 
   let result = days;
   let mutated = false;
+  let pruned: ISODate[] | undefined;
 
   for (const { iso, time } of parsed) {
     if (time === null || time >= cutoffTime) {
@@ -265,9 +271,14 @@ export function pruneOldDays(
       result = { ...days };
     }
     delete result[iso];
+    (pruned ??= []).push(iso);
   }
 
-  return mutated ? result : days;
+  if (!mutated) {
+    return { days, pruned: undefined };
+  }
+
+  return { days: result, pruned };
 }
 
 export function todayISO(): ISODate {
