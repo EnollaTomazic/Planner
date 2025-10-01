@@ -326,7 +326,7 @@ export default function ReviewEditor({
               title="Add tag"
               size="md"
               iconSize="sm"
-              variant="primary"
+              variant="default"
               onClick={() => {
                 addTag(draftTag);
                 setDraftTag("");

@@ -85,7 +85,7 @@ export default function TodayHeroProjects({
           <Button
             type="submit"
             size="sm"
-            variant="primary"
+            variant="default"
             className="w-full sm:w-auto sm:shrink-0"
             disabled={projectName.trim().length === 0}
           >

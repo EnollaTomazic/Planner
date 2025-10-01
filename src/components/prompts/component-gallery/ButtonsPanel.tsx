@@ -83,7 +83,7 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
             <div className="flex flex-col gap-[var(--space-2)]" style={sampleWidthStyle}>
               <Button
                 size="sm"
-                variant="primary"
+                variant="default"
                 tactile
                 aria-pressed={data.tactile.primary.active}
                 onClick={data.tactile.primary.onToggle}
@@ -92,7 +92,7 @@ export default function ButtonsPanel({ data }: ButtonsPanelProps) {
               </Button>
               <Button
                 size="sm"
-                variant="secondary"
+                variant="soft"
                 tone="accent"
                 tactile
                 aria-pressed={data.tactile.secondary.active}

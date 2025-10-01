@@ -211,7 +211,7 @@ function TimestampMarkers(
             title={canAddMarker ? "Add timestamp" : "Enter details"}
             size="md"
             iconSize="sm"
-            variant="primary"
+            variant="default"
             disabled={!canAddMarker}
             onClick={addMarker}
           >

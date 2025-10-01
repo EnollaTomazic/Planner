@@ -103,7 +103,7 @@ export default function PageHeaderDemo() {
         className="text-muted-foreground data-[state=active]:text-foreground"
         data-state="active"
       >
-        <Bell className="h-4 w-4" />
+        <Bell className="size-[var(--icon-size-sm)]" />
       </IconButton>
       <button
         type="button"
@@ -120,7 +120,7 @@ export default function PageHeaderDemo() {
         data-state={profileOpen ? "open" : "inactive"}
         className="inline-flex items-center gap-[var(--space-2)] rounded-full border border-transparent bg-[hsl(var(--card)/0.55)] px-[var(--space-3)] py-[var(--spacing-0-75)] text-ui font-medium transition-colors hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-[hsl(var(--card)/0.85)]"
       >
-        <CircleUser className="h-4 w-4" />
+        <CircleUser className="size-[var(--icon-size-sm)]" />
         <span className="hidden sm:inline">Profile</span>
       </button>
     </>
@@ -140,7 +140,7 @@ export default function PageHeaderDemo() {
         right={
           <Button
             size="sm"
-            variant="primary"
+            variant="default"
             className="whitespace-nowrap"
           >
             Start session
@@ -171,10 +171,10 @@ export default function PageHeaderDemo() {
         <div className="flex flex-wrap items-center gap-[var(--space-3)]">
           <p className="text-ui text-muted-foreground">{tabCopy[activeTab]}</p>
           <div className="flex items-center gap-[var(--space-2)]">
-            <Button size="sm" variant="secondary">
+            <Button size="sm" variant="soft">
               Invite teammate
             </Button>
-            <Button size="sm" variant="primary">
+            <Button size="sm" variant="default">
               Create objective
             </Button>
           </div>
@@ -207,7 +207,7 @@ export default function PageHeaderDemo() {
             <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
             <Button
               size="sm"
-              variant="primary"
+              variant="default"
               className="px-[var(--space-4)] whitespace-nowrap"
             >
               New report
@@ -241,7 +241,7 @@ export default function PageHeaderDemo() {
           },
           actions: {
             node: (
-              <Button size="sm" variant="secondary" className="whitespace-nowrap">
+              <Button size="sm" variant="soft" className="whitespace-nowrap">
                 Assign scout
               </Button>
             ),
@@ -328,7 +328,7 @@ export default function PageHeaderDemo() {
             <>
               <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
               <Button
-                variant="primary"
+                variant="default"
                 size="sm"
                 className="px-[var(--space-4)] whitespace-nowrap"
               >
@@ -392,7 +392,7 @@ export default function PageHeaderDemo() {
             <div className="flex items-center gap-[var(--space-2)]">
               <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
               <Button
-                variant="primary"
+                variant="default"
                 size="sm"
                 className="px-[var(--space-4)] whitespace-nowrap"
               >
