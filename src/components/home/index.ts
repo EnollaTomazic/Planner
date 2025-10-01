@@ -8,6 +8,7 @@ export { default as ReviewsCard } from "./ReviewsCard";
 export { default as QuickActions } from "./QuickActions";
 export { default as TeamPromptsCard } from "./TeamPromptsCard";
 export { default as QuickActionGrid } from "./QuickActionGrid";
+export { default as ActivityCard } from "./ActivityCard";
 export { default as BottomNav } from "../chrome/BottomNav";
 export { default as IsometricRoom } from "./IsometricRoom";
 export { default as HeroPlannerCards } from "./HeroPlannerCards";
@@ -29,4 +30,6 @@ export type {
   PlannerOverviewFocusProps,
   PlannerOverviewGoalsProps,
   PlannerOverviewCalendarProps,
+  PlannerOverviewActivityProps,
+  PlannerOverviewActivityPoint,
 } from "./home-landing";

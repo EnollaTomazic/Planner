@@ -95,7 +95,7 @@ export default function MobileNavDrawer({
           </p>
           <IconButton
             aria-label="Close navigation"
-            variant="secondary"
+            variant="soft"
             size="md"
             onClick={onClose}
             className="shadow-[var(--shadow-glow-sm)]"
