@@ -17,10 +17,10 @@ import GalleryItem from "../GalleryItem";
 import { selectItems } from "./ComponentGallery.demoData";
 import type { InputsPanelData } from "./useComponentGalleryState";
 
-const INLINE_ICON_SIZE = "size-[var(--icon-size-sm)]";
 const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
 const sampleWidth = "calc(var(--space-8) * 3.5)";
 const sampleWidthStyle: React.CSSProperties = { width: sampleWidth };
+const INLINE_ICON_SIZE = "size-[var(--icon-size-sm)]";
 const fieldStoryHref = "/storybook/?path=/story/primitives-field--state-gallery";
 type PanelItem = { label: string; element: React.ReactNode; className?: string };
 
