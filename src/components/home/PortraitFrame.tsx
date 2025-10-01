@@ -128,7 +128,7 @@ export default function PortraitFrame({
       />
       <div
         className={cn(
-          "relative flex items-center justify-center rounded-full shadow-neo",
+          "relative flex items-center justify-center rounded-full shadow-depth-outer",
           frameStyles.rim,
         )}
       >

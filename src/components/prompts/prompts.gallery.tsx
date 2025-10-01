@@ -1116,7 +1116,7 @@ function PillarBadgeStatePreview({
 }
 
 function PillarBadgeHoverState() {
-  return <PillarBadgeStatePreview className="shadow-neo-strong" />;
+  return <PillarBadgeStatePreview className="shadow-depth-outer-strong" />;
 }
 
 function PillarBadgeFocusState() {
@@ -1161,7 +1161,7 @@ function PillarSelectorStatePreview({
 
 function PillarSelectorHoverState() {
   return (
-    <PillarSelectorStatePreview className="rounded-card p-[var(--space-2)] shadow-[var(--shadow-neo-soft)]" />
+    <PillarSelectorStatePreview className="rounded-card p-[var(--space-2)] shadow-[var(--depth-shadow-soft)]" />
   );
 }
 
@@ -1206,7 +1206,7 @@ function RoleSelectorStatePreview({
 }
 
 function RoleSelectorHoverState() {
-  return <RoleSelectorStatePreview className="shadow-[var(--shadow-neo-soft)]" />;
+  return <RoleSelectorStatePreview className="shadow-[var(--depth-shadow-soft)]" />;
 }
 
 function RoleSelectorFocusState() {
@@ -1324,7 +1324,7 @@ function BottomNavStatesDemo({ mode = "combined" }: { mode?: BottomNavDemoMode }
     <div className="space-y-[var(--space-4)]">
       <nav
         aria-label="Planner bottom navigation"
-        className="rounded-card r-card-lg border border-border bg-surface-2 px-[var(--space-4)] py-[var(--space-3)] shadow-neoSoft"
+        className="rounded-card r-card-lg border border-border bg-surface-2 px-[var(--space-4)] py-[var(--space-3)] shadow-depth-soft"
       >
         <ul className="flex items-stretch justify-around gap-[var(--space-2)]">
           {items.map(({ href, label, mobileIcon: Icon, state }) => {
@@ -1612,7 +1612,7 @@ function SheetOpeningState() {
     <Sheet
       open
       onClose={() => {}}
-      className="shadow-[var(--shadow-neo-soft)]"
+      className="shadow-[var(--depth-shadow-soft)]"
     >
       <CardHeader>
         <CardTitle>Syncing tasks</CardTitle>
@@ -1639,7 +1639,7 @@ function SheetFocusTrapState() {
     <Sheet
       open
       onClose={() => {}}
-      className="shadow-[var(--shadow-neo-strong)]"
+      className="shadow-[var(--depth-shadow-outer-strong)]"
     >
       <CardHeader>
         <CardTitle>Focus trapped</CardTitle>
@@ -1673,7 +1673,7 @@ function SheetConfirmState() {
     <Sheet
       open
       onClose={() => {}}
-      className="shadow-[var(--shadow-neo)]"
+      className="shadow-[var(--depth-shadow-outer)]"
     >
       <CardHeader>
         <CardTitle>Archive reminders</CardTitle>
@@ -1759,7 +1759,7 @@ function ModalOpeningState() {
     <Modal
       open
       onClose={() => {}}
-      className="shadow-[var(--shadow-neo-soft)]"
+      className="shadow-[var(--depth-shadow-soft)]"
     >
       <CardHeader>
         <CardTitle>Confirm selection</CardTitle>
@@ -1786,7 +1786,7 @@ function ModalFocusTrapState() {
     <Modal
       open
       onClose={() => {}}
-      className="shadow-[var(--shadow-neo-strong)]"
+      className="shadow-[var(--depth-shadow-outer-strong)]"
     >
       <CardHeader>
         <CardTitle>Keyboard locked in</CardTitle>
@@ -1822,7 +1822,7 @@ function ModalConfirmState() {
     <Modal
       open
       onClose={() => {}}
-      className="shadow-[var(--shadow-neo)]"
+      className="shadow-[var(--depth-shadow-outer)]"
     >
       <CardHeader>
         <CardTitle>Delete board</CardTitle>
@@ -2962,7 +2962,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
           code: `<Sheet
   open
   onClose={() => {}}
-  className="shadow-[var(--shadow-neo-soft)]"
+  className="shadow-[var(--depth-shadow-soft)]"
 >
   <CardHeader>
     <CardTitle>Syncing tasks</CardTitle>
@@ -2990,7 +2990,7 @@ React.useEffect(() => {
 <Sheet
   open
   onClose={() => {}}
-  className="shadow-[var(--shadow-neo-strong)]"
+  className="shadow-[var(--depth-shadow-outer-strong)]"
 >
   <CardHeader>
     <CardTitle>Focus trapped</CardTitle>
@@ -3026,7 +3026,7 @@ React.useEffect(() => {
           code: `<Sheet
   open
   onClose={() => {}}
-  className="shadow-[var(--shadow-neo)]"
+  className="shadow-[var(--depth-shadow-outer)]"
 >
   <CardHeader>
     <CardTitle>Archive reminders</CardTitle>
@@ -3112,7 +3112,7 @@ React.useEffect(() => {
           code: `<Modal
   open
   onClose={() => {}}
-  className="shadow-[var(--shadow-neo-soft)]"
+  className="shadow-[var(--depth-shadow-soft)]"
 >
   <CardHeader>
     <CardTitle>Confirm selection</CardTitle>
@@ -3140,7 +3140,7 @@ React.useEffect(() => {
 <Modal
   open
   onClose={() => {}}
-  className="shadow-[var(--shadow-neo-strong)]"
+  className="shadow-[var(--depth-shadow-outer-strong)]"
 >
   <CardHeader>
     <CardTitle>Keyboard locked in</CardTitle>
@@ -3176,7 +3176,7 @@ React.useEffect(() => {
           code: `<Modal
   open
   onClose={() => {}}
-  className="shadow-[var(--shadow-neo)]"
+  className="shadow-[var(--depth-shadow-outer)]"
 >
   <CardHeader>
     <CardTitle>Delete board</CardTitle>
@@ -3305,16 +3305,16 @@ React.useEffect(() => {
           id: "hero-tabs-hover",
           name: "Tabs — Hover",
           description:
-            "Simulated hover applies the shadow-neo-soft token to lift the inactive hero tab without changing selection.",
+            "Simulated hover applies the shadow-depth-soft token to lift the inactive hero tab without changing selection.",
           element: (
-            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
               <TabBar
                 items={[
                   { key: "missions", label: "Missions" },
                   {
                     key: "briefings",
                     label: "Briefings",
-                    className: "shadow-neo-soft",
+                    className: "shadow-depth-soft",
                   },
                   { key: "archive", label: "Archive", disabled: true },
                 ]}
@@ -3325,14 +3325,14 @@ React.useEffect(() => {
               />
             </div>
           ),
-          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
   <TabBar
     items={[
       { key: "missions", label: "Missions" },
       {
         key: "briefings",
         label: "Briefings",
-        className: "shadow-neo-soft",
+        className: "shadow-depth-soft",
       },
       { key: "archive", label: "Archive", disabled: true },
     ]}
@@ -3347,16 +3347,16 @@ React.useEffect(() => {
           id: "hero-tabs-focus",
           name: "Tabs — Focus-visible",
           description:
-            "Focus preview layers the standard neon ring with shadow-neo-soft so the active hero tab reads clearly for keyboard users.",
+            "Focus preview layers the standard neon ring with shadow-depth-soft so the active hero tab reads clearly for keyboard users.",
           element: (
-            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
               <TabBar
                 items={[
                   {
                     key: "missions",
                     label: "Missions",
                     className:
-                      "shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.72)]",
+                      "shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.72)]",
                   },
                   { key: "briefings", label: "Briefings" },
                   { key: "archive", label: "Archive", disabled: true },
@@ -3368,14 +3368,14 @@ React.useEffect(() => {
               />
             </div>
           ),
-          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
   <TabBar
     items={[
       {
         key: "missions",
         label: "Missions",
         className:
-          "shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.72)]",
+          "shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.72)]",
       },
       { key: "briefings", label: "Briefings" },
       { key: "archive", label: "Archive", disabled: true },
@@ -3391,9 +3391,9 @@ React.useEffect(() => {
           id: "hero-tabs-loading",
           name: "Tabs — Loading",
           description:
-            "Loading state taps the built-in spinner and keeps the hovered glow via shadow-neo-soft while data syncs.",
+            "Loading state taps the built-in spinner and keeps the hovered glow via shadow-depth-soft while data syncs.",
           element: (
-            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
               <TabBar
                 items={[
                   { key: "missions", label: "Missions" },
@@ -3401,7 +3401,7 @@ React.useEffect(() => {
                     key: "briefings",
                     label: "Briefings",
                     loading: true,
-                    className: "shadow-neo-soft",
+                    className: "shadow-depth-soft",
                   },
                   { key: "archive", label: "Archive", disabled: true },
                 ]}
@@ -3412,7 +3412,7 @@ React.useEffect(() => {
               />
             </div>
           ),
-          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
   <TabBar
     items={[
       { key: "missions", label: "Missions" },
@@ -3420,7 +3420,7 @@ React.useEffect(() => {
         key: "briefings",
         label: "Briefings",
         loading: true,
-        className: "shadow-neo-soft",
+        className: "shadow-depth-soft",
       },
       { key: "archive", label: "Archive", disabled: true },
     ]}
@@ -3446,25 +3446,25 @@ React.useEffect(() => {
           id: "page-header-search-focus",
           name: "Search — Focus-visible",
           description:
-            "Focus ring pairs with shadow-neo-soft on the search field so keyboard focus mirrors the hero shell.",
+            "Focus ring pairs with shadow-depth-soft on the search field so keyboard focus mirrors the hero shell.",
           element: (
-            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
               <SearchBar
                 value="mission intel"
                 onValueChange={() => {}}
                 placeholder="Search mission intel…"
                 aria-label="Search mission intel"
-                fieldClassName="!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
+                fieldClassName="!shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
               />
             </div>
           ),
-          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
   <SearchBar
     value="mission intel"
     onValueChange={() => {}}
     placeholder="Search mission intel…"
     aria-label="Search mission intel"
-    fieldClassName="!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
+    fieldClassName="!shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
   />
 </div>`,
         },
@@ -3474,25 +3474,25 @@ React.useEffect(() => {
           description:
             "Loading state mutes interactions and keeps the neo hover glow so progress is obvious without jitter.",
           element: (
-            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
               <SearchBar
                 value="briefings"
                 onValueChange={() => {}}
                 placeholder="Search mission intel…"
                 aria-label="Search mission intel"
                 loading
-                fieldClassName="!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft"
+                fieldClassName="!shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft"
               />
             </div>
           ),
-          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
   <SearchBar
     value="briefings"
     onValueChange={() => {}}
     placeholder="Search mission intel…"
     aria-label="Search mission intel"
     loading
-    fieldClassName="!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft"
+    fieldClassName="!shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft"
   />
 </div>`,
         },
@@ -3502,25 +3502,25 @@ React.useEffect(() => {
           description:
             "Disabled search keeps the field readable with reduced contrast while preserving the rounded neo shell.",
           element: (
-            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
               <SearchBar
                 value=""
                 onValueChange={() => {}}
                 placeholder="Search mission intel…"
                 aria-label="Search mission intel"
                 disabled
-                fieldClassName="!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft"
+                fieldClassName="!shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft"
               />
             </div>
           ),
-          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
   <SearchBar
     value=""
     onValueChange={() => {}}
     placeholder="Search mission intel…"
     aria-label="Search mission intel"
     disabled
-    fieldClassName="!shadow-neo-soft hover:!shadow-neo-soft active:!shadow-neo-soft"
+    fieldClassName="!shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft"
   />
 </div>`,
         },
@@ -3551,16 +3551,16 @@ React.useEffect(() => {
           id: "demo-header-cta-hover",
           name: "Primary CTA — Hover",
           description:
-            "Primary action lifts with shadow-neo-soft to reflect the hover state used across hero quick actions.",
+            "Primary action lifts with shadow-depth-soft to reflect the hover state used across hero quick actions.",
           element: (
             <div className="flex items-center gap-[var(--space-2)]">
-              <Button size="sm" variant="primary" className="shadow-neo-soft">
+              <Button size="sm" variant="primary" className="shadow-depth-soft">
                 Launch event
               </Button>
             </div>
           ),
           code: `<div className="flex items-center gap-[var(--space-2)]">
-  <Button size="sm" variant="primary" className="shadow-neo-soft">
+  <Button size="sm" variant="primary" className="shadow-depth-soft">
     Launch event
   </Button>
 </div>`,
@@ -3569,13 +3569,13 @@ React.useEffect(() => {
           id: "demo-header-cta-focus",
           name: "Primary CTA — Focus-visible",
           description:
-            "Focus-visible styling adds the shared neon ring on top of shadow-neo-soft so keyboard users get parity with hover.",
+            "Focus-visible styling adds the shared neon ring on top of shadow-depth-soft so keyboard users get parity with hover.",
           element: (
             <div className="flex items-center gap-[var(--space-2)]">
               <Button
                 size="sm"
                 variant="primary"
-                className="shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
+                className="shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
               >
                 Focused deploy
               </Button>
@@ -3585,7 +3585,7 @@ React.useEffect(() => {
   <Button
     size="sm"
     variant="primary"
-    className="shadow-neo-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
+    className="shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
   >
     Focused deploy
   </Button>
@@ -3598,13 +3598,13 @@ React.useEffect(() => {
             "Loading CTA keeps the raised hover shadow while dimming interactions so progress reads instantly.",
           element: (
             <div className="flex items-center gap-[var(--space-2)]">
-              <Button size="sm" variant="primary" loading className="shadow-neo-soft">
+              <Button size="sm" variant="primary" loading className="shadow-depth-soft">
                 Saving
               </Button>
             </div>
           ),
           code: `<div className="flex items-center gap-[var(--space-2)]">
-  <Button size="sm" variant="primary" loading className="shadow-neo-soft">
+  <Button size="sm" variant="primary" loading className="shadow-depth-soft">
     Saving
   </Button>
 </div>`,
@@ -3616,13 +3616,13 @@ React.useEffect(() => {
             "Disabled secondary action leans on the built-in opacity tokens so the hero still communicates availability clearly.",
           element: (
             <div className="flex items-center gap-[var(--space-2)]">
-              <Button size="sm" variant="ghost" disabled className="shadow-neo-soft">
+              <Button size="sm" variant="ghost" disabled className="shadow-depth-soft">
                 Disabled action
               </Button>
             </div>
           ),
           code: `<div className="flex items-center gap-[var(--space-2)]">
-  <Button size="sm" variant="ghost" disabled className="shadow-neo-soft">
+  <Button size="sm" variant="ghost" disabled className="shadow-depth-soft">
     Disabled action
   </Button>
 </div>`,
@@ -3693,16 +3693,16 @@ React.useEffect(() => {
           id: "hero-tabs-selected",
           name: "Sub tabs — Selected",
           description:
-            "Active hero tab uses the accent gradient while shadow-neo-soft keeps the pill lifted inside the frame.",
+            "Active hero tab uses the accent gradient while shadow-depth-soft keeps the pill lifted inside the frame.",
           element: (
-            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
               <TabBar
                 items={[
                   { key: "missions", label: "Missions" },
                   {
                     key: "briefings",
                     label: "Briefings",
-                    className: "shadow-neo-soft",
+                    className: "shadow-depth-soft",
                   },
                   { key: "archive", label: "Archive", disabled: true },
                 ]}
@@ -3713,14 +3713,14 @@ React.useEffect(() => {
               />
             </div>
           ),
-          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
   <TabBar
     items={[
       { key: "missions", label: "Missions" },
       {
         key: "briefings",
         label: "Briefings",
-        className: "shadow-neo-soft",
+        className: "shadow-depth-soft",
       },
       { key: "archive", label: "Archive", disabled: true },
     ]}
@@ -3737,7 +3737,7 @@ React.useEffect(() => {
           description:
             "Disabled hero tab inherits the dimmed opacity tokens while the rest of the bar keeps the neo hover treatment.",
           element: (
-            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
               <TabBar
                 items={[
                   { key: "missions", label: "Missions" },
@@ -3751,7 +3751,7 @@ React.useEffect(() => {
               />
             </div>
           ),
-          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-neo-soft">
+          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
   <TabBar
     items={[
       { key: "missions", label: "Missions" },
@@ -4383,7 +4383,7 @@ React.useEffect(() => {
           code: `<PillarBadge
   pillar="Vision"
   interactive
-  className="shadow-neo-strong"
+  className="shadow-depth-outer-strong"
 />`,
         },
         {
@@ -4430,7 +4430,7 @@ React.useEffect(() => {
             "Hovering a chip raises the group with the soft neo shadow so the upcoming selection is obvious to pointer users.",
           element: <PillarSelectorHoverState />,
           code: `<PillarSelector
-  className="rounded-card p-[var(--space-2)] shadow-[var(--shadow-neo-soft)]"
+  className="rounded-card p-[var(--space-2)] shadow-[var(--depth-shadow-soft)]"
 />`,
         },
         {
@@ -4477,7 +4477,7 @@ React.useEffect(() => {
           code: `<RoleSelector
   value="MID"
   onChange={() => {}}
-  className="shadow-[var(--shadow-neo-soft)]"
+  className="shadow-[var(--depth-shadow-soft)]"
 />`,
         },
         {

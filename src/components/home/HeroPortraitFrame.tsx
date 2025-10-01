@@ -42,7 +42,7 @@ export default function HeroPortraitFrame({
         className={cn(
           baseClassName,
           styles.frameless,
-          "overflow-hidden rounded-full shadow-neo",
+          "overflow-hidden rounded-full shadow-depth-outer",
           className,
         )}
       >
@@ -68,7 +68,7 @@ export default function HeroPortraitFrame({
       />
       <div
         className={cn(
-          "relative flex items-center justify-center rounded-full shadow-neo",
+          "relative flex items-center justify-center rounded-full shadow-depth-outer",
           styles.rim,
         )}
       >

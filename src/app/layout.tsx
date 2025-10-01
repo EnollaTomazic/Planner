@@ -121,7 +121,7 @@ export const viewport: Viewport = {
     },
     {
       media: "(prefers-color-scheme: light)",
-      color: resolveTokenColor(tokens.foreground),
+      color: resolveTokenColor(tokens.background),
     },
   ],
 };

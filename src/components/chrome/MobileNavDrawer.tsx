@@ -86,7 +86,7 @@ export default function MobileNavDrawer({
       open={open && !isDesktop}
       onClose={onClose}
       side="left"
-      className="md:hidden border border-border/40 bg-surface/95 shadow-[var(--shadow-neo-soft)]"
+      className="md:hidden border border-border/40 bg-surface/95 shadow-[var(--depth-shadow-soft)]"
     >
       <div className="flex h-full flex-col pb-[calc(env(safe-area-inset-bottom)+var(--space-4))]">
         <div className="flex items-center justify-between px-[var(--space-4)] pt-[calc(env(safe-area-inset-top)+var(--space-2))] pb-[var(--space-3)]">
