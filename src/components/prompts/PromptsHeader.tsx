@@ -85,7 +85,7 @@ export default function PromptsHeader({
           round: true,
         },
         actions: (
-          <Button type="button" variant="primary" onClick={onSave} disabled={disabled}>
+          <Button type="button" variant="default" onClick={onSave} disabled={disabled}>
             Save
           </Button>
         ),

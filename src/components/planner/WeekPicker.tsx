@@ -382,7 +382,7 @@ export default function WeekPicker() {
   /* Top button goes in Hero actions when applicable */
   const topAction = showTop ? (
     <Button
-      variant="primary"
+      variant="default"
       size="sm"
       aria-label="Jump to top"
       onClick={jumpToTop}

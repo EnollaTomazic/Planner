@@ -140,7 +140,7 @@ export default function PageHeaderDemo() {
         right={
           <Button
             size="sm"
-            variant="primary"
+            variant="default"
             className="whitespace-nowrap"
           >
             Start session
@@ -171,10 +171,10 @@ export default function PageHeaderDemo() {
         <div className="flex flex-wrap items-center gap-[var(--space-3)]">
           <p className="text-ui text-muted-foreground">{tabCopy[activeTab]}</p>
           <div className="flex items-center gap-[var(--space-2)]">
-            <Button size="sm" variant="secondary">
+            <Button size="sm" variant="soft">
               Invite teammate
             </Button>
-            <Button size="sm" variant="primary">
+            <Button size="sm" variant="default">
               Create objective
             </Button>
           </div>
@@ -207,7 +207,7 @@ export default function PageHeaderDemo() {
             <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
             <Button
               size="sm"
-              variant="primary"
+              variant="default"
               className="px-[var(--space-4)] whitespace-nowrap"
             >
               New report
@@ -241,7 +241,7 @@ export default function PageHeaderDemo() {
           },
           actions: {
             node: (
-              <Button size="sm" variant="secondary" className="whitespace-nowrap">
+              <Button size="sm" variant="soft" className="whitespace-nowrap">
                 Assign scout
               </Button>
             ),
@@ -328,7 +328,7 @@ export default function PageHeaderDemo() {
             <>
               <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
               <Button
-                variant="primary"
+                variant="default"
                 size="sm"
                 className="px-[var(--space-4)] whitespace-nowrap"
               >
@@ -392,7 +392,7 @@ export default function PageHeaderDemo() {
             <div className="flex items-center gap-[var(--space-2)]">
               <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
               <Button
-                variant="primary"
+                variant="default"
                 size="sm"
                 className="px-[var(--space-4)] whitespace-nowrap"
               >

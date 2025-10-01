@@ -113,7 +113,7 @@ export default function GoalList({
                             aria-label="Save"
                             onClick={() => saveEdit(g.id)}
                             size="sm"
-                            variant="secondary"
+                            variant="soft"
                             tone="accent"
                             className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
                           >
@@ -145,7 +145,7 @@ export default function GoalList({
                             aria-label="Delete goal"
                             onClick={() => onRemove(g.id)}
                             size="sm"
-                            variant="secondary"
+                            variant="soft"
                             tone="accent"
                             className="transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
                           >

@@ -466,7 +466,7 @@ export default function TeamCompPage() {
         <div className="flex flex-wrap items-center gap-[var(--space-2)]">
           <div className="flex flex-col items-start gap-[var(--space-1)]">
             <Button
-              variant="primary"
+              variant="default"
               size="md"
               className="whitespace-nowrap"
               title={`Add row to ${targetBucket} bucket`}

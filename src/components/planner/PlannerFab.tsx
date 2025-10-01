@@ -315,7 +315,7 @@ export default function PlannerFab() {
           "h-[var(--space-12)] min-w-[var(--space-12)] rounded-full px-[var(--space-5)] shadow-[var(--depth-shadow-outer-strong)]",
         )}
         onClick={openSheet}
-        variant="primary"
+        variant="default"
         tone="primary"
         size="lg"
       >
@@ -421,7 +421,7 @@ export default function PlannerFab() {
                   <Button
                     key={iso}
                     type="button"
-                    variant="secondary"
+                    variant="soft"
                     size="sm"
                     onClick={() => handleSubmit(iso)}
                     className="rounded-full"
@@ -441,7 +441,7 @@ export default function PlannerFab() {
             <Button type="button" variant="ghost" onClick={closeSheet}>
               Cancel
             </Button>
-            <Button type="submit" variant="primary" tone="primary">
+            <Button type="submit" variant="default" tone="primary">
               Save to planner
             </Button>
           </div>

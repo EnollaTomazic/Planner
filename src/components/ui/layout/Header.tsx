@@ -17,6 +17,14 @@ import {
   type HeaderTabItem,
 } from "@/components/tabs/HeaderTabs";
 import TabBar, { type TabBarProps } from "./TabBar";
+import {
+  resolveUIVariant,
+  type DeprecatedUIVariant,
+  type UIVariant,
+} from "@/components/ui/variants";
+
+const HEADER_VARIANTS = ["default", "neo", "minimal"] as const satisfies readonly UIVariant[];
+type HeaderVariant = (typeof HEADER_VARIANTS)[number];
 
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -68,7 +76,7 @@ export interface HeaderProps<Key extends string = string>
   /** Built-in top-right segmented tabs (preferred). */
   tabs?: HeaderTabsProps<Key>;
   /** Optional card-style framing. */
-  variant?: "plain" | "neo" | "minimal";
+  variant?: HeaderVariant | Extract<DeprecatedUIVariant, "plain">;
   /** Show neon underline */
   underline?: boolean;
   /** Controls the underline gradient tone. Defaults to a neutral treatment. */
@@ -95,7 +103,7 @@ export default function Header<Key extends string = string>({
   railClassName: _deprecatedRailClassName,
   compact = false,
   tabs,
-  variant = "plain",
+  variant = "default",
   underline = true,
   underlineTone = "neutral",
   ...rest
@@ -104,10 +112,14 @@ export default function Header<Key extends string = string>({
   void _deprecatedRailTone;
   void _deprecatedRailVariant;
   void _deprecatedRailClassName;
-  const isNeo = variant === "neo";
-  const isMinimal = variant === "minimal";
+  const resolvedVariant = resolveUIVariant<HeaderVariant>(variant, {
+    allowed: HEADER_VARIANTS,
+    fallback: "default",
+  });
+  const isNeo = resolvedVariant === "neo";
+  const isMinimal = resolvedVariant === "minimal";
   const shouldRenderNeomorphicFrameStyles = isNeo;
-  const shouldUseTranslucentSurface = !isNeo && !isMinimal;
+  const shouldUseTranslucentSurface = resolvedVariant === "default";
   const translucentSurfaceClasses = shouldUseTranslucentSurface
     ? "border-b border-card-hairline-60 bg-surface/80 backdrop-blur"
     : "";
