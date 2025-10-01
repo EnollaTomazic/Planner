@@ -6,6 +6,8 @@ import Textarea from "@/components/ui/primitives/Textarea";
 import Button from "@/components/ui/primitives/Button";
 import SectionCard from "@/components/ui/layout/SectionCard";
 import Label from "@/components/ui/Label";
+import { cn } from "@/lib/utils";
+import { GOAL_TEXTAREA_MIN_HEIGHT_CLASS } from "./constants";
 
 interface GoalFormProps {
   title: string;
@@ -104,7 +106,10 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
             Notes (optional)
             <Textarea
               id="goal-notes"
-              textareaClassName="min-h-24 text-ui font-medium"
+              textareaClassName={cn(
+                GOAL_TEXTAREA_MIN_HEIGHT_CLASS,
+                "text-ui font-medium",
+              )}
               value={notes}
               onChange={(e) => onNotesChange(e.target.value)}
               aria-describedby={describedBy || undefined}

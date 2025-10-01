@@ -24,7 +24,10 @@ import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
 import { uid, usePersistentState } from "@/lib/db";
 import useAutoFocus from "@/lib/useAutoFocus";
 import useDebouncedCallback from "@/lib/useDebouncedCallback";
-import { GOALS_STICKY_TOP_CLASS } from "./constants";
+import {
+  GOAL_TEXTAREA_MIN_HEIGHT_CLASS,
+  GOALS_STICKY_TOP_CLASS,
+} from "./constants";
 import {
   Search,
   Plus,
@@ -456,7 +459,7 @@ function ReminderCard({
               placeholder="Short, skimmable sentence. Keep it actionable."
               value={body}
               onChange={(e) => setBody(e.currentTarget.value)}
-              textareaClassName="min-h-24"
+              textareaClassName={GOAL_TEXTAREA_MIN_HEIGHT_CLASS}
             />
             <Input
               aria-label="Tags (comma separated)"
