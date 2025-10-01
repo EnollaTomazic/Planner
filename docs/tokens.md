@@ -287,7 +287,7 @@
 | backdrop-drip-shadow | var(--backdrop-blob-shadow) |
 | neo-glow-strength | 0.45 |
 | neon-outline-opacity | 0.35 |
-| glitch-intensity | 1.0 |
+| glitch-intensity | var(--glitch-intensity-default) |
 | glitch-duration | 450ms |
 | glitch-fringe | 12deg |
 | glitch-static-opacity | 0.18 |
@@ -345,6 +345,8 @@
 | space-9 | calc(var(--space-8) + var(--space-1)) |
 | space-10 | calc(var(--space-8) + var(--space-2)) |
 | space-11 | calc(var(--space-8) + var(--space-3)) |
+| glitch-intensity-default | 1.0 |
+| glitch-intensity-subtle | calc(var(--glitch-intensity-default) * 0.68) |
 | spacing-0-125 | calc(var(--spacing-1) / 8) |
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |
