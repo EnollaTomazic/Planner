@@ -5,6 +5,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 import fg from "fast-glob";
 import { MultiBar, Presets } from "cli-progress";
+import {
+  GALLERY_USAGE_TRACKED_PATTERNS,
+  MANIFEST_HEADER_LINES,
+  REQUIRED_MANIFEST_EXPORTS,
+} from "./build-gallery-usage";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,6 +27,9 @@ const featureManifestFile = path.join(cacheDir, "generate-feature-index.json");
 const usageManifestFile = path.join(cacheDir, "build-gallery-usage.json");
 const themesManifestFile = path.join(cacheDir, "generate-themes.json");
 const tokensManifestFile = path.join(cacheDir, "generate-tokens.json");
+const galleryDir = path.join(rootDir, "src/components/gallery");
+const galleryManifestFile = path.join(galleryDir, "generated-manifest.ts");
+const galleryUsageFile = path.join(galleryDir, "usage.json");
 
 const themeInputFiles = [
   path.join(__dirname, "generate-themes.ts"),
@@ -114,18 +122,62 @@ async function featureChanged(): Promise<boolean> {
   );
 }
 
+async function galleryArtifactsNeedRebuild(): Promise<boolean> {
+  const manifestSource = await fs
+    .readFile(galleryManifestFile, "utf8")
+    .catch(() => null);
+  if (!manifestSource) {
+    return true;
+  }
+
+  const manifestLines = manifestSource.split(/\r?\n/);
+  for (const [index, headerLine] of MANIFEST_HEADER_LINES.entries()) {
+    if (manifestLines[index] !== headerLine) {
+      return true;
+    }
+  }
+
+  for (const requiredExport of REQUIRED_MANIFEST_EXPORTS) {
+    if (!manifestSource.includes(requiredExport)) {
+      return true;
+    }
+  }
+
+  const usageContent = await fs
+    .readFile(galleryUsageFile, "utf8")
+    .catch(() => null);
+  if (!usageContent) {
+    return true;
+  }
+
+  try {
+    JSON.parse(usageContent);
+  } catch {
+    return true;
+  }
+
+  return false;
+}
+
 async function usageChanged(): Promise<boolean> {
-  const patterns = [
-    "src/app/**/*.{ts,tsx}",
-    "src/components/**/*.gallery.{ts,tsx}",
-  ];
-  const files = await fg(patterns, { cwd: rootDir, absolute: true });
-  const manifest = await loadManifest(usageManifestFile);
-  return hasChanges(
-    manifest,
-    Array.from(new Set(files)),
-    (f) => path.relative(rootDir, f).replace(/\\/g, "/"),
+  const files = await fg([...GALLERY_USAGE_TRACKED_PATTERNS], {
+    cwd: rootDir,
+    absolute: true,
+  });
+  const trackedFiles = Array.from(
+    new Set([...files, galleryManifestFile, galleryUsageFile]),
   );
+  const manifest = await loadManifest(usageManifestFile);
+  if (
+    await hasChanges(
+      manifest,
+      trackedFiles,
+      (f) => path.relative(rootDir, f).replace(/\\/g, "/"),
+    )
+  ) {
+    return true;
+  }
+  return galleryArtifactsNeedRebuild();
 }
 
 async function themesChanged(): Promise<boolean> {
