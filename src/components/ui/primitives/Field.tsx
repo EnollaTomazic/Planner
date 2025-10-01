@@ -28,7 +28,7 @@ const FIELD_ROOT_BASE = cn(
   "focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))]",
   "hover:bg-[--hover] active:bg-[--active]",
   "data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40",
-  "data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--shadow-neo-inset)]",
+  "data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)]",
   "data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading",
   "data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger",
   "overflow-hidden",

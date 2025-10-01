@@ -35,10 +35,10 @@ export default function ReviewCard({
       className={cn(
         "group rounded-card r-card-lg border border-border bg-card/85 p-[var(--space-3)]",
         "transition-colors transition-shadow duration-chill focus-visible:outline-none",
-        "shadow-neoSoft",
+        "shadow-depth-soft",
         "hover:border-ring/60 hover:bg-card hover:shadow-ring",
         "focus-visible:border-ring focus-visible:bg-card focus-visible:ring-2 focus-visible:ring-ring focus-visible:shadow-ring",
-        "active:border-ring/70 active:bg-card/95 active:shadow-neo-strong active:ring-2 active:ring-ring/70",
+        "active:border-ring/70 active:bg-card/95 active:shadow-depth-outer-strong active:ring-2 active:ring-ring/70",
         "data-[state=active]:border-ring data-[state=active]:shadow-ring",
         "data-[state=disabled]:pointer-events-none data-[state=disabled]:opacity-55 data-[state=disabled]:shadow-none data-[state=disabled]:ring-0 data-[state=disabled]:border-border/60 data-[state=disabled]:bg-muted/20 data-[state=disabled]:cursor-not-allowed",
         "data-[state=loading]:pointer-events-none data-[state=loading]:opacity-80 data-[state=loading]:shadow-outline-faint data-[state=loading]:cursor-progress",

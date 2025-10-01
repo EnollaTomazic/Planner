@@ -112,15 +112,15 @@ export default function NeomorphicHeroFrameDemo() {
             </p>
           </HeroCol>
           <HeroCol span={5} className="grid gap-[var(--space-2)] text-label uppercase tracking-[0.08em] text-muted-foreground">
-            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
+            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-depth-outer">
               <dt className="font-semibold text-foreground">Layer tokens</dt>
               <dd className="text-label">bg-card/70 · ring-border/55</dd>
             </div>
-            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
+            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-depth-outer">
               <dt className="font-semibold text-foreground">Grid rhythm</dt>
               <dd className="text-label">HeroGrid gap-4 · md:gap-6</dd>
             </div>
-            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
+            <div className="flex items-center justify-between rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-depth-outer">
               <dt className="font-semibold text-foreground">Slot spans</dt>
               <dd className="text-label">HeroCol 7 / 5 alignment</dd>
             </div>
@@ -191,16 +191,16 @@ export default function NeomorphicHeroFrameDemo() {
           <HeroCol span={6} className="space-y-[var(--space-2)] text-label text-muted-foreground">
             <p className="font-semibold text-foreground">Interaction checklist</p>
             <ul className="grid grid-cols-2 gap-[var(--space-2)]">
-              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
+              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-depth-outer">
                 Hover or focus the tabs to see accent glows.
               </li>
-              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
+              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-depth-outer">
                 Toggle statuses—the queued tab marks the search as loading.
               </li>
-              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
+              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-depth-outer">
                 Buttons surface pressed and disabled states from tokenized styles.
               </li>
-              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-neo">
+              <li className="rounded-card r-card-md border border-border/30 bg-card/60 px-[var(--space-3)] py-[var(--space-2)] shadow-depth-outer">
                 Keyboard focus rings respect the global focus token.
               </li>
             </ul>

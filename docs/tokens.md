@@ -120,19 +120,19 @@
       hsl(var(--panel) / 0.72),
     calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) calc(var(--spacing-2))
       hsl(var(--foreground) / 0.06) |
-| shadow-neo | calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5)
+| shadow-depth-outer | calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5)
       hsl(var(--panel) / 0.72),
     calc(var(--spacing-3) * -1) calc(var(--spacing-3) * -1) var(--spacing-5)
       hsl(var(--foreground) / 0.06) |
-| shadow-neo-strong | var(--spacing-4) var(--spacing-4) var(--spacing-6) hsl(var(--panel) / 0.72),
+| shadow-depth-outer-strong | var(--spacing-4) var(--spacing-4) var(--spacing-6) hsl(var(--panel) / 0.72),
     calc(var(--spacing-4) * -1) calc(var(--spacing-4) * -1) var(--spacing-6)
       hsl(var(--foreground) / 0.08) |
-| shadow-neo-inset | inset var(--spacing-1) var(--spacing-1) var(--spacing-3)
+| shadow-depth-inner | inset var(--spacing-1) var(--spacing-1) var(--spacing-3)
       hsl(var(--panel) / 0.85),
     inset calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) var(--spacing-3)
       hsl(var(--foreground) / 0.08) |
 | shadow-ring | 0 0 var(--spacing-3) hsl(var(--ring)) |
-| shadow-neo-soft | 0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1)
+| shadow-depth-soft | 0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1)
       hsl(var(--shadow-color)) |
 | shadow-glow-sm | 0 0 var(--spacing-2) var(--glow-active) |
 | shadow-glow-md | 0 0 var(--spacing-4) var(--glow-active) |
@@ -209,6 +209,8 @@
     transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
   ) |
 | hero-divider-blur | calc(var(--spacing-1) * 1.5) |
+| hero-illustration-opacity | 0.8 |
+| hero-illustration-blur | calc(var(--space-4) + var(--space-1)) |
 | visually-hidden-top | -9999px |
 | warning-foreground | 0 0% 6% |
 | success-foreground | 0 0% 6% |
@@ -260,10 +262,10 @@
 | neo-surface | color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%) |
 | neo-surface-alt | color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%) |
 | neo-highlight | color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card))) |
-| depth-shadow-outer | var(--shadow-neo) |
-| depth-shadow-outer-strong | var(--shadow-neo-strong) |
-| depth-shadow-soft | var(--shadow-neo-soft) |
-| depth-shadow-inner | var(--shadow-neo-inset) |
+| depth-shadow-outer | var(--shadow-depth-outer) |
+| depth-shadow-outer-strong | var(--shadow-depth-outer-strong) |
+| depth-shadow-soft | var(--shadow-depth-soft) |
+| depth-shadow-inner | var(--shadow-depth-inner) |
 | depth-glow-highlight-soft | hsl(var(--highlight) / 0.08) |
 | depth-glow-highlight-medium | hsl(var(--highlight) / 0.35) |
 | depth-glow-highlight-strong | hsl(var(--highlight) / 0.55) |
@@ -287,7 +289,7 @@
 | backdrop-drip-shadow | var(--backdrop-blob-shadow) |
 | neo-glow-strength | 0.45 |
 | neon-outline-opacity | 0.35 |
-| glitch-intensity | 1.0 |
+| glitch-intensity | var(--glitch-intensity-default) |
 | glitch-duration | 450ms |
 | glitch-fringe | 12deg |
 | glitch-static-opacity | 0.18 |
@@ -345,6 +347,8 @@
 | space-9 | calc(var(--space-8) + var(--space-1)) |
 | space-10 | calc(var(--space-8) + var(--space-2)) |
 | space-11 | calc(var(--space-8) + var(--space-3)) |
+| glitch-intensity-default | 1.0 |
+| glitch-intensity-subtle | calc(var(--glitch-intensity-default) * 0.68) |
 | spacing-0-125 | calc(var(--spacing-1) / 8) |
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |

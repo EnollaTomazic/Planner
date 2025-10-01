@@ -1,7 +1,13 @@
 "use client";
 
 import * as React from "react";
+
+import { useOrganicDepthEnabled } from "@/lib/depth-theme-context";
 import { cn } from "@/lib/utils";
+
+import BlobContainer from "./BlobContainer";
+import styles from "./Badge.module.css";
+import neumorphicStyles from "../neumorphic.module.css";
 
 type BaseSize = "sm" | "md" | "lg" | "xl";
 type Size = "xs" | BaseSize;
@@ -52,6 +58,17 @@ const toneBorder: Record<Tone, string> = {
   support: "border-tone-sup",
 };
 
+const toneInteraction: Record<Tone, string> = {
+  neutral: "[--hover:hsl(var(--muted)/0.28)] [--active:hsl(var(--muted)/0.36)]",
+  primary: "[--hover:hsl(var(--primary)/0.22)] [--active:hsl(var(--primary)/0.3)]",
+  accent: "[--hover:hsl(var(--accent)/0.22)] [--active:hsl(var(--accent)/0.32)]",
+  top: "[--hover:hsl(var(--tone-top)/0.24)] [--active:hsl(var(--tone-top)/0.34)]",
+  jungle: "[--hover:hsl(var(--tone-jg)/0.24)] [--active:hsl(var(--tone-jg)/0.34)]",
+  mid: "[--hover:hsl(var(--tone-mid)/0.24)] [--active:hsl(var(--tone-mid)/0.34)]",
+  bot: "[--hover:hsl(var(--tone-bot)/0.24)] [--active:hsl(var(--tone-bot)/0.34)]",
+  support: "[--hover:hsl(var(--tone-sup)/0.24)] [--active:hsl(var(--tone-sup)/0.34)]",
+};
+
 export default function Badge<T extends React.ElementType = "span">(
   props: BadgeProps<T>,
 ) {
@@ -75,10 +92,12 @@ export default function Badge<T extends React.ElementType = "span">(
   const {
     onKeyDown: userOnKeyDown,
     onClick: userOnClick,
+    ["data-text"]: providedGlitchText,
     ...restProps
   } = rest as typeof rest & {
     onKeyDown?: React.KeyboardEventHandler<HTMLElement>;
     onClick?: React.MouseEventHandler<HTMLElement>;
+    "data-text"?: string;
   };
 
   const typeProps =
@@ -118,6 +137,12 @@ export default function Badge<T extends React.ElementType = "span">(
         }
       : userOnKeyDown;
 
+  const organicDepth = useOrganicDepthEnabled();
+  const glitchText = glitch
+    ? providedGlitchText ??
+      (typeof children === "string" ? children : undefined)
+    : providedGlitchText;
+
   return (
     <Comp
       {...restProps}
@@ -130,25 +155,34 @@ export default function Badge<T extends React.ElementType = "span">(
       data-disabled={disabled ? "true" : undefined}
       aria-disabled={disabled ? "true" : undefined}
       aria-pressed={interactive && isToggleBadge ? isSelected : undefined}
+      data-text={glitchText}
       className={cn(
-        "inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap rounded-card r-card-lg font-medium tracking-[0.02em]",
-        "border bg-muted/18",
-        "shadow-outline-subtle",
-        "transition-[background,box-shadow,transform] duration-140 ease-out motion-reduce:transition-none motion-reduce:duration-0 motion-reduce:hover:transition-none motion-reduce:active:transition-none motion-reduce:focus-visible:transition-none",
+        neumorphicStyles.neu,
+        styles.root,
+        organicDepth && styles.organicBadge,
+        "relative inline-flex max-w-full items-center gap-[var(--space-2)] whitespace-nowrap font-medium tracking-[0.02em]",
+        "border",
         sizeMap[size],
         toneBorder[tone],
         interactive &&
           cn(
-            "cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))] hover:bg-muted/28 active:bg-muted/36 active:translate-y-[var(--space-1)] motion-reduce:active:translate-y-0 data-[disabled=true]:opacity-disabled data-[disabled=true]:cursor-default",
+            styles.interactive,
+            toneInteraction[tone],
+            "focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]",
+            "data-[disabled=true]:cursor-default",
             !isButtonElement && "data-[disabled=true]:pointer-events-none",
           ),
         isSelected &&
           "bg-primary-soft/36 border-ring-contrast shadow-glow-xl text-on-accent",
         glitch &&
-          "shadow-inset-hairline hover:shadow-inset-contrast hover:shadow-glow-lg focus-visible:shadow-inset-contrast focus-visible:shadow-glow-lg",
+          cn(styles.glitch, "group/glitch isolate"),
+        "data-[disabled=true]:opacity-disabled",
         className,
       )}
     >
+      {glitch ? (
+        <BlobContainer overlayToken="glitch-overlay-button-opacity-reduced" />
+      ) : null}
       {children}
     </Comp>
   );

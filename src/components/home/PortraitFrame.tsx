@@ -118,7 +118,7 @@ export default function PortraitFrame({
       <span
         aria-hidden
         className={cn(
-          "pointer-events-none absolute -inset-[calc(var(--portrait-rim)*1.6)] rounded-full blur-[var(--portrait-glow)] opacity-80",
+          "pointer-events-none absolute -inset-[calc(var(--portrait-rim)*1.6)] rounded-full blur-[var(--hero-illustration-blur,var(--portrait-glow))] opacity-[var(--hero-illustration-opacity,0.8)]",
           frameStyles.glow,
         )}
       />
@@ -128,7 +128,7 @@ export default function PortraitFrame({
       />
       <div
         className={cn(
-          "relative flex items-center justify-center rounded-full shadow-neo",
+          "relative flex items-center justify-center rounded-full shadow-depth-outer",
           frameStyles.rim,
         )}
       >

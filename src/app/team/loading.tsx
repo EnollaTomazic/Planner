@@ -11,7 +11,7 @@ export default function TeamLoading() {
   return (
     <>
       <PageShell as="header" className="space-y-[var(--space-6)] py-[var(--space-6)]">
-        <div className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-4)]">
+        <div className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-4)] space-y-[var(--space-4)]">
           <div className="flex flex-wrap items-start justify-between gap-[var(--space-3)]">
             <div className="space-y-[var(--space-2)]">
               <Skeleton className="h-[var(--space-3)] w-1/5" radius="sm" />
@@ -28,7 +28,7 @@ export default function TeamLoading() {
             <Skeleton className="h-[var(--space-12)]" radius="card" />
           </div>
         </div>
-        <div className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)]">
+        <div className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-4)]">
           <div className="flex flex-wrap gap-[var(--space-3)]">
             {MAIN_TABS.map((tab) => (
               <Skeleton
@@ -45,7 +45,7 @@ export default function TeamLoading() {
         className="space-y-[var(--space-6)] py-[var(--space-6)]"
         aria-busy="true"
       >
-        <section className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-4)]">
+        <section className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-4)] space-y-[var(--space-4)]">
           <div className="flex flex-wrap gap-[var(--space-3)]">
             {SUB_TABS.map((tab) => (
               <Skeleton

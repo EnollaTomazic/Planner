@@ -312,7 +312,7 @@ export default function PlannerFab() {
         aria-label="Open planner creation sheet"
         className={cn(
           FLOATING_BUTTON_POSITION,
-          "h-[var(--space-12)] min-w-[var(--space-12)] rounded-full px-[var(--space-5)] shadow-[var(--shadow-neo-strong)]",
+          "h-[var(--space-12)] min-w-[var(--space-12)] rounded-full px-[var(--space-5)] shadow-[var(--depth-shadow-outer-strong)]",
         )}
         onClick={openSheet}
         variant="primary"

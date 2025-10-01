@@ -235,9 +235,9 @@ export default function PromptsDemos() {
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Shadows</h3>
         <div className="flex flex-wrap gap-[var(--space-4)]">
-          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-neo" />
-          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-neo-strong" />
-          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-neo-inset" />
+          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-depth-outer" />
+          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-depth-outer-strong" />
+          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-depth-inner" />
           <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-ring" />
         </div>
       </Card>

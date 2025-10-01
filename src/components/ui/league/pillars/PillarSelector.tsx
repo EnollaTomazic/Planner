@@ -52,7 +52,7 @@ export default function PillarSelector({
                 "pill transition",
                 styles.button,
                 active &&
-                  "pill--medium text-foreground shadow-[var(--shadow-neo-soft)]",
+                  "pill--medium text-foreground shadow-[var(--depth-shadow-soft)]",
               )}
               data-active={active ? "true" : undefined}
             >
