@@ -470,7 +470,7 @@ function buildGalleryManifestSource(
     "// Do not edit directly.",
     'import type { GalleryRegistryPayload, GallerySection, GalleryPreviewRoute } from "./registry";',
     "",
-    "interface GalleryModuleExport {",
+    "export interface GalleryModuleExport {",
     "  readonly default: GallerySection | readonly GallerySection[];",
     "}",
     "",
@@ -518,6 +518,27 @@ function validateManifestSource(source: string): void {
         `Generated gallery manifest is missing required export: "${requiredExport}"`,
       );
     }
+  }
+
+  const transpiled = ts.transpileModule(source, {
+    compilerOptions: {
+      module: ts.ModuleKind.ESNext,
+      target: ts.ScriptTarget.ESNext,
+    },
+    fileName: pathToFileURL(manifestOutput).href,
+    reportDiagnostics: true,
+  });
+
+  const diagnostics = transpiled.diagnostics ?? [];
+  if (diagnostics.length > 0) {
+    const message = diagnostics
+      .map((diagnostic) =>
+        ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"),
+      )
+      .join("\n");
+    throw new Error(
+      `Generated gallery manifest contains TypeScript syntax errors:\n${message}`,
+    );
   }
 }
 
