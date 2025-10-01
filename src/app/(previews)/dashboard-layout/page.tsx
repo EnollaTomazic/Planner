@@ -504,7 +504,7 @@ export default function DashboardLayoutPreviewPage() {
                       Planner keeps focus frames sticky while respecting reduced motion.
                     </p>
                     <div className={styles.ctaActions}>
-                      <Button size="md" variant="primary" tone="accent" asChild>
+                      <Button size="md" variant="default" tone="accent" asChild>
                         <Link href="#upgrade" aria-label="Upgrade to Planner Pro">
                           Start trial
                         </Link>

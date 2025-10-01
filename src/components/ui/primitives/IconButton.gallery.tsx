@@ -80,40 +80,40 @@ const ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
   },
 ];
 
-const PRIMARY_ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
+const DEFAULT_ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
   {
-    id: "primary",
-    name: "Primary",
+    id: "default-variant",
+    name: "Default variant",
     props: {
-      "aria-label": "Primary",
-      variant: "primary",
+      "aria-label": "Default variant",
+      variant: "default",
       children: <Plus aria-hidden />,
     },
-    code: "<IconButton variant=\"primary\" aria-label=\"Primary\">\n  <Plus />\n</IconButton>",
+    code: "<IconButton variant=\"default\" aria-label=\"Default variant\">\n  <Plus />\n</IconButton>",
   },
   {
-    id: "primary-hover",
-    name: "Primary Hover",
+    id: "default-hover",
+    name: "Default hover",
     className: "bg-[--hover] shadow-[var(--shadow-neon-strong)]",
     props: {
-      "aria-label": "Primary hover",
-      variant: "primary",
+      "aria-label": "Default hover",
+      variant: "default",
       children: <Plus aria-hidden />,
     },
-    code: "<IconButton\n  className=\"bg-[--hover] shadow-[var(--shadow-neon-strong)]\"\n  variant=\"primary\"\n  aria-label=\"Primary hover\"\n>\n  <Plus />\n</IconButton>",
+    code: "<IconButton\n  className=\"bg-[--hover] shadow-[var(--shadow-neon-strong)]\"\n  variant=\"default\"\n  aria-label=\"Default hover\"\n>\n  <Plus />\n</IconButton>",
   },
   {
-    id: "primary-active",
-    name: "Primary Active",
+    id: "default-active",
+    name: "Default active",
     className:
       "bg-[--active] shadow-[var(--shadow-inset-contrast),var(--shadow-neon-soft)]",
     props: {
-      "aria-label": "Primary active",
+      "aria-label": "Default active",
       "aria-pressed": true,
-      variant: "primary",
+      variant: "default",
       children: <Plus aria-hidden />,
     },
-    code: "<IconButton\n  className=\"bg-[--active] shadow-[var(--shadow-inset-contrast),var(--shadow-neon-soft)]\"\n  variant=\"primary\"\n  aria-label=\"Primary active\"\n  aria-pressed\n>\n  <Plus />\n</IconButton>",
+    code: "<IconButton\n  className=\"bg-[--active] shadow-[var(--shadow-inset-contrast),var(--shadow-neon-soft)]\"\n  variant=\"default\"\n  aria-label=\"Default active\"\n  aria-pressed\n>\n  <Plus />\n</IconButton>",
   },
 ];
 
@@ -145,15 +145,15 @@ function IconButtonGalleryPreview() {
         ))}
         <IconButton
           size="md"
-          variant="secondary"
-          aria-label="Add item secondary"
+          variant="soft"
+          aria-label="Add item soft"
         >
           <Plus aria-hidden />
         </IconButton>
         <IconButton
           size="md"
-          variant="primary"
-          aria-label="Add item primary"
+          variant="default"
+          aria-label="Add item default"
         >
           <Plus aria-hidden />
         </IconButton>
@@ -169,14 +169,14 @@ function IconButtonGalleryPreview() {
             <IconButtonStatePreview state={glitchState} />
           </div>
           <p className="text-caption text-muted-foreground">
-            Primary glitch tokens hue-shift per theme; Noir and Hardstuck thin
-            the ring/halo alpha to hold ≥3:1 contrast around the control
-            silhouette.
+            Default variant glitch tokens hue-shift per theme; Noir and
+            Hardstuck thin the ring/halo alpha to hold ≥3:1 contrast around the
+            control silhouette.
           </p>
         </div>
       ) : null}
       <div className="flex flex-wrap gap-[var(--space-2)]">
-        {PRIMARY_ICON_BUTTON_STATES.map((state) => (
+        {DEFAULT_ICON_BUTTON_STATES.map((state) => (
           <IconButtonStatePreview key={state.id} state={state} />
         ))}
       </div>
@@ -196,9 +196,9 @@ export default defineGallerySection({
       props: [
         {
           name: "variant",
-          type: '"primary" | "secondary" | "ghost"',
+          type: '"default" | "soft" | "ghost"',
           description:
-            'Visual treatment of the button. Choose "ghost", "secondary", or "primary".',
+            'Visual treatment of the button. Use "default" for solid, "soft" for tinted, and legacy aliases "primary"/"secondary" map respectively.',
         },
         {
           name: "size",
@@ -217,15 +217,15 @@ export default defineGallerySection({
           type: "variant",
           values: [
             { value: "Ghost" },
-            { value: "Secondary" },
-            { value: "Primary" },
+            { value: "Soft" },
+            { value: "Default" },
           ],
         },
         {
           id: "state",
           label: "State",
           type: "state",
-          values: [...ICON_BUTTON_STATES, ...PRIMARY_ICON_BUTTON_STATES].map(
+          values: [...ICON_BUTTON_STATES, ...DEFAULT_ICON_BUTTON_STATES].map(
             ({ name, id }) => ({
               value: name,
               description:
@@ -240,7 +240,7 @@ export default defineGallerySection({
         id: "ui:icon-button:matrix",
         render: () => <IconButtonGalleryPreview />,
       }),
-      states: [...ICON_BUTTON_STATES, ...PRIMARY_ICON_BUTTON_STATES].map(
+      states: [...ICON_BUTTON_STATES, ...DEFAULT_ICON_BUTTON_STATES].map(
         (state) => ({
           id: state.id,
           name: state.name,
@@ -265,10 +265,10 @@ export default defineGallerySection({
     <IconButton size="xl" variant="ghost" aria-label="Add item xl">
       <Plus />
     </IconButton>
-    <IconButton size="md" variant="secondary" aria-label="Add item secondary">
+    <IconButton size="md" variant="soft" aria-label="Add item soft">
       <Plus />
     </IconButton>
-    <IconButton size="md" variant="primary" aria-label="Add item primary">
+    <IconButton size="md" variant="default" aria-label="Add item default">
       <Plus />
     </IconButton>
   </div>
@@ -297,20 +297,20 @@ export default defineGallerySection({
     </IconButton>
   </div>
   <div className="flex flex-wrap gap-[var(--space-2)]">
-    <IconButton variant="primary" aria-label="Primary">
+    <IconButton variant="default" aria-label="Default variant">
       <Plus />
     </IconButton>
     <IconButton
       className="bg-[--hover] shadow-[var(--shadow-neon-strong)]"
-      variant="primary"
-      aria-label="Primary hover"
+      variant="default"
+      aria-label="Default hover"
     >
       <Plus />
     </IconButton>
     <IconButton
       className="bg-[--active] shadow-[var(--shadow-inset-contrast),var(--shadow-neon-soft)]"
-      variant="primary"
-      aria-label="Primary active"
+      variant="default"
+      aria-label="Default active"
       aria-pressed
     >
       <Plus />

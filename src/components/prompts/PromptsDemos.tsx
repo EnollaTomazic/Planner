@@ -130,7 +130,7 @@ export default function PromptsDemos() {
         <h3 className="type-title">Button</h3>
         <div className="space-x-[var(--space-3)]">
           <Button>Default</Button>
-          <Button variant="primary">Primary</Button>
+          <Button variant="default">Primary</Button>
           <Button variant="ghost">Ghost</Button>
         </div>
       </Card>

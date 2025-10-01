@@ -47,7 +47,7 @@ export function RouteErrorContent({
           <p className="text-body text-muted-foreground">{description}</p>
         </div>
         <div className="flex flex-wrap gap-[var(--space-3)]">
-          <Button variant="primary" onClick={reset}>
+          <Button variant="default" onClick={reset}>
             {retryLabel}
           </Button>
           <Button asChild variant="ghost">

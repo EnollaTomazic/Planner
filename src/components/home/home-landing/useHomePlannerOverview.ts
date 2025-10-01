@@ -192,6 +192,22 @@ export function useHomePlannerOverview(): PlannerOverviewProps {
     });
   }, [hydrating, isToday, iso, per]);
 
+  const activityPoints = React.useMemo(
+    () =>
+      calendarDays.map((day) => ({
+        iso: day.iso,
+        label: day.weekday,
+        completed: day.done,
+        total: day.total,
+      })),
+    [calendarDays],
+  );
+
+  const activityHasData = React.useMemo(
+    () => activityPoints.some((point) => point.total > 0),
+    [activityPoints],
+  );
+
   const handleSelectDay = React.useCallback(
     (nextIso: string) => {
       if (hydrating) return;
@@ -269,5 +285,12 @@ export function useHomePlannerOverview(): PlannerOverviewProps {
     focus: focusCard,
     goals: goalsCard,
     calendar: calendarCard,
+    activity: {
+      loading: hydrating,
+      hasData: !hydrating && activityHasData,
+      totalCompleted: hydrating ? 0 : weekDone,
+      totalScheduled: hydrating ? 0 : weekTotal,
+      points: activityPoints,
+    },
   };
 }

@@ -146,7 +146,7 @@ function HomePageBody({
         <ThemeToggle className="shrink-0" />
         <Button
           asChild
-          variant="primary"
+          variant="default"
           size="md"
           tactile
           className="whitespace-nowrap"
