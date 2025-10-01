@@ -39,8 +39,8 @@
     --glitch-card-surface-top: hsl(var(--card) / 0.78);
     --glitch-card-surface-bottom: hsl(var(--panel) / 0.66);
     --glitch-card-border-color: hsl(var(--card-hairline));
-    --shadow-glitch-card: var(--shadow-neo);
-    --shadow-glitch-card-hover: var(--shadow-neo-strong);
+    --shadow-glitch-card: var(--depth-shadow-outer);
+    --shadow-glitch-card-hover: var(--depth-shadow-outer-strong);
     --glitch-card-spectrum-a: hsl(var(--primary) / 0.55);
     --glitch-card-spectrum-b: hsl(var(--accent) / 0.45);
     --glitch-card-spectrum-c: hsl(var(--ring) / 0.55);
@@ -630,7 +630,7 @@ html.bg-intense body::after {
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
     border: var(--hairline-w) solid hsl(var(--card-hairline));
-    box-shadow: var(--shadow-neo-soft);
+    box-shadow: var(--depth-shadow-soft);
   }
   .card-soft {
     background: linear-gradient(
@@ -686,7 +686,7 @@ html.bg-intense body::after {
       hsl(var(--shadow-color) / 0.25);
   }
   .card-neo-soft:hover {
-    box-shadow: var(--shadow-neo-soft);
+    box-shadow: var(--depth-shadow-soft);
   }
   .card-neo:hover::before,
   .card-neo-soft:hover::before {
@@ -707,7 +707,7 @@ html.bg-intense body::after {
     box-shadow:
       0 0 0 var(--hairline-w) hsl(var(--ring)) inset,
       0 0 0 var(--spacing-0-5) hsl(var(--ring) / 0.22),
-      var(--shadow-neo-soft);
+      var(--depth-shadow-soft);
   }
   .card-neo:focus-within {
     outline: none;
@@ -720,7 +720,7 @@ html.bg-intense body::after {
     outline: none;
     box-shadow:
       0 0 0 var(--spacing-0-75) hsl(var(--ring) / 0.35),
-      var(--shadow-neo-soft);
+      var(--depth-shadow-soft);
   }
 
   /* Buttons */
@@ -1147,14 +1147,14 @@ html.bg-intense body::after {
     --tw-ring-color: var(--chip-trigger-ring-color);
     --tw-ring-offset-color: hsl(var(--surface));
     --tw-ring-offset-width: var(--chip-trigger-ring-offset);
-    --elevation-1: var(--shadow-neo-inset);
-    --elevation-2: var(--shadow-neo-soft);
+    --elevation-1: var(--depth-shadow-inner);
+    --elevation-2: var(--depth-shadow-soft);
   }
 
   .chip-trigger-container:focus-within {
     --tw-ring-color: var(--chip-trigger-ring-color);
     --tw-ring-offset-width: var(--chip-trigger-ring-offset);
-    --elevation-1: var(--shadow-neo-soft);
+    --elevation-1: var(--depth-shadow-soft);
   }
 
   .chip-trigger {
@@ -1164,8 +1164,8 @@ html.bg-intense body::after {
     --tw-ring-color: var(--chip-trigger-ring-color);
     --tw-ring-offset-color: hsl(var(--surface));
     --tw-ring-offset-width: var(--chip-trigger-ring-offset);
-    --tw-shadow: var(--shadow-neo-inset);
-    --tw-shadow-colored: var(--shadow-neo-inset);
+    --tw-shadow: var(--depth-shadow-inner);
+    --tw-shadow-colored: var(--depth-shadow-inner);
     min-inline-size: var(
       --settings-select-width,
       var(--settings-column-width)
@@ -1441,7 +1441,7 @@ html.bg-intense body::after {
   border: var(--hairline-w, 1px) solid hsl(var(--border) / 0.45);
   border-radius: var(--radius-card);
   background: hsl(var(--card) / 0.7);
-  box-shadow: var(--shadow-neo-soft);
+  box-shadow: var(--depth-shadow-soft);
 }
 
 @media (min-width: 48rem) {
@@ -1739,14 +1739,14 @@ textarea:-webkit-autofill {
     var(--glitch-card-surface-top),
     var(--glitch-card-surface-bottom)
   );
-  box-shadow: var(--shadow-glitch-card, var(--shadow-neo));
+  box-shadow: var(--shadow-glitch-card, var(--depth-shadow-outer));
   transition:
     transform 0.12s ease,
     box-shadow 0.2s ease,
     background 0.2s ease;
 }
 .glitch-card:hover {
-  box-shadow: var(--shadow-glitch-card-hover, var(--shadow-neo-strong));
+  box-shadow: var(--shadow-glitch-card-hover, var(--depth-shadow-outer-strong));
 }
 .glitch-card:focus-within {
   outline: none;
@@ -1755,7 +1755,7 @@ textarea:-webkit-autofill {
       --shadow-glitch-card-focus-ring,
       0 0 0 var(--spacing-0-75) hsl(var(--ring) / 0.35)
     ),
-    var(--shadow-glitch-card-hover, var(--shadow-neo-strong));
+    var(--shadow-glitch-card-hover, var(--depth-shadow-outer-strong));
 }
 .glitch-card::after {
   content: "";
@@ -2568,7 +2568,7 @@ a:active .lucide {
       var(--tw-ring-offset-shadow, 0 0 #0000),
       var(--tw-ring-shadow, 0 0 #0000),
       var(--tw-shadow, 0 0 #0000),
-      var(--neo-inset-shadow, var(--shadow-neo-inset));
+      var(--neo-inset-shadow, var(--depth-shadow-inner));
   }
 
   .hero-focus:focus-visible {

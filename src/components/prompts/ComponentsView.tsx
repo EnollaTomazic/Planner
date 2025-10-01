@@ -43,7 +43,7 @@ const containerClassName = cn(
   "rounded-[var(--radius-card)] border border-card-hairline-75",
   "bg-[linear-gradient(140deg,hsl(var(--card)/0.95),hsl(var(--surface-2)/0.78))]",
   "px-[var(--space-6)] py-[var(--space-5)]",
-  "shadow-neo",
+  "shadow-depth-outer",
   "focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--card))]",
   "before:pointer-events-none before:absolute before:-inset-px before:-z-10 before:rounded-[inherit]",
   "before:bg-[radial-gradient(125%_85%_at_18%_-25%,hsl(var(--accent)/0.3),transparent_65%),radial-gradient(125%_85%_at_82%_-20%,hsl(var(--ring)/0.28),transparent_60%)]",
@@ -295,14 +295,14 @@ function ShowCodeButton({
         "rounded-full px-[var(--space-5)] text-ui font-medium tracking-[-0.01em]",
         "bg-[linear-gradient(140deg,hsl(var(--card)/0.98),hsl(var(--surface-2)/0.82))] text-foreground",
         "border border-[hsl(var(--ring)/0.45)]",
-        "shadow-neo",
-        "hover:shadow-neo-soft focus-visible:shadow-neo-soft",
+        "shadow-depth-outer",
+        "hover:shadow-depth-soft focus-visible:shadow-depth-soft",
         "transition-[transform,box-shadow,background,filter] duration-quick ease-out motion-reduce:transition-none",
         "hover:-translate-y-[var(--spacing-0-25)] focus-visible:-translate-y-[var(--spacing-0-25)]",
         "active:translate-y-[var(--spacing-0-25)]",
-        "active:shadow-neo-soft",
+        "active:shadow-depth-soft",
         "data-[pressed=true]:translate-y-[var(--spacing-0-25)]",
-        "data-[pressed=true]:shadow-neo-soft",
+        "data-[pressed=true]:shadow-depth-soft",
         "motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 motion-reduce:active:translate-y-0",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--card))]",
         "before:pointer-events-none before:absolute before:-inset-px before:rounded-full before:border before:border-[hsl(var(--ring)/0.35)] before:opacity-0 before:transition-opacity before:duration-quick before:ease-out",
@@ -786,7 +786,7 @@ function StatePreviewCard({
 
   return (
     <article
-      className="flex flex-col gap-[var(--space-3)] rounded-card r-card-lg border border-card-hairline-60 bg-[linear-gradient(140deg,hsl(var(--card)/0.94),hsl(var(--surface-2)/0.72))] p-[var(--space-4)] shadow-neo"
+      className="flex flex-col gap-[var(--space-3)] rounded-card r-card-lg border border-card-hairline-60 bg-[linear-gradient(140deg,hsl(var(--card)/0.94),hsl(var(--surface-2)/0.72))] p-[var(--space-4)] shadow-depth-outer"
       aria-labelledby={headingId}
       aria-describedby={descriptionId}
     >

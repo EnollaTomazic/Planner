@@ -16,7 +16,7 @@ export default function ReviewsLoading() {
   return (
     <>
       <PageShell as="header" className="py-[var(--space-6)]">
-        <div className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-4)]">
+        <div className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-4)] space-y-[var(--space-4)]">
           <div className="space-y-[var(--space-2)]">
             <Skeleton className="h-[var(--space-3)] w-1/4" radius="sm" />
             <Skeleton className="h-[var(--space-5)] w-1/3" radius="sm" />
@@ -38,7 +38,7 @@ export default function ReviewsLoading() {
       >
         <section className="grid gap-[var(--space-4)] md:grid-cols-6 lg:grid-cols-12">
           <aside className="space-y-[var(--space-3)] md:col-span-2 lg:col-span-4">
-            <div className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-3)] space-y-[var(--space-3)]">
+            <div className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-3)] space-y-[var(--space-3)]">
               <Skeleton className="h-[var(--space-3)] w-2/3" radius="sm" />
               <div className="space-y-[var(--space-2)]">
                 {FILTER_PLACEHOLDERS.map((filter) => (
@@ -50,7 +50,7 @@ export default function ReviewsLoading() {
                 ))}
               </div>
             </div>
-            <div className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-3)] space-y-[var(--space-2)]">
+            <div className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-3)] space-y-[var(--space-2)]">
               {LIST_PLACEHOLDERS.map((item) => (
                 <div
                   key={item}
@@ -72,7 +72,7 @@ export default function ReviewsLoading() {
                 />
               ))}
             </div>
-            <article className="rounded-card card-neo-soft shadow-neo-strong p-[var(--space-4)] space-y-[var(--space-3)]">
+            <article className="rounded-card card-neo-soft shadow-depth-outer-strong p-[var(--space-4)] space-y-[var(--space-3)]">
               <Skeleton className="h-[var(--space-5)] w-1/2" radius="sm" />
               <Skeleton className="w-full" />
               <Skeleton className="w-5/6" />
