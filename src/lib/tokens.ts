@@ -102,6 +102,7 @@ export const depthTokenNames = [
   "depth-shadow-outer-strong",
   "depth-shadow-soft",
   "depth-shadow-inner",
+  "depth-shadow-inset",
   "shadow-outer-sm",
   "shadow-outer-md",
   "shadow-outer-lg",
@@ -170,6 +171,7 @@ export const motionTokenNames = [
   "glow-pulse",
   "glitch-rgb-shift",
   "glitch-scanline",
+  "scanline",
 ] as const;
 
 export type MotionTokenName = (typeof motionTokenNames)[number];

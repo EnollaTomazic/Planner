@@ -296,6 +296,13 @@ async function buildTokens(): Promise<void> {
   }
   colors.focus = { value: "var(--theme-ring)" };
   const derivedColorTokens: Record<string, string> = {
+    "bg": "var(--background)",
+    "stat-good": "var(--success)",
+    "stat-warn": "var(--warning)",
+    "stat-bad": "var(--danger)",
+    "glitch-pixel": "var(--glitch-noise-level)",
+    "scanline": "var(--glitch-scanline)",
+    "depth-shadow-inset": "var(--depth-shadow-inner)",
     "shadow-inner-sm":
       "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)",
     "shadow-inner-md":

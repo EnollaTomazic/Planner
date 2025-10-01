@@ -89,16 +89,6 @@
 | shell-width | 1280px |
 | shell-max | var(--shell-width) |
 | header-stack | calc(var(--spacing-8) + var(--spacing-4)) |
-| hero-illustration-opacity | 0.84 |
-| hero-illustration-blur | calc(var(--space-4) + var(--space-1)) |
-| glitch-intensity-hero-rail | 0.74 |
-| glitch-intensity-backdrop-blob-1 | 0.18 |
-| glitch-intensity-backdrop-blob-2 | 0.16 |
-| glitch-intensity-backdrop-blob-3 | 0.12 |
-| glitch-intensity-backdrop-drip-1 | 0.23 |
-| glitch-intensity-backdrop-drip-2 | 0.2 |
-| glitch-intensity-backdrop-drip-3 | 0.16 |
-| glitch-intensity-backdrop-shadow | 0.38 |
 | edge-iris | conic-gradient(
     from 180deg,
     hsl(262 88% 60% / 0),
@@ -219,7 +209,7 @@
     transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
   ) |
 | hero-divider-blur | calc(var(--spacing-1) * 1.5) |
-| hero-illustration-opacity | 0.8 |
+| hero-illustration-opacity | 0.84 |
 | hero-illustration-blur | calc(var(--space-4) + var(--space-1)) |
 | visually-hidden-top | -9999px |
 | warning-foreground | 0 0% 6% |
@@ -299,7 +289,7 @@
 | backdrop-drip-shadow | var(--backdrop-blob-shadow) |
 | neo-glow-strength | 0.45 |
 | neon-outline-opacity | 0.35 |
-| glitch-intensity | var(--glitch-intensity-default) |
+| glitch-intensity | 1.0 |
 | glitch-duration | 450ms |
 | glitch-fringe | 12deg |
 | glitch-static-opacity | 0.18 |
@@ -370,6 +360,21 @@
 | space-11 | calc(var(--space-8) + var(--space-3)) |
 | glitch-intensity-default | 1.0 |
 | glitch-intensity-subtle | calc(var(--glitch-intensity-default) * 0.68) |
+| glitch-intensity-hero-rail | 0.74 |
+| glitch-intensity-backdrop-blob-1 | 0.18 |
+| glitch-intensity-backdrop-blob-2 | 0.16 |
+| glitch-intensity-backdrop-blob-3 | 0.12 |
+| glitch-intensity-backdrop-drip-1 | 0.23 |
+| glitch-intensity-backdrop-drip-2 | 0.2 |
+| glitch-intensity-backdrop-drip-3 | 0.16 |
+| glitch-intensity-backdrop-shadow | 0.38 |
+| bg | var(--background) |
+| stat-good | var(--success) |
+| stat-warn | var(--warning) |
+| stat-bad | var(--danger) |
+| glitch-pixel | var(--glitch-noise-level) |
+| scanline | var(--glitch-scanline) |
+| depth-shadow-inset | var(--depth-shadow-inner) |
 | spacing-0-125 | calc(var(--spacing-1) / 8) |
 | spacing-0-25 | calc(var(--spacing-1) / 4) |
 | spacing-0-5 | calc(var(--spacing-1) / 2) |

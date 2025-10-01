@@ -138,7 +138,7 @@ const secondarySurfaceTokens: Record<Tone, string> = {
 };
 
 const ghostSurfaceTokens: Record<Tone, string> = {
-  primary: "[--hover:hsl(var(--background)/0.8)] [--active:hsl(var(--background))]",
+  primary: "[--hover:hsl(var(--bg)/0.8)] [--active:hsl(var(--bg))]",
   accent: "[--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
   info: "[--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
   danger: "[--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",

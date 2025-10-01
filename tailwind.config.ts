@@ -87,7 +87,7 @@ const config: Config = {
           DEFAULT: "hsl(var(--ring))",
           contrast: "var(--ring-contrast)",
         },
-        background: "hsl(var(--background))",
+        background: "hsl(var(--bg))",
         foreground: "hsl(var(--foreground))",
         card: {
           DEFAULT: "hsl(var(--card))",

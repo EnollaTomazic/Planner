@@ -4,7 +4,7 @@
   --slider-depth-lg: var(--neo-depth-lg);
   --slider-track-shadow: inset var(--slider-depth-sm) var(--slider-depth-sm)
       calc(var(--slider-depth-lg) * 1.1)
-      color-mix(in oklab, hsl(var(--panel)) 78%, hsl(var(--background)) 22%),
+      color-mix(in oklab, hsl(var(--panel)) 78%, hsl(var(--bg)) 22%),
     inset calc(var(--slider-depth-sm) * -1)
       calc(var(--slider-depth-sm) * -1) calc(var(--slider-depth-lg) * 1.1)
       hsl(var(--foreground) / 0.08);

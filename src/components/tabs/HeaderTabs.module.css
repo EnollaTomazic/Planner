@@ -193,14 +193,14 @@
 
 @media (prefers-contrast: more) {
   .root {
-    background: hsl(var(--background));
+    background: hsl(var(--bg));
     box-shadow: 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--foreground));
   }
   .root::after {
     background: none;
   }
   .track {
-    background: hsl(var(--background));
+    background: hsl(var(--bg));
     box-shadow: inset 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--foreground));
   }
   .tab {

@@ -54,7 +54,7 @@ const containerClassName = cn(
 );
 
 const frameClassName = cn(
-  "relative rounded-card r-card-md bg-[hsl(var(--background)/0.94)] p-[var(--space-4)]",
+  "relative rounded-card r-card-md bg-[hsl(var(--bg)/0.94)] p-[var(--space-4)]",
   "shadow-[var(--shadow-inset-hairline)]",
   "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:p-[var(--spacing-0-25)] before:bg-[var(--edge-iris)] before:opacity-35 before:[mask:linear-gradient(hsl(var(--foreground))_0_0)_content-box,linear-gradient(hsl(var(--foreground))_0_0)] before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]",
   "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--spacing-0-5)] after:rounded-[inherit] after:bg-hero-topline after:opacity-70 after:mix-blend-screen",
