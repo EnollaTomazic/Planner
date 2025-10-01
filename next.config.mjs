@@ -85,7 +85,7 @@ const withBundleAnalyzer = bundleAnalyzer({
   logLevel: "warn",
 });
 
-export default withBundleAnalyzer({
+const nextConfig = {
   reactStrictMode: true,
   output: "export",
   trailingSlash: true,
@@ -123,4 +123,6 @@ export default withBundleAnalyzer({
     config.resolve.alias["@"] = path.resolve(__dirname, "src");
     return config;
   },
-});
+};
+
+export default withBundleAnalyzer(nextConfig);

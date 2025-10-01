@@ -29,6 +29,7 @@ import {
 } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import IconButton from "@/components/ui/primitives/IconButton";
+import { cn } from "@/lib/utils";
 // Prompts components: GalleryItem, PromptsComposePanel, PromptsHeader
 import { ArrowUp, Check as CheckIcon } from "lucide-react";
 import {
@@ -40,6 +41,17 @@ import {
   radiusClasses,
   typeRamp,
 } from "./demoData";
+
+const DEMO_TILE = "calc(var(--space-8)*2)";
+const DEMO_SWATCH = "var(--space-6)";
+const DEMO_TILE_STYLE: React.CSSProperties = {
+  height: DEMO_TILE,
+  width: DEMO_TILE,
+};
+const DEMO_SWATCH_STYLE: React.CSSProperties = {
+  height: DEMO_SWATCH,
+  width: DEMO_SWATCH,
+};
 
 export default function PromptsDemos() {
   const labelDemoId = React.useId();
@@ -258,10 +270,22 @@ export default function PromptsDemos() {
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Shadows</h3>
         <div className="flex flex-wrap gap-[var(--space-4)]">
-          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-depth-outer" />
-          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-depth-outer-strong" />
-          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-depth-inner" />
-          <div className="size-16 rounded-card r-card-lg bg-panel/80 shadow-ring" />
+          <div
+            style={DEMO_TILE_STYLE}
+            className="rounded-card r-card-lg bg-panel/80 shadow-depth-outer"
+          />
+          <div
+            style={DEMO_TILE_STYLE}
+            className="rounded-card r-card-lg bg-panel/80 shadow-depth-outer-strong"
+          />
+          <div
+            style={DEMO_TILE_STYLE}
+            className="rounded-card r-card-lg bg-panel/80 shadow-depth-inner"
+          />
+          <div
+            style={DEMO_TILE_STYLE}
+            className="rounded-card r-card-lg bg-panel/80 shadow-ring"
+          />
         </div>
       </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
@@ -283,7 +307,8 @@ export default function PromptsDemos() {
             {colorTokens.map((c) => (
               <div
                 key={c}
-                className={`size-6 rounded-[var(--radius-md)] ${c}`}
+                style={DEMO_SWATCH_STYLE}
+                className={cn("rounded-[var(--radius-md)]", c)}
               />
             ))}
           </div>
@@ -307,7 +332,11 @@ export default function PromptsDemos() {
           <p className="type-body">{radiusTokens.join(", ")}</p>
           <div className="mt-[var(--space-2)] flex gap-[var(--space-2)]">
             {radiusClasses.map((cls) => (
-              <div key={cls} className={`size-6 bg-panel/80 ${cls}`} />
+              <div
+                key={cls}
+                style={DEMO_SWATCH_STYLE}
+                className={cn("bg-panel/80", cls)}
+              />
             ))}
           </div>
         </div>

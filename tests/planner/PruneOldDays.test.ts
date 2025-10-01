@@ -48,9 +48,10 @@ describe("PruneOldDays", () => {
 
     const result = pruneOldDays(map, { now: reference });
 
-    expect(result).not.toBe(map);
-    expect(result[expiredIso]).toBeUndefined();
-    expect(result[withinIso]).toBe(map[withinIso]);
+    expect(result.days).not.toBe(map);
+    expect(result.days[expiredIso]).toBeUndefined();
+    expect(result.days[withinIso]).toBe(map[withinIso]);
+    expect(result.pruned).toEqual([expiredIso]);
     expect(map[expiredIso]).toBeDefined();
   });
 
@@ -64,7 +65,8 @@ describe("PruneOldDays", () => {
 
     const result = pruneOldDays(map, { now: reference });
 
-    expect(result).toBe(map);
+    expect(result.days).toBe(map);
+    expect(result.pruned).toBeUndefined();
   });
 
   it("removes entries once the cutoff advances past them", () => {
@@ -77,15 +79,17 @@ describe("PruneOldDays", () => {
     };
 
     const beforeCutoff = pruneOldDays(map, { now: reference, maxAgeDays });
-    expect(beforeCutoff).toBe(map);
+    expect(beforeCutoff.days).toBe(map);
+    expect(beforeCutoff.pruned).toBeUndefined();
 
     const advanced = new Date(reference.getTime());
     advanced.setDate(advanced.getDate() + 1);
 
     const afterCutoff = pruneOldDays(map, { now: advanced, maxAgeDays });
-    expect(afterCutoff).not.toBe(map);
-    expect(afterCutoff[thresholdIso]).toBeUndefined();
+    expect(afterCutoff.days).not.toBe(map);
+    expect(afterCutoff.days[thresholdIso]).toBeUndefined();
     expect(map[thresholdIso]).toBeDefined();
+    expect(afterCutoff.pruned).toEqual([thresholdIso]);
   });
 
   it("honors a custom retention window", () => {
@@ -100,9 +104,10 @@ describe("PruneOldDays", () => {
 
     const result = pruneOldDays(map, { now: reference, maxAgeDays: 30 });
 
-    expect(result[withinIso]).toBe(map[withinIso]);
-    expect(result[expiredIso]).toBeUndefined();
+    expect(result.days[withinIso]).toBe(map[withinIso]);
+    expect(result.days[expiredIso]).toBeUndefined();
     expect(map[expiredIso]).toBeDefined();
+    expect(result.pruned).toEqual([expiredIso]);
   });
 
   it("retains same-day entries at zero retention in offset timezones", () => {
@@ -114,8 +119,9 @@ describe("PruneOldDays", () => {
 
       const result = pruneOldDays(map, { now: todayIso, maxAgeDays: 0 });
 
-      expect(result).toBe(map);
-      expect(result[todayIso]).toBe(map[todayIso]);
+      expect(result.days).toBe(map);
+      expect(result.days[todayIso]).toBe(map[todayIso]);
+      expect(result.pruned).toBeUndefined();
     });
   });
 
@@ -140,8 +146,9 @@ describe("PruneOldDays", () => {
         maxAgeDays,
       });
 
-      expect(result).toBe(map);
-      expect(result[thresholdIso]).toBe(map[thresholdIso]);
+      expect(result.days).toBe(map);
+      expect(result.days[thresholdIso]).toBe(map[thresholdIso]);
+      expect(result.pruned).toBeUndefined();
     });
   });
 });

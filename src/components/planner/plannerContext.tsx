@@ -257,10 +257,15 @@ function PlannerProviderInner({
     return initial;
   });
   const tasksByIdRef = React.useRef<TaskIdMap>(tasksById);
+  const rawDaysRef = React.useRef(rawDays);
 
   React.useEffect(() => {
     tasksByIdRef.current = tasksById;
   }, [tasksById]);
+
+  React.useEffect(() => {
+    rawDaysRef.current = rawDays;
+  }, [rawDays]);
 
   React.useEffect(() => {
     if (typeof window === "undefined") return;
@@ -492,83 +497,120 @@ function PlannerProviderInner({
 
   const setDays = React.useCallback<DaysDispatch>(
     (action) => {
+      const prev = rawDaysRef.current;
       const currentTasksById = tasksByIdRef.current;
-      let pendingUpdates:
-        | Array<[ISODate, Record<string, DayTask>]>
-        | undefined;
-      let pendingRemovals: ISODate[] | undefined;
 
-      setRawDays((prev) => {
-        pendingUpdates = undefined;
-        pendingRemovals = undefined;
+      const resolved =
+        typeof action === "function"
+          ? (action as (
+              current: Record<ISODate, DayRecord>,
+            ) => DaysUpdateResult)(prev)
+          : action;
 
-        const resolved =
-          typeof action === "function"
-            ? (action as (
-                current: Record<ISODate, DayRecord>,
-              ) => DaysUpdateResult)(prev)
-            : action;
+      const { days: next, changed } = extractDaysUpdate(resolved);
 
-        const { days: next, changed } = extractDaysUpdate(resolved);
+      const { days: prunedDays, pruned } = pruneOldDays(next);
+      let result = prunedDays;
+      let mutated = !Object.is(result, next);
 
-        let result = pruneOldDays(next);
-        let mutated = !Object.is(result, next);
+      const impactedIsos = new Set<ISODate>();
+      const newIsos = new Set<ISODate>();
+      const removedIsos = new Set<ISODate>();
 
-        const targetIsos =
-          changed === undefined
-            ? (Object.keys(result) as ISODate[])
-            : changed.filter((iso) =>
-                Object.prototype.hasOwnProperty.call(result, iso),
-              );
+      const explicitChanges = changed ? new Set(changed) : undefined;
 
-        for (const iso of targetIsos) {
-          if (prev[iso] === result[iso]) continue;
-          const ensured = sanitizeDayRecord(result, iso);
-          if (!ensured) continue;
-          if (!mutated) {
-            mutated = true;
-            result = { ...result };
-          }
-          result[iso] = ensured;
+      if (changed) {
+        for (const iso of changed) {
+          impactedIsos.add(iso);
         }
-
-        if (!mutated && Object.is(prev, result)) {
-          return prev;
-        }
-
-        const updateCandidates = new Set<ISODate>(targetIsos);
+      } else {
         for (const iso of Object.keys(result) as ISODate[]) {
-          if (Object.prototype.hasOwnProperty.call(currentTasksById, iso)) {
+          impactedIsos.add(iso);
+        }
+      }
+
+      if (pruned) {
+        for (const iso of pruned) {
+          removedIsos.add(iso);
+          impactedIsos.add(iso);
+        }
+      }
+
+      if (!changed) {
+        for (const iso of Object.keys(prev) as ISODate[]) {
+          if (Object.prototype.hasOwnProperty.call(result, iso)) {
             continue;
           }
-          updateCandidates.add(iso);
+          removedIsos.add(iso);
+          impactedIsos.add(iso as ISODate);
+        }
+      }
+
+      for (const iso of impactedIsos) {
+        const hadPrev = Object.prototype.hasOwnProperty.call(prev, iso);
+        const hasNext = Object.prototype.hasOwnProperty.call(result, iso);
+        if (!hasNext) {
+          if (hadPrev) {
+            removedIsos.add(iso);
+          }
+          continue;
         }
 
-        const nextUpdates: Array<[ISODate, Record<string, DayTask>]> = [];
-        for (const iso of updateCandidates) {
-          const record = result[iso];
-          if (!record) continue;
-          const nextTasks = record.tasksById ?? {};
-          if (currentTasksById[iso] === nextTasks) continue;
+        const prevRecord = prev[iso];
+        const nextRecord = result[iso];
+        const isNewIso = !hadPrev;
+        const pointerChanged = prevRecord !== nextRecord;
+        const explicitlyChanged = explicitChanges?.has(iso) ?? false;
+
+        if (!explicitlyChanged && !isNewIso && !pointerChanged) {
+          continue;
+        }
+
+        if (isNewIso) {
+          newIsos.add(iso);
+        }
+
+        const ensured = sanitizeDayRecord(result, iso);
+        if (!ensured) continue;
+        if (!mutated) {
+          mutated = true;
+          result = { ...result };
+        }
+        result[iso] = ensured;
+      }
+
+      if (!mutated && Object.is(prev, result) && removedIsos.size === 0) {
+        if (impactedIsos.size === 0) {
+          return;
+        }
+      }
+
+      const nextUpdates: Array<[ISODate, Record<string, DayTask>]> = [];
+      for (const iso of impactedIsos) {
+        if (!Object.prototype.hasOwnProperty.call(result, iso)) {
+          continue;
+        }
+        const record = result[iso];
+        if (!record) continue;
+        const nextTasks = record.tasksById ?? {};
+        if (newIsos.has(iso) || currentTasksById[iso] !== nextTasks) {
           nextUpdates.push([iso, nextTasks]);
         }
+      }
 
-        const nextRemovals: ISODate[] = [];
-        for (const iso of Object.keys(currentTasksById) as ISODate[]) {
-          if (Object.prototype.hasOwnProperty.call(result, iso)) continue;
-          nextRemovals.push(iso);
-        }
+      const nextRemovals =
+        removedIsos.size > 0 ? Array.from(removedIsos) : undefined;
 
-        pendingUpdates = nextUpdates.length ? nextUpdates : undefined;
-        pendingRemovals = nextRemovals.length ? nextRemovals : undefined;
+      if (Object.is(prev, result) && nextUpdates.length === 0 && !nextRemovals) {
+        return;
+      }
 
-        return result;
-      });
+      if (!Object.is(prev, result)) {
+        rawDaysRef.current = result;
+        setRawDays(result);
+      }
 
-      if (
-        (pendingUpdates?.length ?? 0) === 0 &&
-        (pendingRemovals?.length ?? 0) === 0
-      ) {
+      if (nextUpdates.length === 0 && !nextRemovals) {
         return;
       }
 
@@ -576,8 +618,8 @@ function PlannerProviderInner({
         let nextMap = prevMap;
         let mutatedMap = false;
 
-        if (pendingRemovals) {
-          for (const iso of pendingRemovals) {
+        if (nextRemovals) {
+          for (const iso of nextRemovals) {
             if (!Object.prototype.hasOwnProperty.call(nextMap, iso)) {
               continue;
             }
@@ -589,8 +631,8 @@ function PlannerProviderInner({
           }
         }
 
-        if (pendingUpdates) {
-          for (const [iso, map] of pendingUpdates) {
+        if (nextUpdates.length) {
+          for (const [iso, map] of nextUpdates) {
             if (nextMap[iso] === map) continue;
             if (!mutatedMap) {
               mutatedMap = true;
@@ -608,7 +650,7 @@ function PlannerProviderInner({
         return prevMap;
       });
     },
-    [setRawDays],
+    [setRawDays, setTasksById],
   );
 
   const daysValue = React.useMemo(
