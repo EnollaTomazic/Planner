@@ -187,7 +187,7 @@ export default function WeekPickerDemo() {
       subtitle={subtitle}
       actions={
         <Button
-          variant="primary"
+          variant="default"
           size="sm"
           aria-label="Jump to top"
           className="px-[var(--space-4)]"
