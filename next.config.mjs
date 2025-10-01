@@ -1,5 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import bundleAnalyzer from "@next/bundle-analyzer";
 import { baseSecurityHeaders } from "./security-headers.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -68,9 +69,21 @@ const normalizedBasePathValue = isGitHubPages
   : normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.BASE_PATH ?? "");
 const isExportStatic = process.env.EXPORT_STATIC === "true";
 const isProduction = process.env.NODE_ENV === "production";
+const isCI = process.env.CI === "true";
+const isAnalyzeExplicit = process.env.ANALYZE === "true";
+const isDevelopment = process.env.NODE_ENV === "development";
 const shouldApplyBasePath = normalizedBasePathValue.length > 0;
 const nextBasePath = shouldApplyBasePath ? normalizedBasePathValue : undefined;
 const nextAssetPrefix = shouldApplyBasePath ? normalizedBasePathValue : undefined;
+
+const shouldCollectBundleStats = !isExportStatic && (isDevelopment || isCI || isAnalyzeExplicit);
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: shouldCollectBundleStats,
+  openAnalyzer: false,
+  analyzerMode: "static",
+  logLevel: "warn",
+});
 
 const securityHeaders = async () => {
   return [
@@ -109,8 +122,14 @@ const nextConfig = {
   },
 };
 
-if (!(isProduction || isExportStatic)) {
-  nextConfig.headers = securityHeaders;
+let finalConfig = nextConfig;
+
+if (shouldCollectBundleStats) {
+  finalConfig = withBundleAnalyzer(finalConfig);
 }
 
-export default nextConfig;
+if (!(isProduction || isExportStatic)) {
+  finalConfig.headers = securityHeaders;
+}
+
+export default finalConfig;

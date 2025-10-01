@@ -16,6 +16,8 @@ import Image from "next/image";
 import { withBasePath } from "@/lib/utils";
 import { Bell, CircleUser } from "lucide-react";
 
+const ICON_BUTTON_SIZE = "size-[var(--icon-size-sm)]";
+
 type CompactNav = "summary" | "timeline" | "reports";
 
 const compactNavItems: Array<{ key: CompactNav; label: string }> = [
@@ -103,7 +105,7 @@ export default function PageHeaderDemo() {
         className="text-muted-foreground data-[state=active]:text-foreground"
         data-state="active"
       >
-        <Bell className="size-[var(--icon-size-sm)]" />
+        <Bell aria-hidden="true" className={ICON_BUTTON_SIZE} />
       </IconButton>
       <button
         type="button"
@@ -120,7 +122,7 @@ export default function PageHeaderDemo() {
         data-state={profileOpen ? "open" : "inactive"}
         className="inline-flex items-center gap-[var(--space-2)] rounded-full border border-transparent bg-[hsl(var(--card)/0.55)] px-[var(--space-3)] py-[var(--spacing-0-75)] text-ui font-medium transition-colors hover:bg-[--hover] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-[hsl(var(--card)/0.85)]"
       >
-        <CircleUser className="size-[var(--icon-size-sm)]" />
+        <CircleUser aria-hidden="true" className={ICON_BUTTON_SIZE} />
         <span className="hidden sm:inline">Profile</span>
       </button>
     </>

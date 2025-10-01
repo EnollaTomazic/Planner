@@ -89,8 +89,12 @@
   "toggle": [],
   "animation-toggle": [],
   "check-circle": [],
-  "tab-bar": [],
-  "tabs": [],
+  "tab-bar": [
+    "/preview/tabs"
+  ],
+  "tabs": [
+    "/preview/tabs"
+  ],
   "neon-icon": [],
   "dashboard-card": [],
   "dashboard-list": [],

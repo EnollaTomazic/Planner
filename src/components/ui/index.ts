@@ -71,6 +71,8 @@ export { default as IconButton } from "./primitives/IconButton";
 export * from "./primitives/IconButton";
 export { default as Input } from "./primitives/Input";
 export * from "./primitives/Input";
+export { default as IssueBadge } from "./primitives/IssueBadge";
+export * from "./primitives/IssueBadge";
 export { default as NeoCard } from "./primitives/NeoCard";
 export * from "./primitives/NeoCard";
 export * from "./primitives/Neu";
