@@ -33,7 +33,11 @@ const TOKEN_SOURCE_FILES = [
 
 const CLASS_UTILITY_IDENTIFIERS = new Set(["cn", "clsx"]);
 const IGNORED_TOKEN_PREFIXES = ["tw-", "radix-", "sb-", "swiper-", "geist-"];
-const STYLED_COMPONENTS_TARGET = "styled-components";
+const STYLED_COMPONENTS_IDENTIFIER = "styled-components";
+const STYLED_COMPONENTS_REGEX = /styled-components(?:\/macro)?/g;
+// Keep this message aligned with the ESLint restriction in eslint.config.mjs.
+const STYLED_COMPONENTS_MESSAGE =
+  "styled-components (including styled-components/macro) is not allowed in src/components/ui. Use tokenized primitives instead.";
 
 const HEX_COLOR_PATTERN = /#(?:[0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})\b/gi;
 const COLOR_FUNCTION_PATTERN = /\b(?:rgb|rgba|hsl|hsla)\((?!\s*var\()/gi;
@@ -465,7 +469,7 @@ async function checkForStyledComponents(violations: Violation[]): Promise<void> 
       continue;
     }
 
-    if (!contents.includes(STYLED_COMPONENTS_TARGET)) {
+    if (!contents.includes(STYLED_COMPONENTS_IDENTIFIER)) {
       continue;
     }
 
@@ -478,16 +482,15 @@ async function checkForStyledComponents(violations: Violation[]): Promise<void> 
     );
 
     const relative = path.relative(rootDir, filePath).replace(/\\/g, "/");
-    const regex = /styled-components/g;
+    STYLED_COMPONENTS_REGEX.lastIndex = 0;
     let match: RegExpExecArray | null;
-    while ((match = regex.exec(contents))) {
+    while ((match = STYLED_COMPONENTS_REGEX.exec(contents))) {
       const { line, character } = sourceFile.getLineAndCharacterOfPosition(match.index);
       violations.push({
         file: relative,
         line: line + 1,
         column: character + 1,
-        message:
-          "styled-components is not allowed in src/components/ui. Use tokenized primitives instead.",
+        message: STYLED_COMPONENTS_MESSAGE,
       });
     }
   }
