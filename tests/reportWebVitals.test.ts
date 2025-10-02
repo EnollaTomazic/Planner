@@ -1,28 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const metric = {
+import { createMockMetric } from "@/metrics/fixtures";
+
+const metric = createMockMetric({
   id: "abc123",
   name: "LCP",
-  label: "web-vital" as const,
   value: 2500,
-  startTime: 100,
-  entries: [
-    {
-      name: "largest-contentful-paint",
-      entryType: "largest-contentful-paint",
-      startTime: 100,
-      duration: 0,
-      toJSON() {
-        return {
-          name: this.name,
-          entryType: this.entryType,
-          startTime: this.startTime,
-          duration: this.duration,
-        };
-      },
-    } as PerformanceEntry,
-  ],
-};
+});
 
 describe("reportWebVitals", () => {
   const originalEnv = process.env.NEXT_PUBLIC_ENABLE_METRICS;
@@ -64,7 +48,7 @@ describe("reportWebVitals", () => {
     });
 
     const { reportWebVitals } = await import("@/reportWebVitals");
-    reportWebVitals(metric as any);
+    reportWebVitals(metric);
 
     expect(sendBeacon).not.toHaveBeenCalled();
   });
@@ -78,7 +62,7 @@ describe("reportWebVitals", () => {
     });
 
     const { reportWebVitals } = await import("@/reportWebVitals");
-    reportWebVitals(metric as any);
+    reportWebVitals(metric);
 
     expect(sendBeacon).toHaveBeenCalledTimes(1);
     const call = sendBeacon.mock.calls.at(0);
@@ -106,7 +90,7 @@ describe("reportWebVitals", () => {
     global.fetch = fetchMock as unknown as typeof fetch;
 
     const { reportWebVitals } = await import("@/reportWebVitals");
-    reportWebVitals(metric as any);
+    reportWebVitals(metric);
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     const call = fetchMock.mock.calls.at(0);
@@ -119,4 +103,3 @@ describe("reportWebVitals", () => {
     expect(urlRaw).toBe("/planner/api/metrics");
   });
 });
-
