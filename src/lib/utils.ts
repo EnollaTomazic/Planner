@@ -4,6 +4,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
 
+import { loadClientEnv } from "../../env/client";
+
 const twMerge = extendTailwindMerge({
   extend: {
     theme: {
@@ -34,7 +36,9 @@ function normalizeBasePath(raw: string | undefined): string {
   return `/${segments.join("/")}`;
 }
 
-const NORMALIZED_BASE = normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH);
+const { NEXT_PUBLIC_BASE_PATH } = loadClientEnv();
+
+const NORMALIZED_BASE = normalizeBasePath(NEXT_PUBLIC_BASE_PATH);
 
 export function getBasePath(): string {
   return NORMALIZED_BASE;

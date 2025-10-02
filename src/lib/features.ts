@@ -1,7 +1,11 @@
-const rawSvgNumericFilters = process.env.NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS;
-const rawDepthTheme = process.env.NEXT_PUBLIC_DEPTH_THEME;
-const rawOrganicDepth = process.env.NEXT_PUBLIC_ORGANIC_DEPTH;
-const rawGlitchLanding = process.env.NEXT_PUBLIC_UI_GLITCH_LANDING;
+import { loadClientEnv } from "../../env/client";
+
+const {
+  NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS: rawSvgNumericFilters,
+  NEXT_PUBLIC_DEPTH_THEME: rawDepthTheme,
+  NEXT_PUBLIC_ORGANIC_DEPTH: rawOrganicDepth,
+  NEXT_PUBLIC_UI_GLITCH_LANDING: rawGlitchLanding,
+} = loadClientEnv();
 
 const enabledValues = new Set(["1", "true", "on", "yes"]);
 const disabledValues = new Set(["0", "false", "off", "no"]);
