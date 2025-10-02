@@ -45,6 +45,8 @@ const RATE_LIMIT_CONFIG = {
   windowMs: 60_000,
 } as const;
 
+type NextRequestWithIp = NextRequest & { ip?: string | null };
+
 function getClientIdentifier(request: NextRequest): string {
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) {
@@ -62,6 +64,11 @@ function getClientIdentifier(request: NextRequest): string {
   const cfConnectingIp = request.headers.get("cf-connecting-ip");
   if (cfConnectingIp) {
     return cfConnectingIp.trim();
+  }
+
+  const requestIp = (request as NextRequestWithIp).ip;
+  if (typeof requestIp === "string" && requestIp.trim()) {
+    return requestIp.trim();
   }
 
   return "anonymous";

@@ -3,16 +3,29 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { POST } from "@/app/api/metrics/route";
 import { clearRateLimit } from "@/lib/observability/rate-limit";
 
-function createRequest(body: unknown, headers: Record<string, string> = {}) {
+type RequestOptions = {
+  headers?: Record<string, string>;
+  ip?: string;
+  omitForwardedHeader?: boolean;
+};
+
+function createRequest(body: unknown, options: RequestOptions = {}) {
+  const { headers = {}, omitForwardedHeader } = options;
   return new Request("http://localhost/api/metrics", {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      "x-forwarded-for": "203.0.113.7",
+      ...(omitForwardedHeader ? {} : { "x-forwarded-for": "203.0.113.7" }),
       ...headers,
     },
     body: JSON.stringify(body),
   });
+}
+
+function createRequestWithIp(body: unknown, options: RequestOptions & { ip: string }) {
+  const request = createRequest(body, { ...options, omitForwardedHeader: true });
+  Reflect.set(request, "ip", options.ip);
+  return request;
 }
 
 const metric = {
@@ -86,6 +99,24 @@ describe("POST /api/metrics", () => {
 
     expect(lastResponse?.status).toBe(429);
     expect(lastResponse?.headers.get("retry-after")).toBeDefined();
+  });
+
+  it("falls back to request.ip when forwarded headers are missing", async () => {
+    const payload = {
+      metric,
+      page: "/planner",
+      timestamp: Date.now(),
+    };
+
+    for (let index = 0; index < 25; index += 1) {
+      await POST(createRequestWithIp(payload, { ip: "198.51.100.24" }) as any);
+    }
+
+    const response = await POST(
+      createRequestWithIp(payload, { ip: "198.51.100.42" }) as any,
+    );
+
+    expect(response.status).toBe(202);
   });
 });
 
