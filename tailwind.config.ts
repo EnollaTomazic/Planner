@@ -3,6 +3,7 @@
 // - Dark mode by class; colors map to CSS variables in globals.css
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
+import type { CustomThemeConfig } from "tailwindcss/types/config";
 import tokenPlugin from "./scripts/tailwind-token-plugin";
 
 const plannerSurfaces = plugin(({ addUtilities }) => {
@@ -25,6 +26,10 @@ const progressWidthValues: Record<string, string> = Object.fromEntries(
 
 progressWidthValues.fill = "var(--progress)";
 
+const tokenTheme = ((tokenPlugin as unknown as {
+  config?: { theme?: { extend?: CustomThemeConfig } };
+}).config?.theme?.extend ?? {}) as CustomThemeConfig;
+
 const config: Config = {
   darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
@@ -35,6 +40,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      ...(tokenTheme.colors ? { colors: tokenTheme.colors } : {}),
+      ...(tokenTheme.borderRadius ? { borderRadius: tokenTheme.borderRadius } : {}),
+      ...(tokenTheme.spacing ? { spacing: tokenTheme.spacing } : {}),
       borderColor: {
         "card-hairline": "var(--card-hairline)",
       },

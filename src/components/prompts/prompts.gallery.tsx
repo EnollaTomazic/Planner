@@ -52,6 +52,7 @@ import {
   SectionCard as UiSectionCard,
   Spinner,
 } from "@/components/ui";
+import { AIAbortButton, AIErrorCard, AILoadingShimmer } from "@/components/ui/ai";
 import { Check as CheckIcon } from "lucide-react";
 import DemoHeader from "./DemoHeader";
 import GoalListDemo from "./GoalListDemo";
@@ -1987,7 +1988,17 @@ function DemoHeaderShowcase() {
   );
 }
 const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
-  buttons: [],
+  buttons: [
+    {
+      id: "ai-abort-button",
+      name: "AIAbortButton",
+      description:
+        "Abort control used to stop streaming responses with tone-aligned danger styles.",
+      element: <AIAbortButton busy onAbort={() => {}} />, 
+      tags: ["ai", "button", "abort"],
+      code: `<AIAbortButton busy onAbort={() => {}} />`,
+    },
+  ],
   inputs: [],
   prompts: [
     {
@@ -3857,6 +3868,28 @@ React.useEffect(() => {
       element: <SpinnerShowcase />,
       tags: ["spinner", "loading"],
       code: `<Spinner size="xl" />`,
+    },
+    {
+      id: "ai-loading-shimmer",
+      name: "AILoadingShimmer",
+      description: "Skeleton shell paired with helper text for streaming responses.",
+      element: <AILoadingShimmer lines={4} />, 
+      tags: ["ai", "loading", "skeleton"],
+      code: `<AILoadingShimmer lines={4} />`,
+    },
+    {
+      id: "ai-error-card",
+      name: "AIErrorCard",
+      description: "Danger-toned error card with retry affordance for assistant failures.",
+      element: (
+        <AIErrorCard
+          description="The assistant stopped before completing the draft."
+          hint="Retry to request a fresh response."
+          onRetry={() => {}}
+        />
+      ),
+      tags: ["ai", "error", "card"],
+      code: `<AIErrorCard\n  description="The assistant stopped before completing the draft."\n  hint="Retry to request a fresh response."\n  onRetry={() => {}}\n/>`,
     },
   ],
   toggles: [

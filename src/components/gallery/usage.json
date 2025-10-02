@@ -1,4 +1,8 @@
 {
+  "ai-abort-button": [
+    "/",
+    "/preview/ai"
+  ],
   "badge": [
     "/",
     "/dashboard-layout",
@@ -10,14 +14,18 @@
     "/",
     "/dashboard-layout",
     "/preview/a11y",
+    "/preview/ai",
+    "/preview/buttons",
+    "/preview/cards",
     "/preview/hero-images",
-    "/preview/pages-check",
-    "/preview/buttons"
+    "/preview/pages-check"
   ],
   "icon-button": [
+    "/",
     "/preview/buttons"
   ],
   "segmented-button": [
+    "/",
     "/preview/buttons"
   ],
   "label": [
@@ -26,9 +34,11 @@
   ],
   "select": [],
   "field": [
+    "/",
     "/preview/forms"
   ],
   "input": [
+    "/",
     "/preview/forms"
   ],
   "search-bar": [],
@@ -50,9 +60,7 @@
     "/dashboard-layout",
     "/preview/cards"
   ],
-  "section-card-variants": [
-    "/preview/cards"
-  ],
+  "section-card-variants": [],
   "page-shell": [
     "/",
     "/components",
@@ -61,6 +69,10 @@
     "/nav-and-bg",
     "/planner",
     "/preview/a11y",
+    "/preview/ai",
+    "/preview/buttons",
+    "/preview/cards",
+    "/preview/forms",
     "/preview/hero-images",
     "/preview/pages-check",
     "/preview/perf",
@@ -97,6 +109,7 @@
     "/dashboard-layout",
     "/goals",
     "/planner",
+    "/preview/cards",
     "/prompts",
     "/reviews",
     "/team"
@@ -105,6 +118,14 @@
     "/",
     "/components",
     "/preview/[slug]"
+  ],
+  "ai-loading-shimmer": [
+    "/",
+    "/preview/ai"
+  ],
+  "ai-error-card": [
+    "/",
+    "/preview/ai"
   ],
   "toggle": [],
   "animation-toggle": [],
