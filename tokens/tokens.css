@@ -382,6 +382,8 @@
   --motion-duration-md: var(--dur-chill);
   --motion-duration-lg: var(--dur-slow);
   --motion-ease-glitch: var(--ease-motion-glitch);
+  --layout-quick-action-min: calc(var(--spacing-8) * 3);
+  --layout-quick-action-tooltip-max: calc(var(--spacing-8) * 5);
   --spacing-0-125: calc(var(--spacing-1) / 8);
   --spacing-0-25: calc(var(--spacing-1) / 4);
   --spacing-0-5: calc(var(--spacing-1) / 2);

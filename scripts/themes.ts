@@ -23,6 +23,14 @@ export const rootVariables: VariableDefinition[] = [
   { name: "layout-gutter-sm", value: "var(--spacing-4)" },
   { name: "layout-gutter-md", value: "var(--spacing-5)" },
   { name: "layout-gutter-lg", value: "var(--spacing-6)" },
+  {
+    name: "layout-quick-action-min",
+    value: "calc(var(--spacing-8) * 3)",
+  },
+  {
+    name: "layout-quick-action-tooltip-max",
+    value: "calc(var(--spacing-8) * 5)",
+  },
   { name: "card-radius", value: "var(--radius-xl)" },
   { name: "elevation-card", value: "var(--shadow-outline-subtle)" },
   {
