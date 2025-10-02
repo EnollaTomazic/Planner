@@ -1,3 +1,5 @@
+import { env } from "@/env/client";
+
 export const CONTROL_VARIANTS = [
   "default",
   "quiet",
@@ -23,7 +25,7 @@ export type AnyControlVariant = ControlVariant | DeprecatedControlVariant;
 const warnedAliases = new Set<DeprecatedControlVariant>();
 
 function warnDeprecatedAlias(alias: DeprecatedControlVariant, canonical: ControlVariant) {
-  if (process.env.NODE_ENV === "production") {
+  if (env.NODE_ENV === "production") {
     return;
   }
 

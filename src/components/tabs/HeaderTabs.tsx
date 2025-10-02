@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "@/env/client";
 import * as React from "react";
 import { useId } from "react";
 
@@ -70,7 +71,7 @@ export function HeaderTabs<Key extends string = string>({
       : undefined;
 
   React.useEffect(() => {
-    if (process.env.NODE_ENV !== "production") {
+    if (env.NODE_ENV !== "production") {
       if (!sanitizedAriaLabel && !sanitizedAriaLabelledBy) {
         console.warn(
           "HeaderTabs requires either ariaLabel or ariaLabelledBy to describe the tablist.",

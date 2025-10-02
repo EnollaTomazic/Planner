@@ -1,3 +1,4 @@
+import { env } from "@/env/client";
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
@@ -69,7 +70,7 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
     if (asChild) {
       const childCount = React.Children.count(children);
       if (childCount !== 1 || !React.isValidElement(children)) {
-        if (process.env.NODE_ENV !== "production") {
+        if (env.NODE_ENV !== "production") {
           console.warn("[Card] `asChild` requires a single valid React element child.");
         }
 

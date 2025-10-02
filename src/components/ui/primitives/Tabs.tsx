@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "@/env/client";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -46,7 +47,7 @@ export function Tabs<Key extends string = string>({
   const activeValue = controlled ? value : internal;
 
   React.useEffect(() => {
-    if (process.env.NODE_ENV !== "production") {
+    if (env.NODE_ENV !== "production") {
       if (activeValue === undefined && defaultValue === undefined) {
         console.warn("Tabs requires a value or defaultValue to be provided.");
       }

@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "@/env/client";
 import * as React from "react";
 import type { CSSProperties } from "react";
 import { Slot } from "@radix-ui/react-slot";
@@ -443,7 +444,7 @@ export const Button = React.forwardRef<
     const childCount = React.Children.count(children);
 
     if (childCount !== 1 || !React.isValidElement(children)) {
-      if (process.env.NODE_ENV !== "production") {
+      if (env.NODE_ENV !== "production") {
         console.warn(
           "[Button] `asChild` requires a single valid React element child.",
         );

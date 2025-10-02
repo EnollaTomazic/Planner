@@ -1,6 +1,7 @@
 // src/lib/utils.ts
 // Tiny helpers. Keep dependencies minimal and SSR-safe.
 
+import { env } from "@/env/client";
 import { type ClassValue, clsx } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
 
@@ -12,29 +13,7 @@ const twMerge = extendTailwindMerge({
   },
 });
 
-function normalizeBasePath(raw: string | undefined): string {
-  if (!raw) {
-    return "";
-  }
-
-  const trimmed = raw.trim();
-  if (!trimmed || trimmed === "/") {
-    return "";
-  }
-
-  const segments = trimmed
-    .split("/")
-    .map((segment) => segment.trim())
-    .filter((segment) => segment.length > 0);
-
-  if (segments.length === 0) {
-    return "";
-  }
-
-  return `/${segments.join("/")}`;
-}
-
-const NORMALIZED_BASE = normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH);
+const NORMALIZED_BASE = env.basePath;
 
 export function getBasePath(): string {
   return NORMALIZED_BASE;

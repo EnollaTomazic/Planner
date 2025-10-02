@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "@/env/client";
 import * as React from "react";
 import Link from "next/link";
 import { CircleSlash } from "lucide-react";
@@ -84,7 +85,7 @@ export default function DashboardList<T>({
             const resolvedKey = resolveDeterministicKey(item, index, getKey);
 
             if (
-              process.env.NODE_ENV !== "production" &&
+              env.NODE_ENV !== "production" &&
               !missingKeyWarnedRef.current &&
               resolvedKey === undefined
             ) {

@@ -6,6 +6,16 @@ Requires [Node.js](https://nodejs.org) 22 or newer.
 
 Use [`tsx`](https://github.com/esbuild-kit/tsx) for running TypeScript-powered scripts. All npm tasks already invoke `tsx` (or `node --import tsx`) so aligning local commands with it keeps runtime behavior consistent with CI.
 
+## Environment variables
+
+Environment configuration lives under `src/env` and is validated with [`zod`](https://github.com/colinhacks/zod). The server (`src/env/server.ts`) and client (`src/env/client.ts`) modules parse `process.env` using the shared schema in `src/env/schema.ts`.
+
+- **Local setup:** copy `.env.example` to `.env.local` (or another file supported by Next.js) and update any values you need. Every key in `.env.example` maps to a schema entry.
+- **Validation behavior:** development and CI builds run in strict mode and will throw if any variable is missing or malformed. Production builds fall back to documented defaults for optional flags but still log misconfigurations.
+- **Usage:** import the typed `env` object instead of reading `process.env` directly. For example, `import { env } from "@/env/client";` gives you `env.basePath` and the typed feature flags.
+
+When adding a new environment variable, extend the schema, document it in `.env.example`, and update this section if the workflow changes.
+
 ## UI components
 
 When adding a new UI component or style under `src/components/ui`, run:

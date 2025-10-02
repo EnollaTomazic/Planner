@@ -1,5 +1,6 @@
 "use client";
 
+import { env } from "@/env/client";
 import * as React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { hasTextContent } from "@/lib/react";
@@ -275,7 +276,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       (iconOnly && !normalizedAriaLabelledBy ? normalizedTitle : undefined);
 
     React.useEffect(() => {
-      if (process.env.NODE_ENV === "production") return;
+      if (env.NODE_ENV === "production") return;
       if (!shouldWarn) return;
       console.error(
         "IconButton requires an accessible name (`aria-label`, `aria-labelledby`, or `title`) when rendering icon-only content.",

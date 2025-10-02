@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
+import { env } from "@/env/server";
+
 import {
   getGalleryPreviewRenderer,
   getGalleryPreviewAxisSummary,
@@ -16,8 +18,7 @@ import { cn } from "@/lib/utils";
 
 import { PREVIEW_SURFACE_CONTAINER_CLASSNAME } from "@/components/gallery/PreviewSurfaceClient";
 
-const SKIP_PREVIEW_RENDER =
-  process.env.GITHUB_PAGES === "true" || process.env.SKIP_PREVIEW_STATIC === "true";
+const SKIP_PREVIEW_RENDER = env.GITHUB_PAGES || env.SKIP_PREVIEW_STATIC;
 
 export const dynamic = "force-static";
 export const dynamicParams = false;

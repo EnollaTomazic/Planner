@@ -8,6 +8,7 @@
  * - Panels should set `aria-labelledby` to the controlling tab id.
  */
 
+import { env } from "@/env/client";
 import * as React from "react";
 import { useId } from "react";
 import { cn } from "@/lib/utils";
@@ -162,7 +163,7 @@ export default function TabBar<
       : undefined;
 
   React.useEffect(() => {
-    if (process.env.NODE_ENV !== "production") {
+    if (env.NODE_ENV !== "production") {
       if (!ariaLabelAttr && !ariaLabelledByAttr) {
         console.warn(
           "TabBar requires an ariaLabel or ariaLabelledBy prop to describe the tablist.",

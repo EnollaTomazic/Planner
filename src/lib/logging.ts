@@ -1,11 +1,13 @@
 // src/lib/logging.ts
 // Lightweight scoped logger used across client utilities.
 
+import { env } from "@/env/client";
+
 export type Logger = {
   warn: (message: string, ...details: unknown[]) => void;
 };
 
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = env.NODE_ENV === "production";
 
 function formatPrefix(scope: string): string {
   const trimmed = scope.trim();

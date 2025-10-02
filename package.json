@@ -25,8 +25,8 @@
     "lint:ci": "npm run lint -- --max-warnings=0",
     "typecheck": "tsx scripts/typecheck.ts",
     "typecheck:ci": "npm run typecheck -- --pretty false",
-    "test": "vitest",
-    "test:ci": "node --max-old-space-size=8192 ./node_modules/vitest/vitest.mjs run --reporter=default --reporter=junit --outputFile artifacts/unit/junit.xml --coverage --coverage.reporter=lcov --coverage.reporter=json-summary",
+    "test": "cross-env NODE_ENV=test vitest",
+    "test:ci": "cross-env NODE_ENV=test node --max-old-space-size=8192 ./node_modules/vitest/vitest.mjs run --reporter=default --reporter=junit --outputFile artifacts/unit/junit.xml --coverage --coverage.reporter=lcov --coverage.reporter=json-summary",
     "e2e:ci": "playwright test",
     "lint:design": "node -r ./scripts/setup-eslint-flat.cjs ./node_modules/eslint/bin/eslint.js --cache --cache-location .eslintcache --no-warn-ignored \"{app,src}/**/*.{js,jsx,ts,tsx}\"",
     "design-lint": "npm run lint:design",
@@ -53,7 +53,8 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "styled-jsx": "^5.1.1",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "zod": "^4.1.11"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
