@@ -12,6 +12,10 @@ import {
   FORM_CONTROL_STATE_IDS,
   FORM_PREVIEW_REQUIRED_STATE_IDS,
 } from "@/app/preview/forms/FormsPreviewMatrixClient";
+import {
+  AI_CONTROL_REQUIRED_STATE_IDS,
+  AI_CONTROL_STATE_IDS,
+} from "@/app/preview/ai-states/AIStatesPreviewMatrixClient";
 
 const expectStatesCover = (
   label: string,
@@ -42,6 +46,14 @@ describe("preview state coverage", () => {
     const required = FORM_PREVIEW_REQUIRED_STATE_IDS;
     for (const [control, states] of Object.entries(FORM_CONTROL_STATE_IDS)) {
       expectStatesCover(`form:${control}`, states, required);
+    }
+  });
+
+  it("covers required AI states", () => {
+    for (const [control, states] of Object.entries(AI_CONTROL_STATE_IDS)) {
+      const required =
+        AI_CONTROL_REQUIRED_STATE_IDS[control as keyof typeof AI_CONTROL_REQUIRED_STATE_IDS] ?? [];
+      expectStatesCover(`ai:${control}`, states, required);
     }
   });
 });
