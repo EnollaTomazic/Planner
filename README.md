@@ -106,6 +106,10 @@ pnpm run generate-tokens
 
 The script shows a progress bar and runs automatically before `pnpm run build`.
 
+## Profiling React performance
+
+Use the dedicated profiler workflow when you need detailed commit timing data. The `pnpm run profile` command runs the standard prebuild checks, enables the React profiler flags, and launches the dev server with Turbo for faster iteration. Profiling is blocked automatically when `SAFE_MODE` is active so CI and production builds cannot leak profiling bundles. See [docs/profiling.md](docs/profiling.md) for the full workflow.
+
 ## Contributing
 
 - Before committing, run `pnpm run verify-prompts` to confirm gallery coverage and `pnpm run check` to execute tests, lint, and type checks.

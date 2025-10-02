@@ -10,6 +10,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm run prebuild && tsx scripts/run-next.ts dev -p 3000",
+    "profile": "pnpm run prebuild && cross-env REACT_PROFILER=1 tsx scripts/run-next.ts dev -p 3000 --profiling",
     "prebuild": "tsx scripts/regen-if-needed.ts",
     "regen-ui": "tsx scripts/generate-ui-index.ts",
     "build-gallery-usage": "node --import tsx --import ./scripts/register-loaders.mjs scripts/build-gallery-usage.ts",
