@@ -3,8 +3,18 @@ import fs from "node:fs";
 const [reportPath = "audit-report.json"] = process.argv.slice(2);
 
 function readReport(path) {
+  if (!fs.existsSync(path)) {
+    throw new Error(`Audit report not found at ${path}`);
+  }
+
   const data = fs.readFileSync(path, "utf8");
-  return JSON.parse(data);
+  const trimmed = data.trim();
+
+  if (trimmed.length === 0) {
+    throw new Error(`Audit report at ${path} was empty`);
+  }
+
+  return JSON.parse(trimmed);
 }
 
 function formatSeverityTable(counts) {

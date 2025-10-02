@@ -62,7 +62,7 @@ jobs:
       - name: Audit dependencies
         run: |
           set +e
-          pnpm audit --severity-threshold=moderate --json > audit-report.json
+          pnpm audit --audit-level=moderate --json > audit-report.json
           AUDIT_STATUS=$?
           node scripts/audit-ci-report.mjs audit-report.json
           REPORT_STATUS=$?
