@@ -98,6 +98,8 @@ export { default as Sheet } from "./Sheet";
 export * from "./Sheet";
 export { default as Sidebar } from "./Sidebar";
 export * from "./Sidebar";
+export { default as SkipLink } from "./SkipLink";
+export * from "./SkipLink";
 export { default as Stack } from "./Stack";
 export * from "./Stack";
 export { default as Switcher } from "./Switcher";

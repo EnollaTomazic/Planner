@@ -13,11 +13,14 @@ import PreviewContentClient from "./PreviewContentClient";
 import PreviewThemeClient from "@/components/gallery/PreviewThemeClient";
 import { VARIANT_LABELS } from "@/lib/theme";
 import { cn } from "@/lib/utils";
+import { loadServerEnv } from "../../../../env/server";
 
 import { PREVIEW_SURFACE_CONTAINER_CLASSNAME } from "@/components/gallery/PreviewSurfaceClient";
 
+const { GITHUB_PAGES, SKIP_PREVIEW_STATIC } = loadServerEnv();
+
 const SKIP_PREVIEW_RENDER =
-  process.env.GITHUB_PAGES === "true" || process.env.SKIP_PREVIEW_STATIC === "true";
+  GITHUB_PAGES === "true" || SKIP_PREVIEW_STATIC === "true";
 
 export const dynamic = "force-static";
 export const dynamicParams = false;
