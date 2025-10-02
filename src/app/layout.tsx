@@ -13,7 +13,7 @@ import tokens from "../../tokens/tokens.js";
 import { loadServerEnv } from "../../env/server";
 import { resolveTokenColor } from "@/lib/color";
 import SiteChrome from "@/components/chrome/SiteChrome";
-import { CatCompanion, DecorLayer, PageShell } from "@/components/ui";
+import { CatCompanion, DecorLayer, PageShell, SkipLink } from "@/components/ui";
 import { withBasePath } from "@/lib/utils";
 import Script from "next/script";
 import ThemeProvider from "@/lib/theme-context";
@@ -192,12 +192,7 @@ export default async function RootLayout({
           data-organic-depth={organicDepthDataAttribute}
           data-glitch-landing={glitchLandingDataAttribute}
         >
-          <a
-            className="fixed left-[var(--space-4)] top-[var(--space-4)] z-50 inline-flex items-center rounded-[var(--radius-lg)] bg-background px-[var(--space-4)] py-[var(--space-2)] text-ui font-medium text-foreground shadow-outline-subtle outline-none transition-all duration-motion-sm ease-out opacity-0 -translate-y-full pointer-events-none focus-visible:translate-y-0 focus-visible:opacity-100 focus-visible:pointer-events-auto focus-visible:shadow-ring focus-visible:no-underline focus-visible:outline-none hover:shadow-ring focus-visible:active:translate-y-[var(--space-1)]"
-            href="#main-content"
-          >
-            Skip to main content
-          </a>
+          <SkipLink targetId="main-content" />
           <noscript>
             <div
               role="status"
@@ -227,7 +222,7 @@ export default async function RootLayout({
                 <SiteChrome>
                   <CatCompanion />
                   <div className="relative z-10">
-                    <main id="main-content" tabIndex={-1}>
+                    <main id="main-content" role="main" tabIndex={-1}>
                       {children}
                     </main>
                     <footer
