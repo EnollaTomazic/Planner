@@ -20,6 +20,7 @@ import ThemeProvider from "@/lib/theme-context";
 import { THEME_BOOTSTRAP_SCRIPT_PATH } from "@/lib/theme";
 import StyledJsxRegistry from "@/lib/styled-jsx-registry";
 import DepthThemeProvider from "@/lib/depth-theme-context";
+import { initializeObservability } from "@/lib/observability/sentry";
 import {
   depthThemeEnabled,
   glitchLandingEnabled,
@@ -138,6 +139,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  await initializeObservability();
+
   const depthThemeState = depthThemeEnabled;
   const organicDepthState = organicDepthEnabled;
   const glitchLandingState = glitchLandingEnabled;

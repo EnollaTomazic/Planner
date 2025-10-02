@@ -43,6 +43,7 @@
     "report:summary": "node scripts/report-summary.mjs"
   },
   "dependencies": {
+    "@sentry/nextjs": "^8.35.0",
     "@radix-ui/react-slot": "^1.2.3",
     "clsx": "^2.1.1",
     "framer-motion": "12.23.22",
