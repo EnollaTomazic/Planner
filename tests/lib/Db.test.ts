@@ -202,8 +202,13 @@ describe("Db", () => {
       expect(stringifySpy).toHaveBeenCalledTimes(1);
       expect(structuredCloneSpy).toHaveBeenCalledTimes(1);
       expect(warnSpy).toHaveBeenCalledWith(
-        `[planner:persistence] Skipping persistence for "${key}" because value could not be cloned.`,
-        value,
+        "[planner:persistence]",
+        expect.objectContaining({
+          level: "warn",
+          scope: "planner:persistence",
+          message: `Skipping persistence for "${key}" because value could not be cloned.`,
+          details: [expect.objectContaining({ id: 42 })],
+        }),
       );
 
       flushWriteLocal();
@@ -228,8 +233,13 @@ describe("Db", () => {
         scheduleWrite(key, value);
 
         expect(warnSpy).toHaveBeenCalledWith(
-          `[planner:persistence] Skipping persistence for "${key}" because value.self contains a circular reference.`,
-          value,
+          "[planner:persistence]",
+          expect.objectContaining({
+            level: "warn",
+            scope: "planner:persistence",
+            message: `Skipping persistence for "${key}" because value.self contains a circular reference.`,
+            details: [expect.objectContaining({ self: "[Circular]" })],
+          }),
         );
 
         flushWriteLocal();

@@ -207,8 +207,18 @@ describe("copyText", () => {
     expect(remove).toHaveBeenCalledTimes(1);
     expect(classList.add).toHaveBeenCalledWith("clipboard-copy-buffer");
     expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining("[planner:clipboard] Failed to copy text"),
-      execError,
+      "[planner:clipboard]",
+      expect.objectContaining({
+        level: "warn",
+        scope: "planner:clipboard",
+        message: "Failed to copy text with the available clipboard strategies.",
+        details: [
+          expect.objectContaining({
+            name: "Error",
+            message: "execCommand failure",
+          }),
+        ],
+      }),
     );
   });
 });
