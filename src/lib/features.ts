@@ -49,8 +49,7 @@ const svgNumericFilters = parseBooleanFlag(rawSvgNumericFilters, true);
 const depthThemeEnabled = parseBooleanFlag(rawDepthTheme, false);
 const organicDepthEnabled = parseBooleanFlag(rawOrganicDepth, false);
 const glitchLandingEnabled = parseBooleanFlag(rawGlitchLanding, true);
-const safeModeSource = rawSafeMode ?? (typeof process !== "undefined" ? process.env.SAFE_MODE : undefined);
-const safeModeEnabled = parseBooleanFlag(safeModeSource, false);
+const safeModeEnabled = parseBooleanFlag(rawSafeMode, false);
 
 export function isSafeModeEnabled(): boolean {
   return safeModeEnabled;
