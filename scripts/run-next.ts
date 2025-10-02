@@ -21,9 +21,52 @@ if (!fs.existsSync(nextBinary)) {
   process.exit(1);
 }
 
+const normalizeBoolean = (value?: string) => {
+  if (typeof value !== "string") {
+    return false;
+  }
+
+  switch (value.trim().toLowerCase()) {
+    case "1":
+    case "true":
+    case "yes":
+    case "on":
+      return true;
+    default:
+      return false;
+  }
+};
+
 const [command = "dev", ...args] = process.argv.slice(2);
 
-const child = spawn(nextBinary, [command, ...args], {
+const profilerEnabled = normalizeBoolean(process.env.REACT_PROFILER);
+const safeModeEnabled = normalizeBoolean(process.env.SAFE_MODE);
+
+if (profilerEnabled && safeModeEnabled) {
+  console.error(
+    "React profiling is disabled while SAFE_MODE is active. Disable SAFE_MODE locally before running the profiler to avoid leaking profiling builds into production.",
+  );
+  process.exit(1);
+}
+
+const forwardedArgs = [...args];
+
+if (profilerEnabled) {
+  const hasProfilingFlag = forwardedArgs.includes("--profiling");
+  const hasTurboToggle = forwardedArgs.some((arg) =>
+    ["--turbo", "--no-turbo"].includes(arg),
+  );
+
+  if (!hasProfilingFlag) {
+    forwardedArgs.push("--profiling");
+  }
+
+  if (!hasTurboToggle && command === "dev") {
+    forwardedArgs.push("--turbo");
+  }
+}
+
+const child = spawn(nextBinary, [command, ...forwardedArgs], {
   cwd: rootDir,
   stdio: "inherit",
   env: process.env,
