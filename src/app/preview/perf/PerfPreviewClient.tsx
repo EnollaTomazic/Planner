@@ -8,6 +8,8 @@ import {
   Progress,
   VirtualizedList,
 } from "@/components/ui";
+import type { MetricsPayload } from "@/metrics";
+import { createMockMetricsFeed } from "@/metrics/fixtures";
 import { spacingTokens } from "@/lib/tokens";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +17,7 @@ const ROW_HEIGHT = spacingTokens[6] ?? 48;
 const STATIC_RENDER_THRESHOLD = 32;
 const MAX_CHART_POINTS = 120;
 const WINDOW_POINTS = 240;
+const METRICS_FEED = createMockMetricsFeed(5);
 
 type BacklogItem = {
   readonly id: number;
@@ -114,10 +117,113 @@ const LOAD_SERIES = createLoadSeries();
 export default function PerfPreviewClient() {
   return (
     <div className="space-y-[var(--space-6)]">
+      <MetricsFeedPanel payloads={METRICS_FEED} />
       <VirtualizedBacklogPanel items={BACKLOG_ITEMS} />
       <LoadWindowPanel points={LOAD_SERIES} />
     </div>
   );
+}
+
+const RATING_TONE: Record<
+  NonNullable<MetricsPayload["metric"]["rating"]>,
+  BadgeTone
+> = {
+  good: "primary",
+  "needs-improvement": "accent",
+  poor: "bot",
+};
+
+function MetricsFeedPanel({ payloads }: { readonly payloads: readonly MetricsPayload[] }) {
+  return (
+    <section aria-labelledby="perf-metrics-heading" className="space-y-[var(--space-4)]" data-perf-panel="metrics-feed">
+      <header className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
+        <div className="space-y-[var(--space-1)]">
+          <h2 id="perf-metrics-heading" className="text-heading-sm font-semibold tracking-[-0.01em]">
+            Web vitals dispatch
+          </h2>
+          <p className="max-w-3xl text-label text-muted-foreground">
+            Metrics helpers normalize entries for previews, tests, and production reporting so tone swatches stay aligned
+            across themes.
+          </p>
+        </div>
+        <Badge tone="support" className="uppercase tracking-[0.12em]">
+          {payloads.length} captured
+        </Badge>
+      </header>
+      <div className="grid gap-[var(--space-3)] sm:grid-cols-2">
+        {payloads.map((payload) => {
+          const rating = payload.metric.rating ?? "good";
+          return (
+            <article
+              key={`${payload.metric.id}-${payload.timestamp}`}
+              className="space-y-[var(--space-3)] rounded-[var(--radius-lg)] border border-border/40 bg-surface/60 p-[var(--space-4)]"
+            >
+              <header className="flex items-center justify-between gap-[var(--space-3)]">
+                <div className="space-y-[var(--space-1)]">
+                  <p className="text-caption uppercase tracking-[0.12em] text-muted-foreground">{payload.page}</p>
+                  <h3 className="text-body font-semibold text-foreground">{payload.metric.name}</h3>
+                </div>
+                <Badge tone={RATING_TONE[rating]}>{formatRatingLabel(rating)}</Badge>
+              </header>
+              <dl className="grid gap-[var(--space-2)] text-label text-muted-foreground">
+                <div className="flex flex-wrap items-center justify-between gap-[var(--space-2)]">
+                  <dt className="uppercase tracking-[0.12em]">Value</dt>
+                  <dd className="text-body font-medium text-foreground">{formatMetricValue(payload.metric)}</dd>
+                </div>
+                {payload.metric.delta !== undefined ? (
+                  <div className="flex flex-wrap items-center justify-between gap-[var(--space-2)]">
+                    <dt className="uppercase tracking-[0.12em]">Delta</dt>
+                    <dd className="text-body font-medium text-foreground">{formatDelta(payload.metric.delta)}</dd>
+                  </div>
+                ) : null}
+                <div className="flex flex-wrap items-center justify-between gap-[var(--space-2)]">
+                  <dt className="uppercase tracking-[0.12em]">Recorded</dt>
+                  <dd className="font-medium text-foreground">{new Date(payload.timestamp).toLocaleTimeString()}</dd>
+                </div>
+              </dl>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function formatRatingLabel(rating: NonNullable<MetricsPayload["metric"]["rating"]>): string {
+  return rating
+    .split("-")
+    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+    .join(" ");
+}
+
+function formatMetricValue(metric: MetricsPayload["metric"]): string {
+  switch (metric.name) {
+    case "CLS":
+      return metric.value.toFixed(2);
+    case "FID":
+    case "TTFB":
+      return `${Math.round(metric.value)}ms`;
+    case "LCP":
+      return `${(metric.value / 1000).toFixed(2)}s`;
+    default:
+      return `${metric.value}`;
+  }
+}
+
+function formatDelta(delta: number): string {
+  if (Number.isNaN(delta)) {
+    return "0";
+  }
+
+  if (delta >= 1000) {
+    return `${(delta / 1000).toFixed(2)}s`;
+  }
+
+  if (delta >= 1) {
+    return `${Math.round(delta)}ms`;
+  }
+
+  return delta.toFixed(2);
 }
 
 function VirtualizedBacklogPanel({ items }: { readonly items: readonly BacklogItem[] }) {

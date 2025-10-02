@@ -37,7 +37,8 @@ export default function PerfPreviewPage() {
         <SectionCardBody className="space-y-[var(--space-6)] text-ui text-muted-foreground">
           <p>
             Preview how Planner keeps large datasets responsive. Lists flip to windowed rendering when row counts
-            spike, while charts downsample heavy series so Playwright and axe sweeps stay deterministic across themes.
+            spike, charts downsample heavy series, and shared Web Vitals helpers keep preview/test payloads in sync so
+            Playwright and axe sweeps stay deterministic across themes.
           </p>
           <PerfPreviewClient />
         </SectionCardBody>
