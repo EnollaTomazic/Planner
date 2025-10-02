@@ -67,7 +67,7 @@ export default function Toggle({
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--toggle-focus-ring)] focus-visible:shadow-[var(--toggle-focus-glow)]",
         "disabled:opacity-disabled disabled:pointer-events-none",
         "data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
-        "before:pointer-events-none before:absolute before:inset-[calc(var(--space-1)/2)] before:rounded-full before:bg-[var(--card-overlay-scanlines)] before:opacity-0 before:transition-opacity before:duration-quick before:ease-out",
+        "before:pointer-events-none before:absolute before:inset-[calc(var(--space-1)/2)] before:rounded-full before:bg-[var(--card-overlay-scanlines)] before:opacity-0 before:transition-opacity before:duration-motion-sm before:ease-out",
         "hover:before:opacity-70 focus-visible:before:opacity-80 active:before:opacity-90",
         STATE_TOKEN_CLASSES,
         className,
@@ -84,7 +84,7 @@ export default function Toggle({
         aria-hidden
         className={cn(
           styles.indicator,
-          "absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-quick ease-snap motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-disabled group-data-[loading=true]:opacity-loading group-focus-visible:ring-2 group-focus-visible:ring-[var(--toggle-focus-ring)] group-hover:[--toggle-indicator-shadow:var(--shadow-glow-md)] group-active:[--toggle-indicator-shadow:var(--shadow-glow-lg)] group-focus-visible:[--toggle-indicator-shadow:var(--shadow-glow-lg)]",
+          "absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-motion-sm ease-motion-glitch motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-disabled group-data-[loading=true]:opacity-loading group-focus-visible:ring-2 group-focus-visible:ring-[var(--toggle-focus-ring)] group-hover:[--toggle-indicator-shadow:var(--shadow-glow-md)] group-active:[--toggle-indicator-shadow:var(--shadow-glow-lg)] group-focus-visible:[--toggle-indicator-shadow:var(--shadow-glow-lg)]",
         )}
       />
 

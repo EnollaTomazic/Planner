@@ -16,7 +16,7 @@
   background: var(--badge-surface);
   transition-property: color, background-color, border-color, box-shadow, transform,
     filter;
-  transition-duration: var(--dur-quick);
+  transition-duration: var(--motion-duration-sm);
   transition-timing-function: var(--ease-out);
 }
 

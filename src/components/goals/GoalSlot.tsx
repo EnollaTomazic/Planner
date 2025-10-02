@@ -134,7 +134,7 @@ export default function GoalSlot({
                   <Check aria-hidden className={ICON_MD} />
                 </IconButton>
               <div
-                className="pointer-events-none absolute bottom-[var(--space-1)] left-[var(--space-1)] flex items-center gap-[var(--space-1)] opacity-0 transition-opacity duration-quick ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100"
+                className="pointer-events-none absolute bottom-[var(--space-1)] left-[var(--space-1)] flex items-center gap-[var(--space-1)] opacity-0 transition-opacity duration-motion-sm ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100"
               >
                 <IconButton
                   ref={editButtonRef}

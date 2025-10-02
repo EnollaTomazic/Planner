@@ -29,5 +29,5 @@
       transparent 80%
     );
   opacity: var(--drip-edge-opacity, 1);
-  transition: opacity var(--dur-quick) var(--ease-out);
+  transition: opacity var(--motion-duration-sm) var(--ease-out);
 }

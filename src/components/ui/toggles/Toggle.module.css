@@ -14,13 +14,16 @@
   transform: translateX(var(--toggle-indicator-translate));
   background: var(--toggle-indicator-gradient);
   box-shadow: var(--toggle-indicator-shadow, var(--shadow-glow-sm));
-  transition: transform var(--dur-quick) var(--ease-snap, ease-out);
+  transition:
+    transform
+    var(--motion-duration-sm)
+    var(--motion-ease-glitch, var(--ease-motion-glitch, ease-out));
 }
 
 .leftLabel,
 .rightLabel {
   text-shadow: none;
-  transition: text-shadow var(--dur-quick) var(--ease-out, ease-out);
+  transition: text-shadow var(--motion-duration-sm) var(--ease-out, ease-out);
 }
 
 .leftLabel[data-active="true"] {

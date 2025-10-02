@@ -91,7 +91,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
 
     const slotWellSurface = cn(
       "group/hero-slot relative isolate flex w-full min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-lg border border-border/45 bg-card/70 px-[var(--space-4)] py-[var(--space-3)] text-foreground",
-      "[--neo-inset-shadow:var(--depth-shadow-inner)] neo-inset hero-focus transition-[box-shadow,transform] duration-chill ease-out",
+      "[--neo-inset-shadow:var(--depth-shadow-inner)] neo-inset hero-focus transition-[box-shadow,transform] duration-motion-md ease-out",
       "motion-reduce:transform-none motion-reduce:transition-none focus-within:ring-1 focus-within:ring-ring/60",
       "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:content-[''] before:rounded-[inherit] before:bg-hero-slot-highlight before:opacity-70 before:mix-blend-screen",
       "after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-[''] after:rounded-[inherit] after:translate-x-[calc(var(--space-1)/2)] after:translate-y-[calc(var(--space-1)/2)] after:bg-hero-slot-shadow after:shadow-[var(--hero-slot-shadow,var(--depth-shadow-soft))] after:opacity-65",

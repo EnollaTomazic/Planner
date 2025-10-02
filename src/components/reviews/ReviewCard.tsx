@@ -34,7 +34,7 @@ export default function ReviewCard({
       aria-busy={isLoading ? true : undefined}
       className={cn(
         "group rounded-card r-card-lg border border-border bg-card/85 p-[var(--space-3)]",
-        "transition-colors transition-shadow duration-chill focus-visible:outline-none",
+        "transition-colors transition-shadow duration-motion-md focus-visible:outline-none",
         "shadow-depth-soft",
         "hover:border-ring/60 hover:bg-card hover:shadow-ring",
         "focus-visible:border-ring focus-visible:bg-card focus-visible:ring-2 focus-visible:ring-ring focus-visible:shadow-ring",

@@ -83,11 +83,11 @@
   letter-spacing: inherit;
   cursor: pointer;
   transition:
-    color var(--dur-quick) ease-out,
-    background var(--dur-quick) ease-out,
-    box-shadow var(--dur-quick) ease-out,
-    transform var(--dur-quick) ease-out,
-    opacity var(--dur-quick) ease-out;
+    color var(--motion-duration-sm) ease-out,
+    background var(--motion-duration-sm) ease-out,
+    box-shadow var(--motion-duration-sm) ease-out,
+    transform var(--motion-duration-sm) ease-out,
+    opacity var(--motion-duration-sm) ease-out;
   text-decoration: none;
 }
 
@@ -103,7 +103,7 @@
   );
   pointer-events: none;
   opacity: 0;
-  transition: opacity var(--dur-quick) ease-out;
+  transition: opacity var(--motion-duration-sm) ease-out;
   z-index: 0;
 }
 

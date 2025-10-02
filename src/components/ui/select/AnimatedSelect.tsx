@@ -106,7 +106,7 @@ const AnimatedSelect = React.forwardRef<
     fixedStyles,
     reduceMotion,
     yOffset,
-    durQuick,
+    motionDurationSm,
   } = useAnimatedSelect({
     items,
     value,
@@ -179,7 +179,7 @@ const AnimatedSelect = React.forwardRef<
             fixedStyles={fixedStyles}
             placement={placement}
             reduceMotion={reduceMotion}
-            durQuick={durQuick}
+            motionDurationSm={motionDurationSm}
             yOffset={yOffset}
           />, 
           document.body

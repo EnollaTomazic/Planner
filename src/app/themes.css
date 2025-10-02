@@ -80,10 +80,14 @@
   --card-hairline: hsl(var(--border));
   --hairline-w: 1px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-motion-glitch: cubic-bezier(0.2, 0.8, 0.2, 1);
   --dur-quick: 140ms;
   --dur-chill: 220ms;
   --dur-slow: 420ms;
+  --motion-duration-sm: var(--dur-quick);
+  --motion-duration-md: var(--dur-chill);
+  --motion-duration-lg: var(--dur-slow);
+  --motion-ease-glitch: var(--ease-motion-glitch);
   --control-h-xs: 24px;
   --control-h-sm: 32px;
   --control-h-md: 40px;
@@ -332,7 +336,9 @@
   --card-elev-3: var(--shadow-outline-subtle), var(--shadow-outer-lg);
   --glow-ring-sm: 0 0 0 calc(var(--spacing-0-25)) hsl(var(--ring) / 0.45);
   --glow-ring-md: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-2) hsl(var(--ring) / 0.2);
-  --glow-pulse: glow-pulse var(--dur-slow) var(--ease-out) infinite alternate;
+  --glow-pulse:
+    glow-pulse var(--motion-duration-lg, var(--dur-slow))
+      var(--ease-out) infinite alternate;
   --blob-surface: color-mix(in oklab, hsl(var(--surface)) 70%, hsl(var(--surface-2)) 30%);
   --drip-surface: color-mix(in oklab, hsl(var(--accent)) 18%, hsl(var(--background)) 82%);
   --gradient-blob-primary: radial-gradient(120% 120% at 50% 10%, hsl(var(--surface) / 0.85), hsl(var(--surface-2) / 0.35), transparent 85%);
@@ -413,7 +419,9 @@
   :root {
     --glitch-scanline: glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite;
     --glitch-rgb-shift: drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45));
-    --glow-pulse: glow-pulse var(--dur-slow) var(--ease-out) infinite alternate;
+    --glow-pulse:
+      glow-pulse var(--motion-duration-lg, var(--dur-slow))
+        var(--ease-out) infinite alternate;
   }
 }
 @media (prefers-reduced-motion: reduce) {

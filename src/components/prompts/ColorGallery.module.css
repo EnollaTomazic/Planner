@@ -4,7 +4,7 @@
   border-radius: var(--radius-md);
   border: var(--hairline-w) solid var(--card-hairline);
   background: var(--swatch-color, transparent);
-  transition: background var(--dur-quick) var(--ease-out);
+  transition: background var(--motion-duration-sm) var(--ease-out);
 }
 
 .paletteSwatch {
@@ -15,8 +15,8 @@
   background: var(--swatch-color, transparent);
   box-shadow: var(--swatch-shadow, none);
   transition:
-    background var(--dur-quick) var(--ease-out),
-    box-shadow var(--dur-quick) var(--ease-out);
+    background var(--motion-duration-sm) var(--ease-out),
+    box-shadow var(--motion-duration-sm) var(--ease-out);
 }
 
 .statusCard {
@@ -25,6 +25,6 @@
   background: var(--status-background, transparent);
   box-shadow: var(--status-shadow, var(--elevation-2));
   transition:
-    background var(--dur-quick) var(--ease-out),
-    box-shadow var(--dur-quick) var(--ease-out);
+    background var(--motion-duration-sm) var(--ease-out),
+    box-shadow var(--motion-duration-sm) var(--ease-out);
 }

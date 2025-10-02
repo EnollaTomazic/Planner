@@ -16,8 +16,8 @@
   opacity: 0;
   visibility: hidden;
   transition:
-    opacity var(--dur-slow) var(--ease-out),
-    visibility 0s linear var(--dur-slow);
+    opacity var(--motion-duration-lg) var(--ease-out),
+    visibility 0s linear var(--motion-duration-lg);
 }
 
 .content[data-state="ready"] {

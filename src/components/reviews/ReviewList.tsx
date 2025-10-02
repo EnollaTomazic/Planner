@@ -174,14 +174,14 @@ export default function ReviewList({
 
   const containerClass = cn(
     "w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle",
-    "ds-card-pad backdrop-blur-sm transition-colors transition-shadow duration-chill",
+    "ds-card-pad backdrop-blur-sm transition-colors transition-shadow duration-motion-md",
     interactiveRingClass,
     className,
   );
 
   const emptyContainerClass = cn(
     "w-full mx-auto rounded-card r-card-lg text-card-foreground",
-    "ds-card-pad backdrop-blur-sm transition-colors transition-shadow duration-chill",
+    "ds-card-pad backdrop-blur-sm transition-colors transition-shadow duration-motion-md",
     "relative isolate overflow-hidden glitch-card",
     interactiveRingClass,
     className,

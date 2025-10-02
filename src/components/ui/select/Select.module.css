@@ -8,8 +8,8 @@
 
 .caret {
   transition:
-    transform var(--dur-quick) var(--ease-out),
-    filter var(--dur-quick) var(--ease-out);
+    transform var(--motion-duration-sm) var(--ease-out),
+    filter var(--motion-duration-sm) var(--ease-out);
 }
 
 .caretOpen {

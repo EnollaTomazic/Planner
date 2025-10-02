@@ -236,9 +236,9 @@ body.fx-gifbars::before {
     inline-size: min(100%, var(--preview-cq-sm));
     max-inline-size: var(--preview-cq-sm);
     margin-inline: auto;
-    transition: inline-size var(--dur-quick) var(--ease-out),
-      width var(--dur-quick) var(--ease-out),
-      max-inline-size var(--dur-quick) var(--ease-out);
+    transition: inline-size var(--motion-duration-sm) var(--ease-out),
+      width var(--motion-duration-sm) var(--ease-out),
+      max-inline-size var(--motion-duration-sm) var(--ease-out);
   }
 
   .cq-md {
@@ -246,9 +246,9 @@ body.fx-gifbars::before {
     inline-size: min(100%, var(--preview-cq-md));
     max-inline-size: var(--preview-cq-md);
     margin-inline: auto;
-    transition: inline-size var(--dur-quick) var(--ease-out),
-      width var(--dur-quick) var(--ease-out),
-      max-inline-size var(--dur-quick) var(--ease-out);
+    transition: inline-size var(--motion-duration-sm) var(--ease-out),
+      width var(--motion-duration-sm) var(--ease-out),
+      max-inline-size var(--motion-duration-sm) var(--ease-out);
   }
 
   .cq-lg {
@@ -256,9 +256,9 @@ body.fx-gifbars::before {
     inline-size: min(100%, var(--preview-cq-lg));
     max-inline-size: var(--preview-cq-lg);
     margin-inline: auto;
-    transition: inline-size var(--dur-quick) var(--ease-out),
-      width var(--dur-quick) var(--ease-out),
-      max-inline-size var(--dur-quick) var(--ease-out);
+    transition: inline-size var(--motion-duration-sm) var(--ease-out),
+      width var(--motion-duration-sm) var(--ease-out),
+      max-inline-size var(--motion-duration-sm) var(--ease-out);
   }
 }
 
@@ -538,7 +538,7 @@ html.bg-intense body::after {
   background-position: center;
   mix-blend-mode: lighten;
   opacity: var(--glitch-root-overlay-opacity);
-  transition: opacity var(--dur-slow) var(--ease-out);
+  transition: opacity var(--motion-duration-lg) var(--ease-out);
 }
 .bg-aurora-layers {
   background:
@@ -591,7 +591,7 @@ html.bg-intense body::after {
     background-position: center;
     mix-blend-mode: lighten;
     opacity: 0;
-    transition: opacity var(--dur-quick) var(--ease-out);
+    transition: opacity var(--motion-duration-sm) var(--ease-out);
     filter: hue-rotate(0deg);
     clip-path: inset(0 0 0 0);
     transform: translate(0, 0);
@@ -627,10 +627,10 @@ html.bg-intense body::after {
     isolation: isolate;
     color: hsl(var(--card-foreground));
     transition:
-      transform var(--dur-quick) var(--ease-out),
-      box-shadow var(--dur-quick) var(--ease-out),
-      border-color var(--dur-quick) var(--ease-out),
-      background var(--dur-quick) var(--ease-out);
+      transform var(--motion-duration-sm) var(--ease-out),
+      box-shadow var(--motion-duration-sm) var(--ease-out),
+      border-color var(--motion-duration-sm) var(--ease-out),
+      background var(--motion-duration-sm) var(--ease-out);
     will-change: transform, box-shadow;
   }
   .card-neo {
@@ -675,7 +675,7 @@ html.bg-intense body::after {
     mask-composite: exclude;
     opacity: 0.45;
     pointer-events: none;
-    transition: opacity var(--dur-quick) var(--ease-out);
+    transition: opacity var(--motion-duration-sm) var(--ease-out);
   }
   .card-neo::after,
   .card-neo-soft::after {
@@ -687,7 +687,7 @@ html.bg-intense body::after {
     background: var(--card-overlay-scanlines);
     mix-blend-mode: soft-light;
     opacity: 0;
-    transition: opacity var(--dur-quick) var(--ease-out);
+    transition: opacity var(--motion-duration-sm) var(--ease-out);
   }
 
   .neo-card__overlay {
@@ -950,8 +950,8 @@ html.bg-intense body::after {
       0 0 calc(var(--space-5) + var(--spacing-0-25)) hsl(var(--accent) / 0.6),
       0 0 calc(var(--space-7) + var(--spacing-0-5)) hsl(var(--accent-2) / 0.4);
     transition:
-      transform var(--dur-quick) var(--ease-out),
-      filter var(--dur-quick);
+      transform var(--motion-duration-sm) var(--ease-out),
+      filter var(--motion-duration-sm);
   }
   .btn-glitch:hover {
     filter: brightness(1.05);
@@ -964,8 +964,8 @@ html.bg-intense body::after {
     box-shadow: 0 calc(var(--space-2) - var(--spacing-0-5))
       calc(var(--space-4) + var(--spacing-0-5)) hsl(var(--shadow-color) / 0.18);
     transition:
-      transform var(--dur-quick) var(--ease-out),
-      box-shadow var(--dur-quick);
+      transform var(--motion-duration-sm) var(--ease-out),
+      box-shadow var(--motion-duration-sm);
   }
   .btn-lift:hover {
     box-shadow: 0 calc(var(--space-3) - var(--spacing-0-5)) var(--space-5)
@@ -988,9 +988,9 @@ html.bg-intense body::after {
     border-color: hsl(var(--card-hairline));
     color: hsl(var(--foreground));
     transition:
-      box-shadow var(--dur-quick),
-      border-color var(--dur-quick),
-      background var(--dur-quick);
+      box-shadow var(--motion-duration-sm),
+      border-color var(--motion-duration-sm),
+      background var(--motion-duration-sm);
     display: inline-flex;
     align-items: center;
   }
@@ -1265,7 +1265,7 @@ html.bg-intense body::after {
   border-radius: inherit;
   background: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--accent-2)));
   background-size: 200% 100%;
-  transition: width var(--dur-quick) var(--ease-out);
+  transition: width var(--motion-duration-sm) var(--ease-out);
   pointer-events: none;
 }
 
@@ -2441,8 +2441,8 @@ textarea:-webkit-autofill {
 .lucide {
   color: hsl(var(--muted-foreground));
   transition:
-    color var(--dur-quick) var(--ease-out),
-    filter var(--dur-quick) var(--ease-out);
+    color var(--motion-duration-sm) var(--ease-out),
+    filter var(--motion-duration-sm) var(--ease-out);
 }
 
 .lucide:hover,
@@ -2631,10 +2631,10 @@ a:active .lucide {
   }
 
   .anim-in {
-    animation: fadeSlideIn var(--dur-chill) var(--ease-out) both;
+    animation: fadeSlideIn var(--motion-duration-md) var(--ease-out) both;
   }
   .anim-pop {
-    animation: popIn var(--dur-quick) var(--ease-out) both;
+    animation: popIn var(--motion-duration-sm) var(--ease-out) both;
   }
 
   .animate-glx-flicker {
@@ -2662,7 +2662,7 @@ a:active .lucide {
       var(--skeleton-fill, hsl(var(--foreground) / 0.08)),
       transparent
     );
-    animation: shimmer var(--dur-slow) linear infinite;
+    animation: shimmer var(--motion-duration-lg) linear infinite;
   }
 
   .toolbar {

@@ -87,7 +87,7 @@ export default function ThemeCycleControl(): React.JSX.Element {
       <button
         type="button"
         onClick={handleCycle}
-        className="inline-flex items-center gap-[var(--space-1)] rounded-full border border-border bg-surface px-[var(--space-3)] py-[var(--space-1)] font-medium text-foreground transition-colors duration-quick ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 active:text-[hsl(var(--accent-contrast))]"
+        className="inline-flex items-center gap-[var(--space-1)] rounded-full border border-border bg-surface px-[var(--space-3)] py-[var(--space-1)] font-medium text-foreground transition-colors duration-motion-sm ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 active:text-[hsl(var(--accent-contrast))]"
       >
         Cycle theme
       </button>

@@ -76,7 +76,7 @@
   --card-hairline: hsl(var(--border));
   --hairline-w: 1px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-motion-glitch: cubic-bezier(0.2, 0.8, 0.2, 1);
   --dur-quick: 140ms;
   --dur-chill: 220ms;
   --dur-slow: 420ms;
@@ -378,6 +378,10 @@
   --stat-good: var(--success);
   --stat-warn: var(--warning);
   --stat-bad: var(--danger);
+  --motion-duration-sm: var(--dur-quick);
+  --motion-duration-md: var(--dur-chill);
+  --motion-duration-lg: var(--dur-slow);
+  --motion-ease-glitch: var(--ease-motion-glitch);
   --spacing-0-125: calc(var(--spacing-1) / 8);
   --spacing-0-25: calc(var(--spacing-1) / 4);
   --spacing-0-5: calc(var(--spacing-1) / 2);

@@ -227,7 +227,7 @@ function normalizeSlot(value: HeroSlotInput | undefined): HeroSlot | null {
 }
 
 const slotWellBaseClass =
-  "hero-slot-well group/hero-slot relative isolate flex min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-md bg-card/75 px-[var(--space-3)] py-[var(--space-2)] [--neo-inset-shadow:var(--depth-shadow-inner)] neo-inset hero-focus transition-[box-shadow,transform] duration-chill ease-out motion-reduce:transform-none motion-reduce:transition-none focus-within:ring-1 focus-within:ring-ring/60 before:pointer-events-none before:absolute before:inset-0 before:z-0 before:content-[''] before:rounded-[inherit] before:bg-hero-slot-highlight before:opacity-70 before:mix-blend-screen after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-[''] after:rounded-[inherit] after:translate-x-[calc(var(--space-1)/2)] after:translate-y-[calc(var(--space-1)/2)] after:bg-hero-slot-shadow after:shadow-[var(--hero-slot-shadow,var(--depth-shadow-soft))] after:opacity-65 hover:[--neo-inset-shadow:var(--depth-shadow-soft)] focus-visible:[--neo-inset-shadow:var(--depth-shadow-soft)] focus-within:[--neo-inset-shadow:var(--depth-shadow-soft)] hover:-translate-y-[var(--hairline-w)] focus-visible:-translate-y-[var(--hairline-w)] focus-within:-translate-y-[var(--hairline-w)]";
+  "hero-slot-well group/hero-slot relative isolate flex min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-md bg-card/75 px-[var(--space-3)] py-[var(--space-2)] [--neo-inset-shadow:var(--depth-shadow-inner)] neo-inset hero-focus transition-[box-shadow,transform] duration-motion-md ease-out motion-reduce:transform-none motion-reduce:transition-none focus-within:ring-1 focus-within:ring-ring/60 before:pointer-events-none before:absolute before:inset-0 before:z-0 before:content-[''] before:rounded-[inherit] before:bg-hero-slot-highlight before:opacity-70 before:mix-blend-screen after:pointer-events-none after:absolute after:inset-0 after:z-0 after:content-[''] after:rounded-[inherit] after:translate-x-[calc(var(--space-1)/2)] after:translate-y-[calc(var(--space-1)/2)] after:bg-hero-slot-shadow after:shadow-[var(--hero-slot-shadow,var(--depth-shadow-soft))] after:opacity-65 hover:[--neo-inset-shadow:var(--depth-shadow-soft)] focus-visible:[--neo-inset-shadow:var(--depth-shadow-soft)] focus-within:[--neo-inset-shadow:var(--depth-shadow-soft)] hover:-translate-y-[var(--hairline-w)] focus-visible:-translate-y-[var(--hairline-w)] focus-within:-translate-y-[var(--hairline-w)]";
 
 const slotBareBaseClass =
   "group/hero-slot relative isolate flex min-w-0 flex-col";
@@ -494,7 +494,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
     ) : null;
 
     const haloClasses =
-      "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-slow before:ease-out before:content-[''] motion-reduce:before:transition-none";
+      "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-motion-lg before:ease-out before:content-[''] motion-reduce:before:transition-none";
 
     return (
       <>

@@ -61,7 +61,7 @@ const ReviewSliderTrack = ({
       <div
         className={cn(
           "relative h-[var(--space-2)] w-full overflow-hidden rounded-full bg-muted shadow-[var(--slider-track-shadow)]",
-          "before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:bg-[var(--card-overlay-scanlines)] before:opacity-0 before:transition-opacity before:duration-quick before:ease-out",
+          "before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:bg-[var(--card-overlay-scanlines)] before:opacity-0 before:transition-opacity before:duration-motion-sm before:ease-out",
           isInteractive
             ? "group-hover/slider:before:opacity-70 group-active/slider:before:opacity-90 group-focus-visible/slider:before:opacity-80"
             : undefined,
@@ -71,12 +71,12 @@ const ReviewSliderTrack = ({
         <div
           className={cn(
             "absolute left-0 top-0 h-[var(--space-2)] rounded-full [background:var(--slider-fill-background)] shadow-[var(--slider-fill-shadow)]",
-            "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[--slider-fill-tint] after:opacity-80 after:transition-colors after:duration-quick after:ease-out",
+            "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[--slider-fill-tint] after:opacity-80 after:transition-colors after:duration-motion-sm after:ease-out",
             variant === "display" ? "progress-fill" : undefined,
             styles.fill,
             isInteractive &&
               cn(
-                "ring-1 ring-transparent transition-[box-shadow,opacity] duration-quick ease-out",
+                "ring-1 ring-transparent transition-[box-shadow,opacity] duration-motion-sm ease-out",
                 "group-hover/slider:[--slider-fill-shadow:var(--slider-fill-shadow-hover)] group-active/slider:[--slider-fill-shadow:var(--slider-fill-shadow-active)]",
                 "group-hover/slider:after:bg-[--slider-fill-tint-hover] group-active/slider:after:bg-[--slider-fill-tint-active]",
                 "group-focus-visible/slider:ring-[var(--slider-focus-ring)]",
@@ -91,7 +91,7 @@ const ReviewSliderTrack = ({
             styles.knob,
             isInteractive &&
               cn(
-                "transition-[background-color,border-color,box-shadow] duration-quick ease-out",
+                "transition-[background-color,border-color,box-shadow] duration-motion-sm ease-out",
                 "group-hover/slider:bg-[--slider-knob-hover-surface] group-active/slider:bg-[--slider-knob-active-surface] group-hover/slider:border-transparent group-active/slider:border-transparent",
                 "group-hover/slider:[--slider-knob-shadow:var(--slider-knob-shadow-hover)] group-active/slider:[--slider-knob-shadow:var(--slider-knob-shadow-active)]",
                 "group-focus-visible/slider:ring-2 group-focus-visible/slider:ring-[var(--slider-knob-focus-ring)] group-focus-visible/slider:shadow-[var(--slider-knob-shadow-active)]",

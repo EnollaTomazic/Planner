@@ -12,14 +12,14 @@ const CHIP_CLASSNAME = cn(
   "min-w-0 max-w-full truncate text-left overflow-hidden text-ellipsis",
   "hover:bg-muted/28",
   "focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]",
-  "transition-colors duration-quick ease-out motion-reduce:transition-none",
+  "transition-colors duration-motion-sm ease-out motion-reduce:transition-none",
 );
 
 const TOOLTIP_CLASSNAME = cn(
   "pointer-events-none absolute left-1/2 top-full z-20 w-max max-w-[min(20rem,calc(100vw-var(--space-6)))] -translate-x-1/2",
   "rounded-[var(--radius-lg)] border border-card-hairline bg-[hsl(var(--surface-2))] px-[var(--space-3)] py-[var(--space-2)]",
   "text-label font-medium text-foreground shadow-depth-soft",
-  "transition-[opacity,transform] duration-quick ease-out motion-reduce:transition-none motion-reduce:transform-none",
+  "transition-[opacity,transform] duration-motion-sm ease-out motion-reduce:transition-none motion-reduce:transform-none",
 );
 
 type TeamQuickAction = {

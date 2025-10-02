@@ -98,7 +98,7 @@ const BlobContainer = React.forwardRef<HTMLSpanElement, BlobContainerProps>(
       >
         <span
           className={cn(
-            "absolute inset-0 rounded-[inherit] bg-gradient-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-quick ease-out",
+            "absolute inset-0 rounded-[inherit] bg-gradient-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-motion-sm ease-out",
             blobAnimationClass,
               "group-hover/glitch:opacity-[var(--blob-overlay-hover,var(--blob-overlay-target))] group-focus-visible/glitch:opacity-[var(--blob-overlay-target)] group-focus-within/glitch:opacity-[var(--blob-overlay-target)] group-active/glitch:opacity-[var(--blob-overlay-active,var(--blob-overlay-target))]",
           )}
@@ -106,7 +106,7 @@ const BlobContainer = React.forwardRef<HTMLSpanElement, BlobContainerProps>(
         {withNoise ? (
           <span
             className={cn(
-              "absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-quick ease-out",
+              "absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-motion-sm ease-out",
               noiseAnimationClass,
               "group-hover/glitch:opacity-[var(--blob-noise-hover,var(--blob-noise-target))] group-focus-visible/glitch:opacity-[var(--blob-noise-target)] group-focus-within/glitch:opacity-[var(--blob-noise-target)] group-active/glitch:opacity-[var(--blob-noise-active-target,var(--blob-noise-target))]",
             )}
