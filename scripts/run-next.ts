@@ -16,7 +16,7 @@ const nextBinary = path.join(
 
 if (!fs.existsSync(nextBinary)) {
   console.error(
-    "Next.js binary not found. Run `npm install` to install project dependencies before starting Next.js.",
+    "Next.js binary not found. Run `pnpm install` to install project dependencies before starting Next.js.",
   );
   process.exit(1);
 }

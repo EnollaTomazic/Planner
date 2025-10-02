@@ -27,11 +27,11 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 - Honour the shared component gallery by updating examples alongside implementation work.
 - Respect theme helpers, persistence, and reduced-motion preferences when adding interactions.
 - Preserve keyboard and screen reader affordances: semantic landmarks, labelled controls, and visible focus remain non-negotiable.
-- Keep contributions scoped and typed, running `npm run verify-prompts` to ensure gallery entries are registered and `npm run check` (tests, lint, design lint, typecheck) before requesting review.
+- Keep contributions scoped and typed, running `pnpm run verify-prompts` to ensure gallery entries are registered and `pnpm run check` (tests, lint, design lint, typecheck) before requesting review.
 
 ## Gallery previews
 
-- Run `npm run build-gallery-usage` after touching gallery files. It refreshes `src/components/gallery/generated-manifest.ts` with preview slugs and keeps Playwright coverage in sync.
+- Run `pnpm run build-gallery-usage` after touching gallery files. It refreshes `src/components/gallery/generated-manifest.ts` with preview slugs and keeps Playwright coverage in sync.
 - Visit `/preview/[slug]` to render a single component or state in isolation. Slugs combine the gallery entry, optional state, and the theme variant (currently Glitch and Aurora). Axis metadata surfaces as `axis-…` query parameters so automation can label captured variants.
 - Trigger the **Visual Regression** workflow to record screenshots. It installs the production build, walks every generated preview route through the `@visual` Playwright suite, and uploads diffs when comparisons fail.
 - Visit `/preview/theme-matrix` to audit every gallery entry and state across Glitch, Aurora, Kitten, Oceanic, Citrus, Noir, and Hardstuck. The matrix reuses the in-gallery previews, ensuring Playwright screenshots and axe coverage span every theme without triggering layout shift.

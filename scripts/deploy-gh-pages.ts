@@ -4,8 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 
-const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
-const npxCommand = process.platform === "win32" ? "npx.cmd" : "npx";
+const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
 
 function shouldPublishSite(env: NodeJS.ProcessEnv): boolean {
   const mode = env.DEPLOY_ARTIFACT_ONLY?.trim().toLowerCase();
@@ -293,7 +292,7 @@ function main(): void {
     NEXT_PUBLIC_BASE_PATH: normalizedBasePath,
   };
 
-  runCommand(npmCommand, ["run", "build"], buildEnv);
+  runCommand(pnpmCommand, ["run", "build"], buildEnv);
 
   const outDir = path.resolve("out");
   if (shouldUseBasePath) {
@@ -308,7 +307,7 @@ function main(): void {
   }
 
   const ghPagesArgs = createGhPagesArgs(process.env);
-  runCommand(npxCommand, ghPagesArgs, process.env);
+  runCommand(pnpmCommand, ["exec", ...ghPagesArgs], process.env);
 }
 
 if (process.env.VITEST !== "true") {

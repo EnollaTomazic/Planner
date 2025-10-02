@@ -142,7 +142,7 @@ async function verifyDemos(components: string[]): Promise<void> {
         "",
         "Add demos in src/components/prompts/PromptsDemos.tsx or reference",
         "them from src/app/prompts to satisfy verification.",
-        "Run `npm run check-prompts` to preview missing references without",
+        "Run `pnpm run check-prompts` to preview missing references without",
         "failing CI.",
       ].join("\n"),
     );

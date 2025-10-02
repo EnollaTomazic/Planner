@@ -1,14 +1,15 @@
 {
-  "packageManager": "npm@11.5.2",
+  "packageManager": "pnpm@10.13.1",
   "engines": {
-    "node": ">=22.0.0"
+    "node": "22.x",
+    "pnpm": "10.13.1"
   },
   "name": "noxis-planner",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run prebuild && tsx scripts/run-next.ts dev -p 3000",
+    "dev": "pnpm run prebuild && tsx scripts/run-next.ts dev -p 3000",
     "prebuild": "tsx scripts/regen-if-needed.ts",
     "regen-ui": "tsx scripts/generate-ui-index.ts",
     "build-gallery-usage": "node --import tsx --import ./scripts/register-loaders.mjs scripts/build-gallery-usage.ts",
@@ -16,21 +17,21 @@
     "generate-themes": "tsx scripts/generate-themes.ts",
     "generate-tokens": "tsx scripts/generate-tokens.ts",
     "build": "tsx scripts/run-next.ts build",
-    "prebuild:analyze": "npm run prebuild && node --input-type=module -e \"import { mkdirSync, rmSync } from 'node:fs'; import { resolve } from 'node:path'; const fallback = 'docs/bundle-report'; const raw = (process.env.BUNDLE_ANALYZE_OUTPUT_DIR ?? '').trim(); const target = raw.length > 0 ? raw : fallback; const absolute = resolve(target); rmSync(absolute, { recursive: true, force: true }); mkdirSync(absolute, { recursive: true });\"",
+    "prebuild:analyze": "pnpm run prebuild && node --input-type=module -e \"import { mkdirSync, rmSync } from 'node:fs'; import { resolve } from 'node:path'; const fallback = 'docs/bundle-report'; const raw = (process.env.BUNDLE_ANALYZE_OUTPUT_DIR ?? '').trim(); const target = raw.length > 0 ? raw : fallback; const absolute = resolve(target); rmSync(absolute, { recursive: true, force: true }); mkdirSync(absolute, { recursive: true });\"",
     "build:analyze": "cross-env ANALYZE=true BUNDLE_ANALYZE_OUTPUT_DIR=docs/bundle-report tsx scripts/run-next.ts build",
     "postbuild:analyze": "node --input-type=module -e \"import { cpSync, existsSync, mkdirSync, rmSync } from 'node:fs'; import { resolve } from 'node:path'; const fallback = 'docs/bundle-report'; const raw = (process.env.BUNDLE_ANALYZE_OUTPUT_DIR ?? '').trim(); const target = raw.length > 0 ? raw : fallback; const absolute = resolve(target); const source = resolve('.next', 'analyze'); if (existsSync(source)) { rmSync(absolute, { recursive: true, force: true }); mkdirSync(absolute, { recursive: true }); cpSync(source, absolute, { recursive: true }); console.log(`Bundle analysis artifacts saved to ${target}`); } else { console.warn('Bundle analyzer output not found at', source); }\"",
-    "analyze": "npm run build:analyze",
+    "analyze": "pnpm run build:analyze",
     "start": "tsx scripts/run-next.ts start -p 3000",
-    "lint": "node -r ./scripts/setup-eslint-flat.cjs ./node_modules/eslint/bin/eslint.js --cache --cache-location .eslintcache src",
-    "lint:ci": "npm run lint -- --max-warnings=0",
+    "lint": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --cache --cache-location .eslintcache src",
+    "lint:ci": "pnpm run lint -- --max-warnings=0",
     "typecheck": "tsx scripts/typecheck.ts",
-    "typecheck:ci": "npm run typecheck -- --pretty false",
+    "typecheck:ci": "pnpm run typecheck -- --pretty false",
     "test": "vitest",
     "test:ci": "node --max-old-space-size=8192 ./node_modules/vitest/vitest.mjs run --reporter=default --reporter=junit --outputFile artifacts/unit/junit.xml --coverage --coverage.reporter=lcov --coverage.reporter=json-summary",
     "e2e:ci": "playwright test",
-    "lint:design": "node -r ./scripts/setup-eslint-flat.cjs ./node_modules/eslint/bin/eslint.js --cache --cache-location .eslintcache --no-warn-ignored \"{app,src}/**/*.{js,jsx,ts,tsx}\"",
-    "design-lint": "npm run lint:design",
-    "check": "concurrently \"npm test -- --run\" \"npm run lint\" \"npm run lint:design\" \"npm run typecheck\"",
+    "lint:design": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --cache --cache-location .eslintcache --no-warn-ignored \"{app,src}/**/*.{js,jsx,ts,tsx}\"",
+    "design-lint": "pnpm run lint:design",
+    "check": "concurrently \"pnpm test -- --run\" \"pnpm run lint\" \"pnpm run lint:design\" \"pnpm run typecheck\"",
     "format": "prettier --write .",
     "verify-prompts": "tsx scripts/verify-prompts.ts --verify",
     "check-prompts": "tsx scripts/verify-prompts.ts",
@@ -96,6 +97,6 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,md}": "prettier --write",
-    "*.{js,jsx,ts,tsx}": "node -r ./scripts/setup-eslint-flat.cjs ./node_modules/eslint/bin/eslint.js --fix"
+    "*.{js,jsx,ts,tsx}": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --fix"
   }
 }

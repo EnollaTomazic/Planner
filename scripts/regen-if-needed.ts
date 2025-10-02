@@ -191,19 +191,19 @@ async function main() {
   const taskBar = bars.create(total, 0);
 
   if (needsUi) {
-    run("npm run regen-ui");
+    run("pnpm run regen-ui");
     taskBar.increment();
   }
   if (needsFeature) {
-    run("npm run regen-feature");
+    run("pnpm run regen-feature");
     taskBar.increment();
   }
   if (needsUsage) {
-    run("npm run build-gallery-usage");
+    run("pnpm run build-gallery-usage");
     taskBar.increment();
   }
   if (needsThemes) {
-    run("npm run generate-themes");
+    run("pnpm run generate-themes");
     await updateManifest(
       themesManifestFile,
       themeInputFiles,
@@ -212,7 +212,7 @@ async function main() {
     taskBar.increment();
   }
   if (needsTokens) {
-    run("npm run generate-tokens");
+    run("pnpm run generate-tokens");
     await updateManifest(
       tokensManifestFile,
       tokenInputFiles,
