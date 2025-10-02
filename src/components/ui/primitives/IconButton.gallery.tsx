@@ -5,7 +5,7 @@ import { createGalleryPreview, defineGallerySection } from "@/components/gallery
 
 import IconButton from "./IconButton";
 
-type IconButtonStateSpec = {
+export type IconButtonStateSpec = {
   id: string;
   name: string;
   className?: string;
@@ -79,6 +79,9 @@ const ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
     code: "<IconButton glitch glitchIntensity=\"glitch-overlay-button-opacity\" aria-label=\"Glitch overlay\">\n  <Plus />\n</IconButton>",
   },
 ];
+
+export const ICON_BUTTON_STATE_SPECS: readonly IconButtonStateSpec[] =
+  ICON_BUTTON_STATES;
 
 const DEFAULT_ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
   {

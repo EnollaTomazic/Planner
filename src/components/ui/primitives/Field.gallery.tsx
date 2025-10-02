@@ -11,7 +11,7 @@ const options = [
   { value: "two", label: "Two" },
 ];
 
-type FieldStateSpec = {
+export type FieldStateSpec = {
   id: string;
   name: string;
   Component: React.ComponentType;
@@ -222,6 +222,8 @@ const FIELD_STATES: readonly FieldStateSpec[] = [
     code: `<Field.Root glitch glitchText="Player lookup" helper="Overlay pulls from accent + ring tokens" helperId="field-glitch-helper">\n  <Field.Input aria-describedby="field-glitch-helper" placeholder="Glitch overlay" indent />\n</Field.Root>`,
   },
 ];
+
+export const FIELD_STATE_SPECS: readonly FieldStateSpec[] = FIELD_STATES;
 
 function FieldGalleryPreview() {
   return (
