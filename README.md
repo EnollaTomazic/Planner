@@ -64,13 +64,27 @@ The app reads configuration from your shell environment at build time. Use `.env
 | `BASE_PATH` | `""` | Repository slug added to exported asset URLs. Required for GitHub Pages deployments so the static site serves from `/<repo>/`. |
 | `NEXT_PUBLIC_BASE_PATH` | `""` | Browser-visible base path. Mirror `BASE_PATH` when `GITHUB_PAGES` is `true` to keep runtime navigation and asset fetching in sync. |
 | `NEXT_PUBLIC_ENABLE_METRICS` | `"auto"` | Controls the browser web vitals hook. `auto` only ships metrics in production, set to `true`/`false` to force enable or disable respectively. |
+| `SAFE_MODE` | `false` | Server-side safe mode for AI-assisted tooling. Enable in CI or production when external AI providers should remain isolated from unreleased flows. |
+| `NEXT_PUBLIC_SAFE_MODE` | `false` | Client-side mirror of `SAFE_MODE`. Keep the values in sync so browser logic agrees with server enforcement. |
+| `NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS` | `true` | Feature flag for SVG numeric filters in the planner UI. Disable if custom deployments hit rendering issues. |
+| `NEXT_PUBLIC_DEPTH_THEME` | `false` | Feature flag enabling additional depth theming. Disable to render the legacy flat palette. |
+| `NEXT_PUBLIC_ORGANIC_DEPTH` | `false` | Experimental organic depth visuals. Pair with `NEXT_PUBLIC_DEPTH_THEME` when exploring the layered look. |
 | `GITHUB_PAGES` | `false` | Enables GitHub Pages specific behavior in Next.js builds (base path awareness and export tweaks). Set to `true` for GitHub Pages previews or exports. |
+| `SKIP_PREVIEW_STATIC` | `false` | Disables generating preview routes during `next export`. Useful when slimming down GitHub Pages artifacts. |
+| `SENTRY_DSN` | `""` | Server-side Sentry DSN. Provide alongside `SENTRY_ENVIRONMENT` to ship monitoring from production builds. |
+| `SENTRY_ENVIRONMENT` | `""` | Human-readable label for server Sentry events (for example, `production` or `preview`). |
+| `SENTRY_TRACES_SAMPLE_RATE` | `""` | Overrides the default tracing sample rate server-side. Leave empty to rely on Sentry defaults. |
+| `NEXT_PUBLIC_SENTRY_DSN` | `""` | Browser Sentry DSN. Must be set when client-side monitoring is required. |
+| `NEXT_PUBLIC_SENTRY_ENVIRONMENT` | `""` | Human-readable label for browser Sentry events mirroring the server environment. |
+| `NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE` | `""` | Overrides the tracing sample rate for browser spans. Leave empty to inherit Sentry defaults. |
 | `GITHUB_TOKEN` | `""` | Personal access token used by the deploy script to push from CI. Needs `public_repo` scope for public repositories. Leave empty locally when an `origin` remote is configured. |
 | `GITHUB_REPOSITORY` | `""` | `owner/repo` slug resolved by the deploy script when no git remote is available (common in CI). |
 | `GH_PAGES_BRANCH` | `gh-pages` | Target branch for the GitHub Pages deploy script. Override if your site publishes from a different branch. |
 | `GITHUB_PAGES_BRANCH` | `""` | Optional alias the deploy script reads when `GH_PAGES_BRANCH` is unset. Useful when reusing existing CI variables. |
 | `NEXT_PUBLIC_API_*` | _unset_ | Placeholder namespace for future API endpoints (for example, `NEXT_PUBLIC_API_BASE_URL`). Prefix additional public URLs with `NEXT_PUBLIC_` so Next.js exposes them to the client. |
 | `NEXT_PUBLIC_UI_GLITCH_LANDING` | `true` | Gates the glitch landing experience. Set to `false` to render the legacy landing layout without glitch overlays while retaining the standard planner preview. |
+| `NEXT_PHASE` | _unset_ | Optional Next.js phase override for debugging phase-specific logic. The build sets this automatically in most workflows. |
+| `NODE_ENV` | `development` | Runtime environment hint used by Next.js. The build pipeline sets this automatically; override only for advanced debugging. |
 
 > **Tip:** Keep `.env.local` out of version control. Only `.env.example` belongs in the repository so collaborators and CI pipelines can discover the supported configuration.
 
