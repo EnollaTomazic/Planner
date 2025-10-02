@@ -151,6 +151,15 @@ describe("streaming abort helpers", () => {
     expect(target.signal.aborted).toBe(true);
     expect(target.signal.reason).toBe("parent");
   });
+
+  it("returns cleanup to unlink sources", () => {
+    const parent = new AbortController();
+    const target = new AbortController();
+    const unlink = linkAbortSignals(target, parent.signal);
+    unlink();
+    parent.abort("ignored");
+    expect(target.signal.aborted).toBe(false);
+  });
 });
 
 describe("applyModelSafety", () => {

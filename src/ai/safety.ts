@@ -193,28 +193,32 @@ export async function retryWithJitter<T>(
   let attempt = 0;
   let delayMs = initialDelayMs;
   const retryController = new AbortController();
-  if (signal) {
-    linkAbortSignals(retryController, signal);
-  }
+  const unlinkAbortSignals = signal
+    ? linkAbortSignals(retryController, signal)
+    : undefined;
   const linkedSignal = retryController.signal;
 
-  while (attempt < maxAttempts) {
-    attempt += 1;
-    try {
-      return await operation({ attempt, signal: linkedSignal });
-    } catch (error) {
-      if (linkedSignal.aborted) {
-        throw linkedSignal.reason ?? error;
+  try {
+    while (attempt < maxAttempts) {
+      attempt += 1;
+      try {
+        return await operation({ attempt, signal: linkedSignal });
+      } catch (error) {
+        if (linkedSignal.aborted) {
+          throw linkedSignal.reason ?? error;
+        }
+        if (attempt >= maxAttempts) {
+          throw error;
+        }
+        const jitter = 1 + (Math.random() * 2 - 1) * jitterRatio;
+        const nextDelay = Math.min(maxDelayMs, delayMs * jitter);
+        onRetry?.({ attempt, delayMs: nextDelay, error });
+        await sleep(nextDelay, linkedSignal);
+        delayMs = Math.min(maxDelayMs, nextDelay * 2);
       }
-      if (attempt >= maxAttempts) {
-        throw error;
-      }
-      const jitter = 1 + (Math.random() * 2 - 1) * jitterRatio;
-      const nextDelay = Math.min(maxDelayMs, delayMs * jitter);
-      onRetry?.({ attempt, delayMs: nextDelay, error });
-      await sleep(nextDelay, linkedSignal);
-      delayMs = Math.min(maxDelayMs, nextDelay * 2);
     }
+  } finally {
+    unlinkAbortSignals?.();
   }
 
   throw new Error("retryWithJitter exhausted all attempts without resolving");
@@ -333,20 +337,36 @@ export function createStreamingAbortController(
   };
 }
 
-export function linkAbortSignals(target: AbortController, ...sources: AbortSignal[]) {
+export function linkAbortSignals(target: AbortController, ...sources: AbortSignal[]): () => void {
+  const removers: Array<() => void> = [];
+
   for (const signal of sources) {
     if (signal.aborted) {
       target.abort(signal.reason);
-      return;
+      continue;
     }
-    const handleAbort = () => {
+
+    const propagateAbort = () => {
       target.abort(signal.reason);
     };
-    signal.addEventListener("abort", handleAbort, { once: true });
-    target.signal.addEventListener(
-      "abort",
-      () => signal.removeEventListener("abort", handleAbort),
-      { once: true },
-    );
+
+    const handleTargetAbort = () => {
+      signal.removeEventListener("abort", propagateAbort);
+      target.signal.removeEventListener("abort", handleTargetAbort);
+    };
+
+    signal.addEventListener("abort", propagateAbort, { once: true });
+    target.signal.addEventListener("abort", handleTargetAbort, { once: true });
+
+    removers.push(() => {
+      signal.removeEventListener("abort", propagateAbort);
+      target.signal.removeEventListener("abort", handleTargetAbort);
+    });
   }
+
+  return () => {
+    for (const remove of removers) {
+      remove();
+    }
+  };
 }
