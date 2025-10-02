@@ -25,6 +25,10 @@ This project standardises Node-based automation through the reusable workflow de
 - Playwright installs cache to `~/.cache/ms-playwright` automatically when `install-playwright` is enabled. The workflow derives the key from the detected Playwright version and lockfile hash.
 - Additional cache directories can be layered by listing each path within `cache-paths`.
 
+## Local-first E2E opt-in
+
+- End-to-end specs that exercise Planner, Reviews, and Team builder persistence run automatically in CI (because `CI` is set). When running Playwright locally, opt in by exporting `PLAYWRIGHT_ALLOW_LOCAL_FIRST=1` so those flows can mutate the sandboxed localStorage state without touching your personal Planner data. Without the flag the storage-heavy specs are skipped.
+
 ## Workflow usage
 
 - `ci.yml` runs the prompt verifier (`pnpm run verify-prompts`), linting, the design token guard (`pnpm run lint:design`), type-checking, and unit tests before the dedicated `next-build` job creates the production `.next` output (with audit reporting and cached `.next/cache`). That single build artefact feeds both the accessibility suite and the Playwright E2E matrix so we avoid redundant compiles.
