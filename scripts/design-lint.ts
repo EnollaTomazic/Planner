@@ -33,6 +33,7 @@ const TOKEN_SOURCE_FILES = [
 
 const CLASS_UTILITY_IDENTIFIERS = new Set(["cn", "clsx"]);
 const IGNORED_TOKEN_PREFIXES = ["tw-", "radix-", "sb-", "swiper-", "geist-"];
+const STYLED_COMPONENTS_TARGET = "styled-components";
 
 const HEX_COLOR_PATTERN = /#(?:[0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})\b/gi;
 const COLOR_FUNCTION_PATTERN = /\b(?:rgb|rgba|hsl|hsla)\((?!\s*var\()/gi;
@@ -450,6 +451,48 @@ async function lintFile(
   visit(sourceFile);
 }
 
+async function checkForStyledComponents(violations: Violation[]): Promise<void> {
+  const files = await fg(["src/components/ui/**/*.{js,jsx,ts,tsx}"], {
+    cwd: rootDir,
+    absolute: true,
+  });
+
+  for (const filePath of files) {
+    let contents: string;
+    try {
+      contents = await fs.readFile(filePath, "utf8");
+    } catch (error) {
+      continue;
+    }
+
+    if (!contents.includes(STYLED_COMPONENTS_TARGET)) {
+      continue;
+    }
+
+    const sourceFile = ts.createSourceFile(
+      filePath,
+      contents,
+      ts.ScriptTarget.Latest,
+      true,
+      getScriptKind(filePath),
+    );
+
+    const relative = path.relative(rootDir, filePath).replace(/\\/g, "/");
+    const regex = /styled-components/g;
+    let match: RegExpExecArray | null;
+    while ((match = regex.exec(contents))) {
+      const { line, character } = sourceFile.getLineAndCharacterOfPosition(match.index);
+      violations.push({
+        file: relative,
+        line: line + 1,
+        column: character + 1,
+        message:
+          "styled-components is not allowed in src/components/ui. Use tokenized primitives instead.",
+      });
+    }
+  }
+}
+
 async function main(): Promise<void> {
   const files = await fg(["src/**/*.{ts,tsx}"], {
     cwd: rootDir,
@@ -464,6 +507,8 @@ async function main(): Promise<void> {
 
   const globalTokens = await loadTokenVocabulary();
   const violations: Violation[] = [];
+
+  await checkForStyledComponents(violations);
 
   for (const file of files) {
     await lintFile(file, globalTokens, violations);

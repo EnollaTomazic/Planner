@@ -29,6 +29,19 @@ const eslintConfig = [
       design: designPlugin,
     },
     rules: {
+      // Styled-components bypasses our tokenized primitives and theming, so block it globally.
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "styled-components",
+              message:
+                "Use the shared design system primitives and Tailwind utilities instead of styled-components.",
+            },
+          ],
+        },
+      ],
       "design/no-raw-design-values": "error",
     },
   },
