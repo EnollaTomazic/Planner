@@ -28,6 +28,6 @@ describe("theme bootstrap storage key", () => {
     );
 
     expect(literalMatch).not.toBeNull();
-    expect(literalMatch?.[2]).toBe(createStorageKey(THEME_STORAGE_KEY));
+    expect(literalMatch?.[2]).toBe(THEME_STORAGE_KEY);
   });
 });
