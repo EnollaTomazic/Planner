@@ -44,7 +44,7 @@ function formatFinding(name, finding) {
 
   const fixLabel = (() => {
     if (fix === true) {
-      return "Run `npm audit fix`";
+      return "Run `pnpm audit fix`";
     }
 
     if (fix && typeof fix === "object") {
@@ -130,6 +130,6 @@ try {
     process.exitCode = 1;
   }
 } catch (error) {
-  console.error("Failed to parse npm audit report:", error);
+  console.error("Failed to parse pnpm audit report:", error);
   process.exitCode = 1;
 }

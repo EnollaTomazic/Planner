@@ -10,7 +10,8 @@ if (!modes.includes(mode)) {
   process.exit(1);
 }
 
-const child = spawn("npm", ["run", mode], { stdio: "inherit", shell: true });
+const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
+const child = spawn(pnpmCommand, ["run", mode], { stdio: "inherit", shell: true });
 child.on("exit", (code) => {
   process.exit(code ?? 0);
 });

@@ -7,7 +7,7 @@ This project standardises Node-based automation through the reusable workflow de
 | Input | Description |
 | --- | --- |
 | `run` | Command executed after the environment is prepared. |
-| `install-command` | Overrides the dependency installation command (defaults to `npm ci --prefer-offline --no-audit --no-fund`). |
+| `install-command` | Overrides the dependency installation command (defaults to `pnpm install --frozen-lockfile --prefer-offline --no-fund`). |
 | `cache-paths` | Newline-delimited list of cache directories. Leave empty to skip caching. |
 | `cache-key` | Optional override for the cache key. When omitted the workflow derives one automatically. |
 | `cache-restore-keys` | Optional newline-delimited restore prefixes used by the cache action. |
@@ -27,7 +27,7 @@ This project standardises Node-based automation through the reusable workflow de
 
 ## Workflow usage
 
-- `ci.yml` runs the prompt verifier (`npm run verify-prompts`), linting, the design token guard (`npm run lint:design`), type-checking, and unit tests before the dedicated `next-build` job creates the production `.next` output (with audit reporting and cached `.next/cache`). That single build artefact feeds both the accessibility suite and the Playwright E2E matrix so we avoid redundant compiles.
+- `ci.yml` runs the prompt verifier (`pnpm run verify-prompts`), linting, the design token guard (`pnpm run lint:design`), type-checking, and unit tests before the dedicated `next-build` job creates the production `.next` output (with audit reporting and cached `.next/cache`). That single build artefact feeds both the accessibility suite and the Playwright E2E matrix so we avoid redundant compiles.
 - The Vitest suite executes twice: once with the default legacy depth profile and again with `NEXT_PUBLIC_ORGANIC_DEPTH=true`. This keeps both code paths healthy so the flag can flip without requiring a fresh deploy.
 - The accessibility job downloads the `next-build` artefact, verifies it before starting the server, and then exercises any tests tagged `@axe` (or the full suite when none are tagged).
 - Visual E2E coverage now captures per-theme snapshots for the depth-aware button and card previews alongside rerunning axe against those preview routes. Keep `npx playwright test` wired into CI so this job remains the source of truth for depth and theme regressions.
@@ -35,24 +35,24 @@ This project standardises Node-based automation through the reusable workflow de
 
 ## Bundle analysis and performance budgets
 
-- Run `npm run analyze` locally to generate static HTML bundle reports. The command seeds `docs/bundle-report/` with the latest client, edge, and Node bundle snapshots so you can diff asset growth without leaving the repo. Pass a custom `BUNDLE_ANALYZE_OUTPUT_DIR` when you need the artefacts somewhere else (for example, an absolute path inside a CI workspace).
+- Run `pnpm run analyze` locally to generate static HTML bundle reports. The command seeds `docs/bundle-report/` with the latest client, edge, and Node bundle snapshots so you can diff asset growth without leaving the repo. Pass a custom `BUNDLE_ANALYZE_OUTPUT_DIR` when you need the artefacts somewhere else (for example, an absolute path inside a CI workspace).
 - The `build:analyze` script is CI-friendly: it respects existing `prebuild` hooks, emits static analyser output without attempting to open a browser, and prints the destination folder after completion. Upload the `docs/bundle-report/` directory as a workflow artefact to keep bundle deltas visible in job summaries.
 - Per-route performance budgets stay enforced manually until automated checks land. Keep the JavaScript payload under **180 KB gzipped** for every exported route, target **≤ 2.5 s Largest Contentful Paint** on a cold mobile profile, and hold **Cumulative Layout Shift below 0.10**. Flag any regression breaching those numbers so we can prioritise the fix before merging.
 
 ## Prompt verification modes
 
-Prompt checks default to the consolidated matcher that scans every prompt file for references, but some teams still rely on the legacy behaviour that only inspects `src/app/prompts/page.tsx` and `src/components/prompts/PromptsDemos.tsx`. Opt in to the legacy pass by setting `PROMPT_CHECK_MODE=legacy` for any invocation (for example, `PROMPT_CHECK_MODE=legacy npm run verify-prompts`). When the variable is unset or holds another value the modern path runs.
+Prompt checks default to the consolidated matcher that scans every prompt file for references, but some teams still rely on the legacy behaviour that only inspects `src/app/prompts/page.tsx` and `src/components/prompts/PromptsDemos.tsx`. Opt in to the legacy pass by setting `PROMPT_CHECK_MODE=legacy` for any invocation (for example, `PROMPT_CHECK_MODE=legacy pnpm run verify-prompts`). When the variable is unset or holds another value the modern path runs.
 
 In GitHub Actions jobs, add the flag within the step that runs the verifier:
 
 ```yaml
 - name: Verify prompt coverage (legacy)
-  run: npm run verify-prompts
+  run: pnpm run verify-prompts
   env:
     PROMPT_CHECK_MODE: legacy
 ```
 
-The same environment variable applies to `npm run check-prompts` and downstream deployments, so Pages or custom CD pipelines can toggle modes without modifying the script itself.
+The same environment variable applies to `pnpm run check-prompts` and downstream deployments, so Pages or custom CD pipelines can toggle modes without modifying the script itself.
 
 ## Manual visual regression workflow
 

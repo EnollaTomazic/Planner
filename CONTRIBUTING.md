@@ -4,15 +4,15 @@ Requires [Node.js](https://nodejs.org) 22 or newer.
 
 ## Scripts
 
-Use [`tsx`](https://github.com/esbuild-kit/tsx) for running TypeScript-powered scripts. All npm tasks already invoke `tsx` (or `node --import tsx`) so aligning local commands with it keeps runtime behavior consistent with CI.
+Use [`tsx`](https://github.com/esbuild-kit/tsx) for running TypeScript-powered scripts. All pnpm tasks already invoke `tsx` (or `node --import tsx`) so aligning local commands with it keeps runtime behavior consistent with CI.
 
 ## UI components
 
 When adding a new UI component or style under `src/components/ui`, run:
 
 ```bash
-npm run regen-ui
-npm run check-prompts
+pnpm run regen-ui
+pnpm run check-prompts
 ```
 
 `regen-ui` regenerates `src/components/ui/index.ts` so pages can import the component from `@/components/ui`.
@@ -21,17 +21,17 @@ npm run check-prompts
 
 After running the scripts, add a demo of the new component to `src/app/prompts/page.tsx` so it appears in the prompts gallery.
 
-`npm run build` runs the regeneration step automatically, but running it manually keeps the index and prompts page current during development.
+`pnpm run build` runs the regeneration step automatically, but running it manually keeps the index and prompts page current during development.
 
 ## Git hooks
 
-Running `npm install` triggers the `prepare` script, which installs a Husky pre-commit hook. The hook blocks commits unless the following commands succeed:
+Running `pnpm install` triggers the `prepare` script, which installs a Husky pre-commit hook. The hook blocks commits unless the following commands succeed:
 
 ```bash
-npm test
-npm run lint
-npm run typecheck
-npm run regen-ui
+pnpm test
+pnpm run lint
+pnpm run typecheck
+pnpm run regen-ui
 ```
 
 Ensure these checks pass before committing.

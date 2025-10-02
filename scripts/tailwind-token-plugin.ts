@@ -43,7 +43,7 @@ export const loadTokenManifest = (): TokenManifest => {
     contents = readFileSync(MANIFEST_PATH, "utf8");
   } catch (error) {
     throw new Error(
-      `Unable to load ${path.relative(process.cwd(), MANIFEST_PATH)}. Run npm run generate-tokens before invoking Tailwind or design lint scripts.`,
+      `Unable to load ${path.relative(process.cwd(), MANIFEST_PATH)}. Run pnpm run generate-tokens before invoking Tailwind or design lint scripts.`,
       { cause: error },
     );
   }

@@ -7,7 +7,7 @@ import { promisify } from "node:util";
 import { test } from "./playwright";
 
 const execFileAsync = promisify(execFile);
-const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
 const specDir = path.dirname(fileURLToPath(new URL(import.meta.url)));
 const repoRoot = path.resolve(specDir, "..", "..");
 const tempComponentName = "PlaywrightMissingPrompt";
@@ -20,7 +20,7 @@ const tempComponentPath = path.resolve(
 );
 
 async function runVerifyPrompts() {
-  return execFileAsync(npmCommand, ["run", "verify-prompts"], {
+  return execFileAsync(pnpmCommand, ["run", "verify-prompts"], {
     cwd: repoRoot,
     env: { ...process.env },
     maxBuffer: 1024 * 1024 * 10,

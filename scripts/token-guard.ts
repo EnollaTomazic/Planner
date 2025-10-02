@@ -42,11 +42,11 @@ async function collectTokenDiff(): Promise<string> {
 }
 
 async function main(): Promise<void> {
-  await runCommand("npm", ["run", "--silent", "generate-tokens"]);
+  await runCommand("pnpm", ["run", "--silent", "generate-tokens"]);
 
   const diff = await collectTokenDiff();
   if (diff.length > 0) {
-    console.error("Design tokens are out of date. Run `npm run generate-tokens` and commit the results.");
+    console.error("Design tokens are out of date. Run `pnpm run generate-tokens` and commit the results.");
     console.error(diff);
     process.exit(1);
   }

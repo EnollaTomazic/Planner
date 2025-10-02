@@ -6,18 +6,12 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 Copy `.env.example` to `.env.local` before you start the dev server. The sample file documents every supported variable and provides sensible defaults for local work. Update the values to match your repository name, deployment branch, and any API endpoints you integrate.
 
-This project automatically regenerates its UI component export index. The `npm run dev` and `npm run build` commands run `npm run regen-ui` to keep exports in sync, and the `postinstall` script does the same after dependency installs. You can run `npm run regen-ui` manually whenever components are added or removed.
+This project automatically regenerates its UI component export index. The `pnpm run dev` and `pnpm run build` commands run `pnpm run regen-ui` to keep exports in sync, and the `postinstall` script does the same after dependency installs. You can run `pnpm run regen-ui` manually whenever components are added or removed.
 
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -43,9 +37,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## GitHub Pages Deployment
 
-Run `npm run deploy` from the project root whenever you're ready to publish. The script rebuilds the site with the correct GitHub Pages base path (`GITHUB_PAGES=true` and `BASE_PATH=<repo>`), then calls the [`gh-pages`](https://github.com/tschaub/gh-pages) CLI with `--nojekyll` so the `.nojekyll` marker is always published. Set `GH_PAGES_BRANCH` (or `GITHUB_PAGES_BRANCH`) if your site publishes from a branch other than the repository's default branch (detected automatically, falling back to `gh-pages`) so the deploy script targets the same branch you serve from.
+Run `pnpm run deploy` from the project root whenever you're ready to publish. The script rebuilds the site with the correct GitHub Pages base path (`GITHUB_PAGES=true` and `BASE_PATH=<repo>`), then calls the [`gh-pages`](https://github.com/tschaub/gh-pages) CLI with `--nojekyll` so the `.nojekyll` marker is always published. Set `GH_PAGES_BRANCH` (or `GITHUB_PAGES_BRANCH`) if your site publishes from a branch other than the repository's default branch (detected automatically, falling back to `gh-pages`) so the deploy script targets the same branch you serve from.
 
-Before building, the script verifies that a Git push target is configured. If `git remote get-url origin` fails and both `GITHUB_REPOSITORY` and `GITHUB_TOKEN` are missing, the deploy exits early and asks you to add an `origin` remote or supply those environment variables before re-running `npm run deploy`.
+Before building, the script verifies that a Git push target is configured. If `git remote get-url origin` fails and both `GITHUB_REPOSITORY` and `GITHUB_TOKEN` are missing, the deploy exits early and asks you to add an `origin` remote or supply those environment variables before re-running `pnpm run deploy`.
 
 When the static files are published to `https://<username>.github.io/<repo>/`, the home page is served from `https://<username>.github.io/<repo>/` rather than the domain root. Use that base path whenever you link to or bookmark the deployed site.
 
@@ -56,7 +50,7 @@ Running locally is zero-config in most cases as long as an `origin` remote exist
 To mirror the GitHub Pages behavior in development, provide the repository slug with `BASE_PATH` while enabling the GitHub Pages flag. For example:
 
 ```bash
-GITHUB_PAGES=true BASE_PATH=<repo> npm run dev
+GITHUB_PAGES=true BASE_PATH=<repo> pnpm run dev
 ```
 
 Then open `http://localhost:3000/<repo>/` to load the home page under the same base path.
@@ -93,13 +87,13 @@ Learn more about the components and guidelines in the [Design System](docs/desig
 Generate design tokens as CSS variables, a JavaScript module, and a Markdown reference with:
 
 ```bash
-npm run generate-tokens
+pnpm run generate-tokens
 ```
 
-The script shows a progress bar and runs automatically before `npm run build`.
+The script shows a progress bar and runs automatically before `pnpm run build`.
 
 ## Contributing
 
-- Before committing, run `npm run verify-prompts` to confirm gallery coverage and `npm run check` to execute tests, lint, and type checks.
-- Run `npm run format` before committing to ensure code style consistency.
+- Before committing, run `pnpm run verify-prompts` to confirm gallery coverage and `pnpm run check` to execute tests, lint, and type checks.
+- Run `pnpm run format` before committing to ensure code style consistency.
 - When introducing new styles or components, add them to the prompts page (`src/app/prompts/page.tsx`) so they can be previewed.

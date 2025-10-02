@@ -1,7 +1,7 @@
 {
   "framework": "nextjs",
   "frameworkVersion": "15.5.3",
-  "installCommand": "npm ci --prefer-offline --no-audit --no-fund",
-  "buildCommand": "npm run check && npm run build",
-  "devCommand": "npm run dev"
+  "installCommand": "pnpm install --frozen-lockfile --prefer-offline --no-fund",
+  "buildCommand": "pnpm run check && pnpm run build",
+  "devCommand": "pnpm run dev"
 }
