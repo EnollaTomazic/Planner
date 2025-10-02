@@ -33,9 +33,10 @@ jobs:
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           node-version-file: .nvmrc
-          cache: npm
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
-      - name: Activate npm version from package.json
+      - name: Activate package manager version from package.json
         run: |
           corepack enable
           corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
@@ -43,16 +44,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .next/cache
-          key: nextjs-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             nextjs-${{ runner.os }}-
       - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --no-fund
+        run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Audit dependencies
         run: |
           set +e
-          npm audit --audit-level=moderate --json > audit-report.json
+          pnpm audit --severity-threshold=moderate --json > audit-report.json
           AUDIT_STATUS=$?
           node scripts/audit-ci-report.mjs audit-report.json
           REPORT_STATUS=$?
@@ -60,26 +61,26 @@ jobs:
             exit "$REPORT_STATUS"
           fi
           if [ "$AUDIT_STATUS" -ne 0 ]; then
-            echo "npm audit reported issues below the high severity threshold."
+            echo "pnpm audit reported issues below the high severity threshold."
           fi
       - name: Verify prompts registry
-        run: npm run verify-prompts
+        run: pnpm run verify-prompts
       - name: Lint
         run: |
           echo "::add-matcher::.github/matchers/eslint-stylish.json"
-          npm run lint:ci
+          pnpm run lint:ci
       - name: Type check
         run: |
           echo "::add-matcher::.github/matchers/typescript.json"
-          npm run typecheck:ci
+          pnpm run typecheck:ci
 
       - name: Test (legacy depth)
         run: |
           mkdir -p artifacts/unit
-          npm run test:ci
+          pnpm run test:ci
 
       - name: Test (organic depth)
-        run: NEXT_PUBLIC_ORGANIC_DEPTH=true npm test -- --run
+        run: NEXT_PUBLIC_ORGANIC_DEPTH=true pnpm test -- --run
 
       - name: Report test summary
         if: always()
@@ -105,9 +106,10 @@ jobs:
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           node-version-file: .nvmrc
-          cache: npm
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
-      - name: Activate npm version from package.json
+      - name: Activate package manager version from package.json
         run: |
           corepack enable
           corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
@@ -116,21 +118,21 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .next/cache
-          key: nextjs-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             nextjs-${{ runner.os }}-
 
       - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --no-fund
+        run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Bundle analysis
         run: |
-          npm run prebuild:analyze
-          npm run build:analyze
-          npm run postbuild:analyze
+          pnpm run prebuild:analyze
+          pnpm run build:analyze
+          pnpm run postbuild:analyze
 
       - name: Upload bundle report
         id: upload_bundle_report
@@ -191,9 +193,10 @@ jobs:
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           node-version-file: .nvmrc
-          cache: npm
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
-      - name: Activate npm version from package.json
+      - name: Activate package manager version from package.json
         run: |
           corepack enable
           corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
@@ -202,22 +205,22 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .next/cache
-          key: nextjs-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             nextjs-${{ runner.os }}-
 
       - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --no-fund
+        run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Start Next.js server
         run: |
-          npm run start -- --hostname $PLAYWRIGHT_HOST --port $PLAYWRIGHT_PORT &
+          pnpm run start -- --hostname $PLAYWRIGHT_HOST --port $PLAYWRIGHT_PORT &
           echo $! > next.pid
 
       - name: Wait for Next.js to boot
