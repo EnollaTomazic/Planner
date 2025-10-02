@@ -28,12 +28,34 @@ describe("loadServerEnv", () => {
     `);
   });
 
-  it("throws when Sentry toggles are provided without a DSN", () => {
+  it("throws when SENTRY_ENVIRONMENT is provided without a DSN", () => {
     const attempt = () =>
       loadServerEnv({
         NODE_ENV: "production",
         SAFE_MODE: "false",
         SENTRY_ENVIRONMENT: "production",
+      } as unknown as NodeJS.ProcessEnv);
+
+    expect(attempt).toThrowError(ZodError);
+    expect(attempt).toThrowErrorMatchingInlineSnapshot(`
+      [ZodError: [
+        {
+          "path": [
+            "SENTRY_DSN"
+          ],
+          "code": "custom",
+          "message": "SENTRY_DSN is required when configuring server Sentry options."
+        }
+      ]]
+    `);
+  });
+
+  it("throws when SENTRY_TRACES_SAMPLE_RATE is provided without a DSN", () => {
+    const attempt = () =>
+      loadServerEnv({
+        NODE_ENV: "production",
+        SAFE_MODE: "false",
+        SENTRY_TRACES_SAMPLE_RATE: "0.5",
       } as unknown as NodeJS.ProcessEnv);
 
     expect(attempt).toThrowError(ZodError);

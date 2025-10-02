@@ -26,11 +26,32 @@ describe("loadClientEnv", () => {
     `);
   });
 
-  it("throws when client Sentry toggles are provided without a DSN", () => {
+  it("throws when NEXT_PUBLIC_SENTRY_ENVIRONMENT is provided without a DSN", () => {
     const attempt = () =>
       loadClientEnv({
         NEXT_PUBLIC_SAFE_MODE: "false",
         NEXT_PUBLIC_SENTRY_ENVIRONMENT: "preview",
+      } as unknown as NodeJS.ProcessEnv);
+
+    expect(attempt).toThrowError(ZodError);
+    expect(attempt).toThrowErrorMatchingInlineSnapshot(`
+      [ZodError: [
+        {
+          "path": [
+            "NEXT_PUBLIC_SENTRY_DSN"
+          ],
+          "code": "custom",
+          "message": "NEXT_PUBLIC_SENTRY_DSN is required when configuring browser Sentry options."
+        }
+      ]]
+    `);
+  });
+
+  it("throws when NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE is provided without a DSN", () => {
+    const attempt = () =>
+      loadClientEnv({
+        NEXT_PUBLIC_SAFE_MODE: "false",
+        NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: "0.1",
       } as unknown as NodeJS.ProcessEnv);
 
     expect(attempt).toThrowError(ZodError);
