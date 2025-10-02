@@ -89,7 +89,25 @@ function buildTooManyRequestsResponse(rate: RateLimitResult): NextResponse {
   });
 }
 
+function getTimestamp(): number {
+  if (typeof performance !== "undefined" && typeof performance.now === "function") {
+    return performance.now();
+  }
+
+  return Date.now();
+}
+
+function withServerTiming(
+  response: NextResponse,
+  startedAt: number,
+): NextResponse {
+  const elapsed = Math.max(0, getTimestamp() - startedAt);
+  response.headers.set("Server-Timing", `app;dur=${elapsed.toFixed(2)}`);
+  return response;
+}
+
 export async function POST(request: NextRequest): Promise<NextResponse> {
+  const startedAt = getTimestamp();
   const identifier = getClientIdentifier(request);
   const rate = consumeRateLimit(identifier, RATE_LIMIT_CONFIG);
 
@@ -97,7 +115,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     metricsLog.warn("Web vitals metrics rate limited", {
       resetAt: new Date(rate.reset).toISOString(),
     });
-    return buildTooManyRequestsResponse(rate);
+    return withServerTiming(buildTooManyRequestsResponse(rate), startedAt);
   }
 
   let payload: unknown;
@@ -105,14 +123,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     payload = await request.json();
   } catch (error) {
     metricsLog.warn("Failed to parse metrics payload", redactForLogging(error));
-    return NextResponse.json(
-      { error: "invalid_json" },
-      {
-        status: 400,
-        headers: {
-          "Cache-Control": "no-store",
+    return withServerTiming(
+      NextResponse.json(
+        { error: "invalid_json" },
+        {
+          status: 400,
+          headers: {
+            "Cache-Control": "no-store",
+          },
         },
-      },
+      ),
+      startedAt,
     );
   }
 
@@ -121,14 +142,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     metricsLog.warn("Metrics payload failed validation", {
       issues: parsed.error.issues,
     });
-    return NextResponse.json(
-      { error: "invalid_payload" },
-      {
-        status: 422,
-        headers: {
-          "Cache-Control": "no-store",
+    return withServerTiming(
+      NextResponse.json(
+        { error: "invalid_payload" },
+        {
+          status: 422,
+          headers: {
+            "Cache-Control": "no-store",
+          },
         },
-      },
+      ),
+      startedAt,
     );
   }
 
@@ -142,14 +166,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     userAgent: request.headers.get("user-agent") ?? undefined,
   });
 
-  return NextResponse.json(
-    { status: "accepted" },
-    {
-      status: 202,
-      headers: {
-        "Cache-Control": "no-store",
+  return withServerTiming(
+    NextResponse.json(
+      { status: "accepted" },
+      {
+        status: 202,
+        headers: {
+          "Cache-Control": "no-store",
+        },
       },
-    },
+    ),
+    startedAt,
   );
 }
 

@@ -28,6 +28,13 @@ function createRequestWithIp(body: unknown, options: RequestOptions & { ip: stri
   return request;
 }
 
+function expectServerTimingHeader(response: Response | undefined) {
+  expect(response).toBeDefined();
+  const header = response?.headers.get("server-timing");
+  expect(header).toMatch(/^app;dur=\d+\.\d{2}$/);
+  expect(Number.parseFloat(header!.slice("app;dur=".length))).toBeGreaterThanOrEqual(0);
+}
+
 const metric = {
   id: "abc123",
   name: "LCP",
@@ -66,6 +73,7 @@ describe("POST /api/metrics", () => {
     const response = await POST(request as any);
     expect(response.status).toBe(202);
     expect(response.headers.get("cache-control")).toBe("no-store");
+    expectServerTimingHeader(response);
   });
 
   it("rejects malformed JSON", async () => {
@@ -77,12 +85,14 @@ describe("POST /api/metrics", () => {
 
     const response = await POST(badRequest as any);
     expect(response.status).toBe(400);
+    expectServerTimingHeader(response);
   });
 
   it("rejects payloads that fail validation", async () => {
     const request = createRequest({});
     const response = await POST(request as any);
     expect(response.status).toBe(422);
+    expectServerTimingHeader(response);
   });
 
   it("rate limits repeated requests", async () => {
@@ -99,6 +109,7 @@ describe("POST /api/metrics", () => {
 
     expect(lastResponse?.status).toBe(429);
     expect(lastResponse?.headers.get("retry-after")).toBeDefined();
+    expectServerTimingHeader(lastResponse);
   });
 
   it("falls back to request.ip when forwarded headers are missing", async () => {
@@ -117,6 +128,7 @@ describe("POST /api/metrics", () => {
     );
 
     expect(response.status).toBe(202);
+    expectServerTimingHeader(response);
   });
 });
 
