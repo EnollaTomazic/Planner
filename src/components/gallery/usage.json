@@ -4,10 +4,6 @@
     "/preview/ai",
     "/preview/ai-states"
   ],
-  "ai-confidence-hint": [
-    "/",
-    "/preview/ai-states"
-  ],
   "badge": [
     "/",
     "/dashboard-layout",
@@ -20,6 +16,7 @@
     "/dashboard-layout",
     "/preview/a11y",
     "/preview/ai",
+    "/preview/ai-states",
     "/preview/buttons",
     "/preview/cards",
     "/preview/hero-images",
@@ -75,6 +72,7 @@
     "/planner",
     "/preview/a11y",
     "/preview/ai",
+    "/preview/ai-states",
     "/preview/buttons",
     "/preview/cards",
     "/preview/forms",
@@ -124,6 +122,26 @@
     "/components",
     "/preview/[slug]"
   ],
+  "ai-typing-indicator": [
+    "/",
+    "/preview/ai",
+    "/preview/ai-states"
+  ],
+  "ai-confidence-hint": [
+    "/",
+    "/preview/ai",
+    "/preview/ai-states"
+  ],
+  "ai-retry-error-bubble": [
+    "/",
+    "/preview/ai",
+    "/preview/ai-states"
+  ],
+  "ai-explain-tooltip": [
+    "/",
+    "/preview/ai",
+    "/preview/ai-states"
+  ],
   "ai-loading-shimmer": [
     "/",
     "/preview/ai",
@@ -134,19 +152,11 @@
     "/preview/ai",
     "/preview/ai-states"
   ],
-  "ai-explain-tooltip": [
-    "/",
-    "/preview/ai-states"
-  ],
-  "ai-retry-error-bubble": [
-    "/",
-    "/preview/ai-states"
-  ],
-  "ai-typing-indicator": [
-    "/",
-    "/preview/ai-states"
-  ],
   "toggle": [],
+  "radio-icon-group": [
+    "/",
+    "/preview/forms"
+  ],
   "animation-toggle": [],
   "check-circle": [],
   "tab-bar": [],
