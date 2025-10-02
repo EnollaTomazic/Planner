@@ -47,8 +47,8 @@ const baseReviews: Review[] = [
 ];
 
 describe("ReviewsPage", () => {
-  it("renders default state", () => {
-    const { container } = render(
+  it("renders available reviews with summary count", () => {
+    render(
       <ReviewsPage
         reviews={baseReviews}
         selectedId={null}
@@ -57,7 +57,101 @@ describe("ReviewsPage", () => {
         onRename={() => {}}
       />,
     );
-    expect(container).toMatchSnapshot();
+
+    expect(screen.getByText("Total 3")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "New Review" })).toBeEnabled();
+    const reviewButtons = screen
+      .getAllByRole("button", { name: /Open review:/i })
+      .map((node) => node.getAttribute("aria-label"));
+    expect(reviewButtons).toContain("Open review: Alpha");
+    expect(reviewButtons).toContain("Open review: Beta");
+    expect(reviewButtons).toContain("Open review: Gamma");
+  });
+
+  it("renders loading shimmer when reviews are undefined", () => {
+    render(
+      <ReviewsPage
+        reviews={undefined}
+        selectedId={null}
+        onSelect={() => {}}
+        onCreate={() => {}}
+        onRename={() => {}}
+      />,
+    );
+
+    expect(
+      screen.getByRole("status", { name: "Loading review search" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("status", { name: "Loading review summary" }),
+    ).toBeInTheDocument();
+  });
+
+  it("renders fallback error state when reviews resolve to null", () => {
+    render(
+      <ReviewsPage
+        reviews={null}
+        selectedId={null}
+        onSelect={() => {}}
+        onCreate={() => {}}
+        onRename={() => {}}
+        onRetry={() => {}}
+      />,
+    );
+
+    const alerts = screen.getAllByRole("alert");
+    expect(alerts.length).toBeGreaterThanOrEqual(2);
+    expect(
+      screen.getAllByText(/couldn’t load your reviews/i).length,
+    ).toBeGreaterThan(0);
+    const retryButtons = screen.getAllByRole("button", { name: "Retry sync" });
+    expect(retryButtons.length).toBeGreaterThanOrEqual(1);
+    retryButtons.forEach((button) => {
+      expect(button).toBeEnabled();
+    });
+  });
+
+  it("renders explicit error message when provided", () => {
+    render(
+      <ReviewsPage
+        reviews={[]}
+        error={new Error("Network request failed")}
+        selectedId={null}
+        onSelect={() => {}}
+        onCreate={() => {}}
+        onRename={() => {}}
+      />,
+    );
+
+    expect(
+      screen.getAllByText(/Network request failed/i).length,
+    ).toBeGreaterThan(0);
+    screen
+      .getAllByRole("button", { name: "Retry sync" })
+      .forEach((button) => {
+        expect(button).toBeDisabled();
+      });
+  });
+
+  it("renders empty dataset call to action", () => {
+    render(
+      <ReviewsPage
+        reviews={[]}
+        selectedId={null}
+        onSelect={() => {}}
+        onCreate={() => {}}
+        onRename={() => {}}
+      />,
+    );
+
+    expect(
+      screen.getByText("You’re ready to capture your first review."),
+    ).toBeInTheDocument();
+    const buttons = screen.getAllByRole("button", { name: "New Review" });
+    expect(buttons.length).toBeGreaterThanOrEqual(1);
+    buttons.forEach((button) => {
+      expect(button).toBeEnabled();
+    });
   });
 
   it("filters reviews by search query", async () => {
