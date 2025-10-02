@@ -64,8 +64,8 @@
 }
 
 .logoMotion {
-  --glitch-x: 1.5px;
-  --glitch-y: 1.2px;
+  --glitch-x: calc(var(--hairline-w) * 1.5);
+  --glitch-y: calc(var(--hairline-w) * 1.2);
   --glitch-speed: 2.6s;
   --glitch-flicker: 3.8s;
   position: absolute;
