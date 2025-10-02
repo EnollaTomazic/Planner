@@ -114,4 +114,34 @@ test.describe("Gallery previews", () => {
       });
     }
   });
+
+  test("@visual AI state matrix renders across themes", async ({ page }) => {
+    const previewPage = page as unknown as PreviewTestPage;
+
+    await previewPage.goto("/preview/ai-states");
+    await previewPage.waitForLoadState("networkidle");
+
+    const firstGroupSelector = "[data-ai-state-group]:nth-of-type(1)";
+    await previewPage.waitForSelector(firstGroupSelector);
+    await previewPage.waitForFunction(
+      () => !document.body.innerText.includes("Loading preview…"),
+    );
+
+    for (const variant of VARIANTS) {
+      await previewPage.click(
+        `[data-ai-state-matrix] button[role="radio"]:has-text("${variant.label}")`,
+      );
+      await previewPage.waitForFunction(
+        (variantId) =>
+          document.documentElement.classList.contains(`theme-${variantId}`),
+        variant.id,
+      );
+      await previewPage.waitForFunction(
+        () => !document.body.innerText.includes("Loading preview…"),
+      );
+      await expect(page).toHaveScreenshot(`ai-states--${variant.id}.png`, {
+        fullPage: true,
+      });
+    }
+  });
 });

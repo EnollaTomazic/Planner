@@ -1,7 +1,12 @@
 {
   "ai-abort-button": [
     "/",
-    "/preview/ai"
+    "/preview/ai",
+    "/preview/ai-states"
+  ],
+  "ai-confidence-hint": [
+    "/",
+    "/preview/ai-states"
   ],
   "badge": [
     "/",
@@ -121,11 +126,25 @@
   ],
   "ai-loading-shimmer": [
     "/",
-    "/preview/ai"
+    "/preview/ai",
+    "/preview/ai-states"
   ],
   "ai-error-card": [
     "/",
-    "/preview/ai"
+    "/preview/ai",
+    "/preview/ai-states"
+  ],
+  "ai-explain-tooltip": [
+    "/",
+    "/preview/ai-states"
+  ],
+  "ai-retry-error-bubble": [
+    "/",
+    "/preview/ai-states"
+  ],
+  "ai-typing-indicator": [
+    "/",
+    "/preview/ai-states"
   ],
   "toggle": [],
   "animation-toggle": [],

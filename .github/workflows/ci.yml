@@ -62,7 +62,7 @@ jobs:
       - name: Audit dependencies
         run: |
           set +e
-          pnpm audit --severity-threshold=moderate --json > audit-report.json
+          pnpm audit --audit-level=moderate --json > audit-report.json
           AUDIT_STATUS=$?
           node scripts/audit-ci-report.mjs audit-report.json
           REPORT_STATUS=$?
@@ -197,7 +197,9 @@ jobs:
           - suite: theme-previews
             title: Theme previews + axe
             command: >-
-              npx playwright test tests/e2e/accessibility.spec.ts tests/e2e/gallery-preview.spec.ts tests/e2e/hero-images-preview.spec.ts tests/e2e/home-planner-previews.spec.ts --config playwright.config.ts --project=chromium-w1440 --reporter=github --pass-with-no-tests
+              npx playwright test tests/e2e/accessibility.spec.ts tests/e2e/gallery-preview.spec.ts
+              tests/e2e/hero-images-preview.spec.ts tests/e2e/home-planner-previews.spec.ts
+              --config playwright.config.ts --project=chromium-w1440 --reporter=github --pass-with-no-tests
             previews: " /preview/theme-matrix, /preview/hero-images, /preview/gallery"
 
     steps:
@@ -241,13 +243,14 @@ jobs:
 
       - name: Start Next.js server
         run: |
-          pnpm run start -- --hostname $PLAYWRIGHT_HOST --port $PLAYWRIGHT_PORT &
-          echo $! > next.pid
+          pnpm run start -- --hostname "$PLAYWRIGHT_HOST" --port "$PLAYWRIGHT_PORT" &
+          echo "$!" > next.pid
 
       - name: Wait for Next.js to boot
         run: |
           for attempt in {1..30}; do
-            if curl -sSf "http://$PLAYWRIGHT_HOST:$PLAYWRIGHT_PORT/" > /dev/null; then
+            echo "Attempt ${attempt}/30: checking http://${PLAYWRIGHT_HOST}:${PLAYWRIGHT_PORT}/"
+            if curl -sSf "http://${PLAYWRIGHT_HOST}:${PLAYWRIGHT_PORT}/" > /dev/null; then
               exit 0
             fi
             sleep 2
