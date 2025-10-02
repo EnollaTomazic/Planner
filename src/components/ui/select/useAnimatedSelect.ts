@@ -144,12 +144,12 @@ export function useAnimatedSelect({
 
   const reduceMotion = useReducedMotion();
 
-  const durQuick = React.useMemo(() => {
+  const motionDurationSm = React.useMemo(() => {
     if (typeof window === "undefined") return 0.14;
 
     const valueFromCss = parseFloat(
       getComputedStyle(document.documentElement).getPropertyValue(
-        "--dur-quick",
+        "--motion-duration-sm",
       ),
     );
 
@@ -459,7 +459,7 @@ export function useAnimatedSelect({
     setTriggerRef,
     triggerAria,
     yOffset,
-    durQuick,
+    motionDurationSm,
   } as const;
 }
 

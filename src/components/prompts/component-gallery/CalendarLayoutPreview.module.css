@@ -88,9 +88,9 @@
   background: hsl(var(--surface) / 0.6);
   color: hsl(var(--muted-foreground));
   text-align: left;
-  transition: border-color var(--dur-quick) var(--ease-out),
-    background-color var(--dur-quick) var(--ease-out),
-    transform var(--dur-quick) var(--ease-out);
+  transition: border-color var(--motion-duration-sm) var(--ease-out),
+    background-color var(--motion-duration-sm) var(--ease-out),
+    transform var(--motion-duration-sm) var(--ease-out);
 }
 
 .slotButton[data-state="active"] {

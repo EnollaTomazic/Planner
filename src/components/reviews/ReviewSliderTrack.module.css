@@ -72,8 +72,8 @@
   background: inherit;
   mix-blend-mode: screen;
   opacity: 0;
-  transition: opacity var(--dur-quick) var(--ease-out),
-    clip-path var(--dur-quick) steps(2, end);
+  transition: opacity var(--motion-duration-sm) var(--ease-out),
+    clip-path var(--motion-duration-sm) steps(2, end);
   clip-path: inset(0);
 }
 

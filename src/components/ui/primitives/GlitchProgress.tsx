@@ -89,7 +89,7 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
       >
         <div
           className={cn(
-            "glitch-fill transition-[width] duration-slow ease-out motion-reduce:transition-none",
+            "glitch-fill transition-[width] duration-motion-lg ease-out motion-reduce:transition-none",
             progressClassName,
           )}
         />

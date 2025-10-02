@@ -82,7 +82,7 @@ function ThemeMatrixPreviewFrame({
           prefetch={false}
           target="_blank"
           rel="noreferrer"
-          className="text-ui font-medium text-muted-foreground transition-colors duration-quick ease-out hover:text-foreground focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--card))]"
+          className="text-ui font-medium text-muted-foreground transition-colors duration-motion-sm ease-out hover:text-foreground focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--card))]"
         >
           Open preview
         </Link>

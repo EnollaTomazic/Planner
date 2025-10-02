@@ -7,7 +7,7 @@ exports[`ReviewsPage > renders default state 1`] = `
   >
     <section>
       <div
-        class="group/hero-frame relative z-0 isolate flex flex-col overflow-visible hero-focus border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-slow before:ease-out before:content-[''] motion-reduce:before:transition-none has-[:focus-visible]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] data-[has-focus=true]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] rounded-card r-card-lg px-[var(--space-6)] py-[var(--space-6)] md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)]"
+        class="group/hero-frame relative z-0 isolate flex flex-col overflow-visible hero-focus border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:transition before:duration-motion-lg before:ease-out before:content-[''] motion-reduce:before:transition-none has-[:focus-visible]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] data-[has-focus=true]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)] rounded-card r-card-lg px-[var(--space-6)] py-[var(--space-6)] md:px-[var(--space-7)] md:py-[var(--space-7)] lg:px-[var(--space-8)] lg:py-[var(--space-8)]"
         data-hero-divider-tint="primary"
         data-variant="default"
         tabindex="-1"
@@ -128,13 +128,13 @@ exports[`ReviewsPage > renders default state 1`] = `
                             class="flex w-full flex-col gap-[var(--space-1)] min-w-0"
                           >
                             <div
-                              class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] transition-[background,box-shadow,filter] duration-quick ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger _root_46b156 w-full hero2-neomorph z-0 !border border-border/40 !shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft focus-within:!shadow-depth-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
+                              class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] items-center border text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger _root_46b156 w-full hero2-neomorph z-0 !border border-border/40 !shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft focus-within:!shadow-depth-soft [--hover:transparent] [--active:transparent] rounded-full [&>input]:rounded-full overflow-hidden hero2-frame"
                               data-field-height="md"
                               data-field-state="default"
                             >
                               <svg
                                 aria-hidden="true"
-                                class="lucide lucide-search pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground transition-colors duration-quick ease-out opacity-60 group-focus-within:opacity-100 group-focus-within:text-accent-3 group-data-[disabled=true]/field:opacity-disabled group-data-[loading=true]/field:opacity-loading group-data-[invalid=true]/field:text-danger"
+                                class="lucide lucide-search pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground transition-colors duration-motion-sm ease-out opacity-60 group-focus-within:opacity-100 group-focus-within:text-accent-3 group-data-[disabled=true]/field:opacity-disabled group-data-[loading=true]/field:opacity-loading group-data-[invalid=true]/field:text-danger"
                                 fill="none"
                                 height="24"
                                 stroke="currentColor"
@@ -167,7 +167,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                               />
                               <button
                                 aria-label="Clear"
-                                class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading [--neu-radius:var(--radius-full)] border [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)] border-[hsl(var(--line)/0.35)] text-foreground [--neu-surface:hsl(var(--card)/0.35)] h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[calc(var(--control-h-sm)/2)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
+                                class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-[var(--radius-full)] duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading [--neu-radius:var(--radius-full)] border [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)] border-[hsl(var(--line)/0.35)] text-foreground [--neu-surface:hsl(var(--card)/0.35)] h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[calc(var(--control-h-sm)/2)] absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 transition-opacity pointer-events-none opacity-0"
                                 data-tone="primary"
                                 data-variant="quiet"
                                 tabindex="0"
@@ -223,20 +223,20 @@ exports[`ReviewsPage > renders default state 1`] = `
                             Sort reviews
                           </div>
                           <div
-                            class="group inline-flex rounded-[var(--control-radius)] border border-border-subtle shadow-elev-1 transition-shadow duration-quick ease-out motion-reduce:transition-none hover:shadow-elev-2 focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-surface focus-within:shadow-elev-2"
+                            class="group inline-flex rounded-[var(--control-radius)] border border-border-subtle shadow-elev-1 transition-shadow duration-motion-sm ease-out motion-reduce:transition-none hover:shadow-elev-2 focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-surface focus-within:shadow-elev-2"
                           >
                             <button
                               aria-controls=":r2:-listbox"
                               aria-expanded="false"
                               aria-haspopup="listbox"
                               aria-labelledby=":r2:-label"
-                              class="_glitchTrigger_843152 relative flex items-center rounded-[var(--control-radius)] overflow-hidden h-[var(--control-h-lg)] px-[var(--space-4)] bg-surface-muted hover:bg-surface-hover transition-shadow duration-quick ease-out motion-reduce:transition-none focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+                              class="_glitchTrigger_843152 relative flex items-center rounded-[var(--control-radius)] overflow-hidden h-[var(--control-h-lg)] px-[var(--space-4)] bg-surface-muted hover:bg-surface-hover transition-shadow duration-motion-sm ease-out motion-reduce:transition-none focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
                               data-lit="true"
                               data-open="false"
                               type="button"
                             >
                               <span
-                                class="font-medium transition-colors duration-quick ease-out motion-reduce:transition-none _glitchText_843152 text-foreground group-hover:text-foreground"
+                                class="font-medium transition-colors duration-motion-sm ease-out motion-reduce:transition-none _glitchText_843152 text-foreground group-hover:text-foreground"
                               >
                                 Newest
                               </span>
@@ -278,7 +278,7 @@ exports[`ReviewsPage > renders default state 1`] = `
                         </div>
                       </div>
                       <button
-                        class="_neu_0e7b1b _root_2452a7 relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none [--neu-radius:var(--control-radius)] h-[var(--control-h-md)] px-[var(--space-4)] text-ui gap-[var(--space-2)] [&_svg]:size-[var(--space-5)] btn-glitch w-full whitespace-nowrap md:col-span-2 md:justify-self-end shadow-glow-md hover:shadow-btn-primary-hover active:shadow-btn-primary-active active:translate-y-[var(--spacing-0-25)] [--neu-surface:hsl(var(--primary-soft))] border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)] [--glow-active:hsl(var(--primary)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--primary)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--primary)/0.6)]"
+                        class="_neu_0e7b1b _root_2452a7 relative inline-flex items-center justify-center rounded-[var(--control-radius)] border font-medium tracking-[0.02em] transition-all duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none [--neu-radius:var(--control-radius)] h-[var(--control-h-md)] px-[var(--space-4)] text-ui gap-[var(--space-2)] [&_svg]:size-[var(--space-5)] btn-glitch w-full whitespace-nowrap md:col-span-2 md:justify-self-end shadow-glow-md hover:shadow-btn-primary-hover active:shadow-btn-primary-active active:translate-y-[var(--spacing-0-25)] [--neu-surface:hsl(var(--primary-soft))] border-[hsl(var(--primary)/0.35)] text-[hsl(var(--primary-foreground))] [--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)] [--glow-active:hsl(var(--primary)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--primary)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--primary)/0.6)]"
                         data-tone="primary"
                         data-variant="default"
                         tabindex="0"
@@ -343,7 +343,7 @@ exports[`ReviewsPage > renders default state 1`] = `
         class="md:col-span-2 lg:col-span-4"
       >
         <section
-          class="w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle ds-card-pad backdrop-blur-sm transition-shadow duration-chill hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))] focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
+          class="w-full mx-auto rounded-card r-card-lg border border-border/35 bg-card/60 text-card-foreground shadow-outline-subtle ds-card-pad backdrop-blur-sm transition-shadow duration-motion-md hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))] focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
           data-scope="reviews"
         >
           <header
@@ -357,7 +357,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             <li>
               <button
                 aria-label="Open review: Alpha"
-                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-quick focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--theme-ring,var(--focus))] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--theme-ring,var(--focus))] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
+                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-motion-sm focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--theme-ring,var(--focus))] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--theme-ring,var(--focus))] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
                 data-scope="reviews"
                 type="button"
               >
@@ -401,7 +401,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             <li>
               <button
                 aria-label="Open review: Gamma"
-                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-quick focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--theme-ring,var(--focus))] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--theme-ring,var(--focus))] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
+                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-motion-sm focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--theme-ring,var(--focus))] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--theme-ring,var(--focus))] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
                 data-scope="reviews"
                 type="button"
               >
@@ -445,7 +445,7 @@ exports[`ReviewsPage > renders default state 1`] = `
             <li>
               <button
                 aria-label="Open review: Beta"
-                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-quick focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--theme-ring,var(--focus))] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--theme-ring,var(--focus))] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
+                class="relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-motion-sm focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20 hover:bg-[theme('colors.interaction.accent.tintHover')] hover:ring-2 hover:ring-[var(--theme-ring,var(--focus))] focus-visible:bg-[theme('colors.interaction.accent.tintHover')] focus-visible:ring-2 focus-visible:ring-[var(--theme-ring,var(--focus))] active:bg-[theme('colors.interaction.accent.tintActive')] active:ring-2 active:ring-[var(--theme-ring,var(--focus))] data-[selected=true]:bg-[theme('colors.interaction.accent.tintActive')] data-[selected=true]:ring-2 data-[selected=true]:ring-[theme('colors.interaction.accent.surfaceActive')]"
                 data-scope="reviews"
                 type="button"
               >

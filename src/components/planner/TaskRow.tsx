@@ -24,20 +24,25 @@ const TASK_ROW_GUARD_SELECTOR = "[data-task-row-guard='true']";
 const entryOffset = spacingTokens[2];
 const bounceDistance = spacingTokens[0];
 const DEFAULT_EASE_OUT = "cubic-bezier(0.16, 1, 0.3, 1)";
-const DEFAULT_EASE_SNAP = "cubic-bezier(0.2, 0.8, 0.2, 1)";
+const DEFAULT_MOTION_EASE_GLITCH = "cubic-bezier(0.2, 0.8, 0.2, 1)";
 type CubicBezierTuple = [number, number, number, number];
 const DEFAULT_EASE_OUT_CURVE: CubicBezierTuple = [0.16, 1, 0.3, 1];
-const DEFAULT_EASE_SNAP_CURVE: CubicBezierTuple = [0.2, 0.8, 0.2, 1];
-const DEFAULT_DUR_CHILL = 0.22;
-const DEFAULT_DUR_SLOW = 0.42;
+const DEFAULT_MOTION_EASE_GLITCH_CURVE: CubicBezierTuple = [
+  0.2,
+  0.8,
+  0.2,
+  1,
+];
+const DEFAULT_MOTION_DURATION_MD = 0.22;
+const DEFAULT_MOTION_DURATION_LG = 0.42;
 
 type MotionTokens = {
   easeOut: string;
-  easeSnap: string;
+  motionEaseGlitch: string;
   easeOutCurve: CubicBezierTuple;
-  easeSnapCurve: CubicBezierTuple;
-  durChill: number;
-  durSlow: number;
+  motionEaseGlitchCurve: CubicBezierTuple;
+  durationMd: number;
+  durationLg: number;
 };
 
 const readStringToken = (token: string, fallback: string): string => {
@@ -101,11 +106,11 @@ export default function TaskRow({
   });
   const [motionTokens, setMotionTokens] = React.useState<MotionTokens>(() => ({
     easeOut: DEFAULT_EASE_OUT,
-    easeSnap: DEFAULT_EASE_SNAP,
+    motionEaseGlitch: DEFAULT_MOTION_EASE_GLITCH,
     easeOutCurve: DEFAULT_EASE_OUT_CURVE,
-    easeSnapCurve: DEFAULT_EASE_SNAP_CURVE,
-    durChill: DEFAULT_DUR_CHILL,
-    durSlow: DEFAULT_DUR_SLOW,
+    motionEaseGlitchCurve: DEFAULT_MOTION_EASE_GLITCH_CURVE,
+    durationMd: DEFAULT_MOTION_DURATION_MD,
+    durationLg: DEFAULT_MOTION_DURATION_LG,
   }));
   const bounceControls = useAnimation();
   const reduceMotion = reduceMotionPreference || forcedReduceMotion;
@@ -149,16 +154,29 @@ export default function TaskRow({
 
   React.useEffect(() => {
     const easeOut = readStringToken("--ease-out", DEFAULT_EASE_OUT);
-    const easeSnap = readStringToken("--ease-snap", DEFAULT_EASE_SNAP);
+    const motionEaseGlitch = readStringToken(
+      "--motion-ease-glitch",
+      DEFAULT_MOTION_EASE_GLITCH,
+    );
 
     setMotionTokens({
       easeOut,
-      easeSnap,
+      motionEaseGlitch,
       easeOutCurve: parseCubicBezier(easeOut, DEFAULT_EASE_OUT_CURVE),
-      easeSnapCurve: parseCubicBezier(easeSnap, DEFAULT_EASE_SNAP_CURVE),
-      durChill:
-        readNumberToken("--dur-chill", DEFAULT_DUR_CHILL * 1000) / 1000,
-      durSlow: readNumberToken("--dur-slow", DEFAULT_DUR_SLOW * 1000) / 1000,
+      motionEaseGlitchCurve: parseCubicBezier(
+        motionEaseGlitch,
+        DEFAULT_MOTION_EASE_GLITCH_CURVE,
+      ),
+      durationMd:
+        readNumberToken(
+          "--motion-duration-md",
+          DEFAULT_MOTION_DURATION_MD * 1000,
+        ) / 1000,
+      durationLg:
+        readNumberToken(
+          "--motion-duration-lg",
+          DEFAULT_MOTION_DURATION_LG * 1000,
+        ) / 1000,
     });
   }, []);
 
@@ -186,8 +204,8 @@ export default function TaskRow({
       y: [0, offset, 0],
       scale: task.done ? [1, 0.98, 1] : [1, 1.02, 1],
       transition: {
-        duration: motionTokens.durChill,
-        ease: motionTokens.easeSnapCurve,
+        duration: motionTokens.durationMd,
+        ease: motionTokens.motionEaseGlitchCurve,
       },
     });
 
@@ -196,8 +214,8 @@ export default function TaskRow({
     task.done,
     reduceMotion,
     bounceControls,
-    motionTokens.durChill,
-    motionTokens.easeSnapCurve,
+    motionTokens.durationMd,
+    motionTokens.motionEaseGlitchCurve,
   ]);
 
   const imageEntriesRef = React.useRef<Array<{ url: string; id: string }>>([]);
@@ -345,7 +363,7 @@ export default function TaskRow({
       }
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{
-        duration: reduceMotion ? 0 : motionTokens.durSlow,
+        duration: reduceMotion ? 0 : motionTokens.durationLg,
         ease: motionTokens.easeOutCurve,
       }}
     >

@@ -47,7 +47,7 @@
   background: var(--segmented-fill);
   box-shadow: var(--segmented-shadow, var(--segmented-shadow-rest));
   transition-property: color, background-color, border-color, box-shadow, transform, filter;
-  transition-duration: var(--dur-quick);
+  transition-duration: var(--motion-duration-sm);
   transition-timing-function: var(--ease-out);
   will-change: box-shadow, transform;
   text-decoration: none;

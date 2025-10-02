@@ -39,7 +39,8 @@
 :global(.hero2-neomorph::before) {
   background: var(--hero2-glow-top-left);
   box-shadow: var(--hero2-focus-ring);
-  transition: box-shadow var(--dur-quick, 160ms) ease-out;
+  transition:
+    box-shadow var(--motion-duration-sm, var(--dur-quick, 160ms)) ease-out;
   z-index: -1;
 }
 

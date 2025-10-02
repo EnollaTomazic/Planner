@@ -30,7 +30,7 @@ type AnimatedSelectListProps = {
   fixedStyles?: React.CSSProperties;
   placement: UseAnimatedSelectReturn["placement"];
   reduceMotion: UseAnimatedSelectReturn["reduceMotion"];
-  durQuick: UseAnimatedSelectReturn["durQuick"];
+  motionDurationSm: UseAnimatedSelectReturn["motionDurationSm"];
   yOffset: UseAnimatedSelectReturn["yOffset"];
 };
 
@@ -51,7 +51,7 @@ export function AnimatedSelectList({
   fixedStyles,
   placement,
   reduceMotion,
-  durQuick,
+  motionDurationSm,
   yOffset,
 }: AnimatedSelectListProps) {
   const { floatingStyle } = useFloatingStyleClass(fixedStyles);
@@ -76,7 +76,9 @@ export function AnimatedSelectList({
               reduceMotion ? { opacity: 0 } : { opacity: 0, y: yOffset, scale: 0.98 }
             }
             transition={
-              reduceMotion ? { duration: 0 } : { duration: durQuick, ease: "easeOut" }
+              reduceMotion
+                ? { duration: 0 }
+                : { duration: motionDurationSm, ease: "easeOut" }
             }
             style={floatingStyle}
             onKeyDown={onKeyDown}
@@ -119,7 +121,7 @@ export function AnimatedSelectList({
                     onClick={() => selectByIndex(index)}
                     onFocus={() => setActiveIndex(index)}
                     className={cn(
-                      "group relative w-full rounded-[var(--radius-xl)] px-[var(--space-4)] py-[var(--space-3)] text-left transition-colors duration-quick ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] [--hover:hsl(var(--foreground)/0.05)] [--active:hsl(var(--foreground)/0.1)]",
+                      "group relative w-full rounded-[var(--radius-xl)] px-[var(--space-4)] py-[var(--space-3)] text-left transition-colors duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] [--hover:hsl(var(--foreground)/0.05)] [--active:hsl(var(--foreground)/0.1)]",
                       disabledItem ? "cursor-not-allowed" : "cursor-pointer",
                       "disabled:opacity-disabled disabled:pointer-events-none",
                       active
@@ -147,7 +149,7 @@ export function AnimatedSelectList({
                       ) : (
                         <Check
                           className={cn(
-                            "size-[var(--space-4)] shrink-0 transition-opacity duration-quick ease-out motion-reduce:transition-none",
+                            "size-[var(--space-4)] shrink-0 transition-opacity duration-motion-sm ease-out motion-reduce:transition-none",
                             active ? "opacity-90" : "opacity-0 group-hover:opacity-30",
                           )}
                           aria-hidden="true"

@@ -31,7 +31,7 @@ export default function IsometricRoom({ variant }: IsometricRoomProps) {
       role="img"
       aria-label={`Isometric room with ${label}`}
       className={cn(
-        "relative h-[var(--room-size)] overflow-hidden bg-background border shadow-depth-outer transition-[transform,box-shadow] duration-quick ease-out motion-reduce:transition-none hover:-translate-y-[var(--space-1)] hover:shadow-depth-soft focus-visible:shadow-depth-soft active:translate-y-0 active:shadow-depth-soft focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0 motion-reduce:hover:translate-y-0 [--room-size:calc(var(--space-8)*3)] [--room-depth:calc(var(--room-size)/2)]",
+        "relative h-[var(--room-size)] overflow-hidden bg-background border shadow-depth-outer transition-[transform,box-shadow] duration-motion-sm ease-out motion-reduce:transition-none hover:-translate-y-[var(--space-1)] hover:shadow-depth-soft focus-visible:shadow-depth-soft active:translate-y-0 active:shadow-depth-soft focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0 motion-reduce:hover:translate-y-0 [--room-size:calc(var(--space-8)*3)] [--room-depth:calc(var(--room-size)/2)]",
         VARIANT_STYLES[variant],
       )}
     >

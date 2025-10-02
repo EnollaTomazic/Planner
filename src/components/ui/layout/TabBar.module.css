@@ -54,9 +54,14 @@
     hsl(var(--foreground)) 92%,
     hsl(var(--card)) 8%
   );
-  transition: background-color var(--duration-quick, 220ms) var(--ease-out, ease-out),
-    box-shadow var(--duration-quick, 220ms) var(--ease-out, ease-out),
-    color var(--duration-quick, 220ms) var(--ease-out, ease-out);
+  transition:
+    background-color
+      var(--motion-duration-sm, var(--dur-quick, 220ms))
+      var(--ease-out, ease-out),
+    box-shadow var(--motion-duration-sm, var(--dur-quick, 220ms))
+      var(--ease-out, ease-out),
+    color var(--motion-duration-sm, var(--dur-quick, 220ms))
+      var(--ease-out, ease-out);
 }
 
 .defaultTab[data-variant="default"][data-active="true"] {

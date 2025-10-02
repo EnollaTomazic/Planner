@@ -55,9 +55,9 @@
   align-items: flex-end;
   justify-content: center;
   filter: drop-shadow(0 0 calc(var(--space-1)) hsl(var(--shadow-color) / 0.32));
-  transition: transform var(--dur-chill) var(--ease-out),
-    opacity var(--dur-chill) var(--ease-out),
-    filter var(--dur-chill) var(--ease-out);
+  transition: transform var(--motion-duration-md) var(--ease-out),
+    opacity var(--motion-duration-md) var(--ease-out),
+    filter var(--motion-duration-md) var(--ease-out);
 }
 
 .character::before,

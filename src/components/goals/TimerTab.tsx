@@ -113,7 +113,7 @@ function isFiniteNumber(value: unknown): value is number {
 /* helpers */
 
 const ADJUST_BTN_CLASS =
-  "absolute top-[var(--space-2)] sm:-top-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-[var(--shadow-glow-md)] transition-transform duration-quick hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring";
+  "absolute top-[var(--space-2)] sm:-top-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-[var(--shadow-glow-md)] transition-transform duration-motion-sm hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring";
 
 export default function TimerTab() {
   const [timer, setTimer] = usePersistentState<TimerState>(
@@ -470,7 +470,7 @@ export default function TimerTab() {
             >
               <TimerRing pct={pct} className="size-full" />
               <div className="pointer-events-none absolute inset-0 grid place-items-center">
-                <div className="text-title font-semibold tabular-nums text-foreground drop-shadow-[0_0_var(--space-2)_hsl(var(--neon-soft))] transition-transform duration-quick group-hover:translate-y-0.5 sm:text-title-lg">
+                <div className="text-title font-semibold tabular-nums text-foreground drop-shadow-[0_0_var(--space-2)_hsl(var(--neon-soft))] transition-transform duration-motion-sm group-hover:translate-y-0.5 sm:text-title-lg">
                   {formatMmSs(remaining, {
                     unit: "milliseconds",
                     padMinutes: true,
@@ -494,7 +494,7 @@ export default function TimerTab() {
               <div className="relative h-[var(--space-2)] w-full rounded-full bg-background/20 shadow-depth-inner">
                 <div className="absolute inset-0 bg-[repeating-linear-gradient(to_right,transparent,transparent_9%,hsl(var(--foreground)/0.15)_9%,hsl(var(--foreground)/0.15)_10%)]" />
                 <div
-                  className={`${styles.progressFill} h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-[var(--shadow-glow-md)] transition-transform duration-quick ease-linear motion-reduce:transition-none`}
+                  className={`${styles.progressFill} h-full rounded-full bg-[linear-gradient(90deg,hsl(var(--accent)),hsl(var(--accent-2)))] shadow-[var(--shadow-glow-md)] transition-transform duration-motion-sm ease-linear motion-reduce:transition-none`}
                   data-progress={pct}
                   {...(timerProgressScopeProps ?? {})}
                   style={timerProgressStyle}

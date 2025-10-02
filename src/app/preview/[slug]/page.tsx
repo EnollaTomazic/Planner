@@ -63,7 +63,7 @@ function PreviewSurfaceContainer({
       aria-live={status === "loading" ? "polite" : undefined}
       className={cn(
         PREVIEW_SURFACE_CONTAINER_CLASSNAME,
-        "transition-[inline-size] duration-quick ease-out motion-reduce:transition-none",
+        "transition-[inline-size] duration-motion-sm ease-out motion-reduce:transition-none",
         "cq-lg",
       )}
       data-container-size="cq-lg"

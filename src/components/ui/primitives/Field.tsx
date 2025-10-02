@@ -24,7 +24,7 @@ const FIELD_ROOT_BASE = cn(
   "group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center",
   "rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground",
   "[--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))]",
-  "transition-[background,box-shadow,filter] duration-quick ease-out motion-reduce:transition-none",
+  "transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none",
   "focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))]",
   "hover:bg-[--hover] active:bg-[--active]",
   "data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40",
@@ -385,7 +385,7 @@ export const FieldSearch = React.forwardRef<HTMLInputElement, FieldSearchProps>(
           aria-hidden
           className={cn(
             "pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2",
-            "text-muted-foreground transition-colors duration-quick ease-out",
+            "text-muted-foreground transition-colors duration-motion-sm ease-out",
             "opacity-60 group-focus-within:opacity-100",
             "group-focus-within:text-accent-3",
             "group-data-[disabled=true]/field:opacity-disabled",

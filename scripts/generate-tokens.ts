@@ -109,6 +109,10 @@ const REQUIRED_THEME_TOKEN_GROUPS = {
     "gradient-glitch-primary",
   ],
   motion: [
+    "motion-duration-sm",
+    "motion-duration-md",
+    "motion-duration-lg",
+    "motion-ease-glitch",
     "glitch-scanline",
     "glitch-rgb-shift",
     "glow-pulse",
