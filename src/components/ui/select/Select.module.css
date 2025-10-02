@@ -202,8 +202,8 @@
   mask-composite: exclude;
   background: repeating-linear-gradient(
     0deg,
-    hsl(var(--foreground) / 0.1) 0 1px,
-    transparent 2px 4px
+    hsl(var(--foreground) / 0.1) 0 var(--hairline-w),
+    transparent calc(var(--space-1) / 2) var(--space-1)
   );
   mix-blend-mode: soft-light;
   opacity: 0.2;
