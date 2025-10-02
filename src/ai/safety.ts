@@ -17,7 +17,7 @@ export interface SanitizedInputOptions {
   readonly allowMarkup?: boolean;
 }
 
-export function sanitizePromptInput(
+export function sanitizePrompt(
   raw: string,
   options: SanitizedInputOptions = {},
 ): string {
@@ -37,6 +37,8 @@ export function sanitizePromptInput(
 
   return allowMarkup ? truncated : sanitizeText(truncated);
 }
+
+export const sanitizePromptInput = sanitizePrompt;
 
 export interface TokenBudgetContent {
   readonly content: string;
@@ -60,7 +62,7 @@ function defaultTokenEstimator(content: string): number {
   return Math.ceil(content.length / DEFAULT_TOKENS_PER_CHARACTER);
 }
 
-export function enforceTokenBudget<T extends TokenBudgetContent>(
+function enforceTokenBudgetInternal<T extends TokenBudgetContent>(
   messages: readonly T[],
   options: TokenBudgetOptions,
 ): TokenBudgetResult<T> {
@@ -105,11 +107,60 @@ export function enforceTokenBudget<T extends TokenBudgetContent>(
   };
 }
 
+export interface TokenCapResult {
+  readonly content: string | null;
+  readonly removed: boolean;
+  readonly totalTokens: number;
+  readonly availableTokens: number;
+}
+
+export function capTokens(
+  content: string,
+  options: TokenBudgetOptions & { pinned?: boolean },
+): TokenCapResult;
+export function capTokens<T extends TokenBudgetContent>(
+  messages: readonly T[],
+  options: TokenBudgetOptions,
+): TokenBudgetResult<T>;
+export function capTokens<T extends TokenBudgetContent>(
+  input: string | readonly T[],
+  options: TokenBudgetOptions & { pinned?: boolean },
+): TokenBudgetResult<T> | TokenCapResult {
+  if (typeof input === "string") {
+    const { pinned, ...restOptions } = options as TokenBudgetOptions & { pinned?: boolean };
+    const result = enforceTokenBudgetInternal(
+      [
+        {
+          content: input,
+          pinned,
+        },
+      ],
+      restOptions,
+    );
+    const kept = result.messages[0];
+    return {
+      content: kept?.content ?? null,
+      removed: kept === undefined,
+      totalTokens: result.totalTokens,
+      availableTokens: result.availableTokens,
+    };
+  }
+
+  return enforceTokenBudgetInternal(input, options as TokenBudgetOptions);
+}
+
+export function enforceTokenBudget<T extends TokenBudgetContent>(
+  messages: readonly T[],
+  options: TokenBudgetOptions,
+): TokenBudgetResult<T> {
+  return capTokens(messages, options);
+}
+
 export interface SchemaValidationOptions {
   readonly label?: string;
 }
 
-export function validateSchema<T>(
+export function guardResponse<T>(
   value: unknown,
   schema: z.ZodType<T>,
   options: SchemaValidationOptions = {},
@@ -128,6 +179,45 @@ export function validateSchema<T>(
       ? new Error(`${label} validation failed: ${error.message}`)
       : new Error(`${label} validation failed`);
   }
+}
+
+export const validateSchema = guardResponse;
+
+export interface StopSequenceOptions {
+  readonly stopSequences?: readonly string[];
+  readonly safeModeStopSequences?: readonly string[];
+}
+
+export function withStopSequences<T extends { stopSequences?: readonly string[] }>(
+  payload: T,
+  options: StopSequenceOptions = {},
+): T & { stopSequences?: readonly string[] } {
+  const baseSequences = options.stopSequences ?? payload.stopSequences ?? [];
+  const safeModeSequences = options.safeModeStopSequences ?? baseSequences;
+  const targetSequences = isSafeModeEnabled() ? safeModeSequences : baseSequences;
+  const normalized = Array.from(
+    new Set(
+      targetSequences.filter(
+        (sequence): sequence is string =>
+          typeof sequence === "string" && sequence.trim().length > 0,
+      ),
+    ),
+  );
+
+  if (normalized.length === 0) {
+    const clone = { ...payload } as T & { stopSequences?: readonly string[] };
+    if (payload.stopSequences !== undefined || options.stopSequences !== undefined) {
+      clone.stopSequences = [];
+    } else {
+      delete clone.stopSequences;
+    }
+    return clone;
+  }
+
+  return {
+    ...payload,
+    stopSequences: normalized,
+  };
 }
 
 export interface RetryOptions {
