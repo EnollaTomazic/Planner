@@ -41,8 +41,8 @@ const AIErrorCard = React.forwardRef<HTMLDivElement, AIErrorCardProps>(
     ref,
   ) => {
     const retryAction = React.useMemo(() => {
-      if (!onRetry) return null;
       if (actions) return actions;
+      if (!onRetry) return null;
       return (
         <Button
           type="button"

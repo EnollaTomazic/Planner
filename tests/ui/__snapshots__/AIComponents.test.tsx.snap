@@ -1,0 +1,273 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AIConfidenceHint > formats scores and level metadata 1`] = `
+<div
+  class="flex flex-col gap-[var(--space-2)] rounded-card border p-[var(--space-3)] shadow-[var(--shadow-outline-faint)] bg-[hsl(var(--success-soft))] border-[hsl(var(--success)/0.35)] text-[hsl(var(--success-foreground))]"
+>
+  <div
+    class="flex items-start gap-[var(--space-2)]"
+  >
+    <span
+      aria-hidden="true"
+      class="grid size-[var(--space-8)] shrink-0 place-items-center rounded-full bg-[hsl(var(--panel)/0.85)] shadow-[var(--shadow-inset-hairline)] text-[hsl(var(--success-foreground))]"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-shield-check size-[var(--space-4)]"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+        />
+        <path
+          d="m9 12 2 2 4-4"
+        />
+      </svg>
+    </span>
+    <div
+      class="flex flex-1 flex-col gap-[var(--space-1-5)]"
+    >
+      <div
+        class="flex flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]"
+      >
+        <p
+          class="text-label font-medium tracking-[-0.01em]"
+        >
+          Confidence
+        </p>
+        <span
+          class="text-caption font-semibold uppercase tracking-[0.08em] opacity-85"
+        >
+          High
+        </span>
+        <span
+          class="text-caption opacity-85"
+        >
+          90.0 pts
+        </span>
+      </div>
+      <p
+        class="text-caption opacity-80"
+      >
+        Grounding verified
+      </p>
+    </div>
+  </div>
+  <div
+    class="flex h-[var(--space-2)] items-center gap-[var(--space-1)]"
+  >
+    <span
+      aria-hidden="true"
+      class="flex-1 rounded-full bg-[hsl(var(--success))]"
+    />
+    <span
+      aria-hidden="true"
+      class="flex-1 rounded-full bg-[hsl(var(--success))]"
+    />
+    <span
+      aria-hidden="true"
+      class="flex-1 rounded-full bg-[hsl(var(--success))]"
+    />
+    <span
+      aria-hidden="true"
+      class="flex-1 rounded-full bg-[hsl(var(--success))]"
+    />
+    <span
+      aria-hidden="true"
+      class="flex-1 rounded-full bg-[hsl(var(--muted)/0.6)] opacity-60"
+    />
+  </div>
+</div>
+`;
+
+exports[`AIExplainTooltip > toggles open state via click 1`] = `
+<div
+  class="pointer-events-none absolute z-10 mt-[var(--space-2)] min-w-[min(22rem,calc(100vw-2rem))] rounded-card border p-[var(--space-3)] text-left shadow-[var(--shadow-outline-subtle)] transition-opacity duration-200 ease-out bg-[hsl(var(--accent-soft))] border-[hsl(var(--accent)/0.4)] text-[hsl(var(--accent-foreground))] left-0 opacity-100"
+  data-state="open"
+  id=":r0:"
+  role="tooltip"
+>
+  <p
+    class="text-label font-medium leading-snug"
+  >
+    Confidence blends retrieval coverage, grounding matches, and the assistant's self-check heuristics.
+  </p>
+</div>
+`;
+
+exports[`AIRetryErrorBubble > invokes retry handler and snapshots the layout 1`] = `
+<div
+  aria-live="assertive"
+  class="flex items-start gap-[var(--space-3)] rounded-card border border-[hsl(var(--danger)/0.4)] bg-[hsl(var(--danger)/0.16)] p-[var(--space-3)] text-[hsl(var(--danger-foreground))] shadow-[var(--shadow-outline-subtle)]"
+  role="alert"
+>
+  <span
+    aria-hidden="true"
+    class="grid size-[var(--space-8)] shrink-0 place-items-center rounded-full bg-[hsl(var(--danger)/0.2)] text-[hsl(var(--danger))] shadow-[var(--shadow-inset-hairline)]"
+  >
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-triangle-alert size-[var(--space-4)]"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+      />
+      <path
+        d="M12 9v4"
+      />
+      <path
+        d="M12 17h.01"
+      />
+    </svg>
+  </span>
+  <div
+    class="flex flex-1 flex-col gap-[var(--space-2)]"
+  >
+    <p
+      class="text-label font-medium"
+    >
+      The assistant lost connection
+    </p>
+    <div
+      class="pt-[var(--space-1-5)]"
+    >
+      <button
+        class="_neu_0e7b1b _root_2452a7 relative inline-flex items-center justify-center rounded-card r-card-md border font-medium tracking-[0.02em] transition-all duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none [--neu-radius:var(--radius-card)] h-[var(--control-h-sm)] text-label [&_svg]:size-[var(--space-4)] gap-[var(--space-2)] px-[var(--space-3)] [--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)] text-danger [--neu-surface:hsl(var(--danger)/0.12)] border-danger/35"
+        data-tone="danger"
+        data-variant="quiet"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="relative z-10 inline-flex items-center gap-[var(--space-1)]"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-rotate-ccw size-[var(--space-4)]"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+            />
+            <path
+              d="M3 3v5h5"
+            />
+          </svg>
+          Retry
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`AITypingIndicator > renders typing dots and snapshot 1`] = `
+<div
+  aria-busy="true"
+  aria-live="polite"
+  class="flex items-center gap-[var(--space-3)] rounded-card border border-[hsl(var(--accent)/0.35)] bg-[hsl(var(--surface)/0.72)] p-[var(--space-3)] text-left shadow-[var(--shadow-outline-faint)] backdrop-blur-sm"
+  role="status"
+>
+  <span
+    aria-hidden="true"
+    class="grid size-[var(--space-9)] place-items-center rounded-full border border-[hsl(var(--accent)/0.35)] bg-[hsl(var(--accent-soft))] text-[hsl(var(--accent-foreground))] shadow-[var(--shadow-inset-hairline)]"
+  >
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-sparkles size-[var(--space-5)]"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"
+      />
+      <path
+        d="M20 2v4"
+      />
+      <path
+        d="M22 4h-4"
+      />
+      <circle
+        cx="4"
+        cy="20"
+        r="2"
+      />
+    </svg>
+  </span>
+  <div
+    class="flex flex-1 flex-col gap-[var(--space-1-5)]"
+  >
+    <div
+      class="flex flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]"
+    >
+      <p
+        aria-live="polite"
+        class="text-label font-medium text-foreground"
+      >
+        Assistant is typing
+      </p>
+      <span
+        class="text-caption text-muted-foreground"
+      >
+        Streaming contextual response
+      </span>
+    </div>
+    <div
+      class="flex items-center gap-[var(--space-1)]"
+    >
+      <span
+        aria-hidden="true"
+        class="size-[var(--space-1-5)] rounded-full bg-[hsl(var(--accent))] opacity-70 motion-safe:animate-pulse"
+        style="animation-delay: 0ms; animation-duration: 1200ms;"
+      />
+      <span
+        aria-hidden="true"
+        class="size-[var(--space-1-5)] rounded-full bg-[hsl(var(--accent))] opacity-70 motion-safe:animate-pulse"
+        style="animation-delay: 120ms; animation-duration: 1200ms;"
+      />
+      <span
+        aria-hidden="true"
+        class="size-[var(--space-1-5)] rounded-full bg-[hsl(var(--accent))] opacity-70 motion-safe:animate-pulse"
+        style="animation-delay: 240ms; animation-duration: 1200ms;"
+      />
+      <span
+        class="text-caption text-muted-foreground"
+      >
+        Drafting follow-up
+      </span>
+    </div>
+  </div>
+</div>
+`;
