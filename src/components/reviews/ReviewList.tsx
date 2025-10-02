@@ -5,8 +5,8 @@ import * as React from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import ReviewListItem from "./ReviewListItem";
-import { Button } from "@/components/ui";
-import { Ghost } from "lucide-react";
+import { Button, Skeleton, AIErrorCard } from "@/components/ui";
+import { BookOpen } from "lucide-react";
 
 const PAGE_SIZE = 40;
 const REVIEW_SCROLL_STORAGE_KEY = "planner:reviews:list-scroll";
@@ -20,6 +20,9 @@ export type ReviewListProps = {
   className?: string;
   header?: React.ReactNode;
   hoverRing?: boolean;
+  loading?: boolean;
+  error?: Error | string | null;
+  onRetry?: (() => void) | null;
 };
 
 export default function ReviewList({
@@ -30,8 +33,25 @@ export default function ReviewList({
   className,
   header,
   hoverRing = false,
+  loading = false,
+  error = null,
+  onRetry = null,
 }: ReviewListProps) {
   const count = reviews.length;
+  const isLoading = Boolean(loading);
+  const errorMessage = React.useMemo(() => {
+    if (!error) return null;
+    if (error instanceof Error) {
+      const message = error.message?.trim();
+      return message?.length ? message : "";
+    }
+    if (typeof error === "string") {
+      const trimmed = error.trim();
+      return trimmed.length > 0 ? trimmed : "";
+    }
+    return String(error);
+  }, [error]);
+  const isErrored = Boolean(errorMessage);
   const [visibleCount, setVisibleCount] = React.useState(PAGE_SIZE);
   const [autoLoadEnabled, setAutoLoadEnabled] = React.useState(true);
   const scrollContainerRef = React.useRef<HTMLElement | null>(null);
@@ -193,9 +213,71 @@ export default function ReviewList({
     </header>
   ) : null;
 
+  if (isLoading) {
+    return (
+      <section
+        data-scope="reviews"
+        data-state="loading"
+        className={containerClass}
+        aria-busy="true"
+      >
+        {headerNode}
+        <ul className="flex flex-col gap-[var(--space-3)]" aria-hidden>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <li key={`loading-${index}`}>
+              <div className="space-y-[var(--space-2)] rounded-card border border-border/35 bg-card/65 p-[var(--space-3)] shadow-outline-subtle">
+                <Skeleton
+                  ariaHidden={false}
+                  role="status"
+                  aria-label="Loading review title"
+                  className="h-[var(--space-4)] w-2/3"
+                  radius="sm"
+                />
+                <Skeleton className="w-3/4" />
+              </div>
+            </li>
+          ))}
+        </ul>
+        <Skeleton
+          ariaHidden={false}
+          role="status"
+          aria-label="Preparing review actions"
+          className="mt-[var(--space-4)] h-[var(--space-5)] w-1/2"
+          radius="full"
+        />
+      </section>
+    );
+  }
+
+  if (isErrored) {
+    return (
+      <section
+        data-scope="reviews"
+        data-state="error"
+        className={emptyContainerClass}
+        aria-live="polite"
+      >
+        {headerNode}
+        <AIErrorCard
+          title="Unable to load reviews"
+          description={errorMessage ?? "We couldn’t sync your reviews."}
+          hint="Check your connection or retry the sync to refresh your queue."
+          retryLabel="Retry sync"
+          onRetry={onRetry ?? undefined}
+          className="glitch-card"
+        />
+      </section>
+    );
+  }
+
   if (count === 0) {
     return (
-      <section data-scope="reviews" className={emptyContainerClass}>
+      <section
+        data-scope="reviews"
+        data-state="empty"
+        className={emptyContainerClass}
+        aria-live="polite"
+      >
         {headerNode}
         <div className="flex flex-col items-center justify-center gap-[var(--space-3)] text-center text-ui text-muted-foreground">
           <span
@@ -203,15 +285,15 @@ export default function ReviewList({
             data-text=""
             className="glitch-anim inline-flex items-center justify-center rounded-full border border-border/40 bg-card/70 p-[var(--space-3)] text-muted-foreground motion-reduce:animate-none"
           >
-            <Ghost
+            <BookOpen
               aria-hidden
               focusable="false"
               className="size-[var(--space-6)]"
             />
           </span>
           <div className="space-y-[var(--space-1)]">
-            <p className="text-card-foreground">It&rsquo;s a friendly ghost town in here.</p>
-            <p>Spin up the first review and give this space a pulse.</p>
+            <p className="text-card-foreground">You haven&rsquo;t captured any reviews yet.</p>
+            <p>Start a match recap to unlock filtering, tagging, and summaries.</p>
           </div>
           <Button
             type="button"
@@ -230,6 +312,7 @@ export default function ReviewList({
   return (
     <section
       data-scope="reviews"
+      data-state="ready"
       className={containerClass}
       ref={(node) => {
         scrollContainerRef.current = node;

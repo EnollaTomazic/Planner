@@ -151,6 +151,11 @@ export function useReviews() {
     [],
     { decode: decodeReviews },
   );
+  const [isHydrated, setIsHydrated] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const totalCount = reviews.length;
 
@@ -172,6 +177,7 @@ export function useReviews() {
   return {
     reviews,
     setReviews,
+    isHydrated,
     totalCount,
     flaggedReviews,
     flaggedReviewCount,

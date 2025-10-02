@@ -18,6 +18,8 @@ import {
   PageShell,
   Select,
   TabBar,
+  Skeleton,
+  AIErrorCard,
 } from "@/components/ui";
 
 type SortKey = "newest" | "oldest" | "title";
@@ -25,6 +27,9 @@ type DetailMode = "summary" | "edit";
 
 export type ReviewsPageProps = {
   reviews: Review[] | null | undefined;
+  loading?: boolean;
+  error?: Error | string | null;
+  onRetry?: (() => void) | null;
   selectedId: string | null;
   onSelect: (id: string) => void;
   onCreate: () => void;
@@ -37,6 +42,9 @@ export type ReviewsPageProps = {
 
 export default function ReviewsPage({
   reviews,
+  loading,
+  error = null,
+  onRetry = null,
   selectedId,
   onSelect,
   onCreate,
@@ -52,26 +60,55 @@ export default function ReviewsPage({
   const [detailMode, setDetailMode] = React.useState<DetailMode>("summary");
   const [intentApplied, setIntentApplied] = React.useState(false);
 
-  const handleCreateReview = React.useCallback(() => {
+  const isLoading = (loading ?? (typeof reviews === "undefined")) === true;
+  const errorMessage = React.useMemo(() => {
+    if (error instanceof Error) {
+      const message = error.message?.trim();
+      if (message?.length) return message;
+    }
+    if (typeof error === "string") {
+      const trimmed = error.trim();
+      if (trimmed.length > 0) return trimmed;
+    }
+    if (error && typeof error !== "object") {
+      return String(error);
+    }
+    if (reviews === null) {
+      return "We couldn’t load your reviews.";
+    }
+    return null;
+  }, [error, reviews]);
+  const isErrored = Boolean(errorMessage);
+  const allowInteractions = !isLoading && !isErrored;
+
+  const commitCreateReview = React.useCallback(() => {
     setQ("");
     setSort("newest");
     setDetailMode("edit");
     onCreate();
   }, [onCreate]);
 
+  const tryCreateReview = React.useCallback(() => {
+    if (!allowInteractions) return false;
+    commitCreateReview();
+    return true;
+  }, [allowInteractions, commitCreateReview]);
+
   const intentParam = searchParams?.get("intent") ?? null;
   React.useEffect(() => {
     if (intentParam === "create-review") {
       if (!intentApplied) {
-        handleCreateReview();
-        setIntentApplied(true);
+        const created = tryCreateReview();
+        if (created) {
+          setIntentApplied(true);
+        }
       }
       return;
     }
     if (intentApplied) {
       setIntentApplied(false);
     }
-  }, [intentParam, intentApplied, handleCreateReview]);
+  }, [intentParam, intentApplied, tryCreateReview]);
 
   const base = React.useMemo<Review[]>(
     () => (Array.isArray(reviews) ? reviews : []),
@@ -80,17 +117,50 @@ export default function ReviewsPage({
 
   const filtered = useReviewFilter(base, q, sort);
   const totalCount = base.length;
-  const hasReviews = totalCount > 0;
-  const filteredCount = filtered.length;
+  const listReviews = allowInteractions ? filtered : [];
+  const filteredCount = allowInteractions ? filtered.length : 0;
+  const hasReviews = allowInteractions && totalCount > 0;
 
   const active = React.useMemo(
-    () => base.find((r) => r.id === selectedId) || null,
-    [base, selectedId],
+    () => {
+      if (!allowInteractions) return null;
+      return base.find((r) => r.id === selectedId) ?? null;
+    },
+    [allowInteractions, base, selectedId],
   );
   const panelClass = "mx-auto";
   const detailBaseId = active ? `review-${active.id}` : "review-detail";
   const sortLabelId = React.useId();
-  const emptySearchDescriptionId = "reviews-empty-search-description";
+  const emptySearchDescriptionId = React.useId();
+  const heroSubtitle = React.useMemo(() => {
+    if (isLoading) {
+      return (
+        <span className="text-label text-muted-foreground" aria-live="polite">
+          Syncing local reviews…
+        </span>
+      );
+    }
+    if (isErrored) {
+      return (
+        <span className="text-label font-medium text-danger" role="status">
+          {errorMessage ?? "Unable to load reviews"}
+        </span>
+      );
+    }
+    if (totalCount > 0) {
+      return <span className="pill">Total {totalCount}</span>;
+    }
+    return undefined;
+  }, [errorMessage, isErrored, isLoading, totalCount]);
+  const heroGridClass = "grid gap-[var(--space-3)] sm:gap-[var(--space-4)] md:grid-cols-12";
+  const sortItems = React.useMemo(
+    () => [
+      { value: "newest", label: "Newest" },
+      { value: "oldest", label: "Oldest" },
+      { value: "title", label: "Title" },
+    ],
+    [],
+  );
 
   return (
     <>
@@ -107,12 +177,85 @@ export default function ReviewsPage({
           hero={{
             sticky: false,
             heading: "Browse Reviews",
-            subtitle:
-              totalCount > 0 ? (
-                <span className="pill">Total {totalCount}</span>
-              ) : undefined,
-            children: hasReviews ? (
-              <div className="grid gap-[var(--space-3)] sm:gap-[var(--space-4)] md:grid-cols-12">
+            subtitle: heroSubtitle,
+            children: isLoading ? (
+              <div className={heroGridClass}>
+                <Skeleton
+                  ariaHidden={false}
+                  role="status"
+                  aria-label="Loading review search"
+                  className="md:col-span-8 h-[var(--control-h-lg)] w-full"
+                  radius="full"
+                />
+                <Skeleton
+                  ariaHidden={false}
+                  role="status"
+                  aria-label="Loading sort control"
+                  className="md:col-span-2 h-[var(--control-h-lg)] w-full"
+                  radius="md"
+                />
+                <Skeleton
+                  ariaHidden={false}
+                  role="status"
+                  aria-label="Loading review actions"
+                  className="md:col-span-2 h-[var(--control-h-lg)] w-full"
+                  radius="md"
+                />
+              </div>
+            ) : isErrored ? (
+              <div className={heroGridClass}>
+                <HeroSearchBar
+                  round
+                  value={q}
+                  onValueChange={undefined}
+                  placeholder="Search unavailable until reviews sync."
+                  aria-label="Search reviews (temporarily unavailable)"
+                  className="md:col-span-8"
+                  debounceMs={300}
+                  disabled
+                  aria-busy={isErrored}
+                />
+                <div
+                  className="flex w-full flex-col gap-[var(--space-1)] text-left md:col-span-2"
+                  aria-labelledby={sortLabelId}
+                >
+                  <span
+                    id={sortLabelId}
+                    className="text-ui font-medium text-muted-foreground"
+                  >
+                    Sort
+                  </span>
+                  <Select
+                    variant="animated"
+                    label="Sort reviews"
+                    hideLabel
+                    value={sort}
+                    onChange={(v) => setSort(v as SortKey)}
+                    items={sortItems}
+                    className="w-full"
+                    size="lg"
+                    disabled
+                  />
+                </div>
+                <Button
+                  type="button"
+                  variant="default"
+                  size="md"
+                  className={cn(
+                    "btn-glitch",
+                    "w-full whitespace-nowrap md:col-span-2 md:justify-self-end",
+                  )}
+                  onClick={onRetry ?? undefined}
+                  disabled={!onRetry}
+                >
+                  Retry sync
+                </Button>
+                <p className="text-ui text-danger md:col-span-12" role="alert">
+                  {errorMessage ?? "We couldn’t load your reviews. Retry to continue."}
+                </p>
+              </div>
+            ) : hasReviews ? (
+              <div className={heroGridClass}>
                 <HeroSearchBar
                   round
                   value={q}
@@ -138,11 +281,7 @@ export default function ReviewsPage({
                     hideLabel
                     value={sort}
                     onChange={(v) => setSort(v as SortKey)}
-                    items={[
-                      { value: "newest", label: "Newest" },
-                      { value: "oldest", label: "Oldest" },
-                      { value: "title", label: "Title" },
-                    ]}
+                    items={sortItems}
                     className="w-full"
                     size="lg"
                   />
@@ -155,14 +294,14 @@ export default function ReviewsPage({
                     "btn-glitch",
                     "w-full whitespace-nowrap md:col-span-2 md:justify-self-end",
                   )}
-                  onClick={handleCreateReview}
+                  onClick={commitCreateReview}
                 >
                   <Plus />
                   <span>New Review</span>
                 </Button>
               </div>
             ) : (
-              <div className="grid gap-[var(--space-3)] sm:gap-[var(--space-4)] md:grid-cols-12">
+              <div className={heroGridClass}>
                 <HeroSearchBar
                   round
                   value={q}
@@ -178,7 +317,7 @@ export default function ReviewsPage({
                   id={emptySearchDescriptionId}
                   className="text-ui text-muted-foreground md:col-span-8"
                 >
-                  Once you create your first review, you can filter by title, tag combinations, specific opponents, or patch history.
+                  Once you publish your first review, smart filters, tagging, and matchup search become available.
                 </p>
                 <Button
                   type="button"
@@ -188,7 +327,7 @@ export default function ReviewsPage({
                     "btn-glitch",
                     "w-full whitespace-nowrap md:col-span-4 md:justify-self-end",
                   )}
-                  onClick={handleCreateReview}
+                  onClick={commitCreateReview}
                 >
                   <Plus />
                   <span>New Review</span>
@@ -214,22 +353,127 @@ export default function ReviewsPage({
             className="md:col-span-2 lg:col-span-4"
           >
             <ReviewList
-              reviews={filtered}
+              reviews={listReviews}
               selectedId={selectedId}
-              onSelect={(id) => {
-                setDetailMode("summary");
-                onSelect(id);
-              }}
-              onCreate={handleCreateReview}
+              loading={isLoading}
+              error={errorMessage}
+              onRetry={isErrored ? onRetry : null}
+              onSelect={
+                allowInteractions
+                  ? (id) => {
+                      setDetailMode("summary");
+                      onSelect(id);
+                    }
+                  : undefined
+              }
+              onCreate={allowInteractions ? commitCreateReview : undefined}
               className="h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
               header={
-                filteredCount > 0 ? `${filteredCount} shown` : undefined
+                allowInteractions && filteredCount > 0
+                  ? `${filteredCount} shown`
+                  : undefined
               }
               hoverRing
             />
           </nav>
           <div className="md:col-span-4 lg:col-span-8">
-            {!active ? (
+            {isLoading ? (
+              <ReviewPanel
+                aria-busy="true"
+                className={cn(
+                  panelClass,
+                  "glitch-card space-y-[var(--space-4)] px-[var(--space-7)] py-[var(--space-7)]",
+                )}
+              >
+                <div className="space-y-[var(--space-2)]">
+                  <Skeleton
+                    ariaHidden={false}
+                    role="status"
+                    aria-label="Loading review summary"
+                    className="h-[var(--space-6)] w-2/3"
+                    radius="sm"
+                  />
+                  <Skeleton className="w-3/4" />
+                </div>
+                <div className="grid gap-[var(--space-3)] sm:grid-cols-[var(--space-12)_1fr]">
+                  <Skeleton
+                    ariaHidden={false}
+                    role="status"
+                    aria-label="Loading review avatar"
+                    className="h-[var(--space-12)] w-[var(--space-12)]"
+                    radius="full"
+                  />
+                  <div className="space-y-[var(--space-2)]">
+                    <Skeleton className="w-2/3" />
+                    <Skeleton className="w-3/4" />
+                    <Skeleton className="w-full" />
+                  </div>
+                </div>
+                <Skeleton
+                  ariaHidden={false}
+                  role="status"
+                  aria-label="Loading review actions"
+                  className="h-[var(--space-10)] w-full"
+                  radius="sm"
+                />
+              </ReviewPanel>
+            ) : isErrored ? (
+              <ReviewPanel
+                aria-live="polite"
+                className={cn(
+                  panelClass,
+                  "glitch-card px-[var(--space-7)] py-[var(--space-7)]",
+                )}
+              >
+                <AIErrorCard
+                  title="Review detail unavailable"
+                  description={errorMessage ?? "We couldn’t load your review details."}
+                  hint="Retry the sync to continue editing or summarizing your matches."
+                  retryLabel="Retry sync"
+                  onRetry={onRetry ?? undefined}
+                  className="w-full border-none bg-transparent p-0 shadow-none"
+                />
+              </ReviewPanel>
+            ) : !hasReviews ? (
+              <ReviewPanel
+                aria-live="polite"
+                className={cn(
+                  panelClass,
+                  "relative isolate flex flex-col items-center justify-center gap-[var(--space-4)] overflow-hidden",
+                  "glitch-card px-[var(--space-7)] py-[var(--space-8)] text-center text-ui text-muted-foreground",
+                )}
+              >
+                <span
+                  aria-hidden
+                  className="glitch-rail pointer-events-none absolute inset-y-[var(--space-2)] left-1/2 hidden w-[var(--spacing-1)] -translate-x-1/2 rounded-full opacity-80 mix-blend-screen sm:block"
+                />
+                <span
+                  aria-hidden
+                  data-text=""
+                  className="glitch-anim inline-flex items-center justify-center rounded-full border border-border/40 bg-card/70 p-[var(--space-3)] text-muted-foreground motion-reduce:animate-none"
+                >
+                  <BookOpen
+                    aria-hidden
+                    focusable="false"
+                    className="size-[var(--space-6)]"
+                  />
+                </span>
+                <div className="space-y-[var(--space-1)]">
+                  <p className="text-card-foreground">You&rsquo;re ready to capture your first review.</p>
+                  <p>Log a match recap to unlock summaries, tagging, and focus tracking.</p>
+                </div>
+                <Button
+                  type="button"
+                  variant="default"
+                  size="md"
+                  className={cn("btn-glitch")}
+                  onClick={commitCreateReview}
+                >
+                  <Plus />
+                  <span>New Review</span>
+                </Button>
+              </ReviewPanel>
+            ) : !active ? (
               <ReviewPanel
                 aria-live="polite"
                 className={cn(
@@ -254,8 +498,8 @@ export default function ReviewsPage({
                   />
                 </span>
                 <div className="space-y-[var(--space-1)]">
-                  <p className="text-card-foreground">Select a review from the list or create a new one.</p>
-                  <p>Once you do, summaries and edit tools will appear here.</p>
+                  <p className="text-card-foreground">Select a review from the list to see its summary.</p>
+                  <p>Use New Review to document another match when you&rsquo;re ready.</p>
                 </div>
               </ReviewPanel>
             ) : (
