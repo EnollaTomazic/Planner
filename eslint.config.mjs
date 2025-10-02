@@ -18,6 +18,27 @@ const designPlugin = {
   },
 };
 
+const styledComponentsMessage =
+  "Use the shared design system primitives and Tailwind utilities instead of styled-components.";
+
+const restrictedDesignImports = [
+  {
+    name: "styled-components",
+    message: styledComponentsMessage,
+  },
+  {
+    name: "styled-components/macro",
+    message: styledComponentsMessage,
+  },
+];
+
+const restrictedDesignImportPatterns = [
+  {
+    group: ["styled-components/*"],
+    message: styledComponentsMessage,
+  },
+];
+
 const eslintConfig = [
   {
     ignores: ["src/components/gallery/generated-manifest.ts"],
@@ -30,16 +51,12 @@ const eslintConfig = [
     },
     rules: {
       // Styled-components bypasses our tokenized primitives and theming, so block it globally.
+      // Keep this in sync with scripts/design-lint.ts so CI catches violations even when ESLint is skipped.
       "no-restricted-imports": [
         "error",
         {
-          paths: [
-            {
-              name: "styled-components",
-              message:
-                "Use the shared design system primitives and Tailwind utilities instead of styled-components.",
-            },
-          ],
+          paths: restrictedDesignImports,
+          patterns: restrictedDesignImportPatterns,
         },
       ],
       "design/no-raw-design-values": "error",
