@@ -37,7 +37,7 @@ jobs:
         uses: reviewdog/action-actionlint@0b71b30a47a15c4d849868cca394fb656f1cf657 # v1.67.0
         with:
           github_token: ${{ github.token }}
-          fail_on_error: true
+          fail_level: error
 
       - name: Install yamllint
         run: sudo apt-get update && sudo apt-get install -y yamllint
