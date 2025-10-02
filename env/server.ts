@@ -40,23 +40,16 @@ const serverEnvSchema = z
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
 
 export function loadServerEnv(source: NodeJS.ProcessEnv = process.env): ServerEnv {
-  const shouldInjectDefaults = source === process.env;
-
-  const normalizedSource = shouldInjectDefaults
-    ? {
-        ...source,
-        SAFE_MODE: source.SAFE_MODE ?? source.NEXT_PUBLIC_SAFE_MODE ?? "false",
-      }
-    : source;
-
   return serverEnvSchema.parse({
-    GITHUB_PAGES: normalizedSource.GITHUB_PAGES,
-    NEXT_PHASE: normalizedSource.NEXT_PHASE,
-    NODE_ENV: normalizedSource.NODE_ENV,
-    SAFE_MODE: normalizedSource.SAFE_MODE,
-    SENTRY_DSN: normalizedSource.SENTRY_DSN,
-    SENTRY_ENVIRONMENT: normalizedSource.SENTRY_ENVIRONMENT,
-    SENTRY_TRACES_SAMPLE_RATE: normalizedSource.SENTRY_TRACES_SAMPLE_RATE,
-    SKIP_PREVIEW_STATIC: normalizedSource.SKIP_PREVIEW_STATIC,
+    GITHUB_PAGES: source.GITHUB_PAGES,
+    NEXT_PHASE: source.NEXT_PHASE,
+    NODE_ENV: source.NODE_ENV,
+    SAFE_MODE: source.SAFE_MODE,
+    SENTRY_DSN: source.SENTRY_DSN,
+    SENTRY_ENVIRONMENT: source.SENTRY_ENVIRONMENT,
+    SENTRY_TRACES_SAMPLE_RATE: source.SENTRY_TRACES_SAMPLE_RATE,
+    SKIP_PREVIEW_STATIC: source.SKIP_PREVIEW_STATIC,
   });
 }
+
+export default loadServerEnv;

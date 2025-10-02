@@ -13,11 +13,27 @@ import PreviewContentClient from "./PreviewContentClient";
 import PreviewThemeClient from "@/components/gallery/PreviewThemeClient";
 import { VARIANT_LABELS } from "@/lib/theme";
 import { cn } from "@/lib/utils";
-import { loadServerEnv } from "../../../../env/server";
+import loadServerEnv from "../../../../env/server";
 
 import { PREVIEW_SURFACE_CONTAINER_CLASSNAME } from "@/components/gallery/PreviewSurfaceClient";
 
-const { GITHUB_PAGES, SKIP_PREVIEW_STATIC } = loadServerEnv();
+function readServerEnv(): ReturnType<typeof loadServerEnv> {
+  try {
+    return loadServerEnv();
+  } catch (error) {
+    console.error("[env] Failed to load server environment variables.", error);
+    if (
+      typeof process !== "undefined" &&
+      typeof process.exit === "function" &&
+      process.env.NODE_ENV !== "test"
+    ) {
+      process.exit(1);
+    }
+    throw error;
+  }
+}
+
+const { GITHUB_PAGES, SKIP_PREVIEW_STATIC } = readServerEnv();
 
 const SKIP_PREVIEW_RENDER =
   GITHUB_PAGES === "true" || SKIP_PREVIEW_STATIC === "true";

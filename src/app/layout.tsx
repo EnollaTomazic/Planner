@@ -10,7 +10,7 @@ import {
   geistSansVariable,
 } from "./fonts";
 import tokens from "../../tokens/tokens.js";
-import { loadServerEnv } from "../../env/server";
+import loadServerEnv from "../../env/server";
 import { resolveTokenColor } from "@/lib/color";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { CatCompanion, DecorLayer, PageShell, SkipLink } from "@/components/ui";
@@ -26,6 +26,22 @@ import {
   glitchLandingEnabled,
   organicDepthEnabled,
 } from "@/lib/features";
+
+function readServerEnv(): ReturnType<typeof loadServerEnv> {
+  try {
+    return loadServerEnv();
+  } catch (error) {
+    console.error("[env] Failed to load server environment variables.", error);
+    if (
+      typeof process !== "undefined" &&
+      typeof process.exit === "function" &&
+      process.env.NODE_ENV !== "test"
+    ) {
+      process.exit(1);
+    }
+    throw error;
+  }
+}
 
 const createNonceInitializer = (nonce: string): string => {
   const nonceValue = JSON.stringify(nonce);
@@ -249,7 +265,7 @@ export default async function RootLayout({
     );
   };
 
-  const { GITHUB_PAGES, NEXT_PHASE } = loadServerEnv();
+  const { GITHUB_PAGES, NEXT_PHASE } = readServerEnv();
 
   if (GITHUB_PAGES === "true" || NEXT_PHASE === "phase-production-build") {
     // Static exports (GitHub Pages, production build prerender) do not provide

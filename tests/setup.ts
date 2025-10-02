@@ -2,6 +2,16 @@ import "@testing-library/jest-dom/vitest";
 import { afterEach, vi } from "vitest";
 import { cleanup } from "@testing-library/react";
 
+if (typeof process !== "undefined") {
+  if (process.env.NEXT_PUBLIC_SAFE_MODE === undefined) {
+    process.env.NEXT_PUBLIC_SAFE_MODE = "false";
+  }
+
+  if (process.env.SAFE_MODE === undefined) {
+    process.env.SAFE_MODE = "false";
+  }
+}
+
 type ReactModule = typeof import("react");
 
 type StyleElementProps = {
