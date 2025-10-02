@@ -12,7 +12,7 @@ import { useReviews } from "./useReviews";
  * Hydration-safe: usePersistentState returns initial value on first render, then loads.
 */
 export default function ReviewPage() {
-  const { reviews, setReviews } = useReviews();
+  const { reviews, setReviews, isHydrated } = useReviews();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   // After local DB hydration, select the first review if none is chosen
@@ -87,7 +87,8 @@ export default function ReviewPage() {
 
   return (
     <ReviewsPage
-      reviews={reviews}                 
+      reviews={reviews}
+      loading={!isHydrated}
       selectedId={safeSelectedId}
       onSelect={onSelect}
       onCreate={onCreate}
