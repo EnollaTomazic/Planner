@@ -26,6 +26,7 @@ import {
   BlobContainer,
   DripEdge,
   IssueBadge,
+  SkipLink,
 } from "@/components/ui";
 import Badge from "@/components/ui/primitives/Badge";
 import IconButton from "@/components/ui/primitives/IconButton";
@@ -58,6 +59,7 @@ export default function PromptsDemos() {
   const issueDemoPanelId = React.useId();
   const issueDemoBadgeId = `${issueDemoPanelId}-badge`;
   const [issueDemoExpanded, setIssueDemoExpanded] = React.useState(false);
+  const skipLinkDemoTargetId = React.useId();
 
   return (
     <>
@@ -88,6 +90,36 @@ export default function PromptsDemos() {
               <CheckIcon aria-hidden />
             </IconButton>
           </Input>
+        </div>
+      </Card>
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
+        <h3 className="type-title">Skip link</h3>
+        <p className="text-ui text-muted-foreground">
+          Global skip links let keyboard users bypass chrome and land on the
+          main region without tabbing through every control.
+        </p>
+        <div className="space-y-[var(--space-3)]">
+          <SkipLink
+            targetId={skipLinkDemoTargetId}
+            className="left-auto right-[var(--space-4)]"
+          >
+            Skip to prompts content
+          </SkipLink>
+          <p className="text-label text-muted-foreground">
+            Tab forward until the skip link appears, then activate it to move
+            focus into the demo panel.
+          </p>
+          <div
+            id={skipLinkDemoTargetId}
+            tabIndex={-1}
+            className="space-y-[var(--space-2)] rounded-card border border-border bg-surface p-[var(--space-4)] text-body text-foreground shadow-outline-subtle"
+          >
+            <p className="font-medium">Prompts skip target</p>
+            <p className="text-label text-muted-foreground">
+              The focus-visible treatment and tokenized spacing match the
+              production layout for parity across previews.
+            </p>
+          </div>
         </div>
       </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">

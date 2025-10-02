@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Focus, Keyboard } from "lucide-react";
 
-import { Badge, Button, useDialogTrap } from "@/components/ui";
+import { Badge, Button, SkipLink, useDialogTrap } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 const FLOW_STEPS = [
@@ -32,9 +32,56 @@ const FLOW_STEPS = [
 export default function A11yPreviewClient() {
   return (
     <div className="space-y-[var(--space-6)]">
+      <SkipLinkDemo />
       <FocusTrapDemo />
       <KeyboardFlowDemo />
     </div>
+  );
+}
+
+function SkipLinkDemo() {
+  const targetId = "skip-link-demo-target";
+
+  return (
+    <section
+      aria-labelledby="a11y-skip-link-heading"
+      className="space-y-[var(--space-4)]"
+      data-a11y-panel="skip-link"
+    >
+      <header className="space-y-[var(--space-1)]">
+        <h2
+          id="a11y-skip-link-heading"
+          className="text-heading-sm font-semibold tracking-[-0.01em]"
+        >
+          Skip link navigation
+        </h2>
+        <p className="max-w-3xl text-label text-muted-foreground">
+          Use the skip link to bypass repetitive chrome and land directly on the
+          primary landmark. Focus the control and press Enter to jump to the
+          labeled region.
+        </p>
+      </header>
+      <div className="space-y-[var(--space-3)]">
+        <SkipLink targetId={targetId} className="left-auto right-[var(--space-4)]">
+          Skip to demo content
+        </SkipLink>
+        <p className="text-label text-muted-foreground">
+          Press Tab until the skip link appears in the top corner, then
+          activate it to focus the content below.
+        </p>
+        <div
+          id={targetId}
+          tabIndex={-1}
+          className="space-y-[var(--space-2)] rounded-card border border-border bg-surface p-[var(--space-4)] text-body text-foreground shadow-outline-subtle"
+        >
+          <p className="font-medium">Demo content</p>
+          <p className="text-label text-muted-foreground">
+            When the skip link is activated, focus moves here. Auditors can
+            verify the focus-visible ring and announceable heading.
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
 
