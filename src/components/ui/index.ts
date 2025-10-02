@@ -2,10 +2,18 @@
 // Do not edit directly.
 export { default as AIAbortButton } from "./ai/AIAbortButton";
 export * from "./ai/AIAbortButton";
+export { default as AIConfidenceHint } from "./ai/AIConfidenceHint";
+export * from "./ai/AIConfidenceHint";
 export { default as AIErrorCard } from "./ai/AIErrorCard";
 export * from "./ai/AIErrorCard";
+export { default as AIExplainTooltip } from "./ai/AIExplainTooltip";
+export * from "./ai/AIExplainTooltip";
 export { default as AILoadingShimmer } from "./ai/AILoadingShimmer";
 export * from "./ai/AILoadingShimmer";
+export { default as AIRetryErrorBubble } from "./ai/AIRetryErrorBubble";
+export * from "./ai/AIRetryErrorBubble";
+export { default as AITypingIndicator } from "./ai/AITypingIndicator";
+export * from "./ai/AITypingIndicator";
 export { default as AnimationToggle } from "./AnimationToggle";
 export { default as CatCompanion } from "./CatCompanion";
 export { default as Cluster } from "./Cluster";
