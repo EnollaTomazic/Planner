@@ -93,3 +93,182 @@ jobs:
             echo "## CI Results";
             echo "- Checks: ${{ job.status }}";
           } >> "$GITHUB_STEP_SUMMARY"
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v4.2.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Activate npm version from package.json
+        run: |
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+
+      - name: Restore Next.js cache
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Build
+        run: npm run build
+
+      - name: Bundle analysis
+        run: |
+          npm run prebuild:analyze
+          npm run build:analyze
+          npm run postbuild:analyze
+
+      - name: Upload bundle report
+        id: upload_bundle_report
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-report
+          path: docs/bundle-report
+          if-no-files-found: error
+
+      - name: Summarize build artifacts
+        if: always()
+        run: |
+          {
+            echo "## Build Summary";
+            echo "- Status: ${{ job.status }}";
+            if [ -n "${{ steps.upload_bundle_report.outputs.artifact-url }}" ]; then
+              echo "- Bundle report: [Download](${{ steps.upload_bundle_report.outputs.artifact-url }})";
+            fi
+            echo "- Preview routes validated: / (build)";
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  playwright:
+    runs-on: ubuntu-latest
+    env:
+      PLAYWRIGHT_HOST: 127.0.0.1
+      PLAYWRIGHT_PORT: 3100
+      PLAYWRIGHT_BASE_URL: http://127.0.0.1:3100
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - suite: keyboard-navigation
+            title: Keyboard navigation
+            command: >-
+              npx playwright test tests/chrome/SiteChrome.tab-order.e2e.ts --config playwright.config.ts --project=chromium-w1440 --reporter=github --pass-with-no-tests
+            previews: " /, /planner"
+          - suite: rate-limit-ux
+            title: Rate limit UX
+            command: >-
+              npx playwright test --config playwright.config.ts --project=chromium-w1440 --grep @rate-limit --pass-with-no-tests
+            previews: " /api, planner streaming"
+          - suite: streaming-cancel
+            title: Streaming cancel
+            command: >-
+              npx playwright test --config playwright.config.ts --project=chromium-w1440 --grep @stream-cancel --pass-with-no-tests
+            previews: " streaming flows"
+          - suite: theme-previews
+            title: Theme previews + axe
+            command: >-
+              npx playwright test tests/e2e/accessibility.spec.ts tests/e2e/gallery-preview.spec.ts tests/e2e/hero-images-preview.spec.ts tests/e2e/home-planner-previews.spec.ts --config playwright.config.ts --project=chromium-w1440 --reporter=github --pass-with-no-tests
+            previews: " /preview/theme-matrix, /preview/hero-images, /preview/gallery"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v4.2.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Activate npm version from package.json
+        run: |
+          corepack enable
+          corepack prepare "$(node -p "require('./package.json').packageManager")" --activate
+
+      - name: Restore Next.js cache
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            nextjs-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Build
+        run: npm run build
+
+      - name: Start Next.js server
+        run: |
+          npm run start -- --hostname $PLAYWRIGHT_HOST --port $PLAYWRIGHT_PORT &
+          echo $! > next.pid
+
+      - name: Wait for Next.js to boot
+        run: |
+          for attempt in {1..30}; do
+            if curl -sSf "http://$PLAYWRIGHT_HOST:$PLAYWRIGHT_PORT/" > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Next.js failed to boot" >&2
+          exit 1
+
+      - name: Run Playwright suite - ${{ matrix.title }}
+        run: ${{ matrix.command }}
+
+      - name: Stop Next.js server
+        if: always()
+        run: |
+          if [ -f next.pid ]; then
+            kill "$(cat next.pid)" || true
+            wait "$(cat next.pid)" 2>/dev/null || true
+          fi
+
+      - name: Prepare Playwright report artifact
+        if: always()
+        run: |
+          if [ -d playwright-report ]; then
+            mv playwright-report "playwright-report-${{ matrix.suite }}"
+          fi
+
+      - name: Upload Playwright report
+        if: always()
+        id: upload_playwright_report
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.suite }}
+          path: playwright-report-${{ matrix.suite }}
+          if-no-files-found: ignore
+
+      - name: Summarize Playwright suite
+        if: always()
+        run: |
+          {
+            echo "## Playwright - ${{ matrix.title }}";
+            echo "- Status: ${{ job.status }}";
+            echo "- Preview coverage:${{ matrix.previews }}";
+            if [ -n "${{ steps.upload_playwright_report.outputs.artifact-url }}" ]; then
+              echo "- HTML report: [Download](${{ steps.upload_playwright_report.outputs.artifact-url }})";
+            else
+              echo "- HTML report: not generated";
+            fi
+            echo "- Base URL: $PLAYWRIGHT_BASE_URL";
+          } >> "$GITHUB_STEP_SUMMARY"
