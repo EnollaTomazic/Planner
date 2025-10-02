@@ -10,7 +10,7 @@ const SEGMENTED_BUTTON_HOVER_STATE_CLASSNAME =
 const SEGMENTED_BUTTON_FOCUS_VISIBLE_STATE_CLASSNAME =
   "ring-2 ring-[--theme-ring] ring-offset-0 outline-none";
 
-type SegmentedButtonStateSpec = {
+export type SegmentedButtonStateSpec = {
   id: string;
   name: string;
   props: React.ComponentProps<typeof SegmentedButton>;
@@ -67,6 +67,9 @@ const SEGMENTED_BUTTON_STATES: readonly SegmentedButtonStateSpec[] = [
     code: "<SegmentedButton loading>Loading</SegmentedButton>",
   },
 ];
+
+export const SEGMENTED_BUTTON_STATE_SPECS: readonly SegmentedButtonStateSpec[] =
+  SEGMENTED_BUTTON_STATES;
 
 function SegmentedButtonStatePreview({
   state,

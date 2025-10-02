@@ -5,7 +5,7 @@ import { createGalleryPreview, defineGallerySection } from "@/components/gallery
 
 import Button, { buttonSizes, type ButtonSize } from "./Button";
 
-type ButtonStateSpec = {
+export type ButtonStateSpec = {
   id: string;
   name: string;
   className?: string;
@@ -66,6 +66,8 @@ const BUTTON_STATES: readonly ButtonStateSpec[] = [
     code: `<Button glitch glitchIntensity="glitch-overlay-button-opacity">Glitch overlay</Button>`,
   },
 ];
+
+export const BUTTON_STATE_SPECS: readonly ButtonStateSpec[] = BUTTON_STATES;
 
 const BUTTON_SIZE_ORDER: readonly ButtonSize[] = ["sm", "md", "lg", "xl"];
 

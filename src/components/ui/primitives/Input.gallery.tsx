@@ -4,7 +4,7 @@ import { createGalleryPreview, defineGallerySection } from "@/components/gallery
 
 import Input from "./Input";
 
-type InputStateSpec = {
+export type InputStateSpec = {
   id: string;
   name: string;
   className?: string;
@@ -71,6 +71,8 @@ const INPUT_STATES: readonly InputStateSpec[] = [
     code: `<Input glitch glitchText="Summoner search" placeholder="Glitch overlay" />`,
   },
 ];
+
+export const INPUT_STATE_SPECS: readonly InputStateSpec[] = INPUT_STATES;
 
 function InputStatePreview({ state }: { state: InputStateSpec }) {
   const { className, props } = state;

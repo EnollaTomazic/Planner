@@ -11,17 +11,26 @@
     "/dashboard-layout",
     "/preview/a11y",
     "/preview/hero-images",
-    "/preview/pages-check"
+    "/preview/pages-check",
+    "/preview/buttons"
   ],
-  "icon-button": [],
-  "segmented-button": [],
+  "icon-button": [
+    "/preview/buttons"
+  ],
+  "segmented-button": [
+    "/preview/buttons"
+  ],
   "label": [
     "/",
     "/preview/[slug]"
   ],
   "select": [],
-  "field": [],
-  "input": [],
+  "field": [
+    "/preview/forms"
+  ],
+  "input": [
+    "/preview/forms"
+  ],
   "search-bar": [],
   "textarea": [],
   "prompt-list": [],
@@ -33,13 +42,17 @@
   "calendar": [],
   "card-demo": [
     "/",
-    "/preview/[slug]"
+    "/preview/[slug]",
+    "/preview/cards"
   ],
   "neo-card-demo": [
     "/",
-    "/dashboard-layout"
+    "/dashboard-layout",
+    "/preview/cards"
   ],
-  "section-card-variants": [],
+  "section-card-variants": [
+    "/preview/cards"
+  ],
   "page-shell": [
     "/",
     "/components",
