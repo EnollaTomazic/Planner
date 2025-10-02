@@ -69,6 +69,7 @@ The app reads configuration from your shell environment at build time. Use `.env
 | --- | --- | --- |
 | `BASE_PATH` | `""` | Repository slug added to exported asset URLs. Required for GitHub Pages deployments so the static site serves from `/<repo>/`. |
 | `NEXT_PUBLIC_BASE_PATH` | `""` | Browser-visible base path. Mirror `BASE_PATH` when `GITHUB_PAGES` is `true` to keep runtime navigation and asset fetching in sync. |
+| `NEXT_PUBLIC_ENABLE_METRICS` | `"auto"` | Controls the browser web vitals hook. `auto` only ships metrics in production, set to `true`/`false` to force enable or disable respectively. |
 | `GITHUB_PAGES` | `false` | Enables GitHub Pages specific behavior in Next.js builds (base path awareness and export tweaks). Set to `true` for GitHub Pages previews or exports. |
 | `GITHUB_TOKEN` | `""` | Personal access token used by the deploy script to push from CI. Needs `public_repo` scope for public repositories. Leave empty locally when an `origin` remote is configured. |
 | `GITHUB_REPOSITORY` | `""` | `owner/repo` slug resolved by the deploy script when no git remote is available (common in CI). |
