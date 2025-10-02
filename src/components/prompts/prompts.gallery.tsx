@@ -52,7 +52,15 @@ import {
   SectionCard as UiSectionCard,
   Spinner,
 } from "@/components/ui";
-import { AIAbortButton, AIErrorCard, AILoadingShimmer } from "@/components/ui/ai";
+import {
+  AIAbortButton,
+  AIConfidenceHint,
+  AIErrorCard,
+  AIExplainTooltip,
+  AILoadingShimmer,
+  AIRetryErrorBubble,
+  AITypingIndicator,
+} from "@/components/ui/ai";
 import { Check as CheckIcon } from "lucide-react";
 import DemoHeader from "./DemoHeader";
 import GoalListDemo from "./GoalListDemo";
@@ -3870,10 +3878,213 @@ React.useEffect(() => {
       code: `<Spinner size="xl" />`,
     },
     {
+      id: "ai-typing-indicator",
+      name: "AITypingIndicator",
+      description: "Live status bubble that animates while the assistant is drafting a reply.",
+      element: (
+        <AITypingIndicator hint="Streaming contextual response">Drafting follow-up</AITypingIndicator>
+      ),
+      tags: ["ai", "typing", "status"],
+      code: `<AITypingIndicator hint="Streaming contextual response">
+  Drafting follow-up
+</AITypingIndicator>`,
+      states: [
+        {
+          id: "paused",
+          name: "Paused",
+          description: "Muted activity state for when the stream halts but the shell remains visible.",
+          element: (
+            <AITypingIndicator isTyping={false} hint="Paused">
+              Tap resume to continue
+            </AITypingIndicator>
+          ),
+          code: `<AITypingIndicator isTyping={false} hint="Paused">
+  Tap resume to continue
+</AITypingIndicator>`,
+        },
+        {
+          id: "minimal",
+          name: "Minimal",
+          description: "Avatar-free mode keeps the footprint tight for dense chat layouts.",
+          element: (
+            <AITypingIndicator showAvatar={false} hint="Gathering teammates" />
+          ),
+          code: `<AITypingIndicator showAvatar={false} hint="Gathering teammates" />`,
+        },
+      ],
+    },
+    {
+      id: "ai-confidence-hint",
+      name: "AIConfidenceHint",
+      description: "Confidence badge summarizing grounding quality and risk cues.",
+      element: (
+        <AIConfidenceHint
+          level="medium"
+          score={0.62}
+          description="Signals look solid with a couple of open questions to verify."
+        >
+          <AIExplainTooltip
+            triggerLabel="Why this rating?"
+            explanation="Confidence blends retrieval coverage, grounding matches, and the assistant's self-check heuristics."
+            shortcutHint="Use ⌘· to open the trace inspector."
+            tone="neutral"
+            triggerProps={{ size: "sm", variant: "quiet" }}
+          />
+        </AIConfidenceHint>
+      ),
+      tags: ["ai", "confidence", "status"],
+      code: `<AIConfidenceHint
+  level="medium"
+  score={0.62}
+  description="Signals look solid with a couple of open questions to verify."
+>
+  <AIExplainTooltip
+    triggerLabel="Why this rating?"
+    explanation="Confidence blends retrieval coverage, grounding matches, and the assistant's self-check heuristics."
+    shortcutHint="Use ⌘· to open the trace inspector."
+    tone="neutral"
+    triggerProps={{ size: "sm", variant: "quiet" }}
+  />
+</AIConfidenceHint>`,
+      states: [
+        {
+          id: "low",
+          name: "Low",
+          element: (
+            <AIConfidenceHint
+              level="low"
+              score={0.22}
+              description="Grounding is limited, so double-check the assistant before sharing."
+            />
+          ),
+          code: `<AIConfidenceHint
+  level="low"
+  score={0.22}
+  description="Grounding is limited, so double-check the assistant before sharing."
+/>`,
+        },
+        {
+          id: "high",
+          name: "High",
+          element: (
+            <AIConfidenceHint
+              level="high"
+              score={0.92}
+              description="The answer matched trusted sources and passed self-checks."
+            />
+          ),
+          code: `<AIConfidenceHint
+  level="high"
+  score={0.92}
+  description="The answer matched trusted sources and passed self-checks."
+/>`,
+        },
+      ],
+    },
+    {
+      id: "ai-retry-error-bubble",
+      name: "AIRetryErrorBubble",
+      description: "Inline error bubble for transient streaming interruptions.",
+      element: (
+        <AIRetryErrorBubble
+          message="The assistant lost connection mid-thought."
+          hint="Retry to request a clean draft."
+          onRetry={() => {}}
+        >
+          <AIExplainTooltip
+            triggerLabel="See diagnostics"
+            explanation="Connection dropped between streaming chunks. We recommend retrying so the assistant can rehydrate context."
+            triggerProps={{ size: "sm", variant: "quiet" }}
+          />
+        </AIRetryErrorBubble>
+      ),
+      tags: ["ai", "error", "inline"],
+      code: `<AIRetryErrorBubble
+  message="The assistant lost connection mid-thought."
+  hint="Retry to request a clean draft."
+  onRetry={() => {}}
+>
+  <AIExplainTooltip
+    triggerLabel="See diagnostics"
+    explanation="Connection dropped between streaming chunks. We recommend retrying so the assistant can rehydrate context."
+    triggerProps={{ size: "sm", variant: "quiet" }}
+  />
+</AIRetryErrorBubble>`,
+      states: [
+        {
+          id: "acknowledged",
+          name: "Acknowledged",
+          description: "Remove the retry affordance once the issue clears but keep the transcript context.",
+          element: (
+            <AIRetryErrorBubble
+              message="Assistant recovered after a brief network hiccup."
+              hint="You can continue the conversation."
+            />
+          ),
+          code: `<AIRetryErrorBubble
+  message="Assistant recovered after a brief network hiccup."
+  hint="You can continue the conversation."
+/>`,
+        },
+      ],
+    },
+    {
+      id: "ai-explain-tooltip",
+      name: "AIExplainTooltip",
+      description: "Contextual helper trigger that surfaces why the assistant chose a path.",
+      element: (
+        <AIExplainTooltip
+          triggerLabel="How grounding works"
+          explanation="We cross-check the draft with curated playbook snippets and logged scrim outcomes before surfacing it here."
+          shortcutHint="Press ? to open help"
+        />
+      ),
+      tags: ["ai", "tooltip", "helper"],
+      code: `<AIExplainTooltip
+  triggerLabel="How grounding works"
+  explanation="We cross-check the draft with curated playbook snippets and logged scrim outcomes before surfacing it here."
+  shortcutHint="Press ? to open help"
+/>`,
+      states: [
+        {
+          id: "neutral",
+          name: "Neutral surface",
+          element: (
+            <AIExplainTooltip
+              triggerLabel="Why am I seeing this?"
+              explanation="Neutral tone keeps the helper grounded when accent colors would clash with nearby status surfaces."
+              tone="neutral"
+            />
+          ),
+          code: `<AIExplainTooltip
+  triggerLabel="Why am I seeing this?"
+  explanation="Neutral tone keeps the helper grounded when accent colors would clash with nearby status surfaces."
+  tone="neutral"
+/>`,
+        },
+        {
+          id: "open",
+          name: "Default open",
+          element: (
+            <AIExplainTooltip
+              triggerLabel="Trace summary"
+              explanation="Opens by default for first-run experiences where guidance is critical."
+              defaultOpen
+            />
+          ),
+          code: `<AIExplainTooltip
+  triggerLabel="Trace summary"
+  explanation="Opens by default for first-run experiences where guidance is critical."
+  defaultOpen
+/>`,
+        },
+      ],
+    },
+    {
       id: "ai-loading-shimmer",
       name: "AILoadingShimmer",
       description: "Skeleton shell paired with helper text for streaming responses.",
-      element: <AILoadingShimmer lines={4} />, 
+      element: <AILoadingShimmer lines={4} />,
       tags: ["ai", "loading", "skeleton"],
       code: `<AILoadingShimmer lines={4} />`,
     },
