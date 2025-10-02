@@ -8,11 +8,15 @@ vi.mock("@/lib/features", () => ({
 import {
   applyModelSafety,
   createStreamingAbortController,
-  enforceTokenBudget,
+  capTokens,
   retryWithJitter,
-  sanitizePromptInput,
-  validateSchema,
+  sanitizePrompt,
+  guardResponse,
   linkAbortSignals,
+  sanitizePromptInput,
+  enforceTokenBudget,
+  validateSchema,
+  withStopSequences,
 } from "@/ai/safety";
 
 import { z } from "zod";
@@ -21,27 +25,32 @@ const getFeaturesModule = async () => {
   return import("@/lib/features");
 };
 
-describe("sanitizePromptInput", () => {
+describe("sanitizePrompt", () => {
   it("removes control characters and escapes markup", () => {
     const raw = "Hello\u0007<script>alert('x')</script>\n\n\nWorld\tTest";
-    const sanitized = sanitizePromptInput(raw);
+    const sanitized = sanitizePrompt(raw);
     expect(sanitized).toBe("Hello&lt;script&gt;alert(&#39;x&#39;)&lt;/script&gt;\n\nWorld Test");
   });
 
   it("honors maxLength", () => {
-    const sanitized = sanitizePromptInput("a".repeat(100), { maxLength: 10 });
+    const sanitized = sanitizePrompt("a".repeat(100), { maxLength: 10 });
     expect(sanitized).toHaveLength(10);
   });
 
   it("can retain markup when allowMarkup is true", () => {
     const raw = "<p>Hello</p>";
-    expect(sanitizePromptInput(raw, { allowMarkup: true })).toBe(raw);
+    expect(sanitizePrompt(raw, { allowMarkup: true })).toBe(raw);
+  });
+
+  it("retains backwards compatible alias", () => {
+    const raw = "Safe";
+    expect(sanitizePromptInput(raw)).toBe("Safe");
   });
 });
 
-describe("enforceTokenBudget", () => {
+describe("capTokens", () => {
   it("drops earliest unpinned messages when budget is exceeded", () => {
-    const result = enforceTokenBudget(
+    const result = capTokens(
       [
         { content: "system", pinned: true },
         { content: "older" },
@@ -76,19 +85,68 @@ describe("enforceTokenBudget", () => {
 
     safeModeSpy.mockRestore();
   });
+
+  it("applies string capping semantics", () => {
+    const result = capTokens("hello world", {
+      maxTokens: 1,
+      reservedForResponse: 0,
+      estimateTokens: () => 2,
+    });
+
+    expect(result.content).toBeNull();
+    expect(result.removed).toBe(true);
+    expect(result.totalTokens).toBe(0);
+  });
+
+  it("retains enforceTokenBudget alias", () => {
+    const result = enforceTokenBudget([{ content: "keep" }], {
+      maxTokens: 10,
+      reservedForResponse: 0,
+      estimateTokens: () => 1,
+    });
+
+    expect(result.messages).toEqual([{ content: "keep" }]);
+  });
 });
 
-describe("validateSchema", () => {
+describe("guardResponse", () => {
   it("parses valid payloads", () => {
     const schema = z.object({ id: z.string() });
-    expect(validateSchema({ id: "abc" }, schema)).toEqual({ id: "abc" });
+    expect(guardResponse({ id: "abc" }, schema)).toEqual({ id: "abc" });
   });
 
   it("throws with readable message for invalid payloads", () => {
     const schema = z.object({ id: z.string() });
-    expect(() => validateSchema({}, schema, { label: "Test" })).toThrow(
+    expect(() => guardResponse({}, schema, { label: "Test" })).toThrow(
       /Test failed validation: id: Required/,
     );
+  });
+
+  it("retains validateSchema alias", () => {
+    const schema = z.object({ id: z.literal("ok") });
+    expect(validateSchema({ id: "ok" }, schema)).toEqual({ id: "ok" });
+  });
+});
+
+describe("withStopSequences", () => {
+  it("deduplicates and filters empty sequences", () => {
+    const result = withStopSequences({ stopSequences: ["END", "", "END", "DONE"] });
+    expect(result.stopSequences).toEqual(["END", "DONE"]);
+  });
+
+  it("honors safe mode overrides", async () => {
+    const features = await getFeaturesModule();
+    const safeModeSpy = vi.spyOn(features, "isSafeModeEnabled");
+    safeModeSpy.mockReturnValue(true);
+
+    const result = withStopSequences(
+      { stopSequences: ["END"] },
+      { safeModeStopSequences: ["SAFE"] },
+    );
+
+    expect(result.stopSequences).toEqual(["SAFE"]);
+
+    safeModeSpy.mockRestore();
   });
 });
 
