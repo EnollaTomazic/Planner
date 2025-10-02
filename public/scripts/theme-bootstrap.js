@@ -175,8 +175,8 @@
       }
     }
 
-    const THEME_STORAGE_KEY = "ui:theme";
-    const PERSISTED_THEME_KEY = createStorageKey(THEME_STORAGE_KEY);
+    const THEME_STORAGE_KEY = "noxis-planner:ui:theme";
+    const PERSISTED_THEME_KEY = THEME_STORAGE_KEY;
     const BG_CLASSES = ["", "bg-alt1", "bg-alt2", "bg-vhs", "bg-streak"];
     const BG_CLASS_SET = new Set(BG_CLASSES.filter(Boolean));
 

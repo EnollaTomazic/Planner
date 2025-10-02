@@ -5,6 +5,11 @@ import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 import tokenPlugin from "./scripts/tailwind-token-plugin";
 
+const tokenThemeExtend =
+  (tokenPlugin as unknown as {
+    config?: { theme?: { extend?: Record<string, unknown> } };
+  }).config?.theme?.extend ?? {};
+
 const plannerSurfaces = plugin(({ addUtilities }) => {
   addUtilities({
     ".surface-card-soft": {
@@ -35,6 +40,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      ...tokenThemeExtend,
       borderColor: {
         "card-hairline": "var(--card-hairline)",
       },

@@ -4,6 +4,9 @@ import * as React from "react";
 import OutlineGlowDemo from "./OutlineGlowDemo";
 import SectionLabel from "@/components/reviews/SectionLabel";
 import {
+  AIAbortButton,
+  AIErrorCard,
+  AILoadingShimmer,
   Card,
   Input,
   Select,
@@ -259,6 +262,35 @@ export default function PromptsDemos() {
           className="rounded-card r-card-md border border-card-hairline-60 bg-surface/80 p-[var(--space-3)] text-label text-muted-foreground"
         >
           No open issues logged for this demo.
+        </div>
+      </Card>
+      <Card className="mt-[var(--space-8)] space-y-[var(--space-3)]">
+        <h3 className="type-title">AI states</h3>
+        <p className="text-ui text-muted-foreground">
+          Shared surfaces keep loading, error, and abort flows consistent across
+          assistants while respecting theme tokens.
+        </p>
+        <div className="grid gap-[var(--space-4)] md:grid-cols-2">
+          <AIErrorCard onRetry={() => {}} retryLabel="Retry request">
+            <p className="text-label text-danger-foreground/80">
+              Include next steps or contact options in the body to keep players
+              informed while the stream recovers.
+            </p>
+          </AIErrorCard>
+          <div className="space-y-[var(--space-3)]">
+            <AILoadingShimmer
+              label="Summoning context"
+              helperText="Responses stream with safe defaults and highlight the active tools."
+              lines={3}
+            >
+              <p className="text-label text-info-foreground/80">
+                Stay on the page or tap stop to cancel the completion.
+              </p>
+            </AILoadingShimmer>
+            <div className="flex justify-end">
+              <AIAbortButton onAbort={() => {}} />
+            </div>
+          </div>
         </div>
       </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">

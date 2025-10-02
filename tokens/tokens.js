@@ -76,7 +76,7 @@ export default {
   cardHairline: "hsl(var(--border))",
   hairlineW: "1px",
   easeOut: "cubic-bezier(0.16, 1, 0.3, 1)",
-  easeSnap: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+  easeMotionGlitch: "cubic-bezier(0.2, 0.8, 0.2, 1)",
   durQuick: "140ms",
   durChill: "220ms",
   durSlow: "420ms",

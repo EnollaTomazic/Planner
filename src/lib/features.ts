@@ -5,6 +5,7 @@ const {
   NEXT_PUBLIC_DEPTH_THEME: rawDepthTheme,
   NEXT_PUBLIC_ORGANIC_DEPTH: rawOrganicDepth,
   NEXT_PUBLIC_UI_GLITCH_LANDING: rawGlitchLanding,
+  NEXT_PUBLIC_FEATURE_SAFE_MODE: rawSafeMode,
 } = loadClientEnv();
 
 const enabledValues = new Set(["1", "true", "on", "yes"]);
@@ -32,10 +33,12 @@ const svgNumericFilters = parseBooleanFlag(rawSvgNumericFilters, true);
 const depthThemeEnabled = parseBooleanFlag(rawDepthTheme, false);
 const organicDepthEnabled = parseBooleanFlag(rawOrganicDepth, false);
 const glitchLandingEnabled = parseBooleanFlag(rawGlitchLanding, true);
+const safeModeEnabled = parseBooleanFlag(rawSafeMode, false);
 
 export {
   depthThemeEnabled,
   glitchLandingEnabled,
   organicDepthEnabled,
+  safeModeEnabled,
   svgNumericFilters,
 };
