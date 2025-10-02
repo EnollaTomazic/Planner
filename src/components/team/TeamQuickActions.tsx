@@ -16,7 +16,7 @@ const CHIP_CLASSNAME = cn(
 );
 
 const TOOLTIP_CLASSNAME = cn(
-  "pointer-events-none absolute left-1/2 top-full z-20 w-max max-w-[min(20rem,calc(100vw-var(--space-6)))] -translate-x-1/2",
+  "pointer-events-none absolute left-1/2 top-full z-20 w-max max-w-[min(var(--layout-quick-action-tooltip-max),calc(100vw-var(--space-6)))] -translate-x-1/2",
   "rounded-[var(--radius-lg)] border border-card-hairline bg-[hsl(var(--surface-2))] px-[var(--space-3)] py-[var(--space-2)]",
   "text-label font-medium text-foreground shadow-depth-soft",
   "transition-[opacity,transform] duration-motion-sm ease-out motion-reduce:transition-none motion-reduce:transform-none",
@@ -108,7 +108,7 @@ export default function TeamQuickActions({
               size="lg"
               interactive
               className={cn(
-                "flex min-w-[min(100%,12rem)] max-w-full justify-start whitespace-nowrap",
+                "flex min-w-[min(100%,var(--layout-quick-action-min))] max-w-full justify-start whitespace-nowrap",
                 CHIP_CLASSNAME,
               )}
               aria-describedby={isTooltipOpen ? tooltipId : undefined}

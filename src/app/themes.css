@@ -264,6 +264,8 @@
   --layout-gutter-sm: var(--spacing-4);
   --layout-gutter-md: var(--spacing-5);
   --layout-gutter-lg: var(--spacing-6);
+  --layout-quick-action-min: calc(var(--spacing-8) * 3);
+  --layout-quick-action-tooltip-max: calc(var(--spacing-8) * 5);
   --card-radius: var(--radius-xl);
   --elevation-card: var(--shadow-outline-subtle);
   --elevation-card-pressed: var(--shadow-control);
@@ -441,6 +443,8 @@
   --layout-gutter-sm: var(--spacing-4);
   --layout-gutter-md: var(--spacing-5);
   --layout-gutter-lg: var(--spacing-6);
+  --layout-quick-action-min: calc(var(--spacing-8) * 3);
+  --layout-quick-action-tooltip-max: calc(var(--spacing-8) * 5);
   --card-radius: var(--radius-xl);
   --elevation-card: var(--shadow-outline-subtle);
   --elevation-card-pressed: var(--shadow-control);
