@@ -4,7 +4,23 @@
 import { type ClassValue, clsx } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
 
-import { loadClientEnv } from "../../env/client";
+import loadClientEnv from "../../env/client";
+
+function readClientEnv(): ReturnType<typeof loadClientEnv> {
+  try {
+    return loadClientEnv();
+  } catch (error) {
+    console.error("[env] Failed to load client environment variables.", error);
+    if (
+      typeof process !== "undefined" &&
+      typeof process.exit === "function" &&
+      process.env.NODE_ENV !== "test"
+    ) {
+      process.exit(1);
+    }
+    throw error;
+  }
+}
 
 const twMerge = extendTailwindMerge({
   extend: {
@@ -36,7 +52,7 @@ function normalizeBasePath(raw: string | undefined): string {
   return `/${segments.join("/")}`;
 }
 
-const { NEXT_PUBLIC_BASE_PATH } = loadClientEnv();
+const { NEXT_PUBLIC_BASE_PATH } = readClientEnv();
 
 const NORMALIZED_BASE = normalizeBasePath(NEXT_PUBLIC_BASE_PATH);
 

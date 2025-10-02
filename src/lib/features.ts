@@ -1,4 +1,20 @@
-import { loadClientEnv } from "../../env/client";
+import loadClientEnv from "../../env/client";
+
+function readClientEnv(): ReturnType<typeof loadClientEnv> {
+  try {
+    return loadClientEnv();
+  } catch (error) {
+    console.error("[env] Failed to load client environment variables.", error);
+    if (
+      typeof process !== "undefined" &&
+      typeof process.exit === "function" &&
+      process.env.NODE_ENV !== "test"
+    ) {
+      process.exit(1);
+    }
+    throw error;
+  }
+}
 
 const {
   NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS: rawSvgNumericFilters,
@@ -6,7 +22,7 @@ const {
   NEXT_PUBLIC_ORGANIC_DEPTH: rawOrganicDepth,
   NEXT_PUBLIC_UI_GLITCH_LANDING: rawGlitchLanding,
   NEXT_PUBLIC_SAFE_MODE: rawSafeMode,
-} = loadClientEnv();
+} = readClientEnv();
 
 const enabledValues = new Set(["1", "true", "on", "yes"]);
 const disabledValues = new Set(["0", "false", "off", "no"]);

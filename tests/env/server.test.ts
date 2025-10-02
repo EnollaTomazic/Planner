@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ZodError } from "zod";
 
-import { loadServerEnv } from "../../env/server";
+import loadServerEnvDefault, { loadServerEnv } from "../../env/server";
 
 describe("loadServerEnv", () => {
   it("throws when SAFE_MODE is missing", () => {
@@ -70,6 +70,45 @@ describe("loadServerEnv", () => {
         }
       ]]
     `);
+  });
+
+  it("throws when SAFE_MODE is missing at runtime", () => {
+    const originalSafeMode = process.env.SAFE_MODE;
+    const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
+
+    delete process.env.SAFE_MODE;
+    delete process.env.NEXT_PUBLIC_SAFE_MODE;
+
+    try {
+      const attempt = () => loadServerEnvDefault();
+
+      expect(attempt).toThrowError(ZodError);
+      expect(attempt).toThrowErrorMatchingInlineSnapshot(`
+        [ZodError: [
+          {
+            "code": "invalid_type",
+            "expected": "string",
+            "received": "undefined",
+            "path": [
+              "SAFE_MODE"
+            ],
+            "message": "SAFE_MODE must be provided to coordinate server safe mode."
+          }
+        ]]
+      `);
+    } finally {
+      if (typeof originalSafeMode === "string") {
+        process.env.SAFE_MODE = originalSafeMode;
+      } else {
+        delete process.env.SAFE_MODE;
+      }
+
+      if (typeof originalNextPublicSafeMode === "string") {
+        process.env.NEXT_PUBLIC_SAFE_MODE = originalNextPublicSafeMode;
+      } else {
+        delete process.env.NEXT_PUBLIC_SAFE_MODE;
+      }
+    }
   });
 
   it("matches the happy-path snapshot", () => {
