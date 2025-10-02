@@ -60,6 +60,22 @@ test.describe("Accessibility", () => {
     expect(results.violations).toEqual([]);
   });
 
+  test("@axe AI state matrix page has no detectable accessibility violations", async ({ page }) => {
+    const previewPage = page as unknown as PreviewTestPage;
+
+    await previewPage.goto("/preview/ai-states");
+    await previewPage.waitForLoadState("networkidle");
+
+    await previewPage.waitForSelector("[data-ai-state-matrix]");
+    await previewPage.waitForFunction(
+      () => !document.body.innerText.includes("Loading preview…"),
+    );
+
+    const results = await new AxeBuilder({ page: previewPage as unknown as Page }).analyze();
+
+    expect(results.violations).toEqual([]);
+  });
+
   test("@axe depth preview routes remain accessible", async ({ page }) => {
     const previewPage = page as unknown as PreviewTestPage;
 
