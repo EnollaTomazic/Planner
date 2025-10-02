@@ -10,6 +10,7 @@ import {
   geistSansVariable,
 } from "./fonts";
 import tokens from "../../tokens/tokens.js";
+import { loadServerEnv } from "../../env/server";
 import { resolveTokenColor } from "@/lib/color";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { CatCompanion, DecorLayer, PageShell, SkipLink } from "@/components/ui";
@@ -245,10 +246,9 @@ export default async function RootLayout({
     );
   };
 
-  if (
-    process.env.GITHUB_PAGES === "true" ||
-    process.env.NEXT_PHASE === "phase-production-build"
-  ) {
+  const { GITHUB_PAGES, NEXT_PHASE } = loadServerEnv();
+
+  if (GITHUB_PAGES === "true" || NEXT_PHASE === "phase-production-build") {
     // Static exports (GitHub Pages, production build prerender) do not provide
     // response headers, so skip reading the nonce in those environments.
     return renderLayout();
