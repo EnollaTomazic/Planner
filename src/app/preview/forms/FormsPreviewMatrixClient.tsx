@@ -80,9 +80,11 @@ function renderRadioIconGroupState(state: RadioIconGroupStateSpec & { id: FormSt
   const resolvedOptions =
     options ?? (RADIO_ICON_GROUP_DEMO_OPTIONS.length > 0 ? RADIO_ICON_GROUP_DEMO_OPTIONS : []);
   const resolvedValue =
-    typeof value === "string"
-      ? value
-      : resolvedOptions[0]?.value ?? RADIO_ICON_GROUP_DEMO_OPTIONS[0]?.value ?? "";
+    value === null
+      ? null
+      : typeof value === "string"
+        ? value
+        : resolvedOptions[0]?.value ?? RADIO_ICON_GROUP_DEMO_OPTIONS[0]?.value ?? "";
   const resolvedName = name ?? `forms-radio-icon-group-${state.id}`;
   const handleChange = onChange ?? (() => {});
 
@@ -104,14 +106,14 @@ const fieldStateEntries = FIELD_STATE_SPECS.map(
 const fieldStateMap = new Map(fieldStateEntries);
 
 const HoverFieldState: React.FC = () => (
-  <Field.Root className="bg-[--hover]" helper="Hover tokens preview">
+  <Field.Root className="bg-interaction-focus-surfaceHover" helper="Hover tokens preview">
     <Field.Input placeholder="Hover field" />
   </Field.Root>
 );
 
 const ActiveFieldState: React.FC = () => (
   <Field.Root
-    className="bg-[--active] ring-2 ring-[hsl(var(--ring))]"
+    className="bg-interaction-focus-surfaceActive ring-2 ring-[color:var(--theme-ring,var(--focus))] ring-offset-2 ring-offset-[color:var(--surface-2)]"
     helper="Pressed state"
     helperId="field-active-helper"
     counter="64 / 100"
@@ -180,8 +182,8 @@ export const FORM_CONTROL_STATE_IDS: Record<string, readonly FormStateId[]> = {
 const stateFigureClassName =
   "flex flex-col items-center gap-[var(--space-2)] text-center";
 const surfaceClassName = cn(
-  "flex w-full items-center justify-center rounded-card border border-card-hairline/60",
-  "bg-card/75 p-[var(--space-3)] shadow-depth-soft",
+  "flex w-full items-center justify-center rounded-card border border-card-hairline-60",
+  "bg-surface-2/60 p-[var(--space-3)] shadow-[var(--shadow-inset-hairline)]",
 );
 
 function FormsPreview() {

@@ -96,9 +96,25 @@ describe("RadioIconGroup", () => {
 
     const firstRadio = getAllByRole("radio")[0];
     const label = firstRadio.parentElement?.querySelector("label");
-    const iconContainer = label?.querySelector("span");
+    const iconContainer = label?.querySelector('[data-part="control"]');
 
     expect(iconContainer?.className).toContain("peer-checked:bg-accent/18");
     expect(iconContainer?.className).toContain("peer-checked:border-accent/45");
+  });
+
+  it("supports null selections", () => {
+    const { getAllByRole } = render(
+      <RadioIconGroup
+        name="celestial"
+        options={OPTIONS}
+        value={null}
+        onChange={() => {}}
+      />,
+    );
+
+    const radios = getAllByRole("radio");
+    for (const radio of radios) {
+      expect(radio).not.toBeChecked();
+    }
   });
 });

@@ -86,6 +86,7 @@ export default function RadioIconGroup({
             className="flex flex-col items-center gap-[var(--space-1)]"
             data-state={checked ? "on" : "off"}
             data-loading={loading || undefined}
+            data-part="option"
           >
             <input
               id={optionId}
@@ -112,6 +113,7 @@ export default function RadioIconGroup({
               )}
               data-state={checked ? "on" : "off"}
               data-disabled={optionDisabled || undefined}
+              data-part="trigger"
             >
               <span
                 aria-hidden="true"
@@ -132,6 +134,9 @@ export default function RadioIconGroup({
                   toneClass.glow,
                   toneClass.lift,
                 )}
+                data-state={checked ? "on" : "off"}
+                data-disabled={optionDisabled || undefined}
+                data-part="control"
               >
                 {loading && checked ? (
                   <span className="absolute inset-0 grid place-items-center rounded-full bg-card/70">
@@ -139,7 +144,7 @@ export default function RadioIconGroup({
                   </span>
                 ) : null}
                 {option.icon ?? null}
-                <span className="pointer-events-none absolute inset-0 rounded-full" />
+                <span className="pointer-events-none absolute inset-0 rounded-full" data-part="focus-ring" />
               </span>
               <span
                 className={cn(
@@ -148,6 +153,9 @@ export default function RadioIconGroup({
                   LABEL_SIZE[size],
                   toneClass.text,
                 )}
+                data-state={checked ? "on" : "off"}
+                data-disabled={optionDisabled || undefined}
+                data-part="label"
               >
                 {option.label}
               </span>
