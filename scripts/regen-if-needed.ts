@@ -2,7 +2,7 @@ import "./check-node-version.js";
 import { execSync } from "node:child_process";
 import { promises as fs } from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 import fg from "fast-glob";
 import { MultiBar, Presets } from "cli-progress";
 
@@ -154,6 +154,84 @@ function run(cmd: string): void {
   execSync(cmd, { stdio: "inherit" });
 }
 
+function getGitStatusLines(cwd: string): string[] {
+  const output = execSync("git status --porcelain", {
+    cwd,
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "inherit"],
+  }).trim();
+
+  if (!output) {
+    return [];
+  }
+
+  return output.split("\n").map((line) => line.trimEnd());
+}
+
+function assertCleanGitTree(cwd: string, message: string): void {
+  const changes = getGitStatusLines(cwd);
+  if (changes.length > 0) {
+    throw new Error(`${message}\n\n${changes.join("\n")}`);
+  }
+}
+
+type GeneratorValidation = {
+  name: string;
+  command: string;
+};
+
+export const generatorValidations: GeneratorValidation[] = [
+  {
+    name: "UI component index",
+    command: "pnpm run regen-ui",
+  },
+  {
+    name: "Feature component index",
+    command: "pnpm run regen-feature",
+  },
+  {
+    name: "Theme CSS",
+    command: "pnpm run generate-themes",
+  },
+  {
+    name: "Design tokens",
+    command: "pnpm run generate-tokens",
+  },
+];
+
+type ValidateGeneratorOptions = {
+  cwd?: string;
+};
+
+export function validateGenerators(
+  generators: GeneratorValidation[],
+  options: ValidateGeneratorOptions = {},
+): void {
+  const cwd = options.cwd ?? rootDir;
+
+  for (const generator of generators) {
+    assertCleanGitTree(
+      cwd,
+      `${generator.name} validation requires a clean working tree. Stash or commit your changes before rerunning.`,
+    );
+
+    try {
+      execSync(generator.command, { cwd, stdio: "inherit" });
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : String(error);
+      throw new Error(
+        `${generator.name} validation failed while executing \`${generator.command}\`:\n${message}`,
+      );
+    }
+
+    assertCleanGitTree(
+      cwd,
+      `${generator.name} outputs are stale. Run \`${generator.command}\` and commit the generated files.`,
+    );
+  }
+}
+
 const isCiEnvironment = (() => {
   const value = process.env.CI;
   if (!value) {
@@ -201,6 +279,7 @@ async function validateGalleryManifest(): Promise<void> {
 async function main() {
   if (isCiEnvironment) {
     await validateGalleryManifest();
+    validateGenerators(generatorValidations);
     console.log("Skipping regeneration tasks");
     return;
   }
@@ -265,7 +344,13 @@ async function main() {
   bars.stop();
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+const entryPoint = process.argv[1]
+  ? pathToFileURL(path.resolve(process.argv[1])).href
+  : undefined;
+
+if (entryPoint === import.meta.url) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
