@@ -289,6 +289,40 @@ describe("gallery manifest validation", () => {
     expect(Object.keys(usageManifest).length).toBeGreaterThan(0);
   });
 
+  it("throws locally when regeneration cannot repair a malformed manifest", async () => {
+    const regenModule = await importRegenModule();
+    const warnSpy = vi
+      .spyOn(console, "warn")
+      .mockImplementation(() => undefined);
+
+    const malformedManifest = "{\n  \"broken\": true\n}\n";
+    const stillBrokenManifest = "{\n  \"stillBroken\": true\n}\n";
+
+    fs.writeFileSync(manifestPath, malformedManifest);
+
+    const previousManifestContentEnv = process.env.GALLERY_MANIFEST_CONTENT;
+    process.env.GALLERY_MANIFEST_CONTENT = stillBrokenManifest;
+
+    try {
+      await expect(
+        regenModule.ensureGalleryManifestIntegrity(),
+      ).rejects.toThrow(
+        "Gallery manifest appears to contain raw JSON. Run `pnpm run build-gallery-usage` to regenerate src/components/gallery/generated-manifest.ts.",
+      );
+
+      const manifestAfterAttempt = fs.readFileSync(manifestPath, "utf8");
+      expect(manifestAfterAttempt).toBe(stillBrokenManifest);
+      expect(warnSpy).toHaveBeenCalled();
+    } finally {
+      warnSpy.mockRestore();
+      if (previousManifestContentEnv === undefined) {
+        delete process.env.GALLERY_MANIFEST_CONTENT;
+      } else {
+        process.env.GALLERY_MANIFEST_CONTENT = previousManifestContentEnv;
+      }
+    }
+  });
+
   it("throws in CI environments when the manifest is malformed", async () => {
     const regenModule = await importRegenModule("1");
 
