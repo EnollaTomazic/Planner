@@ -24,6 +24,7 @@ let regenModule: typeof import("../../scripts/regen-if-needed");
 const REQUIRED_GENERATOR_COMMANDS = [
   "pnpm run regen-ui",
   "pnpm run regen-feature",
+  "pnpm run build-gallery-usage",
   "pnpm run generate-themes",
   "pnpm run generate-tokens",
 ];

@@ -190,6 +190,10 @@ export const generatorValidations: GeneratorValidation[] = [
     command: "pnpm run regen-feature",
   },
   {
+    name: "Gallery manifest",
+    command: "pnpm run build-gallery-usage",
+  },
+  {
     name: "Theme CSS",
     command: "pnpm run generate-themes",
   },
