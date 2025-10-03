@@ -98,9 +98,11 @@ test.describe("Gallery previews", () => {
     );
 
     for (const variant of VARIANTS) {
-      await previewPage.click(
-        `${firstGroupSelector} button[role="radio"]:has-text("${variant.label}")`,
-      );
+      await previewPage
+        .locator(firstGroupSelector)
+        .getByRole("radio", { name: variant.label })
+        .first()
+        .click();
       await previewPage.waitForFunction(
         (variantId) =>
           document.documentElement.classList.contains(`theme-${variantId}`),
@@ -128,9 +130,11 @@ test.describe("Gallery previews", () => {
     );
 
     for (const variant of VARIANTS) {
-      await previewPage.click(
-        `[data-ai-state-matrix] button[role="radio"]:has-text("${variant.label}")`,
-      );
+      await previewPage
+        .locator("[data-ai-state-matrix]")
+        .getByRole("radio", { name: variant.label })
+        .first()
+        .click();
       await previewPage.waitForFunction(
         (variantId) =>
           document.documentElement.classList.contains(`theme-${variantId}`),
