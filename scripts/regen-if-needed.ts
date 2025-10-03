@@ -250,14 +250,14 @@ async function validateGalleryManifest(): Promise<void> {
     contents = await fs.readFile(galleryManifestFile, "utf8");
   } catch {
     throw new Error(
-      "Missing gallery manifest. Run `pnpm run build-gallery` to regenerate src/components/gallery/generated-manifest.ts.",
+      "Missing gallery manifest. Run `pnpm run build-gallery-usage` to regenerate src/components/gallery/generated-manifest.ts.",
     );
   }
 
   const trimmed = contents.trimStart();
   if (trimmed.startsWith("{")) {
     throw new Error(
-      "Gallery manifest appears to contain raw JSON. Run `pnpm run build-gallery` to regenerate src/components/gallery/generated-manifest.ts.",
+      "Gallery manifest appears to contain raw JSON. Run `pnpm run build-gallery-usage` to regenerate src/components/gallery/generated-manifest.ts.",
     );
   }
 
@@ -275,29 +275,76 @@ async function validateGalleryManifest(): Promise<void> {
       .map((signature) => signature.replace("export const ", ""))
       .join(", ");
     throw new Error(
-      `Gallery manifest is missing required exports: ${exportNames}. Run \`pnpm run build-gallery\` to regenerate src/components/gallery/generated-manifest.ts.`,
+      `Gallery manifest is missing required exports: ${exportNames}. Run \`pnpm run build-gallery-usage\` to regenerate src/components/gallery/generated-manifest.ts.`,
     );
   }
 }
 
-async function main() {
-  if (isCiEnvironment) {
+export async function ensureGalleryManifestIntegrity(): Promise<boolean> {
+  try {
     await validateGalleryManifest();
+    return false;
+  } catch (error) {
+    if (isCiEnvironment) {
+      throw error;
+    }
+
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(
+      `${message}\nRegenerating gallery manifest with \`pnpm run build-gallery-usage\`.`,
+    );
+    return true;
+  }
+}
+
+async function main() {
+  const shouldRegenerateGalleryManifest =
+    await ensureGalleryManifestIntegrity();
+
+  if (isCiEnvironment) {
     validateGenerators(generatorValidations);
     console.log("Skipping regeneration tasks");
     return;
   }
 
-  const [needsUi, needsFeature, needsUsage, needsThemes, needsTokens] =
-    await Promise.all([
-      uiChanged(),
-      featureChanged(),
-      usageChanged(),
-      themesChanged(),
-      tokensChanged(),
-    ]);
+  const [
+    needsUi,
+    needsFeature,
+    initialNeedsUsage,
+    needsThemes,
+    needsTokens,
+  ] = await Promise.all([
+    uiChanged(),
+    featureChanged(),
+    usageChanged(),
+    themesChanged(),
+    tokensChanged(),
+  ]);
 
-  if (!needsUi && !needsFeature && !needsUsage && !needsThemes && !needsTokens) {
+  let needsUsage = initialNeedsUsage;
+
+  try {
+    await validateGalleryManifest();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(
+      [
+        "Gallery manifest validation failed; running `pnpm run build-gallery-usage` to regenerate.",
+        message,
+      ].join("\n"),
+    );
+    needsUsage = true;
+  }
+
+  const shouldRunUsage = needsUsage || shouldRegenerateGalleryManifest;
+
+  if (
+    !needsUi &&
+    !needsFeature &&
+    !shouldRunUsage &&
+    !needsThemes &&
+    !needsTokens
+  ) {
     console.log("Skipping regeneration tasks");
     return;
   }
@@ -305,7 +352,7 @@ async function main() {
   const total =
     (needsUi ? 1 : 0) +
     (needsFeature ? 1 : 0) +
-    (needsUsage ? 1 : 0) +
+    (shouldRunUsage ? 1 : 0) +
     (needsThemes ? 1 : 0) +
     (needsTokens ? 1 : 0);
   const bars = new MultiBar(
@@ -322,8 +369,9 @@ async function main() {
     run("pnpm run regen-feature");
     taskBar.increment();
   }
-  if (needsUsage) {
+  if (shouldRunUsage) {
     run("pnpm run build-gallery-usage");
+    await validateGalleryManifest();
     taskBar.increment();
   }
   if (needsThemes) {
@@ -346,6 +394,10 @@ async function main() {
   }
 
   bars.stop();
+
+  if (needsUsage) {
+    await validateGalleryManifest();
+  }
 }
 
 const entryPoint = process.argv[1]

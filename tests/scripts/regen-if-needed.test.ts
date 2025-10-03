@@ -3,7 +3,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("url", async () => {
   const pathModule = await import("node:path");
@@ -19,8 +19,6 @@ vi.mock("url", async () => {
   };
 });
 
-let regenModule: typeof import("../../scripts/regen-if-needed");
-
 const REQUIRED_GENERATOR_COMMANDS = [
   "pnpm run regen-ui",
   "pnpm run regen-feature",
@@ -28,6 +26,28 @@ const REQUIRED_GENERATOR_COMMANDS = [
   "pnpm run generate-themes",
   "pnpm run generate-tokens",
 ];
+
+const originalCI = process.env.CI;
+
+async function importRegenModule(ciValue?: string) {
+  vi.resetModules();
+
+  if (ciValue === undefined) {
+    delete process.env.CI;
+  } else {
+    process.env.CI = ciValue;
+  }
+
+  return import("../../scripts/regen-if-needed");
+}
+
+afterAll(() => {
+  if (originalCI === undefined) {
+    delete process.env.CI;
+  } else {
+    process.env.CI = originalCI;
+  }
+});
 
 function createTempRepo(): string {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "regen-if-needed-"));
@@ -47,12 +67,10 @@ function createTempRepo(): string {
 
 describe("regen-if-needed CI validations", () => {
   let repoDir: string;
+  let regenModule: typeof import("../../scripts/regen-if-needed");
 
-  beforeAll(async () => {
-    regenModule = await import("../../scripts/regen-if-needed");
-  });
-
-  beforeEach(() => {
+  beforeEach(async () => {
+    regenModule = await importRegenModule();
     repoDir = createTempRepo();
   });
 
@@ -75,7 +93,7 @@ describe("regen-if-needed CI validations", () => {
         [
           {
             name: "noop",
-            command: 'node -e "process.exit(0)"',
+            command: "node -e \"process.exit(0)\"",
           },
         ],
         { cwd: repoDir },
@@ -108,7 +126,7 @@ describe("regen-if-needed CI validations", () => {
           {
             name: "generated", // matches coverage expectation
             command:
-              'node -e "require(\'fs\').writeFileSync(\'generated.txt\', \'contents\')"',
+              "node -e \"require('fs').writeFileSync('generated.txt', 'contents')\"",
           },
         ],
         { cwd: repoDir },
@@ -118,3 +136,60 @@ describe("regen-if-needed CI validations", () => {
 `);
   });
 });
+
+describe("gallery manifest validation", () => {
+  const repoRoot = path.resolve(__dirname, "..", "..");
+  const manifestPath = path.join(
+    repoRoot,
+    "src/components/gallery/generated-manifest.ts",
+  );
+  const originalManifest = fs.readFileSync(manifestPath, "utf8");
+
+  afterEach(() => {
+    fs.writeFileSync(manifestPath, originalManifest);
+  });
+
+  it("confirms the manifest is valid without requiring regeneration", async () => {
+    const minimalManifest = [
+      "export const galleryPayload = {} as const;",
+      "export const galleryPreviewRoutes = [] as const;",
+      "export const galleryPreviewModules = {} as const;",
+      "",
+    ].join("\n");
+
+    fs.writeFileSync(manifestPath, minimalManifest);
+
+    const regenModule = await importRegenModule();
+    await expect(
+      regenModule.ensureGalleryManifestIntegrity(),
+    ).resolves.toBe(false);
+  });
+
+  it("requests regeneration locally when the manifest is malformed", async () => {
+    const regenModule = await importRegenModule();
+    const warnSpy = vi
+      .spyOn(console, "warn")
+      .mockImplementation(() => undefined);
+
+    fs.writeFileSync(manifestPath, "{\n  \"broken\": true\n}\n");
+
+    await expect(
+      regenModule.ensureGalleryManifestIntegrity(),
+    ).resolves.toBe(true);
+
+    warnSpy.mockRestore();
+  });
+
+  it("throws in CI environments when the manifest is malformed", async () => {
+    const regenModule = await importRegenModule("1");
+
+    fs.writeFileSync(manifestPath, "{\n  \"broken\": true\n}\n");
+
+    await expect(
+      regenModule.ensureGalleryManifestIntegrity(),
+    ).rejects.toThrow(
+      "Gallery manifest appears to contain raw JSON. Run `pnpm run build-gallery` to regenerate src/components/gallery/generated-manifest.ts.",
+    );
+  });
+});
+
