@@ -31,7 +31,7 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 
 ## Gallery previews
 
-- Run `pnpm run build-gallery-usage` after touching gallery files. It refreshes `src/components/gallery/generated-manifest.ts` with preview slugs and keeps Playwright coverage in sync.
+- Run `pnpm run build-gallery-usage` after touching gallery files. `pnpm install` runs a postinstall check that regenerates the manifest automatically when it detects gallery changes, but running the command yourself keeps `src/components/gallery/generated-manifest.ts` and the cached preview slugs current while you iterate and ensures Playwright coverage stays in sync.
 - Visit `/preview/[slug]` to render a single component or state in isolation. Slugs combine the gallery entry, optional state, and the theme variant (currently Glitch and Aurora). Axis metadata surfaces as `axis-…` query parameters so automation can label captured variants.
 - Trigger the **Visual Regression** workflow to record screenshots. It installs the production build, walks every generated preview route through the `@visual` Playwright suite, and uploads diffs when comparisons fail.
 - Visit `/preview/theme-matrix` to audit every gallery entry and state across Glitch, Aurora, Kitten, Oceanic, Citrus, Noir, and Hardstuck. The matrix reuses the in-gallery previews, ensuring Playwright screenshots and axe coverage span every theme without triggering layout shift.
