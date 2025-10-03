@@ -4,25 +4,36 @@ import { ZodError } from "zod";
 import loadServerEnvDefault, { loadServerEnv } from "../../env/server";
 
 describe("loadServerEnv", () => {
-  it("throws when SAFE_MODE is missing", () => {
+  it("defaults SAFE_MODE to \"false\" when missing", () => {
+    const env = loadServerEnv({
+      GITHUB_PAGES: "true",
+      NEXT_PHASE: "phase",
+      NODE_ENV: "production",
+    } as unknown as NodeJS.ProcessEnv);
+
+    expect(env.SAFE_MODE).toBe("false");
+  });
+
+  it("throws when SAFE_MODE is provided but empty", () => {
     const attempt = () =>
       loadServerEnv({
-        GITHUB_PAGES: "true",
-        NEXT_PHASE: "phase",
         NODE_ENV: "production",
+        SAFE_MODE: "  ",
       } as unknown as NodeJS.ProcessEnv);
 
     expect(attempt).toThrowError(ZodError);
     expect(attempt).toThrowErrorMatchingInlineSnapshot(`
       [ZodError: [
         {
-          "code": "invalid_type",
-          "expected": "string",
-          "received": "undefined",
+          "code": "too_small",
+          "minimum": 1,
+          "type": "string",
+          "inclusive": true,
+          "exact": false,
+          "message": "SAFE_MODE cannot be an empty string.",
           "path": [
             "SAFE_MODE"
-          ],
-          "message": "SAFE_MODE must be provided to coordinate server safe mode."
+          ]
         }
       ]]
     `);
@@ -72,7 +83,7 @@ describe("loadServerEnv", () => {
     `);
   });
 
-  it("throws when SAFE_MODE is missing at runtime", () => {
+  it("defaults SAFE_MODE when missing at runtime", () => {
     const originalSafeMode = process.env.SAFE_MODE;
     const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
 
@@ -80,22 +91,9 @@ describe("loadServerEnv", () => {
     delete process.env.NEXT_PUBLIC_SAFE_MODE;
 
     try {
-      const attempt = () => loadServerEnvDefault();
+      const env = loadServerEnvDefault();
 
-      expect(attempt).toThrowError(ZodError);
-      expect(attempt).toThrowErrorMatchingInlineSnapshot(`
-        [ZodError: [
-          {
-            "code": "invalid_type",
-            "expected": "string",
-            "received": "undefined",
-            "path": [
-              "SAFE_MODE"
-            ],
-            "message": "SAFE_MODE must be provided to coordinate server safe mode."
-          }
-        ]]
-      `);
+      expect(env.SAFE_MODE).toBe("false");
     } finally {
       if (typeof originalSafeMode === "string") {
         process.env.SAFE_MODE = originalSafeMode;

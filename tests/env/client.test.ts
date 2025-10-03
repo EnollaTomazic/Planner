@@ -4,23 +4,33 @@ import { ZodError } from "zod";
 import loadClientEnvDefault, { loadClientEnv } from "../../env/client";
 
 describe("loadClientEnv", () => {
-  it("throws when NEXT_PUBLIC_SAFE_MODE is missing", () => {
+  it("defaults NEXT_PUBLIC_SAFE_MODE to \"false\" when missing", () => {
+    const env = loadClientEnv({
+      NEXT_PUBLIC_BASE_PATH: "/planner",
+    } as unknown as NodeJS.ProcessEnv);
+
+    expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
+  });
+
+  it("throws when NEXT_PUBLIC_SAFE_MODE is provided but empty", () => {
     const attempt = () =>
       loadClientEnv({
-        NEXT_PUBLIC_BASE_PATH: "/planner",
+        NEXT_PUBLIC_SAFE_MODE: "  ",
       } as unknown as NodeJS.ProcessEnv);
 
     expect(attempt).toThrowError(ZodError);
     expect(attempt).toThrowErrorMatchingInlineSnapshot(`
       [ZodError: [
         {
-          "code": "invalid_type",
-          "expected": "string",
-          "received": "undefined",
+          "code": "too_small",
+          "minimum": 1,
+          "type": "string",
+          "inclusive": true,
+          "exact": false,
+          "message": "NEXT_PUBLIC_SAFE_MODE cannot be an empty string.",
           "path": [
             "NEXT_PUBLIC_SAFE_MODE"
-          ],
-          "message": "NEXT_PUBLIC_SAFE_MODE must be provided to coordinate client safe mode."
+          ]
         }
       ]]
     `);
@@ -68,7 +78,7 @@ describe("loadClientEnv", () => {
     `);
   });
 
-  it("throws when NEXT_PUBLIC_SAFE_MODE is missing at runtime", () => {
+  it("defaults NEXT_PUBLIC_SAFE_MODE when missing at runtime", () => {
     const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
     const originalSafeMode = process.env.SAFE_MODE;
 
@@ -76,22 +86,9 @@ describe("loadClientEnv", () => {
     delete process.env.SAFE_MODE;
 
     try {
-      const attempt = () => loadClientEnvDefault();
+      const env = loadClientEnvDefault();
 
-      expect(attempt).toThrowError(ZodError);
-      expect(attempt).toThrowErrorMatchingInlineSnapshot(`
-        [ZodError: [
-          {
-            "code": "invalid_type",
-            "expected": "string",
-            "received": "undefined",
-            "path": [
-              "NEXT_PUBLIC_SAFE_MODE"
-            ],
-            "message": "NEXT_PUBLIC_SAFE_MODE must be provided to coordinate client safe mode."
-          }
-        ]]
-      `);
+      expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
     } finally {
       if (typeof originalNextPublicSafeMode === "string") {
         process.env.NEXT_PUBLIC_SAFE_MODE = originalNextPublicSafeMode;

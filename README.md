@@ -64,8 +64,8 @@ The app reads configuration from your shell environment at build time. Use `.env
 | `BASE_PATH` | `""` | Repository slug added to exported asset URLs. Required for GitHub Pages deployments so the static site serves from `/<repo>/`. |
 | `NEXT_PUBLIC_BASE_PATH` | `""` | Browser-visible base path. Mirror `BASE_PATH` when `GITHUB_PAGES` is `true` to keep runtime navigation and asset fetching in sync. |
 | `NEXT_PUBLIC_ENABLE_METRICS` | `"auto"` | Controls the browser web vitals hook. `auto` only ships metrics in production, set to `true`/`false` to force enable or disable respectively. |
-| `SAFE_MODE` | `false` | Server-side safe mode for AI-assisted tooling. Enable in CI or production when external AI providers should remain isolated from unreleased flows. |
-| `NEXT_PUBLIC_SAFE_MODE` | `false` | Client-side mirror of `SAFE_MODE`. Keep the values in sync so browser logic agrees with server enforcement. |
+| `SAFE_MODE` | `false` (fallback) | Server-side safe mode for AI-assisted tooling. The runtime now defaults to `false` when unset; set to `true` explicitly in CI or production when external AI providers should remain isolated from unreleased flows. |
+| `NEXT_PUBLIC_SAFE_MODE` | `false` (fallback) | Client-side mirror of `SAFE_MODE`. The bundle defaults to `false` when unset; set to `true` explicitly alongside `SAFE_MODE` so browser logic agrees with server enforcement. |
 | `NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS` | `true` | Feature flag for SVG numeric filters in the planner UI. Disable if custom deployments hit rendering issues. |
 | `NEXT_PUBLIC_DEPTH_THEME` | `false` | Feature flag enabling additional depth theming. Disable to render the legacy flat palette. |
 | `NEXT_PUBLIC_ORGANIC_DEPTH` | `false` | Experimental organic depth visuals. Pair with `NEXT_PUBLIC_DEPTH_THEME` when exploring the layered look. |

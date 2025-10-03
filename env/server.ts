@@ -7,11 +7,10 @@ const optionalNonEmptyString = z
   .optional();
 
 const safeModeSchema = z
-  .string({
-    required_error: "SAFE_MODE must be provided to coordinate server safe mode.",
-  })
+  .string()
   .trim()
-  .min(1, "SAFE_MODE cannot be an empty string.");
+  .min(1, "SAFE_MODE cannot be an empty string.")
+  .default("false");
 
 const serverEnvSchema = z
   .object({

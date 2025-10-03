@@ -32,11 +32,15 @@ function readServerEnv(): ReturnType<typeof loadServerEnv> {
     return loadServerEnv();
   } catch (error) {
     console.error("[env] Failed to load server environment variables.", error);
-    if (
+    const nextPhase = typeof process !== "undefined" ? process.env.NEXT_PHASE : undefined;
+    const isStaticExportPhase = nextPhase === "phase-export";
+    const shouldForceExit =
       typeof process !== "undefined" &&
       typeof process.exit === "function" &&
-      process.env.NODE_ENV !== "test"
-    ) {
+      process.env.NODE_ENV !== "test" &&
+      !isStaticExportPhase;
+
+    if (shouldForceExit) {
       process.exit(1);
     }
     throw error;
