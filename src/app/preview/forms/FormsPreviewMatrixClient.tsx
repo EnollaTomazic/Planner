@@ -10,12 +10,12 @@ import {
   INPUT_STATE_SPECS,
   type InputStateSpec,
 } from "@/components/ui/primitives/Input.gallery";
-import RadioIconGroup from "@/components/ui/toggles/RadioIconGroup";
+import RadioIconGroup from "@/components/ui/radio/RadioIconGroup";
 import {
   RADIO_ICON_GROUP_DEMO_OPTIONS,
   RADIO_ICON_GROUP_STATE_SPECS,
   type RadioIconGroupStateSpec,
-} from "@/components/ui/toggles/RadioIconGroup.gallery";
+} from "@/components/ui/radio/RadioIconGroup.gallery";
 import { cn } from "@/lib/utils";
 
 type FormStateId = "default" | "hover" | "focus" | "active" | "disabled" | "loading";
@@ -69,18 +69,29 @@ function renderInputState(state: InputStateSpec) {
 
 function renderRadioIconGroupState(state: RadioIconGroupStateSpec & { id: FormStateId }) {
   const { className, props } = state;
-  const { className: propClassName, value, options, ...restProps } = props ?? {};
+  const {
+    className: propClassName,
+    value,
+    options,
+    onChange,
+    name,
+    ...restProps
+  } = props ?? {};
   const resolvedOptions =
     options ?? (RADIO_ICON_GROUP_DEMO_OPTIONS.length > 0 ? RADIO_ICON_GROUP_DEMO_OPTIONS : []);
   const resolvedValue =
     typeof value === "string"
       ? value
       : resolvedOptions[0]?.value ?? RADIO_ICON_GROUP_DEMO_OPTIONS[0]?.value ?? "";
+  const resolvedName = name ?? `forms-radio-icon-group-${state.id}`;
+  const handleChange = onChange ?? (() => {});
 
   return (
     <RadioIconGroup
       options={resolvedOptions}
       value={resolvedValue}
+      name={resolvedName}
+      onChange={handleChange}
       {...restProps}
       className={cn(className, propClassName)}
     />

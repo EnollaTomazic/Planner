@@ -20,7 +20,8 @@
     "/preview/buttons",
     "/preview/cards",
     "/preview/hero-images",
-    "/preview/pages-check"
+    "/preview/pages-check",
+    "/preview/reviews"
   ],
   "icon-button": [
     "/",
@@ -79,6 +80,7 @@
     "/preview/hero-images",
     "/preview/pages-check",
     "/preview/perf",
+    "/preview/reviews",
     "/preview/tabs",
     "/preview/theme-matrix",
     "/prompts",
@@ -113,6 +115,7 @@
     "/goals",
     "/planner",
     "/preview/cards",
+    "/preview/reviews",
     "/prompts",
     "/reviews",
     "/team"
@@ -150,7 +153,8 @@
   "ai-error-card": [
     "/",
     "/preview/ai",
-    "/preview/ai-states"
+    "/preview/ai-states",
+    "/preview/reviews"
   ],
   "toggle": [],
   "radio-icon-group": [
