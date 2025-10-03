@@ -143,20 +143,104 @@ describe("gallery manifest validation", () => {
     repoRoot,
     "src/components/gallery/generated-manifest.ts",
   );
+  const cachePath = path.join(repoRoot, "scripts", ".cache");
+  const usageManifestPath = path.join(
+    cachePath,
+    "build-gallery-usage.json",
+  );
   const originalManifest = fs.readFileSync(manifestPath, "utf8");
+  const minimalManifest = [
+    "export const galleryPayload = {} as const;",
+    "export const galleryPreviewRoutes = [] as const;",
+    "export const galleryPreviewModules = {} as const;",
+    "",
+  ].join("\n");
+
+  let pnpmStubDir: string | null = null;
+  let originalPathEnv: string | undefined;
+  let originalManifestEnv: string | undefined;
+  let originalManifestContentEnv: string | undefined;
+  let usageManifestExisted = false;
+  let usageManifestSnapshot: string | null = null;
+
+  beforeEach(() => {
+    usageManifestExisted = fs.existsSync(usageManifestPath);
+    usageManifestSnapshot = usageManifestExisted
+      ? fs.readFileSync(usageManifestPath, "utf8")
+      : null;
+
+    pnpmStubDir = fs.mkdtempSync(path.join(os.tmpdir(), "pnpm-stub-"));
+    const stubPath = path.join(pnpmStubDir, "pnpm");
+    const stubSource = [
+      "#!/usr/bin/env node",
+      "const fs = require(\"node:fs\");",
+      "const path = require(\"node:path\");",
+      "",
+      "const manifestPath = process.env.GALLERY_MANIFEST_PATH;",
+      "const manifestSource = process.env.GALLERY_MANIFEST_CONTENT || \"\";",
+      "",
+      "if (!manifestPath) {",
+      "  process.stderr.write(\"GALLERY_MANIFEST_PATH is not set\\n\");",
+      "  process.exit(1);",
+      "}",
+      "",
+      "fs.mkdirSync(path.dirname(manifestPath), { recursive: true });",
+      "fs.writeFileSync(manifestPath, manifestSource);",
+      "",
+      "process.exit(0);",
+      "",
+    ].join("\n");
+    fs.writeFileSync(stubPath, stubSource);
+    fs.chmodSync(stubPath, 0o755);
+
+    originalPathEnv = process.env.PATH;
+    process.env.PATH = pnpmStubDir
+      ? `${pnpmStubDir}:${originalPathEnv ?? ""}`
+      : originalPathEnv;
+
+    originalManifestEnv = process.env.GALLERY_MANIFEST_PATH;
+    process.env.GALLERY_MANIFEST_PATH = manifestPath;
+
+    originalManifestContentEnv = process.env.GALLERY_MANIFEST_CONTENT;
+    process.env.GALLERY_MANIFEST_CONTENT = minimalManifest;
+  });
 
   afterEach(() => {
+    if (pnpmStubDir) {
+      fs.rmSync(pnpmStubDir, { recursive: true, force: true });
+      pnpmStubDir = null;
+    }
+
+    if (originalPathEnv === undefined) {
+      delete process.env.PATH;
+    } else {
+      process.env.PATH = originalPathEnv;
+    }
+
+    if (originalManifestEnv === undefined) {
+      delete process.env.GALLERY_MANIFEST_PATH;
+    } else {
+      process.env.GALLERY_MANIFEST_PATH = originalManifestEnv;
+    }
+
+    if (originalManifestContentEnv === undefined) {
+      delete process.env.GALLERY_MANIFEST_CONTENT;
+    } else {
+      process.env.GALLERY_MANIFEST_CONTENT = originalManifestContentEnv;
+    }
+
     fs.writeFileSync(manifestPath, originalManifest);
+
+    if (usageManifestExisted) {
+      if (usageManifestSnapshot !== null) {
+        fs.writeFileSync(usageManifestPath, usageManifestSnapshot);
+      }
+    } else if (fs.existsSync(usageManifestPath)) {
+      fs.rmSync(usageManifestPath, { force: true });
+    }
   });
 
   it("confirms the manifest is valid without requiring regeneration", async () => {
-    const minimalManifest = [
-      "export const galleryPayload = {} as const;",
-      "export const galleryPreviewRoutes = [] as const;",
-      "export const galleryPreviewModules = {} as const;",
-      "",
-    ].join("\n");
-
     fs.writeFileSync(manifestPath, minimalManifest);
 
     const regenModule = await importRegenModule();
@@ -177,7 +261,32 @@ describe("gallery manifest validation", () => {
       regenModule.ensureGalleryManifestIntegrity(),
     ).resolves.toBe(true);
 
+    const regeneratedManifest = fs.readFileSync(manifestPath, "utf8");
+    expect(regeneratedManifest).toContain("export const galleryPayload");
+
     warnSpy.mockRestore();
+  });
+
+  it("regenerates the manifest and updates the cache manifest locally", async () => {
+    const regenModule = await importRegenModule();
+
+    fs.writeFileSync(manifestPath, "{\n  \"broken\": true\n}\n");
+    if (fs.existsSync(usageManifestPath)) {
+      fs.rmSync(usageManifestPath, { force: true });
+    }
+
+    await expect(
+      regenModule.ensureGalleryManifestIntegrity(),
+    ).resolves.toBe(true);
+
+    const regeneratedManifest = fs.readFileSync(manifestPath, "utf8");
+    expect(regeneratedManifest).toContain("export const galleryPreviewModules");
+
+    expect(fs.existsSync(usageManifestPath)).toBe(true);
+    const usageManifest = JSON.parse(
+      fs.readFileSync(usageManifestPath, "utf8"),
+    ) as Record<string, unknown>;
+    expect(Object.keys(usageManifest).length).toBeGreaterThan(0);
   });
 
   it("throws in CI environments when the manifest is malformed", async () => {

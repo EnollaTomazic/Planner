@@ -8,7 +8,7 @@ Use [`tsx`](https://github.com/esbuild-kit/tsx) for running TypeScript-powered s
 
 ### Automatic regeneration during install
 
-Running `pnpm install` invokes `scripts/postinstall.mjs`, which executes `scripts/regen-if-needed.ts`. The script validates that `src/components/gallery/generated-manifest.ts` exists and exports the gallery payload modules before the install completes. When the manifest is stale (for example, after checking out a branch that touched gallery entries) the postinstall step automatically runs `pnpm run build-gallery-usage` and other required generators. Expect a short CLI progress bar while the tasks run. If the manifest is missing or malformed the install will fail with instructions to run `pnpm run build-gallery` manually and commit the regenerated output.
+Running `pnpm install` invokes `scripts/postinstall.mjs`, which executes `scripts/regen-if-needed.ts`. The script validates that `src/components/gallery/generated-manifest.ts` exists and exports the gallery payload modules before the install completes. When the manifest is stale (for example, after checking out a branch that touched gallery entries) the postinstall step automatically runs `pnpm run build-gallery-usage` and other required generators. Expect a short CLI progress bar while the tasks run. If the manifest is missing or malformed locally, the script now regenerates it immediately (and refreshes its cached manifest) so installs self-heal instead of leaving a broken file behind.
 
 ## UI components
 

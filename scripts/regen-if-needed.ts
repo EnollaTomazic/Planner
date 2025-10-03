@@ -27,6 +27,11 @@ const galleryManifestFile = path.join(
   "src/components/gallery/generated-manifest.ts",
 );
 
+const usageInputPatterns = [
+  "src/app/**/*.{ts,tsx}",
+  "src/components/**/*.gallery.{ts,tsx}",
+];
+
 const themeInputFiles = [
   path.join(__dirname, "generate-themes.ts"),
   path.join(__dirname, "themes.ts"),
@@ -118,16 +123,17 @@ async function featureChanged(): Promise<boolean> {
   );
 }
 
+async function getUsageInputFiles(): Promise<string[]> {
+  const files = await fg(usageInputPatterns, { cwd: rootDir, absolute: true });
+  return Array.from(new Set(files));
+}
+
 async function usageChanged(): Promise<boolean> {
-  const patterns = [
-    "src/app/**/*.{ts,tsx}",
-    "src/components/**/*.gallery.{ts,tsx}",
-  ];
-  const files = await fg(patterns, { cwd: rootDir, absolute: true });
+  const files = await getUsageInputFiles();
   const manifest = await loadManifest(usageManifestFile);
   return hasChanges(
     manifest,
-    Array.from(new Set(files)),
+    files,
     (f) => path.relative(rootDir, f).replace(/\\/g, "/"),
   );
 }
@@ -280,6 +286,17 @@ async function validateGalleryManifest(): Promise<void> {
   }
 }
 
+async function regenerateGalleryUsage(): Promise<void> {
+  run("pnpm run build-gallery-usage");
+  await validateGalleryManifest();
+  const files = await getUsageInputFiles();
+  await updateManifest(
+    usageManifestFile,
+    files,
+    (f) => path.relative(rootDir, f).replace(/\\/g, "/"),
+  );
+}
+
 export async function ensureGalleryManifestIntegrity(): Promise<boolean> {
   try {
     await validateGalleryManifest();
@@ -293,12 +310,13 @@ export async function ensureGalleryManifestIntegrity(): Promise<boolean> {
     console.warn(
       `${message}\nRegenerating gallery manifest with \`pnpm run build-gallery-usage\`.`,
     );
+    await regenerateGalleryUsage();
     return true;
   }
 }
 
 async function main() {
-  const shouldRegenerateGalleryManifest =
+  const galleryManifestRegenerated =
     await ensureGalleryManifestIntegrity();
 
   if (isCiEnvironment) {
@@ -307,36 +325,16 @@ async function main() {
     return;
   }
 
-  const [
-    needsUi,
-    needsFeature,
-    initialNeedsUsage,
-    needsThemes,
-    needsTokens,
-  ] = await Promise.all([
-    uiChanged(),
-    featureChanged(),
-    usageChanged(),
-    themesChanged(),
-    tokensChanged(),
-  ]);
+  const [needsUi, needsFeature, needsUsage, needsThemes, needsTokens] =
+    await Promise.all([
+      uiChanged(),
+      featureChanged(),
+      galleryManifestRegenerated ? Promise.resolve(false) : usageChanged(),
+      themesChanged(),
+      tokensChanged(),
+    ]);
 
-  let needsUsage = initialNeedsUsage;
-
-  try {
-    await validateGalleryManifest();
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.warn(
-      [
-        "Gallery manifest validation failed; running `pnpm run build-gallery-usage` to regenerate.",
-        message,
-      ].join("\n"),
-    );
-    needsUsage = true;
-  }
-
-  const shouldRunUsage = needsUsage || shouldRegenerateGalleryManifest;
+  const shouldRunUsage = needsUsage;
 
   if (
     !needsUi &&
@@ -345,7 +343,11 @@ async function main() {
     !needsThemes &&
     !needsTokens
   ) {
-    console.log("Skipping regeneration tasks");
+    if (galleryManifestRegenerated) {
+      console.log("Gallery manifest regenerated automatically; no further tasks required.");
+    } else {
+      console.log("Skipping regeneration tasks");
+    }
     return;
   }
 
@@ -370,8 +372,7 @@ async function main() {
     taskBar.increment();
   }
   if (shouldRunUsage) {
-    run("pnpm run build-gallery-usage");
-    await validateGalleryManifest();
+    await regenerateGalleryUsage();
     taskBar.increment();
   }
   if (needsThemes) {
