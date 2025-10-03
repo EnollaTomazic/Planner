@@ -280,9 +280,28 @@ async function validateGalleryManifest(): Promise<void> {
   }
 }
 
-async function main() {
-  if (isCiEnvironment) {
+export async function ensureGalleryManifestIntegrity(): Promise<boolean> {
+  try {
     await validateGalleryManifest();
+    return false;
+  } catch (error) {
+    if (isCiEnvironment) {
+      throw error;
+    }
+
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(
+      `${message}\nRegenerating gallery manifest with \`pnpm run build-gallery-usage\`.`,
+    );
+    return true;
+  }
+}
+
+async function main() {
+  const shouldRegenerateGalleryManifest =
+    await ensureGalleryManifestIntegrity();
+
+  if (isCiEnvironment) {
     validateGenerators(generatorValidations);
     console.log("Skipping regeneration tasks");
     return;
@@ -297,7 +316,15 @@ async function main() {
       tokensChanged(),
     ]);
 
-  if (!needsUi && !needsFeature && !needsUsage && !needsThemes && !needsTokens) {
+  const shouldRunUsage = needsUsage || shouldRegenerateGalleryManifest;
+
+  if (
+    !needsUi &&
+    !needsFeature &&
+    !shouldRunUsage &&
+    !needsThemes &&
+    !needsTokens
+  ) {
     console.log("Skipping regeneration tasks");
     return;
   }
@@ -305,7 +332,7 @@ async function main() {
   const total =
     (needsUi ? 1 : 0) +
     (needsFeature ? 1 : 0) +
-    (needsUsage ? 1 : 0) +
+    (shouldRunUsage ? 1 : 0) +
     (needsThemes ? 1 : 0) +
     (needsTokens ? 1 : 0);
   const bars = new MultiBar(
@@ -322,8 +349,9 @@ async function main() {
     run("pnpm run regen-feature");
     taskBar.increment();
   }
-  if (needsUsage) {
+  if (shouldRunUsage) {
     run("pnpm run build-gallery-usage");
+    await validateGalleryManifest();
     taskBar.increment();
   }
   if (needsThemes) {
