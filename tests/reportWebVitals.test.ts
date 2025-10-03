@@ -10,6 +10,7 @@ const metric = createMockMetric({
 
 describe("reportWebVitals", () => {
   const originalEnv = process.env.NEXT_PUBLIC_ENABLE_METRICS;
+  const originalEndpoint = process.env.NEXT_PUBLIC_METRICS_ENDPOINT;
   const originalBasePath = process.env.NEXT_PUBLIC_BASE_PATH;
   const originalFetch = global.fetch;
   const originalSendBeacon = navigator.sendBeacon;
@@ -17,6 +18,7 @@ describe("reportWebVitals", () => {
   beforeEach(() => {
     vi.resetModules();
     process.env.NEXT_PUBLIC_BASE_PATH = "";
+    process.env.NEXT_PUBLIC_METRICS_ENDPOINT = "";
     Object.defineProperty(document, "visibilityState", {
       configurable: true,
       value: "visible",
@@ -25,6 +27,7 @@ describe("reportWebVitals", () => {
 
   afterEach(() => {
     process.env.NEXT_PUBLIC_ENABLE_METRICS = originalEnv;
+    process.env.NEXT_PUBLIC_METRICS_ENDPOINT = originalEndpoint;
     process.env.NEXT_PUBLIC_BASE_PATH = originalBasePath;
     global.fetch = originalFetch;
     if (typeof originalSendBeacon === "function") {
@@ -41,6 +44,22 @@ describe("reportWebVitals", () => {
 
   it("skips reporting when metrics are disabled", async () => {
     process.env.NEXT_PUBLIC_ENABLE_METRICS = "false";
+    process.env.NEXT_PUBLIC_METRICS_ENDPOINT = "https://metrics.example.com";
+    const sendBeacon = vi.fn();
+    Object.defineProperty(navigator, "sendBeacon", {
+      configurable: true,
+      value: sendBeacon,
+    });
+
+    const { reportWebVitals } = await import("@/reportWebVitals");
+    reportWebVitals(metric);
+
+    expect(sendBeacon).not.toHaveBeenCalled();
+  });
+
+  it("skips reporting when the endpoint is not configured", async () => {
+    process.env.NEXT_PUBLIC_ENABLE_METRICS = "true";
+    process.env.NEXT_PUBLIC_METRICS_ENDPOINT = "";
     const sendBeacon = vi.fn();
     Object.defineProperty(navigator, "sendBeacon", {
       configurable: true,
@@ -55,6 +74,7 @@ describe("reportWebVitals", () => {
 
   it("sends metrics via sendBeacon when available", async () => {
     process.env.NEXT_PUBLIC_ENABLE_METRICS = "true";
+    process.env.NEXT_PUBLIC_METRICS_ENDPOINT = "https://metrics.example.com/collect";
     const sendBeacon = vi.fn(() => true);
     Object.defineProperty(navigator, "sendBeacon", {
       configurable: true,
@@ -73,7 +93,7 @@ describe("reportWebVitals", () => {
     const [urlRaw, bodyRaw] = call as unknown[];
     expect(typeof urlRaw).toBe("string");
     const url = urlRaw as string;
-    expect(url).toBe("/api/metrics");
+    expect(url).toBe("https://metrics.example.com/collect");
     expect(typeof bodyRaw).toBe("string");
     const parsed = JSON.parse(bodyRaw as string);
     expect(parsed.metric.id).toBe(metric.id);
@@ -82,6 +102,7 @@ describe("reportWebVitals", () => {
   it("falls back to fetch and respects the base path", async () => {
     process.env.NEXT_PUBLIC_ENABLE_METRICS = "true";
     process.env.NEXT_PUBLIC_BASE_PATH = "/planner";
+    process.env.NEXT_PUBLIC_METRICS_ENDPOINT = "api/metrics";
     Object.defineProperty(navigator, "sendBeacon", {
       configurable: true,
       value: undefined,

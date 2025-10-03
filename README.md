@@ -63,7 +63,8 @@ The app reads configuration from your shell environment at build time. Use `.env
 | --- | --- | --- |
 | `BASE_PATH` | `""` | Repository slug added to exported asset URLs. Required for GitHub Pages deployments so the static site serves from `/<repo>/`. |
 | `NEXT_PUBLIC_BASE_PATH` | `""` | Browser-visible base path. Mirror `BASE_PATH` when `GITHUB_PAGES` is `true` to keep runtime navigation and asset fetching in sync. |
-| `NEXT_PUBLIC_ENABLE_METRICS` | `"auto"` | Controls the browser web vitals hook. `auto` only ships metrics in production, set to `true`/`false` to force enable or disable respectively. |
+| `NEXT_PUBLIC_ENABLE_METRICS` | `"auto"` | Controls the browser web vitals hook. `auto` only ships metrics in production when a metrics endpoint is configured; set to `true`/`false` to force enable or disable respectively. |
+| `NEXT_PUBLIC_METRICS_ENDPOINT` | `""` | Absolute or relative URL the browser uses for web vitals submissions. Leave empty to disable metrics when hosting static exports without a backend. |
 | `SAFE_MODE` | `false` | Server-side safe mode for AI-assisted tooling. Enable in CI or production when external AI providers should remain isolated from unreleased flows. |
 | `NEXT_PUBLIC_SAFE_MODE` | `false` | Client-side mirror of `SAFE_MODE`. Keep the values in sync so browser logic agrees with server enforcement. |
 | `NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS` | `true` | Feature flag for SVG numeric filters in the planner UI. Disable if custom deployments hit rendering issues. |
@@ -87,6 +88,34 @@ The app reads configuration from your shell environment at build time. Use `.env
 | `NODE_ENV` | `development` | Runtime environment hint used by Next.js. The build pipeline sets this automatically; override only for advanced debugging. |
 
 > **Tip:** Keep `.env.local` out of version control. Only `.env.example` belongs in the repository so collaborators and CI pipelines can discover the supported configuration.
+
+## Metrics reporting on static hosts
+
+Static exports (including GitHub Pages) no longer bundle a `/api/metrics` Route Handler. To keep the browser reporting hook lightweight and optional:
+
+1. Leave `NEXT_PUBLIC_METRICS_ENDPOINT` empty to skip sending metrics entirely. The hook still runs in development, but production builds detect the missing endpoint and bail before serializing payloads.
+2. Point `NEXT_PUBLIC_METRICS_ENDPOINT` at any HTTPS endpoint that accepts the payload defined in [`server/metrics-handler.ts`](server/metrics-handler.ts) if you want to continue aggregating vitals. Relative paths are resolved against `NEXT_PUBLIC_BASE_PATH`, making it safe to deploy a separate collector alongside GitHub Pages assets under the same origin.
+3. Reuse the provided handler in your own Node runtime when you need parity with the previous Next.js route:
+
+   ```ts
+   import { createServer } from "node:http";
+
+   import { handleMetricsRequest } from "./server/metrics-handler";
+
+   const server = createServer((req, res) => {
+     if (req.url === "/metrics" && req.method === "POST") {
+       void handleMetricsRequest(req, res);
+       return;
+     }
+
+     res.statusCode = 404;
+     res.end();
+   });
+
+   server.listen(process.env.PORT ?? 4000);
+   ```
+
+   Deploy that server separately (e.g., on Fly.io, Render, or a simple Node host) and set `NEXT_PUBLIC_METRICS_ENDPOINT=https://<host>/metrics` so the static site can continue forwarding vitals.
 
 ## Animations
 
