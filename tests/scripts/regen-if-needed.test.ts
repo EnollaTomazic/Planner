@@ -188,8 +188,161 @@ describe("gallery manifest validation", () => {
     await expect(
       regenModule.ensureGalleryManifestIntegrity(),
     ).rejects.toThrow(
-      "Gallery manifest appears to contain raw JSON. Run `pnpm run build-gallery` to regenerate src/components/gallery/generated-manifest.ts.",
+      "Gallery manifest appears to contain raw JSON. Run `pnpm run build-gallery-usage` to regenerate src/components/gallery/generated-manifest.ts.",
     );
+  });
+
+  it("regenerates locally when the manifest is malformed", async () => {
+    const scriptDir = path.resolve(__dirname, "..", "..", "scripts");
+    const repoRoot = path.resolve(scriptDir, "..");
+    const cacheDir = path.join(scriptDir, ".cache");
+    const galleryManifestFile = path.join(
+      repoRoot,
+      "src/components/gallery/generated-manifest.ts",
+    );
+    const themeInputFiles = [
+      path.join(scriptDir, "generate-themes.ts"),
+      path.join(scriptDir, "themes.ts"),
+      path.join(scriptDir, "themes-static.css"),
+      path.join(repoRoot, "src/app/themes.css"),
+    ];
+    const tokenInputFiles = Array.from(
+      new Set([
+        ...themeInputFiles,
+        path.join(scriptDir, "generate-tokens.ts"),
+        path.join(repoRoot, "src/lib/tokens.ts"),
+        path.join(repoRoot, "src/app/globals.css"),
+      ]),
+    );
+    const serializeManifest = (files: string[]) =>
+      JSON.stringify(
+        Object.fromEntries(
+          files.map((file) => [
+            path.relative(repoRoot, file).replace(/\\/g, "/"),
+            { mtimeMs: 123 },
+          ]),
+        ),
+        null,
+        2,
+      );
+    const minimalGalleryManifest = [
+      "export const galleryPayload = {} as const;",
+      "export const galleryPreviewRoutes = [] as const;",
+      "export const galleryPreviewModules = {} as const;",
+      "",
+    ].join("\n");
+
+    vi.resetModules();
+
+    const galleryManifestReads = [
+      "{\n  \"broken\": true\n}\n",
+      "{\n  \"broken\": true\n}\n",
+      minimalGalleryManifest,
+      minimalGalleryManifest,
+    ];
+    const readFileMock = vi.fn(async (file: string) => {
+      if (file === galleryManifestFile) {
+        const next = galleryManifestReads.shift();
+        return next ?? minimalGalleryManifest;
+      }
+      if (file === path.join(cacheDir, "generate-themes.json")) {
+        return serializeManifest(themeInputFiles);
+      }
+      if (file === path.join(cacheDir, "generate-tokens.json")) {
+        return serializeManifest(tokenInputFiles);
+      }
+      if (
+        file === path.join(cacheDir, "generate-ui-index.json") ||
+        file === path.join(cacheDir, "generate-feature-index.json") ||
+        file === path.join(cacheDir, "build-gallery-usage.json")
+      ) {
+        return "{}";
+      }
+      return "{}";
+    });
+    const statMock = vi.fn().mockResolvedValue({ mtimeMs: 123 });
+
+    vi.doMock("fs", () => ({
+      __esModule: true,
+      promises: {
+        readFile: readFileMock,
+        stat: statMock,
+        writeFile: vi.fn().mockResolvedValue(undefined),
+        mkdir: vi.fn().mockResolvedValue(undefined),
+      },
+      default: {
+        promises: {
+          readFile: readFileMock,
+          stat: statMock,
+          writeFile: vi.fn().mockResolvedValue(undefined),
+          mkdir: vi.fn().mockResolvedValue(undefined),
+        },
+      },
+    }));
+
+    const execSync = vi.fn((command: string) => {
+      if (command === "pnpm run build-gallery-usage") {
+        return undefined;
+      }
+      throw new Error(`Unexpected command: ${command}`);
+    });
+    vi.doMock("node:child_process", () => ({
+      __esModule: true,
+      execSync,
+      default: { execSync },
+    }));
+
+    vi.doMock("fast-glob", () => ({
+      default: vi.fn().mockResolvedValue([]),
+    }));
+
+    const progressIncrement = vi.fn();
+    const progressStop = vi.fn();
+    const progressCreate = vi.fn(() => ({ increment: progressIncrement }));
+    vi.doMock("cli-progress", () => ({
+      MultiBar: vi.fn(() => ({
+        create: progressCreate,
+        stop: progressStop,
+      })),
+      Presets: { shades_grey: {} },
+    }));
+
+    const originalCI = process.env.CI;
+    const originalArgv1 = process.argv[1];
+    delete process.env.CI;
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
+
+    process.argv[1] = path.join(scriptDir, "regen-if-needed.ts");
+
+    try {
+      await import("../../scripts/regen-if-needed");
+      await new Promise((resolve) => setImmediate(resolve));
+    } finally {
+      process.argv[1] = originalArgv1;
+      if (originalCI === undefined) {
+        delete process.env.CI;
+      } else {
+        process.env.CI = originalCI;
+      }
+      warnSpy.mockRestore();
+      logSpy.mockRestore();
+      vi.unmock("fs");
+      vi.unmock("node:child_process");
+      vi.unmock("fast-glob");
+      vi.unmock("cli-progress");
+      vi.resetModules();
+    }
+
+    expect(execSync).toHaveBeenCalledWith(
+      "pnpm run build-gallery-usage",
+      expect.objectContaining({ stdio: "inherit" }),
+    );
+    expect(
+      execSync.mock.calls.filter(([command]) =>
+        typeof command === "string" && command.startsWith("pnpm run"),
+      ),
+    ).toHaveLength(1);
   });
 });
 
