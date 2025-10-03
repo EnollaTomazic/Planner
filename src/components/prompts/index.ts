@@ -34,6 +34,7 @@ export { default as PromptsComposePanel } from "./PromptsComposePanel";
 export { default as PromptsDemos } from "./PromptsDemos";
 export { default as PromptsHeader } from "./PromptsHeader";
 export { default as PromptsPage } from "./PromptsPage";
+export { default as RadioIconGroupShowcase } from "./RadioIconGroupShowcase";
 export { default as SelectShowcase } from "./SelectShowcase";
 export { default as SkeletonShowcase } from "./SkeletonShowcase";
 export { default as SnackbarShowcase } from "./SnackbarShowcase";
