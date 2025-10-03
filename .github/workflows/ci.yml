@@ -36,6 +36,7 @@ jobs:
       node-modules-cache-hit: ${{ steps.setup.outputs['node-modules-cache-hit'] }}
 
     steps:
+      - uses: actions/checkout@v4
       - name: Setup Node project
         id: setup
         uses: ./.github/actions/setup-node-project
@@ -59,6 +60,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -92,6 +94,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -119,6 +122,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -143,6 +147,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -182,6 +187,7 @@ jobs:
     needs: setup
 
     steps:
+      - uses: actions/checkout@v4
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -258,6 +264,7 @@ jobs:
             previews: " /preview/theme-matrix, /preview/hero-images, /preview/gallery"
 
     steps:
+      - uses: actions/checkout@v4
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
