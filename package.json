@@ -13,6 +13,7 @@
     "profile": "pnpm run prebuild && cross-env REACT_PROFILER=1 tsx scripts/run-next.ts dev -p 3000 --profiling",
     "prebuild": "tsx scripts/regen-if-needed.ts",
     "regen-ui": "tsx scripts/generate-ui-index.ts",
+    "build-gallery": "pnpm run build-gallery-usage",
     "build-gallery-usage": "node --import tsx --import ./scripts/register-loaders.mjs scripts/build-gallery-usage.ts",
     "regen-feature": "tsx scripts/generate-feature-index.ts",
     "generate-themes": "tsx scripts/generate-themes.ts",
