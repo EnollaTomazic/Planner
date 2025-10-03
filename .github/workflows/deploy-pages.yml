@@ -37,6 +37,9 @@ jobs:
 
       - uses: ./.github/actions/setup-node-project
 
+      - name: Setup Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
+
       - name: Verify prompts registry
         run: pnpm run verify-prompts
 
