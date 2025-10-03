@@ -29,6 +29,7 @@ export type MetricsPayload = {
 };
 
 const rawEnableFlag = process.env.NEXT_PUBLIC_ENABLE_METRICS?.trim().toLowerCase();
+const rawEndpoint = process.env.NEXT_PUBLIC_METRICS_ENDPOINT?.trim();
 const DEFAULT_METRICS_ENABLED = process.env.NODE_ENV === "production";
 
 function resolveMetricsEnabled(): boolean {
@@ -49,7 +50,27 @@ function resolveMetricsEnabled(): boolean {
 
 export const metricsEnabled = resolveMetricsEnabled();
 
-export const metricsEndpoint = withBasePath("/api/metrics");
+function resolveMetricsEndpoint(): string | undefined {
+  if (!rawEndpoint) {
+    return undefined;
+  }
+
+  if (rawEndpoint.startsWith("http://") || rawEndpoint.startsWith("https://")) {
+    return rawEndpoint;
+  }
+
+  if (rawEndpoint.startsWith("/")) {
+    return withBasePath(rawEndpoint);
+  }
+
+  return withBasePath(`/${rawEndpoint}`);
+}
+
+export const metricsEndpoint = resolveMetricsEndpoint();
+
+export function metricsAvailable(): boolean {
+  return metricsEnabled && typeof metricsEndpoint === "string";
+}
 
 type CandidateMetric = NextWebVitalsMetric & {
   delta?: number;
@@ -127,15 +148,20 @@ export function createMetricsPayload(
 }
 
 export function postMetrics(payload: MetricsPayload): void {
-  const body = JSON.stringify(payload);
-  const headers = { "Content-Type": "application/json" } as const;
-
-  if (typeof navigator.sendBeacon === "function") {
-    navigator.sendBeacon(metricsEndpoint, body);
+  if (!metricsAvailable()) {
     return;
   }
 
-  void fetch(metricsEndpoint, {
+  const body = JSON.stringify(payload);
+  const headers = { "Content-Type": "application/json" } as const;
+  const endpoint = metricsEndpoint as string;
+
+  if (typeof navigator.sendBeacon === "function") {
+    navigator.sendBeacon(endpoint, body);
+    return;
+  }
+
+  void fetch(endpoint, {
     method: "POST",
     headers,
     body,
@@ -147,7 +173,7 @@ export function postMetrics(payload: MetricsPayload): void {
 }
 
 export function reportWebVitals(metric: NextWebVitalsMetric): void {
-  if (typeof window === "undefined" || !metricsEnabled) {
+  if (typeof window === "undefined" || !metricsAvailable()) {
     return;
   }
 
