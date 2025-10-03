@@ -83,6 +83,8 @@ declare module "playwright/test" {
     toBeVisible(): Promise<void>;
     toBeFocused(): Promise<void>;
     toHaveAttribute(name: string, value: string): Promise<void>;
+    toHaveCount(value: number): Promise<void>;
+    toBeChecked(): Promise<void>;
   }
 
   interface ScreenshotOptions {
@@ -100,6 +102,9 @@ declare module "playwright/test" {
 
   interface Locator {
     focus(): Promise<void>;
+    click(options?: Record<string, unknown>): Promise<void>;
+    first(): Locator;
+    getByRole(role: Role, options?: GetByRoleOptions): Locator;
     evaluate<T, Args extends unknown[]>(
       fn: (element: Element, ...args: Args) => T,
       ...args: Args
@@ -122,6 +127,7 @@ declare module "playwright/test" {
     keyboard: Keyboard;
     getByRole(role: Role, options?: GetByRoleOptions): Locator;
     getByLabel(text: string | RegExp): Locator;
+    locator(selector: string): Locator;
   }
 
   interface TestFixtures {

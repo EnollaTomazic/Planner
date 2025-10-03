@@ -20,11 +20,7 @@ const navBackdropRoute =
     (route: GalleryPreviewRoute) => route.entryId === NAV_BACKDROP_ENTRY_ID,
   ) ?? null;
 
-interface PreviewTestPage extends ThemeHydrationPage {
-  goto(url: string): Promise<unknown>;
-  waitForLoadState(state: string): Promise<unknown>;
-  waitForSelector(selector: string): Promise<unknown>;
-}
+type PreviewTestPage = Page & ThemeHydrationPage;
 
 test.describe("Accessibility", () => {
   test("@axe home page has no detectable accessibility violations", async ({ page }) => {
