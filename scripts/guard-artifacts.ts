@@ -43,7 +43,7 @@ export async function detectForbiddenArtifacts(
   const matches: ForbiddenMatch[] = [];
 
   for (const pattern of patterns) {
-    const results = await fg(pattern.glob, {
+    const results = await fg(Array.from(pattern.glob), {
       cwd: rootDir,
       dot: true,
       onlyDirectories: true,
