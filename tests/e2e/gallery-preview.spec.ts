@@ -1,4 +1,4 @@
-import { expect, test } from "./playwright";
+import { expect, test, type Page } from "./playwright";
 
 import { VARIANTS } from "@/lib/theme";
 import type { GalleryPreviewRoute } from "@/components/gallery";
@@ -13,12 +13,8 @@ import { waitForThemeHydration, type ThemeHydrationPage } from "./utils/theme";
 
 const previewRoutes = getDepthPreviewRoutes();
 
-interface PreviewTestPage extends ThemeHydrationPage {
-  goto(url: string): Promise<unknown>;
-  waitForLoadState(state: string): Promise<unknown>;
-  waitForSelector(selector: string): Promise<unknown>;
-  click(selector: string): Promise<unknown>;
-}
+type PreviewTestPage = ThemeHydrationPage &
+  Pick<Page, "goto" | "waitForLoadState" | "waitForSelector" | "locator">;
 
 async function visitPreview(
   page: PreviewTestPage,
