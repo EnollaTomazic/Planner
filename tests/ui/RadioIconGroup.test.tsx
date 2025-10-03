@@ -4,16 +4,16 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import RadioIconGroup, {
   type RadioIconGroupOption,
-} from "@/components/ui/toggles/RadioIconGroup";
+} from "@/components/ui/radio/RadioIconGroup";
 
-const TestIcon: RadioIconGroupOption["icon"] = (props) => (
-  <svg role="presentation" aria-hidden {...props} />
+const TestIcon: Exclude<RadioIconGroupOption["icon"], undefined> = (
+  <svg role="presentation" aria-hidden />
 );
 
 const OPTIONS: readonly RadioIconGroupOption[] = [
-  { value: "sun", label: "Sun", icon: TestIcon },
-  { value: "moon", label: "Moon", icon: TestIcon },
-  { value: "flame", label: "Flame", icon: TestIcon },
+  { id: "sun", value: "sun", label: "Sun", icon: TestIcon },
+  { id: "moon", value: "moon", label: "Moon", icon: TestIcon },
+  { id: "flame", value: "flame", label: "Flame", icon: TestIcon },
 ];
 
 afterEach(() => {
@@ -22,8 +22,14 @@ afterEach(() => {
 
 describe("RadioIconGroup", () => {
   it("exposes a labelled radiogroup with matching radios", () => {
-    const { getByRole, getAllByRole } = render(
-      <RadioIconGroup options={OPTIONS} value="sun" aria-label="Select tone" />,
+    const { getByRole, getAllByRole, getByLabelText } = render(
+      <RadioIconGroup
+        name="celestial"
+        options={OPTIONS}
+        value="sun"
+        aria-label="Select tone"
+        onChange={() => {}}
+      />,
     );
 
     const group = getByRole("radiogroup");
@@ -31,45 +37,68 @@ describe("RadioIconGroup", () => {
 
     const radios = getAllByRole("radio");
     expect(radios).toHaveLength(OPTIONS.length);
-    expect(radios[0]).toHaveAttribute("aria-labelledby");
+    expect(radios[0]).toHaveAttribute("id", OPTIONS[0]!.id);
+    expect(getByLabelText("Moon")).toHaveAttribute("id", OPTIONS[1]!.id);
   });
 
   it("announces loading via aria-busy", () => {
     const { getByRole, rerender } = render(
-      <RadioIconGroup options={OPTIONS} value="sun" loading />,
+      <RadioIconGroup
+        name="celestial"
+        options={OPTIONS}
+        value="sun"
+        loading
+        onChange={() => {}}
+      />,
     );
 
     const group = getByRole("radiogroup");
     expect(group).toHaveAttribute("aria-busy", "true");
 
-    rerender(<RadioIconGroup options={OPTIONS} value="sun" loading={false} />);
+    rerender(
+      <RadioIconGroup
+        name="celestial"
+        options={OPTIONS}
+        value="sun"
+        loading={false}
+        onChange={() => {}}
+      />,
+    );
 
     expect(group).not.toHaveAttribute("aria-busy");
   });
 
-  it("supports keyboard navigation", () => {
+  it("invokes change handlers on interaction", () => {
     const handleChange = vi.fn();
-    const { getAllByRole } = render(
-      <RadioIconGroup options={OPTIONS} value="sun" onChange={handleChange} />,
+    const { getByLabelText } = render(
+      <RadioIconGroup
+        name="celestial"
+        options={OPTIONS}
+        value="sun"
+        onChange={handleChange}
+      />,
     );
 
-    const radios = getAllByRole("radio");
-    radios[0].focus();
-
-    fireEvent.keyDown(radios[0], { key: "ArrowRight" });
-    expect(radios[1]).toHaveFocus();
-
-    fireEvent.keyDown(radios[1], { key: "Enter" });
+    fireEvent.click(getByLabelText("Moon"));
     expect(handleChange).toHaveBeenCalledWith("moon");
   });
 
   it("surfaces tone tokens for styling", () => {
     const { getAllByRole } = render(
-      <RadioIconGroup options={OPTIONS} value="sun" tone="accent" />,
+      <RadioIconGroup
+        name="celestial"
+        options={OPTIONS}
+        value="sun"
+        tone="accent"
+        onChange={() => {}}
+      />,
     );
 
-    const firstWrapper = getAllByRole("radio")[0].parentElement;
-    expect(firstWrapper?.className).toContain("[--radio-hover-surface:hsl(var(--accent)/0.16)]");
-    expect(firstWrapper?.className).toContain("[--radio-active-surface:hsl(var(--accent)/0.26)]");
+    const firstRadio = getAllByRole("radio")[0];
+    const label = firstRadio.parentElement?.querySelector("label");
+    const iconContainer = label?.querySelector("span");
+
+    expect(iconContainer?.className).toContain("peer-checked:bg-accent/18");
+    expect(iconContainer?.className).toContain("peer-checked:border-accent/45");
   });
 });

@@ -4119,17 +4119,42 @@ React.useEffect(() => {
       element: <RadioIconGroupShowcase />,
       tags: ["radio", "toggle", "icon"],
       code: `const options = [
-  { value: "sun", label: "Sun", icon: Sun },
-  { value: "moon", label: "Moon", icon: MoonStar },
-  { value: "flame", label: "Flame", icon: Flame },
-  { value: "shield", label: "Shield", icon: ShieldHalf },
+  { id: "radio-sun", value: "sun", label: "Sun", icon: <Sun /> },
+  { id: "radio-moon", value: "moon", label: "Moon", icon: <MoonStar /> },
+  { id: "radio-flame", value: "flame", label: "Flame", icon: <Flame /> },
+  { id: "radio-shield", value: "shield", label: "Shield", icon: <ShieldHalf /> },
 ];
 const [value, setValue] = React.useState(options[0].value);
 
-<RadioIconGroup options={options} value={value} onChange={setValue} tone="accent" />
-<RadioIconGroup options={options} value={value} onChange={setValue} tone="info" size="sm" />
-<RadioIconGroup options={options} value={value} disabled />
-<RadioIconGroup options={options} value={value} loading />`,
+<RadioIconGroup
+  name="celestial"
+  options={options}
+  value={value}
+  onChange={setValue}
+  tone="accent"
+/>
+<RadioIconGroup
+  name="celestial-success"
+  options={options}
+  value={value}
+  onChange={setValue}
+  tone="success"
+  size="sm"
+/>
+<RadioIconGroup
+  name="celestial-disabled"
+  options={options}
+  value={value}
+  onChange={setValue}
+  disabled
+/>
+<RadioIconGroup
+  name="celestial-loading"
+  options={options}
+  value={value}
+  onChange={setValue}
+  loading
+/>`,
     },
     {
       id: "animation-toggle",

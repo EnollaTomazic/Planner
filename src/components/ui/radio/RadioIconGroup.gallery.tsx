@@ -12,10 +12,10 @@ import RadioIconGroup, {
 } from "./RadioIconGroup";
 
 export const RADIO_ICON_GROUP_DEMO_OPTIONS: readonly RadioIconGroupOption[] = [
-  { value: "sun", label: "Sun", icon: Sun },
-  { value: "moon", label: "Moon", icon: MoonStar },
-  { value: "flame", label: "Flame", icon: Flame },
-  { value: "shield", label: "Shield", icon: ShieldHalf },
+  { id: "radio-icon-sun", value: "sun", label: "Sun", icon: <Sun /> },
+  { id: "radio-icon-moon", value: "moon", label: "Moon", icon: <MoonStar /> },
+  { id: "radio-icon-flame", value: "flame", label: "Flame", icon: <Flame /> },
+  { id: "radio-icon-shield", value: "shield", label: "Shield", icon: <ShieldHalf /> },
 ] as const;
 
 export type RadioIconGroupStateSpec = {
@@ -35,47 +35,57 @@ export const RADIO_ICON_GROUP_STATE_SPECS: readonly RadioIconGroupStateSpec[] = 
   {
     id: "default",
     name: "Default",
-    code: `<RadioIconGroup options={options} value="sun" />`,
+    code: `<RadioIconGroup name="tone" options={options} value="sun" onChange={() => {}} />`,
   },
   {
     id: "hover",
     name: "Hover",
-    className:
-      "[&>div:first-child>button]:bg-[--radio-hover-surface] [&>div:first-child>button]:text-foreground",
+    className: cn(
+      "[&>div:first-child>label>span:first-child]:bg-accent/12",
+      "[&>div:first-child>label>span:first-child]:text-foreground",
+    ),
     code: `<RadioIconGroup
+  name="tone"
   options={options}
   value="sun"
-  className="[&>div:first-child>button]:bg-[--radio-hover-surface] [&>div:first-child>button]:text-foreground"
+  className="[&>div:first-child>label>span:first-child]:bg-accent/12 [&>div:first-child>label>span:first-child]:text-foreground"
+  onChange={() => {}}
 />`,
   },
   {
     id: "focus-visible",
     name: "Focus-visible",
-    className:
-      "[&>div:first-child>button]:ring-2 [&>div:first-child>button]:ring-[--radio-ring] [&>div:first-child>button]:ring-offset-2 [&>div:first-child>button]:ring-offset-[var(--surface-2)]",
+    className: cn(
+      "[&>div:first-child>label>span:first-child]:ring-2",
+      "[&>div:first-child>label>span:first-child]:ring-accent",
+      "[&>div:first-child>label>span:first-child]:ring-offset-2",
+      "[&>div:first-child>label>span:first-child]:ring-offset-[color:var(--surface-2)]",
+    ),
     code: `<RadioIconGroup
+  name="tone"
   options={options}
   value="sun"
-  className="[&>div:first-child>button]:ring-2 [&>div:first-child>button]:ring-[--radio-ring] [&>div:first-child>button]:ring-offset-2 [&>div:first-child>button]:ring-offset-[var(--surface-2)]"
+  className="[&>div:first-child>label>span:first-child]:ring-2 [&>div:first-child>label>span:first-child]:ring-accent [&>div:first-child>label>span:first-child]:ring-offset-2 [&>div:first-child>label>span:first-child]:ring-offset-[color:var(--surface-2)]"
+  onChange={() => {}}
 />`,
   },
   {
     id: "active",
     name: "Active",
     props: { value: "moon" },
-    code: `<RadioIconGroup options={options} value="moon" />`,
+    code: `<RadioIconGroup name="tone" options={options} value="moon" onChange={() => {}} />`,
   },
   {
     id: "disabled",
     name: "Disabled",
     props: { disabled: true },
-    code: `<RadioIconGroup options={options} value="sun" disabled />`,
+    code: `<RadioIconGroup name="tone" options={options} value="sun" disabled onChange={() => {}} />`,
   },
   {
     id: "loading",
     name: "Loading",
     props: { loading: true },
-    code: `<RadioIconGroup options={options} value="sun" loading />`,
+    code: `<RadioIconGroup name="tone" options={options} value="sun" loading onChange={() => {}} />`,
   },
 ] as const;
 
@@ -85,6 +95,8 @@ function RadioIconGroupStatePreview({ state }: { readonly state: RadioIconGroupS
   return (
     <RadioIconGroup
       {...RADIO_GROUP_BASE_PROPS}
+      name={`radio-icon-group-${state.id}`}
+      onChange={() => {}}
       {...props}
       className={cn(className, props?.className)}
     />
@@ -95,6 +107,7 @@ function RadioIconGroupGalleryPreview() {
   const [value, setValue] = React.useState(RADIO_GROUP_BASE_PROPS.value);
   const [tone, setTone] = React.useState<RadioIconGroupTone>("accent");
   const [size, setSize] = React.useState<RadioIconGroupSize>("md");
+  const instanceId = React.useId();
 
   return (
     <div className="flex flex-col gap-[var(--space-4)]">
@@ -103,6 +116,7 @@ function RadioIconGroupGalleryPreview() {
         value={value}
         tone={tone}
         size={size}
+        name={`radio-icon-group-${instanceId}`}
         onChange={setValue}
       />
       <div className="flex flex-wrap items-center gap-[var(--space-3)] text-caption text-muted-foreground">
@@ -115,7 +129,8 @@ function RadioIconGroupGalleryPreview() {
           >
             <option value="accent">Accent</option>
             <option value="primary">Primary</option>
-            <option value="info">Info</option>
+            <option value="success">Success</option>
+            <option value="warning">Warning</option>
             <option value="danger">Danger</option>
           </select>
         </label>
@@ -154,10 +169,15 @@ export default defineGallerySection({
       kind: "primitive",
       tags: ["radio", "toggle", "icon"],
       props: [
+        { name: "name", type: "string" },
         { name: "options", type: "readonly RadioIconGroupOption[]" },
-        { name: "value", type: "string" },
+        { name: "value", type: "string | null" },
         { name: "onChange", type: "(value: string) => void" },
-        { name: "tone", type: '"accent" | "primary" | "info" | "danger"', defaultValue: '"accent"' },
+        {
+          name: "tone",
+          type: '"accent" | "primary" | "success" | "warning" | "danger"',
+          defaultValue: '"accent"',
+        },
         { name: "size", type: '"sm" | "md" | "lg"', defaultValue: '"md"' },
         { name: "disabled", type: "boolean", defaultValue: "false" },
         { name: "loading", type: "boolean", defaultValue: "false" },
@@ -185,6 +205,7 @@ export default defineGallerySection({
         }),
       })),
       code: `<RadioIconGroup
+  name="tone"
   options={options}
   value={value}
   tone={tone}
