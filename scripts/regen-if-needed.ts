@@ -250,14 +250,14 @@ async function validateGalleryManifest(): Promise<void> {
     contents = await fs.readFile(galleryManifestFile, "utf8");
   } catch {
     throw new Error(
-      "Missing gallery manifest. Run `pnpm run build-gallery` to regenerate src/components/gallery/generated-manifest.ts.",
+      "Missing gallery manifest. Run `pnpm run build-gallery-usage` to regenerate src/components/gallery/generated-manifest.ts.",
     );
   }
 
   const trimmed = contents.trimStart();
   if (trimmed.startsWith("{")) {
     throw new Error(
-      "Gallery manifest appears to contain raw JSON. Run `pnpm run build-gallery` to regenerate src/components/gallery/generated-manifest.ts.",
+      "Gallery manifest appears to contain raw JSON. Run `pnpm run build-gallery-usage` to regenerate src/components/gallery/generated-manifest.ts.",
     );
   }
 
@@ -275,7 +275,7 @@ async function validateGalleryManifest(): Promise<void> {
       .map((signature) => signature.replace("export const ", ""))
       .join(", ");
     throw new Error(
-      `Gallery manifest is missing required exports: ${exportNames}. Run \`pnpm run build-gallery\` to regenerate src/components/gallery/generated-manifest.ts.`,
+      `Gallery manifest is missing required exports: ${exportNames}. Run \`pnpm run build-gallery-usage\` to regenerate src/components/gallery/generated-manifest.ts.`,
     );
   }
 }
@@ -307,14 +307,34 @@ async function main() {
     return;
   }
 
-  const [needsUi, needsFeature, needsUsage, needsThemes, needsTokens] =
-    await Promise.all([
-      uiChanged(),
-      featureChanged(),
-      usageChanged(),
-      themesChanged(),
-      tokensChanged(),
-    ]);
+  const [
+    needsUi,
+    needsFeature,
+    initialNeedsUsage,
+    needsThemes,
+    needsTokens,
+  ] = await Promise.all([
+    uiChanged(),
+    featureChanged(),
+    usageChanged(),
+    themesChanged(),
+    tokensChanged(),
+  ]);
+
+  let needsUsage = initialNeedsUsage;
+
+  try {
+    await validateGalleryManifest();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(
+      [
+        "Gallery manifest validation failed; running `pnpm run build-gallery-usage` to regenerate.",
+        message,
+      ].join("\n"),
+    );
+    needsUsage = true;
+  }
 
   const shouldRunUsage = needsUsage || shouldRegenerateGalleryManifest;
 
@@ -374,6 +394,10 @@ async function main() {
   }
 
   bars.stop();
+
+  if (needsUsage) {
+    await validateGalleryManifest();
+  }
 }
 
 const entryPoint = process.argv[1]
