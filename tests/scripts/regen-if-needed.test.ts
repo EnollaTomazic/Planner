@@ -300,5 +300,127 @@ describe("gallery manifest validation", () => {
       "Gallery manifest appears to contain raw JSON. Run `pnpm run build-gallery-usage` to regenerate src/components/gallery/generated-manifest.ts.",
     );
   });
+
+  it("attempts regeneration locally when the manifest is malformed", async () => {
+    const repoRoot = path.resolve(__dirname, "..", "..");
+    const scriptEntry = path.join(repoRoot, "scripts", "regen-if-needed.ts");
+    const galleryManifestFile = path.join(
+      repoRoot,
+      "src/components/gallery/generated-manifest.ts",
+    );
+    const validManifest = [
+      "export const galleryPayload = {} as const;",
+      "export const galleryPreviewRoutes = [] as const;",
+      "export const galleryPreviewModules = {} as const;",
+      "",
+    ].join("\n");
+
+    const originalArgv = [...process.argv];
+    const originalCi = process.env.CI;
+
+    vi.resetModules();
+
+    const execSyncMock = vi.fn();
+    const fgMock = vi.fn(async () => [] as string[]);
+    const warnMock = vi
+      .spyOn(console, "warn")
+      .mockImplementation(() => undefined);
+    const logMock = vi
+      .spyOn(console, "log")
+      .mockImplementation(() => undefined);
+    const errorMock = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+    const exitMock = vi
+      .spyOn(process, "exit")
+      .mockImplementation((() => undefined) as never);
+
+    let manifestReads = 0;
+    const readFileMock = vi.fn(async (file: string) => {
+      if (file === galleryManifestFile) {
+        manifestReads += 1;
+        if (manifestReads === 1) {
+          return "{\n  \"broken\": true\n}\n";
+        }
+        return validManifest;
+      }
+      return "{}";
+    });
+
+    const statMock = vi.fn(async () => ({ mtimeMs: Date.now() }));
+    const writeFileMock = vi.fn(async () => undefined);
+    const mkdirMock = vi.fn(async () => undefined);
+
+    class MockMultiBar {
+      create = vi.fn(() => ({ increment: vi.fn() }));
+      stop = vi.fn();
+    }
+
+    vi.doMock("fs", () => ({
+      promises: {
+        readFile: readFileMock,
+        stat: statMock,
+        writeFile: writeFileMock,
+        mkdir: mkdirMock,
+      },
+      default: {
+        promises: {
+          readFile: readFileMock,
+          stat: statMock,
+          writeFile: writeFileMock,
+          mkdir: mkdirMock,
+        },
+      },
+    }));
+    vi.doMock("fast-glob", () => ({
+      default: fgMock,
+    }));
+    vi.doMock("cli-progress", () => ({
+      MultiBar: MockMultiBar,
+      Presets: { shades_grey: {} },
+    }));
+    vi.doMock("node:child_process", () => ({
+      execSync: execSyncMock,
+      default: { execSync: execSyncMock },
+    }));
+
+    delete process.env.CI;
+    process.argv = [
+      originalArgv[0],
+      scriptEntry,
+      ...originalArgv.slice(2),
+    ];
+
+    try {
+      await import("../../scripts/regen-if-needed");
+      await new Promise((resolve) => setImmediate(resolve));
+
+      expect(execSyncMock).toHaveBeenCalledWith(
+        "pnpm run build-gallery-usage",
+        expect.objectContaining({ stdio: "inherit" }),
+      );
+      expect(manifestReads).toBeGreaterThanOrEqual(2);
+      expect(warnMock).toHaveBeenCalled();
+      expect(exitMock).not.toHaveBeenCalled();
+    } finally {
+      warnMock.mockRestore();
+      logMock.mockRestore();
+      errorMock.mockRestore();
+      exitMock.mockRestore();
+
+      process.argv = originalArgv;
+      if (originalCi === undefined) {
+        delete process.env.CI;
+      } else {
+        process.env.CI = originalCi;
+      }
+
+      vi.doUnmock("fs");
+      vi.doUnmock("fast-glob");
+      vi.doUnmock("cli-progress");
+      vi.doUnmock("node:child_process");
+      vi.resetModules();
+    }
+  });
 });
 
