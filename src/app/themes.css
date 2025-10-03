@@ -3,6 +3,7 @@
 /* =========================================================
    Theme tokens + per-theme glitch backdrops
    ========================================================= */
+@import "../../tokens/tokens.css";
 /**
  * Do not edit directly, this file was auto-generated.
  */
@@ -84,10 +85,6 @@
   --dur-quick: 140ms;
   --dur-chill: 220ms;
   --dur-slow: 420ms;
-  --motion-duration-sm: var(--dur-quick);
-  --motion-duration-md: var(--dur-chill);
-  --motion-duration-lg: var(--dur-slow);
-  --motion-ease-glitch: var(--ease-motion-glitch);
   --control-h-xs: 24px;
   --control-h-sm: 32px;
   --control-h-md: 40px;
@@ -264,8 +261,6 @@
   --layout-gutter-sm: var(--spacing-4);
   --layout-gutter-md: var(--spacing-5);
   --layout-gutter-lg: var(--spacing-6);
-  --layout-quick-action-min: calc(var(--spacing-8) * 3);
-  --layout-quick-action-tooltip-max: calc(var(--spacing-8) * 5);
   --card-radius: var(--radius-xl);
   --elevation-card: var(--shadow-outline-subtle);
   --elevation-card-pressed: var(--shadow-control);
@@ -338,9 +333,7 @@
   --card-elev-3: var(--shadow-outline-subtle), var(--shadow-outer-lg);
   --glow-ring-sm: 0 0 0 calc(var(--spacing-0-25)) hsl(var(--ring) / 0.45);
   --glow-ring-md: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-2) hsl(var(--ring) / 0.2);
-  --glow-pulse:
-    glow-pulse var(--motion-duration-lg, var(--dur-slow))
-      var(--ease-out) infinite alternate;
+  --glow-pulse: glow-pulse var(--dur-slow) var(--ease-out) infinite alternate;
   --blob-surface: color-mix(in oklab, hsl(var(--surface)) 70%, hsl(var(--surface-2)) 30%);
   --drip-surface: color-mix(in oklab, hsl(var(--accent)) 18%, hsl(var(--background)) 82%);
   --gradient-blob-primary: radial-gradient(120% 120% at 50% 10%, hsl(var(--surface) / 0.85), hsl(var(--surface-2) / 0.35), transparent 85%);
@@ -390,6 +383,12 @@
   --stat-good: var(--success);
   --stat-warn: var(--warning);
   --stat-bad: var(--danger);
+  --motion-duration-sm: var(--dur-quick);
+  --motion-duration-md: var(--dur-chill);
+  --motion-duration-lg: var(--dur-slow);
+  --motion-ease-glitch: var(--ease-motion-glitch);
+  --layout-quick-action-min: calc(var(--spacing-8) * 3);
+  --layout-quick-action-tooltip-max: calc(var(--spacing-8) * 5);
   --spacing-0-125: calc(var(--spacing-1) / 8);
   --spacing-0-25: calc(var(--spacing-1) / 4);
   --spacing-0-5: calc(var(--spacing-1) / 2);
@@ -421,9 +420,7 @@
   :root {
     --glitch-scanline: glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite;
     --glitch-rgb-shift: drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45));
-    --glow-pulse:
-      glow-pulse var(--motion-duration-lg, var(--dur-slow))
-        var(--ease-out) infinite alternate;
+    --glow-pulse: glow-pulse var(--dur-slow) var(--ease-out) infinite alternate;
   }
 }
 @media (prefers-reduced-motion: reduce) {
