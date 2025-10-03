@@ -20,8 +20,10 @@ export type GalleryModuleExport = {
   readonly default: unknown;
 };
 
+const galleryPreviewModuleList = Object.values(galleryPreviewModules);
+
 const previewModuleIndex = new Map<string, GalleryPreviewModuleManifest>();
-for (const manifest of galleryPreviewModules) {
+for (const manifest of galleryPreviewModuleList) {
   for (const previewId of manifest.previewIds) {
     previewModuleIndex.set(previewId, manifest);
   }

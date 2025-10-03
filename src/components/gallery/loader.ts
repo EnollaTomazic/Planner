@@ -102,6 +102,8 @@ type GalleryModuleExport = {
   readonly default: GallerySection | readonly GallerySection[];
 };
 
+const galleryPreviewModuleList = Object.values(galleryPreviewModules);
+
 const moduleSectionCache = new WeakMap<
   GalleryPreviewModuleManifest,
   Promise<readonly GallerySection[]>
@@ -132,7 +134,7 @@ const loadModuleSections = (
 
 const loadGallerySections = async (): Promise<GallerySection[]> => {
   const modules = await Promise.all(
-    galleryPreviewModules.map((manifest) => loadModuleSections(manifest)),
+    galleryPreviewModuleList.map((manifest) => loadModuleSections(manifest)),
   );
   return modules.flatMap((moduleSections) => moduleSections);
 };

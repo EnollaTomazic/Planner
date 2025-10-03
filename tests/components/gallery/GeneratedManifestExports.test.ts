@@ -25,10 +25,13 @@ describe("gallery manifest exports", () => {
   });
 
   it("exposes preview modules with loaders", () => {
-    expect(Array.isArray(galleryPreviewModules)).toBe(true);
-    expect(galleryPreviewModules.length).toBeGreaterThan(0);
+    expect(galleryPreviewModules).toBeDefined();
+    expect(typeof galleryPreviewModules).toBe("object");
 
-    const manifest = galleryPreviewModules[0] as GalleryPreviewModuleManifest | undefined;
+    const manifests = Object.values(galleryPreviewModules);
+    expect(manifests.length).toBeGreaterThan(0);
+
+    const manifest = manifests[0] as GalleryPreviewModuleManifest | undefined;
     expect(manifest).toBeDefined();
     expect(typeof manifest?.loader).toBe("function");
     expect(Array.isArray(manifest?.previewIds)).toBe(true);
