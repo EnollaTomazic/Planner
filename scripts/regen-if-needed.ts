@@ -288,14 +288,34 @@ async function main() {
     return;
   }
 
-  const [needsUi, needsFeature, needsUsage, needsThemes, needsTokens] =
-    await Promise.all([
-      uiChanged(),
-      featureChanged(),
-      usageChanged(),
-      themesChanged(),
-      tokensChanged(),
-    ]);
+  const [
+    needsUi,
+    needsFeature,
+    initialNeedsUsage,
+    needsThemes,
+    needsTokens,
+  ] = await Promise.all([
+    uiChanged(),
+    featureChanged(),
+    usageChanged(),
+    themesChanged(),
+    tokensChanged(),
+  ]);
+
+  let needsUsage = initialNeedsUsage;
+
+  try {
+    await validateGalleryManifest();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(
+      [
+        "Gallery manifest validation failed; running `pnpm run build-gallery-usage` to regenerate.",
+        message,
+      ].join("\n"),
+    );
+    needsUsage = true;
+  }
 
   if (!needsUi && !needsFeature && !needsUsage && !needsThemes && !needsTokens) {
     console.log("Skipping regeneration tasks");
@@ -346,6 +366,10 @@ async function main() {
   }
 
   bars.stop();
+
+  if (needsUsage) {
+    await validateGalleryManifest();
+  }
 }
 
 const entryPoint = process.argv[1]
