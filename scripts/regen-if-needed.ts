@@ -22,6 +22,10 @@ const featureManifestFile = path.join(cacheDir, "generate-feature-index.json");
 const usageManifestFile = path.join(cacheDir, "build-gallery-usage.json");
 const themesManifestFile = path.join(cacheDir, "generate-themes.json");
 const tokensManifestFile = path.join(cacheDir, "generate-tokens.json");
+const galleryManifestFile = path.join(
+  rootDir,
+  "src/components/gallery/generated-manifest.ts",
+);
 
 const themeInputFiles = [
   path.join(__dirname, "generate-themes.ts"),
@@ -158,8 +162,45 @@ const isCiEnvironment = (() => {
   return value !== "false" && value !== "0";
 })();
 
+async function validateGalleryManifest(): Promise<void> {
+  let contents: string;
+  try {
+    contents = await fs.readFile(galleryManifestFile, "utf8");
+  } catch {
+    throw new Error(
+      "Missing gallery manifest. Run `pnpm run build-gallery` to regenerate src/components/gallery/generated-manifest.ts.",
+    );
+  }
+
+  const trimmed = contents.trimStart();
+  if (trimmed.startsWith("{")) {
+    throw new Error(
+      "Gallery manifest appears to contain raw JSON. Run `pnpm run build-gallery` to regenerate src/components/gallery/generated-manifest.ts.",
+    );
+  }
+
+  const requiredExports = [
+    "export const galleryPayload",
+    "export const galleryPreviewRoutes",
+    "export const galleryPreviewModules",
+  ];
+  const missingExports = requiredExports.filter(
+    (signature) => !contents.includes(signature),
+  );
+
+  if (missingExports.length > 0) {
+    const exportNames = missingExports
+      .map((signature) => signature.replace("export const ", ""))
+      .join(", ");
+    throw new Error(
+      `Gallery manifest is missing required exports: ${exportNames}. Run \`pnpm run build-gallery\` to regenerate src/components/gallery/generated-manifest.ts.`,
+    );
+  }
+}
+
 async function main() {
   if (isCiEnvironment) {
+    await validateGalleryManifest();
     console.log("Skipping regeneration tasks");
     return;
   }
