@@ -6,6 +6,8 @@ Requires [Node.js](https://nodejs.org) 22 or newer.
 
 Use [`tsx`](https://github.com/esbuild-kit/tsx) for running TypeScript-powered scripts. All pnpm tasks already invoke `tsx` (or `node --import tsx`) so aligning local commands with it keeps runtime behavior consistent with CI.
 
+During installs `pnpm run regen-if-needed` validates the components gallery manifest. If the manifest is missing or malformed, the script now runs `pnpm run build-gallery-usage` automatically to regenerate it, ensuring local environments stay in sync without manual intervention.
+
 ## UI components
 
 When adding a new UI component or style under `src/components/ui`, run:

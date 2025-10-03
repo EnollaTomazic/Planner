@@ -1,5 +1,5 @@
-import { execSync } from "node:child_process";
-import fs from "node:fs";
+import * as childProcess from "node:child_process";
+import fs, { promises as fsPromises } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
@@ -31,16 +31,19 @@ const REQUIRED_GENERATOR_COMMANDS = [
 
 function createTempRepo(): string {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "regen-if-needed-"));
-  execSync("git init", { cwd: dir, stdio: "ignore" });
-  execSync('git config user.email "ci@example.com"', {
+  childProcess.execSync("git init", { cwd: dir, stdio: "ignore" });
+  childProcess.execSync('git config user.email "ci@example.com"', {
     cwd: dir,
     stdio: "ignore",
   });
-  execSync('git config user.name "CI"', { cwd: dir, stdio: "ignore" });
+  childProcess.execSync('git config user.name "CI"', {
+    cwd: dir,
+    stdio: "ignore",
+  });
 
   fs.writeFileSync(path.join(dir, "README.md"), "initial contents\n");
-  execSync("git add README.md", { cwd: dir, stdio: "ignore" });
-  execSync("git commit -m 'initial'", { cwd: dir, stdio: "ignore" });
+  childProcess.execSync("git add README.md", { cwd: dir, stdio: "ignore" });
+  childProcess.execSync("git commit -m 'initial'", { cwd: dir, stdio: "ignore" });
 
   return dir;
 }
@@ -116,5 +119,62 @@ describe("regen-if-needed CI validations", () => {
     ).toThrowErrorMatchingInlineSnapshot(`
 [Error: generated outputs are stale. Run \`node -e \"require('fs').writeFileSync('generated.txt', 'contents')\"\` and commit the generated files.\n\n?? generated.txt]
 `);
+  });
+});
+
+describe("gallery manifest self-healing", () => {
+  const manifestPath = path.resolve(
+    process.cwd(),
+    "src/components/gallery/generated-manifest.ts",
+  );
+
+  it("rebuilds the manifest when validation fails locally", async () => {
+    const regenModule = await import("../../scripts/regen-if-needed");
+
+    const runCommand = vi.fn();
+
+    const originalReadFile = fsPromises.readFile.bind(fsPromises);
+    let readCount = 0;
+    const readFileSpy = vi
+      .spyOn(fsPromises, "readFile")
+      .mockImplementation(async (file: unknown, encoding?: unknown) => {
+        const resolvedPath =
+          typeof file === "string"
+            ? path.resolve(file)
+            : file instanceof URL
+            ? file.pathname
+            : undefined;
+
+        if (resolvedPath && path.resolve(resolvedPath) === manifestPath) {
+          if (readCount === 0) {
+            readCount += 1;
+            throw new Error("missing manifest");
+          }
+          readCount += 1;
+          return [
+            "export const galleryPayload = {} as const;",
+            "export const galleryPreviewRoutes = {} as const;",
+            "export const galleryPreviewModules = {} as const;",
+          ].join("\n");
+        }
+
+        return originalReadFile(
+          file as Parameters<typeof fsPromises.readFile>[0],
+          encoding as Parameters<typeof fsPromises.readFile>[1],
+        );
+      });
+
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    const regenerated = await regenModule.ensureGalleryManifest({
+      runCommand,
+    });
+
+    expect(regenerated).toBe(true);
+    expect(runCommand).toHaveBeenCalledTimes(1);
+    expect(runCommand).toHaveBeenCalledWith("pnpm run build-gallery-usage");
+
+    warnSpy.mockRestore();
+    readFileSpy.mockRestore();
   });
 });

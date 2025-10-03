@@ -118,16 +118,30 @@ async function featureChanged(): Promise<boolean> {
   );
 }
 
-async function usageChanged(): Promise<boolean> {
+async function getUsageInputFiles(): Promise<string[]> {
   const patterns = [
     "src/app/**/*.{ts,tsx}",
     "src/components/**/*.gallery.{ts,tsx}",
   ];
   const files = await fg(patterns, { cwd: rootDir, absolute: true });
+  return Array.from(new Set(files));
+}
+
+async function refreshUsageManifestCache(): Promise<void> {
+  const files = await getUsageInputFiles();
+  await updateManifest(
+    usageManifestFile,
+    files,
+    (f) => path.relative(rootDir, f).replace(/\\/g, "/"),
+  );
+}
+
+async function usageChanged(): Promise<boolean> {
+  const files = await getUsageInputFiles();
   const manifest = await loadManifest(usageManifestFile);
   return hasChanges(
     manifest,
-    Array.from(new Set(files)),
+    files,
     (f) => path.relative(rootDir, f).replace(/\\/g, "/"),
   );
 }
@@ -280,6 +294,45 @@ async function validateGalleryManifest(): Promise<void> {
   }
 }
 
+type EnsureGalleryManifestOptions = {
+  runCommand?: (command: string) => void;
+};
+
+export async function ensureGalleryManifest(
+  options: EnsureGalleryManifestOptions = {},
+): Promise<boolean> {
+  const runCommand = options.runCommand ?? run;
+  try {
+    await validateGalleryManifest();
+    return false;
+  } catch (initialError) {
+    console.warn(
+      "Gallery manifest is missing or invalid; rebuilding via `pnpm run build-gallery-usage`.",
+    );
+
+    runCommand("pnpm run build-gallery-usage");
+    await refreshUsageManifestCache();
+
+    try {
+      await validateGalleryManifest();
+    } catch (postRebuildError) {
+      const message =
+        postRebuildError instanceof Error
+          ? postRebuildError.message
+          : String(postRebuildError);
+      const originalMessage =
+        initialError instanceof Error
+          ? initialError.message
+          : String(initialError);
+      throw new Error(
+        `Failed to self-heal gallery manifest. Initial error: ${originalMessage}. After regeneration: ${message}`,
+      );
+    }
+
+    return true;
+  }
+}
+
 async function main() {
   if (isCiEnvironment) {
     await validateGalleryManifest();
@@ -287,6 +340,8 @@ async function main() {
     console.log("Skipping regeneration tasks");
     return;
   }
+
+  const regeneratedManifest = await ensureGalleryManifest();
 
   const [needsUi, needsFeature, needsUsage, needsThemes, needsTokens] =
     await Promise.all([
@@ -297,7 +352,15 @@ async function main() {
       tokensChanged(),
     ]);
 
-  if (!needsUi && !needsFeature && !needsUsage && !needsThemes && !needsTokens) {
+  const shouldRebuildUsage = regeneratedManifest ? false : needsUsage;
+
+  if (
+    !needsUi &&
+    !needsFeature &&
+    !shouldRebuildUsage &&
+    !needsThemes &&
+    !needsTokens
+  ) {
     console.log("Skipping regeneration tasks");
     return;
   }
@@ -305,7 +368,7 @@ async function main() {
   const total =
     (needsUi ? 1 : 0) +
     (needsFeature ? 1 : 0) +
-    (needsUsage ? 1 : 0) +
+    (shouldRebuildUsage ? 1 : 0) +
     (needsThemes ? 1 : 0) +
     (needsTokens ? 1 : 0);
   const bars = new MultiBar(
@@ -322,8 +385,9 @@ async function main() {
     run("pnpm run regen-feature");
     taskBar.increment();
   }
-  if (needsUsage) {
+  if (shouldRebuildUsage) {
     run("pnpm run build-gallery-usage");
+    await refreshUsageManifestCache();
     taskBar.increment();
   }
   if (needsThemes) {
