@@ -57,6 +57,10 @@ web_modules/
 # Optional stylelint cache
 .stylelintcache
 
+# tsx cache directories
+tsx-*/
+node-compile-cache/
+
 # Optional REPL history
 .node_repl_history
 
