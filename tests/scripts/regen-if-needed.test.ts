@@ -118,3 +118,99 @@ describe("regen-if-needed CI validations", () => {
 `);
   });
 });
+
+describe("regen-if-needed local run", () => {
+  const realArgv = [...process.argv];
+  const realCi = process.env.CI;
+
+  beforeEach(() => {
+    vi.resetModules();
+    process.env.CI = "";
+    process.argv[1] = path.join(
+      __dirname,
+      "../../scripts/regen-if-needed.ts",
+    );
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    vi.resetModules();
+    process.argv = [...realArgv];
+    process.env.CI = realCi;
+    vi.unmock("fast-glob");
+    vi.unmock("cli-progress");
+    vi.unmock("node:child_process");
+    vi.unmock("fs");
+  });
+
+  it("regenerates when a manifest cannot be parsed", async () => {
+    const execMock = vi.fn();
+
+    const globMock = vi.fn(async (patterns: unknown, options?: { cwd?: string }) => {
+      if (
+        Array.isArray(patterns) &&
+        patterns.includes("**/*.{ts,tsx}") &&
+        options?.cwd?.includes("src/components/ui")
+      ) {
+        return [path.join(options.cwd ?? "", "Button.tsx")];
+      }
+      return [];
+    });
+
+    const statsResult = { mtimeMs: 123 };
+    const readFileMock = vi
+      .fn()
+      .mockImplementation(async (file: string) => {
+        if (file.endsWith("generate-ui-index.json")) {
+          return "not-json";
+        }
+        if (file.endsWith("generate-themes.json") || file.endsWith("generate-tokens.json")) {
+          return JSON.stringify({});
+        }
+        return "{}";
+      });
+    const statMock = vi.fn().mockResolvedValue(statsResult);
+    const mkdirMock = vi.fn().mockResolvedValue(undefined);
+    const writeFileMock = vi.fn().mockResolvedValue(undefined);
+
+    const progressIncrement = vi.fn();
+    const progressCreate = vi.fn(() => ({ increment: progressIncrement }));
+    const progressStop = vi.fn();
+    const progressCtor = vi.fn(() => ({ create: progressCreate, stop: progressStop }));
+
+    vi.doMock("node:child_process", () => ({
+      __esModule: true as const,
+      default: { execSync: execMock },
+      execSync: execMock,
+    }));
+    vi.doMock("fast-glob", () => ({ default: globMock }));
+    vi.doMock("cli-progress", () => ({
+      MultiBar: progressCtor,
+      Presets: { shades_grey: {} },
+    }));
+    vi.doMock("fs", () => ({
+      __esModule: true as const,
+      promises: {
+        readFile: readFileMock,
+        stat: statMock,
+        mkdir: mkdirMock,
+        writeFile: writeFileMock,
+      },
+      default: {
+        promises: {
+          readFile: readFileMock,
+          stat: statMock,
+          mkdir: mkdirMock,
+          writeFile: writeFileMock,
+        },
+      },
+    }));
+
+    await import("../../scripts/regen-if-needed");
+    await new Promise((resolve) => setImmediate(resolve));
+
+    expect(execMock).toHaveBeenCalledWith("pnpm run regen-ui", expect.any(Object));
+    expect(readFileMock).toHaveBeenCalledWith(expect.stringContaining("generate-ui-index.json"), "utf8");
+    expect(progressCtor).toHaveBeenCalled();
+  });
+});
