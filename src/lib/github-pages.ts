@@ -9,6 +9,61 @@ export const GITHUB_PAGES_STORAGE_PLACEHOLDER = "__GITHUB_PAGES_REDIRECT_STORAGE
 export const GITHUB_PAGES_BASE_PATH_PLACEHOLDER = "__BASE_PATH__";
 
 const ABSOLUTE_URL_PATTERN = /^[a-zA-Z][a-zA-Z\d+.-]*:/u;
+const GITHUB_PAGES_DEPLOY_ALIAS_PATTERN = /^[0-9a-f]{7,40}$/iu;
+
+function normalizeGitHubPagesDeploymentAlias(
+  target: string,
+  normalizedBase: string,
+): string {
+  if (!target) {
+    return target;
+  }
+
+  const queryIndex = target.search(/[?#]/u);
+  const pathname = queryIndex === -1 ? target : target.slice(0, queryIndex);
+  const suffix = queryIndex === -1 ? "" : target.slice(queryIndex);
+  const root = normalizedBase || "/";
+
+  if (!pathname.startsWith(root)) {
+    return target;
+  }
+
+  if (root !== "/" && pathname.length > root.length) {
+    const boundary = pathname.charAt(root.length);
+    if (boundary !== "/") {
+      return target;
+    }
+  }
+
+  const remainder = pathname.slice(root.length).replace(/^\/+/, "");
+  if (!remainder) {
+    return target;
+  }
+
+  const segments = remainder
+    .split("/")
+    .map((segment) => segment.trim())
+    .filter((segment) => segment.length > 0);
+
+  if (segments.length === 0) {
+    return target;
+  }
+
+  const [alias, ...rest] = segments;
+  const normalizedAlias = alias.toLowerCase();
+  const isCommitAlias = GITHUB_PAGES_DEPLOY_ALIAS_PATTERN.test(alias);
+  const isAlias = normalizedAlias === "current" || isCommitAlias;
+
+  if (!isAlias) {
+    return target;
+  }
+
+  if (rest.length === 0 || (rest.length === 1 && rest[0] === "index.html")) {
+    return `${root}${suffix}`;
+  }
+
+  return target;
+}
 
 export function normalizePlaceholder(
   placeholderValue: string,
@@ -96,6 +151,8 @@ export function planGitHubPagesRestoration(
     const suffix = target.startsWith("/") ? target : `/${target}`;
     target = `${normalizedBase}${suffix}`;
   }
+
+  target = normalizeGitHubPagesDeploymentAlias(target, normalizedBase);
 
   if (target === input.currentPath) {
     return null;

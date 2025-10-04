@@ -22,6 +22,7 @@
     }
 
     var ABSOLUTE_URL_PATTERN = /^[a-zA-Z][a-zA-Z\d+.-]*:/;
+    var DEPLOY_ALIAS_PATTERN = /^[0-9a-f]{7,40}$/i;
 
     function normalizeBasePath(value) {
       if (!value || value === "/") {
@@ -42,6 +43,70 @@
     }
 
     var basePath = normalizeBasePath(rawBasePath);
+
+    function isDeployAliasSegment(segment) {
+      if (!segment) {
+        return false;
+      }
+      if (segment.toLowerCase() === "current") {
+        return true;
+      }
+      return DEPLOY_ALIAS_PATTERN.test(segment);
+    }
+
+    function normalizeDeployAlias(targetPath, normalizedBasePath) {
+      if (!targetPath) {
+        return targetPath;
+      }
+
+      var queryIndex = targetPath.search(/[?#]/);
+      var pathname = queryIndex === -1 ? targetPath : targetPath.slice(0, queryIndex);
+      var suffix = queryIndex === -1 ? "" : targetPath.slice(queryIndex);
+      var root = normalizedBasePath || "/";
+
+      if (!pathname.startsWith(root)) {
+        return targetPath;
+      }
+
+      if (root !== "/" && pathname.length > root.length) {
+        var boundary = pathname.charAt(root.length);
+        if (boundary !== "/") {
+          return targetPath;
+        }
+      }
+
+      var remainder = pathname.slice(root.length).replace(/^\/+/, "");
+      if (!remainder) {
+        return targetPath;
+      }
+
+      var rawSegments = remainder.split("/");
+      var segments = rawSegments
+        .map(function (segment) {
+          return segment.trim();
+        })
+        .filter(function (segment) {
+          return segment.length > 0;
+        });
+
+      if (segments.length === 0) {
+        return targetPath;
+      }
+
+      var alias = segments[0];
+      if (!isDeployAliasSegment(alias)) {
+        return targetPath;
+      }
+
+      if (
+        segments.length === 1 ||
+        (segments.length === 2 && segments[1] === "index.html")
+      ) {
+        return root + suffix;
+      }
+
+      return targetPath;
+    }
 
     var storedValue = null;
     try {
@@ -82,6 +147,8 @@
       var suffix = target.startsWith("/") ? target : "/" + target;
       target = basePath + suffix;
     }
+
+    target = normalizeDeployAlias(target, basePath);
 
     var rawPathname = window.location.pathname || "";
     var currentLocation =
