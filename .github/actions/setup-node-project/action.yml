@@ -70,9 +70,7 @@ runs:
           RAW_PM="${{ inputs['package-manager'] }}"
         else
           RAW_PM="$(
-            node --input-type=module <<EOF
-            $NODE_DETECTION_SCRIPT
-EOF
+            node --input-type=module <<<"$NODE_DETECTION_SCRIPT"
           )"
         fi
 
@@ -161,10 +159,7 @@ EOF
       shell: bash
       env:
         LOCKFILE: ${{ steps.detect.outputs.lockfile }}
-      run: |
-        set -euo pipefail
-        HASH="$(
-          node --input-type=module <<'EOF'
+        LOCKFILE_HASH_SCRIPT: |
           import { createHash } from "node:crypto";
           import { readFileSync } from "node:fs";
           import { resolve } from "node:path";
@@ -179,7 +174,10 @@ EOF
           const contents = readFileSync(absolute);
           const hash = createHash("sha256").update(contents).digest("hex");
           console.log(hash);
-EOF
+      run: |
+        set -euo pipefail
+        HASH="$(
+          node --input-type=module <<<"$LOCKFILE_HASH_SCRIPT"
         )"
         echo "value=$HASH" >>"$GITHUB_OUTPUT"
 
