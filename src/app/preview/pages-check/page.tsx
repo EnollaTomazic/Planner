@@ -37,7 +37,7 @@ export default function PagesCheckPage() {
             className="shadow-outline-subtle"
           />
           <Button asChild variant="neo">
-            <Link href="/">Return home</Link>
+            <Link href={withBasePath("/")}>Return home</Link>
           </Button>
         </div>
       </SectionCard>
