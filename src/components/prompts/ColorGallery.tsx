@@ -72,7 +72,7 @@ export default function ColorGallery() {
                   <AuroraSwatch key={token} token={token} />
                 ))}
               </div>
-              <p className="mt-2 text-center text-label text-muted-foreground">
+              <p className="mt-[var(--space-2)] text-center text-label text-muted-foreground">
                 Use <code>aurora-g</code>, <code>aurora-g-light</code>,{" "}
                 <code>aurora-p</code>, and <code>aurora-p-light</code> Tailwind
                 classes for aurora effects.
