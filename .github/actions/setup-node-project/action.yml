@@ -50,26 +50,26 @@ runs:
     - name: Detect package manager
       id: detect
       shell: bash
+      env:
+        NODE_DETECTION_SCRIPT: |
+          import { readFileSync } from "node:fs";
+          import { resolve } from "node:path";
+          import { cwd } from "node:process";
+
+          try {
+            const packageJsonPath = resolve(cwd(), "package.json");
+            const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8"));
+            console.log(packageJson?.packageManager ?? "");
+          } catch {
+            console.log("");
+          }
       run: |
         set -euo pipefail
 
         if [ -n "${{ inputs['package-manager'] }}" ]; then
           RAW_PM="${{ inputs['package-manager'] }}"
         else
-          RAW_PM="$(node --input-type=module <<'EOF'
-            import { readFileSync } from "node:fs";
-            import { resolve } from "node:path";
-            import { cwd } from "node:process";
-
-            try {
-              const packageJsonPath = resolve(cwd(), "package.json");
-              const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8"));
-              console.log(packageJson?.packageManager ?? "");
-            } catch {
-              console.log("");
-            }
-          EOF
-          )"
+          RAW_PM="$(node --input-type=module <<<"$NODE_DETECTION_SCRIPT")"
         fi
 
         if [ -z "$RAW_PM" ]; then
