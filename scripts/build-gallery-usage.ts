@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import fg from "fast-glob";
 import ts from "typescript";
+import { writeFileAtomically } from "./utils/write-file-atomically";
 import type {
   GalleryRegistryPayload,
   GallerySection,
@@ -133,7 +134,7 @@ async function writeManifest(files: readonly string[]): Promise<void> {
     entries[rel] = { mtimeMs: stat.mtimeMs } satisfies ManifestEntry;
   }
   await ensureCacheDir();
-  await fs.writeFile(manifestFile, JSON.stringify(entries, null, 2));
+  await writeFileAtomically(manifestFile, JSON.stringify(entries, null, 2));
 }
 
 function getScriptKind(file: string): ts.ScriptKind {
@@ -583,7 +584,7 @@ async function buildGalleryManifest(
   validateManifestSource(source);
 
   await fs.mkdir(path.dirname(manifestOutput), { recursive: true });
-  await fs.writeFile(manifestOutput, source);
+  await writeFileAtomically(manifestOutput, source);
 }
 
 async function main(): Promise<void> {
@@ -597,7 +598,7 @@ async function main(): Promise<void> {
   const usage = await buildUsage(registry.payload.sections);
   const previewRoutes = buildPreviewRoutes(registry.payload.sections);
   await fs.mkdir(path.dirname(usageFile), { recursive: true });
-  await fs.writeFile(usageFile, `${JSON.stringify(usage, null, 2)}\n`);
+  await writeFileAtomically(usageFile, `${JSON.stringify(usage, null, 2)}\n`);
   await buildGalleryManifest(modules, registry.payload, previewRoutes);
   await writeManifest([...new Set(trackedFiles)]);
 }
