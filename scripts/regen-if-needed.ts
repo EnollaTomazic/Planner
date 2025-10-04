@@ -27,6 +27,8 @@ const galleryManifestFile = path.join(
   "src/components/gallery/generated-manifest.ts",
 );
 
+const galleryUsageCommand = "pnpm run build-gallery-usage";
+
 const usageInputPatterns = [
   "src/app/**/*.{ts,tsx}",
   "src/components/**/*.gallery.{ts,tsx}",
@@ -197,7 +199,7 @@ export const generatorValidations: GeneratorValidation[] = [
   },
   {
     name: "Gallery manifest",
-    command: "pnpm run build-gallery-usage",
+    command: galleryUsageCommand,
   },
   {
     name: "Theme CSS",
@@ -256,14 +258,14 @@ async function validateGalleryManifest(): Promise<void> {
     contents = await fs.readFile(galleryManifestFile, "utf8");
   } catch {
     throw new Error(
-      "Missing gallery manifest. Run `pnpm run build-gallery-usage` to regenerate src/components/gallery/generated-manifest.ts.",
+      `Missing gallery manifest. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.ts.`,
     );
   }
 
   const trimmed = contents.trimStart();
   if (trimmed.startsWith("{")) {
     throw new Error(
-      "Gallery manifest appears to contain raw JSON. Run `pnpm run build-gallery-usage` to regenerate src/components/gallery/generated-manifest.ts.",
+      `Gallery manifest appears to contain raw JSON. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.ts.`,
     );
   }
 
@@ -281,13 +283,13 @@ async function validateGalleryManifest(): Promise<void> {
       .map((signature) => signature.replace("export const ", ""))
       .join(", ");
     throw new Error(
-      `Gallery manifest is missing required exports: ${exportNames}. Run \`pnpm run build-gallery-usage\` to regenerate src/components/gallery/generated-manifest.ts.`,
+      `Gallery manifest is missing required exports: ${exportNames}. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.ts.`,
     );
   }
 }
 
 async function regenerateGalleryUsage(): Promise<void> {
-  run("pnpm run build-gallery-usage");
+  run(galleryUsageCommand);
   await validateGalleryManifest();
   const files = await getUsageInputFiles();
   await updateManifest(
@@ -308,7 +310,7 @@ export async function ensureGalleryManifestIntegrity(): Promise<boolean> {
 
     const message = error instanceof Error ? error.message : String(error);
     console.warn(
-      `${message}\nRegenerating gallery manifest with \`pnpm run build-gallery-usage\`.`,
+      `${message}\nRegenerating gallery manifest with \`${galleryUsageCommand}\`.`,
     );
     await regenerateGalleryUsage();
     return true;
