@@ -119,6 +119,9 @@ jobs:
           echo "::add-matcher::.github/matchers/eslint-stylish.json"
           pnpm run design-lint
 
+      - name: Guard generated artifacts
+        run: pnpm run guard:artifacts
+
       - name: Summarize lint
         if: always()
         run: |
