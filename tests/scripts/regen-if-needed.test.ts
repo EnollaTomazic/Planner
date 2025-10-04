@@ -152,9 +152,11 @@ describe("gallery manifest validation", () => {
   );
   const originalManifest = fs.readFileSync(manifestPath, "utf8");
   const minimalManifest = [
-    "export const galleryPayload = {} as const;",
-    "export const galleryPreviewRoutes = [] as const;",
-    "export const galleryPreviewModules = {} as const;",
+    "export const galleryPayload = {} as const satisfies GalleryRegistryPayload;",
+    "",
+    "export const galleryPreviewRoutes = [] as const satisfies readonly GalleryPreviewRoute[];",
+    "",
+    "export const galleryPreviewModules = Object.freeze({}) satisfies Record<string, GalleryPreviewModuleManifest>;",
     "",
   ].join("\n");
 
@@ -356,9 +358,11 @@ describe("gallery manifest validation", () => {
       "src/components/gallery/generated-manifest.ts",
     );
     const validManifest = [
-      "export const galleryPayload = {} as const;",
-      "export const galleryPreviewRoutes = [] as const;",
-      "export const galleryPreviewModules = {} as const;",
+      "export const galleryPayload = {} as const satisfies GalleryRegistryPayload;",
+      "",
+      "export const galleryPreviewRoutes = [] as const satisfies readonly GalleryPreviewRoute[];",
+      "",
+      "export const galleryPreviewModules = Object.freeze({}) satisfies Record<string, GalleryPreviewModuleManifest>;",
       "",
     ].join("\n");
 

@@ -269,21 +269,21 @@ async function validateGalleryManifest(): Promise<void> {
     );
   }
 
-  const requiredExports = [
-    "export const galleryPayload",
-    "export const galleryPreviewRoutes",
-    "export const galleryPreviewModules",
+  const requiredSnippets = [
+    "export const galleryPayload =",
+    "satisfies GalleryRegistryPayload;",
+    "export const galleryPreviewRoutes =",
+    "satisfies readonly GalleryPreviewRoute[];",
+    "export const galleryPreviewModules = Object.freeze",
+    "satisfies Record<string, GalleryPreviewModuleManifest>;",
   ];
-  const missingExports = requiredExports.filter(
-    (signature) => !contents.includes(signature),
+  const missingSnippets = requiredSnippets.filter(
+    (snippet) => !contents.includes(snippet),
   );
 
-  if (missingExports.length > 0) {
-    const exportNames = missingExports
-      .map((signature) => signature.replace("export const ", ""))
-      .join(", ");
+  if (missingSnippets.length > 0) {
     throw new Error(
-      `Gallery manifest is missing required exports: ${exportNames}. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.ts.`,
+      `Gallery manifest is missing required typed exports: ${missingSnippets.join(", ")}. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.ts.`,
     );
   }
 }
