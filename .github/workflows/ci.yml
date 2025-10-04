@@ -37,6 +37,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Node project
         id: setup
         uses: ./.github/actions/setup-node-project
@@ -61,6 +63,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -95,6 +99,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -107,6 +113,11 @@ jobs:
         run: |
           echo "::add-matcher::.github/matchers/eslint-stylish.json"
           pnpm run lint:ci
+
+      - name: Design lint
+        run: |
+          echo "::add-matcher::.github/matchers/eslint-stylish.json"
+          pnpm run design-lint
 
       - name: Summarize lint
         if: always()
@@ -123,6 +134,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -148,6 +161,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -188,6 +203,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -265,6 +282,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
