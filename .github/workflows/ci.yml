@@ -280,7 +280,15 @@ jobs:
           - suite: theme-previews
             title: Theme previews + axe
             command: >-
-              npx playwright test tests/e2e/accessibility.spec.ts tests/e2e/gallery-preview.spec.ts tests/e2e/hero-images-preview.spec.ts tests/e2e/home-planner-previews.spec.ts --config playwright.config.ts --project=chromium-w1440 --reporter=github --pass-with-no-tests
+              npx playwright test
+              tests/e2e/accessibility.spec.ts
+              tests/e2e/gallery-preview.spec.ts
+              tests/e2e/hero-images-preview.spec.ts
+              tests/e2e/home-planner-previews.spec.ts
+              --config playwright.config.ts
+              --project=chromium-w1440
+              --reporter=github
+              --pass-with-no-tests
             previews: " /preview/theme-matrix, /preview/hero-images, /preview/gallery"
 
     steps:
