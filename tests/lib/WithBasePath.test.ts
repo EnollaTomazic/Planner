@@ -18,6 +18,7 @@ function restoreBasePathEnv() {
 afterEach(() => {
   restoreBasePathEnv();
   vi.resetModules();
+  vi.unstubAllGlobals();
 });
 
 describe("WithBasePath", () => {
@@ -50,6 +51,25 @@ describe("WithBasePath", () => {
 
     expect(withBasePath("/planner")).toBe("/planner");
     expect(withBasePath("planner")).toBe("/planner");
+  });
+
+  it("uses the runtime router base path when available", async () => {
+    delete process.env.NEXT_PUBLIC_BASE_PATH;
+    vi.resetModules();
+
+    vi.stubGlobal("window", {
+      next: { router: { basePath: "/runtime" } },
+      document: {
+        documentElement: {
+          getAttribute: vi.fn().mockReturnValue(null),
+        },
+      },
+    } as unknown as Window);
+
+    const { withBasePath } = await importBasePathUtils();
+
+    expect(withBasePath("/assets/icon.svg")).toBe("/runtime/assets/icon.svg");
+    expect(withBasePath("assets/icon.svg")).toBe("/runtime/assets/icon.svg");
   });
 
   it("keeps hash anchors untouched regardless of base path", async () => {
@@ -171,5 +191,24 @@ describe("WithoutBasePath", () => {
         expect(withoutBasePath(url)).toBe(url);
       }
     }
+  });
+
+  it("removes the runtime base path when provided by the router", async () => {
+    delete process.env.NEXT_PUBLIC_BASE_PATH;
+    vi.resetModules();
+
+    vi.stubGlobal("window", {
+      next: { router: { basePath: "/runtime" } },
+      document: {
+        documentElement: {
+          getAttribute: vi.fn().mockReturnValue(null),
+        },
+      },
+    } as unknown as Window);
+
+    const { withoutBasePath } = await importBasePathUtils();
+
+    expect(withoutBasePath("/runtime/planner")).toBe("/planner");
+    expect(withoutBasePath("/runtime")).toBe("/");
   });
 });
