@@ -142,13 +142,14 @@ test.describe("Local-first journeys", () => {
     await page.goto("/planner");
     await page.waitForLoadState("networkidle");
 
-    const draftTitle = `Draft ${Date.now()}`;
+    const draftTitle = "Daily standup tomorrow at 9am";
 
     await page.getByRole("button", { name: "Open planner creation sheet" }).click();
     const composer = page.getByRole("dialog", { name: "Plan something new" });
     await expect(composer).toBeVisible();
 
     await composer.getByLabel("What are you planning?").fill(draftTitle);
+    await expect(composer.getByText("AI-detected details")).toBeVisible();
     await composer.getByRole("button", { name: "Cancel" }).click();
     await expect(composer).toBeHidden();
 
