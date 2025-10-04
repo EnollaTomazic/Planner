@@ -1,7 +1,10 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import bundleAnalyzer from "@next/bundle-analyzer";
-import { baseSecurityHeaders } from "./security-headers.mjs";
+import {
+  createSecurityHeaders,
+  defaultSecurityPolicyOptions,
+} from "./security-headers.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -77,6 +80,7 @@ const nextBasePath = shouldApplyBasePath ? normalizedBasePathValue : undefined;
 const nextAssetPrefix = shouldApplyBasePath ? normalizedBasePathValue : undefined;
 
 const shouldCollectBundleStats = !isExportStatic && (isDevelopment || isCI || isAnalyzeExplicit);
+const securityPolicyOptions = defaultSecurityPolicyOptions;
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: shouldCollectBundleStats,
@@ -109,14 +113,18 @@ let nextConfig = {
     NEXT_PUBLIC_BASE_PATH: normalizedBasePathValue,
   },
   headers: async () => {
-    if (isProduction || isExportStatic) {
+    if (isExportStatic) {
       return [];
     }
+
+    const securityHeaders = createSecurityHeaders(securityPolicyOptions).map(
+      (header) => ({ ...header }),
+    );
 
     return [
       {
         source: "/:path*",
-        headers: baseSecurityHeaders.map((header) => ({ ...header })),
+        headers: securityHeaders,
       },
     ];
   },

@@ -47,7 +47,7 @@ type HelperTone = "muted" | "danger" | "success";
 export type FieldRootProps = React.HTMLAttributes<HTMLDivElement> & {
   /**
    * Visual height of the field. Token keys ("sm"–"xl") map to control heights.
-   * Numeric values register a scoped `--field-h` custom property via styled-jsx using the CSP nonce from layout.
+   * Numeric values register a scoped `--field-h` custom property via styled-jsx within the CSP inline-style budget.
    */
   height?: FieldHeight | number;
   disabled?: boolean;

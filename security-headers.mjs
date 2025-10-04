@@ -33,13 +33,13 @@ const VERCEL_FEEDBACK_WS_ORIGINS = Object.freeze(["wss://vercel.live"]);
  * @param {string} nonce
  * @returns {string}
  */
-export const createContentSecurityPolicy = (nonce, options) => {
+export const createContentSecurityPolicy = (options) => {
   const allowVercelFeedback = options?.allowVercelFeedback === true;
 
-  const nonceSource = `'nonce-${nonce}'`;
-  const styleSrcBase = ["'self'"];
-  const styleSrc = [...styleSrcBase, nonceSource];
-  const styleSrcElem = [...styleSrcBase, nonceSource];
+  const scriptSrc = ["'self'", "'unsafe-inline'"];
+  const styleSrcBase = ["'self'", "'unsafe-inline'"];
+  const styleSrc = [...styleSrcBase];
+  const styleSrcElem = [...styleSrcBase];
   const imgSrcBase = ["'self'", "data:", "https:"];
 
   const imgSrc = [...imgSrcBase];
@@ -58,7 +58,7 @@ export const createContentSecurityPolicy = (nonce, options) => {
 
   return [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
+    `script-src ${scriptSrc.join(" ")}`,
     `style-src ${styleSrc.join(" ")}`,
     `style-src-elem ${styleSrcElem.join(" ")}`,
     // Inline style attributes remain opt-in until all components use scoped styles.
@@ -78,14 +78,20 @@ export const createContentSecurityPolicy = (nonce, options) => {
 };
 
 /**
- * @param {string} nonce
  * @returns {ReadonlyArray<SecurityHeader>}
  */
-export const createSecurityHeaders = (nonce, options) =>
+export const createSecurityHeaders = (options) =>
   Object.freeze([
     Object.freeze({
       key: "Content-Security-Policy",
-      value: createContentSecurityPolicy(nonce, options),
+      value: createContentSecurityPolicy(options),
     }),
     ...baseSecurityHeaders,
   ]);
+
+export const defaultSecurityPolicyOptions = Object.freeze({
+  allowVercelFeedback:
+    process.env.VERCEL === "1" ||
+    process.env.VERCEL_ENV === "preview" ||
+    process.env.VERCEL_ENV === "production",
+});
