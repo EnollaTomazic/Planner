@@ -4,7 +4,11 @@ import path from "node:path";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import { flattenBasePathDirectory } from "../../scripts/deploy-gh-pages";
+import {
+  flattenBasePathDirectory,
+  injectGitHubPagesPlaceholders,
+} from "../../scripts/deploy-gh-pages";
+import { GITHUB_PAGES_REDIRECT_STORAGE_KEY } from "@/lib/github-pages";
 
 describe("flattenBasePathDirectory", () => {
   let tempRoot: string | undefined;
@@ -55,6 +59,46 @@ describe("flattenBasePathDirectory", () => {
 
     expect(() => flattenBasePathDirectory(outDir, slug)).toThrow(
       /destination already exists with different content/,
+    );
+  });
+});
+
+describe("injectGitHubPagesPlaceholders", () => {
+  let tempRoot: string | undefined;
+
+  afterEach(() => {
+    if (tempRoot && fs.existsSync(tempRoot)) {
+      fs.rmSync(tempRoot, { recursive: true, force: true });
+    }
+    tempRoot = undefined;
+  });
+
+  it("replaces base path and storage key placeholders", () => {
+    const outDir = fs.mkdtempSync(path.join(os.tmpdir(), "planner-gh-pages-placeholders-"));
+    tempRoot = outDir;
+    const scriptDir = path.join(outDir, "scripts");
+    fs.mkdirSync(scriptDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(outDir, "404.html"),
+      "<a href=\"__BASE_PATH__/index.html\">" +
+        "__GITHUB_PAGES_REDIRECT_STORAGE_KEY__",
+      "utf8",
+    );
+    fs.writeFileSync(
+      path.join(scriptDir, "github-pages-bootstrap.js"),
+      "const key = \"__GITHUB_PAGES_REDIRECT_STORAGE_KEY__\"; const base = \"__BASE_PATH__\";",
+      "utf8",
+    );
+
+    injectGitHubPagesPlaceholders(outDir, "/planner", GITHUB_PAGES_REDIRECT_STORAGE_KEY);
+
+    expect(fs.readFileSync(path.join(outDir, "404.html"), "utf8")).toBe(
+      `<a href="/planner/index.html">${GITHUB_PAGES_REDIRECT_STORAGE_KEY}`,
+    );
+    expect(
+      fs.readFileSync(path.join(scriptDir, "github-pages-bootstrap.js"), "utf8"),
+    ).toBe(
+      `const key = "${GITHUB_PAGES_REDIRECT_STORAGE_KEY}"; const base = "/planner";`,
     );
   });
 });

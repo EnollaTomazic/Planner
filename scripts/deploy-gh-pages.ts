@@ -4,6 +4,8 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 
+import { GITHUB_PAGES_REDIRECT_STORAGE_KEY } from "../src/lib/github-pages";
+
 const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
 
 function shouldPublishSite(env: NodeJS.ProcessEnv): boolean {
@@ -264,15 +266,33 @@ function ensureNoJekyll(outDir: string): void {
   fs.writeFileSync(markerPath, "");
 }
 
-function injectBasePathIntoSpaFallback(outDir: string, basePath: string): void {
-  const fallbackPath = path.join(outDir, "404.html");
-  if (!fs.existsSync(fallbackPath)) {
-    return;
-  }
+export function injectGitHubPagesPlaceholders(
+  outDir: string,
+  basePath: string,
+  storageKey: string,
+): void {
+  const replacements: Array<[string, RegExp]> = [
+    [basePath, /__BASE_PATH__/gu],
+    [storageKey, /__GITHUB_PAGES_REDIRECT_STORAGE_KEY__/gu],
+  ];
 
-  const html = fs.readFileSync(fallbackPath, "utf8");
-  const updated = html.replace(/__BASE_PATH__/gu, basePath);
-  fs.writeFileSync(fallbackPath, updated);
+  const targets = [
+    path.join(outDir, "404.html"),
+    path.join(outDir, "scripts", "github-pages-bootstrap.js"),
+  ];
+
+  for (const target of targets) {
+    if (!fs.existsSync(target)) {
+      continue;
+    }
+
+    const contents = fs.readFileSync(target, "utf8");
+    let updated = contents;
+    for (const [value, pattern] of replacements) {
+      updated = updated.replace(pattern, value);
+    }
+    fs.writeFileSync(target, updated);
+  }
 }
 
 function main(): void {
@@ -300,7 +320,11 @@ function main(): void {
   if (shouldUseBasePath) {
     flattenBasePathDirectory(outDir, slug);
   }
-  injectBasePathIntoSpaFallback(outDir, normalizedBasePath);
+  injectGitHubPagesPlaceholders(
+    outDir,
+    normalizedBasePath,
+    GITHUB_PAGES_REDIRECT_STORAGE_KEY,
+  );
   ensureNoJekyll(outDir);
 
   if (!publish) {

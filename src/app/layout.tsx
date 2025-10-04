@@ -26,6 +26,7 @@ import {
   glitchLandingEnabled,
   organicDepthEnabled,
 } from "@/lib/features";
+import { GITHUB_PAGES_BOOTSTRAP_SCRIPT_PATH } from "@/lib/github-pages";
 
 function readServerEnv(): ReturnType<typeof loadServerEnv> {
   try {
@@ -198,6 +199,12 @@ export default async function RootLayout({
               dangerouslySetInnerHTML={{ __html: nonceInitializer }}
             />
           ) : null}
+          <Script
+            id="github-pages-bootstrap"
+            strategy="beforeInteractive"
+            nonce={nonce}
+            src={withBasePath(GITHUB_PAGES_BOOTSTRAP_SCRIPT_PATH)}
+          />
           <Script
             id="theme-bootstrap"
             strategy="beforeInteractive"
