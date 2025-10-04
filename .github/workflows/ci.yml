@@ -108,6 +108,11 @@ jobs:
           echo "::add-matcher::.github/matchers/eslint-stylish.json"
           pnpm run lint:ci
 
+      - name: Design lint
+        run: |
+          echo "::add-matcher::.github/matchers/eslint-stylish.json"
+          pnpm run design-lint
+
       - name: Summarize lint
         if: always()
         run: |
