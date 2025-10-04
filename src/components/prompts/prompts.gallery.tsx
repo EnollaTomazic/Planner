@@ -3859,7 +3859,7 @@ React.useEffect(() => {
       description: "Shimmer placeholder for loading layouts.",
       element: <SkeletonShowcase />,
       tags: ["skeleton", "loading", "feedback"],
-      code: `<div className="space-y-2">
+      code: `<div className="space-y-[var(--space-2)]">
   <Skeleton
     ariaHidden={false}
     role="status"
@@ -4160,7 +4160,7 @@ const [value, setValue] = React.useState(options[0].value);
       id: "animation-toggle",
       name: "AnimationToggle",
       element: (
-        <div className="flex gap-4">
+        <div className="flex gap-[var(--space-4)]">
           <AnimationToggle />
           <AnimationToggle loading />
         </div>
@@ -4173,7 +4173,7 @@ const [value, setValue] = React.useState(options[0].value);
       id: "check-circle",
       name: "CheckCircle",
       element: (
-        <div className="flex gap-4">
+        <div className="flex gap-[var(--space-4)]">
           <CheckCircle
             aria-label="Enable notifications"
             checked={false}
@@ -4629,7 +4629,7 @@ const [value, setValue] = React.useState(options[0].value);
       id: "side-selector",
       name: "SideSelector",
       element: (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-[var(--space-4)]">
           <SideSelector />
           <SideSelector disabled />
         </div>
@@ -4760,7 +4760,7 @@ const [value, setValue] = React.useState(options[0].value);
       id: "pillar-badge",
       name: "PillarBadge",
       element: (
-        <div className="flex gap-4">
+        <div className="flex gap-[var(--space-4)]">
           <PillarBadge pillar="Wave" />
           <PillarBadge pillar="Trading" active />
         </div>
