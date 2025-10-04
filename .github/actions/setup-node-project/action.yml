@@ -69,7 +69,11 @@ runs:
         if [ -n "${{ inputs['package-manager'] }}" ]; then
           RAW_PM="${{ inputs['package-manager'] }}"
         else
-          RAW_PM="$(node --input-type=module <<<"$NODE_DETECTION_SCRIPT")"
+          RAW_PM="$(
+            node --input-type=module <<EOF
+$NODE_DETECTION_SCRIPT
+EOF
+          )"
         fi
 
         if [ -z "$RAW_PM" ]; then
