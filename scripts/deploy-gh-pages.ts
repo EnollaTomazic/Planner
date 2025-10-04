@@ -290,6 +290,8 @@ function main(): void {
     GITHUB_PAGES: "true",
     BASE_PATH: shouldUseBasePath ? slug : "",
     NEXT_PUBLIC_BASE_PATH: normalizedBasePath,
+    SAFE_MODE: process.env.SAFE_MODE ?? "false",
+    NEXT_PUBLIC_SAFE_MODE: process.env.NEXT_PUBLIC_SAFE_MODE ?? "false",
   };
 
   runCommand(pnpmCommand, ["run", "build"], buildEnv);
