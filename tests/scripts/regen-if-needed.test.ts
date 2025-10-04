@@ -19,10 +19,12 @@ vi.mock("url", async () => {
   };
 });
 
+const GALLERY_USAGE_COMMAND = "pnpm run build-gallery-usage";
+
 const REQUIRED_GENERATOR_COMMANDS = [
   "pnpm run regen-ui",
   "pnpm run regen-feature",
-  "pnpm run build-gallery-usage",
+  GALLERY_USAGE_COMMAND,
   "pnpm run generate-themes",
   "pnpm run generate-tokens",
 ];
@@ -249,6 +251,17 @@ describe("gallery manifest validation", () => {
     ).resolves.toBe(false);
   });
 
+  it("throws in CI when the manifest is missing and references the gallery usage command", async () => {
+    fs.rmSync(manifestPath, { force: true });
+
+    const regenModule = await importRegenModule("1");
+    await expect(
+      regenModule.ensureGalleryManifestIntegrity(),
+    ).rejects.toThrow(
+      `Missing gallery manifest. Run \`${GALLERY_USAGE_COMMAND}\` to regenerate src/components/gallery/generated-manifest.ts.`,
+    );
+  });
+
   it("requests regeneration locally when the manifest is malformed", async () => {
     const regenModule = await importRegenModule();
     const warnSpy = vi
@@ -307,7 +320,7 @@ describe("gallery manifest validation", () => {
       await expect(
         regenModule.ensureGalleryManifestIntegrity(),
       ).rejects.toThrow(
-        "Gallery manifest appears to contain raw JSON. Run `pnpm run build-gallery-usage` to regenerate src/components/gallery/generated-manifest.ts.",
+        `Gallery manifest appears to contain raw JSON. Run \`${GALLERY_USAGE_COMMAND}\` to regenerate src/components/gallery/generated-manifest.ts.`,
       );
 
       const manifestAfterAttempt = fs.readFileSync(manifestPath, "utf8");
@@ -331,7 +344,7 @@ describe("gallery manifest validation", () => {
     await expect(
       regenModule.ensureGalleryManifestIntegrity(),
     ).rejects.toThrow(
-      "Gallery manifest appears to contain raw JSON. Run `pnpm run build-gallery-usage` to regenerate src/components/gallery/generated-manifest.ts.",
+      `Gallery manifest appears to contain raw JSON. Run \`${GALLERY_USAGE_COMMAND}\` to regenerate src/components/gallery/generated-manifest.ts.`,
     );
   });
 
@@ -430,7 +443,7 @@ describe("gallery manifest validation", () => {
       await new Promise((resolve) => setImmediate(resolve));
 
       expect(execSyncMock).toHaveBeenCalledWith(
-        "pnpm run build-gallery-usage",
+        GALLERY_USAGE_COMMAND,
         expect.objectContaining({ stdio: "inherit" }),
       );
       expect(manifestReads).toBeGreaterThanOrEqual(2);
