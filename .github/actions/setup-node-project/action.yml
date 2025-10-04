@@ -159,9 +159,28 @@ EOF
     - name: Compute lockfile hash
       id: lockfile
       shell: bash
+      env:
+        LOCKFILE: ${{ steps.detect.outputs.lockfile }}
       run: |
         set -euo pipefail
-        HASH=$(sha256sum "${{ steps.detect.outputs.lockfile }}" | cut -d' ' -f1)
+        HASH="$(
+          node --input-type=module <<'EOF'
+          import { createHash } from "node:crypto";
+          import { readFileSync } from "node:fs";
+          import { resolve } from "node:path";
+
+          const lockfile = process.env.LOCKFILE;
+          if (!lockfile) {
+            console.error("LOCKFILE environment variable is required to compute the cache key.");
+            process.exit(1);
+          }
+
+          const absolute = resolve(lockfile);
+          const contents = readFileSync(absolute);
+          const hash = createHash("sha256").update(contents).digest("hex");
+          console.log(hash);
+EOF
+        )"
         echo "value=$HASH" >>"$GITHUB_OUTPUT"
 
     - name: Derive node_modules cache key
