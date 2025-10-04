@@ -30,9 +30,26 @@
         if (basePath === "/") {
           basePath = "";
         }
+        var storagePlaceholder = "__GITHUB_PAGES_REDIRECT_STORAGE_KEY__";
+        var defaultStorageKey = "noxis-planner:gh-pages:redirect";
+        var storageKey = storagePlaceholder;
+        if (!storageKey || storageKey === "__GITHUB_PAGES_REDIRECT_STORAGE_KEY__") {
+          storageKey = defaultStorageKey;
+        } else {
+          storageKey = storageKey.trim() || defaultStorageKey;
+        }
+
         var target = (basePath || "") + "/index.html";
         var search = window.location.search || "";
         var hash = window.location.hash || "";
+        var originalLocation = window.location.pathname + search + hash;
+        if (originalLocation && typeof window.sessionStorage !== "undefined") {
+          try {
+            window.sessionStorage.setItem(storageKey, originalLocation);
+          } catch (error) {
+            // Ignore write failures (storage disabled, quota exceeded, etc.).
+          }
+        }
         var fallbackLink = document.getElementById("pages-redirect-link");
         if (fallbackLink) {
           fallbackLink.setAttribute("href", target + search + hash);
