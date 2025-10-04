@@ -56,7 +56,76 @@ const { NEXT_PUBLIC_BASE_PATH } = readClientEnv();
 
 const NORMALIZED_BASE = normalizeBasePath(NEXT_PUBLIC_BASE_PATH);
 
+type NextWindow = Window & {
+  next?: {
+    router?: {
+      basePath?: string;
+    };
+  };
+};
+
+let cachedRuntimeBasePath: string | undefined;
+
+function normalizeRuntimeBasePath(
+  candidate: string | null | undefined,
+): string | null {
+  if (candidate == null) {
+    return null;
+  }
+
+  const normalized = normalizeBasePath(candidate);
+
+  if (normalized.length > 0) {
+    return normalized;
+  }
+
+  const trimmed = candidate.trim();
+
+  if (trimmed.length === 0 || trimmed === "/") {
+    return "";
+  }
+
+  return null;
+}
+
+function readRuntimeBasePath(): string | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const runtimeRouterBase = normalizeRuntimeBasePath(
+    (window as NextWindow).next?.router?.basePath,
+  );
+
+  if (runtimeRouterBase !== null) {
+    return runtimeRouterBase;
+  }
+
+  const attributeBase = normalizeRuntimeBasePath(
+    window.document?.documentElement?.getAttribute?.("data-base-path"),
+  );
+
+  if (attributeBase !== null) {
+    return attributeBase;
+  }
+
+  return null;
+}
+
 export function getBasePath(): string {
+  if (typeof window !== "undefined") {
+    if (cachedRuntimeBasePath !== undefined) {
+      return cachedRuntimeBasePath;
+    }
+
+    const runtimeBase = readRuntimeBasePath();
+
+    if (runtimeBase !== null) {
+      cachedRuntimeBasePath = runtimeBase;
+      return runtimeBase;
+    }
+  }
+
   return NORMALIZED_BASE;
 }
 
@@ -84,7 +153,8 @@ export function withBasePath(path: string): string {
   }
   const trimmedPath = path.trim();
   if (!trimmedPath) {
-    return NORMALIZED_BASE ? `${NORMALIZED_BASE}/` : "/";
+    const basePath = getBasePath();
+    return basePath ? `${basePath}/` : "/";
   }
 
   if (trimmedPath.startsWith("#") || trimmedPath.startsWith("?")) {
@@ -94,19 +164,21 @@ export function withBasePath(path: string): string {
     ? trimmedPath
     : `/${trimmedPath}`;
 
-  if (!NORMALIZED_BASE) {
+  const basePath = getBasePath();
+
+  if (!basePath) {
     return normalizedPath;
   }
 
   if (
-    normalizedPath === NORMALIZED_BASE ||
-    normalizedPath === `${NORMALIZED_BASE}/` ||
-    normalizedPath.startsWith(`${NORMALIZED_BASE}/`)
+    normalizedPath === basePath ||
+    normalizedPath === `${basePath}/` ||
+    normalizedPath.startsWith(`${basePath}/`)
   ) {
     return normalizedPath;
   }
 
-  return `${NORMALIZED_BASE}${normalizedPath}`;
+  return `${basePath}${normalizedPath}`;
 }
 
 /** Remove the configured base path prefix from a pathname. */
@@ -116,19 +188,21 @@ export function withoutBasePath(path: string): string {
   }
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
 
-  if (!NORMALIZED_BASE) {
+  const basePath = getBasePath();
+
+  if (!basePath) {
     return normalizedPath;
   }
 
   if (
-    normalizedPath === NORMALIZED_BASE ||
-    normalizedPath === `${NORMALIZED_BASE}/`
+    normalizedPath === basePath ||
+    normalizedPath === `${basePath}/`
   ) {
     return "/";
   }
 
-  if (normalizedPath.startsWith(`${NORMALIZED_BASE}/`)) {
-    const remainder = normalizedPath.slice(NORMALIZED_BASE.length);
+  if (normalizedPath.startsWith(`${basePath}/`)) {
+    const remainder = normalizedPath.slice(basePath.length);
     return remainder.length > 0 ? remainder : "/";
   }
 

@@ -14,7 +14,7 @@ import tokens from "../../tokens/tokens.js";
 import { resolveTokenColor } from "@/lib/color";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { CatCompanion, DecorLayer, PageShell, SkipLink } from "@/components/ui";
-import { withBasePath } from "@/lib/utils";
+import { getBasePath, withBasePath } from "@/lib/utils";
 import Script from "next/script";
 import ThemeProvider from "@/lib/theme-context";
 import { THEME_BOOTSTRAP_SCRIPT_PATH } from "@/lib/theme";
@@ -77,6 +77,7 @@ export default async function RootLayout({
   const organicDepthDataAttribute = organicDepthState ? "organic" : "legacy";
   const glitchLandingDataAttribute = glitchLandingState ? "enabled" : "legacy";
   const year = new Date().getFullYear();
+  const basePath = getBasePath();
   const assetUrlCss = [
     ":root {",
     `  --asset-noise-url: url("${withBasePath("/noise.svg")}");`,
@@ -92,6 +93,7 @@ export default async function RootLayout({
       data-depth-theme={depthThemeDataAttribute}
       data-organic-depth={organicDepthDataAttribute}
       data-glitch-landing={glitchLandingDataAttribute}
+      data-base-path={basePath || undefined}
       suppressHydrationWarning
     >
       <head>
