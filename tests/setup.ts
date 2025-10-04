@@ -100,8 +100,42 @@ Object.defineProperty(window, "matchMedia", {
   }),
 });
 
+const DOCUMENT_THEME_DATA_ATTRIBUTES = [
+  "data-theme-pref",
+  "data-glitch-landing",
+  "data-depth-theme",
+  "data-organic-depth",
+] as const;
+
+const BODY_THEME_DATA_ATTRIBUTES = [
+  "data-glitch-landing",
+  "data-depth-theme",
+  "data-organic-depth",
+] as const;
+
 afterEach(() => {
   cleanup();
+
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  const { documentElement, body } = document;
+
+  if (documentElement) {
+    documentElement.className = "";
+    documentElement.style.colorScheme = "";
+
+    for (const attribute of DOCUMENT_THEME_DATA_ATTRIBUTES) {
+      documentElement.removeAttribute(attribute);
+    }
+  }
+
+  if (body) {
+    for (const attribute of BODY_THEME_DATA_ATTRIBUTES) {
+      body.removeAttribute(attribute);
+    }
+  }
 });
 
 export function resetLocalStorage() {
