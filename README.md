@@ -89,6 +89,8 @@ The app reads configuration from your shell environment at build time. Use `.env
 
 > **Tip:** Keep `.env.local` out of version control. Only `.env.example` belongs in the repository so collaborators and CI pipelines can discover the supported configuration.
 
+> **Note:** The gallery usage generator (`pnpm run build-gallery-usage`) defaults both `SAFE_MODE` and `NEXT_PUBLIC_SAFE_MODE` to `"false"` when they are missing so CI and local automation stay aligned with `.env.example` without extra setup.
+
 ## Metrics reporting on static hosts
 
 Static exports (including GitHub Pages) no longer bundle a `/api/metrics` Route Handler. To keep the browser reporting hook lightweight and optional:

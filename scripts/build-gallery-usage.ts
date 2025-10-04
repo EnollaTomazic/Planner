@@ -4,16 +4,48 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import fg from "fast-glob";
 import ts from "typescript";
-import {
-  createGalleryRegistry,
-  type GalleryRegistryPayload,
-  type GallerySection,
-  type GallerySerializableEntry,
-  type GallerySerializableSection,
-  type GalleryPreviewRoute,
+import type {
+  GalleryRegistryPayload,
+  GallerySection,
+  GallerySerializableEntry,
+  GallerySerializableSection,
+  GalleryPreviewRoute,
 } from "../src/components/gallery/registry";
-import { BG_CLASSES, VARIANTS } from "../src/lib/theme";
 import type { Background, Variant } from "../src/lib/theme";
+
+const SAFE_MODE_DEFAULT = "false";
+
+function ensureSafeModeEnv(): void {
+  const nextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
+  const safeMode = process.env.SAFE_MODE;
+
+  if (nextPublicSafeMode === undefined && safeMode === undefined) {
+    process.env.NEXT_PUBLIC_SAFE_MODE = SAFE_MODE_DEFAULT;
+    process.env.SAFE_MODE = SAFE_MODE_DEFAULT;
+    return;
+  }
+
+  if (nextPublicSafeMode === undefined && safeMode !== undefined) {
+    process.env.NEXT_PUBLIC_SAFE_MODE = safeMode;
+  }
+
+  if (safeMode === undefined && nextPublicSafeMode !== undefined) {
+    process.env.SAFE_MODE = nextPublicSafeMode;
+  }
+}
+
+ensureSafeModeEnv();
+
+const [galleryModule, themeModule] = (await Promise.all([
+  import("../src/components/gallery/registry"),
+  import("../src/lib/theme"),
+])) as [
+  typeof import("../src/components/gallery/registry"),
+  typeof import("../src/lib/theme"),
+];
+
+const { createGalleryRegistry } = galleryModule;
+const { BG_CLASSES, VARIANTS } = themeModule;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
