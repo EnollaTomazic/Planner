@@ -46,12 +46,16 @@ export function normalizeGitHubPagesBasePath(raw: string): string {
 }
 
 export function isGitHubPagesIndexPath(path: string, basePath: string): boolean {
+  const [withoutHash] = path.split("#", 1);
+  const [pathname] = withoutHash.split("?", 1);
+  const sanitizedPathname = pathname.length > 0 ? pathname : "/";
+  const normalizedPath = sanitizedPathname.replace(/\/+$/u, "") || "/";
   const normalizedBase = normalizeGitHubPagesBasePath(basePath);
   const candidates = new Set<string>();
   const root = normalizedBase || "/";
   candidates.add(root);
   candidates.add(`${root.replace(/\/$/u, "")}/index.html`);
-  return candidates.has(path);
+  return candidates.has(normalizedPath);
 }
 
 export function sanitizeStoredLocation(value: unknown): string | null {

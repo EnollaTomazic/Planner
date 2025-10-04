@@ -83,18 +83,24 @@
       target = basePath + suffix;
     }
 
-    var currentPath =
-      (window.location.pathname || "") +
+    var rawPathname = window.location.pathname || "";
+    var currentLocation =
+      rawPathname +
       (window.location.search || "") +
       (window.location.hash || "");
 
-    if (target === currentPath) {
+    if (target === currentLocation) {
       return;
     }
 
+    var sanitizedPathname = rawPathname.length > 0 ? rawPathname : "/";
+    var normalizedPathname = sanitizedPathname.replace(/\/+$/, "") || "/";
     var normalizedRoot = basePath || "/";
     var indexPath = normalizedRoot.replace(/\/$/, "") + "/index.html";
-    if (currentPath !== normalizedRoot && currentPath !== indexPath) {
+    if (
+      normalizedPathname !== normalizedRoot &&
+      normalizedPathname !== indexPath
+    ) {
       return;
     }
 

@@ -32,7 +32,11 @@ describe("github-pages bootstrap helpers", () => {
     expect(isGitHubPagesIndexPath("/", "")).toBe(true);
     expect(isGitHubPagesIndexPath("/index.html", "")).toBe(true);
     expect(isGitHubPagesIndexPath("/planner", "/planner")).toBe(true);
+    expect(isGitHubPagesIndexPath("/planner/", "/planner")).toBe(true);
     expect(isGitHubPagesIndexPath("/planner/index.html", "/planner")).toBe(true);
+    expect(isGitHubPagesIndexPath("/planner/index.html?filter=done", "/planner")).toBe(true);
+    expect(isGitHubPagesIndexPath("/planner/index.html#section", "/planner")).toBe(true);
+    expect(isGitHubPagesIndexPath("/planner?filter=done", "/planner")).toBe(true);
     expect(isGitHubPagesIndexPath("/planner/tasks", "/planner")).toBe(false);
   });
 
