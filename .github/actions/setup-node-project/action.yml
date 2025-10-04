@@ -56,8 +56,20 @@ runs:
         if [ -n "${{ inputs['package-manager'] }}" ]; then
           RAW_PM="${{ inputs['package-manager'] }}"
         else
-          NODE_DETECTION_SCRIPT=$'import { readFileSync } from "node:fs";\nimport { resolve } from "node:path";\nimport { cwd } from "node:process";\n\ntry {\n  const packageJsonPath = resolve(cwd(), "package.json");\n  const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8"));\n  console.log(packageJson?.packageManager ?? "");\n} catch {\n  console.log("");\n}'
-          RAW_PM="$(node --input-type=module -e "$NODE_DETECTION_SCRIPT")"
+          RAW_PM="$(node --input-type=module <<'EOF'
+            import { readFileSync } from "node:fs";
+            import { resolve } from "node:path";
+            import { cwd } from "node:process";
+
+            try {
+              const packageJsonPath = resolve(cwd(), "package.json");
+              const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8"));
+              console.log(packageJson?.packageManager ?? "");
+            } catch {
+              console.log("");
+            }
+          EOF
+          )"
         fi
 
         if [ -z "$RAW_PM" ]; then
