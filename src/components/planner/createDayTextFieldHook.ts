@@ -42,6 +42,7 @@ export function createDayTextFieldHook({
 
     const [value, setValue] = React.useState<string>(() => persistedValue);
     const [saving, setSaving] = React.useState(false);
+    const mountedRef = React.useRef(true);
     const lastSavedRef = React.useRef(persistedValue.trim());
 
     const trimmed = React.useMemo(() => value.trim(), [value]);
@@ -55,6 +56,7 @@ export function createDayTextFieldHook({
         lastSavedRef.current = trimmed;
       } finally {
         scheduleSavingReset(() => {
+          if (!mountedRef.current) return;
           setSaving(false);
         });
       }
@@ -64,6 +66,12 @@ export function createDayTextFieldHook({
       setValue(persistedValue);
       lastSavedRef.current = persistedValue.trim();
     }, [iso, persistedValue]);
+
+    React.useEffect(() => {
+      return () => {
+        mountedRef.current = false;
+      };
+    }, []);
 
     return { value, setValue, saving, isDirty, lastSavedRef, commit } as const;
   };

@@ -127,6 +127,50 @@ describe("createDayTextFieldHook", () => {
     expect(result.current.isDirty).toBe(false);
   });
 
+  it("does not update state after unmounting", () => {
+    const applyValue = vi.fn((day: DayRecord, value: string) => ({
+      ...day,
+      notes: value,
+    }));
+    const scheduled: VoidFunction[] = [];
+    const scheduleReset = vi.fn((callback: VoidFunction) => {
+      scheduled.push(callback);
+    });
+    const useNotesField = createDayTextFieldHook({
+      selectValue: selectNotes,
+      applyValue,
+      scheduleSavingReset: scheduleReset,
+    });
+
+    const consoleErrorSpy = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    const { result, unmount } = renderHook(() => useNotesField(iso));
+
+    act(() => {
+      result.current.setValue("Unmount reset");
+    });
+    act(() => {
+      result.current.commit();
+    });
+
+    expect(scheduleReset).toHaveBeenCalledTimes(1);
+    expect(result.current.saving).toBe(true);
+
+    act(() => {
+      unmount();
+    });
+
+    act(() => {
+      scheduled.forEach((callback) => callback());
+    });
+
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
+  });
+
   it("clears saving with queueMicrotask when available", () => {
     vi.useFakeTimers();
     const applyValue = vi.fn((day: DayRecord, value: string) => ({
