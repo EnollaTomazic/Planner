@@ -207,4 +207,49 @@ describe("createDayTextFieldHook", () => {
     vi.stubGlobal("queueMicrotask", originalQueueMicrotask);
     vi.useRealTimers();
   });
+
+  it("does not update state after unmounting post-commit", () => {
+    const applyValue = vi.fn((day: DayRecord, value: string) => ({
+      ...day,
+      notes: value,
+    }));
+    const scheduled: VoidFunction[] = [];
+    const scheduleReset = vi.fn((callback: VoidFunction) => {
+      scheduled.push(callback);
+    });
+    const consoleErrorSpy = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    try {
+      const useNotesField = createDayTextFieldHook({
+        selectValue: selectNotes,
+        applyValue,
+        scheduleSavingReset: scheduleReset,
+      });
+
+      const { result, unmount } = renderHook(() => useNotesField(iso));
+
+      act(() => {
+        result.current.setValue("Unmounted commit");
+      });
+
+      act(() => {
+        result.current.commit();
+      });
+
+      expect(scheduleReset).toHaveBeenCalledTimes(1);
+      expect(result.current.saving).toBe(true);
+
+      unmount();
+
+      act(() => {
+        scheduled.forEach((callback) => callback());
+      });
+
+      expect(consoleErrorSpy).not.toHaveBeenCalled();
+    } finally {
+      consoleErrorSpy.mockRestore();
+    }
+  });
 });
