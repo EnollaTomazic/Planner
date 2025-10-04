@@ -56,7 +56,7 @@ runs:
         if [ -n "${{ inputs['package-manager'] }}" ]; then
           RAW_PM="${{ inputs['package-manager'] }}"
         else
-          RAW_PM="$(node --input-type=module <<'EOF'
+          NODE_DETECTION_SCRIPT=$(cat <<'EOF'
             import { readFileSync } from "node:fs";
             import { resolve } from "node:path";
             import { cwd } from "node:process";
@@ -69,7 +69,8 @@ runs:
               console.log("");
             }
           EOF
-          )"
+          )
+          RAW_PM="$(node --input-type=module <<<"$NODE_DETECTION_SCRIPT")"
         fi
 
         if [ -z "$RAW_PM" ]; then
