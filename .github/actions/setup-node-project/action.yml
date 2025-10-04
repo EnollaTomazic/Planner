@@ -71,8 +71,8 @@ runs:
         else
           RAW_PM="$(
             node --input-type=module <<EOF
-$NODE_DETECTION_SCRIPT
-EOF
+            $NODE_DETECTION_SCRIPT
+            EOF
           )"
         fi
 
