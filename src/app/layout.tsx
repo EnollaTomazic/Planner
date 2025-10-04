@@ -2,6 +2,7 @@
 import "./globals.css";
 // Load tokens + per-theme backdrops AFTER globals so overrides win.
 import "./themes.css";
+import "@/env/validate-server-env";
 
 import type { Metadata, Viewport } from "next";
 import {
