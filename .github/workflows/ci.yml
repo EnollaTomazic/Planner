@@ -107,6 +107,8 @@ jobs:
           cache-prefix: ci
 
       - name: Verify prompts registry
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
         run: pnpm run verify-prompts
 
       - name: Lint
@@ -120,6 +122,8 @@ jobs:
           pnpm run design-lint
 
       - name: Guard generated artifacts
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
         run: pnpm run guard:artifacts
 
       - name: Summarize lint
@@ -145,6 +149,8 @@ jobs:
           cache-prefix: ci
 
       - name: Type check
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
         run: |
           echo "::add-matcher::.github/matchers/typescript.json"
           pnpm run typecheck:ci
