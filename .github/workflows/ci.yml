@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.sha || github.event.pull_request.head.sha }}
       - name: Setup Node project
         id: setup
         uses: ./.github/actions/setup-node-project
@@ -64,7 +64,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.sha || github.event.pull_request.head.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -100,7 +100,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.sha || github.event.pull_request.head.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -135,7 +135,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.sha || github.event.pull_request.head.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -162,7 +162,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.sha || github.event.pull_request.head.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -204,7 +204,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.sha || github.event.pull_request.head.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -283,7 +283,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.sha || github.event.pull_request.head.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
