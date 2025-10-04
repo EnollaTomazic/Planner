@@ -8,6 +8,7 @@ import BrandWordmark from "@/components/chrome/BrandWordmark";
 import ThemeToggle from "@/components/ui/theme/ThemeToggle";
 import AnimationToggle from "@/components/ui/AnimationToggle";
 import { PageShell } from "@/components/ui";
+import { withBasePath } from "@/lib/utils";
 import Link from "next/link";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { Menu } from "lucide-react";
@@ -51,7 +52,7 @@ export default function SiteChrome({ children }: SiteChromeProps) {
           />
 
           <Link
-            href="/"
+            href={withBasePath("/")}
             aria-label="Home"
             className="col-span-full flex items-center gap-[var(--space-2)] md:col-span-3"
           >
