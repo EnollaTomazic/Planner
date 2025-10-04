@@ -489,8 +489,11 @@ async function collectGalleryModules(): Promise<readonly GalleryModuleMeta[]> {
 
 const REQUIRED_MANIFEST_EXPORTS = [
   "export const galleryPayload =",
+  "satisfies GalleryRegistryPayload;",
   "export const galleryPreviewRoutes =",
+  "satisfies readonly GalleryPreviewRoute[];",
   "export const galleryPreviewModules = Object.freeze",
+  "satisfies Record<string, GalleryPreviewModuleManifest>;",
 ] as const;
 
 function buildGalleryManifestSource(
@@ -516,7 +519,7 @@ function buildGalleryManifestSource(
     "",
     `export const galleryPayload = ${payloadJson} as const satisfies GalleryRegistryPayload;`,
     "",
-    `export const galleryPreviewRoutes = ${routesJson} as const;`,
+    `export const galleryPreviewRoutes = ${routesJson} as const satisfies readonly GalleryPreviewRoute[];`,
     "",
     "export const galleryPreviewModules = Object.freeze({",
   ];
