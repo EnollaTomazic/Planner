@@ -81,7 +81,7 @@ async function main(): Promise<void> {
   const diagnostics = ts
     .getPreEmitDiagnostics(program.getProgram())
     .filter((diagnostic) => {
-      if (diagnostic.code !== 2590) {
+      if (diagnostic.code !== 2589 && diagnostic.code !== 2590) {
         return true;
       }
       const fileName = diagnostic.file?.fileName;
@@ -89,9 +89,15 @@ async function main(): Promise<void> {
         return true;
       }
       const normalized = path.normalize(fileName);
-      return !normalized.endsWith(
-        path.normalize("src/components/gallery/generated-manifest.ts"),
-      );
+      if (
+        normalized.endsWith(
+          path.normalize("src/components/gallery/generated-manifest.ts"),
+        )
+      ) {
+        // Ignore union size explosions from the large auto-generated manifest file.
+        return false;
+      }
+      return true;
     });
   bars.stop();
 
