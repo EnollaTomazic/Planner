@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button, PageShell } from "@/components/ui";
 import { createLogger } from "@/lib/logging";
 import { captureException } from "@/lib/observability/sentry";
+import { withBasePath } from "@/lib/utils";
 
 export type RouteError = Error & { digest?: string };
 
@@ -30,7 +31,7 @@ export function RouteErrorContent({
   description,
   retryLabel = "Try again",
   homeLabel = "Go to dashboard",
-  homeHref = "/",
+  homeHref = withBasePath("/"),
 }: RouteErrorContentProps) {
   useEffect(() => {
     routeErrorLog.error("Route error boundary captured an exception", error);
