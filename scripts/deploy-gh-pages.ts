@@ -124,6 +124,11 @@ type GitHubRepositoryParts = {
   readonly name?: string;
 };
 
+type RepositorySlugDetectionResult = {
+  readonly slug: string;
+  readonly ownerSlug?: string;
+};
+
 export function parseGitHubRepository(value: string | undefined): GitHubRepositoryParts {
   const trimmed = value?.trim();
   if (!trimmed) {
@@ -155,41 +160,60 @@ export function isUserOrOrgGitHubPagesRepository({
   return candidateSlug === expectedSlug;
 }
 
-function parseRemoteSlug(remoteUrl: string): string | undefined {
+function parseRemoteSlug(remoteUrl: string): GitHubRepositoryParts {
   const normalized = remoteUrl.replace(/\.git$/u, "");
   const match = normalized.match(/[:/]([^/]+)\/([^/]+)$/u);
-  const [, , slug] = match ?? [];
-  return sanitizeSlug(slug);
+  const [, owner, name] = match ?? [];
+  return {
+    owner: sanitizeSlug(owner),
+    name: sanitizeSlug(name),
+  };
 }
 
-function detectRepositorySlug(): string {
+export function detectRepositorySlug(
+  spawn: typeof spawnSync = spawnSync,
+): RepositorySlugDetectionResult {
   const basePathEnv = process.env.BASE_PATH;
   if (basePathEnv !== undefined) {
     const fromEnv = sanitizeSlug(basePathEnv);
-    return fromEnv ?? "";
+    const { owner } = parseGitHubRepository(process.env.GITHUB_REPOSITORY);
+    return {
+      slug: fromEnv ?? "",
+      ownerSlug: owner,
+    };
   }
 
-  const { name: repoSlug } = parseGitHubRepository(process.env.GITHUB_REPOSITORY);
-  if (repoSlug) {
-    return repoSlug;
+  const repositoryParts = parseGitHubRepository(process.env.GITHUB_REPOSITORY);
+  if (repositoryParts.name) {
+    return {
+      slug: repositoryParts.name,
+      ownerSlug: repositoryParts.owner,
+    };
   }
 
-  const remoteResult = spawnSync("git", ["config", "--get", "remote.origin.url"], {
+  let remoteParts: GitHubRepositoryParts = {};
+  const remoteResult = spawn("git", ["config", "--get", "remote.origin.url"], {
     encoding: "utf8",
     stdio: ["ignore", "pipe", "ignore"],
   });
 
   if (remoteResult.status === 0 && typeof remoteResult.stdout === "string") {
     const remote = remoteResult.stdout.trim();
-    const remoteSlug = parseRemoteSlug(remote);
-    if (remoteSlug) {
-      return remoteSlug;
+    remoteParts = parseRemoteSlug(remote);
+    if (remoteParts.name) {
+      return {
+        slug: remoteParts.name,
+        ownerSlug: remoteParts.owner,
+      };
     }
   }
 
   const folderSlug = sanitizeSlug(path.basename(process.cwd()));
   if (folderSlug) {
-    return folderSlug;
+    return {
+      slug: folderSlug,
+      ownerSlug: remoteParts.owner ?? repositoryParts.owner,
+    };
   }
 
   throw new Error(
@@ -334,12 +358,12 @@ export function injectGitHubPagesPlaceholders(
 function main(): void {
   const publish = shouldPublishSite(process.env);
   assertOriginRemote(process.env, publish);
-  const slug = detectRepositorySlug();
+  const { slug, ownerSlug: fallbackOwnerSlug } = detectRepositorySlug();
   const { owner: repositoryOwnerSlug, name: repositorySlug } = parseGitHubRepository(
     process.env.GITHUB_REPOSITORY,
   );
   const isUserOrOrgGitHubPage = isUserOrOrgGitHubPagesRepository({
-    repositoryOwnerSlug,
+    repositoryOwnerSlug: repositoryOwnerSlug ?? fallbackOwnerSlug,
     repositoryNameSlug: repositorySlug,
     fallbackSlug: slug,
   });
