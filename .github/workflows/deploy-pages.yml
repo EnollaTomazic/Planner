@@ -29,6 +29,9 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: '1'
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: ./.github/actions/setup-node-project
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
