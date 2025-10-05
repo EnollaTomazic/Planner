@@ -4,18 +4,20 @@
  */
 (() => {
   try {
+    var STORAGE_PLACEHOLDER_SENTINEL = "__" + "GITHUB_PAGES_REDIRECT_STORAGE_KEY__";
     var storagePlaceholder = "__GITHUB_PAGES_REDIRECT_STORAGE_KEY__";
     var defaultStorageKey = "noxis-planner:gh-pages:redirect";
     var storageKey = storagePlaceholder;
-    if (!storageKey || storageKey === "__GITHUB_PAGES_REDIRECT_STORAGE_KEY__") {
+    if (!storageKey || storageKey === STORAGE_PLACEHOLDER_SENTINEL) {
       storageKey = defaultStorageKey;
     } else {
       storageKey = storageKey.trim() || defaultStorageKey;
     }
 
+    var BASE_PLACEHOLDER_SENTINEL = "__" + "BASE_PATH__";
     var basePlaceholder = "__BASE_PATH__";
     var rawBasePath = basePlaceholder;
-    if (!rawBasePath || rawBasePath === "__BASE_PATH__") {
+    if (!rawBasePath || rawBasePath === BASE_PLACEHOLDER_SENTINEL) {
       rawBasePath = "";
     } else {
       rawBasePath = rawBasePath.trim();
