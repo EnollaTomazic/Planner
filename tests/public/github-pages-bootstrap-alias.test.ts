@@ -26,7 +26,8 @@ describe("github pages bootstrap alias handling", () => {
   });
 
   it("normalizes deploy aliases to the base path root", () => {
-    const source = loadBootstrapSource("/planner");
+    const basePath = "/planner";
+    const source = loadBootstrapSource(basePath);
     const historyReplaceState = vi.fn();
     const locationReplace = vi.fn();
     const getItem = vi.fn(() => "current");
@@ -39,7 +40,7 @@ describe("github pages bootstrap alias handling", () => {
     };
 
     const location = {
-      pathname: "/index.html",
+      pathname: `${basePath}/index.html`,
       search: "",
       hash: "",
       replace: (...args: unknown[]) => {
@@ -67,6 +68,6 @@ describe("github pages bootstrap alias handling", () => {
     const historyCall = historyReplaceState.mock.calls[0]?.[2];
     const locationCall = locationReplace.mock.calls[0]?.[0];
 
-    expect(historyCall ?? locationCall).toBe("/");
+    expect(historyCall ?? locationCall).toBe(basePath || "/");
   });
 });
