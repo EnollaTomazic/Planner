@@ -201,6 +201,14 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      - name: Upload Next.js build
+        id: upload_next_build
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-build
+          path: .next
+          if-no-files-found: error
+
       - name: Bundle analysis
         run: |
           pnpm run prebuild:analyze
@@ -224,11 +232,16 @@ jobs:
             if [ -n "${{ steps.upload_bundle_report.outputs.artifact-url }}" ]; then
               echo "- Bundle report: [Download](${{ steps.upload_bundle_report.outputs.artifact-url }})";
             fi
+            if [ -n "${{ steps.upload_next_build.outputs.artifact-url }}" ]; then
+              echo "- Next.js build: [Download](${{ steps.upload_next_build.outputs.artifact-url }})";
+            fi
             echo "- Preview routes validated: / (build)";
           } >> "$GITHUB_STEP_SUMMARY"
 
 
   playwright:
+    needs:
+      - build
     runs-on: ubuntu-latest
     env:
       PLAYWRIGHT_HOST: 127.0.0.1
@@ -276,19 +289,24 @@ jobs:
         with:
           cache-prefix: ci
 
-      - name: Restore Next.js cache
-        uses: actions/cache@v4
-        with:
-          path: .next/cache
-          key: nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            nextjs-${{ runner.os }}-
-
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Build
-        run: pnpm run build
+      - name: Prepare Next.js build artifact
+        run: rm -rf .next
+
+      - name: Download Next.js build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: next-build
+          path: .
+
+      - name: Verify Next.js build artifact
+        run: |
+          if [ ! -f ".next/BUILD_ID" ]; then
+            echo "Downloaded Next.js build is missing .next/BUILD_ID" >&2
+            exit 1
+          fi
 
       - name: Start Next.js server
         run: |
