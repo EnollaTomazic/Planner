@@ -102,6 +102,16 @@ describe("WithBasePath", () => {
     expect(withBasePath("beta/assets/icon.svg")).toBe("/beta/assets/icon.svg");
   });
 
+  it("treats query and hash prefixed paths as already base-path-prefixed", async () => {
+    process.env.NEXT_PUBLIC_BASE_PATH = "/planner";
+    vi.resetModules();
+
+    const { withBasePath } = await importBasePathUtils();
+
+    expect(withBasePath("/planner?modal=true")).toBe("/planner?modal=true");
+    expect(withBasePath("/planner#section")).toBe("/planner#section");
+  });
+
   it("returns absolute URLs unchanged regardless of base path", async () => {
     const urls = [
       "https://cdn.example.com/assets/icon.svg",
