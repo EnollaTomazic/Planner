@@ -221,6 +221,12 @@ export function detectRepositorySlug(
   );
 }
 
+type CommandRunner = (
+  command: string,
+  args: readonly string[],
+  env: NodeJS.ProcessEnv,
+) => void;
+
 function runCommand(command: string, args: readonly string[], env: NodeJS.ProcessEnv): void {
   const result = spawnSync(command, args, {
     stdio: "inherit",
@@ -233,6 +239,14 @@ function runCommand(command: string, args: readonly string[], env: NodeJS.Proces
       `Command \"${command} ${args.join(" ")}\" exited with code ${result.status ?? "unknown"}`;
     throw new Error(reason);
   }
+}
+
+export function buildStaticSite(
+  pnpmExecutable: string,
+  env: NodeJS.ProcessEnv,
+  runner: CommandRunner = runCommand,
+): void {
+  runner(pnpmExecutable, ["run", "build"], env);
 }
 
 function createTemporarySlugDirectoryPath(outDir: string, slug: string): string {
@@ -380,7 +394,7 @@ function main(): void {
     NEXT_PUBLIC_SAFE_MODE: process.env.NEXT_PUBLIC_SAFE_MODE ?? "false",
   };
 
-  runCommand(pnpmCommand, ["run", "build"], buildEnv);
+  buildStaticSite(pnpmCommand, buildEnv);
 
   const outDir = path.resolve("out");
   if (shouldUseBasePath) {
