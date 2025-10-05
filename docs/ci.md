@@ -45,7 +45,7 @@ This project standardises Node-based automation through the reusable workflow de
 
 ## Prompt verification behaviour
 
-Prompt checks always run through the consolidated matcher that scans every prompt file for references. The legacy mode that only inspected `src/app/prompts/page.tsx` and `src/components/prompts/PromptsDemos.tsx` has been removed. Setting `PROMPT_CHECK_MODE` no longer changes execution—it simply emits a console warning so existing pipelines can drop the flag without breaking.
+Prompt checks always run through the consolidated matcher that scans every prompt file for references. The legacy mode that only inspected a subset of prompt sources has been removed, and `pnpm run verify-prompts` / `pnpm run check-prompts` now share the same behaviour in every environment. The `PROMPT_CHECK_MODE` environment flag is no longer supported—remove it from any automation since it is ignored by the scripts.
 
 ## Manual visual regression workflow
 

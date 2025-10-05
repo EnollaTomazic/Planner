@@ -173,7 +173,7 @@ export async function runPromptVerification(
   const argv = options.argv ?? process.argv.slice(2);
   if (typeof process.env.PROMPT_CHECK_MODE === "string") {
     console.warn(
-      "PROMPT_CHECK_MODE is deprecated; the modern prompt verification always runs.",
+      "PROMPT_CHECK_MODE is no longer supported; remove the flag because the consolidated prompt verification always runs.",
     );
   }
   const args = new Set(argv);
