@@ -44,12 +44,8 @@ jobs:
         run: |
           set -euo pipefail
           export DEPLOY_ARTIFACT_ONLY=true
-          REPO_NAME="${GITHUB_REPOSITORY##*/}"
-          if [[ "${REPO_NAME}" == *.github.io ]]; then
-            export NEXT_PUBLIC_BASE_PATH=""
-          else
-            export NEXT_PUBLIC_BASE_PATH="/${REPO_NAME}"
-          fi
+          # The deploy script derives the correct base path for project pages and
+          # clears it for user/org pages, so no extra env wiring is required here.
           pnpm run deploy
 
       - name: Upload static artifact
