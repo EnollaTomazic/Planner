@@ -1,10 +1,15 @@
 import * as React from "react";
 import { Suspense } from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import Page from "@/app/page";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { ThemeProvider } from "@/lib/theme-context";
+vi.mock("@/components/gallery/generated-manifest", () => ({
+  galleryPayload: { sections: [] },
+  galleryPreviewModules: {},
+  galleryPreviewRoutes: [],
+}));
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
   usePathname: () => "/",
@@ -55,6 +60,27 @@ describe("Home page", () => {
 
     const landmarks = container.querySelectorAll("main, [role=\"main\"]");
     expect(landmarks).toHaveLength(1);
+  });
+
+  it("enables the glitch landing experience when the flag is set", async () => {
+    const { container } = render(
+      <ThemeProvider glitchLandingEnabled>
+        <SiteChrome>
+          <Suspense fallback="loading">
+            <Page />
+          </Suspense>
+        </SiteChrome>
+      </ThemeProvider>,
+    );
+
+    expect(
+      await screen.findByRole("status", { name: "Planner is loading" }),
+    ).toBeInTheDocument();
+    expect(container.querySelector('[data-state="splash"]')).not.toBeNull();
+
+    await waitFor(() => {
+      expect(document.body.dataset.glitchLanding).toBe("enabled");
+    });
   });
 
   it("falls back to the legacy landing experience when the flag is disabled", () => {
