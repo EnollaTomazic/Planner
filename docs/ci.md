@@ -43,20 +43,9 @@ This project standardises Node-based automation through the reusable workflow de
 - The `build:analyze` script is CI-friendly: it respects existing `prebuild` hooks, emits static analyser output without attempting to open a browser, and prints the destination folder after completion. Upload the `docs/bundle-report/` directory as a workflow artefact to keep bundle deltas visible in job summaries.
 - Per-route performance budgets stay enforced manually until automated checks land. Keep the JavaScript payload under **180 KB gzipped** for every exported route, target **≤ 2.5 s Largest Contentful Paint** on a cold mobile profile, and hold **Cumulative Layout Shift below 0.10**. Flag any regression breaching those numbers so we can prioritise the fix before merging.
 
-## Prompt verification modes
+## Prompt verification behaviour
 
-Prompt checks default to the consolidated matcher that scans every prompt file for references, but some teams still rely on the legacy behaviour that only inspects `src/app/prompts/page.tsx` and `src/components/prompts/PromptsDemos.tsx`. Opt in to the legacy pass by setting `PROMPT_CHECK_MODE=legacy` for any invocation (for example, `PROMPT_CHECK_MODE=legacy pnpm run verify-prompts`). When the variable is unset or holds another value the modern path runs.
-
-In GitHub Actions jobs, add the flag within the step that runs the verifier:
-
-```yaml
-- name: Verify prompt coverage (legacy)
-  run: pnpm run verify-prompts
-  env:
-    PROMPT_CHECK_MODE: legacy
-```
-
-The same environment variable applies to `pnpm run check-prompts` and downstream deployments, so Pages or custom CD pipelines can toggle modes without modifying the script itself.
+Prompt checks always run through the consolidated matcher that scans every prompt file for references. The legacy mode that only inspected `src/app/prompts/page.tsx` and `src/components/prompts/PromptsDemos.tsx` has been removed. Setting `PROMPT_CHECK_MODE` no longer changes execution—it simply emits a console warning so existing pipelines can drop the flag without breaking.
 
 ## Manual visual regression workflow
 
