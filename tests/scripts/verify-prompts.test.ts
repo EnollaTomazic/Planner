@@ -25,7 +25,7 @@ describe("verify-prompts", () => {
 
     await expect(runPromptVerification({ argv: [] })).resolves.toBeUndefined();
     expect(warnSpy).toHaveBeenCalledWith(
-      "PROMPT_CHECK_MODE is deprecated; the modern prompt verification always runs.",
+      "PROMPT_CHECK_MODE is no longer supported; remove the flag because the consolidated prompt verification always runs.",
     );
   });
 });
