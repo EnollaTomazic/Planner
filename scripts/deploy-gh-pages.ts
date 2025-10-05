@@ -119,6 +119,42 @@ function sanitizeSlug(value: string | undefined): string | undefined {
   return cleaned.length > 0 ? cleaned : undefined;
 }
 
+type GitHubRepositoryParts = {
+  readonly owner?: string;
+  readonly name?: string;
+};
+
+export function parseGitHubRepository(value: string | undefined): GitHubRepositoryParts {
+  const trimmed = value?.trim();
+  if (!trimmed) {
+    return {};
+  }
+
+  const [owner, name] = trimmed.split("/");
+  return {
+    owner: sanitizeSlug(owner),
+    name: sanitizeSlug(name),
+  };
+}
+
+export function isUserOrOrgGitHubPagesRepository({
+  repositoryOwnerSlug,
+  repositoryNameSlug,
+  fallbackSlug,
+}: {
+  readonly repositoryOwnerSlug?: string;
+  readonly repositoryNameSlug?: string;
+  readonly fallbackSlug?: string;
+}): boolean {
+  if (!repositoryOwnerSlug) {
+    return false;
+  }
+
+  const expectedSlug = `${repositoryOwnerSlug}.github.io`;
+  const candidateSlug = repositoryNameSlug ?? fallbackSlug;
+  return candidateSlug === expectedSlug;
+}
+
 function parseRemoteSlug(remoteUrl: string): string | undefined {
   const normalized = remoteUrl.replace(/\.git$/u, "");
   const match = normalized.match(/[:/]([^/]+)\/([^/]+)$/u);
@@ -133,7 +169,7 @@ function detectRepositorySlug(): string {
     return fromEnv ?? "";
   }
 
-  const repoSlug = sanitizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
+  const { name: repoSlug } = parseGitHubRepository(process.env.GITHUB_REPOSITORY);
   if (repoSlug) {
     return repoSlug;
   }
@@ -299,8 +335,14 @@ function main(): void {
   const publish = shouldPublishSite(process.env);
   assertOriginRemote(process.env, publish);
   const slug = detectRepositorySlug();
-  const repositorySlug = sanitizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
-  const isUserOrOrgGitHubPage = (repositorySlug ?? slug)?.endsWith(".github.io") ?? false;
+  const { owner: repositoryOwnerSlug, name: repositorySlug } = parseGitHubRepository(
+    process.env.GITHUB_REPOSITORY,
+  );
+  const isUserOrOrgGitHubPage = isUserOrOrgGitHubPagesRepository({
+    repositoryOwnerSlug,
+    repositoryNameSlug: repositorySlug,
+    fallbackSlug: slug,
+  });
   const shouldUseBasePath = slug.length > 0 && !isUserOrOrgGitHubPage;
   const normalizedBasePath = shouldUseBasePath ? `/${slug}` : "";
   console.log(`Deploying with base path ${normalizedBasePath || "/"}`);

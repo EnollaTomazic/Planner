@@ -33,6 +33,7 @@ const normalizeSlug = (value) => {
 
 const isGitHubPages = process.env.GITHUB_PAGES === "true";
 const repositorySlug = normalizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
+const repositoryOwnerSlug = normalizeSlug(process.env.GITHUB_REPOSITORY?.split("/")?.[0]);
 
 const resolveGitHubPagesSlug = () => {
   const explicitSlugSources = [process.env.NEXT_PUBLIC_BASE_PATH, process.env.BASE_PATH];
@@ -63,7 +64,11 @@ const resolveGitHubPagesSlug = () => {
 };
 
 const githubPagesSlug = isGitHubPages ? resolveGitHubPagesSlug() : "";
-const isUserOrOrgGitHubPage = (repositorySlug ?? githubPagesSlug)?.endsWith(".github.io") ?? false;
+const expectedUserOrOrgSlug =
+  repositoryOwnerSlug !== undefined ? `${repositoryOwnerSlug}.github.io` : undefined;
+const resolvedRepositorySlug = repositorySlug ?? githubPagesSlug;
+const isUserOrOrgGitHubPage =
+  expectedUserOrOrgSlug !== undefined && resolvedRepositorySlug === expectedUserOrOrgSlug;
 
 const normalizedBasePathValue = isGitHubPages
   ? githubPagesSlug && !isUserOrOrgGitHubPage
