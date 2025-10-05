@@ -1,29 +1,18 @@
 # Continuous integration workflows
 
-This project standardises Node-based automation through the reusable workflow defined at `.github/workflows/node-base.yml`. Jobs in `ci.yml`—covering the build and test matrix—call into that workflow so dependency management, caching, and Playwright bootstrapping stay consistent across CI runs. GitHub Pages publishing executes through the dedicated `Deploy Pages` workflow, which mirrors the same caching and export conventions while keeping production deployments isolated from PR validation noise.
+This project maintains three first-party workflows under `.github/workflows/`:
 
-## `node-base` workflow inputs
+- `ci.yml` runs the validation and test matrix that gates every pull request and push.
+- `deploy-pages.yml` publishes the static export to GitHub Pages after changes land on protected branches.
+- `workflow-lint.yml` enforces style and correctness rules for workflow changes themselves.
 
-| Input | Description |
-| --- | --- |
-| `run` | Command executed after the environment is prepared. |
-| `install-command` | Overrides the dependency installation command (defaults to `pnpm install --frozen-lockfile --prefer-offline --no-fund`). |
-| `cache-paths` | Newline-delimited list of cache directories. Leave empty to skip caching. |
-| `cache-key` | Optional override for the cache key. When omitted the workflow derives one automatically. |
-| `cache-restore-keys` | Optional newline-delimited restore prefixes used by the cache action. |
-| `cache-key-prefix` | Prefix applied when the workflow generates cache keys automatically. |
-| `cache-key-globs` | Newline-delimited globs that feed the automatic cache key generator. Blank lines group globs for layered fallbacks. |
-| `install-playwright` | Installs Playwright browsers and primes the cache when `true`. |
-| `checkout-ref` | Optional ref or commit SHA passed directly to the checkout action. |
-| `artifact-name` / `artifact-path` | Upload artefacts after the run. Paths can be multi-line. |
-| `artifact-on-failure` | Restrict artefact uploads to failing runs. |
-| `summary-title` | Custom heading for the job summary block. |
+Each workflow wires directly into the shared composite action at `.github/actions/setup-node-project` so pnpm, caching, and environment bootstrapping stay consistent without relying on a separate reusable workflow.
 
 ## Cache guidance
 
 - Next.js builds cache `.next/cache`. Reuse the glob groups from `ci.yml` so changes to dependencies or source invalidate the cache while retaining fallbacks for dependency-only changes.
-- Playwright installs cache to `~/.cache/ms-playwright` automatically when `install-playwright` is enabled. The workflow derives the key from the detected Playwright version and lockfile hash.
-- Additional cache directories can be layered by listing each path within `cache-paths`.
+- Playwright installs cache to `~/.cache/ms-playwright` automatically when the browsers install step runs. Derive keys from the Playwright version and `pnpm-lock.yaml` hash to avoid stale binaries.
+- Add new caches with explicit `actions/cache` steps in the relevant job or by extending the `setup-node-project` composite action so the configuration lives with the tasks that consume it.
 
 ## Local-first E2E opt-in
 
@@ -31,11 +20,14 @@ This project standardises Node-based automation through the reusable workflow de
 
 ## Workflow usage
 
+The `ci.yml` workflow defines first-class jobs for audits, linting, type-checking, unit tests, building, and Playwright coverage. Each job checks out the repo, invokes `setup-node-project` for pnpm and caching, and then runs its command sequence directly—no reusable workflow indirection—so any changes to the automation live alongside the jobs that consume them.
+
 - `ci.yml` runs the prompt verifier (`pnpm run verify-prompts`), linting, the design token guard (`pnpm run lint:design`), type-checking, and unit tests before the dedicated `next-build` job creates the production `.next` output (with audit reporting and cached `.next/cache`). That single build artefact feeds both the accessibility suite and the Playwright E2E matrix so we avoid redundant compiles.
 - The Vitest suite executes twice: once with the default legacy depth profile and again with `NEXT_PUBLIC_ORGANIC_DEPTH=true`. This keeps both code paths healthy so the flag can flip without requiring a fresh deploy.
 - The accessibility job downloads the `next-build` artefact, verifies it before starting the server, and then exercises any tests tagged `@axe` (or the full suite when none are tagged).
 - Visual E2E coverage now captures per-theme snapshots for the depth-aware button and card previews alongside rerunning axe against those preview routes. Keep `npx playwright test` wired into CI so this job remains the source of truth for depth and theme regressions.
 - The `Deploy Pages` workflow builds the static export on pushes to `main`, verifying prompts before the export, uploading the artefact for traceability, and executing the [`actions/deploy-pages`](https://github.com/actions/deploy-pages) step to publish the site.
+- `workflow-lint.yml` runs `actionlint` and `yamllint` whenever workflow files change (or on demand) so breaking changes surface before they land in `ci.yml` or `deploy-pages.yml`.
 
 ## Bundle analysis and performance budgets
 
