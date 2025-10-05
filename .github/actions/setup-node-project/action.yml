@@ -24,19 +24,19 @@ inputs:
 outputs:
   package-manager:
     description: "Detected package manager"
-    value: ${{ steps.detect.outputs.manager }}
+    value: "${{ steps.detect.outputs.manager }}"
   install-command:
     description: "Command used to install dependencies"
-    value: ${{ steps.detect.outputs.install }}
+    value: "${{ steps.detect.outputs.install }}"
   lockfile:
     description: "Detected lockfile"
-    value: ${{ steps.detect.outputs.lockfile }}
+    value: "${{ steps.detect.outputs.lockfile }}"
   node-version:
     description: "Resolved Node.js version"
-    value: ${{ steps['node-version'].outputs.value }}
+    value: "${{ steps['node-version'].outputs.value }}"
   node-modules-cache-hit:
     description: "Whether the node_modules cache was restored"
-    value: ${{ steps['restore-node-modules'].outputs['cache-hit'] }}
+    value: "${{ steps['restore-node-modules'].outputs['cache-hit'] }}"
 
 runs:
   using: "composite"
@@ -45,7 +45,7 @@ runs:
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
       with:
         fetch-depth: 2
-        ref: ${{ inputs['checkout-ref'] != '' && inputs['checkout-ref'] || github.ref }}
+        ref: "${{ inputs['checkout-ref'] != '' && inputs['checkout-ref'] || github.ref }}"
 
     - name: Detect package manager
       id: detect
@@ -125,15 +125,15 @@ runs:
       if: ${{ steps.detect.outputs.manager == 'pnpm' }}
       uses: pnpm/action-setup@v4
       with:
-        version: ${{ steps.detect.outputs['manager-version'] != '' && steps.detect.outputs['manager-version'] || 'latest' }}
+        version: "${{ steps.detect.outputs['manager-version'] != '' && steps.detect.outputs['manager-version'] || 'latest' }}"
         run_install: false
 
     - name: Setup Node.js
       uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v4.1.0
       with:
-        node-version-file: ${{ inputs['node-version-file'] }}
-        cache: ${{ steps.detect.outputs.manager }}
-        cache-dependency-path: ${{ steps.detect.outputs.lockfile }}
+        node-version-file: "${{ inputs['node-version-file'] }}"
+        cache: "${{ steps.detect.outputs.manager }}"
+        cache-dependency-path: "${{ steps.detect.outputs.lockfile }}"
 
     - name: Enable Corepack for alternative package managers
       if: ${{ steps.detect.outputs.manager != 'npm' }}
@@ -186,10 +186,10 @@ runs:
       if: ${{ inputs['cache-node-modules'] == 'true' }}
       shell: bash
       env:
-        PREFIX: ${{ inputs['cache-prefix'] }}
-        MANAGER: ${{ steps.detect.outputs.manager }}
-        NODE_VERSION: ${{ steps['node-version'].outputs.value }}
-        LOCK_HASH: ${{ steps.lockfile.outputs.value }}
+        PREFIX: "${{ inputs['cache-prefix'] }}"
+        MANAGER: "${{ steps.detect.outputs.manager }}"
+        NODE_VERSION: "${{ steps['node-version'].outputs.value }}"
+        LOCK_HASH: "${{ steps.lockfile.outputs.value }}"
       run: |
         set -euo pipefail
         LOWER_OS="$(echo "$RUNNER_OS" | tr '[:upper:]' '[:lower:]')"
@@ -204,21 +204,21 @@ runs:
       uses: actions/cache/restore@v4
       with:
         path: node_modules
-        key: ${{ steps['cache-key'].outputs.primary }}
+        key: "${{ steps['cache-key'].outputs.primary }}"
         restore-keys: |
           ${{ steps['cache-key'].outputs.restore }}
 
     - name: Install dependencies
       if: ${{ inputs['cache-node-modules'] != 'true' || steps['restore-node-modules'].outputs['cache-hit'] != 'true' }}
       shell: bash
-      run: ${{ steps.detect.outputs.install }}
+      run: "${{ steps.detect.outputs.install }}"
 
     - name: Save node_modules cache
       if: ${{ inputs['cache-node-modules'] == 'true' && steps['restore-node-modules'].outputs['cache-hit'] != 'true' }}
       uses: actions/cache/save@v4
       with:
         path: node_modules
-        key: ${{ steps['cache-key'].outputs.primary }}
+        key: "${{ steps['cache-key'].outputs.primary }}"
 
     - name: Verify dependencies restored
       shell: bash
