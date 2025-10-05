@@ -6,6 +6,7 @@ import type { SpawnSyncReturns } from "node:child_process";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
+  buildStaticSite,
   detectRepositorySlug,
   flattenBasePathDirectory,
   injectGitHubPagesPlaceholders,
@@ -13,6 +14,30 @@ import {
   parseGitHubRepository,
 } from "../../scripts/deploy-gh-pages";
 import { GITHUB_PAGES_REDIRECT_STORAGE_KEY } from "@/lib/github-pages";
+
+describe("buildStaticSite", () => {
+  it("runs pnpm build so the prebuild lifecycle executes on fresh clones", () => {
+    const runSpy = vi.fn(
+      (
+        command: string,
+        args: readonly string[],
+        receivedEnv: NodeJS.ProcessEnv,
+      ) => {
+        expect(typeof command).toBe("string");
+        expect(Array.isArray(args)).toBe(true);
+        expect(receivedEnv.NODE_ENV).toBe("test");
+      },
+    );
+    const env: NodeJS.ProcessEnv = {
+      EXAMPLE_ENV: "value",
+      NODE_ENV: "test",
+    };
+
+    buildStaticSite("pnpm", env, runSpy);
+
+    expect(runSpy).toHaveBeenCalledWith("pnpm", ["run", "build"], env);
+  });
+});
 
 describe("flattenBasePathDirectory", () => {
   let tempRoot: string | undefined;
