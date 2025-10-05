@@ -20,7 +20,8 @@ const {
   NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS: rawSvgNumericFilters,
   NEXT_PUBLIC_DEPTH_THEME: rawDepthTheme,
   NEXT_PUBLIC_ORGANIC_DEPTH: rawOrganicDepth,
-  NEXT_PUBLIC_UI_GLITCH_LANDING: rawGlitchLanding,
+  NEXT_PUBLIC_FEATURE_GLITCH_LANDING: rawFeatureGlitchLanding,
+  NEXT_PUBLIC_UI_GLITCH_LANDING: rawLegacyGlitchLanding,
   NEXT_PUBLIC_SAFE_MODE: rawSafeMode,
 } = readClientEnv();
 
@@ -48,7 +49,11 @@ function parseBooleanFlag(raw: string | undefined, fallback: boolean): boolean {
 const svgNumericFilters = parseBooleanFlag(rawSvgNumericFilters, true);
 const depthThemeEnabled = parseBooleanFlag(rawDepthTheme, false);
 const organicDepthEnabled = parseBooleanFlag(rawOrganicDepth, false);
-const glitchLandingEnabled = parseBooleanFlag(rawGlitchLanding, true);
+const glitchLandingRaw =
+  rawFeatureGlitchLanding !== undefined
+    ? rawFeatureGlitchLanding
+    : rawLegacyGlitchLanding;
+const glitchLandingEnabled = parseBooleanFlag(glitchLandingRaw, true);
 const safeModeEnabled = parseBooleanFlag(rawSafeMode, false);
 
 export function isSafeModeEnabled(): boolean {
