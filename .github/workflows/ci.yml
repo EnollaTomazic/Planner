@@ -83,11 +83,6 @@ jobs:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
-      - name: Verify prompts registry
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
-        run: pnpm run verify-prompts
-
       - name: Lint
         run: |
           echo "::add-matcher::.github/matchers/eslint-stylish.json"
@@ -108,6 +103,36 @@ jobs:
         run: |
           {
             echo "## Lint";
+            echo "- Status: ${{ job.status }}";
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  prompt-verify:
+    name: Verify prompts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Setup Node project
+        uses: ./.github/actions/setup-node-project
+        with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          cache-prefix: ci
+
+      - name: Verify prompts registry
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: pnpm run verify-prompts
+
+      - name: Summarize prompt verification
+        if: always()
+        run: |
+          {
+            echo "## Verify prompts";
             echo "- Status: ${{ job.status }}";
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -195,6 +220,7 @@ jobs:
       - typecheck
       - unit-tests
       - audit
+      - prompt-verify
     runs-on: ubuntu-latest
 
     steps:
