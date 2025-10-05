@@ -32,12 +32,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
       - name: Audit dependencies
@@ -67,12 +65,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
       - name: Verify prompts registry
@@ -108,12 +104,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
       - name: Type check
@@ -136,12 +130,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
       - name: Restore Next.js cache
@@ -182,12 +174,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
       - name: Restore Next.js cache
@@ -281,12 +271,10 @@ jobs:
             previews: " /preview/theme-matrix, /preview/hero-images, /preview/gallery"
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
       - name: Install Playwright browsers
