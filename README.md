@@ -41,7 +41,7 @@ Run `pnpm run deploy` from the project root whenever you're ready to publish. Th
 
 Before building, the script verifies that a Git push target is configured. If `git remote get-url origin` fails and both `GITHUB_REPOSITORY` and `GITHUB_TOKEN` are missing, the deploy exits early and asks you to add an `origin` remote or supply those environment variables before re-running `pnpm run deploy`.
 
-When the static files are published to `https://<username>.github.io/<repo>/`, the home page is served from `https://<username>.github.io/<repo>/` rather than the domain root. Use that base path whenever you link to or bookmark the deployed site.
+When the static files are published to `https://<username>.github.io/<repo>/`, the home page is served from `https://<username>.github.io/<repo>/` rather than the domain root. Use that base path whenever you link to or bookmark the deployed site. Only repositories that exactly match `https://<username>.github.io` (user/organization GitHub Pages) skip the base path; similarly named repositories such as `docs.github.io` owned by another organization continue to publish under `/<repo>/`.
 
 For CI (or any environment that should push automatically), export `GITHUB_TOKEN`, `GITHUB_REPOSITORY`, and (optionally) `CI=true` before running the deploy script. When those values are present, the script adds an authenticated remote URL so the push succeeds without additional setup.
 

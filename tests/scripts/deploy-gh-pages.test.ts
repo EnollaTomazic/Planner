@@ -7,6 +7,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   flattenBasePathDirectory,
   injectGitHubPagesPlaceholders,
+  isUserOrOrgGitHubPagesRepository,
 } from "../../scripts/deploy-gh-pages";
 import { GITHUB_PAGES_REDIRECT_STORAGE_KEY } from "@/lib/github-pages";
 
@@ -100,5 +101,26 @@ describe("injectGitHubPagesPlaceholders", () => {
     ).toBe(
       `const key = "${GITHUB_PAGES_REDIRECT_STORAGE_KEY}"; const base = "/planner";`,
     );
+  });
+});
+
+describe("isUserOrOrgGitHubPagesRepository", () => {
+  it("treats docs.github.io as a project page when owned by another organization", () => {
+    expect(
+      isUserOrOrgGitHubPagesRepository({
+        repositoryOwnerSlug: "acme",
+        repositoryNameSlug: "docs.github.io",
+        fallbackSlug: "docs.github.io",
+      }),
+    ).toBe(false);
+  });
+
+  it("detects owner.github.io repositories as user or organization pages", () => {
+    expect(
+      isUserOrOrgGitHubPagesRepository({
+        repositoryOwnerSlug: "acme",
+        repositoryNameSlug: "acme.github.io",
+      }),
+    ).toBe(true);
   });
 });
