@@ -142,6 +142,11 @@ function sanitizeSlug(value: string | undefined): string | undefined {
   return cleaned.length > 0 ? cleaned : undefined;
 }
 
+function normalizeSlugForComparison(value: string | undefined): string | undefined {
+  const sanitized = sanitizeSlug(value);
+  return sanitized?.toLowerCase();
+}
+
 type GitHubRepositoryParts = {
   readonly owner?: string;
   readonly name?: string;
@@ -178,13 +183,21 @@ export function isUserOrOrgGitHubPagesRepository({
     return false;
   }
 
-  const expectedSlug = `${repositoryOwnerSlug}.github.io`;
-  const candidateSlug = repositoryNameSlug ?? fallbackSlug;
+  const normalizedOwnerSlug = normalizeSlugForComparison(repositoryOwnerSlug);
+  if (!normalizedOwnerSlug) {
+    return false;
+  }
+
+  const candidateSlug = normalizeSlugForComparison(
+    repositoryNameSlug ?? fallbackSlug,
+  );
   if (!candidateSlug) {
     return false;
   }
 
-  return candidateSlug.toLowerCase() === expectedSlug.toLowerCase();
+  const expectedSlug = `${normalizedOwnerSlug}.github.io`;
+
+  return candidateSlug === expectedSlug;
 }
 
 function parseRemoteSlug(remoteUrl: string): GitHubRepositoryParts {
