@@ -20,6 +20,10 @@ You can start editing the page by modifying `src/app/page.tsx`. The page auto-up
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+### Cleaning runtime artifacts
+
+If `pnpm run check` or `pnpm run guard:artifacts` detect lingering `node-compile-cache` or `tsx-*` directories, run `pnpm run clean:artifacts` to remove them before retrying. The command deletes the caches created by `tsx` so the guard passes on the next run.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

@@ -34,6 +34,7 @@
     "lint:design": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --cache --cache-location .eslintcache --no-warn-ignored \"{app,src}/**/*.{js,jsx,ts,tsx}\"",
     "design-lint": "pnpm run lint:design",
     "guard:artifacts": "tsx scripts/guard-artifacts.ts",
+    "clean:artifacts": "tsx scripts/clean-artifacts.ts",
     "check": "concurrently \"pnpm test -- --run\" \"pnpm run lint\" \"pnpm run lint:design\" \"pnpm run typecheck\" \"pnpm run guard:artifacts\"",
     "format": "prettier --write .",
     "verify-prompts": "tsx scripts/verify-prompts.ts --verify",
