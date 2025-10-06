@@ -338,16 +338,58 @@ describe("gallery manifest validation", () => {
     }
   });
 
-  it("throws in CI environments when the manifest is malformed", async () => {
+  it("regenerates raw JSON manifests in CI environments", async () => {
     const regenModule = await importRegenModule("1");
+    const warnSpy = vi
+      .spyOn(console, "warn")
+      .mockImplementation(() => undefined);
 
     fs.writeFileSync(manifestPath, "{\n  \"broken\": true\n}\n");
 
-    await expect(
-      regenModule.ensureGalleryManifestIntegrity(),
-    ).rejects.toThrow(
-      `Gallery manifest appears to contain raw JSON. Run \`${GALLERY_USAGE_COMMAND}\` to regenerate src/components/gallery/generated-manifest.ts.`,
-    );
+    try {
+      await expect(
+        regenModule.ensureGalleryManifestIntegrity(),
+      ).resolves.toBe(true);
+
+      const regeneratedManifest = fs.readFileSync(manifestPath, "utf8");
+      expect(regeneratedManifest).toContain(
+        "export const galleryPreviewModules",
+      );
+      expect(warnSpy).not.toHaveBeenCalled();
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("throws in CI when regeneration cannot repair a raw JSON manifest", async () => {
+    const regenModule = await importRegenModule("1");
+    const warnSpy = vi
+      .spyOn(console, "warn")
+      .mockImplementation(() => undefined);
+
+    const malformedManifest = "{\n  \"broken\": true\n}\n";
+    const stillBrokenManifest = "{\n  \"stillBroken\": true\n}\n";
+
+    fs.writeFileSync(manifestPath, malformedManifest);
+
+    const previousManifestContentEnv = process.env.GALLERY_MANIFEST_CONTENT;
+    process.env.GALLERY_MANIFEST_CONTENT = stillBrokenManifest;
+
+    try {
+      await expect(
+        regenModule.ensureGalleryManifestIntegrity(),
+      ).rejects.toThrow(
+        `Gallery manifest appears to contain raw JSON. Run \`${GALLERY_USAGE_COMMAND}\` to regenerate src/components/gallery/generated-manifest.ts.`,
+      );
+      expect(warnSpy).not.toHaveBeenCalled();
+    } finally {
+      warnSpy.mockRestore();
+      if (previousManifestContentEnv === undefined) {
+        delete process.env.GALLERY_MANIFEST_CONTENT;
+      } else {
+        process.env.GALLERY_MANIFEST_CONTENT = previousManifestContentEnv;
+      }
+    }
   });
 
   it("attempts regeneration locally when the manifest is malformed", async () => {
