@@ -84,16 +84,39 @@ function detectDefaultBranch(): string | undefined {
   return undefined;
 }
 
-function resolvePublishBranch(env: NodeJS.ProcessEnv): string {
+type PublishBranchOptions = {
+  readonly fallbackBranch?: string;
+};
+
+function resolvePublishBranch(
+  env: NodeJS.ProcessEnv,
+  options: PublishBranchOptions,
+): string {
   const fromEnv =
     sanitizeSlug(env.GH_PAGES_BRANCH) ?? sanitizeSlug(env.GITHUB_PAGES_BRANCH);
-  const fromGit = detectDefaultBranch();
+  if (fromEnv) {
+    return fromEnv;
+  }
 
-  return fromEnv ?? fromGit ?? "gh-pages";
+  const fromGit = detectDefaultBranch();
+  const fallbackBranch = options.fallbackBranch;
+
+  if (fromGit && (!fallbackBranch || fallbackBranch === fromGit)) {
+    return fromGit;
+  }
+
+  if (fallbackBranch) {
+    return fallbackBranch;
+  }
+
+  return fromGit ?? "gh-pages";
 }
 
-function createGhPagesArgs(env: NodeJS.ProcessEnv): string[] {
-  const branch = resolvePublishBranch(env);
+function createGhPagesArgs(
+  env: NodeJS.ProcessEnv,
+  options: PublishBranchOptions,
+): string[] {
+  const branch = resolvePublishBranch(env, options);
   const args = ["gh-pages", "-d", "out", "-b", branch, "--nojekyll"];
   const token = env.GITHUB_TOKEN?.trim();
   const repository = env.GITHUB_REPOSITORY?.trim();
@@ -412,7 +435,9 @@ function main(): void {
     return;
   }
 
-  const ghPagesArgs = createGhPagesArgs(process.env);
+  const ghPagesArgs = createGhPagesArgs(process.env, {
+    fallbackBranch: shouldUseBasePath ? "gh-pages" : undefined,
+  });
   runCommand(pnpmCommand, ["exec", ...ghPagesArgs], process.env);
 }
 
