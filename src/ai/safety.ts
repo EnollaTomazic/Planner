@@ -12,6 +12,82 @@ const SAFE_MODE_RESPONSE_RESERVE = 512;
 const SAFE_MODE_TEMPERATURE_CEILING = 0.4;
 const SAFE_MODE_MAX_TOOL_CALLS = 1;
 
+const ENABLED_FLAG_VALUES = new Set(["1", "true", "on", "yes"]);
+
+interface NumericEnvOptions {
+  readonly min?: number;
+  readonly integer?: boolean;
+}
+
+function resolveNumericEnv(name: string, fallback: number, options: NumericEnvOptions = {}): number {
+  if (typeof process === "undefined") {
+    return fallback;
+  }
+
+  const raw = process.env[name];
+
+  if (typeof raw !== "string") {
+    return fallback;
+  }
+
+  const normalized = raw.trim();
+
+  if (normalized.length === 0) {
+    return fallback;
+  }
+
+  const parsed = Number(normalized);
+
+  if (!Number.isFinite(parsed)) {
+    return fallback;
+  }
+
+  const value = options.integer ? Math.trunc(parsed) : parsed;
+
+  if (Number.isNaN(value)) {
+    return fallback;
+  }
+
+  if (options.min !== undefined && value < options.min) {
+    return fallback;
+  }
+
+  return value;
+}
+
+function getDefaultMaxInputLength(): number {
+  return resolveNumericEnv("AI_MAX_INPUT_LENGTH", DEFAULT_MAX_INPUT_LENGTH, {
+    min: 1,
+    integer: true,
+  });
+}
+
+function getDefaultTokensPerCharacter(): number {
+  return resolveNumericEnv("AI_TOKENS_PER_CHARACTER", DEFAULT_TOKENS_PER_CHARACTER, {
+    min: Number.EPSILON,
+  });
+}
+
+function isServerSafeModeExplicitlyEnabled(): boolean {
+  if (typeof process === "undefined") {
+    return false;
+  }
+
+  const raw = process.env.SAFE_MODE;
+
+  if (typeof raw !== "string") {
+    return false;
+  }
+
+  const normalized = raw.trim().toLowerCase();
+
+  if (normalized.length === 0) {
+    return false;
+  }
+
+  return ENABLED_FLAG_VALUES.has(normalized);
+}
+
 export interface SanitizedInputOptions {
   readonly maxLength?: number;
   readonly allowMarkup?: boolean;
@@ -21,7 +97,10 @@ export function sanitizePrompt(
   raw: string,
   options: SanitizedInputOptions = {},
 ): string {
-  const { maxLength = DEFAULT_MAX_INPUT_LENGTH, allowMarkup = false } = options;
+  const { maxLength = getDefaultMaxInputLength(), allowMarkup = false } = options;
+  const resolvedMaxLength = Number.isFinite(maxLength)
+    ? Math.max(Math.trunc(maxLength), 0)
+    : getDefaultMaxInputLength();
   const normalized = raw
     .replace(/\r\n?/g, "\n")
     .replace(CONTROL_CHAR_PATTERN, "")
@@ -31,9 +110,13 @@ export function sanitizePrompt(
     .join("\n")
     .trim();
 
-  const truncated = normalized.length > maxLength
-    ? normalized.slice(0, maxLength)
-    : normalized;
+  const characters = Array.from(normalized);
+  const truncated =
+    resolvedMaxLength === 0
+      ? ""
+      : characters.length > resolvedMaxLength
+        ? characters.slice(0, resolvedMaxLength).join("")
+        : normalized;
 
   return allowMarkup ? truncated : sanitizeText(truncated);
 }
@@ -59,7 +142,12 @@ export interface TokenBudgetResult<T extends TokenBudgetContent> {
 }
 
 function defaultTokenEstimator(content: string): number {
-  return Math.ceil(content.length / DEFAULT_TOKENS_PER_CHARACTER);
+  const tokensPerCharacter = getDefaultTokensPerCharacter();
+  const characterCount = Array.from(content).length;
+  if (characterCount === 0) {
+    return 0;
+  }
+  return Math.ceil(characterCount / tokensPerCharacter);
 }
 
 function enforceTokenBudgetInternal<T extends TokenBudgetContent>(
@@ -68,13 +156,14 @@ function enforceTokenBudgetInternal<T extends TokenBudgetContent>(
 ): TokenBudgetResult<T> {
   const estimator = options.estimateTokens ?? defaultTokenEstimator;
   const reserved = options.reservedForResponse ?? 0;
-  const safeMode = isSafeModeEnabled();
+  const safeMode = isSafeModeEnabled() && isServerSafeModeExplicitlyEnabled();
   const safeReserved = safeMode
     ? Math.max(reserved, SAFE_MODE_RESPONSE_RESERVE)
     : reserved;
+  const incomingMaxTokens = Math.max(options.maxTokens, 0);
   const safeMaxTokens = safeMode
-    ? Math.min(options.maxTokens, SAFE_MODE_TOKEN_CEILING)
-    : options.maxTokens;
+    ? Math.min(incomingMaxTokens, SAFE_MODE_TOKEN_CEILING)
+    : incomingMaxTokens;
   const availableTokens = Math.max(safeMaxTokens - safeReserved, 0);
 
   const kept: T[] = [];
