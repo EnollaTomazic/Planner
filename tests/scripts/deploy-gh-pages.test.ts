@@ -228,4 +228,62 @@ describe("detectRepositorySlug", () => {
     expect(isUserOrOrg).toBe(true);
     expect(shouldUseBasePath).toBe(false);
   });
+
+  it("treats repository owner casing as case-insensitive for user GitHub Pages deployments", () => {
+    process.env.GITHUB_REPOSITORY = "EnollaTomazic/EnollaTomazic.github.io";
+    delete process.env.BASE_PATH;
+
+    const spawnMockImpl = vi.fn(
+      (
+        command: string,
+        args: readonly string[],
+      ): SpawnSyncReturns<string> => {
+        if (
+          command === "git" &&
+          args[0] === "config" &&
+          args[1] === "--get" &&
+          args[2] === "remote.origin.url"
+        ) {
+          return {
+            status: 0,
+            stdout: "git@github.com:EnollaTomazic/EnollaTomazic.github.io.git\n",
+            stderr: "",
+            pid: 0,
+            output: [],
+            signal: null,
+          } satisfies SpawnSyncReturns<string>;
+        }
+
+        return {
+          status: 1,
+          stdout: "",
+          stderr: "",
+          pid: 0,
+          output: [],
+          signal: null,
+        } satisfies SpawnSyncReturns<string>;
+      },
+    );
+    const spawnMock =
+      spawnMockImpl as unknown as typeof import("node:child_process").spawnSync;
+
+    const { slug, ownerSlug } = detectRepositorySlug(spawnMock);
+
+    expect(slug?.toLowerCase()).toBe("enollatomazic.github.io");
+    expect(ownerSlug?.toLowerCase()).toBe("enollatomazic");
+
+    const { owner: repositoryOwnerSlug, name: repositorySlug } = parseGitHubRepository(
+      process.env.GITHUB_REPOSITORY,
+    );
+
+    const isUserOrOrg = isUserOrOrgGitHubPagesRepository({
+      repositoryOwnerSlug: repositoryOwnerSlug ?? ownerSlug,
+      repositoryNameSlug: repositorySlug,
+      fallbackSlug: slug,
+    });
+
+    const shouldUseBasePath = slug.length > 0 && !isUserOrOrg;
+    expect(isUserOrOrg).toBe(true);
+    expect(shouldUseBasePath).toBe(false);
+  });
 });
