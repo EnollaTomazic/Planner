@@ -31,9 +31,8 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v4.2.1
-        with:
-          fetch-depth: 2
+      - name: Setup Node project
+        uses: ./.github/actions/setup-node-project
 
       - name: actionlint
         uses: reviewdog/action-actionlint@0b71b30a47a15c4d849868cca394fb656f1cf657 # v1.67.0
@@ -47,3 +46,6 @@ jobs:
       - name: Run yamllint
         run: |
           yamllint -d "{extends: default, rules: {line-length: {max: 200}, comments: disable, document-start: disable, truthy: disable}}" .github
+
+      - name: Guard transient artifacts
+        run: pnpm run guard:artifacts
