@@ -157,7 +157,11 @@ export function isUserOrOrgGitHubPagesRepository({
 
   const expectedSlug = `${repositoryOwnerSlug}.github.io`;
   const candidateSlug = repositoryNameSlug ?? fallbackSlug;
-  return candidateSlug === expectedSlug;
+  if (!candidateSlug) {
+    return false;
+  }
+
+  return candidateSlug.toLowerCase() === expectedSlug.toLowerCase();
 }
 
 function parseRemoteSlug(remoteUrl: string): GitHubRepositoryParts {
