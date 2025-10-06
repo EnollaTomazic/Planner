@@ -312,8 +312,32 @@ export function enforceTokenBudget<T extends TokenBudgetContent>(
   return capTokens(messages, options);
 }
 
+export interface SchemaValidationIssue {
+  readonly path: ReadonlyArray<string | number>;
+  readonly message: string;
+  readonly code?: string;
+}
+
 export interface SchemaValidationOptions {
   readonly label?: string;
+}
+
+export class SchemaValidationError extends Error {
+  readonly label: string;
+  readonly issues: readonly SchemaValidationIssue[];
+  readonly cause?: unknown;
+
+  constructor(
+    label: string,
+    issues: readonly SchemaValidationIssue[],
+    options: { cause?: unknown } = {},
+  ) {
+    super(`${label} failed validation`);
+    this.name = "SchemaValidationError";
+    this.label = label;
+    this.issues = issues;
+    this.cause = options.cause;
+  }
 }
 
 export function guardResponse<T>(
@@ -325,15 +349,33 @@ export function guardResponse<T>(
   try {
     return schema.parse(value);
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      const issueSummary = error.issues
-        .map((issue: z.ZodIssue) => `${issue.path.join(".") || "root"}: ${issue.message}`)
-        .join("; ");
-      throw new Error(`${label} failed validation: ${issueSummary}`);
+    if (error instanceof SchemaValidationError) {
+      throw error;
     }
-    throw error instanceof Error
-      ? new Error(`${label} validation failed: ${error.message}`)
-      : new Error(`${label} validation failed`);
+
+    if (error instanceof z.ZodError) {
+      const issues = error.issues.map<SchemaValidationIssue>((issue: z.ZodIssue) => ({
+        path: [...issue.path],
+        message: issue.message,
+        code: issue.code,
+      }));
+
+      throw new SchemaValidationError(label, issues, { cause: error });
+    }
+
+    const message =
+      error instanceof Error ? error.message : "Unexpected validation error";
+
+    throw new SchemaValidationError(
+      label,
+      [
+        {
+          path: [],
+          message,
+        },
+      ],
+      { cause: error },
+    );
   }
 }
 
