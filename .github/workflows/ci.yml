@@ -44,6 +44,13 @@ jobs:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
+      - name: Refresh gallery usage manifest
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
+
       - name: Audit dependencies
         run: |
           set +e
@@ -82,6 +89,13 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+
+      - name: Refresh gallery usage manifest
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
 
       - name: Lint
         run: |
@@ -123,6 +137,13 @@ jobs:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
+      - name: Refresh gallery usage manifest
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
+
       - name: Verify prompts registry
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
@@ -152,6 +173,13 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+
+      - name: Refresh gallery usage manifest
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
 
       - name: Type check
         env:
@@ -184,6 +212,13 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+
+      - name: Refresh gallery usage manifest
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
 
       - name: Restore Next.js cache
         uses: actions/cache@v4
@@ -235,6 +270,13 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+
+      - name: Refresh gallery usage manifest
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
 
       - name: Restore Next.js cache
         uses: actions/cache@v4
@@ -338,6 +380,13 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+
+      - name: Refresh gallery usage manifest
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
