@@ -27,50 +27,29 @@ on:
       - 'CHANGELOG.md'
 
 jobs:
-  setup:
-    name: Setup dependencies
-    runs-on: ubuntu-latest
-    outputs:
-      package-manager: ${{ steps.setup.outputs['package-manager'] }}
-      install-command: ${{ steps.setup.outputs['install-command'] }}
-      lockfile: ${{ steps.setup.outputs.lockfile }}
-      node-version: ${{ steps.setup.outputs['node-version'] }}
-      node-modules-cache-hit: ${{ steps.setup.outputs['node-modules-cache-hit'] }}
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-      - name: Setup Node project
-        id: setup
-        uses: ./.github/actions/setup-node-project
-        with:
-          cache-prefix: ci
-
-      - name: Summarize setup
-        if: always()
-        run: |
-          {
-            echo "## Setup";
-            echo "- Status: ${{ job.status }}";
-            echo "- Package manager: ${{ steps.setup.outputs['package-manager'] }}";
-            echo "- Node.js version: ${{ steps.setup.outputs['node-version'] }}";
-            echo "- node_modules cache hit: ${{ steps.setup.outputs['node-modules-cache-hit'] }}";
-          } >> "$GITHUB_STEP_SUMMARY"
-
   audit:
     name: Audit
-    needs: setup
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
+          fetch-depth: 2
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+
+      - name: Refresh gallery usage manifest
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
 
       - name: Audit dependencies
         run: |
@@ -96,22 +75,27 @@ jobs:
 
   lint:
     name: Lint
-    needs: setup
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
+          fetch-depth: 2
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
-      - name: Verify prompts registry
+      - name: Refresh gallery usage manifest
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
-        run: pnpm run verify-prompts
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
 
       - name: Lint
         run: |
@@ -136,19 +120,66 @@ jobs:
             echo "- Status: ${{ job.status }}";
           } >> "$GITHUB_STEP_SUMMARY"
 
-  typecheck:
-    name: Type check
-    needs: setup
+  prompt-verify:
+    name: Verify prompts
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
+          fetch-depth: 2
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+
+      - name: Refresh gallery usage manifest
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
+
+      - name: Verify prompts registry
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: pnpm run verify-prompts
+
+      - name: Summarize prompt verification
+        if: always()
+        run: |
+          {
+            echo "## Verify prompts";
+            echo "- Status: ${{ job.status }}";
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  typecheck:
+    name: Type check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Setup Node project
+        uses: ./.github/actions/setup-node-project
+        with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          cache-prefix: ci
+
+      - name: Refresh gallery usage manifest
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
 
       - name: Type check
         env:
@@ -167,17 +198,27 @@ jobs:
 
   unit-tests:
     name: Unit tests
-    needs: setup
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
+          fetch-depth: 2
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+
+      - name: Refresh gallery usage manifest
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
 
       - name: Restore Next.js cache
         uses: actions/cache@v4
@@ -209,17 +250,33 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
   build:
+    needs:
+      - lint
+      - typecheck
+      - unit-tests
+      - audit
+      - prompt-verify
     runs-on: ubuntu-latest
-    needs: setup
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
+          fetch-depth: 2
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+
+      - name: Refresh gallery usage manifest
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
 
       - name: Restore Next.js cache
         uses: actions/cache@v4
@@ -231,6 +288,14 @@ jobs:
 
       - name: Build
         run: pnpm run build
+
+      - name: Upload Next.js build
+        id: upload_next_build
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-build
+          path: .next
+          if-no-files-found: error
 
       - name: Bundle analysis
         run: |
@@ -255,13 +320,17 @@ jobs:
             if [ -n "${{ steps.upload_bundle_report.outputs.artifact-url }}" ]; then
               echo "- Bundle report: [Download](${{ steps.upload_bundle_report.outputs.artifact-url }})";
             fi
+            if [ -n "${{ steps.upload_next_build.outputs.artifact-url }}" ]; then
+              echo "- Next.js build: [Download](${{ steps.upload_next_build.outputs.artifact-url }})";
+            fi
             echo "- Preview routes validated: / (build)";
           } >> "$GITHUB_STEP_SUMMARY"
 
 
   playwright:
+    needs:
+      - build
     runs-on: ubuntu-latest
-    needs: setup
     env:
       PLAYWRIGHT_HOST: 127.0.0.1
       PLAYWRIGHT_PORT: 3100
@@ -300,27 +369,43 @@ jobs:
             previews: " /preview/theme-matrix, /preview/hero-images, /preview/gallery"
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
+          fetch-depth: 2
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
-      - name: Restore Next.js cache
-        uses: actions/cache@v4
-        with:
-          path: .next/cache
-          key: nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            nextjs-${{ runner.os }}-
+      - name: Refresh gallery usage manifest
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: |
+          pnpm run build-gallery-usage
+          node scripts/postinstall.mjs
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Build
-        run: pnpm run build
+      - name: Prepare Next.js build artifact
+        run: rm -rf .next
+
+      - name: Download Next.js build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: next-build
+          path: .
+
+      - name: Verify Next.js build artifact
+        run: |
+          if [ ! -f ".next/BUILD_ID" ]; then
+            echo "Downloaded Next.js build is missing .next/BUILD_ID" >&2
+            exit 1
+          fi
 
       - name: Start Next.js server
         run: |

@@ -25,6 +25,7 @@ const clientEnvSchema = z
     NEXT_PUBLIC_SENTRY_DSN: optionalNonEmptyString,
     NEXT_PUBLIC_SENTRY_ENVIRONMENT: optionalNonEmptyString,
     NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: optionalNonEmptyString,
+    NEXT_PUBLIC_FEATURE_GLITCH_LANDING: z.string().optional(),
     NEXT_PUBLIC_UI_GLITCH_LANDING: z.string().optional(),
   })
   .superRefine((value, ctx) => {
@@ -55,6 +56,7 @@ export function loadClientEnv(source: NodeJS.ProcessEnv = process.env): ClientEn
     NEXT_PUBLIC_SENTRY_DSN: source.NEXT_PUBLIC_SENTRY_DSN,
     NEXT_PUBLIC_SENTRY_ENVIRONMENT: source.NEXT_PUBLIC_SENTRY_ENVIRONMENT,
     NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: source.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE,
+    NEXT_PUBLIC_FEATURE_GLITCH_LANDING: source.NEXT_PUBLIC_FEATURE_GLITCH_LANDING,
     NEXT_PUBLIC_UI_GLITCH_LANDING: source.NEXT_PUBLIC_UI_GLITCH_LANDING,
   });
 }

@@ -21,7 +21,7 @@ pnpm run check-prompts
 
 `regen-ui` regenerates `src/components/ui/index.ts` so pages can import the component from `@/components/ui`.
 
-`check-prompts` verifies that every component in `src/components/ui` and `src/components/prompts` has a corresponding entry in `src/app/prompts/page.tsx` or `src/components/prompts/PromptsDemos.tsx`.
+`check-prompts` scans every prompt source file to confirm that components in `src/components/ui` and `src/components/prompts` are referenced somewhere in the gallery demos.
 
 After running the scripts, add a demo of the new component to `src/app/prompts/page.tsx` so it appears in the prompts gallery.
 

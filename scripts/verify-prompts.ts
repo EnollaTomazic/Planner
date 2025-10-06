@@ -4,7 +4,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 import fg from "fast-glob";
 import { MultiBar, Presets } from "cli-progress";
-import { runLegacyPromptVerification } from "./verify-prompts-legacy.js";
 
 const toFilePath =
   typeof fileURLToPath === "function"
@@ -21,15 +20,6 @@ const uiDir = path.resolve(__dirname, "../src/components/ui");
 const promptsDir = path.resolve(__dirname, "../src/components/prompts");
 const appPromptsDir = path.resolve(__dirname, "../src/app/prompts");
 const ignoredComponents = new Set(["Split"]);
-
-type PromptCheckMode = "modern" | "legacy";
-
-function resolvePromptCheckMode(value: string | undefined): PromptCheckMode {
-  if (typeof value === "string" && value.toLowerCase() === "legacy") {
-    return "legacy";
-  }
-  return "modern";
-}
 
 type ProgressHandle = {
   readonly update: (value: number) => void;
@@ -177,23 +167,21 @@ async function listUnreferencedComponents(components: string[]): Promise<void> {
 
 export async function runPromptVerification(
   options: {
-    readonly mode?: PromptCheckMode;
-    readonly argv?: string[];
+    readonly argv?: readonly string[];
   } = {},
 ): Promise<void> {
-  const mode = options.mode ?? resolvePromptCheckMode(process.env.PROMPT_CHECK_MODE);
   const argv = options.argv ?? process.argv.slice(2);
+  if (typeof process.env.PROMPT_CHECK_MODE === "string") {
+    console.warn(
+      "PROMPT_CHECK_MODE is no longer supported; remove the flag because the consolidated prompt verification always runs.",
+    );
+  }
   const args = new Set(argv);
   const shouldVerify = args.has("--verify");
   const components = await collectComponentNames();
 
   if (components.length === 0) {
     console.log("No UI components found to verify.");
-    return;
-  }
-
-  if (mode === "legacy") {
-    await runLegacyPromptVerification({ components, shouldVerify });
     return;
   }
 

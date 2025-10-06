@@ -173,7 +173,9 @@ export function withBasePath(path: string): string {
   if (
     normalizedPath === basePath ||
     normalizedPath === `${basePath}/` ||
-    normalizedPath.startsWith(`${basePath}/`)
+    normalizedPath.startsWith(`${basePath}/`) ||
+    normalizedPath.startsWith(`${basePath}?`) ||
+    normalizedPath.startsWith(`${basePath}#`)
   ) {
     return normalizedPath;
   }

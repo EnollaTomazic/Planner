@@ -4,6 +4,7 @@ type MockedClientEnv = {
   NEXT_PUBLIC_BASE_PATH?: string;
   NEXT_PUBLIC_DEPTH_THEME?: string;
   NEXT_PUBLIC_ENABLE_METRICS?: string;
+  NEXT_PUBLIC_FEATURE_GLITCH_LANDING?: string;
   NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS?: string;
   NEXT_PUBLIC_ORGANIC_DEPTH?: string;
   NEXT_PUBLIC_SAFE_MODE: string;
@@ -60,5 +61,42 @@ describe("features.safeModeEnabled", () => {
     const features = await import("../../src/lib/features");
 
     expect(features.safeModeEnabled).toBe(false);
+  });
+});
+
+describe("features.glitchLandingEnabled", () => {
+  beforeEach(() => {
+    vi.resetModules();
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("uses the legacy flag when the new alias is not provided", async () => {
+    mockClientEnv({ NEXT_PUBLIC_UI_GLITCH_LANDING: "false" });
+
+    const features = await import("../../src/lib/features");
+
+    expect(features.glitchLandingEnabled).toBe(false);
+  });
+
+  it("prefers the new alias when both flags are provided", async () => {
+    mockClientEnv({
+      NEXT_PUBLIC_FEATURE_GLITCH_LANDING: "false",
+      NEXT_PUBLIC_UI_GLITCH_LANDING: "true",
+    });
+
+    const features = await import("../../src/lib/features");
+
+    expect(features.glitchLandingEnabled).toBe(false);
+  });
+
+  it("enables the flag when only the new alias is provided", async () => {
+    mockClientEnv({ NEXT_PUBLIC_FEATURE_GLITCH_LANDING: "yes" });
+
+    const features = await import("../../src/lib/features");
+
+    expect(features.glitchLandingEnabled).toBe(true);
   });
 });

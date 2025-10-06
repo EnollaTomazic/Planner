@@ -1,14 +1,43 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import type { SpawnSyncReturns } from "node:child_process";
 
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
+  buildStaticSite,
+  detectRepositorySlug,
   flattenBasePathDirectory,
   injectGitHubPagesPlaceholders,
+  isUserOrOrgGitHubPagesRepository,
+  parseGitHubRepository,
 } from "../../scripts/deploy-gh-pages";
 import { GITHUB_PAGES_REDIRECT_STORAGE_KEY } from "@/lib/github-pages";
+
+describe("buildStaticSite", () => {
+  it("runs pnpm build so the prebuild lifecycle executes on fresh clones", () => {
+    const runSpy = vi.fn(
+      (
+        command: string,
+        args: readonly string[],
+        receivedEnv: NodeJS.ProcessEnv,
+      ) => {
+        expect(typeof command).toBe("string");
+        expect(Array.isArray(args)).toBe(true);
+        expect(receivedEnv.NODE_ENV).toBe("test");
+      },
+    );
+    const env: NodeJS.ProcessEnv = {
+      EXAMPLE_ENV: "value",
+      NODE_ENV: "test",
+    };
+
+    buildStaticSite("pnpm", env, runSpy);
+
+    expect(runSpy).toHaveBeenCalledWith("pnpm", ["run", "build"], env);
+  });
+});
 
 describe("flattenBasePathDirectory", () => {
   let tempRoot: string | undefined;
@@ -100,5 +129,94 @@ describe("injectGitHubPagesPlaceholders", () => {
     ).toBe(
       `const key = "${GITHUB_PAGES_REDIRECT_STORAGE_KEY}"; const base = "/planner";`,
     );
+  });
+});
+
+describe("isUserOrOrgGitHubPagesRepository", () => {
+  it("treats docs.github.io as a project page when owned by another organization", () => {
+    expect(
+      isUserOrOrgGitHubPagesRepository({
+        repositoryOwnerSlug: "acme",
+        repositoryNameSlug: "docs.github.io",
+        fallbackSlug: "docs.github.io",
+      }),
+    ).toBe(false);
+  });
+
+  it("detects owner.github.io repositories as user or organization pages", () => {
+    expect(
+      isUserOrOrgGitHubPagesRepository({
+        repositoryOwnerSlug: "acme",
+        repositoryNameSlug: "acme.github.io",
+      }),
+    ).toBe(true);
+  });
+});
+
+describe("detectRepositorySlug", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    delete process.env.GITHUB_REPOSITORY;
+    delete process.env.BASE_PATH;
+  });
+
+  it("skips the base path when the origin remote targets a user GitHub Pages repository", () => {
+    delete process.env.GITHUB_REPOSITORY;
+    delete process.env.BASE_PATH;
+
+    const spawnMockImpl = vi.fn(
+      (
+        command: string,
+        args: readonly string[],
+      ): SpawnSyncReturns<string> => {
+        if (
+          command === "git" &&
+          args[0] === "config" &&
+          args[1] === "--get" &&
+          args[2] === "remote.origin.url"
+        ) {
+          return {
+            status: 0,
+            stdout: "git@github.com:octocat/octocat.github.io.git\n",
+            stderr: "",
+            pid: 0,
+            output: [],
+            signal: null,
+          } satisfies SpawnSyncReturns<string>;
+        }
+
+        return {
+          status: 1,
+          stdout: "",
+          stderr: "",
+          pid: 0,
+          output: [],
+          signal: null,
+        } satisfies SpawnSyncReturns<string>;
+      },
+    );
+    const spawnMock = spawnMockImpl as unknown as typeof import("node:child_process").spawnSync;
+
+    const { slug, ownerSlug } = detectRepositorySlug(spawnMock);
+    expect(spawnMockImpl).toHaveBeenCalledWith(
+      "git",
+      ["config", "--get", "remote.origin.url"],
+      expect.objectContaining({ stdio: ["ignore", "pipe", "ignore"] }),
+    );
+    expect(slug).toBe("octocat.github.io");
+    expect(ownerSlug).toBe("octocat");
+
+    const { owner: repositoryOwnerSlug, name: repositorySlug } = parseGitHubRepository(
+      process.env.GITHUB_REPOSITORY,
+    );
+    const isUserOrOrg = isUserOrOrgGitHubPagesRepository({
+      repositoryOwnerSlug: repositoryOwnerSlug ?? ownerSlug,
+      repositoryNameSlug: repositorySlug,
+      fallbackSlug: slug,
+    });
+
+    const shouldUseBasePath = slug.length > 0 && !isUserOrOrg;
+    expect(isUserOrOrg).toBe(true);
+    expect(shouldUseBasePath).toBe(false);
   });
 });

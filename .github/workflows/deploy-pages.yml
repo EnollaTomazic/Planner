@@ -29,13 +29,12 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: '1'
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v4.2.1
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 2
-          ref: ${{ github.ref }}
-
+          fetch-depth: 0
       - uses: ./.github/actions/setup-node-project
+        with:
+          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
@@ -48,12 +47,8 @@ jobs:
         run: |
           set -euo pipefail
           export DEPLOY_ARTIFACT_ONLY=true
-          REPO_NAME="${GITHUB_REPOSITORY##*/}"
-          if [[ "${REPO_NAME}" == *.github.io ]]; then
-            export NEXT_PUBLIC_BASE_PATH=""
-          else
-            export NEXT_PUBLIC_BASE_PATH="/${REPO_NAME}"
-          fi
+          # The deploy script derives the correct base path for project pages and
+          # clears it for user/org pages, so no extra env wiring is required here.
           pnpm run deploy
 
       - name: Upload static artifact

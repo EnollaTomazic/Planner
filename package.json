@@ -26,7 +26,7 @@
     "start": "tsx scripts/run-next.ts start -p 3000",
     "lint": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --cache --cache-location .eslintcache src",
     "lint:ci": "pnpm run lint -- --max-warnings=0",
-    "typecheck": "tsx scripts/typecheck.ts",
+    "typecheck": "cross-env TSX_COMPILE_CACHE=0 tsx scripts/typecheck.ts",
     "typecheck:ci": "pnpm run typecheck -- --pretty false",
     "test": "vitest",
     "test:ci": "node --max-old-space-size=8192 ./node_modules/vitest/vitest.mjs run --reporter=default --reporter=junit --outputFile artifacts/unit/junit.xml --coverage --coverage.reporter=lcov --coverage.reporter=json-summary",
@@ -43,7 +43,9 @@
     "postinstall": "node scripts/postinstall.mjs",
     "prepare": "node scripts/prepare.mjs",
     "launch": "tsx scripts/launcher.ts",
-    "deploy": "tsx scripts/deploy-gh-pages.ts",
+    "deploy:pages": "tsx scripts/deploy-gh-pages.ts",
+    "deploy": "pnpm run deploy:pages",
+    "deploy:npm": "npm run deploy:pages",
     "report:summary": "node scripts/report-summary.mjs"
   },
   "dependencies": {

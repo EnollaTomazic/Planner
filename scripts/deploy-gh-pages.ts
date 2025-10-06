@@ -119,47 +119,113 @@ function sanitizeSlug(value: string | undefined): string | undefined {
   return cleaned.length > 0 ? cleaned : undefined;
 }
 
-function parseRemoteSlug(remoteUrl: string): string | undefined {
-  const normalized = remoteUrl.replace(/\.git$/u, "");
-  const match = normalized.match(/[:/]([^/]+)\/([^/]+)$/u);
-  const [, , slug] = match ?? [];
-  return sanitizeSlug(slug);
+type GitHubRepositoryParts = {
+  readonly owner?: string;
+  readonly name?: string;
+};
+
+type RepositorySlugDetectionResult = {
+  readonly slug: string;
+  readonly ownerSlug?: string;
+};
+
+export function parseGitHubRepository(value: string | undefined): GitHubRepositoryParts {
+  const trimmed = value?.trim();
+  if (!trimmed) {
+    return {};
+  }
+
+  const [owner, name] = trimmed.split("/");
+  return {
+    owner: sanitizeSlug(owner),
+    name: sanitizeSlug(name),
+  };
 }
 
-function detectRepositorySlug(): string {
+export function isUserOrOrgGitHubPagesRepository({
+  repositoryOwnerSlug,
+  repositoryNameSlug,
+  fallbackSlug,
+}: {
+  readonly repositoryOwnerSlug?: string;
+  readonly repositoryNameSlug?: string;
+  readonly fallbackSlug?: string;
+}): boolean {
+  if (!repositoryOwnerSlug) {
+    return false;
+  }
+
+  const expectedSlug = `${repositoryOwnerSlug}.github.io`;
+  const candidateSlug = repositoryNameSlug ?? fallbackSlug;
+  return candidateSlug === expectedSlug;
+}
+
+function parseRemoteSlug(remoteUrl: string): GitHubRepositoryParts {
+  const normalized = remoteUrl.replace(/\.git$/u, "");
+  const match = normalized.match(/[:/]([^/]+)\/([^/]+)$/u);
+  const [, owner, name] = match ?? [];
+  return {
+    owner: sanitizeSlug(owner),
+    name: sanitizeSlug(name),
+  };
+}
+
+export function detectRepositorySlug(
+  spawn: typeof spawnSync = spawnSync,
+): RepositorySlugDetectionResult {
   const basePathEnv = process.env.BASE_PATH;
   if (basePathEnv !== undefined) {
     const fromEnv = sanitizeSlug(basePathEnv);
-    return fromEnv ?? "";
+    const { owner } = parseGitHubRepository(process.env.GITHUB_REPOSITORY);
+    return {
+      slug: fromEnv ?? "",
+      ownerSlug: owner,
+    };
   }
 
-  const repoSlug = sanitizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
-  if (repoSlug) {
-    return repoSlug;
+  const repositoryParts = parseGitHubRepository(process.env.GITHUB_REPOSITORY);
+  if (repositoryParts.name) {
+    return {
+      slug: repositoryParts.name,
+      ownerSlug: repositoryParts.owner,
+    };
   }
 
-  const remoteResult = spawnSync("git", ["config", "--get", "remote.origin.url"], {
+  let remoteParts: GitHubRepositoryParts = {};
+  const remoteResult = spawn("git", ["config", "--get", "remote.origin.url"], {
     encoding: "utf8",
     stdio: ["ignore", "pipe", "ignore"],
   });
 
   if (remoteResult.status === 0 && typeof remoteResult.stdout === "string") {
     const remote = remoteResult.stdout.trim();
-    const remoteSlug = parseRemoteSlug(remote);
-    if (remoteSlug) {
-      return remoteSlug;
+    remoteParts = parseRemoteSlug(remote);
+    if (remoteParts.name) {
+      return {
+        slug: remoteParts.name,
+        ownerSlug: remoteParts.owner,
+      };
     }
   }
 
   const folderSlug = sanitizeSlug(path.basename(process.cwd()));
   if (folderSlug) {
-    return folderSlug;
+    return {
+      slug: folderSlug,
+      ownerSlug: remoteParts.owner ?? repositoryParts.owner,
+    };
   }
 
   throw new Error(
     "Unable to determine repository slug. Set BASE_PATH to your repository name before running this script.",
   );
 }
+
+type CommandRunner = (
+  command: string,
+  args: readonly string[],
+  env: NodeJS.ProcessEnv,
+) => void;
 
 function runCommand(command: string, args: readonly string[], env: NodeJS.ProcessEnv): void {
   const result = spawnSync(command, args, {
@@ -173,6 +239,14 @@ function runCommand(command: string, args: readonly string[], env: NodeJS.Proces
       `Command \"${command} ${args.join(" ")}\" exited with code ${result.status ?? "unknown"}`;
     throw new Error(reason);
   }
+}
+
+export function buildStaticSite(
+  pnpmExecutable: string,
+  env: NodeJS.ProcessEnv,
+  runner: CommandRunner = runCommand,
+): void {
+  runner(pnpmExecutable, ["run", "build"], env);
 }
 
 function createTemporarySlugDirectoryPath(outDir: string, slug: string): string {
@@ -298,9 +372,15 @@ export function injectGitHubPagesPlaceholders(
 function main(): void {
   const publish = shouldPublishSite(process.env);
   assertOriginRemote(process.env, publish);
-  const slug = detectRepositorySlug();
-  const repositorySlug = sanitizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
-  const isUserOrOrgGitHubPage = (repositorySlug ?? slug)?.endsWith(".github.io") ?? false;
+  const { slug, ownerSlug: fallbackOwnerSlug } = detectRepositorySlug();
+  const { owner: repositoryOwnerSlug, name: repositorySlug } = parseGitHubRepository(
+    process.env.GITHUB_REPOSITORY,
+  );
+  const isUserOrOrgGitHubPage = isUserOrOrgGitHubPagesRepository({
+    repositoryOwnerSlug: repositoryOwnerSlug ?? fallbackOwnerSlug,
+    repositoryNameSlug: repositorySlug,
+    fallbackSlug: slug,
+  });
   const shouldUseBasePath = slug.length > 0 && !isUserOrOrgGitHubPage;
   const normalizedBasePath = shouldUseBasePath ? `/${slug}` : "";
   console.log(`Deploying with base path ${normalizedBasePath || "/"}`);
@@ -314,7 +394,7 @@ function main(): void {
     NEXT_PUBLIC_SAFE_MODE: process.env.NEXT_PUBLIC_SAFE_MODE ?? "false",
   };
 
-  runCommand(pnpmCommand, ["run", "build"], buildEnv);
+  buildStaticSite(pnpmCommand, buildEnv);
 
   const outDir = path.resolve("out");
   if (shouldUseBasePath) {
