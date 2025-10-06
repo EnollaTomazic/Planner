@@ -53,6 +53,15 @@ const tokenInputFiles = Array.from(
 type ManifestEntry = { mtimeMs: number };
 type Manifest = Record<string, ManifestEntry>;
 
+class GalleryManifestRawJsonError extends Error {
+  constructor() {
+    super(
+      `Gallery manifest appears to contain raw JSON. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.ts.`,
+    );
+    this.name = "GalleryManifestRawJsonError";
+  }
+}
+
 async function loadManifest(file: string): Promise<Manifest> {
   try {
     const data = await fs.readFile(file, "utf8");
@@ -264,9 +273,7 @@ async function validateGalleryManifest(): Promise<void> {
 
   const trimmed = contents.trimStart();
   if (trimmed.startsWith("{")) {
-    throw new Error(
-      `Gallery manifest appears to contain raw JSON. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.ts.`,
-    );
+    throw new GalleryManifestRawJsonError();
   }
 
   const requiredSnippets = [
@@ -304,6 +311,24 @@ export async function ensureGalleryManifestIntegrity(): Promise<boolean> {
     await validateGalleryManifest();
     return false;
   } catch (error) {
+    if (error instanceof GalleryManifestRawJsonError) {
+      if (!isCiEnvironment) {
+        console.warn(
+          `${error.message}\nRegenerating gallery manifest with \`${galleryUsageCommand}\`.`,
+        );
+      }
+
+      await regenerateGalleryUsage();
+
+      try {
+        await validateGalleryManifest();
+      } catch (secondError) {
+        throw secondError;
+      }
+
+      return true;
+    }
+
     if (isCiEnvironment) {
       throw error;
     }
