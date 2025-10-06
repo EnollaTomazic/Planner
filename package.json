@@ -43,8 +43,9 @@
     "postinstall": "node scripts/postinstall.mjs",
     "prepare": "node scripts/prepare.mjs",
     "launch": "tsx scripts/launcher.ts",
-    "deploy:pnpm": "tsx scripts/deploy-gh-pages.ts",
-    "deploy": "pnpm run deploy:pnpm",
+    "deploy:pages": "tsx scripts/deploy-gh-pages.ts",
+    "deploy": "pnpm run deploy:pages",
+    "deploy:npm": "npm run deploy:pages",
     "report:summary": "node scripts/report-summary.mjs"
   },
   "dependencies": {
