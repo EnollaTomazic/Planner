@@ -66,6 +66,13 @@ describe("sanitizePrompt", () => {
       expectedGraphemeLength: 3,
     },
     {
+      description: "handles extremely long unicode prompts without corrupting characters",
+      raw: `${"😀".repeat(8_100)}end`,
+      options: { maxLength: 8_100 },
+      expected: `${"😀".repeat(8_100)}`,
+      expectedGraphemeLength: 8_100,
+    },
+    {
       description: "escapes HTML while preserving Markdown characters",
       raw: "Hello <b>world</b> **markdown**",
       expected: "Hello &lt;b&gt;world&lt;/b&gt; **markdown**",
@@ -75,6 +82,11 @@ describe("sanitizePrompt", () => {
       raw: "<p>Hello</p>",
       options: { allowMarkup: true },
       expected: "<p>Hello</p>",
+    },
+    {
+      description: "escapes HTML when markup is disallowed but preserves Markdown",
+      raw: "<em>Safe</em> **markdown**",
+      expected: "&lt;em&gt;Safe&lt;/em&gt; **markdown**",
     },
   ]);
 
@@ -172,6 +184,22 @@ describe("capTokens", () => {
     expect(result.removedCount).toBe(1);
     expect(result.totalTokens).toBe("critical context".length);
     expect(result.availableTokens).toBe(5);
+  });
+
+  it("retains pinned strings when using the single-message helper", () => {
+    const pinnedEmoji = "😀".repeat(10);
+
+    const result = capTokens(pinnedEmoji, {
+      maxTokens: 1,
+      reservedForResponse: 0,
+      estimateTokens: () => 5,
+      pinned: true,
+    });
+
+    expect(result.content).toBe(pinnedEmoji);
+    expect(result.removed).toBe(false);
+    expect(result.totalTokens).toBe(5);
+    expect(result.availableTokens).toBe(1);
   });
 
   it("applies string capping semantics", () => {
