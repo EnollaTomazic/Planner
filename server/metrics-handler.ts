@@ -140,19 +140,65 @@ function sendJson(
   response.end(JSON.stringify(body));
 }
 
+const MAX_REQUEST_BODY_BYTES = 50 * 1024; // ~50 KB
+
+class PayloadTooLargeError extends Error {
+  constructor(message = "Request body exceeds limit") {
+    super(message);
+    this.name = "PayloadTooLargeError";
+  }
+}
+
 async function readRequestBody(request: IncomingMessage): Promise<string> {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
-    request
-      .on("data", (chunk) => {
-        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(String(chunk)));
-      })
-      .on("end", () => {
+    let totalBytes = 0;
+    let settled = false;
+
+    const cleanup = () => {
+      request.off("data", handleData);
+      request.off("end", handleEnd);
+      request.off("error", handleError);
+    };
+
+    const settle = (action: () => void) => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      cleanup();
+      action();
+    };
+
+    const handleData = (chunk: Buffer | string) => {
+      const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(String(chunk));
+      totalBytes += buffer.byteLength;
+      if (totalBytes > MAX_REQUEST_BODY_BYTES) {
+        settle(() => {
+          const error = new PayloadTooLargeError();
+          request.destroy();
+          reject(error);
+        });
+        return;
+      }
+      chunks.push(buffer);
+    };
+
+    const handleEnd = () => {
+      settle(() => {
         resolve(Buffer.concat(chunks).toString("utf8"));
-      })
-      .on("error", (error) => {
+      });
+    };
+
+    const handleError = (error: unknown) => {
+      settle(() => {
         reject(error);
       });
+    };
+
+    request.on("data", handleData);
+    request.on("end", handleEnd);
+    request.on("error", handleError);
   });
 }
 
@@ -191,6 +237,20 @@ export function createMetricsHandler(): MetricsHandler {
       const body = await readRequestBody(request);
       payload = body ? JSON.parse(body) : undefined;
     } catch (error) {
+      if (error instanceof PayloadTooLargeError) {
+        metricsLog.warn("Metrics payload exceeded size limit", {
+          limit: MAX_REQUEST_BODY_BYTES,
+        });
+        clearRateLimit(identifier);
+        sendJson(
+          response,
+          413,
+          { error: "payload_too_large" },
+          { "Cache-Control": "no-store" },
+          startedAt,
+        );
+        return;
+      }
       metricsLog.warn("Failed to parse metrics payload", redactForLogging(error));
       sendJson(
         response,
