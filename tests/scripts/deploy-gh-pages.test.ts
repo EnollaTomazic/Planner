@@ -151,6 +151,15 @@ describe("isUserOrOrgGitHubPagesRepository", () => {
       }),
     ).toBe(true);
   });
+
+  it("matches owner.github.io repositories when the owner slug includes uppercase characters", () => {
+    expect(
+      isUserOrOrgGitHubPagesRepository({
+        repositoryOwnerSlug: "EnollaTomazic",
+        repositoryNameSlug: "enollatomazic.github.io",
+      }),
+    ).toBe(true);
+  });
 });
 
 describe("detectRepositorySlug", () => {

@@ -67,8 +67,11 @@ const githubPagesSlug = isGitHubPages ? resolveGitHubPagesSlug() : "";
 const expectedUserOrOrgSlug =
   repositoryOwnerSlug !== undefined ? `${repositoryOwnerSlug}.github.io` : undefined;
 const resolvedRepositorySlug = repositorySlug ?? githubPagesSlug;
+const expectedUserOrOrgSlugLower = expectedUserOrOrgSlug?.toLowerCase();
+const resolvedRepositorySlugLower = resolvedRepositorySlug?.toLowerCase();
 const isUserOrOrgGitHubPage =
-  expectedUserOrOrgSlug !== undefined && resolvedRepositorySlug === expectedUserOrOrgSlug;
+  expectedUserOrOrgSlugLower !== undefined &&
+  resolvedRepositorySlugLower === expectedUserOrOrgSlugLower;
 
 const normalizedBasePathValue = isGitHubPages
   ? githubPagesSlug && !isUserOrOrgGitHubPage
