@@ -406,7 +406,9 @@ export function usePersistentState<T>(
   React.useEffect(() => {
     if (!Object.is(initialRef.current, initial)) {
       initialRef.current = initial;
-      pendingInitialResetKeyRef.current = key;
+      if (!loadedRef.current) {
+        pendingInitialResetKeyRef.current = key;
+      }
     }
 
     if (
