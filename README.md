@@ -98,6 +98,27 @@ The app reads configuration from your shell environment at build time. Use `.env
 
 > **Note:** The gallery usage generator (`pnpm run build-gallery-usage`) defaults both `SAFE_MODE` and `NEXT_PUBLIC_SAFE_MODE` to `"false"` when they are missing so CI and local automation stay aligned with `.env.example` without extra setup.
 
+## AI response validation
+
+Use `guardResponse`/`validateSchema` to enforce Zod schemas on AI payloads before they reach the rest of the pipeline. Successful validations return the parsed value as before, but failures now throw a `SchemaValidationError` with structured issue metadata:
+
+```ts
+import { guardResponse, SchemaValidationError } from "@/ai/safety";
+
+try {
+  const result = guardResponse(rawPayload, schema, { label: "Planner AI" });
+  // use result...
+} catch (error) {
+  if (error instanceof SchemaValidationError) {
+    error.issues.forEach(({ path, message }) => {
+      console.warn(`${error.label} rejected at ${path.join(".") || "root"}: ${message}`);
+    });
+  }
+}
+```
+
+Each issue exposes the failing `path`, human-readable `message`, and an optional `code` mirroring the underlying Zod `ZodIssue`. Surface this data in logs or UI hints instead of parsing concatenated error strings.
+
 ## Metrics reporting on static hosts
 
 Static exports (including GitHub Pages) no longer bundle a `/api/metrics` Route Handler. To keep the browser reporting hook lightweight and optional:

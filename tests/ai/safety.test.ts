@@ -17,6 +17,7 @@ import {
   enforceTokenBudget,
   validateSchema,
   withStopSequences,
+  SchemaValidationError,
 } from "@/ai/safety";
 
 import { z } from "zod";
@@ -252,11 +253,31 @@ describe("guardResponse", () => {
     expect(guardResponse({ id: "abc" }, schema)).toEqual({ id: "abc" });
   });
 
-  it("throws with readable message for invalid payloads", () => {
+  it("throws a SchemaValidationError with structured issues for invalid payloads", () => {
     const schema = z.object({ id: z.string() });
+
     expect(() => guardResponse({}, schema, { label: "Test" })).toThrow(
-      /Test failed validation: id: Required/,
+      SchemaValidationError,
     );
+
+    try {
+      guardResponse({}, schema, { label: "Test" });
+      throw new Error("Expected guardResponse to throw");
+    } catch (error) {
+      expect(error).toBeInstanceOf(SchemaValidationError);
+
+      if (error instanceof SchemaValidationError) {
+        expect(error.label).toBe("Test");
+        expect(error.message).toBe("Test failed validation");
+        expect(error.issues).toEqual([
+          expect.objectContaining({
+            path: ["id"],
+            message: "Required",
+            code: "invalid_type",
+          }),
+        ]);
+      }
+    }
   });
 
   it("retains validateSchema alias", () => {
