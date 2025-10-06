@@ -13,11 +13,82 @@ type GoalProgress = {
   display?: string;
 };
 
+type ParsedMetric = {
+  value: number;
+  labelSuffix: string;
+  display: string;
+};
+
 function parseNumber(segment: string): number | null {
   const normalized = segment.replace(/,/g, "");
   const parsed = Number.parseFloat(normalized);
   return Number.isFinite(parsed) ? parsed : null;
 }
+
+/**
+ * Parses metrics formatted as "current/total".
+ */
+function parseFraction(metric: string): ParsedMetric | null {
+  const fractionMatch = metric.match(
+    /(-?\d[\d,]*(?:\.\d+)?)\s*\/\s*(-?\d[\d,]*(?:\.\d+)?)/,
+  );
+  if (!fractionMatch) return null;
+
+  const current = parseNumber(fractionMatch[1]);
+  const total = parseNumber(fractionMatch[2]);
+  if (current === null || total === null || total <= 0) {
+    return null;
+  }
+
+  return {
+    value: (current / total) * 100,
+    labelSuffix: `${current}/${total}`,
+    display: metric,
+  };
+}
+
+/**
+ * Parses metrics formatted as "current of total" or "current out of total".
+ */
+function parseOfFormat(metric: string): ParsedMetric | null {
+  const ofMatch = metric.match(
+    /(-?\d[\d,]*(?:\.\d+)?)\s+(?:of|out of)\s+(-?\d[\d,]*(?:\.\d+)?)/i,
+  );
+  if (!ofMatch) return null;
+
+  const current = parseNumber(ofMatch[1]);
+  const total = parseNumber(ofMatch[2]);
+  if (current === null || total === null || total <= 0) {
+    return null;
+  }
+
+  return {
+    value: (current / total) * 100,
+    labelSuffix: `${current} of ${total}`,
+    display: metric,
+  };
+}
+
+/**
+ * Parses metrics formatted as percentages.
+ */
+function parsePercentage(metric: string): ParsedMetric | null {
+  const percentMatch = metric.match(/(-?\d[\d,]*(?:\.\d+)?)\s*(?:%|percent)/i);
+  if (!percentMatch) return null;
+
+  const percent = parseNumber(percentMatch[1]);
+  if (percent === null) {
+    return null;
+  }
+
+  return {
+    value: percent,
+    labelSuffix: `${percent}%`,
+    display: metric,
+  };
+}
+
+const metricParsers = [parseFraction, parseOfFormat, parsePercentage] as const;
 
 function deriveGoalProgress(goal: Goal): GoalProgress | null {
   if (goal.done) {
@@ -31,46 +102,13 @@ function deriveGoalProgress(goal: Goal): GoalProgress | null {
   const metric = goal.metric?.trim();
   if (!metric) return null;
 
-  const fractionMatch = metric.match(
-    /(-?\d[\d,]*(?:\.\d+)?)\s*\/\s*(-?\d[\d,]*(?:\.\d+)?)/,
-  );
-  if (fractionMatch) {
-    const current = parseNumber(fractionMatch[1]);
-    const total = parseNumber(fractionMatch[2]);
-    if (current !== null && total !== null && total > 0) {
+  for (const parser of metricParsers) {
+    const parsed = parser(metric);
+    if (parsed) {
       return {
-        value: (current / total) * 100,
-        label: `${goal.title}: ${current}/${total}`,
-        display: metric,
-      };
-    }
-  }
-
-  const ofMatch = metric.match(
-    /(-?\d[\d,]*(?:\.\d+)?)\s+(?:of|out of)\s+(-?\d[\d,]*(?:\.\d+)?)/i,
-  );
-  if (ofMatch) {
-    const current = parseNumber(ofMatch[1]);
-    const total = parseNumber(ofMatch[2]);
-    if (current !== null && total !== null && total > 0) {
-      return {
-        value: (current / total) * 100,
-        label: `${goal.title}: ${current} of ${total}`,
-        display: metric,
-      };
-    }
-  }
-
-  const percentMatch = metric.match(
-    /(-?\d[\d,]*(?:\.\d+)?)\s*(?:%|percent)/i,
-  );
-  if (percentMatch) {
-    const percent = parseNumber(percentMatch[1]);
-    if (percent !== null) {
-      return {
-        value: percent,
-        label: `${goal.title}: ${percent}%`,
-        display: metric,
+        value: parsed.value,
+        label: `${goal.title}: ${parsed.labelSuffix}`,
+        display: parsed.display,
       };
     }
   }
@@ -127,3 +165,5 @@ export default function GoalsCard() {
     </DashboardCard>
   );
 }
+
+export { deriveGoalProgress, parseFraction, parseOfFormat, parsePercentage };

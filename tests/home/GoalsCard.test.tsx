@@ -2,7 +2,12 @@ import * as React from "react";
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import GoalsCard from "@/components/home/GoalsCard";
+import GoalsCard, {
+  deriveGoalProgress,
+  parseFraction,
+  parseOfFormat,
+  parsePercentage,
+} from "@/components/home/GoalsCard";
 import type { Goal } from "@/lib/types";
 
 vi.mock("@/components/goals", () => ({
@@ -157,5 +162,66 @@ describe("GoalsCard", () => {
     expect(screen.getByText("No active goals")).toBeInTheDocument();
     const manageGoalsLink = screen.getByRole("link", { name: "Manage Goals" });
     expect(manageGoalsLink).toHaveAttribute("href", "/goals");
+  });
+});
+
+describe("metric parsers", () => {
+  it("parses fractions", () => {
+    expect(parseFraction("3/5")).toEqual({
+      value: 60,
+      labelSuffix: "3/5",
+      display: "3/5",
+    });
+  });
+
+  it("returns null for invalid fractions", () => {
+    expect(parseFraction("3/0")).toBeNull();
+    expect(parseFraction("three/five")).toBeNull();
+  });
+
+  it("parses of format", () => {
+    expect(parseOfFormat("7 of 10")).toEqual({
+      value: 70,
+      labelSuffix: "7 of 10",
+      display: "7 of 10",
+    });
+    expect(parseOfFormat("8 out of 16")).toEqual({
+      value: 50,
+      labelSuffix: "8 of 16",
+      display: "8 out of 16",
+    });
+  });
+
+  it("returns null for invalid of format", () => {
+    expect(parseOfFormat("7 of 0")).toBeNull();
+    expect(parseOfFormat("just words")).toBeNull();
+  });
+
+  it("parses percentages", () => {
+    expect(parsePercentage("40%")).toEqual({
+      value: 40,
+      labelSuffix: "40%",
+      display: "40%",
+    });
+    expect(parsePercentage("55 percent")).toEqual({
+      value: 55,
+      labelSuffix: "55%",
+      display: "55 percent",
+    });
+  });
+
+  it("returns null for invalid percentages", () => {
+    expect(parsePercentage("percent")).toBeNull();
+    expect(parsePercentage("--%")).toBeNull();
+  });
+
+  it("lets deriveGoalProgress fall back for malformed metrics", () => {
+    const goal = createGoal({
+      id: "bad-metric",
+      title: "Stretch goal",
+      metric: "nope",
+    });
+
+    expect(deriveGoalProgress(goal)).toBeNull();
   });
 });
