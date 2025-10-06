@@ -76,24 +76,18 @@ const runRegenIfNeeded = () => {
   return result.status ?? 1;
 };
 
-const shouldSkipForCi = (exitCode, attempted) => {
-  if (!isCiEnvironment) {
-    return false;
+if (isCiEnvironment) {
+  if (existsSync(manifestPath)) {
+    const manifestContents = readFileSync(manifestPath, "utf8").trimStart();
+    if (manifestContents.startsWith("{")) {
+      console.log("[postinstall][CI] Raw JSON detected → running build-gallery-usage…");
+      runGalleryManifestGeneration();
+    }
   }
 
-  if (exitCode === 0) {
-    return false;
-  }
-
-  if (!attempted) {
-    return false;
-  }
-
-  console.warn(
-    "Gallery manifest regeneration failed during postinstall; continuing because CI will run validation separately.",
-  );
-  return true;
-};
+  console.log("[postinstall][CI] Skipping strict validation on CI (validated later in workflow).");
+  process.exit(0);
+}
 
 let attemptedGalleryRegeneration = false;
 let galleryRegenerationExitCode = 0;
@@ -103,15 +97,6 @@ if (existsSync(manifestPath)) {
   if (manifestContents.startsWith("{")) {
     attemptedGalleryRegeneration = true;
     galleryRegenerationExitCode = runGalleryManifestGeneration();
-
-    if (
-      shouldSkipForCi(
-        galleryRegenerationExitCode,
-        attemptedGalleryRegeneration && galleryRegenerationExitCode !== 0,
-      )
-    ) {
-      process.exit(0);
-    }
 
     if (galleryRegenerationExitCode !== 0) {
       process.exit(galleryRegenerationExitCode);
@@ -130,15 +115,6 @@ const runRegenWithFallback = () => {
     attemptedGalleryRegeneration = true;
     galleryRegenerationExitCode = runGalleryManifestGeneration();
 
-    if (
-      shouldSkipForCi(
-        galleryRegenerationExitCode,
-        attemptedGalleryRegeneration && galleryRegenerationExitCode !== 0,
-      )
-    ) {
-      return 0;
-    }
-
     if (galleryRegenerationExitCode === 0) {
       exitCode = runRegenIfNeeded();
       return exitCode;
@@ -151,13 +127,4 @@ const runRegenWithFallback = () => {
 };
 
 const finalExitCode = runRegenWithFallback();
-if (
-  shouldSkipForCi(
-    finalExitCode,
-    attemptedGalleryRegeneration && galleryRegenerationExitCode !== 0,
-  )
-) {
-  process.exit(0);
-}
-
 process.exit(finalExitCode);

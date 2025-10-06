@@ -87,7 +87,8 @@ The app reads configuration from your shell environment at build time. Use `.env
 | `GH_PAGES_BRANCH` | `gh-pages` | Target branch for the GitHub Pages deploy script. Override if your site publishes from a different branch. |
 | `GITHUB_PAGES_BRANCH` | `""` | Optional alias the deploy script reads when `GH_PAGES_BRANCH` is unset. Useful when reusing existing CI variables. |
 | `NEXT_PUBLIC_API_*` | _unset_ | Placeholder namespace for future API endpoints (for example, `NEXT_PUBLIC_API_BASE_URL`). Prefix additional public URLs with `NEXT_PUBLIC_` so Next.js exposes them to the client. |
-| `NEXT_PUBLIC_UI_GLITCH_LANDING` | `true` | Gates the glitch landing experience. Set to `false` to render the legacy landing layout without glitch overlays while retaining the standard planner preview. |
+| `NEXT_PUBLIC_FEATURE_GLITCH_LANDING` | `true` | Preferred flag for the glitch landing experience. Set to `false` to render the legacy landing layout without glitch overlays. Supersedes `NEXT_PUBLIC_UI_GLITCH_LANDING`. |
+| `NEXT_PUBLIC_UI_GLITCH_LANDING` | `true` | Legacy alias for `NEXT_PUBLIC_FEATURE_GLITCH_LANDING`. Leave enabled for backward compatibility with older builds until they can migrate to the new flag. |
 | `NEXT_PHASE` | _unset_ | Optional Next.js phase override for debugging phase-specific logic. The build sets this automatically in most workflows. |
 | `NODE_ENV` | `development` | Runtime environment hint used by Next.js. The build pipeline sets this automatically; override only for advanced debugging. |
 

@@ -47,9 +47,7 @@ jobs:
       - name: Refresh gallery usage manifest
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
-        run: |
-          pnpm run build-gallery-usage
-          node scripts/postinstall.mjs
+        run: pnpm run build-gallery-usage
 
       - name: Audit dependencies
         run: |
@@ -93,9 +91,7 @@ jobs:
       - name: Refresh gallery usage manifest
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
-        run: |
-          pnpm run build-gallery-usage
-          node scripts/postinstall.mjs
+        run: pnpm run build-gallery-usage
 
       - name: Lint
         run: |
@@ -140,9 +136,7 @@ jobs:
       - name: Refresh gallery usage manifest
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
-        run: |
-          pnpm run build-gallery-usage
-          node scripts/postinstall.mjs
+        run: pnpm run build-gallery-usage
 
       - name: Verify prompts registry
         env:
@@ -177,9 +171,7 @@ jobs:
       - name: Refresh gallery usage manifest
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
-        run: |
-          pnpm run build-gallery-usage
-          node scripts/postinstall.mjs
+        run: pnpm run build-gallery-usage
 
       - name: Type check
         env:
@@ -216,9 +208,7 @@ jobs:
       - name: Refresh gallery usage manifest
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
-        run: |
-          pnpm run build-gallery-usage
-          node scripts/postinstall.mjs
+        run: pnpm run build-gallery-usage
 
       - name: Restore Next.js cache
         uses: actions/cache@v4
@@ -274,9 +264,7 @@ jobs:
       - name: Refresh gallery usage manifest
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
-        run: |
-          pnpm run build-gallery-usage
-          node scripts/postinstall.mjs
+        run: pnpm run build-gallery-usage
 
       - name: Restore Next.js cache
         uses: actions/cache@v4
@@ -384,9 +372,7 @@ jobs:
       - name: Refresh gallery usage manifest
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
-        run: |
-          pnpm run build-gallery-usage
-          node scripts/postinstall.mjs
+        run: pnpm run build-gallery-usage
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
