@@ -389,8 +389,10 @@ export function usePersistentState<T>(
 
   const fullKeyRef = React.useRef(createStorageKey(key));
   const loadedRef = React.useRef(false);
+  const pendingPersistenceRef = React.useRef(false);
   const hasHydratedRef = React.useRef(false);
   const pendingInitialResetKeyRef = React.useRef<string | null>(key);
+  const lastAppliedInitialRef = React.useRef<T | null>(initial);
   const renderRevision = stateRevisionRef.current;
 
   React.useEffect(() => {
@@ -400,23 +402,37 @@ export function usePersistentState<T>(
       loadedRef.current = false;
       hasHydratedRef.current = false;
       pendingInitialResetKeyRef.current = key;
+      pendingPersistenceRef.current = false;
     }
   }, [key]);
 
   React.useEffect(() => {
-    if (!Object.is(initialRef.current, initial)) {
+    const previousAppliedInitial = lastAppliedInitialRef.current;
+    const initialChanged = !Object.is(initialRef.current, initial);
+    if (initialChanged) {
       initialRef.current = initial;
-      pendingInitialResetKeyRef.current = key;
+      const stateMatchesAppliedInitial =
+        previousAppliedInitial !== null &&
+        Object.is(stateRef.current, previousAppliedInitial);
+      if (
+        pendingInitialResetKeyRef.current !== null ||
+        (hasHydratedRef.current && stateMatchesAppliedInitial)
+      ) {
+        pendingInitialResetKeyRef.current = key;
+      }
     }
 
-    if (
-      !hasHydratedRef.current ||
-      pendingInitialResetKeyRef.current === key
-    ) {
+    const shouldUseInitial =
+      pendingInitialResetKeyRef.current === key ||
+      (!hasHydratedRef.current && pendingInitialResetKeyRef.current !== null);
+
+    if (shouldUseInitial) {
       const nextInitial = initialRef.current;
       if (!Object.is(stateRef.current, nextInitial)) {
         setState(nextInitial);
       }
+      lastAppliedInitialRef.current = nextInitial;
+      pendingInitialResetKeyRef.current = null;
     }
   }, [initial, key]);
 
@@ -477,6 +493,19 @@ export function usePersistentState<T>(
       hasHydratedRef.current = true;
       loadedRef.current = true;
 
+      if (pendingPersistenceRef.current) {
+        pendingPersistenceRef.current = false;
+        try {
+          const encoded = encodeValue(stateRef.current);
+          scheduleWrite(fullKeyRef.current, encoded);
+        } catch (error) {
+          persistenceLogger.warn(
+            `Failed to persist key "${fullKeyRef.current}" after hydration.`,
+            error,
+          );
+        }
+      }
+
       if (fallbackKey && fallbackKey !== fullKey) {
         try {
           window.localStorage.removeItem(fallbackKey);
@@ -490,9 +519,14 @@ export function usePersistentState<T>(
 
       if (shouldUpdateState) {
         setState(nextState);
+        if (Object.is(nextState, initialRef.current)) {
+          lastAppliedInitialRef.current = initialRef.current;
+        } else {
+          lastAppliedInitialRef.current = null;
+        }
       }
     }
-  }, [key, decodeValue, renderRevision]);
+  }, [key, decodeValue, encodeValue, renderRevision]);
 
   const handleExternal = React.useCallback(
     (raw: string | null) => {
@@ -501,6 +535,7 @@ export function usePersistentState<T>(
         pendingInitialResetKeyRef.current = key;
         if (!Object.is(stateRef.current, initialRef.current))
           setState(initialRef.current);
+        lastAppliedInitialRef.current = initialRef.current;
         return;
       }
       const parsed = parseJSON<unknown>(raw);
@@ -509,11 +544,13 @@ export function usePersistentState<T>(
       if (decoded !== null) {
         pendingInitialResetKeyRef.current = null;
         if (!Object.is(stateRef.current, decoded)) setState(decoded);
+        lastAppliedInitialRef.current = null;
         return;
       }
       pendingInitialResetKeyRef.current = key;
       if (!Object.is(stateRef.current, initialRef.current))
         setState(initialRef.current);
+      lastAppliedInitialRef.current = initialRef.current;
     },
     [decodeValue, key],
   );
@@ -523,6 +560,7 @@ export function usePersistentState<T>(
   const setPersistentState = React.useCallback(
     (value: React.SetStateAction<T>) => {
       pendingInitialResetKeyRef.current = null;
+      lastAppliedInitialRef.current = null;
       setState(value);
     },
     [setState],
@@ -530,10 +568,14 @@ export function usePersistentState<T>(
 
   React.useEffect(() => {
     if (!isBrowser) return;
-    if (!loadedRef.current) return;
+    if (!loadedRef.current) {
+      pendingPersistenceRef.current = true;
+      return;
+    }
     try {
       const encoded = encodeValue(state);
       scheduleWrite(fullKeyRef.current, encoded);
+      pendingPersistenceRef.current = false;
     } catch (error) {
       persistenceLogger.warn(
         `Failed to persist key "${fullKeyRef.current}" after state update.`,
