@@ -27,6 +27,7 @@ const getFeaturesModule = async () => {
 
 afterEach(() => {
   delete process.env.AI_MAX_INPUT_LENGTH;
+  delete process.env.AI_TOKENS_PER_CHAR;
   delete process.env.AI_TOKENS_PER_CHARACTER;
   delete process.env.SAFE_MODE;
 });
@@ -214,15 +215,18 @@ describe("capTokens", () => {
     expect(result.totalTokens).toBe(0);
   });
 
-  it("honors environment overrides for default estimators", () => {
+  it("honors environment overrides for default estimators", async () => {
     process.env.AI_MAX_INPUT_LENGTH = "32";
-    process.env.AI_TOKENS_PER_CHARACTER = "2";
+    process.env.AI_TOKENS_PER_CHAR = "2";
+
+    vi.resetModules();
+    const safety = await import("@/ai/safety");
 
     const payload = z.object({ prompt: z.string() }).parse({ prompt: "a".repeat(50) });
-    const sanitized = sanitizePrompt(payload.prompt);
+    const sanitized = safety.sanitizePrompt(payload.prompt);
     expect(Array.from(sanitized)).toHaveLength(32);
 
-    const result = enforceTokenBudget(
+    const result = safety.enforceTokenBudget(
       tokenBudgetContentSchema.array().parse([{ content: "abcdefghij" }]),
       { maxTokens: 10, reservedForResponse: 0 },
     );

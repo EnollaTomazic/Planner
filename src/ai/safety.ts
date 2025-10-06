@@ -5,8 +5,25 @@ import { sanitizeText } from "@/lib/utils";
 
 const CONTROL_CHAR_PATTERN = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f\u2028\u2029]/g;
 const COLLAPSE_SPACES_PATTERN = /[ \t\f\v]+/g;
-const DEFAULT_MAX_INPUT_LENGTH = 16_000;
-const DEFAULT_TOKENS_PER_CHARACTER = 4;
+const FALLBACK_MAX_INPUT_LENGTH = 16_000;
+const FALLBACK_TOKENS_PER_CHARACTER = 4;
+
+const DEFAULT_MAX_INPUT_LENGTH = resolveNumericEnv(
+  "AI_MAX_INPUT_LENGTH",
+  FALLBACK_MAX_INPUT_LENGTH,
+  {
+    min: 1,
+    integer: true,
+  },
+);
+
+const DEFAULT_TOKENS_PER_CHARACTER = resolveNumericEnv(
+  ["AI_TOKENS_PER_CHAR", "AI_TOKENS_PER_CHARACTER"],
+  FALLBACK_TOKENS_PER_CHARACTER,
+  {
+    min: Number.EPSILON,
+  },
+);
 const SAFE_MODE_TOKEN_CEILING = 8_000;
 const SAFE_MODE_RESPONSE_RESERVE = 512;
 const SAFE_MODE_TEMPERATURE_CEILING = 0.4;
@@ -69,53 +86,58 @@ interface NumericEnvOptions {
   readonly integer?: boolean;
 }
 
-function resolveNumericEnv(name: string, fallback: number, options: NumericEnvOptions = {}): number {
+function resolveNumericEnv(
+  names: string | readonly string[],
+  fallback: number,
+  options: NumericEnvOptions = {},
+): number {
   if (typeof process === "undefined") {
     return fallback;
   }
 
-  const raw = process.env[name];
+  const candidates = Array.isArray(names) ? names : [names];
 
-  if (typeof raw !== "string") {
-    return fallback;
+  for (const name of candidates) {
+    const raw = process.env[name];
+
+    if (typeof raw !== "string") {
+      continue;
+    }
+
+    const normalized = raw.trim();
+
+    if (normalized.length === 0) {
+      continue;
+    }
+
+    const parsed = Number(normalized);
+
+    if (!Number.isFinite(parsed)) {
+      continue;
+    }
+
+    const value = options.integer ? Math.trunc(parsed) : parsed;
+
+    if (Number.isNaN(value)) {
+      continue;
+    }
+
+    if (options.min !== undefined && value < options.min) {
+      continue;
+    }
+
+    return value;
   }
 
-  const normalized = raw.trim();
-
-  if (normalized.length === 0) {
-    return fallback;
-  }
-
-  const parsed = Number(normalized);
-
-  if (!Number.isFinite(parsed)) {
-    return fallback;
-  }
-
-  const value = options.integer ? Math.trunc(parsed) : parsed;
-
-  if (Number.isNaN(value)) {
-    return fallback;
-  }
-
-  if (options.min !== undefined && value < options.min) {
-    return fallback;
-  }
-
-  return value;
+  return fallback;
 }
 
 function getDefaultMaxInputLength(): number {
-  return resolveNumericEnv("AI_MAX_INPUT_LENGTH", DEFAULT_MAX_INPUT_LENGTH, {
-    min: 1,
-    integer: true,
-  });
+  return DEFAULT_MAX_INPUT_LENGTH;
 }
 
 function getDefaultTokensPerCharacter(): number {
-  return resolveNumericEnv("AI_TOKENS_PER_CHARACTER", DEFAULT_TOKENS_PER_CHARACTER, {
-    min: Number.EPSILON,
-  });
+  return DEFAULT_TOKENS_PER_CHARACTER;
 }
 
 function isServerSafeModeExplicitlyEnabled(): boolean {
