@@ -25,22 +25,68 @@ const getFeaturesModule = async () => {
   return import("@/lib/features");
 };
 
+afterEach(() => {
+  delete process.env.AI_MAX_INPUT_LENGTH;
+  delete process.env.AI_TOKENS_PER_CHARACTER;
+  delete process.env.SAFE_MODE;
+});
+
+const sanitizeOptionsSchema = z.object({
+  maxLength: z.number().int().positive().optional(),
+  allowMarkup: z.boolean().optional(),
+});
+
+const sanitizeCaseSchema = z.object({
+  description: z.string(),
+  raw: z.string(),
+  options: sanitizeOptionsSchema.optional(),
+  expected: z.string(),
+  expectedGraphemeLength: z.number().int().positive().optional(),
+});
+
 describe("sanitizePrompt", () => {
-  it("removes control characters and escapes markup", () => {
-    const raw = "Hello\u0007<script>alert('x')</script>\n\n\nWorld\tTest";
-    const sanitized = sanitizePrompt(raw);
-    expect(sanitized).toBe("Hello&lt;script&gt;alert(&#39;x&#39;)&lt;/script&gt;\n\nWorld Test");
-  });
+  const longPromptInput = "a".repeat(20_100);
+  const sanitizeCases = sanitizeCaseSchema.array().parse([
+    {
+      description: "removes control characters and escapes markup",
+      raw: "Hello\u0007<script>alert(\"x\")</script>\n\n\nWorld\tTest",
+      expected: "Hello&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;\n\nWorld Test",
+    },
+    {
+      description: "caps long prompts using the default maximum length",
+      raw: longPromptInput,
+      expected: "a".repeat(16_000),
+      expectedGraphemeLength: 16_000,
+    },
+    {
+      description: "truncates emoji-rich prompts without splitting characters",
+      raw: "😀😀😀😀😀",
+      options: { maxLength: 3 },
+      expected: "😀😀😀",
+      expectedGraphemeLength: 3,
+    },
+    {
+      description: "escapes HTML while preserving Markdown characters",
+      raw: "Hello <b>world</b> **markdown**",
+      expected: "Hello &lt;b&gt;world&lt;/b&gt; **markdown**",
+    },
+    {
+      description: "allows markup passthrough when configured",
+      raw: "<p>Hello</p>",
+      options: { allowMarkup: true },
+      expected: "<p>Hello</p>",
+    },
+  ]);
 
-  it("honors maxLength", () => {
-    const sanitized = sanitizePrompt("a".repeat(100), { maxLength: 10 });
-    expect(sanitized).toHaveLength(10);
-  });
-
-  it("can retain markup when allowMarkup is true", () => {
-    const raw = "<p>Hello</p>";
-    expect(sanitizePrompt(raw, { allowMarkup: true })).toBe(raw);
-  });
+  for (const testCase of sanitizeCases) {
+    it(testCase.description, () => {
+      const sanitized = sanitizePrompt(testCase.raw, testCase.options);
+      expect(sanitized).toBe(testCase.expected);
+      if (testCase.expectedGraphemeLength !== undefined) {
+        expect(Array.from(sanitized)).toHaveLength(testCase.expectedGraphemeLength);
+      }
+    });
+  }
 
   it("retains backwards compatible alias", () => {
     const raw = "Safe";
@@ -48,16 +94,24 @@ describe("sanitizePrompt", () => {
   });
 });
 
+const tokenBudgetContentSchema = z.object({
+  content: z.string(),
+  pinned: z.boolean().optional(),
+});
+
 describe("capTokens", () => {
   it("drops earliest unpinned messages when budget is exceeded", () => {
-    const result = capTokens(
-      [
-        { content: "system", pinned: true },
-        { content: "older" },
-        { content: "newer" },
-      ],
-      { maxTokens: 7, reservedForResponse: 0, estimateTokens: () => 4 },
-    );
+    const messages = tokenBudgetContentSchema.array().parse([
+      { content: "system", pinned: true },
+      { content: "older" },
+      { content: "newer" },
+    ]);
+
+    const result = capTokens(messages, {
+      maxTokens: 7,
+      reservedForResponse: 0,
+      estimateTokens: () => 4,
+    });
 
     expect(result.messages).toEqual([
       { content: "system", pinned: true },
@@ -69,14 +123,13 @@ describe("capTokens", () => {
   });
 
   it("reserves response tokens when safe mode is enabled", async () => {
+    process.env.SAFE_MODE = "true";
     const features = await getFeaturesModule();
     const safeModeSpy = vi.spyOn(features, "isSafeModeEnabled");
     safeModeSpy.mockReturnValue(true);
 
     const result = enforceTokenBudget(
-      [
-        { content: "prompt" },
-      ],
+      tokenBudgetContentSchema.array().parse([{ content: "prompt" }]),
       { maxTokens: 600, reservedForResponse: 0, estimateTokens: () => 100 },
     );
 
@@ -84,6 +137,41 @@ describe("capTokens", () => {
     expect(result.totalTokens).toBe(0);
 
     safeModeSpy.mockRestore();
+  });
+
+  it("does not lower the ceiling when server safe mode is disabled", async () => {
+    const features = await getFeaturesModule();
+    const safeModeSpy = vi.spyOn(features, "isSafeModeEnabled");
+    safeModeSpy.mockReturnValue(true);
+
+    const result = enforceTokenBudget(
+      tokenBudgetContentSchema.array().parse([{ content: "prompt" }]),
+      { maxTokens: 9_000, reservedForResponse: 0, estimateTokens: () => 1_000 },
+    );
+
+    expect(result.availableTokens).toBe(9_000);
+    expect(result.totalTokens).toBe(1_000);
+    expect(result.messages).toEqual([{ content: "prompt" }]);
+
+    safeModeSpy.mockRestore();
+  });
+
+  it("always retains pinned messages even when they exceed the available budget", () => {
+    const messages = tokenBudgetContentSchema.array().parse([
+      { content: "critical context", pinned: true },
+      { content: "transient detail" },
+    ]);
+
+    const result = enforceTokenBudget(messages, {
+      maxTokens: 5,
+      reservedForResponse: 0,
+      estimateTokens: (content) => content.length,
+    });
+
+    expect(result.messages).toEqual([{ content: "critical context", pinned: true }]);
+    expect(result.removedCount).toBe(1);
+    expect(result.totalTokens).toBe("critical context".length);
+    expect(result.availableTokens).toBe(5);
   });
 
   it("applies string capping semantics", () => {
@@ -96,6 +184,23 @@ describe("capTokens", () => {
     expect(result.content).toBeNull();
     expect(result.removed).toBe(true);
     expect(result.totalTokens).toBe(0);
+  });
+
+  it("honors environment overrides for default estimators", () => {
+    process.env.AI_MAX_INPUT_LENGTH = "32";
+    process.env.AI_TOKENS_PER_CHARACTER = "2";
+
+    const payload = z.object({ prompt: z.string() }).parse({ prompt: "a".repeat(50) });
+    const sanitized = sanitizePrompt(payload.prompt);
+    expect(Array.from(sanitized)).toHaveLength(32);
+
+    const result = enforceTokenBudget(
+      tokenBudgetContentSchema.array().parse([{ content: "abcdefghij" }]),
+      { maxTokens: 10, reservedForResponse: 0 },
+    );
+
+    expect(result.totalTokens).toBe(5);
+    expect(result.availableTokens).toBe(10);
   });
 
   it("retains enforceTokenBudget alias", () => {
