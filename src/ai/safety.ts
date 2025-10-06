@@ -12,6 +12,56 @@ const SAFE_MODE_RESPONSE_RESERVE = 512;
 const SAFE_MODE_TEMPERATURE_CEILING = 0.4;
 const SAFE_MODE_MAX_TOOL_CALLS = 1;
 
+type SegmenterConstructor =
+  | (new (locale?: string, options?: Intl.SegmenterOptions) => Intl.Segmenter)
+  | undefined;
+
+let cachedSegmenter: Intl.Segmenter | null | undefined;
+
+function getUnicodeSegments(input: string): string[] {
+  if (input.length === 0) {
+    return [];
+  }
+
+  if (cachedSegmenter === undefined) {
+    const intlApi =
+      typeof Intl !== "undefined"
+        ? (Intl as typeof Intl & { Segmenter?: typeof Intl.Segmenter })
+        : undefined;
+    const segmenterCtor: SegmenterConstructor = intlApi?.Segmenter;
+    cachedSegmenter =
+      typeof segmenterCtor === "function"
+        ? new segmenterCtor(undefined, { granularity: "grapheme" })
+        : null;
+  }
+
+  const segmenter = cachedSegmenter;
+
+  if (segmenter) {
+    return Array.from(segmenter.segment(input), (segment) => segment.segment);
+  }
+
+  return Array.from(input);
+}
+
+function unicodeLength(input: string): number {
+  return getUnicodeSegments(input).length;
+}
+
+function unicodeTruncate(input: string, maxLength: number): string {
+  if (maxLength <= 0) {
+    return "";
+  }
+
+  const segments = getUnicodeSegments(input);
+
+  if (segments.length <= maxLength) {
+    return input;
+  }
+
+  return segments.slice(0, maxLength).join("");
+}
+
 const ENABLED_FLAG_VALUES = new Set(["1", "true", "on", "yes"]);
 
 interface NumericEnvOptions {
@@ -110,13 +160,8 @@ export function sanitizePrompt(
     .join("\n")
     .trim();
 
-  const characters = Array.from(normalized);
   const truncated =
-    resolvedMaxLength === 0
-      ? ""
-      : characters.length > resolvedMaxLength
-        ? characters.slice(0, resolvedMaxLength).join("")
-        : normalized;
+    resolvedMaxLength === 0 ? "" : unicodeTruncate(normalized, resolvedMaxLength);
 
   return allowMarkup ? truncated : sanitizeText(truncated);
 }
@@ -143,7 +188,7 @@ export interface TokenBudgetResult<T extends TokenBudgetContent> {
 
 function defaultTokenEstimator(content: string): number {
   const tokensPerCharacter = getDefaultTokensPerCharacter();
-  const characterCount = Array.from(content).length;
+  const characterCount = unicodeLength(content);
   if (characterCount === 0) {
     return 0;
   }
