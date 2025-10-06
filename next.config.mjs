@@ -31,9 +31,20 @@ const normalizeSlug = (value) => {
   return segments.length > 0 ? segments.join("/") : undefined;
 };
 
+const normalizeSlugCaseInsensitive = (value) => {
+  const normalized = normalizeSlug(value);
+  return normalized?.toLowerCase();
+};
+
 const isGitHubPages = process.env.GITHUB_PAGES === "true";
-const repositorySlug = normalizeSlug(process.env.GITHUB_REPOSITORY?.split("/").pop());
-const repositoryOwnerSlug = normalizeSlug(process.env.GITHUB_REPOSITORY?.split("/")?.[0]);
+const repositorySlug = normalizeSlug(
+  process.env.GITHUB_REPOSITORY?.split("/").pop(),
+);
+const repositoryOwnerSlug = normalizeSlug(
+  process.env.GITHUB_REPOSITORY?.split("/")?.[0],
+);
+const repositorySlugLower = normalizeSlugCaseInsensitive(repositorySlug);
+const repositoryOwnerSlugLower = normalizeSlugCaseInsensitive(repositoryOwnerSlug);
 
 const resolveGitHubPagesSlug = () => {
   const explicitSlugSources = [process.env.NEXT_PUBLIC_BASE_PATH, process.env.BASE_PATH];
@@ -65,13 +76,15 @@ const resolveGitHubPagesSlug = () => {
 
 const githubPagesSlug = isGitHubPages ? resolveGitHubPagesSlug() : "";
 const expectedUserOrOrgSlug =
-  repositoryOwnerSlug !== undefined ? `${repositoryOwnerSlug}.github.io` : undefined;
+  repositoryOwnerSlugLower !== undefined
+    ? `${repositoryOwnerSlugLower}.github.io`
+    : undefined;
 const resolvedRepositorySlug = repositorySlug ?? githubPagesSlug;
-const expectedUserOrOrgSlugLower = expectedUserOrOrgSlug?.toLowerCase();
-const resolvedRepositorySlugLower = resolvedRepositorySlug?.toLowerCase();
+const resolvedRepositorySlugLower =
+  repositorySlugLower ?? normalizeSlugCaseInsensitive(githubPagesSlug);
 const isUserOrOrgGitHubPage =
-  expectedUserOrOrgSlugLower !== undefined &&
-  resolvedRepositorySlugLower === expectedUserOrOrgSlugLower;
+  expectedUserOrOrgSlug !== undefined &&
+  resolvedRepositorySlugLower === expectedUserOrOrgSlug;
 
 const normalizedBasePathValue = isGitHubPages
   ? githubPagesSlug && !isUserOrOrgGitHubPage
