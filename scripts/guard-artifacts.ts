@@ -27,12 +27,14 @@ export const FORBIDDEN_PATTERNS: readonly ForbiddenPattern[] = [
   {
     glob: ["**/node-compile-cache"],
     label: "node-compile-cache",
-    resolution: "Remove the \"node-compile-cache\" directory created by tsx (e.g. `rm -rf node-compile-cache`).",
+    resolution:
+      "Remove the \"node-compile-cache\" directory created by tsx (e.g. `pnpm run clean:artifacts` or `rm -rf node-compile-cache`).",
   },
   {
     glob: ["tsx-*"],
     label: "tsx scratch directory",
-    resolution: "Delete stray \"tsx-*\" directories produced by tsx (e.g. `rm -rf tsx-*`).",
+    resolution:
+      "Delete stray \"tsx-*\" directories produced by tsx (e.g. `pnpm run clean:artifacts` or `rm -rf tsx-*`).",
   },
 ];
 
