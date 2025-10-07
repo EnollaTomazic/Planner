@@ -25,7 +25,7 @@
     "analyze": "pnpm run build:analyze",
     "start": "tsx scripts/run-next.ts start -p 3000",
     "lint": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --cache --cache-location .eslintcache src",
-    "lint:ci": "pnpm run lint -- --max-warnings=0",
+    "lint:ci": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --cache --cache-location .eslintcache src --max-warnings=0",
     "typecheck": "cross-env TSX_COMPILE_CACHE=0 tsx scripts/typecheck.ts",
     "typecheck:ci": "pnpm run typecheck -- --pretty false",
     "test": "cross-env NODE_OPTIONS=--max-old-space-size=12288 VITEST_MAX_THREADS=1 vitest",
