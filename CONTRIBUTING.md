@@ -1,6 +1,6 @@
 # Contributing
 
-Requires [Node.js](https://nodejs.org) 22 or newer.
+Requires [Node.js](https://nodejs.org) 22.x and [pnpm](https://pnpm.io) 10.13.1. The CI pipeline reads `.nvmrc` and checks `node --version` and `pnpm --version` to ensure they match these values, so align your local environment accordingly.
 
 ## Scripts
 
