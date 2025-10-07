@@ -29,6 +29,8 @@ jobs:
       actions: write
     env:
       NEXT_TELEMETRY_DISABLED: '1'
+      BASE_PATH: Planner
+      NEXT_PUBLIC_BASE_PATH: /Planner
     steps:
       - uses: actions/checkout@v5
         with:
