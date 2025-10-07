@@ -43,6 +43,12 @@ jobs:
       - name: Verify prompts registry
         run: pnpm run verify-prompts
 
+      - name: Validate env for deploy
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm exec tsx scripts/validate-deploy-env.ts
+
       - name: Export static site
         shell: bash
         run: |

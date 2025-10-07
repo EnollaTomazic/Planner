@@ -27,7 +27,7 @@ The `ci.yml` workflow defines first-class jobs for audits, linting, type-checkin
 - The `theme-previews` entry in the Playwright matrix downloads the `next-build` artefact, verifies it before starting the server, and then exercises any tests tagged `@axe` (or the full suite when none are tagged).
 - Visual E2E coverage now captures per-theme snapshots for the depth-aware button and card previews while rerunning axe against those preview routes from the same matrix entry. Keep `npx playwright test` wired into CI so this job remains the source of truth for depth and theme regressions.
 - The `Deploy Pages` workflow builds the static export on pushes to `main`, verifying prompts before the export, uploading the artefact for traceability, and executing the [`actions/deploy-pages`](https://github.com/actions/deploy-pages) step to publish the site.
-- `workflow-lint.yml` runs `actionlint` and `yamllint` whenever workflow files change (or on demand) so breaking changes surface before they land in `ci.yml` or `deploy-pages.yml`.
+- `workflow-lint.yml` runs `actionlint`, `yamllint`, and `pnpm run guard:artifacts` whenever workflow files change (or on demand) so breaking changes surface before they land in `ci.yml` or `deploy-pages.yml`.
 
 ## Bundle analysis and performance budgets
 
