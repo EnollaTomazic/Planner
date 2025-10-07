@@ -2,6 +2,7 @@ import "./check-node-version.js";
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import process from "node:process";
 
 import { GITHUB_PAGES_REDIRECT_STORAGE_KEY } from "../src/lib/github-pages";
@@ -409,7 +410,7 @@ export function injectGitHubPagesPlaceholders(
   }
 }
 
-function main(): void {
+export function main(): void {
   const publish = shouldPublishSite(process.env);
   assertOriginRemote(process.env, publish);
   const { slug, ownerSlug: fallbackOwnerSlug } = detectRepositorySlug();
@@ -458,7 +459,11 @@ function main(): void {
   runCommand(pnpmCommand, ["exec", ...ghPagesArgs], process.env);
 }
 
-if (process.env.VITEST !== "true") {
+const entryPoint = process.argv[1]
+  ? pathToFileURL(path.resolve(process.argv[1])).href
+  : undefined;
+
+if (process.env.VITEST !== "true" && entryPoint === import.meta.url) {
   try {
     main();
   } catch (error) {
