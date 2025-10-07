@@ -416,7 +416,7 @@ export function usePersistentState<T>(
         Object.is(stateRef.current, previousAppliedInitial);
       if (
         pendingInitialResetKeyRef.current !== null ||
-        (hasHydratedRef.current && stateMatchesAppliedInitial)
+        stateMatchesAppliedInitial
       ) {
         pendingInitialResetKeyRef.current = key;
       }
