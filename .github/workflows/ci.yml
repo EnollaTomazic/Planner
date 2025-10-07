@@ -44,6 +44,11 @@ jobs:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
+      - name: Verify tool versions
+        uses: ./.github/actions/verify-tool-versions
+        with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
+
       - name: Refresh gallery usage manifest
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
@@ -87,6 +92,11 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+
+      - name: Verify tool versions
+        uses: ./.github/actions/verify-tool-versions
+        with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Refresh gallery usage manifest
         env:
@@ -133,6 +143,11 @@ jobs:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
+      - name: Verify tool versions
+        uses: ./.github/actions/verify-tool-versions
+        with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
+
       - name: Refresh gallery usage manifest
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
@@ -167,6 +182,11 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+
+      - name: Verify tool versions
+        uses: ./.github/actions/verify-tool-versions
+        with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Refresh gallery usage manifest
         env:
@@ -204,6 +224,11 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+
+      - name: Verify tool versions
+        uses: ./.github/actions/verify-tool-versions
+        with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Refresh gallery usage manifest
         env:
@@ -260,6 +285,11 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+
+      - name: Verify tool versions
+        uses: ./.github/actions/verify-tool-versions
+        with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Refresh gallery usage manifest
         env:
@@ -369,6 +399,11 @@ jobs:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
 
+      - name: Verify tool versions
+        uses: ./.github/actions/verify-tool-versions
+        with:
+          pnpm-version: ${{ env.PNPM_VERSION }}
+
       - name: Refresh gallery usage manifest
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
@@ -381,7 +416,7 @@ jobs:
         run: rm -rf .next
 
       - name: Download Next.js build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: next-build
           path: .
