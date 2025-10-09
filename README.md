@@ -130,10 +130,10 @@ Failures expose the failing `path`, human-readable `message`, and an optional `c
 
 ## Metrics reporting and external collectors
 
-Static exports (including GitHub Pages) no longer bundle a `/api/metrics` Route Handler, so the browser only submits vitals when a collector URL is supplied. Configure reporting with the following workflow:
+Static exports (including GitHub Pages) only submit vitals when a collector URL is supplied. The app provides a built-in `/api/metrics` Route Handler in [`src/app/api/metrics/route.ts`](src/app/api/metrics/route.ts), and you can reuse the shared processor for self-hosted collectors with the Node entry point in [`server/metrics-handler.ts`](server/metrics-handler.ts). Configure reporting with the following workflow:
 
 1. Decide whether metrics should be shipped from the deployed build. Leave `NEXT_PUBLIC_METRICS_ENDPOINT` empty to disable reporting, or set it to an absolute URL (for remote collectors) or a relative path (when the collector is hosted under the same origin). Keep `NEXT_PUBLIC_ENABLE_METRICS` at its default of `auto` unless you need to force the hook on or off.
-2. If you need a managed endpoint, reuse the provided handler in [`server/metrics-handler.ts`](server/metrics-handler.ts). The snippet below shows a minimal Node server that exposes `/metrics` and applies the same validation, rate limits, and logging as the in-repo implementation:
+2. To host your own collector, reuse the provided handler in [`server/metrics-handler.ts`](server/metrics-handler.ts). The snippet below shows a minimal Node server that exposes `/metrics` and applies the same validation, rate limits, and logging as the in-repo implementation:
 
    ```ts
    import { createServer } from "node:http";
