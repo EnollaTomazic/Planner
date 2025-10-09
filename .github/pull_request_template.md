@@ -1,4 +1,21 @@
 ## Summary
+
+### Semantic Title
+_Remember to use a semantic prefix (e.g., `feat:`, `fix:`, `chore:`) in the PR title._
+
+### Concise Change Summary
+-
+
+### Linked Issues
+-
+
+### Screenshots
+_Attach relevant screenshots or artifacts when applicable._
+
+### Environment Variable Impacts
+-
+
+### Additional Notes
 -
 
 ## Testing
