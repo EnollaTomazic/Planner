@@ -249,6 +249,9 @@ export default function PlannerFab() {
         setError("Create a project for this day first");
         return;
       }
+      if (projectId !== selectedProjectId) {
+        setSelectedProjectId(projectId);
+      }
       const createdTaskId = createTask({ iso, projectId, title: trimmed });
       if (!createdTaskId) {
         setError("Unable to create a task");

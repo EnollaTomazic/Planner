@@ -137,4 +137,45 @@ describe("PlannerFab", () => {
     });
     expect(suggestionButtons.length).toBeGreaterThan(0);
   });
+
+  it("selects a cloned project when reopening the sheet", async () => {
+    const { getStore, getActions } = renderPlanner(<PlannerFab />);
+    const focusIso = getStore().focus;
+    await act(async () => {
+      getActions().createProject({ iso: focusIso, name: "Alpha" });
+    });
+
+    await userEvent.click(
+      screen.getByRole("button", { name: /open planner creation sheet/i }),
+    );
+    await userEvent.type(
+      screen.getByLabelText(/what are you planning/i),
+      "Plan tomorrow",
+    );
+    await userEvent.click(screen.getByRole("button", { name: /save to planner/i }));
+
+    const focusDate = fromISODate(focusIso) ?? new Date();
+    const targetIso = toISODate(addDays(focusDate, 1)) as ISODate;
+    await waitFor(() => {
+      const projects = getStore().getDay(targetIso).projects;
+      expect(projects.length).toBeGreaterThan(0);
+    });
+
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("dialog", { name: /plan something new/i }),
+      ).not.toBeInTheDocument(),
+    );
+
+    await userEvent.click(
+      screen.getByRole("button", { name: /open planner creation sheet/i }),
+    );
+    const input = await screen.findByLabelText(/what are you planning/i);
+    await userEvent.type(input, " Another tomorrow plan");
+
+    const projectSelect = screen.getByRole("button", { name: /select option/i });
+    await waitFor(() => {
+      expect(projectSelect).toHaveTextContent("Alpha");
+    });
+  });
 });
