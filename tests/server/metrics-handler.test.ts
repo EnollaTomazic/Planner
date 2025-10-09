@@ -7,13 +7,16 @@ vi.mock("../../src/lib/observability/sentry", () => ({
 }));
 
 import { captureException } from "../../src/lib/observability/sentry";
+import {
+  METRICS_MAX_BODY_BYTES,
+  type RateLimiter,
+} from "../../src/lib/metrics/ingest";
 
 import {
   createMetricsHandler,
   resetMetricsRateLimit,
   type MetricsHandler,
 } from "../../server/metrics-handler";
-import * as rateLimitModule from "../../src/lib/observability/rate-limit";
 import { createMockMetricsPayload } from "../../src/metrics/fixtures";
 
 type MetricsRequest = Parameters<MetricsHandler>[0];
@@ -132,7 +135,7 @@ describe("server metrics handler", () => {
 
     await handler(request, recorder.response);
 
-    expect(recorder.getStatusCode()).toBe(202);
+    expect(recorder.getStatusCode()).toBe(200);
     expect(JSON.parse(recorder.getBody())).toEqual({ status: "accepted" });
     expect(recorder.getHeader("server-timing")).toMatch(/^app;dur=/);
     expect(recorder.getHeader("cache-control")).toBe("no-store");
@@ -140,8 +143,16 @@ describe("server metrics handler", () => {
   });
 
   it("rejects oversized bodies and clears rate limit token", async () => {
-    const clearSpy = vi.spyOn(rateLimitModule, "clearRateLimit");
-    const oversizedBody = JSON.stringify({ data: "x".repeat(60 * 1024) });
+    const rateLimiter: RateLimiter = {
+      consume: vi.fn().mockReturnValue({
+        limited: false,
+        remaining: 23,
+        reset: Date.now() + 1_000,
+      }),
+      clear: vi.fn(),
+    };
+    handler = createMetricsHandler({ rateLimiter });
+    const oversizedBody = JSON.stringify({ data: "x".repeat(METRICS_MAX_BODY_BYTES + 1) });
     const request = createRequest({ body: oversizedBody });
     const recorder = createResponse();
 
@@ -150,8 +161,8 @@ describe("server metrics handler", () => {
     expect(recorder.getStatusCode()).toBe(413);
     expect(JSON.parse(recorder.getBody())).toEqual({ error: "payload_too_large" });
     expect(recorder.getHeader("server-timing")).toMatch(/^app;dur=/);
-    expect(clearSpy).toHaveBeenCalledOnce();
-    clearSpy.mockRestore();
+    expect(rateLimiter.clear).toHaveBeenCalledWith(expect.any(String));
+    expect(rateLimiter.consume).not.toHaveBeenCalled();
   });
 
   it("rejects invalid json payloads", async () => {
@@ -185,9 +196,15 @@ describe("server metrics handler", () => {
   });
 
   it("returns rate limited responses", async () => {
-    const spy = vi
-      .spyOn(rateLimitModule, "consumeRateLimit")
-      .mockReturnValueOnce({ limited: true, remaining: 0, reset: Date.now() + 1_000 });
+    const rateLimiter: RateLimiter = {
+      consume: vi.fn().mockReturnValue({
+        limited: true,
+        remaining: 0,
+        reset: Date.now() + 1_000,
+      }),
+      clear: vi.fn(),
+    };
+    handler = createMetricsHandler({ rateLimiter });
     const request = createRequest({ body: JSON.stringify(createValidPayload()) });
     const recorder = createResponse();
 
@@ -197,8 +214,7 @@ describe("server metrics handler", () => {
     expect(JSON.parse(recorder.getBody())).toEqual({ error: "rate_limited" });
     expect(recorder.getHeader("server-timing")).toMatch(/^app;dur=/);
     expect(recorder.getHeader("retry-after")).toBeDefined();
-    expect(spy).toHaveBeenCalledOnce();
-    spy.mockRestore();
+    expect(rateLimiter.consume).toHaveBeenCalledOnce();
   });
 
   it("reports validation failures to observability", async () => {
@@ -209,7 +225,7 @@ describe("server metrics handler", () => {
 
     await handler(request, recorder.response);
 
-    expect(recorder.getStatusCode()).toBe(422);
+    expect(recorder.getStatusCode()).toBe(400);
     expect(JSON.parse(recorder.getBody())).toEqual({ error: "invalid_payload" });
     expect(recorder.getHeader("server-timing")).toMatch(/^app;dur=/);
     expect(captureSpy).toHaveBeenCalledWith(

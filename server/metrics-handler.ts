@@ -1,383 +1,188 @@
-import { randomUUID } from "node:crypto";
-import type { IncomingMessage, ServerResponse } from "node:http";
+import type { IncomingMessage, ServerResponse } from 'node:http'
 
-import { z } from "zod";
-
-import { observabilityLogger, redactForLogging } from "@/lib/logging";
-import { captureException } from "@/lib/observability/sentry";
-import type { ObservabilityCaptureContext } from "@/lib/observability/sentry";
+import {
+  METRICS_MAX_BODY_BYTES,
+  createMetricsProcessor,
+  normalizeHeaders,
+  resolveClientIdentifier,
+  type MetricsProcessorDependencies,
+  type ProcessMetricsInput,
+} from '@/lib/metrics/ingest'
 import {
   clearRateLimit,
   consumeRateLimit,
+  type RateLimitConfig,
   type RateLimitResult,
-} from "@/lib/observability/rate-limit";
+} from '@/lib/observability/rate-limit'
 
-const metricsLog = observabilityLogger.child("metrics");
-
-const entrySchema = z.object({
-  name: z.string().min(1),
-  entryType: z.string().min(1),
-  startTime: z.number().nonnegative(),
-  duration: z.number().nonnegative(),
-});
-
-const metricSchema = z.object({
-  id: z.string().min(1),
-  name: z.string().min(1),
-  label: z.enum(["web-vital", "custom"]),
-  value: z.number(),
-  delta: z.number().optional(),
-  rating: z.enum(["good", "needs-improvement", "poor"]).optional(),
-  startTime: z.number().nonnegative(),
-  navigationType: z.string().optional(),
-  entries: z.array(entrySchema).optional(),
-});
-
-const payloadSchema = z.object({
-  metric: metricSchema,
-  page: z.string().min(1),
-  timestamp: z.number().nonnegative(),
-  visibilityState: z.enum(["visible", "hidden", "prerender", "unloaded"]).optional(),
-});
-
-const RATE_LIMIT_CONFIG = {
-  max: 24,
-  windowMs: 60_000,
-} as const;
-
-type MetricsRequest = IncomingMessage & { ip?: string | null };
-
-type NormalizedHeaders = Record<string, string | undefined>;
-
-type RequestContext = {
-  clientId: string;
-  requestId: string;
-  userId: string;
-};
-
-function normalizeHeaders(request: IncomingMessage): NormalizedHeaders {
-  const result: NormalizedHeaders = {};
-  for (const [key, value] of Object.entries(request.headers)) {
-    const normalizedKey = key.toLowerCase();
-    if (typeof value === "string") {
-      result[normalizedKey] = value;
-    } else if (Array.isArray(value)) {
-      result[normalizedKey] = value.find((entry) => typeof entry === "string");
-    }
-  }
-  return result;
+const defaultRateLimiter = {
+  consume(identifier: string, config: RateLimitConfig): RateLimitResult {
+    return consumeRateLimit(identifier, config)
+  },
+  clear(identifier?: string): void {
+    clearRateLimit(identifier)
+  },
 }
 
-function getHeader(headers: NormalizedHeaders, name: string): string | undefined {
-  return headers[name.toLowerCase()]?.trim() || undefined;
-}
+type MetricsRequest = IncomingMessage & { ip?: string | null }
 
-function getClientIdentifier(request: MetricsRequest, headers: NormalizedHeaders): string {
-  const forwarded = getHeader(headers, "x-forwarded-for");
-  if (forwarded) {
-    const [first] = forwarded.split(",");
-    if (first) {
-      return first.trim();
-    }
-  }
+type NormalizedResponseHeaders = Record<string, string>
 
-  const realIp = getHeader(headers, "x-real-ip");
-  if (realIp) {
-    return realIp;
-  }
+type MetricsHandlerDependencies = MetricsProcessorDependencies
 
-  const cfConnectingIp = getHeader(headers, "cf-connecting-ip");
-  if (cfConnectingIp) {
-    return cfConnectingIp;
-  }
-
-  if (typeof request.ip === "string" && request.ip.trim()) {
-    return request.ip.trim();
-  }
-
-  const socketAddress = request.socket?.remoteAddress;
-  if (typeof socketAddress === "string" && socketAddress.trim()) {
-    return socketAddress.trim();
-  }
-
-  return "anonymous";
-}
-
-function getRequestIdentifier(headers: NormalizedHeaders): string {
-  const candidates = [
-    getHeader(headers, "x-request-id"),
-    getHeader(headers, "cf-ray"),
-    getHeader(headers, "cf-request-id"),
-    getHeader(headers, "x-amzn-trace-id"),
-  ];
-
-  for (const value of candidates) {
-    if (value) {
-      return value;
-    }
-  }
-
-  return randomUUID();
-}
-
-function getUserIdentifier(headers: NormalizedHeaders): string | undefined {
-  return (
-    getHeader(headers, "x-user-id") ||
-    getHeader(headers, "x-planner-user-id") ||
-    getHeader(headers, "x-anonymous-id") ||
-    undefined
-  );
-}
-
-function buildRequestContext(
-  clientId: string,
-  headers: NormalizedHeaders,
-): RequestContext {
-  const requestId = getRequestIdentifier(headers);
-  const userId = getUserIdentifier(headers) ?? "anonymous";
-
-  return { clientId, requestId, userId } satisfies RequestContext;
-}
-
-function buildCaptureContext(
-  context: RequestContext,
-  extra: Record<string, unknown> = {},
-): ObservabilityCaptureContext {
-  return {
-    tags: {
-      endpoint: "metrics",
-      requestId: context.requestId,
-    },
-    extra: {
-      clientId: context.clientId,
-      userId: context.userId,
-      ...extra,
-    },
-  };
-}
-
-function buildTooManyRequestsResponse(rate: RateLimitResult) {
-  const retryAfterSeconds = Math.max(Math.ceil((rate.reset - Date.now()) / 1000), 1);
-
-  return {
-    status: 429,
-    headers: {
-      "Retry-After": String(retryAfterSeconds),
-      "Cache-Control": "no-store",
-    },
-  } as const;
-}
+export type MetricsHandler = (
+  request: MetricsRequest,
+  response: ServerResponse,
+) => Promise<void>
 
 function now(): number {
-  if (typeof performance !== "undefined" && typeof performance.now === "function") {
-    return performance.now();
+  if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+    return performance.now()
   }
 
-  return Date.now();
+  return Date.now()
 }
 
-function setServerTiming(
-  response: ServerResponse,
-  startedAt: number,
-): void {
-  const elapsed = Math.max(0, now() - startedAt);
-  response.setHeader("Server-Timing", `app;dur=${elapsed.toFixed(2)}`);
+function setServerTiming(response: ServerResponse, startedAt: number): void {
+  const elapsed = Math.max(0, now() - startedAt)
+  response.setHeader('Server-Timing', `app;dur=${elapsed.toFixed(2)}`)
 }
 
 function sendJson(
   response: ServerResponse,
   status: number,
   body: unknown,
-  headers: Record<string, string> = {},
+  headers: NormalizedResponseHeaders = {},
   startedAt?: number,
 ): void {
-  response.statusCode = status;
-  response.setHeader("Content-Type", "application/json");
+  response.statusCode = status
+  response.setHeader('Content-Type', 'application/json')
+
   for (const [key, value] of Object.entries(headers)) {
-    response.setHeader(key, value);
+    response.setHeader(key, value)
   }
-  if (typeof startedAt === "number") {
-    setServerTiming(response, startedAt);
+
+  if (typeof startedAt === 'number') {
+    setServerTiming(response, startedAt)
   }
-  response.end(JSON.stringify(body));
+
+  response.end(JSON.stringify(body))
 }
 
-const MAX_REQUEST_BODY_BYTES = 50 * 1024; // ~50 KB
-
 class PayloadTooLargeError extends Error {
-  constructor(message = "Request body exceeds limit") {
-    super(message);
-    this.name = "PayloadTooLargeError";
+  constructor(message = 'Request body exceeds limit') {
+    super(message)
+    this.name = 'PayloadTooLargeError'
   }
 }
 
 async function readRequestBody(request: IncomingMessage): Promise<string> {
   return new Promise((resolve, reject) => {
-    const chunks: Buffer[] = [];
-    let totalBytes = 0;
-    let settled = false;
+    const chunks: Buffer[] = []
+    let totalBytes = 0
+    let settled = false
 
     const cleanup = () => {
-      request.off("data", handleData);
-      request.off("end", handleEnd);
-      request.off("error", handleError);
-    };
+      request.off('data', handleData)
+      request.off('end', handleEnd)
+      request.off('error', handleError)
+    }
 
     const settle = (action: () => void) => {
       if (settled) {
-        return;
+        return
       }
-      settled = true;
-      cleanup();
-      action();
-    };
+
+      settled = true
+      cleanup()
+      action()
+    }
 
     const handleData = (chunk: Buffer | string) => {
-      const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(String(chunk));
-      totalBytes += buffer.byteLength;
-      if (totalBytes > MAX_REQUEST_BODY_BYTES) {
+      const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(String(chunk))
+      totalBytes += buffer.byteLength
+
+      if (totalBytes > METRICS_MAX_BODY_BYTES) {
         settle(() => {
-          const error = new PayloadTooLargeError();
-          request.destroy();
-          reject(error);
-        });
-        return;
+          const error = new PayloadTooLargeError()
+          request.destroy()
+          reject(error)
+        })
+        return
       }
-      chunks.push(buffer);
-    };
+
+      chunks.push(buffer)
+    }
 
     const handleEnd = () => {
       settle(() => {
-        resolve(Buffer.concat(chunks).toString("utf8"));
-      });
-    };
+        resolve(Buffer.concat(chunks).toString('utf8'))
+      })
+    }
 
     const handleError = (error: unknown) => {
       settle(() => {
-        reject(error);
-      });
-    };
+        reject(error)
+      })
+    }
 
-    request.on("data", handleData);
-    request.on("end", handleEnd);
-    request.on("error", handleError);
-  });
+    request.on('data', handleData)
+    request.on('end', handleEnd)
+    request.on('error', handleError)
+  })
 }
 
-export type MetricsHandler = (request: MetricsRequest, response: ServerResponse) => Promise<void>;
+export function createMetricsHandler(
+  dependencies: MetricsHandlerDependencies = {},
+): MetricsHandler {
+  const rateLimiter = dependencies.rateLimiter ?? defaultRateLimiter
+  const processMetrics = createMetricsProcessor({ rateLimiter })
 
-export function createMetricsHandler(): MetricsHandler {
   return async function handleMetricsRequest(request, response) {
-    const startedAt = now();
-    const headers = normalizeHeaders(request);
-
-    if (request.method?.toUpperCase() !== "POST") {
-      sendJson(
-        response,
-        405,
-        { error: "method_not_allowed" },
-        { "Allow": "POST", "Cache-Control": "no-store" },
-        startedAt,
-      );
-      return;
+    const startedAt = now()
+    const headers = normalizeHeaders(request.headers)
+    const client = {
+      ip: request.ip ?? null,
+      socketAddress: request.socket?.remoteAddress ?? null,
     }
 
-    const identifier = getClientIdentifier(request, headers);
-    const requestContext = buildRequestContext(identifier, headers);
-    const requestLog = metricsLog.child("request", requestContext);
-    const rate = consumeRateLimit(identifier, RATE_LIMIT_CONFIG);
+    let bodyText: string | undefined
 
-    if (rate.limited) {
-      requestLog.warn("Web vitals metrics rate limited", {
-        resetAt: new Date(rate.reset).toISOString(),
-      });
-      const tooMany = buildTooManyRequestsResponse(rate);
-      sendJson(response, tooMany.status, { error: "rate_limited" }, tooMany.headers, startedAt);
-      return;
-    }
+    if (request.method?.toUpperCase() === 'POST') {
+      try {
+        bodyText = await readRequestBody(request)
+      } catch (error) {
+        if (error instanceof PayloadTooLargeError) {
+          const identifier = resolveClientIdentifier(headers, client)
+          rateLimiter.clear(identifier)
+          sendJson(
+            response,
+            413,
+            { error: 'payload_too_large' },
+            { 'Cache-Control': 'no-store' },
+            startedAt,
+          )
+          return
+        }
 
-    let payload: unknown;
-    try {
-      const body = await readRequestBody(request);
-      payload = body ? JSON.parse(body) : undefined;
-    } catch (error) {
-      if (error instanceof PayloadTooLargeError) {
-        requestLog.warn("Metrics payload exceeded size limit", {
-          limit: MAX_REQUEST_BODY_BYTES,
-        });
-        clearRateLimit(identifier);
-        sendJson(
-          response,
-          413,
-          { error: "payload_too_large" },
-          { "Cache-Control": "no-store" },
-          startedAt,
-        );
-        return;
+        throw error
       }
-      const sanitizedError = redactForLogging(error);
-      requestLog.warn("Failed to parse metrics payload", { error: sanitizedError });
-      void captureException(
-        new Error("metrics_invalid_json"),
-        buildCaptureContext(requestContext, { error: sanitizedError }),
-      );
-      sendJson(
-        response,
-        400,
-        { error: "invalid_json" },
-        { "Cache-Control": "no-store" },
-        startedAt,
-      );
-      return;
     }
 
-    const parsed = payloadSchema.safeParse(payload);
-    if (!parsed.success) {
-      const sanitizedIssues = redactForLogging(parsed.error.issues);
-      const sanitizedPayload = redactForLogging(payload);
-      requestLog.warn("Metrics payload failed validation", {
-        issues: sanitizedIssues,
-      });
-      void captureException(
-        new Error("metrics_invalid_payload"),
-        buildCaptureContext(requestContext, {
-          issues: sanitizedIssues,
-          payload: sanitizedPayload,
-        }),
-      );
-      sendJson(
-        response,
-        422,
-        { error: "invalid_payload" },
-        { "Cache-Control": "no-store" },
-        startedAt,
-      );
-      return;
-    }
+    const result = processMetrics({
+      method: request.method,
+      headers,
+      bodyText,
+      client,
+    } satisfies ProcessMetricsInput)
 
-    const { metric, page, timestamp, visibilityState } = parsed.data;
-
-    requestLog.info("Web vitals metric accepted", {
-      page,
-      timestamp,
-      visibilityState,
-      metric,
-      userAgent: headers["user-agent"],
-    });
-
-    sendJson(
-      response,
-      202,
-      { status: "accepted" },
-      { "Cache-Control": "no-store" },
-      startedAt,
-    );
-  };
+    sendJson(response, result.status, result.body, result.headers, startedAt)
+  }
 }
 
-export const handleMetricsRequest = createMetricsHandler();
+export const handleMetricsRequest = createMetricsHandler()
 
 export function resetMetricsRateLimit(identifier?: string): void {
-  clearRateLimit(identifier);
+  clearRateLimit(identifier)
 }
 
