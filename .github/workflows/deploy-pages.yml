@@ -22,6 +22,7 @@ permissions:
 
 jobs:
   build:
+    if: github.actor != 'github-pages[bot]'
     name: Build static site
     runs-on: ubuntu-latest
     permissions:
