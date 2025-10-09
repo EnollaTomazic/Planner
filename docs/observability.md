@@ -11,10 +11,10 @@ Planner ships a lightweight web vitals pipeline so we can correlate UI regressio
 
 ## API ingestion
 
-- Static exports no longer bundle a Next.js Route Handler. Instead, `server/metrics-handler.ts` exposes a reusable Node.js-compatible request handler that mirrors the former API logic and logs through the structured `observabilityLogger` (`planner:observability:metrics`).
-- The handler applies an in-memory sliding window rate limiter (`consumeRateLimit`) that allows 24 payloads per minute per client IP before returning `429 Too Many Requests` with a `Retry-After` header.
-- Responses are non-cacheable (`Cache-Control: no-store`) and use HTTP 202 to indicate that ingestion succeeded.
-- Invalid JSON returns 400, schema validation issues return 422, both with warn-level log entries to flag suspicious traffic.
+- `/api/metrics` is implemented with a Next.js Route Handler in [`src/app/api/metrics/route.ts`](../src/app/api/metrics/route.ts). The handler shares its core validation and logging logic with the standalone Node entry point via `createMetricsProcessor` so both environments stay aligned.
+- A reusable Node-compatible handler remains available at [`server/metrics-handler.ts`](../server/metrics-handler.ts) for self-hosted collectors or edge runtimes that require the lower-level API.
+- The processor applies an in-memory sliding window rate limiter (`consumeRateLimit`) that allows 24 payloads per minute per client identifier before returning `429 Too Many Requests` with a `Retry-After` header. Oversized bodies (over 50 KB) are rejected with `413 Payload Too Large` before parsing.
+- Responses are non-cacheable (`Cache-Control: no-store`) and return HTTP 200 for accepted payloads. Invalid JSON or schema violations produce HTTP 400 with warn-level log entries so suspicious traffic can be triaged quickly.
 
 ## Extending the sink
 

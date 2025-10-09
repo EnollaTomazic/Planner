@@ -96,7 +96,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 /** @type {import("next").NextConfig} */
 let nextConfig = {
   reactStrictMode: true,
-  output: "export",
+  ...(isExportStatic ? { output: "export" } : {}),
   trailingSlash: true,
   basePath: nextBasePath,
   assetPrefix: nextAssetPrefix,
