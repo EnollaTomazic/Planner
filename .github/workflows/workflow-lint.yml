@@ -33,6 +33,8 @@ jobs:
     steps:
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
+        with:
+          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
 
       - name: actionlint
         uses: reviewdog/action-actionlint@0b71b30a47a15c4d849868cca394fb656f1cf657 # v1.67.0
