@@ -32,9 +32,6 @@ jobs:
       BASE_PATH: Planner
       NEXT_PUBLIC_BASE_PATH: /Planner
     steps:
-      - uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
       - uses: ./.github/actions/setup-node-project
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
