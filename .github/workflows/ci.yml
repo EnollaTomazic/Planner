@@ -109,53 +109,19 @@ jobs:
           TSX_TEMPDIR: node_modules/.cache/tsx
         run: pnpm run guard:artifacts
 
+      - name: Verify prompts registry
+        id: verify_prompts
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: pnpm run verify-prompts
+
       - name: Summarize lint
         if: always()
         run: |
           {
             echo "## Lint";
             echo "- Status: ${{ job.status }}";
-          } >> "$GITHUB_STEP_SUMMARY"
-
-  prompt-verify:
-    name: Verify prompts
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
-      - name: Setup Node project
-        uses: ./.github/actions/setup-node-project
-        with:
-          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          cache-prefix: ci
-          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
-
-      - name: Verify tool versions
-        uses: ./.github/actions/verify-tool-versions
-        with:
-          pnpm-version: ${{ env.PNPM_VERSION }}
-
-      - name: Refresh gallery usage manifest
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
-        run: pnpm run build-gallery-usage
-
-      - name: Verify prompts registry
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
-        run: pnpm run verify-prompts
-
-      - name: Summarize prompt verification
-        if: always()
-        run: |
-          {
-            echo "## Verify prompts";
-            echo "- Status: ${{ job.status }}";
+            echo "- Prompt verification: ${{ steps.verify_prompts.outcome || 'skipped' }}";
           } >> "$GITHUB_STEP_SUMMARY"
 
   typecheck:
@@ -264,7 +230,6 @@ jobs:
       - typecheck
       - unit-tests
       - audit
-      - prompt-verify
     runs-on: ubuntu-latest
 
     steps:
