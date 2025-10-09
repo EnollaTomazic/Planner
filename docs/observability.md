@@ -11,10 +11,11 @@ Planner ships a lightweight web vitals pipeline so we can correlate UI regressio
 
 ## API ingestion
 
-- Static exports no longer bundle a Next.js Route Handler. Instead, `server/metrics-handler.ts` exposes a reusable Node.js-compatible request handler that mirrors the former API logic and logs through the structured `observabilityLogger` (`planner:observability:metrics`).
+- `/api/metrics` is implemented as a Next.js Route Handler (`src/app/api/metrics/route.ts`) backed by the shared `createMetricsHandler` factory. The handler still logs through the structured `observabilityLogger` (`planner:observability:metrics`).
 - The handler applies an in-memory sliding window rate limiter (`consumeRateLimit`) that allows 24 payloads per minute per client IP before returning `429 Too Many Requests` with a `Retry-After` header.
-- Responses are non-cacheable (`Cache-Control: no-store`) and use HTTP 202 to indicate that ingestion succeeded.
-- Invalid JSON returns 400, schema validation issues return 422, both with warn-level log entries to flag suspicious traffic.
+- Responses are non-cacheable (`Cache-Control: no-store`) and use HTTP 200 to confirm that ingestion succeeded.
+- Invalid JSON or schema validation issues return 400 so suspicious traffic still surfaces via warn-level log entries.
+- Bodies larger than ~50 KB are rejected with HTTP 413 and the rate limiter token for that client is restored.
 
 ## Extending the sink
 

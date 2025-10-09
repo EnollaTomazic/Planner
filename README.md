@@ -125,33 +125,13 @@ try {
 
 Each issue exposes the failing `path`, human-readable `message`, and an optional `code` mirroring the underlying Zod `ZodIssue`. Surface this data in logs or UI hints instead of parsing concatenated error strings.
 
-## Metrics reporting on static hosts
+## Metrics reporting
 
-Static exports (including GitHub Pages) no longer bundle a `/api/metrics` Route Handler. To keep the browser reporting hook lightweight and optional:
+Planner ships a built-in `/api/metrics` Route Handler backed by the same schema the browser hook emits. To keep the browser reporting hook lightweight and optional:
 
 1. Leave `NEXT_PUBLIC_METRICS_ENDPOINT` empty to skip sending metrics entirely. The hook still runs in development, but production builds detect the missing endpoint and bail before serializing payloads.
-2. Point `NEXT_PUBLIC_METRICS_ENDPOINT` at any HTTPS endpoint that accepts the payload defined in [`server/metrics-handler.ts`](server/metrics-handler.ts) if you want to continue aggregating vitals. Relative paths are resolved against `NEXT_PUBLIC_BASE_PATH`, making it safe to deploy a separate collector alongside GitHub Pages assets under the same origin.
-3. Reuse the provided handler in your own Node runtime when you need parity with the previous Next.js route:
-
-   ```ts
-   import { createServer } from "node:http";
-
-   import { handleMetricsRequest } from "./server/metrics-handler";
-
-   const server = createServer((req, res) => {
-     if (req.url === "/metrics" && req.method === "POST") {
-       void handleMetricsRequest(req, res);
-       return;
-     }
-
-     res.statusCode = 404;
-     res.end();
-   });
-
-   server.listen(process.env.PORT ?? 4000);
-   ```
-
-   Deploy that server separately (e.g., on Fly.io, Render, or a simple Node host) and set `NEXT_PUBLIC_METRICS_ENDPOINT=https://<host>/metrics` so the static site can continue forwarding vitals.
+2. Point `NEXT_PUBLIC_METRICS_ENDPOINT` at the built-in route (`/api/metrics`) when deploying the Next.js application so vitals are collected server-side with rate limiting.
+3. If you prefer to aggregate metrics elsewhere (for example, when exporting statically or forwarding to an external collector), point `NEXT_PUBLIC_METRICS_ENDPOINT` at that HTTPS endpoint instead. Relative paths are resolved against `NEXT_PUBLIC_BASE_PATH`, making it safe to host a separate collector alongside the app under the same origin.
 
 ## Animations
 
