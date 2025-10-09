@@ -29,7 +29,7 @@ export interface HeroPlannerCardsProps {
   className?: string;
 }
 
-export default function HeroPlannerCards({
+const HeroPlannerCards = React.memo(function HeroPlannerCards({
   variant,
   plannerOverviewProps,
   highlights: _highlights,
@@ -87,4 +87,8 @@ export default function HeroPlannerCards({
       </section>
     </div>
   );
-}
+});
+
+HeroPlannerCards.displayName = "HeroPlannerCards";
+
+export default HeroPlannerCards;

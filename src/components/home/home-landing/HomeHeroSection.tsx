@@ -10,7 +10,7 @@ import type { HomeHeroSectionProps } from "./types";
 
 const subtleVariants = new Set(["noir"]);
 
-export default function HomeHeroSection({
+const HomeHeroSection = React.memo(function HomeHeroSection({
   variant,
   actions,
   headingId,
@@ -129,4 +129,8 @@ export default function HomeHeroSection({
       </div>
     </div>
   );
-}
+});
+
+HomeHeroSection.displayName = "HomeHeroSection";
+
+export default HomeHeroSection;
