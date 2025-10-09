@@ -223,7 +223,7 @@ runs:
       if: ${{ inputs['cache-node-modules'] == 'true' }}
       uses: actions/cache/restore@v4
       with:
-        path: node_modules
+        path: ${{ github.workspace }}/node_modules
         key: "${{ steps['cache-key'].outputs.primary }}"
         restore-keys: |
           ${{ steps['cache-key'].outputs.restore }}
@@ -231,20 +231,21 @@ runs:
     - name: Install dependencies
       if: ${{ inputs['cache-node-modules'] != 'true' || steps['restore-node-modules'].outputs['cache-hit'] != 'true' }}
       shell: bash
+      working-directory: ${{ github.workspace }}
       run: "${{ steps.detect.outputs.install }}"
 
     - name: Save node_modules cache
       if: ${{ inputs['cache-node-modules'] == 'true' && steps['restore-node-modules'].outputs['cache-hit'] != 'true' }}
       uses: actions/cache/save@v4
       with:
-        path: node_modules
+        path: ${{ github.workspace }}/node_modules
         key: "${{ steps['cache-key'].outputs.primary }}"
 
     - name: Verify dependencies restored
       shell: bash
       run: |
         set -euo pipefail
-        if [ ! -d node_modules ]; then
+        if [ ! -d "${GITHUB_WORKSPACE}/node_modules" ]; then
           echo "node_modules was not restored or installed" >&2
           exit 1
         fi
