@@ -1,8 +1,11 @@
+import { randomUUID } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
 
 import { z } from "zod";
 
 import { observabilityLogger, redactForLogging } from "@/lib/logging";
+import { captureException } from "@/lib/observability/sentry";
+import type { ObservabilityCaptureContext } from "@/lib/observability/sentry";
 import {
   clearRateLimit,
   consumeRateLimit,
@@ -45,6 +48,12 @@ const RATE_LIMIT_CONFIG = {
 type MetricsRequest = IncomingMessage & { ip?: string | null };
 
 type NormalizedHeaders = Record<string, string | undefined>;
+
+type RequestContext = {
+  clientId: string;
+  requestId: string;
+  userId: string;
+};
 
 function normalizeHeaders(request: IncomingMessage): NormalizedHeaders {
   const result: NormalizedHeaders = {};
@@ -92,6 +101,59 @@ function getClientIdentifier(request: MetricsRequest, headers: NormalizedHeaders
   }
 
   return "anonymous";
+}
+
+function getRequestIdentifier(headers: NormalizedHeaders): string {
+  const candidates = [
+    getHeader(headers, "x-request-id"),
+    getHeader(headers, "cf-ray"),
+    getHeader(headers, "cf-request-id"),
+    getHeader(headers, "x-amzn-trace-id"),
+  ];
+
+  for (const value of candidates) {
+    if (value) {
+      return value;
+    }
+  }
+
+  return randomUUID();
+}
+
+function getUserIdentifier(headers: NormalizedHeaders): string | undefined {
+  return (
+    getHeader(headers, "x-user-id") ||
+    getHeader(headers, "x-planner-user-id") ||
+    getHeader(headers, "x-anonymous-id") ||
+    undefined
+  );
+}
+
+function buildRequestContext(
+  clientId: string,
+  headers: NormalizedHeaders,
+): RequestContext {
+  const requestId = getRequestIdentifier(headers);
+  const userId = getUserIdentifier(headers) ?? "anonymous";
+
+  return { clientId, requestId, userId } satisfies RequestContext;
+}
+
+function buildCaptureContext(
+  context: RequestContext,
+  extra: Record<string, unknown> = {},
+): ObservabilityCaptureContext {
+  return {
+    tags: {
+      endpoint: "metrics",
+      requestId: context.requestId,
+    },
+    extra: {
+      clientId: context.clientId,
+      userId: context.userId,
+      ...extra,
+    },
+  };
 }
 
 function buildTooManyRequestsResponse(rate: RateLimitResult) {
@@ -221,10 +283,12 @@ export function createMetricsHandler(): MetricsHandler {
     }
 
     const identifier = getClientIdentifier(request, headers);
+    const requestContext = buildRequestContext(identifier, headers);
+    const requestLog = metricsLog.child("request", requestContext);
     const rate = consumeRateLimit(identifier, RATE_LIMIT_CONFIG);
 
     if (rate.limited) {
-      metricsLog.warn("Web vitals metrics rate limited", {
+      requestLog.warn("Web vitals metrics rate limited", {
         resetAt: new Date(rate.reset).toISOString(),
       });
       const tooMany = buildTooManyRequestsResponse(rate);
@@ -238,7 +302,7 @@ export function createMetricsHandler(): MetricsHandler {
       payload = body ? JSON.parse(body) : undefined;
     } catch (error) {
       if (error instanceof PayloadTooLargeError) {
-        metricsLog.warn("Metrics payload exceeded size limit", {
+        requestLog.warn("Metrics payload exceeded size limit", {
           limit: MAX_REQUEST_BODY_BYTES,
         });
         clearRateLimit(identifier);
@@ -251,7 +315,12 @@ export function createMetricsHandler(): MetricsHandler {
         );
         return;
       }
-      metricsLog.warn("Failed to parse metrics payload", redactForLogging(error));
+      const sanitizedError = redactForLogging(error);
+      requestLog.warn("Failed to parse metrics payload", { error: sanitizedError });
+      void captureException(
+        new Error("metrics_invalid_json"),
+        buildCaptureContext(requestContext, { error: sanitizedError }),
+      );
       sendJson(
         response,
         400,
@@ -264,9 +333,18 @@ export function createMetricsHandler(): MetricsHandler {
 
     const parsed = payloadSchema.safeParse(payload);
     if (!parsed.success) {
-      metricsLog.warn("Metrics payload failed validation", {
-        issues: parsed.error.issues,
+      const sanitizedIssues = redactForLogging(parsed.error.issues);
+      const sanitizedPayload = redactForLogging(payload);
+      requestLog.warn("Metrics payload failed validation", {
+        issues: sanitizedIssues,
       });
+      void captureException(
+        new Error("metrics_invalid_payload"),
+        buildCaptureContext(requestContext, {
+          issues: sanitizedIssues,
+          payload: sanitizedPayload,
+        }),
+      );
       sendJson(
         response,
         422,
@@ -279,7 +357,7 @@ export function createMetricsHandler(): MetricsHandler {
 
     const { metric, page, timestamp, visibilityState } = parsed.data;
 
-    metricsLog.info("Web vitals metric accepted", {
+    requestLog.info("Web vitals metric accepted", {
       page,
       timestamp,
       visibilityState,

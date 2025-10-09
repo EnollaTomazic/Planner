@@ -31,16 +31,26 @@ jobs:
       contents: read
       pull-requests: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
+          skip-checkout: 'true'
 
-      - name: actionlint
+      - name: actionlint (all workflows)
         uses: reviewdog/action-actionlint@0b71b30a47a15c4d849868cca394fb656f1cf657 # v1.67.0
         with:
           github_token: ${{ github.token }}
           fail_level: error
+          filter_mode: nofilter
+          actionlint_flags: >-
+            $(git ls-files '.github/workflows/*.yml' '.github/workflows/*.yaml')
 
       - name: Install yamllint
         run: sudo apt-get update && sudo apt-get install -y yamllint
