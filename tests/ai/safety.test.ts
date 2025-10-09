@@ -22,6 +22,8 @@ import {
 
 import { z } from "zod";
 
+import { getLlmTokenUsageSummary, resetLlmTokenUsage } from "@/metrics";
+
 const getFeaturesModule = async () => {
   return import("@/lib/features");
 };
@@ -31,6 +33,7 @@ afterEach(() => {
   delete process.env.AI_TOKENS_PER_CHAR;
   delete process.env.AI_TOKENS_PER_CHARACTER;
   delete process.env.SAFE_MODE;
+  resetLlmTokenUsage();
 });
 
 const sanitizeOptionsSchema = z.object({
@@ -244,6 +247,31 @@ describe("capTokens", () => {
     });
 
     expect(result.messages).toEqual([{ content: "keep" }]);
+  });
+
+  it("reports token usage to the metrics tracker when agent metadata is provided", () => {
+    resetLlmTokenUsage();
+
+    const result = enforceTokenBudget(
+      tokenBudgetContentSchema.array().parse([
+        { content: "alpha", pinned: true },
+        { content: "beta" },
+      ]),
+      {
+        maxTokens: 16,
+        reservedForResponse: 0,
+        estimateTokens: (content) => content.length,
+        agent: { id: "planner", label: "Planner" },
+      },
+    );
+
+    expect(result.totalTokens).toBe(9);
+
+    const summary = getLlmTokenUsageSummary();
+    expect(summary.totalTokens).toBe(9);
+    expect(summary.agents).toEqual([
+      expect.objectContaining({ id: "planner", label: "Planner", tokens: 9 }),
+    ]);
   });
 });
 
