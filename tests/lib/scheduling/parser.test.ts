@@ -78,6 +78,19 @@ describe("buildRecurringOccurrences", () => {
     );
     expect(occurrences).toEqual(["2024-01-10", "2024-03-10", "2024-05-10"]);
   });
+
+  it("clamps monthly occurrences to the target month's length", () => {
+    const occurrences = buildRecurringOccurrences(
+      { frequency: "monthly", interval: 1 },
+      { startDate: "2024-01-31", count: 4 },
+    );
+    expect(occurrences).toEqual([
+      "2024-01-31",
+      "2024-02-29",
+      "2024-03-31",
+      "2024-04-30",
+    ]);
+  });
 });
 
 describe("summariseParse", () => {
