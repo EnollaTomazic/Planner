@@ -123,4 +123,30 @@ describe("reportWebVitals", () => {
     expect(typeof urlRaw).toBe("string");
     expect(urlRaw).toBe("/planner/api/metrics");
   });
+
+  it("falls back to fetch when sendBeacon returns false", async () => {
+    process.env.NEXT_PUBLIC_ENABLE_METRICS = "true";
+    process.env.NEXT_PUBLIC_METRICS_ENDPOINT = "https://metrics.example.com/collect";
+    const sendBeacon = vi.fn(() => false);
+    Object.defineProperty(navigator, "sendBeacon", {
+      configurable: true,
+      value: sendBeacon,
+    });
+    const fetchMock = vi.fn(() => Promise.resolve(new Response(null)));
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const { reportWebVitals } = await import("@/reportWebVitals");
+    reportWebVitals(metric);
+
+    expect(sendBeacon).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const call = fetchMock.mock.calls.at(0);
+    expect(call).toBeDefined();
+    if (!call) {
+      throw new Error("Expected fetch to be called");
+    }
+    const [urlRaw] = call as unknown[];
+    expect(typeof urlRaw).toBe("string");
+    expect(urlRaw).toBe("https://metrics.example.com/collect");
+  });
 });
