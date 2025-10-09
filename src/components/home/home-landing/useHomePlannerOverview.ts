@@ -274,23 +274,36 @@ export function useHomePlannerOverview(): PlannerOverviewProps {
     ],
   );
 
-  return {
-    hydrating,
-    hydrated,
-    summary: {
+  const summary = React.useMemo(
+    () => ({
       label: "Highlights",
       title: "Quick summary",
       items: summaryItems,
-    },
-    focus: focusCard,
-    goals: goalsCard,
-    calendar: calendarCard,
-    activity: {
+    }),
+    [summaryItems],
+  );
+
+  const activity = React.useMemo(
+    () => ({
       loading: hydrating,
       hasData: !hydrating && activityHasData,
       totalCompleted: hydrating ? 0 : weekDone,
       totalScheduled: hydrating ? 0 : weekTotal,
       points: activityPoints,
-    },
-  };
+    }),
+    [activityHasData, activityPoints, hydrating, weekDone, weekTotal],
+  );
+
+  return React.useMemo(
+    () => ({
+      hydrating,
+      hydrated,
+      summary,
+      focus: focusCard,
+      goals: goalsCard,
+      calendar: calendarCard,
+      activity,
+    }),
+    [activity, calendarCard, focusCard, goalsCard, hydrating, hydrated, summary],
+  );
 }
