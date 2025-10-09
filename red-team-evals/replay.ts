@@ -41,6 +41,7 @@ async function main(): Promise<void> {
   const samples = await loadSamples()
   const sanitizePrompt = await loadSanitizer()
   let hasMismatch = false
+  const mismatches: SampleCase[] = []
 
   for (const sample of samples) {
     const actual = sanitizePrompt(sample.input, sample.options)
@@ -48,9 +49,22 @@ async function main(): Promise<void> {
 
     if (!matches) {
       hasMismatch = true
+      mismatches.push(sample)
     }
 
     printCase(sample, actual, matches)
+  }
+
+  console.log('Summary:')
+  console.log(
+    `  ${samples.length - mismatches.length} / ${samples.length} cases match expectations.`,
+  )
+
+  if (mismatches.length > 0) {
+    console.log('  Failing cases:')
+    for (const sample of mismatches) {
+      console.log(`    • ${sample.id}`)
+    }
   }
 
   if (hasMismatch) {
