@@ -1,0 +1,1063 @@
+{
+  "color": {
+    "highlight": {
+      "value": "0 0% 100%"
+    },
+    "lavDeep": {
+      "value": "318 82% 60%"
+    },
+    "teamBlue": {
+      "value": "200 100% 60%"
+    },
+    "teamRed": {
+      "value": "0 85% 60%"
+    },
+    "btnBg": {
+      "value": "transparent"
+    },
+    "btnFg": {
+      "value": "hsl(var(--foreground))"
+    },
+    "hover": {
+      "value": "hsl(var(--foreground) / 0.08)"
+    },
+    "active": {
+      "value": "hsl(var(--foreground) / 0.12)"
+    },
+    "disabled": {
+      "value": "0.5"
+    },
+    "loading": {
+      "value": "0.6"
+    },
+    "edgeIris": {
+      "value": "conic-gradient(\n    from 180deg,\n    hsl(262 88% 60% / 0),\n    hsl(262 88% 60% / 0.72),\n    hsl(var(--accent-3) / 0.72),\n    hsl(318 82% 60% / 0.7),\n    hsl(262 88% 60% / 0)\n  )"
+    },
+    "segActiveGrad": {
+      "value": "linear-gradient(\n    90deg,\n    hsl(var(--primary-soft) / 0.85),\n    hsl(var(--accent-soft) / 0.85),\n    hsl(var(--accent-2) / 0.8)\n  )"
+    },
+    "segActiveBase": {
+      "value": "hsl(var(--card))"
+    },
+    "lgViolet": {
+      "value": "var(--ring)"
+    },
+    "lgCyan": {
+      "value": "var(--accent-2)"
+    },
+    "lgPink": {
+      "value": "var(--lav-deep)"
+    },
+    "lgBlack": {
+      "value": "var(--background)"
+    },
+    "visuallyHiddenTop": {
+      "value": "-9999px"
+    },
+    "bg": {
+      "value": "var(--background)"
+    }
+  },
+  "typography": {
+    "text": {
+      "value": "var(--foreground)"
+    },
+    "textOnAccent": {
+      "value": "hsl(var(--foreground))"
+    },
+    "controlFs": {
+      "value": "var(--font-ui)"
+    },
+    "fontSizeMd": {
+      "value": "var(--font-body)"
+    },
+    "fontWeightBold": {
+      "value": "800"
+    },
+    "fontLabel": {
+      "value": "12px"
+    },
+    "fontUi": {
+      "value": "15px"
+    },
+    "fontBody": {
+      "value": "19px"
+    },
+    "fontTitle": {
+      "value": "24px"
+    },
+    "fontTitleLg": {
+      "value": "30px"
+    }
+  },
+  "spacing": {
+    "controlHXs": {
+      "value": "24px"
+    },
+    "controlHSm": {
+      "value": "32px"
+    },
+    "controlHMd": {
+      "value": "40px"
+    },
+    "controlHLg": {
+      "value": "48px"
+    },
+    "controlHXl": {
+      "value": "56px"
+    },
+    "controlH": {
+      "value": "var(--control-h-md)"
+    },
+    "shellWidth": {
+      "value": "1280px"
+    },
+    "shellMax": {
+      "value": "var(--shell-width)"
+    },
+    "shadowInsetContrast": {
+      "value": "inset 0 0 0 var(--hairline-w) var(--ring-contrast)"
+    },
+    "shadowInsetHairline": {
+      "value": "inset 0 0 0 var(--hairline-w) hsl(var(--card-hairline))"
+    },
+    "shadowControlHover": {
+      "value": "0 var(--spacing-1) var(--spacing-2) hsl(var(--shadow-color) / 0.3)"
+    },
+    "space1": {
+      "value": "var(--spacing-1)"
+    },
+    "space2": {
+      "value": "var(--spacing-2)"
+    },
+    "space3": {
+      "value": "var(--spacing-3)"
+    },
+    "space4": {
+      "value": "var(--spacing-4)"
+    },
+    "space5": {
+      "value": "var(--spacing-5)"
+    },
+    "space6": {
+      "value": "var(--spacing-6)"
+    },
+    "space7": {
+      "value": "var(--spacing-7)"
+    },
+    "space8": {
+      "value": "var(--spacing-8)"
+    },
+    "space12": {
+      "value": "calc(var(--space-8) + var(--space-4))"
+    },
+    "space16": {
+      "value": "calc(var(--space-8) * 2)"
+    },
+    "ringSize1": {
+      "value": "var(--spacing-0-5)"
+    },
+    "ringSize2": {
+      "value": "var(--spacing-1)"
+    },
+    "iconStroke100": {
+      "value": "var(--spacing-0-5)"
+    },
+    "iconStroke150": {
+      "value": "calc(var(--spacing-0-5) * 1.25)"
+    },
+    "ringDiameterXs": {
+      "value": "var(--space-5)"
+    },
+    "ringDiameterS": {
+      "value": "var(--space-6)"
+    },
+    "ringDiameterM": {
+      "value": "var(--space-8)"
+    },
+    "ringDiameterL": {
+      "value": "calc(var(--space-8) * 3.5)"
+    },
+    "ringStrokeXs": {
+      "value": "var(--ring-size-1)"
+    },
+    "ringStrokeS": {
+      "value": "var(--ring-size-1)"
+    },
+    "ringStrokeM": {
+      "value": "var(--ring-size-2)"
+    },
+    "ringStrokeL": {
+      "value": "var(--ring-size-2)"
+    },
+    "ringInset": {
+      "value": "calc(var(--space-3) / 2)"
+    },
+    "layoutGutterSm": {
+      "value": "var(--spacing-4)"
+    },
+    "layoutGutterMd": {
+      "value": "var(--spacing-5)"
+    },
+    "layoutGutterLg": {
+      "value": "var(--spacing-6)"
+    },
+    "aaMinContrast": {
+      "value": "4.5"
+    },
+    "space9": {
+      "value": "calc(var(--space-8) + var(--space-1))"
+    },
+    "space10": {
+      "value": "calc(var(--space-8) + var(--space-2))"
+    },
+    "space11": {
+      "value": "calc(var(--space-8) + var(--space-3))"
+    },
+    "depthShadowInset": {
+      "value": "var(--shadow-depth-inner)"
+    },
+    "layoutQuickActionMin": {
+      "value": "calc(var(--spacing-8) * 3)"
+    },
+    "layoutQuickActionTooltipMax": {
+      "value": "calc(var(--spacing-8) * 5)"
+    },
+    "spacing0125": {
+      "value": "calc(var(--spacing-1) / 8)"
+    },
+    "spacing025": {
+      "value": "calc(var(--spacing-1) / 4)"
+    },
+    "spacing05": {
+      "value": "calc(var(--spacing-1) / 2)"
+    },
+    "spacing075": {
+      "value": "calc(var(--spacing-1) * 0.75)"
+    },
+    "spacing1": {
+      "value": "4px"
+    },
+    "spacing2": {
+      "value": "8px"
+    },
+    "spacing3": {
+      "value": "12px"
+    },
+    "spacing4": {
+      "value": "16px"
+    },
+    "spacing5": {
+      "value": "24px"
+    },
+    "spacing6": {
+      "value": "32px"
+    },
+    "spacing7": {
+      "value": "48px"
+    },
+    "spacing8": {
+      "value": "64px"
+    }
+  },
+  "radii": {
+    "controlRadius": {
+      "value": "var(--radius-xl)"
+    },
+    "pillarWaveStart": {
+      "value": "var(--accent)"
+    },
+    "pillarWaveEnd": {
+      "value": "var(--accent-2)"
+    },
+    "pillarWaveShadow": {
+      "value": "var(--accent) / 0.35"
+    },
+    "pillarTradingStart": {
+      "value": "var(--lav-deep)"
+    },
+    "pillarTradingEnd": {
+      "value": "var(--accent)"
+    },
+    "pillarTradingShadow": {
+      "value": "var(--lav-deep) / 0.35"
+    },
+    "pillarVisionStart": {
+      "value": "var(--success)"
+    },
+    "pillarVisionEnd": {
+      "value": "var(--accent-2)"
+    },
+    "pillarVisionShadow": {
+      "value": "var(--success) / 0.35"
+    },
+    "pillarTempoStart": {
+      "value": "var(--ring)"
+    },
+    "pillarTempoEnd": {
+      "value": "var(--accent)"
+    },
+    "pillarTempoShadow": {
+      "value": "var(--ring) / 0.35"
+    },
+    "pillarPositioningStart": {
+      "value": "var(--accent-2)"
+    },
+    "pillarPositioningEnd": {
+      "value": "var(--primary)"
+    },
+    "pillarPositioningShadow": {
+      "value": "var(--accent-2) / 0.35"
+    },
+    "pillarCommsStart": {
+      "value": "var(--lav-deep)"
+    },
+    "pillarCommsEnd": {
+      "value": "var(--primary)"
+    },
+    "pillarCommsShadow": {
+      "value": "var(--primary) / 0.35"
+    },
+    "cardRadius": {
+      "value": "var(--radius-xl)"
+    },
+    "blobRadiusSoft": {
+      "value": "calc(var(--radius-2xl) + var(--spacing-2))"
+    },
+    "radiusSm": {
+      "value": "6px"
+    },
+    "radiusMd": {
+      "value": "8px"
+    },
+    "radiusLg": {
+      "value": "12px"
+    },
+    "radiusXl": {
+      "value": "16px"
+    },
+    "radius2xl": {
+      "value": "24px"
+    },
+    "radiusFull": {
+      "value": "9999px"
+    }
+  },
+  "shadow": {
+    "background": {
+      "value": "247 34% 6%"
+    },
+    "foreground": {
+      "value": "258 26% 97%"
+    },
+    "card": {
+      "value": "249 30% 9%"
+    },
+    "cardForeground": {
+      "value": "var(--foreground)"
+    },
+    "panel": {
+      "value": "var(--card)"
+    },
+    "border": {
+      "value": "253 28% 24%"
+    },
+    "line": {
+      "value": "var(--border)"
+    },
+    "input": {
+      "value": "249 28% 12%"
+    },
+    "ring": {
+      "value": "262 88% 66%"
+    },
+    "themeRing": {
+      "value": "hsl(var(--ring))"
+    },
+    "primary": {
+      "value": "262 88% 60%"
+    },
+    "primaryForeground": {
+      "value": "0 0% 100%"
+    },
+    "primarySoft": {
+      "value": "262 88% 20%"
+    },
+    "accent": {
+      "value": "294 90% 42%"
+    },
+    "accent2": {
+      "value": "190 88% 32%"
+    },
+    "accent3": {
+      "value": "200 88% 34%"
+    },
+    "accentForeground": {
+      "value": "0 0% 100%"
+    },
+    "accentContrast": {
+      "value": "294 92% 72%"
+    },
+    "accentSoft": {
+      "value": "294 90% 16%"
+    },
+    "glow": {
+      "value": "296 96% 56%"
+    },
+    "ringMuted": {
+      "value": "248 22% 24%"
+    },
+    "danger": {
+      "value": "0 84% 60%"
+    },
+    "warning": {
+      "value": "43 96% 56%"
+    },
+    "warningSoft": {
+      "value": "var(--warning) / 0.1"
+    },
+    "warningSoftStrong": {
+      "value": "var(--warning) / 0.2"
+    },
+    "muted": {
+      "value": "248 24% 15%"
+    },
+    "mutedForeground": {
+      "value": "248 18% 74%"
+    },
+    "fgMuted": {
+      "value": "var(--muted-foreground)"
+    },
+    "surface": {
+      "value": "248 26% 11%"
+    },
+    "surface2": {
+      "value": "248 26% 16%"
+    },
+    "surfaceVhs": {
+      "value": "210 24% 7%"
+    },
+    "surfaceStreak": {
+      "value": "240 18% 13%"
+    },
+    "shadowColor": {
+      "value": "263 78% 56%"
+    },
+    "noirBackground": {
+      "value": "352 68% 4%"
+    },
+    "noirForeground": {
+      "value": "0 0% 94%"
+    },
+    "noirBorder": {
+      "value": "352 44% 24%"
+    },
+    "hardstuckBackground": {
+      "value": "120 58% 3%"
+    },
+    "hardstuckForeground": {
+      "value": "120 60% 72%"
+    },
+    "hardstuckBorder": {
+      "value": "120 42% 22%"
+    },
+    "success": {
+      "value": "160 72% 48%"
+    },
+    "successSoft": {
+      "value": "var(--success) / 0.2"
+    },
+    "successGlow": {
+      "value": "160 72% 38% / 0.6"
+    },
+    "toneTop": {
+      "value": "38 92% 60%"
+    },
+    "toneJg": {
+      "value": "152 52% 44%"
+    },
+    "toneMid": {
+      "value": "265 72% 62%"
+    },
+    "toneBot": {
+      "value": "195 75% 56%"
+    },
+    "toneSup": {
+      "value": "320 72% 60%"
+    },
+    "auroraG": {
+      "value": "var(--accent-2)"
+    },
+    "auroraGLight": {
+      "value": "150 100% 85%"
+    },
+    "auroraP": {
+      "value": "var(--accent)"
+    },
+    "auroraPLight": {
+      "value": "272 80% 85%"
+    },
+    "iconFg": {
+      "value": "250 96% 78%"
+    },
+    "accentOverlay": {
+      "value": "hsl(var(--accent))"
+    },
+    "ringContrast": {
+      "value": "hsl(var(--ring))"
+    },
+    "glowActive": {
+      "value": "hsl(var(--glow))"
+    },
+    "neon": {
+      "value": "var(--glow)"
+    },
+    "neonSoft": {
+      "value": "hsl(var(--neon))"
+    },
+    "focus": {
+      "value": "var(--theme-ring)"
+    },
+    "cardHairline": {
+      "value": "hsl(var(--border))"
+    },
+    "hairlineW": {
+      "value": "1px"
+    },
+    "controlPx": {
+      "value": "var(--spacing-3)"
+    },
+    "reviewResultWinGradient": {
+      "value": "linear-gradient(\n    90deg,\n    hsl(var(--success) / 0.22),\n    hsl(var(--accent) / 0.18)\n  )"
+    },
+    "reviewResultLossGradient": {
+      "value": "linear-gradient(\n    90deg,\n    hsl(var(--danger) / 0.24),\n    hsl(var(--primary) / 0.2)\n  )"
+    },
+    "shadow": {
+      "value": "0 10px 30px hsl(250 38% 2% / 0.32)"
+    },
+    "shadowDropdown": {
+      "value": "0 12px 40px hsl(var(--shadow-color) / 0.55)"
+    },
+    "shadowNeoSm": {
+      "value": "calc(var(--spacing-1)) calc(var(--spacing-1)) calc(var(--spacing-2))\n      hsl(var(--panel) / 0.72),\n    calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) calc(var(--spacing-2))\n      hsl(var(--foreground) / 0.06)"
+    },
+    "shadowDepthOuter": {
+      "value": "calc(var(--spacing-3)) calc(var(--spacing-3)) var(--spacing-5)\n      hsl(var(--panel) / 0.72),\n    calc(var(--spacing-3) * -1) calc(var(--spacing-3) * -1) var(--spacing-5)\n      hsl(var(--foreground) / 0.06)"
+    },
+    "shadowDepthOuterStrong": {
+      "value": "var(--spacing-4) var(--spacing-4) var(--spacing-6) hsl(var(--panel) / 0.72),\n    calc(var(--spacing-4) * -1) calc(var(--spacing-4) * -1) var(--spacing-6)\n      hsl(var(--foreground) / 0.08)"
+    },
+    "shadowDepthInner": {
+      "value": "inset var(--spacing-1) var(--spacing-1) var(--spacing-3)\n      hsl(var(--panel) / 0.85),\n    inset calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) var(--spacing-3)\n      hsl(var(--foreground) / 0.08)"
+    },
+    "shadowRing": {
+      "value": "0 0 var(--spacing-3) hsl(var(--ring))"
+    },
+    "shadowDepthSoft": {
+      "value": "0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1)\n      hsl(var(--shadow-color))"
+    },
+    "shadowGlowSm": {
+      "value": "0 0 var(--spacing-2) var(--glow-active)"
+    },
+    "shadowGlowMd": {
+      "value": "0 0 var(--spacing-4) var(--glow-active)"
+    },
+    "shadowGlowLg": {
+      "value": "0 0 var(--spacing-5) var(--glow-active)"
+    },
+    "shadowGlowXl": {
+      "value": "0 var(--spacing-2) var(--spacing-6) var(--glow-active)"
+    },
+    "shadowNavActive": {
+      "value": "0 0 0 var(--hairline-w) hsl(var(--ring) / 0.35),\n    0 var(--spacing-2) var(--spacing-6) hsl(var(--ring) / 0.2)"
+    },
+    "shadowOutlineSubtle": {
+      "value": "0 0 0 var(--hairline-w) hsl(var(--border) / 0.12)"
+    },
+    "shadowOutlineFaint": {
+      "value": "0 0 0 var(--hairline-w) hsl(var(--border) / 0.08)"
+    },
+    "shadowBadge": {
+      "value": "inset 0 var(--hairline-w) 0 hsl(var(--foreground) / 0.06),\n    0 0 0 var(--hairline-w) hsl(var(--card-hairline) / 0.35),\n    0 var(--spacing-3) var(--spacing-4) hsl(var(--shadow-color) / 0.18)"
+    },
+    "shadowGlowCurrent": {
+      "value": "0 0 var(--spacing-2) currentColor"
+    },
+    "shadowNeonSoft": {
+      "value": "0 0 var(--spacing-2) var(--neon),\n    0 0 var(--spacing-4) var(--neon-soft)"
+    },
+    "shadowNeonStrong": {
+      "value": "0 0 var(--spacing-3) var(--neon),\n    0 0 var(--spacing-5) var(--neon-soft)"
+    },
+    "shadowControl": {
+      "value": "inset 0 var(--spacing-1) var(--spacing-2) 0 color-mix(in oklab, hsl(var(--shadow-color)) 18%, hsl(var(--background)) 82%),\n    var(--shadow-outline-subtle)"
+    },
+    "glowStrong": {
+      "value": "var(--ring) / 0.55"
+    },
+    "glowSoft": {
+      "value": "var(--accent) / 0.25"
+    },
+    "shadowNeon": {
+      "value": "0 0 var(--space-1) hsl(var(--neon) / 0.55),\n    0 0 calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),\n    0 0 calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2)"
+    },
+    "btnPrimaryHoverShadow": {
+      "value": "0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)\n    calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25)"
+    },
+    "btnPrimaryActiveShadow": {
+      "value": "inset 0 0 0 calc(var(--space-1) / 4)\n    hsl(var(--accent) / 0.6)"
+    },
+    "heroDividerBlur": {
+      "value": "calc(var(--spacing-1) * 1.5)"
+    },
+    "heroIllustrationOpacity": {
+      "value": "0.84"
+    },
+    "heroIllustrationBlur": {
+      "value": "calc(var(--space-4) + var(--space-1))"
+    },
+    "warningForeground": {
+      "value": "0 0% 6%"
+    },
+    "successForeground": {
+      "value": "0 0% 6%"
+    },
+    "auroraGLightColor": {
+      "value": "hsl(var(--aurora-g-light))"
+    },
+    "auroraPLightColor": {
+      "value": "hsl(var(--aurora-p-light))"
+    },
+    "elevation0": {
+      "value": "none"
+    },
+    "elevation1": {
+      "value": "var(--shadow-outline-faint)"
+    },
+    "elevation2": {
+      "value": "var(--shadow-outline-subtle)"
+    },
+    "elevation3": {
+      "value": "var(--shadow-control)"
+    },
+    "skeletonBg": {
+      "value": "hsl(var(--muted) / 0.6)"
+    },
+    "skeletonFill": {
+      "value": "hsl(var(--foreground) / 0.08)"
+    },
+    "gradientNoiseOpacity": {
+      "value": "0.1"
+    },
+    "gradientNoiseOverlayOpacity": {
+      "value": "0.06"
+    },
+    "shadowInnerSm": {
+      "value": "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)"
+    },
+    "shadowInnerMd": {
+      "value": "inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28)"
+    },
+    "shadowOuterLg": {
+      "value": "0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36)"
+    },
+    "glowPrimary": {
+      "value": "hsl(var(--primary) / 0.55)"
+    },
+    "blobSurface1": {
+      "value": "hsl(var(--surface))"
+    },
+    "blobSurface2": {
+      "value": "hsl(var(--surface-2))"
+    },
+    "blobSurface3": {
+      "value": "hsl(var(--card))"
+    },
+    "blobSurfaceShadow": {
+      "value": "hsl(var(--shadow-color) / 0.4)"
+    },
+    "glitchNoisePrimary": {
+      "value": "hsl(var(--accent) / 0.25)"
+    },
+    "glitchNoiseSecondary": {
+      "value": "hsl(var(--ring) / 0.2)"
+    },
+    "glitchNoiseContrast": {
+      "value": "hsl(var(--foreground) / 0.12)"
+    },
+    "elevationCard": {
+      "value": "var(--shadow-outline-subtle)"
+    },
+    "elevationCardPressed": {
+      "value": "var(--shadow-control)"
+    },
+    "neoDepthSm": {
+      "value": "var(--spacing-1)"
+    },
+    "neoDepthMd": {
+      "value": "var(--spacing-3)"
+    },
+    "neoDepthLg": {
+      "value": "var(--spacing-4)"
+    },
+    "neoSurface": {
+      "value": "color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%)"
+    },
+    "neoSurfaceAlt": {
+      "value": "color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%)"
+    },
+    "neoHighlight": {
+      "value": "color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)))"
+    },
+    "depthShadowOuter": {
+      "value": "var(--shadow-depth-outer)"
+    },
+    "depthShadowOuterStrong": {
+      "value": "var(--shadow-depth-outer-strong)"
+    },
+    "depthShadowSoft": {
+      "value": "var(--shadow-depth-soft)"
+    },
+    "depthShadowInner": {
+      "value": "var(--shadow-depth-inner)"
+    },
+    "depthGlowHighlightSoft": {
+      "value": "hsl(var(--highlight) / 0.08)"
+    },
+    "depthGlowHighlightMedium": {
+      "value": "hsl(var(--highlight) / 0.35)"
+    },
+    "depthGlowHighlightStrong": {
+      "value": "hsl(var(--highlight) / 0.55)"
+    },
+    "depthGlowShadowSoft": {
+      "value": "hsl(var(--shadow-color) / 0.14)"
+    },
+    "depthGlowShadowMedium": {
+      "value": "hsl(var(--shadow-color) / 0.28)"
+    },
+    "depthGlowShadowStrong": {
+      "value": "hsl(var(--shadow-color) / 0.42)"
+    },
+    "depthFocusRingRest": {
+      "value": "0 0 0 0 hsl(var(--ring) / 0),\n    0 0 0 0 hsl(var(--ring) / 0)"
+    },
+    "depthFocusRingActive": {
+      "value": "0 0 0 calc(var(--hairline-w) * 1) hsl(var(--ring))\n    var(--shadow-glow-lg)"
+    },
+    "backdropBlob1": {
+      "value": "var(--lg-violet)"
+    },
+    "backdropBlob2": {
+      "value": "var(--lg-cyan)"
+    },
+    "backdropBlob3": {
+      "value": "var(--lg-pink)"
+    },
+    "backdropBlobShadow": {
+      "value": "var(--lg-black)"
+    },
+    "backdropGridPrimary": {
+      "value": "var(--accent)"
+    },
+    "backdropGridSecondary": {
+      "value": "var(--accent)"
+    },
+    "backdropGridOpacity": {
+      "value": "0.1"
+    },
+    "backdropDrip1": {
+      "value": "var(--backdrop-blob-1)"
+    },
+    "backdropDrip2": {
+      "value": "var(--backdrop-blob-2)"
+    },
+    "backdropDrip3": {
+      "value": "var(--backdrop-blob-3)"
+    },
+    "backdropDripShadow": {
+      "value": "var(--backdrop-blob-shadow)"
+    },
+    "neoGlowStrength": {
+      "value": "0.45"
+    },
+    "neonOutlineOpacity": {
+      "value": "0.35"
+    },
+    "glitchIntensity": {
+      "value": "1.0"
+    },
+    "glitchFringe": {
+      "value": "12deg"
+    },
+    "glitchStaticOpacity": {
+      "value": "0.18"
+    },
+    "glitchNoiseLevel": {
+      "value": "var(--glitch-static-opacity)"
+    },
+    "glitchOverlayButtonOpacity": {
+      "value": "0.42"
+    },
+    "glitchOverlayButtonOpacityReduced": {
+      "value": "0.28"
+    },
+    "glitchChromaticOffsetStrong": {
+      "value": "calc(var(--spacing-0-25) / 4)"
+    },
+    "glitchChromaticOffsetMedium": {
+      "value": "calc(var(--spacing-0-25) * 3 / 20)"
+    },
+    "glitchChromaticOffsetLight": {
+      "value": "calc(var(--spacing-0-25) / 10)"
+    },
+    "glitchHaloOpacity": {
+      "value": "0.28"
+    },
+    "glitchRingColor": {
+      "value": "hsl(var(--ring) / 0.55)"
+    },
+    "glitchRingBlur": {
+      "value": "var(--space-2)"
+    },
+    "glitchRingShadow": {
+      "value": "0 0 var(--glitch-ring-blur) var(--glitch-ring-color)"
+    },
+    "glitchAccentColor": {
+      "value": "hsl(var(--accent) / 0.35)"
+    },
+    "glitchAccentBlur": {
+      "value": "var(--spacing-0-5)"
+    },
+    "glitchAccentShadow": {
+      "value": "0 0 var(--glitch-accent-blur) var(--glitch-accent-color)"
+    },
+    "retroGridStep": {
+      "value": "24px"
+    },
+    "retroGridOpacity": {
+      "value": "0.15"
+    },
+    "glitchOverlayOpacityCard": {
+      "value": "0.55"
+    },
+    "shadowInnerLg": {
+      "value": "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)"
+    },
+    "shadowOuterXl": {
+      "value": "0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45)"
+    },
+    "glowRing": {
+      "value": "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)"
+    },
+    "glitchNoiseHover": {
+      "value": "calc(var(--glitch-noise-level) * 1.3)"
+    },
+    "gridColor": {
+      "value": "var(--accent)"
+    },
+    "gridAlpha": {
+      "value": "0.1"
+    },
+    "gridSize": {
+      "value": "calc(var(--space-6) - var(--space-1))"
+    },
+    "shadowOuterSm": {
+      "value": "0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.24)"
+    },
+    "shadowOuterMd": {
+      "value": "0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.3)"
+    },
+    "cardElev1": {
+      "value": "var(--shadow-outline-faint), var(--shadow-outer-sm)"
+    },
+    "cardElev2": {
+      "value": "var(--shadow-outline-subtle), var(--shadow-outer-md)"
+    },
+    "cardElev3": {
+      "value": "var(--shadow-outline-subtle), var(--shadow-outer-lg)"
+    },
+    "glowRingSm": {
+      "value": "0 0 0 calc(var(--spacing-0-25)) hsl(var(--ring) / 0.45)"
+    },
+    "glowRingMd": {
+      "value": "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-2) hsl(var(--ring) / 0.2)"
+    },
+    "blobSurface": {
+      "value": "color-mix(in oklab, hsl(var(--surface)) 70%, hsl(var(--surface-2)) 30%)"
+    },
+    "dripSurface": {
+      "value": "color-mix(in oklab, hsl(var(--accent)) 18%, hsl(var(--background)) 82%)"
+    },
+    "gradientBlobPrimary": {
+      "value": "radial-gradient(120% 120% at 50% 10%, hsl(var(--surface) / 0.85), hsl(var(--surface-2) / 0.35), transparent 85%)"
+    },
+    "gradientDripOverlay": {
+      "value": "radial-gradient(60% 40% at 10% 0%, hsl(var(--backdrop-drip-1) / 0.2), transparent 60%), radial-gradient(50% 35% at 100% 5%, hsl(var(--backdrop-drip-2) / 0.18), transparent 60%), radial-gradient(55% 35% at 50% 120%, hsl(var(--backdrop-drip-3) / 0.14), transparent 65%), radial-gradient(120% 100% at 50% 100%, hsl(var(--backdrop-drip-shadow) / 0.35), transparent 70%)"
+    },
+    "gradientDripOverlayCompact": {
+      "value": "radial-gradient(125% 85% at 18% -20%, hsl(var(--backdrop-drip-1) / 0.28), transparent 65%), radial-gradient(115% 85% at 82% -15%, hsl(var(--backdrop-drip-2) / 0.24), transparent 62%), radial-gradient(120% 95% at 50% 110%, hsl(var(--backdrop-drip-3) / 0.16), transparent 70%)"
+    },
+    "gradientGlitchPrimary": {
+      "value": "linear-gradient(135deg, hsl(var(--accent) / 0.35), hsl(var(--accent-2) / 0.3))"
+    },
+    "gradientGlitchOverlay": {
+      "value": "linear-gradient(120deg, hsl(var(--accent) / 0.12) 0%, transparent 58%, hsl(var(--ring) / 0.16) 100%), var(--card-overlay-scanlines)"
+    },
+    "gradientGlitchRail": {
+      "value": "linear-gradient(180deg, hsl(var(--primary) / 0.6) 0%, hsl(var(--accent) / 0.45) 45%, hsl(var(--ring) / 0.6) 100%)"
+    },
+    "gradientHeroSlotHighlight": {
+      "value": "radial-gradient(circle at top left, var(--depth-glow-highlight-medium) 0%, transparent 62%)"
+    },
+    "gradientHeroSlotShadow": {
+      "value": "radial-gradient(circle at bottom right, var(--depth-glow-shadow-medium) 0%, transparent 65%)"
+    },
+    "gradientHeroTopline": {
+      "value": "linear-gradient(90deg, hsl(var(--accent) / 0.28), transparent 55%, hsl(var(--accent-2) / 0.32))"
+    },
+    "gradientHeroActionHalo": {
+      "value": "radial-gradient(120% 95% at 50% 0%, hsl(var(--accent) / 0.24), transparent 65%)"
+    },
+    "gradientPanelTiltStrong": {
+      "value": "linear-gradient(140deg, hsl(var(--card) / 0.95), hsl(var(--surface-2) / 0.78))"
+    },
+    "gradientPanelTiltBright": {
+      "value": "linear-gradient(140deg, hsl(var(--card) / 0.98), hsl(var(--surface-2) / 0.82))"
+    },
+    "gradientPanelTiltMuted": {
+      "value": "linear-gradient(140deg, hsl(var(--card) / 0.94), hsl(var(--surface-2) / 0.72))"
+    },
+    "dangerSurfaceForeground": {
+      "value": "var(--danger-foreground)"
+    },
+    "surfaceOverlaySoft": {
+      "value": "0.12"
+    },
+    "surfaceOverlayStrong": {
+      "value": "0.2"
+    },
+    "glitchCardSurfaceTop": {
+      "value": "hsl(var(--card) / 0.78)"
+    },
+    "glitchCardSurfaceBottom": {
+      "value": "hsl(var(--panel) / 0.66)"
+    },
+    "surfaceCardSoft": {
+      "value": "linear-gradient(180deg, hsl(var(--card) / 0.65), hsl(var(--card) / 0.45))"
+    },
+    "surfaceCardStrong": {
+      "value": "linear-gradient(180deg, hsl(var(--card) / 0.85), hsl(var(--card) / 0.65))"
+    },
+    "surfaceCardStrongHover": {
+      "value": "linear-gradient(180deg, hsl(var(--card) / 0.95), hsl(var(--card) / 0.75))"
+    },
+    "surfaceCardStrongActive": {
+      "value": "linear-gradient(180deg, hsl(var(--card) / 0.8), hsl(var(--card) / 0.6))"
+    },
+    "surfaceCardStrongToday": {
+      "value": "linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--card) / 0.7))"
+    },
+    "surfaceCardStrongEmpty": {
+      "value": "linear-gradient(180deg, hsl(var(--card) / 0.6), hsl(var(--card) / 0.5))"
+    },
+    "surfaceRailAccent": {
+      "value": "linear-gradient(180deg, hsl(var(--accent)), hsl(var(--primary)))"
+    },
+    "glitchIntensityDefault": {
+      "value": "1.0"
+    },
+    "glitchIntensitySubtle": {
+      "value": "calc(var(--glitch-intensity-default) * 0.68)"
+    },
+    "glitchIntensityHeroRail": {
+      "value": "0.74"
+    },
+    "glitchIntensityBackdropBlob1": {
+      "value": "0.18"
+    },
+    "glitchIntensityBackdropBlob2": {
+      "value": "0.16"
+    },
+    "glitchIntensityBackdropBlob3": {
+      "value": "0.12"
+    },
+    "glitchIntensityBackdropDrip1": {
+      "value": "0.23"
+    },
+    "glitchIntensityBackdropDrip2": {
+      "value": "0.2"
+    },
+    "glitchIntensityBackdropDrip3": {
+      "value": "0.16"
+    },
+    "glitchIntensityBackdropShadow": {
+      "value": "0.38"
+    },
+    "glitchPixel": {
+      "value": "var(--glitch-noise-level)"
+    },
+    "statGood": {
+      "value": "var(--success)"
+    },
+    "statWarn": {
+      "value": "var(--warning)"
+    },
+    "statBad": {
+      "value": "var(--danger)"
+    }
+  },
+  "motion": {
+    "easeOut": {
+      "value": "cubic-bezier(0.16, 1, 0.3, 1)"
+    },
+    "easeMotionGlitch": {
+      "value": "cubic-bezier(0.2, 0.8, 0.2, 1)"
+    },
+    "durQuick": {
+      "value": "140ms"
+    },
+    "durChill": {
+      "value": "220ms"
+    },
+    "durSlow": {
+      "value": "420ms"
+    },
+    "cardOverlayScanlines": {
+      "value": "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / 0.035) 0,\n    hsl(var(--foreground) / 0.035) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )"
+    },
+    "glitchDuration": {
+      "value": "450ms"
+    },
+    "glowPulse": {
+      "value": "glow-pulse var(--dur-slow) var(--ease-out) infinite alternate"
+    },
+    "glitchRgbShift": {
+      "value": "drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45))"
+    },
+    "glitchScanline": {
+      "value": "glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite"
+    },
+    "scanline": {
+      "value": "var(--glitch-scanline)"
+    },
+    "motionDurationSm": {
+      "value": "var(--dur-quick)"
+    },
+    "motionDurationMd": {
+      "value": "var(--dur-chill)"
+    },
+    "motionDurationLg": {
+      "value": "var(--dur-slow)"
+    },
+    "motionEaseGlitch": {
+      "value": "var(--ease-motion-glitch)"
+    }
+  },
+  "zIndex": {
+    "headerStack": {
+      "value": "calc(var(--spacing-8) + var(--spacing-4))"
+    }
+  }
+}
