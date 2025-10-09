@@ -2,6 +2,17 @@ import type { NextWebVitalsMetric } from "next/dist/shared/lib/utils";
 
 import { withBasePath } from "@/lib/utils";
 
+export {
+  getLlmTokenUsageSummary,
+  recordLlmTokenUsage,
+  resetLlmTokenUsage,
+} from "@/lib/metrics/llmTokens";
+export type {
+  LlmAgentMetadata,
+  LlmAgentUsage,
+  LlmTokenUsageSummary,
+} from "@/lib/metrics/llmTokens";
+
 export type SerializableEntry = {
   name: string;
   entryType: string;
