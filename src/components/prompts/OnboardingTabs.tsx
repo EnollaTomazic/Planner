@@ -1,149 +1,506 @@
 "use client";
 
 import * as React from "react";
-import { TabBar, type TabItem } from "@/components/ui";
+import {
+  AIExplainTooltip,
+  Button,
+  Field,
+  Label,
+  Progress,
+  RadioIconGroup,
+  Toggle,
+} from "@/components/ui";
+import { Check, Code2, Info, Palette } from "lucide-react";
+
+import { cn } from "@/lib/utils";
 import { useChatPrompts } from "./useChatPrompts";
 
 type Role = "designer" | "developer";
+type StepKey = "role" | "workflow" | "advanced";
+type AdvancedSettingKey =
+  | "modularCss"
+  | "controlHeight"
+  | "interactionPolish"
+  | "heroDividers";
 
-const ROLE_TABS: TabItem<Role>[] = [
+const STEPS: readonly { key: StepKey; title: string; description: string }[] = [
   {
-    key: "designer",
-    label: "Senior Lead Designer",
-    id: "designer-tab",
-    controls: "designer-panel",
+    key: "role",
+    title: "Choose your leadership track",
+    description: "Tailor onboarding guidance for your day-to-day focus.",
   },
   {
-    key: "developer",
-    label: "Senior Lead Developer",
-    id: "developer-tab",
-    controls: "developer-panel",
+    key: "workflow",
+    title: "Outline your workflow priorities",
+    description: "Capture the rituals you want Planner to spotlight first.",
+  },
+  {
+    key: "advanced",
+    title: "Reveal advanced implementation settings",
+    description: "Bring platform updates into your hand-off checklist.",
   },
 ];
 
+const ROLE_OPTIONS: React.ComponentProps<typeof RadioIconGroup>["options"] = [
+  {
+    id: "designer-role",
+    value: "designer",
+    label: "Senior Lead Designer",
+    icon: <Palette className="size-[var(--space-5)]" />,
+  },
+  {
+    id: "developer-role",
+    value: "developer",
+    label: "Senior Lead Developer",
+    icon: <Code2 className="size-[var(--space-5)]" />,
+  },
+];
+
+const ROLE_GUIDANCE: Record<
+  Role,
+  {
+    roleTooltip: string;
+    workflowHelper: string;
+    collaborationHelper: string;
+  }
+> = {
+  designer: {
+    roleTooltip:
+      "Review design system guidelines so prompts recommend the right foundations for your UI critiques.",
+    workflowHelper:
+      "Audit existing components for consistency. Call out anything that drifts from the canonical kit so Planner can flag it.",
+    collaborationHelper:
+      "Collaborate with developers on UI implementation by noting the specs or tokens you expect them to apply.",
+  },
+  developer: {
+    roleTooltip:
+      "Senior Lead Developers get prompts tuned for recent platform shifts — modular CSS bundles and refreshed component tokens.",
+    workflowHelper:
+      "WeekPicker now scrolls horizontally with snap points, showing 2–3 days at a time on smaller screens. Capture how you want to stage reviews.",
+    collaborationHelper:
+      "IconButton mirrors Button sizing with a new xl control height, and DurationSelector now uses accent color tokens. Note where to surface those updates.",
+  },
+};
+
+type AdvancedOption = {
+  key: AdvancedSettingKey;
+  title: string;
+  description: string;
+  explanation: string;
+};
+
+const ADVANCED_OPTIONS: readonly AdvancedOption[] = [
+  {
+    key: "modularCss",
+    title: "Adopt modular CSS bundles",
+    description:
+      "Animations, overlays, and utilities ship separately so rollout plans stay tidy.",
+    explanation:
+      "Global styles are now modularized into animations.css, overlays.css, and utilities.css. Toggle this on to remind teams to pull each layer where it belongs.",
+  },
+  {
+    key: "controlHeight",
+    title: "Enforce refreshed control sizing",
+    description:
+      "Lock control heights to the sm / md / xl scale during QA.",
+    explanation:
+      "Control height token --control-h now snaps to the xl preset to stay aligned with the base spacing grid, and Buttons default to the md size. Keep this enabled to guard those baselines.",
+  },
+  {
+    key: "interactionPolish",
+    title: "Highlight interactive polish",
+    description:
+      "Call out status-dot pulses and DurationSelector accent states in hand-offs.",
+    explanation:
+      "Review status dots blink to highlight wins and losses, and DurationSelector active states use accent color tokens. Use this reminder to verify motion and contrast tweaks.",
+  },
+  {
+    key: "heroDividers",
+    title: "Track hero + gallery tokens",
+    description:
+      "Keep hero dividers and color palettes aligned with the latest spacing tokens.",
+    explanation:
+      "Hero dividers now use var(--space-4) top padding with tokenized offsets, and the color gallery groups tokens into Aurora, Neutrals, and Accents palettes. Capture notes so the playground stays on-brand.",
+  },
+];
+
+const INITIAL_ADVANCED_STATE: Record<AdvancedSettingKey, boolean> = {
+  modularCss: true,
+  controlHeight: true,
+  interactionPolish: false,
+  heroDividers: true,
+};
+
 export default function OnboardingTabs() {
   const [role, setRole] = React.useState<Role>("designer");
+  const [stepIndex, setStepIndex] = React.useState(0);
+  const [skipped, setSkipped] = React.useState(false);
+  const [isComplete, setIsComplete] = React.useState(false);
+  const [workflowFocus, setWorkflowFocus] = React.useState("Audit existing UI inventory");
+  const [collaborationNotes, setCollaborationNotes] = React.useState(
+    "Pair with engineering on implementation spikes",
+  );
+  const [advancedSettings, setAdvancedSettings] = React.useState(INITIAL_ADVANCED_STATE);
   const { prompts } = useChatPrompts();
   const [updatedAt, setUpdatedAt] = React.useState(Date.now());
-  const designerRef = React.useRef<HTMLDivElement>(null);
-  const developerRef = React.useRef<HTMLDivElement>(null);
+  const contentRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     setUpdatedAt(Date.now());
   }, [prompts]);
 
   React.useEffect(() => {
-    if (role === "designer") designerRef.current?.focus();
-    else developerRef.current?.focus();
-  }, [role]);
+    if (skipped || isComplete) return;
+    contentRef.current?.focus();
+  }, [stepIndex, skipped, isComplete]);
+
+  const totalSteps = STEPS.length;
+  const currentStep = STEPS[stepIndex];
+  const progressValue = Math.round(((stepIndex + 1) / totalSteps) * 100);
+  const stepHeadingId = `${currentStep.key}-step-heading`;
+  const roleCopy = ROLE_GUIDANCE[role];
+  const canProceed = currentStep.key === "workflow" ? workflowFocus.trim().length > 0 : true;
+
+  const handleNext = React.useCallback(() => {
+    setStepIndex((prev) => Math.min(prev + 1, totalSteps - 1));
+  }, [totalSteps]);
+
+  const handleBack = React.useCallback(() => {
+    setStepIndex((prev) => Math.max(prev - 1, 0));
+  }, []);
+
+  const handleComplete = React.useCallback(() => {
+    setIsComplete(true);
+  }, []);
+
+  const handleSkip = React.useCallback(() => {
+    setSkipped(true);
+    setIsComplete(false);
+  }, []);
+
+  const handleRestart = React.useCallback(() => {
+    setSkipped(false);
+    setIsComplete(false);
+    setStepIndex(0);
+  }, []);
+
+  const toggleSetting = React.useCallback((key: AdvancedSettingKey, enabled: boolean) => {
+    setAdvancedSettings((prev) => ({ ...prev, [key]: enabled }));
+  }, []);
+
+  let stepContent: React.ReactNode;
+
+  switch (currentStep.key) {
+    case "role": {
+      const groupLabelId = "role-selection-label";
+      stepContent = (
+        <div className="space-y-[var(--space-3)]">
+          <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+            <p id={groupLabelId} className="text-ui font-medium text-foreground">
+              Which track should we prepare?
+            </p>
+            <AIExplainTooltip
+              triggerLabel="Why choose a track?"
+              explanation={roleCopy.roleTooltip}
+              tone="neutral"
+              triggerProps={{
+                variant: "quiet",
+                size: "sm",
+                tone: "primary",
+                className: "text-label",
+              }}
+              className="text-left"
+            />
+          </div>
+          <RadioIconGroup
+            name="onboarding-role"
+            options={ROLE_OPTIONS}
+            value={role}
+            onChange={(value) => setRole(value as Role)}
+            aria-labelledby={groupLabelId}
+            tone="accent"
+          />
+        </div>
+      );
+      break;
+    }
+    case "workflow": {
+      stepContent = (
+        <div className="space-y-[var(--space-4)]">
+          <div className="space-y-[var(--space-2)]">
+            <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+              <Label htmlFor="workflow-focus" className="mb-0 text-ui text-foreground">
+                Sprint focus
+              </Label>
+              <AIExplainTooltip
+                triggerLabel="Need inspiration?"
+                explanation={roleCopy.workflowHelper}
+                tone="neutral"
+                triggerProps={{
+                  variant: "quiet",
+                  size: "sm",
+                  tone: "primary",
+                  className: "text-label",
+                }}
+                className="text-left"
+              />
+            </div>
+            <Field.Root helper={roleCopy.workflowHelper}>
+              <Field.Input
+                id="workflow-focus"
+                value={workflowFocus}
+                onChange={(event) => setWorkflowFocus(event.target.value)}
+                placeholder={
+                  role === "designer"
+                    ? "Catalog tokens to audit this week"
+                    : "Outline QA flow for modular CSS rollout"
+                }
+              />
+            </Field.Root>
+          </div>
+          <div className="space-y-[var(--space-2)]">
+            <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+              <Label htmlFor="collaboration-notes" className="mb-0 text-ui text-foreground">
+                Collaboration notes
+              </Label>
+              <AIExplainTooltip
+                triggerLabel="What should we capture?"
+                explanation={roleCopy.collaborationHelper}
+                tone="neutral"
+                triggerProps={{
+                  variant: "quiet",
+                  size: "sm",
+                  tone: "primary",
+                  className: "text-label",
+                }}
+                className="text-left"
+              />
+            </div>
+            <Field.Root helper={roleCopy.collaborationHelper}>
+              <Field.Input
+                id="collaboration-notes"
+                value={collaborationNotes}
+                onChange={(event) => setCollaborationNotes(event.target.value)}
+                placeholder={
+                  role === "designer"
+                    ? "List components to review with engineering"
+                    : "Note hero and gallery tokens to sync with design"
+                }
+              />
+            </Field.Root>
+          </div>
+        </div>
+      );
+      break;
+    }
+    case "advanced": {
+      stepContent = (
+        <div className="space-y-[var(--space-3)]">
+          {ADVANCED_OPTIONS.map((option) => {
+            const enabled = advancedSettings[option.key];
+            return (
+              <div
+                key={option.key}
+                className="space-y-[var(--space-2)] rounded-[var(--control-radius-lg)] border border-card-hairline/60 bg-card/60 p-[var(--space-4)] shadow-depth-soft"
+              >
+                <div className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-start sm:justify-between">
+                  <div className="space-y-[var(--space-1)]">
+                    <p className="text-ui font-medium text-foreground">{option.title}</p>
+                    <p className="text-label text-muted-foreground">{option.description}</p>
+                  </div>
+                  <Toggle
+                    value={enabled ? "Right" : "Left"}
+                    onChange={(side) => toggleSetting(option.key, side === "Right")}
+                    leftLabel="Off"
+                    rightLabel="On"
+                  />
+                </div>
+                <AIExplainTooltip
+                  triggerLabel="Why it matters"
+                  explanation={option.explanation}
+                  tone="neutral"
+                  alignment="start"
+                  triggerProps={{
+                    variant: "quiet",
+                    size: "sm",
+                    tone: "primary",
+                    className: "text-label",
+                  }}
+                  className="text-left"
+                />
+              </div>
+            );
+          })}
+        </div>
+      );
+      break;
+    }
+    default: {
+      stepContent = null;
+    }
+  }
+
+  if (skipped || isComplete) {
+    const enabledSettings = ADVANCED_OPTIONS.filter((option) => advancedSettings[option.key]);
+    return (
+      <div className="space-y-[var(--space-4)]">
+        {skipped ? (
+          <div className="space-y-[var(--space-3)] rounded-[var(--control-radius-lg)] border border-dashed border-card-hairline/80 bg-card/40 p-[var(--space-4)]">
+            <div className="space-y-[var(--space-2)]">
+              <p className="text-title text-foreground">Onboarding skipped</p>
+              <p className="text-label text-muted-foreground">
+                Jump straight into the prompts playground whenever you’re ready — you can revisit onboarding for guided setups later.
+              </p>
+            </div>
+            <Button
+              variant="quiet"
+              tone="primary"
+              onClick={handleRestart}
+              className="inline-flex items-center gap-[var(--space-2)]"
+            >
+              <Info className="size-[var(--space-4)]" />
+              Restart onboarding
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-[var(--space-4)] rounded-[var(--control-radius-lg)] border border-card-hairline/80 bg-card/60 p-[var(--space-4)] shadow-depth-soft">
+            <div className="space-y-[var(--space-2)]">
+              <p className="text-title text-foreground">You’re all set</p>
+              <p className="text-label text-muted-foreground">
+                Planner will steer you toward the prompts playground refactor next. Recap what you configured below.
+              </p>
+            </div>
+            <div className="space-y-[var(--space-2)]">
+              <p className="text-ui font-medium text-foreground">
+                Track: {role === "designer" ? "Senior Lead Designer" : "Senior Lead Developer"}
+              </p>
+              <p className="text-label text-muted-foreground">Sprint focus: {workflowFocus}</p>
+              <p className="text-label text-muted-foreground">Collaboration notes: {collaborationNotes}</p>
+              <div className="space-y-[var(--space-1)]">
+                <p className="text-ui font-medium text-foreground">Advanced reminders</p>
+                {enabledSettings.length > 0 ? (
+                  <ul className="list-disc pl-[var(--space-5)] text-label text-muted-foreground">
+                    {enabledSettings.map((option) => (
+                      <li key={option.key}>{option.title}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-label text-muted-foreground">
+                    No advanced reminders enabled — adjust them anytime.
+                  </p>
+                )}
+              </div>
+            </div>
+            <Button tone="accent" onClick={handleRestart}>
+              Adjust onboarding
+            </Button>
+          </div>
+        )}
+        <p className="text-ui text-muted-foreground">
+          Last updated {new Date(updatedAt).toLocaleTimeString()}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-[var(--space-4)]">
-      <TabBar
-        items={ROLE_TABS}
-        value={role}
-        onValueChange={setRole}
-        ariaLabel="Onboarding roles"
-      />
+      <div className="flex flex-col gap-[var(--space-4)] sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-[var(--space-2)]">
+          <p className="text-label text-muted-foreground">
+            Step {stepIndex + 1} of {totalSteps}
+          </p>
+          <Progress
+            value={progressValue}
+            label={`Onboarding progress ${stepIndex + 1} of ${totalSteps}`}
+          />
+        </div>
+        <Button variant="quiet" tone="primary" onClick={handleSkip}>
+          Skip onboarding
+        </Button>
+      </div>
+
+      <div className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center">
+        {STEPS.map((step, index) => {
+          const status =
+            index < stepIndex ? "complete" : index === stepIndex ? "current" : "upcoming";
+          const circleClass = cn(
+            "flex size-[var(--space-6)] items-center justify-center rounded-full border text-label font-medium transition-colors",
+            status === "complete" && "border-accent text-accent-foreground bg-[hsl(var(--accent)/0.18)]",
+            status === "current" && "border-accent text-accent-foreground bg-[hsl(var(--accent)/0.08)]",
+            status === "upcoming" && "border-border/60 text-muted-foreground",
+          );
+          return (
+            <React.Fragment key={step.key}>
+              <div className="flex items-start gap-[var(--space-2)] sm:flex-1">
+                <span className={circleClass} aria-hidden="true">
+                  {status === "complete" ? (
+                    <Check className="size-[var(--space-3)]" />
+                  ) : (
+                    index + 1
+                  )}
+                </span>
+                <div className="space-y-[var(--space-1)]">
+                  <p
+                    className={cn(
+                      "text-label font-medium",
+                      status === "upcoming" && "text-muted-foreground",
+                    )}
+                  >
+                    {step.title}
+                  </p>
+                  <p className="text-caption text-muted-foreground">{step.description}</p>
+                </div>
+              </div>
+              {index < STEPS.length - 1 ? (
+                <div className="hidden h-px flex-1 bg-border/60 sm:block" aria-hidden />
+              ) : null}
+            </React.Fragment>
+          );
+        })}
+      </div>
+
+      <div
+        ref={contentRef}
+        tabIndex={-1}
+        role="group"
+        aria-labelledby={stepHeadingId}
+        className="space-y-[var(--space-4)] rounded-[var(--control-radius-lg)] border border-card-hairline/80 bg-card/70 p-[var(--space-5)] shadow-depth-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+      >
+        <div className="space-y-[var(--space-1)]">
+          <p id={stepHeadingId} className="text-title text-foreground">
+            {currentStep.title}
+          </p>
+          <p className="text-label text-muted-foreground">{currentStep.description}</p>
+        </div>
+        {stepContent}
+      </div>
+
+      <div className="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between">
+        <Button
+          variant="quiet"
+          tone="primary"
+          onClick={handleBack}
+          disabled={stepIndex === 0}
+        >
+          Back
+        </Button>
+        <div className="flex gap-[var(--space-2)]">
+          {currentStep.key === "advanced" ? (
+            <Button tone="accent" onClick={handleComplete}>
+              Finish onboarding
+            </Button>
+          ) : (
+            <Button onClick={handleNext} disabled={!canProceed}>
+              Next
+            </Button>
+          )}
+        </div>
+      </div>
+
       <p className="text-ui text-muted-foreground">
         Last updated {new Date(updatedAt).toLocaleTimeString()}
       </p>
-      <div
-        role="tabpanel"
-        id="designer-panel"
-        aria-labelledby="designer-tab"
-        hidden={role !== "designer"}
-        tabIndex={role === "designer" ? 0 : -1}
-        ref={designerRef}
-      >
-        <ul className="pl-[var(--space-6)] space-y-[var(--space-1)] list-none text-foreground">
-          <li className="flex gap-[var(--space-2)]">
-            <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
-            <span>Review design system guidelines</span>
-          </li>
-          <li className="flex gap-[var(--space-2)]">
-            <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
-            <span>Audit existing components for consistency</span>
-          </li>
-          <li className="flex gap-[var(--space-2)]">
-            <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
-            <span>Collaborate with developers on UI implementation</span>
-          </li>
-        </ul>
-      </div>
-      <div
-        role="tabpanel"
-        id="developer-panel"
-        aria-labelledby="developer-tab"
-        hidden={role !== "developer"}
-        tabIndex={role === "developer" ? 0 : -1}
-        ref={developerRef}
-      >
-        <ul className="pl-[var(--space-6)] space-y-[var(--space-1)] list-none text-foreground">
-          <li className="flex gap-[var(--space-2)]">
-            <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
-            <span>
-              Global styles are now modularized into <code>animations.css</code>,
-              <code>overlays.css</code>, and <code>utilities.css</code>.
-            </span>
-          </li>
-          <li className="flex gap-[var(--space-2)]">
-            <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
-            <span>
-              Control height token <code>--control-h</code> now snaps to 44px to
-              align with the 4px spacing grid.
-            </span>
-          </li>
-          <li className="flex gap-[var(--space-2)]">
-            <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
-            <span>
-              Buttons now default to the 40px <code>md</code> size and follow a
-              36/40/44px scale.
-            </span>
-          </li>
-          <li className="flex gap-[var(--space-2)]">
-            <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
-            <span>
-              WeekPicker scrolls horizontally with snap points, showing 2–3 days
-              at a time on smaller screens.
-            </span>
-          </li>
-          <li className="flex gap-[var(--space-2)]">
-            <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
-            <span>Review status dots blink to highlight wins and losses.</span>
-          </li>
-          <li className="flex gap-[var(--space-2)]">
-            <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
-            <span>
-              Hero dividers now use <code>var(--space-4)</code> top padding and
-              tokenized side offsets via <code>var(--space-2)</code>.
-            </span>
-          </li>
-          <li className="flex gap-[var(--space-2)]">
-            <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
-            <span>
-              IconButton now mirrors Button sizing and adds an{" "}
-              <code>xl</code> control height token.
-            </span>
-          </li>
-          <li className="flex gap-[var(--space-2)]">
-            <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
-            <span>DurationSelector active state uses accent color tokens.</span>
-          </li>
-          <li className="flex gap-[var(--space-2)]">
-            <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
-            <span>
-              Color gallery groups tokens into Aurora, Neutrals, and Accents
-              palettes with tabs.
-            </span>
-          </li>
-          <li className="flex gap-[var(--space-2)]">
-            <span className="mt-[var(--space-2)] h-[var(--space-2)] w-[var(--space-2)] rounded-full bg-current" />
-            <span>Prompts page refactored into playground.</span>
-          </li>
-        </ul>
-      </div>
     </div>
   );
 }
-
