@@ -55,6 +55,22 @@ describe("buildRecurringOccurrences", () => {
     ]);
   });
 
+  it("supports weekly rules with large intervals", () => {
+    const count = 5;
+    const occurrences = buildRecurringOccurrences(
+      { frequency: "weekly", interval: 13, weekdays: [1] },
+      { startDate: "2024-01-01", count },
+    );
+    expect(occurrences).toHaveLength(count);
+    expect(occurrences).toEqual([
+      "2024-01-01",
+      "2024-04-01",
+      "2024-07-01",
+      "2024-09-30",
+      "2024-12-30",
+    ]);
+  });
+
   it("supports monthly intervals", () => {
     const occurrences = buildRecurringOccurrences(
       { frequency: "monthly", interval: 2 },
