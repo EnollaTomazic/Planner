@@ -29,7 +29,7 @@ After running the scripts, add a demo of the new component to `src/app/prompts/p
 
 ## Git hooks
 
-Running `pnpm install` triggers the `prepare` script, which installs a Husky pre-commit hook. The hook blocks commits unless the following commands succeed:
+Running `pnpm install` triggers the `prepare` script, which installs Husky hooks. The pre-commit hook blocks commits unless the following commands succeed:
 
 ```bash
 pnpm test
@@ -39,6 +39,18 @@ pnpm run regen-ui
 ```
 
 Ensure these checks pass before committing.
+
+Husky also runs Commitlint on each commit message. The hook validates every change against the Conventional Commits rules defined in `commitlint.config.js` and fails fast when the type or scope is incorrect.
+
+## Commit messages
+
+Use Commitizen to generate commit messages interactively:
+
+```bash
+pnpm run commit
+```
+
+The prompt walks through selecting a Conventional Commit type and scope that align with the `commitlint.config.js` rules. Running `pnpm run commit` is optional but recommended because the command mirrors the Commitlint validation performed by the `commit-msg` hook.
 
 ## Branch workflow
 
