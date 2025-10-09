@@ -56,18 +56,7 @@ jobs:
         run: pnpm run build-gallery-usage
 
       - name: Audit dependencies
-        run: |
-          set +e
-          pnpm audit --audit-level=moderate --json > audit-report.json
-          AUDIT_STATUS=$?
-          node scripts/audit-ci-report.mjs audit-report.json
-          REPORT_STATUS=$?
-          if [ "$REPORT_STATUS" -ne 0 ]; then
-            exit "$REPORT_STATUS"
-          fi
-          if [ "$AUDIT_STATUS" -ne 0 ]; then
-            echo "pnpm audit reported issues below the high severity threshold."
-          fi
+        run: pnpm run audit:ci
 
       - name: Summarize audit
         if: always()
