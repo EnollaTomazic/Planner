@@ -4,23 +4,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
 
-import loadClientEnv from "../../env/client";
-
-function readClientEnv(): ReturnType<typeof loadClientEnv> {
-  try {
-    return loadClientEnv();
-  } catch (error) {
-    console.error("[env] Failed to load client environment variables.", error);
-    if (
-      typeof process !== "undefined" &&
-      typeof process.exit === "function" &&
-      process.env.NODE_ENV !== "test"
-    ) {
-      process.exit(1);
-    }
-    throw error;
-  }
-}
+import { readClientEnv } from "./load-client-env";
 
 const twMerge = extendTailwindMerge({
   extend: {
