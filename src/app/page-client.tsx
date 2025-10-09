@@ -1,13 +1,9 @@
 "use client";
 
 import * as React from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import {
-  HeroPlannerCards,
-  HomeHeroSection,
-  HomeSplash,
-  useHomePlannerOverview,
-} from "@/components/home";
+import { HeroPlannerCards, HomeHeroSection, useHomePlannerOverview } from "@/components/home";
 import type { HeroPlannerHighlight, PlannerOverviewProps } from "@/components/home";
 import { PageShell, Button, ThemeToggle, SectionCard } from "@/components/ui";
 import { PlannerProvider } from "@/components/planner";
@@ -15,6 +11,16 @@ import { useTheme, useUiFeatureFlags } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
 import type { Variant } from "@/lib/theme";
 import styles from "./page-client.module.css";
+
+type HomeSplashProps = {
+  active: boolean;
+  onExited?: () => void;
+};
+
+const HomeSplash = dynamic<HomeSplashProps>(
+  () => import("@/components/home/HomeSplash"),
+  { ssr: false },
+);
 
 const weeklyHighlights = [
   {
@@ -37,38 +43,16 @@ const weeklyHighlights = [
   },
 ] as const satisfies readonly HeroPlannerHighlight[];
 
-function HomePageContent() {
-  const [theme] = useTheme();
-  const { glitchLandingEnabled } = useUiFeatureFlags();
-  useThemeQuerySync();
-
-  return (
-    <PlannerProvider>
-      <HomePagePlannerContent
-        themeVariant={theme.variant}
-        glitchLandingEnabled={glitchLandingEnabled}
-      />
-    </PlannerProvider>
-  );
-}
-
-type HomePagePlannerContentProps = {
-  themeVariant: Variant;
-  glitchLandingEnabled: boolean;
-};
-
-function HomePagePlannerContent({
-  themeVariant,
-  glitchLandingEnabled,
-}: HomePagePlannerContentProps) {
-  const plannerOverviewProps = useHomePlannerOverview();
-  const { hydrated } = plannerOverviewProps;
-
+function useGlitchLandingSplash(
+  glitchLandingEnabled: boolean,
+  hydrated: boolean,
+) {
+  const initialSplashState = glitchLandingEnabled && !hydrated;
   const [isSplashVisible, setSplashVisible] = React.useState(
-    () => glitchLandingEnabled && !hydrated,
+    () => initialSplashState,
   );
   const [isSplashMounted, setSplashMounted] = React.useState(
-    () => glitchLandingEnabled && !hydrated,
+    () => initialSplashState,
   );
 
   const beginHideSplash = React.useCallback(() => {
@@ -101,6 +85,64 @@ function HomePagePlannerContent({
   const handleSplashExit = React.useCallback(() => {
     setSplashMounted(false);
   }, []);
+
+  return {
+    isSplashVisible,
+    isSplashMounted,
+    handleClientReady,
+    handleSplashExit,
+  } as const;
+}
+
+function useHydratedCallback(hydrated: boolean, onReady?: () => void) {
+  const hasAnnouncedReadyRef = React.useRef(false);
+
+  React.useEffect(() => {
+    if (!hydrated) {
+      hasAnnouncedReadyRef.current = false;
+      return;
+    }
+    if (!onReady || hasAnnouncedReadyRef.current) {
+      return;
+    }
+    onReady();
+    hasAnnouncedReadyRef.current = true;
+  }, [hydrated, onReady]);
+}
+
+function HomePageContent() {
+  const [theme] = useTheme();
+  const { glitchLandingEnabled } = useUiFeatureFlags();
+  useThemeQuerySync();
+
+  return (
+    <PlannerProvider>
+      <HomePagePlannerContent
+        themeVariant={theme.variant}
+        glitchLandingEnabled={glitchLandingEnabled}
+      />
+    </PlannerProvider>
+  );
+}
+
+type HomePagePlannerContentProps = {
+  themeVariant: Variant;
+  glitchLandingEnabled: boolean;
+};
+
+function HomePagePlannerContent({
+  themeVariant,
+  glitchLandingEnabled,
+}: HomePagePlannerContentProps) {
+  const plannerOverviewProps = useHomePlannerOverview();
+  const { hydrated } = plannerOverviewProps;
+
+  const {
+    isSplashVisible,
+    isSplashMounted,
+    handleClientReady,
+    handleSplashExit,
+  } = useGlitchLandingSplash(glitchLandingEnabled, hydrated);
 
   return (
     <div className={styles.root}>
@@ -158,19 +200,7 @@ function HomePageBody({
     [],
   );
 
-  const hasAnnouncedReadyRef = React.useRef(false);
-
-  React.useEffect(() => {
-    if (!hydrated) {
-      hasAnnouncedReadyRef.current = false;
-      return;
-    }
-    if (!onClientReady || hasAnnouncedReadyRef.current) {
-      return;
-    }
-    onClientReady();
-    hasAnnouncedReadyRef.current = true;
-  }, [hydrated, onClientReady]);
+  useHydratedCallback(hydrated, onClientReady);
 
   if (!glitchLandingEnabled) {
     return (
@@ -246,7 +276,7 @@ type LegacyHomePageBodyProps = {
   overviewHeadingId: string;
 };
 
-function LegacyHomePageBody({
+const LegacyHomePageBody = React.memo(function LegacyHomePageBody({
   plannerOverviewProps,
   heroActions,
   heroHeadingId,
@@ -432,4 +462,6 @@ function LegacyHomePageBody({
       </PageShell>
     </>
   );
-}
+});
+
+LegacyHomePageBody.displayName = "LegacyHomePageBody";
