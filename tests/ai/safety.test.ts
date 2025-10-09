@@ -17,7 +17,6 @@ import {
   enforceTokenBudget,
   validateSchema,
   withStopSequences,
-  SchemaValidationError,
 } from "@/ai/safety";
 
 import { z } from "zod";
@@ -81,6 +80,11 @@ describe("sanitizePrompt", () => {
       description: "escapes HTML while preserving Markdown characters",
       raw: "Hello <b>world</b> **markdown**",
       expected: "Hello &lt;b&gt;world&lt;/b&gt; **markdown**",
+    },
+    {
+      description: "removes unicode line separators and collapses inline whitespace",
+      raw: "Line\u2028with\u2029separators   and\t tabs",
+      expected: "Linewithseparators and tabs",
     },
     {
       description: "allows markup passthrough when configured",
@@ -191,6 +195,23 @@ describe("capTokens", () => {
     expect(result.availableTokens).toBe(5);
   });
 
+  it("estimates tokens using grapheme clusters for emoji-rich pinned content", () => {
+    const messages = tokenBudgetContentSchema.array().parse([
+      { content: "unpinned narrative that will be removed" },
+      { content: "😀😀😀😀", pinned: true },
+    ]);
+
+    const result = enforceTokenBudget(messages, {
+      maxTokens: 1,
+      reservedForResponse: 0,
+    });
+
+    expect(result.messages).toEqual([{ content: "😀😀😀😀", pinned: true }]);
+    expect(result.removedCount).toBe(1);
+    expect(result.totalTokens).toBe(1);
+    expect(result.availableTokens).toBe(1);
+  });
+
   it("retains pinned strings when using the single-message helper", () => {
     const pinnedEmoji = "😀".repeat(10);
 
@@ -278,39 +299,74 @@ describe("capTokens", () => {
 describe("guardResponse", () => {
   it("parses valid payloads", () => {
     const schema = z.object({ id: z.string() });
-    expect(guardResponse({ id: "abc" }, schema)).toEqual({ id: "abc" });
+    expect(guardResponse({ id: "abc" }, schema)).toEqual({
+      success: true,
+      data: { id: "abc" },
+    });
   });
 
-  it("throws a SchemaValidationError with structured issues for invalid payloads", () => {
+  it("returns structured issues for invalid payloads", () => {
     const schema = z.object({ id: z.string() });
 
-    expect(() => guardResponse({}, schema, { label: "Test" })).toThrow(
-      SchemaValidationError,
+    const result = guardResponse({}, schema, { label: "Test" });
+
+    expect(result.success).toBe(false);
+
+    if (!result.success) {
+      expect(result.error.label).toBe("Test");
+      expect(result.error.issues).toEqual([
+        expect.objectContaining({
+          path: ["id"],
+          message: "Required",
+          code: "invalid_type",
+        }),
+      ]);
+    }
+  });
+
+  it("captures nested paths when responses diverge from the schema", () => {
+    const schema = z.object({
+      meta: z.object({
+        status: z.literal("ok"),
+        payload: z.object({ id: z.string().uuid() }),
+      }),
+    });
+
+    const result = guardResponse(
+      {
+        meta: {
+          status: "error",
+          payload: { id: 42 },
+        },
+      },
+      schema,
     );
 
-    try {
-      guardResponse({}, schema, { label: "Test" });
-      throw new Error("Expected guardResponse to throw");
-    } catch (error) {
-      expect(error).toBeInstanceOf(SchemaValidationError);
+    expect(result.success).toBe(false);
 
-      if (error instanceof SchemaValidationError) {
-        expect(error.label).toBe("Test");
-        expect(error.message).toBe("Test failed validation");
-        expect(error.issues).toEqual([
+    if (!result.success) {
+      const { issues } = result.error;
+      expect(issues).toEqual(
+        expect.arrayContaining([
           expect.objectContaining({
-            path: ["id"],
-            message: "Required",
-            code: "invalid_type",
+            path: ["meta", "status"],
+            message: expect.stringContaining("\"ok\""),
           }),
-        ]);
-      }
+          expect.objectContaining({
+            path: ["meta", "payload", "id"],
+            message: expect.stringContaining("string"),
+          }),
+        ]),
+      );
     }
   });
 
   it("retains validateSchema alias", () => {
     const schema = z.object({ id: z.literal("ok") });
-    expect(validateSchema({ id: "ok" }, schema)).toEqual({ id: "ok" });
+    expect(validateSchema({ id: "ok" }, schema)).toEqual({
+      success: true,
+      data: { id: "ok" },
+    });
   });
 });
 

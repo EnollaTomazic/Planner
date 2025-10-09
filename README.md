@@ -51,7 +51,7 @@ Run `pnpm run deploy` (or `npm run deploy`) from the project root whenever you'r
 
 Before building, the script verifies that a Git push target is configured. If `git remote get-url origin` fails and both `GITHUB_REPOSITORY` and `GITHUB_TOKEN` are missing, the deploy exits early and asks you to add an `origin` remote or supply those environment variables before re-running `pnpm run deploy` or `npm run deploy`.
 
-The CI workflow runs `scripts/validate-deploy-env.ts` before exporting to confirm the environment matches the detected repository slug. When the repository publishes to `https://<username>.github.io/<repo>/`, the check expects `BASE_PATH=<repo>` and `NEXT_PUBLIC_BASE_PATH=/<repo>`. User/organization GitHub Pages sites (slugs that already end in `.github.io`) should leave both variables empty. If the validation fails, update the variables in your shell, `.env.local`, or CI secrets until the logged "actual" values match the "expected" ones.
+The CI workflow runs a **Validate env for deploy** step before exporting. It executes `scripts/validate-deploy-env.ts`, which reuses the slug detection rules from [`next.config.mjs`](next.config.mjs) (based on `GITHUB_REPOSITORY`) to confirm the GitHub Pages base path is configured correctly. When the repository publishes to `https://<username>.github.io/<repo>/`, the check expects `BASE_PATH=<repo>` and `NEXT_PUBLIC_BASE_PATH=/<repo>`. User/organization GitHub Pages sites (slugs that already end in `.github.io`) should leave both variables empty. If the validation fails, update the variables in your shell, `.env.local`, or CI secrets until the logged "actual" values match the "expected" ones.
 
 When the static files are published to `https://<username>.github.io/<repo>/`, the home page is served from `https://<username>.github.io/<repo>/` rather than the domain root. Use that base path whenever you link to or bookmark the deployed site. Only repositories that exactly match `https://<username>.github.io` (user/organization GitHub Pages) skip the base path; similarly named repositories such as `docs.github.io` owned by another organization continue to publish under `/<repo>/`.
 
@@ -108,24 +108,25 @@ The app reads configuration from your shell environment at build time. Use `.env
 
 ## AI response validation
 
-Use `guardResponse`/`validateSchema` to enforce Zod schemas on AI payloads before they reach the rest of the pipeline. Successful validations return the parsed value as before, but failures now throw a `SchemaValidationError` with structured issue metadata:
+Use `guardResponse`/`validateSchema` to enforce Zod schemas on AI payloads before they reach the rest of the pipeline. Each call returns a discriminated union so callers can branch on success or failure without parsing concatenated strings:
 
 ```ts
-import { guardResponse, SchemaValidationError } from "@/ai/safety";
+import { guardResponse } from "@/ai/safety";
 
-try {
-  const result = guardResponse(rawPayload, schema, { label: "Planner AI" });
-  // use result...
-} catch (error) {
-  if (error instanceof SchemaValidationError) {
-    error.issues.forEach(({ path, message }) => {
-      console.warn(`${error.label} rejected at ${path.join(".") || "root"}: ${message}`);
-    });
-  }
+const outcome = guardResponse(rawPayload, schema, { label: "Planner AI" });
+
+if (outcome.success) {
+  // use outcome.data
+} else {
+  outcome.error.issues.forEach(({ path, message }) => {
+    console.warn(
+      `${outcome.error.label} rejected at ${path.join(".") || "root"}: ${message}`,
+    );
+  });
 }
 ```
 
-Each issue exposes the failing `path`, human-readable `message`, and an optional `code` mirroring the underlying Zod `ZodIssue`. Surface this data in logs or UI hints instead of parsing concatenated error strings.
+Failures expose the failing `path`, human-readable `message`, and an optional `code` mirroring the underlying Zod `ZodIssue`. Surface this data in logs or UI hints instead of parsing concatenated error strings.
 
 ## Metrics reporting and external collectors
 
