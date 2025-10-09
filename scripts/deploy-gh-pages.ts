@@ -212,17 +212,26 @@ function parseRemoteSlug(remoteUrl: string): GitHubRepositoryParts {
   };
 }
 
+type RepositorySlugDetectionOptions = {
+  readonly preferBasePathEnv?: boolean;
+};
+
 export function detectRepositorySlug(
   spawn: typeof spawnSync = spawnSync,
+  options: RepositorySlugDetectionOptions = {},
 ): RepositorySlugDetectionResult {
-  const basePathEnv = process.env.BASE_PATH;
-  if (basePathEnv !== undefined) {
-    const fromEnv = sanitizeSlug(basePathEnv);
-    const { owner } = parseGitHubRepository(process.env.GITHUB_REPOSITORY);
-    return {
-      slug: fromEnv ?? "",
-      ownerSlug: owner,
-    };
+  const preferBasePathEnv = options.preferBasePathEnv ?? true;
+
+  if (preferBasePathEnv) {
+    const basePathEnv = process.env.BASE_PATH;
+    if (basePathEnv !== undefined) {
+      const fromEnv = sanitizeSlug(basePathEnv);
+      const { owner } = parseGitHubRepository(process.env.GITHUB_REPOSITORY);
+      return {
+        slug: fromEnv ?? "",
+        ownerSlug: owner,
+      };
+    }
   }
 
   const repositoryParts = parseGitHubRepository(process.env.GITHUB_REPOSITORY);

@@ -173,6 +173,35 @@ describe("detectRepositorySlug", () => {
     delete process.env.BASE_PATH;
   });
 
+  it("ignores BASE_PATH when preferBasePathEnv is false", () => {
+    process.env.GITHUB_REPOSITORY = "octocat/planner";
+    process.env.BASE_PATH = "custom-slug";
+
+    const spawnMockImpl = vi.fn(
+      (
+        _command: string,
+        _args: readonly string[],
+      ): SpawnSyncReturns<string> => ({
+        status: 1,
+        stdout: "",
+        stderr: "",
+        pid: 0,
+        output: [],
+        signal: null,
+      }),
+    );
+    const spawnMock =
+      spawnMockImpl as unknown as typeof import("node:child_process").spawnSync;
+
+    const { slug, ownerSlug } = detectRepositorySlug(spawnMock, {
+      preferBasePathEnv: false,
+    });
+
+    expect(slug).toBe("planner");
+    expect(ownerSlug).toBe("octocat");
+    expect(spawnMockImpl).not.toHaveBeenCalled();
+  });
+
   it("skips the base path when the origin remote targets a user GitHub Pages repository", () => {
     delete process.env.GITHUB_REPOSITORY;
     delete process.env.BASE_PATH;
