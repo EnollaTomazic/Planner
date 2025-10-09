@@ -19,11 +19,7 @@ function shouldPublishSite(env: NodeJS.ProcessEnv): boolean {
   return mode !== "true" && mode !== "1";
 }
 
-function assertOriginRemote(env: NodeJS.ProcessEnv, publish: boolean): void {
-  if (!publish) {
-    return;
-  }
-
+function canPublishWithGit(env: NodeJS.ProcessEnv): boolean {
   const repository = env.GITHUB_REPOSITORY?.trim();
   const token = env.GITHUB_TOKEN?.trim();
 
@@ -31,11 +27,11 @@ function assertOriginRemote(env: NodeJS.ProcessEnv, publish: boolean): void {
     stdio: ["ignore", "ignore", "ignore"],
   });
 
-  if (remoteResult.status !== 0 && !repository && !token) {
-    throw new Error(
-      "No git remote named \"origin\" is configured. Add an origin remote or set GITHUB_REPOSITORY and GITHUB_TOKEN before running the deploy script.",
-    );
+  if (remoteResult.status === 0) {
+    return true;
   }
+
+  return Boolean(repository && token);
 }
 
 function isCiEnvironment(env: NodeJS.ProcessEnv): boolean {
@@ -422,8 +418,14 @@ export function injectGitHubPagesPlaceholders(
 }
 
 export function main(): void {
-  const publish = shouldPublishSite(process.env);
-  assertOriginRemote(process.env, publish);
+  const requestedPublish = shouldPublishSite(process.env);
+  const publish =
+    requestedPublish && canPublishWithGit(process.env);
+  if (requestedPublish && !publish) {
+    console.warn(
+      "No git remote named \"origin\" is configured. Generating the static export only. Configure an origin remote or set GITHUB_REPOSITORY and GITHUB_TOKEN to enable publishing.",
+    );
+  }
   const { slug, ownerSlug: fallbackOwnerSlug } = detectRepositorySlug();
   const { owner: repositoryOwnerSlug, name: repositorySlug } = parseGitHubRepository(
     process.env.GITHUB_REPOSITORY,
