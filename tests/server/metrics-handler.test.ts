@@ -2,6 +2,12 @@ import { PassThrough } from "node:stream";
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+vi.mock("../../src/lib/observability/sentry", () => ({
+  captureException: vi.fn().mockResolvedValue(undefined),
+}));
+
+import { captureException } from "../../src/lib/observability/sentry";
+
 import {
   createMetricsHandler,
   resetMetricsRateLimit,
@@ -41,7 +47,11 @@ function createRequest(options: RequestOptions = {}): MetricsRequest {
   const request = stream as unknown as MetricsRequest;
   (request as MetricsRequest).method = options.method ?? "POST";
   (request as MetricsRequest).headers =
-    options.headers ?? { "content-type": "application/json" };
+    options.headers ?? {
+      "content-type": "application/json",
+      "x-request-id": "test-request-id",
+      "x-user-id": "user-123",
+    };
   (request as MetricsRequest).ip = options.ip ?? null;
   (request as MetricsRequest).socket = {
     remoteAddress: options.remoteAddress ?? "203.0.113.5",
@@ -102,14 +112,16 @@ function createValidPayload() {
 
 describe("server metrics handler", () => {
   let handler: MetricsHandler;
+  const captureSpy = vi.mocked(captureException);
 
   beforeEach(() => {
     resetMetricsRateLimit();
     handler = createMetricsHandler();
+    captureSpy.mockClear();
   });
 
   afterEach(() => {
-    vi.restoreAllMocks();
+    vi.clearAllMocks();
     resetMetricsRateLimit();
   });
 
@@ -124,6 +136,7 @@ describe("server metrics handler", () => {
     expect(JSON.parse(recorder.getBody())).toEqual({ status: "accepted" });
     expect(recorder.getHeader("server-timing")).toMatch(/^app;dur=/);
     expect(recorder.getHeader("cache-control")).toBe("no-store");
+    expect(captureSpy).not.toHaveBeenCalled();
   });
 
   it("rejects oversized bodies and clears rate limit token", async () => {
@@ -138,6 +151,7 @@ describe("server metrics handler", () => {
     expect(JSON.parse(recorder.getBody())).toEqual({ error: "payload_too_large" });
     expect(recorder.getHeader("server-timing")).toMatch(/^app;dur=/);
     expect(clearSpy).toHaveBeenCalledOnce();
+    clearSpy.mockRestore();
   });
 
   it("rejects invalid json payloads", async () => {
@@ -149,6 +163,13 @@ describe("server metrics handler", () => {
     expect(recorder.getStatusCode()).toBe(400);
     expect(JSON.parse(recorder.getBody())).toEqual({ error: "invalid_json" });
     expect(recorder.getHeader("server-timing")).toMatch(/^app;dur=/);
+    expect(captureSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ message: "metrics_invalid_json" }),
+      expect.objectContaining({
+        tags: expect.objectContaining({ requestId: "test-request-id" }),
+        extra: expect.objectContaining({ userId: "user-123" }),
+      }),
+    );
   });
 
   it("rejects unsupported methods", async () => {
@@ -177,6 +198,27 @@ describe("server metrics handler", () => {
     expect(recorder.getHeader("server-timing")).toMatch(/^app;dur=/);
     expect(recorder.getHeader("retry-after")).toBeDefined();
     expect(spy).toHaveBeenCalledOnce();
+    spy.mockRestore();
+  });
+
+  it("reports validation failures to observability", async () => {
+    const request = createRequest({
+      body: JSON.stringify({ metric: {}, page: "", timestamp: -1 }),
+    });
+    const recorder = createResponse();
+
+    await handler(request, recorder.response);
+
+    expect(recorder.getStatusCode()).toBe(422);
+    expect(JSON.parse(recorder.getBody())).toEqual({ error: "invalid_payload" });
+    expect(recorder.getHeader("server-timing")).toMatch(/^app;dur=/);
+    expect(captureSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ message: "metrics_invalid_payload" }),
+      expect.objectContaining({
+        tags: expect.objectContaining({ requestId: "test-request-id" }),
+        extra: expect.objectContaining({ userId: "user-123" }),
+      }),
+    );
   });
 });
 
