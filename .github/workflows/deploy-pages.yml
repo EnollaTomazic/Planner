@@ -38,6 +38,7 @@ jobs:
       - uses: ./.github/actions/setup-node-project
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
 
       - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
