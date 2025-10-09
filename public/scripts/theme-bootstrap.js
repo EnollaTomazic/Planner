@@ -112,10 +112,13 @@
     }
 
     const STORAGE_PREFIX = "noxis-planner:";
+    const STORAGE_VERSION = "v1";
     const OLD_STORAGE_PREFIX = "13lr:";
+    const VERSIONED_STORAGE_PREFIX = `${STORAGE_PREFIX}${STORAGE_VERSION}:`;
+    const LEGACY_VERSION_PATTERN = /^v\d+$/;
     let migrated = false;
 
-    function ensureMigration(key) {
+    function ensureMigration() {
       if (migrated) {
         return;
       }
@@ -124,14 +127,68 @@
         if (typeof window === "undefined" || !window.localStorage) {
           return;
         }
-        const legacyKey = OLD_STORAGE_PREFIX + key;
-        const prefixedKey = STORAGE_PREFIX + key;
-        const legacyValue = window.localStorage.getItem(legacyKey);
-        if (legacyValue !== null && window.localStorage.getItem(prefixedKey) === null) {
-          window.localStorage.setItem(prefixedKey, legacyValue);
+
+        const removals = [];
+        const migrations = [];
+
+        for (let i = 0; i < window.localStorage.length; i += 1) {
+          const key = window.localStorage.key(i);
+          if (!key) {
+            continue;
+          }
+
+          if (key.startsWith(OLD_STORAGE_PREFIX)) {
+            const suffix = key.slice(OLD_STORAGE_PREFIX.length);
+            const target = `${VERSIONED_STORAGE_PREFIX}${suffix}`;
+            migrations.push({ source: key, target });
+            removals.push(key);
+            continue;
+          }
+
+          if (!key.startsWith(STORAGE_PREFIX)) {
+            continue;
+          }
+
+          if (key.startsWith(VERSIONED_STORAGE_PREFIX)) {
+            continue;
+          }
+
+          const remainder = key.slice(STORAGE_PREFIX.length);
+          const separatorIndex = remainder.indexOf(":");
+
+          if (separatorIndex > -1) {
+            const candidateVersion = remainder.slice(0, separatorIndex);
+            if (
+              candidateVersion &&
+              candidateVersion !== STORAGE_VERSION &&
+              LEGACY_VERSION_PATTERN.test(candidateVersion)
+            ) {
+              removals.push(key);
+              continue;
+            }
+          }
+
+          const target = `${VERSIONED_STORAGE_PREFIX}${remainder}`;
+          migrations.push({ source: key, target });
+          removals.push(key);
         }
-        if (legacyValue !== null) {
-          window.localStorage.removeItem(legacyKey);
+
+        for (const entry of migrations) {
+          if (entry.source === entry.target) {
+            continue;
+          }
+          if (window.localStorage.getItem(entry.target) !== null) {
+            continue;
+          }
+
+          const value = window.localStorage.getItem(entry.source);
+          if (value !== null) {
+            window.localStorage.setItem(entry.target, value);
+          }
+        }
+
+        for (const key of removals) {
+          window.localStorage.removeItem(key);
         }
       } catch {
         // ignore
@@ -139,8 +196,8 @@
     }
 
     function createStorageKey(key) {
-      ensureMigration(key);
-      return STORAGE_PREFIX + key;
+      ensureMigration();
+      return `${VERSIONED_STORAGE_PREFIX}${key}`;
     }
 
     function parseJSON(raw) {

@@ -6,7 +6,7 @@
   try {
     var STORAGE_PLACEHOLDER_SENTINEL = "__" + "GITHUB_PAGES_REDIRECT_STORAGE_KEY__";
     var storagePlaceholder = "__GITHUB_PAGES_REDIRECT_STORAGE_KEY__";
-    var defaultStorageKey = "noxis-planner:gh-pages:redirect";
+    var defaultStorageKey = "noxis-planner:v1:gh-pages:redirect";
     var storageKey = storagePlaceholder;
     if (!storageKey || storageKey === STORAGE_PLACEHOLDER_SENTINEL) {
       storageKey = defaultStorageKey;

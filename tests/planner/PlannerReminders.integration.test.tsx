@@ -102,7 +102,7 @@ describe("Planner reminders integration", () => {
     flushWriteLocal();
 
     const storedDaysRaw = window.localStorage.getItem(
-      "noxis-planner:planner:days",
+      "noxis-planner:v1:planner:days",
     );
     expect(storedDaysRaw).toBeTruthy();
 

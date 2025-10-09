@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
 import { test } from "./playwright";
 
-const STORAGE_PREFIX = "noxis-planner:" as const;
+const STORAGE_PREFIX = "noxis-planner:v1:" as const;
 const plannerStorageKey = `${STORAGE_PREFIX}planner:days` as const;
 const reviewsStorageKey = `${STORAGE_PREFIX}reviews.v1` as const;
 const teamBuilderStorageKey = `${STORAGE_PREFIX}team_comp_v1` as const;

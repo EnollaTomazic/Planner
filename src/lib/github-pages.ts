@@ -1,10 +1,12 @@
 // src/lib/github-pages.ts
 // Helpers for GitHub Pages routing bootstrap + constants shared with static scripts.
 
-import { STORAGE_PREFIX } from "./storage-key";
+import { createStorageKey } from "./storage-key";
 
 export const GITHUB_PAGES_BOOTSTRAP_SCRIPT_PATH = "/scripts/github-pages-bootstrap.js";
-export const GITHUB_PAGES_REDIRECT_STORAGE_KEY = `${STORAGE_PREFIX}gh-pages:redirect`;
+export const GITHUB_PAGES_REDIRECT_STORAGE_KEY = createStorageKey(
+  "gh-pages:redirect",
+);
 export const GITHUB_PAGES_STORAGE_PLACEHOLDER = "__GITHUB_PAGES_REDIRECT_STORAGE_KEY__";
 export const GITHUB_PAGES_BASE_PATH_PLACEHOLDER = "__BASE_PATH__";
 
