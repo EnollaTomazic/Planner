@@ -208,6 +208,14 @@ export function withoutBasePath(path: string): string {
     return remainder.length > 0 ? remainder : "/";
   }
 
+  if (
+    normalizedPath.startsWith(`${basePath}?`) ||
+    normalizedPath.startsWith(`${basePath}#`)
+  ) {
+    const remainder = normalizedPath.slice(basePath.length);
+    return remainder.length > 0 ? remainder : "/";
+  }
+
   return normalizedPath;
 }
 

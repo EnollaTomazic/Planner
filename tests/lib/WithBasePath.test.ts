@@ -176,6 +176,16 @@ describe("WithoutBasePath", () => {
     expect(withoutBasePath("/other")).toBe("/other");
   });
 
+  it("strips the base path before query and hash segments", async () => {
+    process.env.NEXT_PUBLIC_BASE_PATH = "/beta/";
+    vi.resetModules();
+
+    const { withoutBasePath } = await importBasePathUtils();
+
+    expect(withoutBasePath("/beta?foo=1")).toBe("?foo=1");
+    expect(withoutBasePath("/beta#section")).toBe("#section");
+  });
+
   it("does not strip prefixes from absolute URLs", async () => {
     const urls = [
       "https://cdn.example.com/assets/icon.svg",

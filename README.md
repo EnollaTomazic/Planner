@@ -24,6 +24,10 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 If `pnpm run check` or `pnpm run guard:artifacts` detect lingering `node-compile-cache` or `tsx-*` directories, run `pnpm run clean:artifacts` to remove them before retrying. The command deletes the caches created by `tsx` so the guard passes on the next run.
 
+### Resetting GitHub Actions caches
+
+The CI, deployment, and workflow lint pipelines reuse the `.github/actions/setup-node-project` composite action to restore `node_modules` from the Actions cache. When a cache restore causes unexpected build failures, set the `NODE_MODULES_CACHE_BUSTER` repository variable (Settings → Secrets and variables → Actions → Variables) to a new value such as the current date. The workflows append that value to the cache key via the action's `cache-suffix` input, so updating the variable forces a fresh dependency install without modifying the workflow files. Remove the variable or clear its value after the new cache has been created to fall back to the default key.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
