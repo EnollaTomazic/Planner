@@ -17,6 +17,9 @@ inputs:
   cache-prefix:
     description: "Prefix used when generating cache keys"
     default: "node"
+  cache-suffix:
+    description: "Optional suffix appended to cache keys to bust caches"
+    default: ""
   checkout-ref:
     description: "Optional git ref to checkout"
     required: false
@@ -187,6 +190,7 @@ runs:
       shell: bash
       env:
         PREFIX: "${{ inputs['cache-prefix'] }}"
+        CACHE_SUFFIX: "${{ inputs['cache-suffix'] }}"
         MANAGER: "${{ steps.detect.outputs.manager }}"
         NODE_VERSION: "${{ steps['node-version'].outputs.value }}"
         LOCK_HASH: "${{ steps.lockfile.outputs.value }}"
@@ -194,9 +198,25 @@ runs:
         set -euo pipefail
         LOWER_OS="$(echo "$RUNNER_OS" | tr '[:upper:]' '[:lower:]')"
         PREFIX="${PREFIX:-node}"
-        KEY="${PREFIX}-${LOWER_OS}-${MANAGER}-${NODE_VERSION}-${LOCK_HASH}"
+        if [ -n "$CACHE_SUFFIX" ]; then
+          SAFE_SUFFIX="$(
+            echo "$CACHE_SUFFIX" \
+              | tr '[:space:]' '-' \
+              | tr -c '[:alnum:]-' '-'
+          )"
+          SAFE_SUFFIX="${SAFE_SUFFIX#-}"
+          SAFE_SUFFIX="${SAFE_SUFFIX%-}"
+          if [ -n "$SAFE_SUFFIX" ]; then
+            SUFFIX="-$SAFE_SUFFIX"
+          else
+            SUFFIX=""
+          fi
+        else
+          SUFFIX=""
+        fi
+        KEY="${PREFIX}${SUFFIX}-${LOWER_OS}-${MANAGER}-${NODE_VERSION}-${LOCK_HASH}"
         echo "primary=$KEY" >>"$GITHUB_OUTPUT"
-        echo "restore=${PREFIX}-${LOWER_OS}-${MANAGER}-${NODE_VERSION}-" >>"$GITHUB_OUTPUT"
+        echo "restore=${PREFIX}${SUFFIX}-${LOWER_OS}-${MANAGER}-${NODE_VERSION}-" >>"$GITHUB_OUTPUT"
 
     - name: Restore node_modules cache
       id: restore-node-modules

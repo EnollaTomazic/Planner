@@ -43,6 +43,7 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -92,6 +93,7 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -142,6 +144,7 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -182,6 +185,7 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -224,6 +228,7 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -285,6 +290,7 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -398,6 +404,7 @@ jobs:
         with:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
+          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
