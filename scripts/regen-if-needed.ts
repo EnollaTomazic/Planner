@@ -185,13 +185,6 @@ function getGitStatusLines(cwd: string): string[] {
   return output.split("\n").map((line) => line.trimEnd());
 }
 
-function assertCleanGitTree(cwd: string, message: string): void {
-  const changes = getGitStatusLines(cwd);
-  if (changes.length > 0) {
-    throw new Error(`${message}\n\n${changes.join("\n")}`);
-  }
-}
-
 type GeneratorValidation = {
   name: string;
   command: string;
@@ -231,10 +224,7 @@ export function validateGenerators(
   const cwd = options.cwd ?? rootDir;
 
   for (const generator of generators) {
-    assertCleanGitTree(
-      cwd,
-      `${generator.name} validation requires a clean working tree. Stash or commit your changes before rerunning.`,
-    );
+    const statusBefore = getGitStatusLines(cwd);
 
     try {
       execSync(generator.command, { cwd, stdio: "inherit" });
@@ -246,10 +236,17 @@ export function validateGenerators(
       );
     }
 
-    assertCleanGitTree(
-      cwd,
-      `${generator.name} outputs are stale. Run \`${generator.command}\` and commit the generated files.`,
-    );
+    const statusAfter = getGitStatusLines(cwd);
+    const beforeSet = new Set(statusBefore);
+    const newChanges = statusAfter.filter((line) => !beforeSet.has(line));
+
+    if (newChanges.length > 0) {
+      const details = newChanges.join("\n");
+      throw new Error(
+        `${generator.name} outputs are stale. Run \`${generator.command}\` and commit the generated files.` +
+          (details ? `\n\n${details}` : ""),
+      );
+    }
   }
 }
 

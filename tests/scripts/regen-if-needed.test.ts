@@ -108,7 +108,7 @@ describe("regen-if-needed CI validations", () => {
     ).not.toThrow();
   });
 
-  it("fails fast when the repository is already dirty", () => {
+  it("allows running when the repository is already dirty", () => {
     fs.writeFileSync(path.join(repoDir, "dirty.txt"), "dirty\n");
 
     expect(() =>
@@ -121,12 +121,29 @@ describe("regen-if-needed CI validations", () => {
         ],
         { cwd: repoDir },
       ),
-    ).toThrowErrorMatchingInlineSnapshot(`
-[Error: noop validation requires a clean working tree. Stash or commit your changes before rerunning.\n\n?? dirty.txt]
-`);
+    ).not.toThrow();
   });
 
   it("fails when a generator leaves the tree dirty", () => {
+    expect(() =>
+      regenModule.validateGenerators(
+        [
+          {
+            name: "generated", // matches coverage expectation
+            command:
+              "node -e \"require('fs').writeFileSync('generated.txt', 'contents')\"",
+          },
+        ],
+        { cwd: repoDir },
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(`
+[Error: generated outputs are stale. Run \`node -e \"require('fs').writeFileSync('generated.txt', 'contents')\"\` and commit the generated files.\n\n?? generated.txt]
+`);
+  });
+
+  it("fails when generators introduce new changes in a dirty tree", () => {
+    fs.writeFileSync(path.join(repoDir, "dirty.txt"), "dirty\n");
+
     expect(() =>
       regenModule.validateGenerators(
         [
