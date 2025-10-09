@@ -5,6 +5,7 @@ import {
   createSecurityHeaders,
   defaultSecurityPolicyOptions,
 } from "./security-headers.mjs";
+import { normalizeBasePath } from "./src/lib/base-path.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -19,11 +20,6 @@ const collectPathSegments = (value) => {
     .split("/")
     .map((segment) => segment.trim())
     .filter((segment) => segment.length > 0);
-};
-
-const normalizeBasePath = (value) => {
-  const segments = collectPathSegments(value);
-  return segments.length > 0 ? `/${segments.join("/")}` : "";
 };
 
 const normalizeSlug = (value) => {

@@ -5,6 +5,7 @@ import { type ClassValue, clsx } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
 
 import loadClientEnv from "../../env/client";
+import { normalizeBasePath } from "./base-path";
 
 function readClientEnv(): ReturnType<typeof loadClientEnv> {
   try {
@@ -29,28 +30,6 @@ const twMerge = extendTailwindMerge({
     },
   },
 });
-
-function normalizeBasePath(raw: string | undefined): string {
-  if (!raw) {
-    return "";
-  }
-
-  const trimmed = raw.trim();
-  if (!trimmed || trimmed === "/") {
-    return "";
-  }
-
-  const segments = trimmed
-    .split("/")
-    .map((segment) => segment.trim())
-    .filter((segment) => segment.length > 0);
-
-  if (segments.length === 0) {
-    return "";
-  }
-
-  return `/${segments.join("/")}`;
-}
 
 const { NEXT_PUBLIC_BASE_PATH } = readClientEnv();
 
