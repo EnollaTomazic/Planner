@@ -32,6 +32,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -39,6 +45,7 @@ jobs:
           cache-prefix: ci
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
           node-version-file: .nvmrc
+          skip-checkout: 'true'
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -66,6 +73,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -73,6 +86,7 @@ jobs:
           cache-prefix: ci
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
           node-version-file: .nvmrc
+          skip-checkout: 'true'
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -119,6 +133,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -126,6 +146,7 @@ jobs:
           cache-prefix: ci
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
           node-version-file: .nvmrc
+          skip-checkout: 'true'
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -157,6 +178,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -164,6 +191,7 @@ jobs:
           cache-prefix: ci
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
           node-version-file: .nvmrc
+          skip-checkout: 'true'
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -213,6 +241,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -220,6 +254,7 @@ jobs:
           cache-prefix: ci
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
           node-version-file: .nvmrc
+          skip-checkout: 'true'
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -371,6 +406,12 @@ jobs:
             previews: " /preview/theme-matrix, /preview/hero-images, /preview/gallery"
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -378,6 +419,7 @@ jobs:
           cache-prefix: ci
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
           node-version-file: .nvmrc
+          skip-checkout: 'true'
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
