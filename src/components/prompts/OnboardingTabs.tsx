@@ -42,11 +42,12 @@ const STEPS: readonly { key: StepKey; title: string; description: string }[] = [
   },
 ];
 
-type StepItem = (typeof STEPS)[number] & { index: number };
+type StepItem = (typeof STEPS)[number] & { index: number; label: string };
 
 const STEP_ITEMS: StepItem[] = STEPS.map((step, index) => ({
   ...step,
   index,
+  label: step.title,
 }));
 
 const ROLE_OPTIONS: React.ComponentProps<typeof RadioIconGroup>["options"] = [
