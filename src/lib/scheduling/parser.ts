@@ -516,8 +516,11 @@ export type BuildOccurrencesOptions = {
 
 function addMonths(date: Date, months: number): Date {
   const next = new Date(date);
-  const desiredMonth = next.getMonth() + months;
-  next.setMonth(desiredMonth);
+  const originalDay = next.getDate();
+  next.setDate(1);
+  next.setMonth(next.getMonth() + months);
+  const daysInMonth = new Date(next.getFullYear(), next.getMonth() + 1, 0).getDate();
+  next.setDate(Math.min(originalDay, daysInMonth));
   return next;
 }
 
