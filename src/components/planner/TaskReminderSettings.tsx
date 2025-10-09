@@ -57,8 +57,18 @@ export default function TaskReminderSettings({
       }));
   }, [filtered, items]);
 
+  const taskId = task?.id;
   const activeReminder = task?.reminder;
   const isEnabled = Boolean(activeReminder?.enabled);
+  const advancedDisclosureButtonId = React.useId();
+  const advancedDisclosurePanelId = React.useId();
+  const previousAdvancedState = React.useRef<boolean>(true);
+  const previousIsEnabled = React.useRef<boolean>(isEnabled);
+  const suppressNextCloseSync = React.useRef<boolean>(false);
+  const previousTaskId = React.useRef<DayTask["id"] | undefined>(taskId);
+  const [areAdvancedOptionsOpen, setAreAdvancedOptionsOpen] = React.useState<boolean>(
+    isEnabled,
+  );
   const reminderId =
     activeReminder?.reminderId ??
     defaultReminderId ??
@@ -73,6 +83,40 @@ export default function TaskReminderSettings({
     const trimmed = task.title.trim();
     return trimmed ? `Reminder for “${trimmed}”` : "Reminder for untitled task";
   }, [task]);
+
+  React.useEffect(() => {
+    if (previousTaskId.current === taskId) return;
+    previousTaskId.current = taskId;
+    previousAdvancedState.current = true;
+    setAreAdvancedOptionsOpen(isEnabled);
+    previousIsEnabled.current = isEnabled;
+  }, [isEnabled, taskId]);
+
+  React.useEffect(() => {
+    if (!isEnabled) {
+      if (suppressNextCloseSync.current) {
+        suppressNextCloseSync.current = false;
+        previousIsEnabled.current = isEnabled;
+        return;
+      }
+
+      if (previousIsEnabled.current) {
+        setAreAdvancedOptionsOpen((previous) => {
+          previousAdvancedState.current = previous;
+          return false;
+        });
+      } else {
+        setAreAdvancedOptionsOpen(false);
+      }
+      previousIsEnabled.current = isEnabled;
+      return;
+    }
+
+    const nextOpen = previousAdvancedState.current ?? true;
+    previousAdvancedState.current = nextOpen;
+    setAreAdvancedOptionsOpen(nextOpen);
+    previousIsEnabled.current = isEnabled;
+  }, [isEnabled]);
 
   const handleToggle = React.useCallback(
     (side: "Left" | "Right") => {
@@ -89,6 +133,9 @@ export default function TaskReminderSettings({
         activeReminder?.leadMinutes ?? leadMinutes ?? 0;
 
       if (!enable) {
+        previousAdvancedState.current = areAdvancedOptionsOpen;
+        suppressNextCloseSync.current = true;
+        setAreAdvancedOptionsOpen(false);
         onChange({
           enabled: false,
           ...(fallbackId ? { reminderId: fallbackId } : {}),
@@ -98,6 +145,9 @@ export default function TaskReminderSettings({
         return;
       }
 
+      const nextOpen = previousAdvancedState.current ?? true;
+      previousAdvancedState.current = nextOpen;
+      setAreAdvancedOptionsOpen(nextOpen);
       onChange({
         enabled: true,
         ...(fallbackId ? { reminderId: fallbackId } : {}),
@@ -121,8 +171,18 @@ export default function TaskReminderSettings({
       setDefaultReminderId,
       setDefaultTime,
       setDefaultLeadMinutes,
+      areAdvancedOptionsOpen,
     ],
   );
+
+  const handleAdvancedDisclosureToggle = React.useCallback(() => {
+    if (!isEnabled) return;
+    setAreAdvancedOptionsOpen((previous) => {
+      const next = !previous;
+      previousAdvancedState.current = next;
+      return next;
+    });
+  }, [isEnabled]);
 
   const handleReminderSelect = React.useCallback(
     (value: string) => {
@@ -184,44 +244,73 @@ export default function TaskReminderSettings({
               disabled={!task}
               className="w-full"
             />
+            <p className="text-caption text-muted-foreground">
+              Enable reminders to adjust templates, send time, and lead time.
+            </p>
           </div>
 
           <div className="flex flex-col gap-[var(--space-2)]">
-            <Label htmlFor={`reminder-select-${task.id}`}>Reminder</Label>
-            <AnimatedSelect
-              id={`reminder-select-${task.id}`}
-              items={availableReminders}
-              value={reminderId}
-              onChange={handleReminderSelect}
-              placeholder="Choose reminder"
-              ariaLabel="Select reminder template"
+            <button
+              type="button"
+              id={advancedDisclosureButtonId}
+              className="inline-flex w-full items-center justify-between rounded-[var(--control-radius)] border border-border bg-card px-[var(--space-3)] py-[var(--space-2)] text-left text-ui font-medium transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60"
+              aria-controls={advancedDisclosurePanelId}
+              aria-expanded={isEnabled && areAdvancedOptionsOpen}
+              aria-disabled={!isEnabled}
+              onClick={handleAdvancedDisclosureToggle}
               disabled={!isEnabled}
-              size="md"
-            />
-          </div>
+            >
+              <span>Reminder options</span>
+              <span className="text-caption text-muted-foreground">
+                {areAdvancedOptionsOpen ? "Hide" : "Show"}
+              </span>
+            </button>
 
-          <div className="flex flex-col gap-[var(--space-2)]">
-            <Label htmlFor={`reminder-time-${task.id}`}>Time</Label>
-            <Input
-              id={`reminder-time-${task.id}`}
-              type="time"
-              step={60}
-              value={reminderTime}
-              onChange={(event) => handleTimeChange(event.target.value)}
-              disabled={!isEnabled}
-            />
-          </div>
+            <div
+              id={advancedDisclosurePanelId}
+              role="region"
+              aria-labelledby={advancedDisclosureButtonId}
+              hidden={!isEnabled || !areAdvancedOptionsOpen}
+              className="grid gap-[var(--space-3)] md:grid-cols-2"
+            >
+              <div className="flex flex-col gap-[var(--space-2)]">
+                <Label htmlFor={`reminder-select-${task.id}`}>Reminder</Label>
+                <AnimatedSelect
+                  id={`reminder-select-${task.id}`}
+                  items={availableReminders}
+                  value={reminderId}
+                  onChange={handleReminderSelect}
+                  placeholder="Choose reminder"
+                  ariaLabel="Select reminder template"
+                  disabled={!isEnabled}
+                  size="md"
+                />
+              </div>
 
-          <div className="flex flex-col gap-[var(--space-2)]">
-            <Label htmlFor={`reminder-lead-${task.id}`}>Lead time</Label>
-            <Select
-              variant="native"
-              id={`reminder-lead-${task.id}`}
-              items={LEAD_OPTIONS}
-              value={String(leadMinutes)}
-              onChange={handleLeadChange}
-              disabled={!isEnabled}
-            />
+              <div className="flex flex-col gap-[var(--space-2)]">
+                <Label htmlFor={`reminder-time-${task.id}`}>Time</Label>
+                <Input
+                  id={`reminder-time-${task.id}`}
+                  type="time"
+                  step={60}
+                  value={reminderTime}
+                  onChange={(event) => handleTimeChange(event.target.value)}
+                  disabled={!isEnabled}
+                />
+              </div>
+
+              <div className="flex flex-col gap-[var(--space-2)]">
+                <Label htmlFor={`reminder-lead-${task.id}`}>Lead time</Label>
+                <Select
+                  variant="native"
+                  id={`reminder-lead-${task.id}`}
+                  items={LEAD_OPTIONS}
+                  value={String(leadMinutes)}
+                  onChange={handleLeadChange}
+                  disabled={!isEnabled}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
