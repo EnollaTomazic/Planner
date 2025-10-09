@@ -32,12 +32,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -71,12 +65,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -122,12 +110,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -163,12 +145,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -206,12 +182,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -268,12 +238,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
@@ -382,12 +346,6 @@ jobs:
             previews: " /preview/theme-matrix, /preview/hero-images, /preview/gallery"
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
       - name: Setup Node project
         uses: ./.github/actions/setup-node-project
         with:
