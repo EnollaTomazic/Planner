@@ -8,6 +8,7 @@ import {
   Label,
   Progress,
   RadioIconGroup,
+  TabBar,
   Toggle,
 } from "@/components/ui";
 import { Check, Code2, Info, Palette } from "lucide-react";
@@ -40,6 +41,13 @@ const STEPS: readonly { key: StepKey; title: string; description: string }[] = [
     description: "Bring platform updates into your hand-off checklist.",
   },
 ];
+
+type StepItem = (typeof STEPS)[number] & { index: number };
+
+const STEP_ITEMS: StepItem[] = STEPS.map((step, index) => ({
+  ...step,
+  index,
+}));
 
 const ROLE_OPTIONS: React.ComponentProps<typeof RadioIconGroup>["options"] = [
   {
@@ -160,6 +168,18 @@ export default function OnboardingTabs() {
   const stepHeadingId = `${currentStep.key}-step-heading`;
   const roleCopy = ROLE_GUIDANCE[role];
   const canProceed = currentStep.key === "workflow" ? workflowFocus.trim().length > 0 : true;
+  const stepKey = currentStep.key;
+
+  const handleStepChange = React.useCallback(
+    (key: StepKey) => {
+      const nextIndex = STEP_ITEMS.findIndex((step) => step.key === key);
+      if (nextIndex === -1) return;
+      setStepIndex(nextIndex);
+      setSkipped(false);
+      setIsComplete(false);
+    },
+    [setStepIndex, setSkipped, setIsComplete],
+  );
 
   const handleNext = React.useCallback(() => {
     setStepIndex((prev) => Math.min(prev + 1, totalSteps - 1));
@@ -420,45 +440,100 @@ export default function OnboardingTabs() {
         </Button>
       </div>
 
-      <div className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center">
-        {STEPS.map((step, index) => {
+      <TabBar
+        ariaLabel="Onboarding steps"
+        items={STEP_ITEMS}
+        value={stepKey}
+        onValueChange={handleStepChange}
+        variant="glitch"
+        tablistClassName="w-full"
+        renderItem={({ item, active, props, ref, disabled }) => {
+          const { className: baseClassName, onClick, ...restProps } = props;
           const status =
-            index < stepIndex ? "complete" : index === stepIndex ? "current" : "upcoming";
-          const circleClass = cn(
-            "flex size-[var(--space-6)] items-center justify-center rounded-full border text-label font-medium transition-colors",
-            status === "complete" && "border-accent text-accent-foreground bg-[hsl(var(--accent)/0.18)]",
-            status === "current" && "border-accent text-accent-foreground bg-[hsl(var(--accent)/0.08)]",
-            status === "upcoming" && "border-border/60 text-muted-foreground",
-          );
+            item.index < stepIndex ? "complete" : item.index === stepIndex ? "current" : "upcoming";
+          const isLast = item.index === STEP_ITEMS.length - 1;
+          const isDisabled = disabled;
+          const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
+            if (isDisabled) {
+              event.preventDefault();
+              event.stopPropagation();
+              return;
+            }
+            onClick?.(event);
+          };
+
           return (
-            <React.Fragment key={step.key}>
-              <div className="flex items-start gap-[var(--space-2)] sm:flex-1">
-                <span className={circleClass} aria-hidden="true">
-                  {status === "complete" ? (
-                    <Check className="size-[var(--space-3)]" />
-                  ) : (
-                    index + 1
+            <button
+              key={item.key}
+              type="button"
+              {...restProps}
+              ref={ref as React.Ref<HTMLButtonElement>}
+              onClick={handleClick}
+              disabled={isDisabled}
+              className={cn(
+                baseClassName,
+                "glitch-wrapper group/glitch relative w-full min-w-0 flex-1 items-start gap-[var(--space-3)] rounded-[var(--control-radius-lg)] px-[var(--space-4)] py-[var(--space-3)] text-left",
+                "transition-[transform,filter] duration-[180ms] ease-out",
+                "focus-visible:outline-none focus-visible:ring-0",
+                active && "text-foreground",
+                status === "complete" && "text-foreground",
+                status === "upcoming" && !active && "text-muted-foreground",
+                isDisabled && "pointer-events-none opacity-disabled",
+                "data-[depth=raised]:motion-safe:hover:-translate-y-[var(--spacing-0-5)] data-[depth=raised]:motion-safe:focus-visible:-translate-y-[var(--spacing-0-5)]",
+                "sm:after:absolute sm:after:top-1/2 sm:after:right-[-var(--space-4)] sm:after:block sm:after:h-px sm:after:w-[var(--space-8)] sm:after:bg-border/60 data-[last=true]:sm:after:hidden",
+              )}
+              data-text={item.title}
+              data-status={status}
+              data-last={isLast ? "true" : undefined}
+            >
+              <span
+                aria-hidden
+                className={cn(
+                  "relative grid size-[var(--space-7)] place-items-center rounded-full border text-label font-medium transition-colors duration-[160ms] ease-out",
+                  "shadow-[var(--depth-shadow-soft)]",
+                  status === "complete" &&
+                    "border-accent bg-[hsl(var(--accent)/0.18)] text-accent-foreground",
+                  status === "current" &&
+                    "border-primary-soft bg-[hsl(var(--primary)/0.16)] text-primary-foreground",
+                  status === "upcoming" && "border-border/60 text-muted-foreground",
+                  "motion-safe:group-hover/glitch:animate-[glitchJitter_0.32s_ease-in-out] motion-safe:group-focus-visible/glitch:animate-[glitchJitter_0.32s_ease-in-out]",
+                )}
+              >
+                {status === "complete" ? (
+                  <Check className="size-[var(--space-3)]" />
+                ) : (
+                  item.index + 1
+                )}
+              </span>
+              <span className="flex min-w-0 flex-col gap-[var(--space-1)]">
+                <span
+                  className={cn(
+                    "text-label font-medium transition-colors duration-[160ms] ease-out",
+                    status === "upcoming" && !active && "text-muted-foreground",
                   )}
+                >
+                  {item.title}
                 </span>
-                <div className="space-y-[var(--space-1)]">
-                  <p
-                    className={cn(
-                      "text-label font-medium",
-                      status === "upcoming" && "text-muted-foreground",
-                    )}
-                  >
-                    {step.title}
-                  </p>
-                  <p className="text-caption text-muted-foreground">{step.description}</p>
-                </div>
-              </div>
-              {index < STEPS.length - 1 ? (
-                <div className="hidden h-px flex-1 bg-border/60 sm:block" aria-hidden />
-              ) : null}
-            </React.Fragment>
+                <span className="text-caption text-muted-foreground">
+                  {item.description}
+                </span>
+              </span>
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-[calc(var(--space-1)-var(--hairline-w))] rounded-[calc(var(--control-radius-lg)*0.9)] border border-transparent opacity-0 transition duration-[180ms] ease-out group-hover/glitch:border-[hsl(var(--accent)/0.55)] group-hover/glitch:opacity-100 group-focus-visible/glitch:border-[hsl(var(--accent)/0.7)] group-focus-visible/glitch:opacity-100 group-active/glitch:border-[hsl(var(--accent-2)/0.65)]"
+              />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-x-[var(--space-3)] bottom-[calc(var(--space-1)*-1)] h-[var(--space-1)] origin-bottom scale-y-0 rounded-full bg-[radial-gradient(80%_100%_at_50%_100%,hsl(var(--accent)/0.4),transparent)] opacity-0 transition duration-[180ms] ease-out group-hover/glitch:scale-y-100 group-hover/glitch:opacity-80 group-focus-visible/glitch:scale-y-100 group-focus-visible/glitch:opacity-90 group-active/glitch:scale-y-100"
+              />
+              <span
+                aria-hidden
+                className="glitch-rail pointer-events-none absolute inset-y-[var(--space-2)] right-[var(--space-2)] hidden w-[var(--spacing-0-75)] opacity-0 transition duration-[220ms] ease-out sm:block group-hover/glitch:opacity-80 group-focus-visible/glitch:opacity-100"
+              />
+            </button>
           );
-        })}
-      </div>
+        }}
+      />
 
       <div
         ref={contentRef}
