@@ -156,7 +156,10 @@
     "/preview/ai-states",
     "/preview/reviews"
   ],
-  "toggle": [],
+  "toggle": [
+    "/",
+    "/preview/[slug]"
+  ],
   "radio-icon-group": [
     "/",
     "/preview/forms"
