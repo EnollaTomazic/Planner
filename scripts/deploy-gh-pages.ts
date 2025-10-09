@@ -6,6 +6,7 @@ import { pathToFileURL } from "node:url";
 import process from "node:process";
 
 import { GITHUB_PAGES_REDIRECT_STORAGE_KEY } from "../src/lib/github-pages";
+import { normalizeBasePath } from "../lib/base-path.js";
 
 const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
 
@@ -211,17 +212,26 @@ function parseRemoteSlug(remoteUrl: string): GitHubRepositoryParts {
   };
 }
 
+type RepositorySlugDetectionOptions = {
+  readonly preferBasePathEnv?: boolean;
+};
+
 export function detectRepositorySlug(
   spawn: typeof spawnSync = spawnSync,
+  options: RepositorySlugDetectionOptions = {},
 ): RepositorySlugDetectionResult {
-  const basePathEnv = process.env.BASE_PATH;
-  if (basePathEnv !== undefined) {
-    const fromEnv = sanitizeSlug(basePathEnv);
-    const { owner } = parseGitHubRepository(process.env.GITHUB_REPOSITORY);
-    return {
-      slug: fromEnv ?? "",
-      ownerSlug: owner,
-    };
+  const preferBasePathEnv = options.preferBasePathEnv ?? true;
+
+  if (preferBasePathEnv) {
+    const basePathEnv = process.env.BASE_PATH;
+    if (basePathEnv !== undefined) {
+      const fromEnv = sanitizeSlug(basePathEnv);
+      const { owner } = parseGitHubRepository(process.env.GITHUB_REPOSITORY);
+      return {
+        slug: fromEnv ?? "",
+        ownerSlug: owner,
+      };
+    }
   }
 
   const repositoryParts = parseGitHubRepository(process.env.GITHUB_REPOSITORY);
@@ -386,8 +396,9 @@ export function injectGitHubPagesPlaceholders(
   basePath: string,
   storageKey: string,
 ): void {
+  const normalizedBasePath = normalizeBasePath(basePath);
   const replacements: Array<[string, RegExp]> = [
-    [basePath, /__BASE_PATH__/gu],
+    [normalizedBasePath, /__BASE_PATH__/gu],
     [storageKey, /__GITHUB_PAGES_REDIRECT_STORAGE_KEY__/gu],
   ];
 
@@ -423,13 +434,14 @@ export function main(): void {
     fallbackSlug: slug,
   });
   const shouldUseBasePath = slug.length > 0 && !isUserOrOrgGitHubPage;
-  const normalizedBasePath = shouldUseBasePath ? `/${slug}` : "";
+  const rawBasePath = shouldUseBasePath ? slug : "";
+  const normalizedBasePath = normalizeBasePath(rawBasePath);
   console.log(`Deploying with base path ${normalizedBasePath || "/"}`);
 
   const buildEnv: NodeJS.ProcessEnv = {
     ...process.env,
     GITHUB_PAGES: "true",
-    BASE_PATH: shouldUseBasePath ? slug : "",
+    BASE_PATH: rawBasePath,
     NEXT_PUBLIC_BASE_PATH: normalizedBasePath,
     SAFE_MODE: process.env.SAFE_MODE ?? "false",
     NEXT_PUBLIC_SAFE_MODE: process.env.NEXT_PUBLIC_SAFE_MODE ?? "false",
