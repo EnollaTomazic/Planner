@@ -106,24 +106,25 @@ The app reads configuration from your shell environment at build time. Use `.env
 
 ## AI response validation
 
-Use `guardResponse`/`validateSchema` to enforce Zod schemas on AI payloads before they reach the rest of the pipeline. Successful validations return the parsed value as before, but failures now throw a `SchemaValidationError` with structured issue metadata:
+Use `guardResponse`/`validateSchema` to enforce Zod schemas on AI payloads before they reach the rest of the pipeline. Each call returns a discriminated union so callers can branch on success or failure without parsing concatenated strings:
 
 ```ts
-import { guardResponse, SchemaValidationError } from "@/ai/safety";
+import { guardResponse } from "@/ai/safety";
 
-try {
-  const result = guardResponse(rawPayload, schema, { label: "Planner AI" });
-  // use result...
-} catch (error) {
-  if (error instanceof SchemaValidationError) {
-    error.issues.forEach(({ path, message }) => {
-      console.warn(`${error.label} rejected at ${path.join(".") || "root"}: ${message}`);
-    });
-  }
+const outcome = guardResponse(rawPayload, schema, { label: "Planner AI" });
+
+if (outcome.success) {
+  // use outcome.data
+} else {
+  outcome.error.issues.forEach(({ path, message }) => {
+    console.warn(
+      `${outcome.error.label} rejected at ${path.join(".") || "root"}: ${message}`,
+    );
+  });
 }
 ```
 
-Each issue exposes the failing `path`, human-readable `message`, and an optional `code` mirroring the underlying Zod `ZodIssue`. Surface this data in logs or UI hints instead of parsing concatenated error strings.
+Failures expose the failing `path`, human-readable `message`, and an optional `code` mirroring the underlying Zod `ZodIssue`. Surface this data in logs or UI hints instead of parsing concatenated error strings.
 
 ## Metrics reporting on static hosts
 
