@@ -54,6 +54,16 @@ Keep commits scoped to a single change. Avoid mixing unrelated updates so review
 
 Rebase your branch on top of `main` before merging to maintain a clean, linear commit history.
 
+### Branch protection
+
+The default branch is protected with the following checks. Keep them enabled (or mirror them on new branches) so every merge
+meets the same quality bar:
+
+- **Full CI suite** – require the entire GitHub Actions workflow to succeed before merging.
+- **Semantic PR titles** – enforce the conventional commit-style title check so release tooling stays reliable.
+- **Linear history / rebase merges** – only allow rebase or squash merges so the commit graph remains linear.
+- **Reviews stay mandatory** – keep at least one approving review required before the merge button unlocks.
+
 ## Pull requests
 
 - Keep pull requests manageable, ideally under about 300 lines of changes.
