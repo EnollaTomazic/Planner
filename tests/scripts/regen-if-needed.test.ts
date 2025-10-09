@@ -62,7 +62,12 @@ function createTempRepo(): string {
 
   fs.writeFileSync(path.join(dir, "README.md"), "initial contents\n");
   execSync("git add README.md", { cwd: dir, stdio: "ignore" });
-  execSync("git commit -m 'initial'", { cwd: dir, stdio: "ignore" });
+  // Skip hooks so nested commits created during tests don't trigger project
+  // hooks when the suite runs inside a larger git operation (e.g. Husky).
+  execSync("git commit --no-verify -m 'initial'", {
+    cwd: dir,
+    stdio: "ignore",
+  });
 
   return dir;
 }
