@@ -125,6 +125,8 @@ function buildSummary(report) {
   return { counts, highFindings, markdown: markdownSections.join("\n") };
 }
 
+const keepReport = process.env.KEEP_AUDIT_REPORT === "true";
+
 try {
   const report = readReport(reportPath);
   const { highFindings, markdown } = buildSummary(report);
@@ -142,4 +144,14 @@ try {
 } catch (error) {
   console.error("Failed to parse pnpm audit report:", error);
   process.exitCode = 1;
+} finally {
+  if (!keepReport) {
+    try {
+      if (fs.existsSync(reportPath)) {
+        fs.rmSync(reportPath);
+      }
+    } catch (cleanupError) {
+      console.warn("Failed to remove audit report:", cleanupError);
+    }
+  }
 }
