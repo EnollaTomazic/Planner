@@ -38,3 +38,6 @@ This file defines expectations for the entire repository. Check for nested `AGEN
 ## Housekeeping
 - Clean tsx caches with `pnpm run clean:artifacts` when `pnpm run guard:artifacts` reports stale `node-compile-cache` or `tsx-*` directories.
 - Consult [CONTRIBUTING.md](CONTRIBUTING.md) for contribution etiquette and broader project context.
+- Follow the branch protection expectations outlined in [CONTRIBUTING.md#branch-protection](CONTRIBUTING.md#branch-protection)
+  (full CI suite, semantic PR titles, linear history via rebase/squash merges, and required reviews) when configuring repository
+  settings or preparing merges.

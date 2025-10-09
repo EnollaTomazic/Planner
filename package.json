@@ -30,11 +30,10 @@
     "typecheck:ci": "pnpm run typecheck -- --pretty false",
     "test": "cross-env NODE_OPTIONS=--max-old-space-size=12288 VITEST_MAX_THREADS=1 vitest",
     "test:ci": "node --max-old-space-size=8192 ./node_modules/vitest/vitest.mjs run --reporter=default --reporter=junit --outputFile artifacts/unit/junit.xml --coverage --coverage.reporter=lcov --coverage.reporter=json-summary",
-    "audit:ci": "pnpm audit --audit-level=high --json > audit-report.json && node scripts/audit-ci-report.mjs audit-report.json",
+    "audit:ci": "pnpm audit --audit-level=high --json > audit-report.json || true; node scripts/audit-ci-report.mjs audit-report.json",
     "e2e:ci": "playwright test",
     "lint:design": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --cache --cache-location .eslintcache --no-warn-ignored \"{app,src}/**/*.{js,jsx,ts,tsx}\"",
     "design-lint": "pnpm run lint:design",
-    "audit:ci": "pnpm audit --audit-level=high --json > audit-report.json || true; node scripts/audit-ci-report.mjs audit-report.json",
     "guard:artifacts": "tsx scripts/guard-artifacts.ts",
     "clean:artifacts": "tsx scripts/clean-artifacts.ts",
     "check": "concurrently \"pnpm test -- --run\" \"pnpm run lint\" \"pnpm run lint:design\" \"pnpm run typecheck\" \"pnpm run guard:artifacts\"",
@@ -49,7 +48,8 @@
     "deploy:pages": "tsx scripts/deploy-gh-pages.ts",
     "deploy": "pnpm run deploy:pages",
     "deploy:npm": "npm run deploy:pages",
-    "report:summary": "node scripts/report-summary.mjs"
+    "report:summary": "node scripts/report-summary.mjs",
+    "commit": "pnpm exec cz"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
@@ -68,6 +68,9 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@commitlint/cz-commitlint": "^20.1.0",
     "@next/bundle-analyzer": "^15.5.4",
     "@next/eslint-plugin-next": "^15.5.4",
     "@playwright/test": "^1.56.0",
@@ -84,6 +87,7 @@
     "@vitest/coverage-v8": "^3.2.4",
     "autoprefixer": "^10.4.21",
     "cli-progress": "^3.12.0",
+    "commitizen": "^4.3.1",
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "eslint": "9.37.0",
@@ -108,5 +112,10 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,md}": "prettier --write",
     "*.{js,jsx,ts,tsx}": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --fix"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
   }
 }
