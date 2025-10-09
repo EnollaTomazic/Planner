@@ -1,6 +1,7 @@
 // src/lib/github-pages.ts
 // Helpers for GitHub Pages routing bootstrap + constants shared with static scripts.
 
+import { normalizeBasePath } from "../../lib/base-path.js";
 import { createStorageKey } from "./storage-key";
 
 export const GITHUB_PAGES_BOOTSTRAP_SCRIPT_PATH = "/scripts/github-pages-bootstrap.js";
@@ -81,25 +82,7 @@ export function normalizePlaceholder(
 }
 
 export function normalizeGitHubPagesBasePath(raw: string): string {
-  if (!raw) {
-    return "";
-  }
-
-  const trimmed = raw.trim();
-  if (!trimmed || trimmed === "/") {
-    return "";
-  }
-
-  const segments = trimmed
-    .split("/")
-    .map((segment) => segment.trim())
-    .filter((segment) => segment.length > 0);
-
-  if (segments.length === 0) {
-    return "";
-  }
-
-  return `/${segments.join("/")}`;
+  return normalizeBasePath(raw);
 }
 
 export function isGitHubPagesIndexPath(path: string, basePath: string): boolean {
