@@ -157,8 +157,10 @@ export function postMetrics(payload: MetricsPayload): void {
   const endpoint = metricsEndpoint as string;
 
   if (typeof navigator.sendBeacon === "function") {
-    navigator.sendBeacon(endpoint, body);
-    return;
+    const delivered = navigator.sendBeacon(endpoint, body);
+    if (delivered) {
+      return;
+    }
   }
 
   void fetch(endpoint, {
