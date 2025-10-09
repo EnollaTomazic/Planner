@@ -1,6 +1,8 @@
 import { z } from "zod";
 
 import { isSafeModeEnabled } from "@/lib/features";
+import type { LlmAgentMetadata } from "@/lib/metrics/llmTokens";
+import { recordLlmTokenUsage } from "@/lib/metrics/llmTokens";
 import { sanitizeText } from "@/lib/utils";
 
 const CONTROL_CHAR_PATTERN = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f\u2028\u2029]/g;
@@ -199,6 +201,7 @@ export interface TokenBudgetOptions {
   readonly maxTokens: number;
   readonly reservedForResponse?: number;
   readonly estimateTokens?: (content: string) => number;
+  readonly agent?: LlmAgentMetadata;
 }
 
 export interface TokenBudgetResult<T extends TokenBudgetContent> {
@@ -255,12 +258,18 @@ function enforceTokenBudgetInternal<T extends TokenBudgetContent>(
 
   kept.reverse();
 
-  return {
+  const result: TokenBudgetResult<T> = {
     messages: kept,
     removedCount: removed,
     totalTokens: used,
     availableTokens,
   };
+
+  if (options.agent) {
+    recordLlmTokenUsage(options.agent, result.totalTokens);
+  }
+
+  return result;
 }
 
 export interface TokenCapResult {
