@@ -82,6 +82,11 @@ describe("sanitizePrompt", () => {
       expected: "Hello &lt;b&gt;world&lt;/b&gt; **markdown**",
     },
     {
+      description: "removes unicode line separators and collapses inline whitespace",
+      raw: "Line\u2028with\u2029separators   and\t tabs",
+      expected: "Linewithseparators and tabs",
+    },
+    {
       description: "allows markup passthrough when configured",
       raw: "<p>Hello</p>",
       options: { allowMarkup: true },
@@ -188,6 +193,23 @@ describe("capTokens", () => {
     expect(result.removedCount).toBe(1);
     expect(result.totalTokens).toBe("critical context".length);
     expect(result.availableTokens).toBe(5);
+  });
+
+  it("estimates tokens using grapheme clusters for emoji-rich pinned content", () => {
+    const messages = tokenBudgetContentSchema.array().parse([
+      { content: "unpinned narrative that will be removed" },
+      { content: "😀😀😀😀", pinned: true },
+    ]);
+
+    const result = enforceTokenBudget(messages, {
+      maxTokens: 1,
+      reservedForResponse: 0,
+    });
+
+    expect(result.messages).toEqual([{ content: "😀😀😀😀", pinned: true }]);
+    expect(result.removedCount).toBe(1);
+    expect(result.totalTokens).toBe(1);
+    expect(result.availableTokens).toBe(1);
   });
 
   it("retains pinned strings when using the single-message helper", () => {
