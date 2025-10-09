@@ -119,7 +119,11 @@ describe("injectGitHubPagesPlaceholders", () => {
       "utf8",
     );
 
-    injectGitHubPagesPlaceholders(outDir, "/planner", GITHUB_PAGES_REDIRECT_STORAGE_KEY);
+    injectGitHubPagesPlaceholders(
+      outDir,
+      " planner ",
+      GITHUB_PAGES_REDIRECT_STORAGE_KEY,
+    );
 
     expect(fs.readFileSync(path.join(outDir, "404.html"), "utf8")).toBe(
       `<a href="/planner/index.html">${GITHUB_PAGES_REDIRECT_STORAGE_KEY}`,
