@@ -179,4 +179,5 @@ Use the dedicated profiler workflow when you need detailed commit timing data. T
 
 - Before committing, run `pnpm run verify-prompts` to confirm gallery coverage and `pnpm run check` to execute tests, lint, and type checks.
 - Run `pnpm run format` before committing to ensure code style consistency.
+- Use `pnpm run commit` to craft Conventional Commits-compliant messages with Commitizen prompts. The command automatically invokes the Commitlint configuration used by the Husky commit hook.
 - When introducing new styles or components, add them to the prompts page (`src/app/prompts/page.tsx`) so they can be previewed.
