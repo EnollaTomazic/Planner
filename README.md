@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+For repository-wide conventions, automation entry points, and required pre-commit checks, read [AGENTS.md](AGENTS.md). The guide summarizes the scripts that keep the UI index, feature exports, and GitHub Pages deploy pipeline healthy.
+
 ## Getting Started
 
 > **Prerequisite:** Install [Node.js](https://nodejs.org) 22 or newer for full support. Older LTS releases may still run, but expect reduced support and additional warnings.
@@ -11,7 +13,7 @@ This project automatically regenerates its UI component export index. The `pnpm 
 First, run the development server:
 
 ```bash
-pnpm dev
+pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -49,7 +51,7 @@ Run `pnpm run deploy` (or `npm run deploy`) from the project root whenever you'r
 
 Before building, the script verifies that a Git push target is configured. If `git remote get-url origin` fails and both `GITHUB_REPOSITORY` and `GITHUB_TOKEN` are missing, the deploy exits early and asks you to add an `origin` remote or supply those environment variables before re-running `pnpm run deploy` or `npm run deploy`.
 
-The CI workflow runs `scripts/validate-deploy-env.ts` before exporting to confirm the environment matches the detected repository slug. When the repository publishes to `https://<username>.github.io/<repo>/`, the check expects `BASE_PATH=<repo>` and `NEXT_PUBLIC_BASE_PATH=/<repo>`. User/organization GitHub Pages sites (slugs that already end in `.github.io`) should leave both variables empty. If the validation fails, update the variables in your shell, `.env.local`, or CI secrets until the logged "actual" values match the "expected" ones.
+The CI workflow runs a **Validate env for deploy** step before exporting. It executes `scripts/validate-deploy-env.ts`, which reuses the slug detection rules from [`next.config.mjs`](next.config.mjs) (based on `GITHUB_REPOSITORY`) to confirm the GitHub Pages base path is configured correctly. When the repository publishes to `https://<username>.github.io/<repo>/`, the check expects `BASE_PATH=<repo>` and `NEXT_PUBLIC_BASE_PATH=/<repo>`. User/organization GitHub Pages sites (slugs that already end in `.github.io`) should leave both variables empty. If the validation fails, update the variables in your shell, `.env.local`, or CI secrets until the logged "actual" values match the "expected" ones.
 
 When the static files are published to `https://<username>.github.io/<repo>/`, the home page is served from `https://<username>.github.io/<repo>/` rather than the domain root. Use that base path whenever you link to or bookmark the deployed site. Only repositories that exactly match `https://<username>.github.io` (user/organization GitHub Pages) skip the base path; similarly named repositories such as `docs.github.io` owned by another organization continue to publish under `/<repo>/`.
 
@@ -106,32 +108,32 @@ The app reads configuration from your shell environment at build time. Use `.env
 
 ## AI response validation
 
-Use `guardResponse`/`validateSchema` to enforce Zod schemas on AI payloads before they reach the rest of the pipeline. Successful validations return the parsed value as before, but failures now throw a `SchemaValidationError` with structured issue metadata:
+Use `guardResponse`/`validateSchema` to enforce Zod schemas on AI payloads before they reach the rest of the pipeline. Each call returns a discriminated union so callers can branch on success or failure without parsing concatenated strings:
 
 ```ts
-import { guardResponse, SchemaValidationError } from "@/ai/safety";
+import { guardResponse } from "@/ai/safety";
 
-try {
-  const result = guardResponse(rawPayload, schema, { label: "Planner AI" });
-  // use result...
-} catch (error) {
-  if (error instanceof SchemaValidationError) {
-    error.issues.forEach(({ path, message }) => {
-      console.warn(`${error.label} rejected at ${path.join(".") || "root"}: ${message}`);
-    });
-  }
+const outcome = guardResponse(rawPayload, schema, { label: "Planner AI" });
+
+if (outcome.success) {
+  // use outcome.data
+} else {
+  outcome.error.issues.forEach(({ path, message }) => {
+    console.warn(
+      `${outcome.error.label} rejected at ${path.join(".") || "root"}: ${message}`,
+    );
+  });
 }
 ```
 
-Each issue exposes the failing `path`, human-readable `message`, and an optional `code` mirroring the underlying Zod `ZodIssue`. Surface this data in logs or UI hints instead of parsing concatenated error strings.
+Failures expose the failing `path`, human-readable `message`, and an optional `code` mirroring the underlying Zod `ZodIssue`. Surface this data in logs or UI hints instead of parsing concatenated error strings.
 
-## Metrics reporting on static hosts
+## Metrics reporting and external collectors
 
-Static exports (including GitHub Pages) no longer bundle a `/api/metrics` Route Handler. To keep the browser reporting hook lightweight and optional:
+Static exports (including GitHub Pages) no longer bundle a `/api/metrics` Route Handler, so the browser only submits vitals when a collector URL is supplied. Configure reporting with the following workflow:
 
-1. Leave `NEXT_PUBLIC_METRICS_ENDPOINT` empty to skip sending metrics entirely. The hook still runs in development, but production builds detect the missing endpoint and bail before serializing payloads.
-2. Point `NEXT_PUBLIC_METRICS_ENDPOINT` at any HTTPS endpoint that accepts the payload defined in [`server/metrics-handler.ts`](server/metrics-handler.ts) if you want to continue aggregating vitals. Relative paths are resolved against `NEXT_PUBLIC_BASE_PATH`, making it safe to deploy a separate collector alongside GitHub Pages assets under the same origin.
-3. Reuse the provided handler in your own Node runtime when you need parity with the previous Next.js route:
+1. Decide whether metrics should be shipped from the deployed build. Leave `NEXT_PUBLIC_METRICS_ENDPOINT` empty to disable reporting, or set it to an absolute URL (for remote collectors) or a relative path (when the collector is hosted under the same origin). Keep `NEXT_PUBLIC_ENABLE_METRICS` at its default of `auto` unless you need to force the hook on or off.
+2. If you need a managed endpoint, reuse the provided handler in [`server/metrics-handler.ts`](server/metrics-handler.ts). The snippet below shows a minimal Node server that exposes `/metrics` and applies the same validation, rate limits, and logging as the in-repo implementation:
 
    ```ts
    import { createServer } from "node:http";
@@ -151,7 +153,9 @@ Static exports (including GitHub Pages) no longer bundle a `/api/metrics` Route 
    server.listen(process.env.PORT ?? 4000);
    ```
 
-   Deploy that server separately (e.g., on Fly.io, Render, or a simple Node host) and set `NEXT_PUBLIC_METRICS_ENDPOINT=https://<host>/metrics` so the static site can continue forwarding vitals.
+   Deploy the collector to your preferred host (Fly.io, Render, a lightweight VPS, etc.) and set `NEXT_PUBLIC_METRICS_ENDPOINT=https://<host>/metrics`. For static hosts that support proxying (for example, Cloudflare Pages workers or Netlify functions), you can alternatively mount the handler under the same domain and reference it with a relative path like `/metrics`.
+
+3. Once the endpoint is live, add the same `NEXT_PUBLIC_METRICS_ENDPOINT` value to `.env.local`, your deployment secrets, and any GitHub Pages workflow variables so local previews, CI builds, and production exports all point at the collector.
 
 ## Animations
 

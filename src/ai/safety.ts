@@ -327,41 +327,43 @@ export interface SchemaValidationIssue {
   readonly code?: string;
 }
 
+export interface SchemaValidationFailure {
+  readonly label: string;
+  readonly issues: readonly SchemaValidationIssue[];
+  readonly cause?: unknown;
+}
+
 export interface SchemaValidationOptions {
   readonly label?: string;
 }
 
-export class SchemaValidationError extends Error {
-  readonly label: string;
-  readonly issues: readonly SchemaValidationIssue[];
-  readonly cause?: unknown;
-
-  constructor(
-    label: string,
-    issues: readonly SchemaValidationIssue[],
-    options: { cause?: unknown } = {},
-  ) {
-    super(`${label} failed validation`);
-    this.name = "SchemaValidationError";
-    this.label = label;
-    this.issues = issues;
-    this.cause = options.cause;
-  }
+export interface SchemaValidationSuccess<T> {
+  readonly success: true;
+  readonly data: T;
 }
+
+export interface SchemaValidationErrorResult {
+  readonly success: false;
+  readonly error: SchemaValidationFailure;
+}
+
+export type SchemaValidationResult<T> =
+  | SchemaValidationSuccess<T>
+  | SchemaValidationErrorResult;
 
 export function guardResponse<T>(
   value: unknown,
   schema: z.ZodType<T>,
   options: SchemaValidationOptions = {},
-): T {
+): SchemaValidationResult<T> {
   const { label = "AI response" } = options;
   try {
-    return schema.parse(value);
+    const parsed = schema.parse(value);
+    return {
+      success: true,
+      data: parsed,
+    };
   } catch (error) {
-    if (error instanceof SchemaValidationError) {
-      throw error;
-    }
-
     if (error instanceof z.ZodError) {
       const issues = error.issues.map<SchemaValidationIssue>((issue: z.ZodIssue) => ({
         path: [...issue.path],
@@ -369,22 +371,32 @@ export function guardResponse<T>(
         code: issue.code,
       }));
 
-      throw new SchemaValidationError(label, issues, { cause: error });
+      return {
+        success: false,
+        error: {
+          label,
+          issues,
+          cause: error,
+        },
+      };
     }
 
     const message =
       error instanceof Error ? error.message : "Unexpected validation error";
 
-    throw new SchemaValidationError(
-      label,
-      [
-        {
-          path: [],
-          message,
-        },
-      ],
-      { cause: error },
-    );
+    return {
+      success: false,
+      error: {
+        label,
+        issues: [
+          {
+            path: [],
+            message,
+          },
+        ],
+        cause: error,
+      },
+    };
   }
 }
 
