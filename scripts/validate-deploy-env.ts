@@ -1,3 +1,4 @@
+import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import process from "node:process";
 
@@ -16,7 +17,9 @@ function main(): void {
   const nvmrcVersion = fs.readFileSync(nvmrcPath, "utf8").trim();
   console.log(`[deploy-env] .nvmrc Node version: ${nvmrcVersion}`);
 
-  const { slug, ownerSlug: fallbackOwnerSlug } = detectRepositorySlug();
+  const { slug, ownerSlug: fallbackOwnerSlug } = detectRepositorySlug(spawnSync, {
+    preferBasePathEnv: false,
+  });
   const repositoryParts = parseGitHubRepository(process.env.GITHUB_REPOSITORY);
   const isUserOrOrgGitHubPage = isUserOrOrgGitHubPagesRepository({
     repositoryOwnerSlug: repositoryParts.owner ?? fallbackOwnerSlug,
@@ -30,6 +33,7 @@ function main(): void {
   const actualBasePath = (process.env.BASE_PATH ?? "").trim();
   const actualNextPublicBasePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").trim();
 
+  console.log(`[deploy-env] Repository slug: ${formatValue(slug)}`);
   console.log(`[deploy-env] Expected BASE_PATH: ${formatValue(expectedBasePath)}`);
   console.log(`[deploy-env] Actual BASE_PATH:   ${formatValue(actualBasePath)}`);
   console.log(
