@@ -38,6 +38,7 @@ jobs:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
+          node-version-file: .nvmrc
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -71,6 +72,7 @@ jobs:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
+          node-version-file: .nvmrc
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -92,6 +94,12 @@ jobs:
           echo "::add-matcher::.github/matchers/eslint-stylish.json"
           pnpm run design-lint
 
+      - name: Verify prompts registry
+        id: verify_prompts
+        env:
+          TSX_TEMPDIR: node_modules/.cache/tsx
+        run: pnpm run verify-prompts
+
       - name: Guard generated artifacts
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
@@ -102,42 +110,8 @@ jobs:
         run: |
           {
             echo "## Lint";
-            echo "- Status: ${{ job.status }}";
-          } >> "$GITHUB_STEP_SUMMARY"
-
-  prompt-verify:
-    name: Verify prompts
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Setup Node project
-        uses: ./.github/actions/setup-node-project
-        with:
-          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          cache-prefix: ci
-          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
-
-      - name: Verify tool versions
-        uses: ./.github/actions/verify-tool-versions
-        with:
-          pnpm-version: ${{ env.PNPM_VERSION }}
-
-      - name: Refresh gallery usage manifest
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
-        run: pnpm run build-gallery-usage
-
-      - name: Verify prompts registry
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
-        run: pnpm run verify-prompts
-
-      - name: Summarize prompt verification
-        if: always()
-        run: |
-          {
-            echo "## Verify prompts";
-            echo "- Status: ${{ job.status }}";
+            echo "- Status: ${{ job.status }}"; 
+            echo "- Prompt verification: ${{ steps.verify_prompts.outcome || 'not run' }}";
           } >> "$GITHUB_STEP_SUMMARY"
 
   typecheck:
@@ -151,6 +125,7 @@ jobs:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
+          node-version-file: .nvmrc
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -188,6 +163,7 @@ jobs:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
+          node-version-file: .nvmrc
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -234,7 +210,6 @@ jobs:
       - typecheck
       - unit-tests
       - audit
-      - prompt-verify
     runs-on: ubuntu-latest
 
     steps:
@@ -244,6 +219,7 @@ jobs:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
+          node-version-file: .nvmrc
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
@@ -262,6 +238,55 @@ jobs:
           key: nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             nextjs-${{ runner.os }}-
+
+      - name: Validate runtime versions
+        env:
+          EXPECTED_PNPM: ${{ env.PNPM_VERSION }}
+        run: |
+          set -euo pipefail
+
+          if [ ! -f .nvmrc ]; then
+            echo "Expected .nvmrc file is missing." >&2
+            exit 1
+          fi
+
+          EXPECTED_NODE_RAW="$(cat .nvmrc)"
+          EXPECTED_NODE="$(echo "$EXPECTED_NODE_RAW" | tr -d '\n\r[:space:]')"
+          EXPECTED_NODE="${EXPECTED_NODE#v}"
+
+          if [ -z "$EXPECTED_NODE" ]; then
+            echo "Unable to determine the expected Node.js version from .nvmrc." >&2
+            exit 1
+          fi
+
+          ACTUAL_NODE_RAW="$(node --version)"
+          ACTUAL_NODE="${ACTUAL_NODE_RAW#v}"
+
+          if [[ "$EXPECTED_NODE" == *.* || "$EXPECTED_NODE" == *-* ]]; then
+            if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
+              echo "Node.js version mismatch. Expected $EXPECTED_NODE but found $ACTUAL_NODE." >&2
+              exit 1
+            fi
+          else
+            ACTUAL_NODE_MAJOR="${ACTUAL_NODE%%.*}"
+            if [ "$ACTUAL_NODE_MAJOR" != "$EXPECTED_NODE" ]; then
+              echo "Node.js version mismatch. Expected $EXPECTED_NODE.x but found $ACTUAL_NODE." >&2
+              exit 1
+            fi
+          fi
+
+          if [ -z "$EXPECTED_PNPM" ]; then
+            echo "Expected pnpm version is not defined." >&2
+            exit 1
+          fi
+
+          ACTUAL_PNPM="$(pnpm --version)"
+          if [ "$ACTUAL_PNPM" != "$EXPECTED_PNPM" ]; then
+            echo "pnpm version mismatch. Expected $EXPECTED_PNPM but found $ACTUAL_PNPM." >&2
+            exit 1
+          fi
+
+          echo "Using Node.js $ACTUAL_NODE_RAW and pnpm $ACTUAL_PNPM."
 
       - name: Build
         run: pnpm run build
@@ -352,6 +377,7 @@ jobs:
           checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
           cache-prefix: ci
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
+          node-version-file: .nvmrc
 
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions

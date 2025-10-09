@@ -516,8 +516,11 @@ export type BuildOccurrencesOptions = {
 
 function addMonths(date: Date, months: number): Date {
   const next = new Date(date);
-  const desiredMonth = next.getMonth() + months;
-  next.setMonth(desiredMonth);
+  const originalDay = next.getDate();
+  next.setDate(1);
+  next.setMonth(next.getMonth() + months);
+  const daysInMonth = new Date(next.getFullYear(), next.getMonth() + 1, 0).getDate();
+  next.setDate(Math.min(originalDay, daysInMonth));
   return next;
 }
 
@@ -553,7 +556,11 @@ export function buildRecurringOccurrences(
     const start = new Date(base);
     let dayCursor = new Date(start);
     let iterations = 0;
-    while (occurrences.length < count && iterations < 366) {
+    const occurrencesPerInterval = Math.max(1, weekdays.length);
+    const intervalsNeeded = Math.max(1, Math.ceil(count / occurrencesPerInterval));
+    const searchWeeks = intervalsNeeded * interval + 1;
+    const maxIterations = Math.max(searchWeeks * 7, count * 7);
+    while (occurrences.length < count && iterations < maxIterations) {
       const diff = Math.floor((dayCursor.getTime() - start.getTime()) / 86400000);
       const weekOffset = Math.floor(diff / 7);
       const inInterval = weekOffset % interval === 0;

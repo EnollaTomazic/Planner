@@ -16,35 +16,18 @@
 
     var BASE_PLACEHOLDER_SENTINEL = "__" + "BASE_PATH__";
     var basePlaceholder = "__BASE_PATH__";
-    var rawBasePath = basePlaceholder;
-    if (!rawBasePath || rawBasePath === BASE_PLACEHOLDER_SENTINEL) {
-      rawBasePath = "";
+    var basePath = basePlaceholder;
+    if (!basePath || basePath === BASE_PLACEHOLDER_SENTINEL) {
+      basePath = "";
     } else {
-      rawBasePath = rawBasePath.trim();
+      basePath = basePath.trim();
+      if (basePath === "/") {
+        basePath = "";
+      }
     }
 
     var ABSOLUTE_URL_PATTERN = /^[a-zA-Z][a-zA-Z\d+.-]*:/;
     var DEPLOY_ALIAS_PATTERN = /^[0-9a-f]{7,40}$/i;
-
-    function normalizeBasePath(value) {
-      if (!value || value === "/") {
-        return "";
-      }
-      var segments = value
-        .split("/")
-        .map(function (segment) {
-          return segment.trim();
-        })
-        .filter(function (segment) {
-          return segment.length > 0;
-        });
-      if (segments.length === 0) {
-        return "";
-      }
-      return "/" + segments.join("/");
-    }
-
-    var basePath = normalizeBasePath(rawBasePath);
 
     function isDeployAliasSegment(segment) {
       if (!segment) {
