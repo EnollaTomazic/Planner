@@ -5,26 +5,9 @@ import {
   createSecurityHeaders,
   defaultSecurityPolicyOptions,
 } from "./security-headers.mjs";
+import { collectPathSegments, normalizeBasePath } from "./lib/base-path.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-/** @type {import('next').NextConfig} */
-const collectPathSegments = (value) => {
-  const trimmed = value?.trim();
-  if (!trimmed || trimmed === "/") {
-    return [];
-  }
-
-  return trimmed
-    .split("/")
-    .map((segment) => segment.trim())
-    .filter((segment) => segment.length > 0);
-};
-
-const normalizeBasePath = (value) => {
-  const segments = collectPathSegments(value);
-  return segments.length > 0 ? `/${segments.join("/")}` : "";
-};
 
 const normalizeSlug = (value) => {
   const segments = collectPathSegments(value);
