@@ -108,6 +108,8 @@ describe("github-pages bootstrap helpers", () => {
   });
 
   it("exposes the storage key literal", () => {
-    expect(GITHUB_PAGES_REDIRECT_STORAGE_KEY).toBe("noxis-planner:gh-pages:redirect");
+    expect(GITHUB_PAGES_REDIRECT_STORAGE_KEY).toBe(
+      "noxis-planner:v1:gh-pages:redirect",
+    );
   });
 });

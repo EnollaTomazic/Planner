@@ -84,7 +84,7 @@ describe("UsePlannerStore", () => {
     expect(window.localStorage.getItem("planner:tasks")).toBeNull();
 
     const storedDaysRaw = window.localStorage.getItem(
-      "noxis-planner:planner:days",
+      "noxis-planner:v1:planner:days",
     );
     expect(storedDaysRaw).not.toBeNull();
 
@@ -123,7 +123,7 @@ describe("UsePlannerStore", () => {
     flushWriteLocal();
 
     const storedDaysRaw = window.localStorage.getItem(
-      "noxis-planner:planner:days",
+      "noxis-planner:v1:planner:days",
     );
     expect(storedDaysRaw).not.toBeNull();
 
@@ -146,11 +146,11 @@ describe("UsePlannerStore", () => {
   it("falls back to today when persisted focus is malformed", async () => {
     const invalidFocus = "2024-13-40";
     window.localStorage.setItem(
-      "noxis-planner:planner:focus",
+      "noxis-planner:v1:planner:focus",
       JSON.stringify(invalidFocus),
     );
     window.localStorage.setItem(
-      "noxis-planner:planner:days",
+      "noxis-planner:v1:planner:days",
       JSON.stringify({
         [invalidFocus]: {
           tasks: [
@@ -179,7 +179,7 @@ describe("UsePlannerStore", () => {
   it("normalizes non-array task images when hydrating", async () => {
     const iso = "2024-05-11";
     window.localStorage.setItem(
-      "noxis-planner:planner:days",
+      "noxis-planner:v1:planner:days",
       JSON.stringify({
         [iso]: {
           tasks: [
@@ -209,7 +209,7 @@ describe("UsePlannerStore", () => {
   it("repairs corrupted planner storage blobs", async () => {
     const iso = "2024-05-10";
     window.localStorage.setItem(
-      "noxis-planner:planner:days",
+      "noxis-planner:v1:planner:days",
       JSON.stringify({
         [iso]: {
           projects: [

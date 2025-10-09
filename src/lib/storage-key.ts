@@ -1,35 +1,80 @@
-const STORAGE_PREFIX = "noxis-planner:";
-const OLD_STORAGE_PREFIX = "13lr:";
+const STORAGE_PREFIX = 'noxis-planner:'
+const STORAGE_VERSION = 'v1'
+const OLD_STORAGE_PREFIX = '13lr:'
 
-const isBrowser = typeof window !== "undefined";
+const VERSIONED_STORAGE_PREFIX = `${STORAGE_PREFIX}${STORAGE_VERSION}:`
+const LEGACY_VERSION_PATTERN = /^v\d+$/u
 
-let migrated = false;
+const isBrowser = typeof window !== 'undefined'
+
+let migrated = false
 
 function ensureMigration() {
-  if (!isBrowser || migrated) return;
+  if (!isBrowser || migrated) return
+
+  migrated = true
+
   try {
-    const legacyKeys: string[] = [];
-    for (let i = 0; i < window.localStorage.length; i++) {
-      const key = window.localStorage.key(i);
-      if (key?.startsWith(OLD_STORAGE_PREFIX)) legacyKeys.push(key);
-    }
-    for (const oldKey of legacyKeys) {
-      const newKey = `${STORAGE_PREFIX}${oldKey.slice(OLD_STORAGE_PREFIX.length)}`;
-      if (window.localStorage.getItem(newKey) === null) {
-        const value = window.localStorage.getItem(oldKey);
-        if (value !== null) window.localStorage.setItem(newKey, value);
+    const removals = new Set<string>()
+    const migrations: Array<{ source: string; target: string }> = []
+
+    for (let i = 0; i < window.localStorage.length; i += 1) {
+      const key = window.localStorage.key(i)
+      if (!key) continue
+
+      if (key.startsWith(OLD_STORAGE_PREFIX)) {
+        const suffix = key.slice(OLD_STORAGE_PREFIX.length)
+        const target = `${VERSIONED_STORAGE_PREFIX}${suffix}`
+        migrations.push({ source: key, target })
+        removals.add(key)
+        continue
       }
-      window.localStorage.removeItem(oldKey);
+
+      if (!key.startsWith(STORAGE_PREFIX)) continue
+
+      if (key.startsWith(VERSIONED_STORAGE_PREFIX)) continue
+
+      const remainder = key.slice(STORAGE_PREFIX.length)
+      const separatorIndex = remainder.indexOf(':')
+
+      if (separatorIndex > -1) {
+        const candidateVersion = remainder.slice(0, separatorIndex)
+        if (
+          candidateVersion &&
+          candidateVersion !== STORAGE_VERSION &&
+          LEGACY_VERSION_PATTERN.test(candidateVersion)
+        ) {
+          removals.add(key)
+          continue
+        }
+      }
+
+      const target = `${VERSIONED_STORAGE_PREFIX}${remainder}`
+      migrations.push({ source: key, target })
+      removals.add(key)
+    }
+
+    for (const { source, target } of migrations) {
+      if (source === target) continue
+      if (window.localStorage.getItem(target) !== null) continue
+
+      const value = window.localStorage.getItem(source)
+      if (value !== null) {
+        window.localStorage.setItem(target, value)
+      }
+    }
+
+    for (const key of removals) {
+      window.localStorage.removeItem(key)
     }
   } catch {
     // ignore
   }
-  migrated = true;
 }
 
 export function createStorageKey(key: string): string {
-  ensureMigration();
-  return `${STORAGE_PREFIX}${key}`;
+  ensureMigration()
+  return `${VERSIONED_STORAGE_PREFIX}${key}`
 }
 
-export { STORAGE_PREFIX, OLD_STORAGE_PREFIX };
+export { STORAGE_PREFIX, STORAGE_VERSION, VERSIONED_STORAGE_PREFIX, OLD_STORAGE_PREFIX }

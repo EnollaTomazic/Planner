@@ -140,7 +140,7 @@ describe("Db", () => {
     it("debounces writes until the delay elapses", async () => {
       vi.useFakeTimers();
       const { scheduleWrite } = await import("@/lib/db");
-      const key = "noxis-planner:debounce";
+      const key = "noxis-planner:v1:debounce";
 
       scheduleWrite(key, { count: 1 });
 
@@ -161,8 +161,8 @@ describe("Db", () => {
       vi.useFakeTimers();
       const { scheduleWrite, flushWriteLocal } = await import("@/lib/db");
 
-      const firstKey = "noxis-planner:first";
-      const secondKey = "noxis-planner:second";
+      const firstKey = "noxis-planner:v1:first";
+      const secondKey = "noxis-planner:v1:second";
 
       scheduleWrite(firstKey, { id: 1 });
       scheduleWrite(secondKey, { id: 2 });
@@ -194,7 +194,7 @@ describe("Db", () => {
 
       const { scheduleWrite, flushWriteLocal } = await import("@/lib/db");
 
-      const key = "noxis-planner:clone-fail";
+      const key = "noxis-planner:v1:clone-fail";
       const value = { id: 42 };
 
       scheduleWrite(key, value);
@@ -226,7 +226,7 @@ describe("Db", () => {
       try {
         const { scheduleWrite, flushWriteLocal } = await import("@/lib/db");
 
-        const key = "noxis-planner:circular";
+        const key = "noxis-planner:v1:circular";
         const value: Record<string, unknown> = {};
         value.self = value;
 
@@ -253,7 +253,7 @@ describe("Db", () => {
     it("encodes typed arrays using binary payloads", async () => {
       const { scheduleWrite, flushWriteLocal } = await import("@/lib/db");
 
-      const key = "noxis-planner:binary";
+      const key = "noxis-planner:v1:binary";
       const payload = { bytes: new Uint8Array([5, 10, 15]) };
 
       scheduleWrite(key, payload);
@@ -271,7 +271,7 @@ describe("Db", () => {
       storageMock.store.set("13lr:legacy", JSON.stringify({ ready: true }));
 
       storageMock.setItem.mockImplementation((key: string, value: string) => {
-        if (key.startsWith("noxis-planner:")) {
+        if (key.startsWith("noxis-planner:v1:")) {
           throw new Error("migration unavailable");
         }
         return (originalSetItem as (key: string, value: string) => void)(
@@ -283,7 +283,7 @@ describe("Db", () => {
       const { readLocal } = await import("@/lib/db");
 
       expect(readLocal<{ ready: boolean }>("legacy")).toEqual({ ready: true });
-      expect(storageMock.store.has("noxis-planner:legacy")).toBe(false);
+      expect(storageMock.store.has("noxis-planner:v1:legacy")).toBe(false);
 
       storageMock.setItem.mockImplementation(
         originalSetItem as (key: string, value: string) => void,
