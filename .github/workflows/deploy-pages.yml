@@ -57,10 +57,8 @@ jobs:
           set -euo pipefail
           pnpm exec tsx scripts/validate-deploy-env.ts
 
-      - name: Build static site artifacts
-        env:
-          DEPLOY_ARTIFACT_ONLY: 'true'
-        run: pnpm run deploy
+      - name: Export static site artifacts
+        run: pnpm run export
 
       - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
