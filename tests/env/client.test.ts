@@ -89,6 +89,27 @@ describe("loadClientEnv", () => {
     }
   });
 
+  it("does not crash when GitHub Pages runtime omits process", () => {
+    vi.stubGlobal("process", undefined as unknown as NodeJS.Process);
+
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const error = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    try {
+      const env = readClientEnv();
+
+      expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
+      expect(error).not.toHaveBeenCalled();
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining("NEXT_PUBLIC_SAFE_MODE was missing"),
+      );
+    } finally {
+      warn.mockRestore();
+      error.mockRestore();
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("surfaces validation errors when NEXT_PUBLIC_SAFE_MODE is blank", () => {
     const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
     const originalSafeMode = process.env.SAFE_MODE;
