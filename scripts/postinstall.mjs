@@ -35,8 +35,21 @@ try {
 }
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
-const manifestPath = resolve(scriptDir, "../src/components/gallery/generated-manifest.ts");
+const manifestPath = resolve(
+  scriptDir,
+  "../src/components/gallery/generated-manifest.g.ts",
+);
 const scriptPath = resolve(scriptDir, "regen-if-needed.ts");
+
+const leadingCommentPattern = /^(?:\uFEFF)?\s*(?:\/\/[^\n]*\n|\/\*[\s\S]*?\*\/\s*)*/u;
+
+const appearsToBeRawJson = (contents) => {
+  const sanitized = contents.replace(leadingCommentPattern, "").trimStart();
+  if (!sanitized) {
+    return false;
+  }
+  return sanitized.startsWith("{") || sanitized.startsWith("[");
+};
 
 const runGalleryManifestGeneration = () => {
   const result = spawnSync(pnpmCommand, ["run", "build-gallery-usage"], {
@@ -78,8 +91,8 @@ const runRegenIfNeeded = () => {
 
 if (isCiEnvironment) {
   if (existsSync(manifestPath)) {
-    const manifestContents = readFileSync(manifestPath, "utf8").trimStart();
-    if (manifestContents.startsWith("{")) {
+    const manifestContents = readFileSync(manifestPath, "utf8");
+    if (appearsToBeRawJson(manifestContents)) {
       console.log("[postinstall][CI] Raw JSON detected → running build-gallery-usage…");
       runGalleryManifestGeneration();
     }
@@ -93,8 +106,8 @@ let attemptedGalleryRegeneration = false;
 let galleryRegenerationExitCode = 0;
 
 if (existsSync(manifestPath)) {
-  const manifestContents = readFileSync(manifestPath, "utf8").trimStart();
-  if (manifestContents.startsWith("{")) {
+  const manifestContents = readFileSync(manifestPath, "utf8");
+  if (appearsToBeRawJson(manifestContents)) {
     attemptedGalleryRegeneration = true;
     galleryRegenerationExitCode = runGalleryManifestGeneration();
 

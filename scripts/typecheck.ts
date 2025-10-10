@@ -78,6 +78,11 @@ async function main(): Promise<void> {
     host,
   });
 
+  const ignoredManifestSuffixes = [
+    path.normalize("src/components/gallery/generated-manifest.ts"),
+    path.normalize("src/components/gallery/generated-manifest.g.ts"),
+  ];
+
   const diagnostics = ts
     .getPreEmitDiagnostics(program.getProgram())
     .filter((diagnostic) => {
@@ -89,11 +94,7 @@ async function main(): Promise<void> {
         return true;
       }
       const normalized = path.normalize(fileName);
-      if (
-        normalized.endsWith(
-          path.normalize("src/components/gallery/generated-manifest.ts"),
-        )
-      ) {
+      if (ignoredManifestSuffixes.some((suffix) => normalized.endsWith(suffix))) {
         // Ignore union size explosions from the large auto-generated manifest file.
         return false;
       }

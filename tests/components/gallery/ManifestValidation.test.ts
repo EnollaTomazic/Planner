@@ -24,7 +24,7 @@ describe("gallery manifest validation", () => {
     } finally {
       vi.doUnmock("@/components/gallery/generated-manifest.g");
       vi.resetModules();
-      process.env.NODE_ENV = originalNodeEnv;
+      Reflect.set(process.env, "NODE_ENV", originalNodeEnv);
     }
   });
 });
