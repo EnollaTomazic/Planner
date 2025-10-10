@@ -10,6 +10,7 @@ export { default as FocusPanel } from "./FocusPanel";
 export * from "./plannerContext";
 export * from "./plannerCrud";
 export { default as PlannerFab } from "./PlannerFab";
+export { default as PlannerIslandErrorBoundary } from "./PlannerIslandErrorBoundary";
 export { default as PlannerListPanel } from "./PlannerListPanel";
 export { default as PlannerPage } from "./PlannerPage";
 export * from "./plannerSerialization";

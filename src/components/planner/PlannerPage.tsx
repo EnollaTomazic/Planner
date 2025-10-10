@@ -16,6 +16,7 @@ import { useFocusDate, useWeek } from "./useFocusDate";
 import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
 import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
 import WeekPicker from "./WeekPicker";
+import PlannerIslandErrorBoundary from "./PlannerIslandErrorBoundary";
 import { PageHeader } from "@/components/ui";
 import PageShell from "@/components/ui/layout/PageShell";
 import { CalendarDays } from "lucide-react";
@@ -134,7 +135,14 @@ function Inner() {
             hidden={!isActive}
             tabIndex={isActive ? 0 : -1}
           >
-            {isActive ? <ViewComponent /> : null}
+            {isActive ? (
+              <PlannerIslandErrorBoundary
+                islandId={`${VIEW_TAB_ID_BASE}:${option.value}`}
+                islandLabel={`${option.label} view`}
+              >
+                <ViewComponent />
+              </PlannerIslandErrorBoundary>
+            ) : null}
           </div>
         );
       })}
