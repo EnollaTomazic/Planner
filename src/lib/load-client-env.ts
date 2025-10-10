@@ -12,17 +12,20 @@ function withSafeModeFallback(): NodeJS.ProcessEnv {
     return envSource
   }
 
+  const publicSafeModeKey = 'NEXT_PUBLIC_SAFE_MODE'
+  const safeModeKey = 'SAFE_MODE'
+
   const nextEnv: NodeJS.ProcessEnv = {
     ...envSource,
-    NEXT_PUBLIC_SAFE_MODE: SAFE_MODE_FALLBACK,
+    [publicSafeModeKey]: SAFE_MODE_FALLBACK,
   }
 
-  if (typeof process !== 'undefined') {
-    process.env.NEXT_PUBLIC_SAFE_MODE = SAFE_MODE_FALLBACK
+  envSource[publicSafeModeKey] = SAFE_MODE_FALLBACK
 
-    if (!process.env.SAFE_MODE || !process.env.SAFE_MODE.trim()) {
-      process.env.SAFE_MODE = SAFE_MODE_FALLBACK
-    }
+  const safeModeValue = envSource[safeModeKey]
+
+  if (!safeModeValue || !safeModeValue.trim()) {
+    envSource[safeModeKey] = SAFE_MODE_FALLBACK
   }
 
   if (typeof console !== 'undefined' && typeof console.warn === 'function') {

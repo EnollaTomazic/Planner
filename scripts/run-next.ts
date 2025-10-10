@@ -2,6 +2,7 @@ import "./check-node-version.js";
 import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -13,6 +14,20 @@ const nextBinary = path.join(
   ".bin",
   process.platform === "win32" ? "next.cmd" : "next",
 );
+
+const require = createRequire(import.meta.url);
+const webpackModule = require("next/dist/compiled/webpack/webpack");
+
+if (typeof webpackModule.init === "function") {
+  webpackModule.init();
+}
+
+if (
+  typeof webpackModule.WebpackError !== "function" &&
+  typeof webpackModule.webpack?.WebpackError === "function"
+) {
+  webpackModule.WebpackError = webpackModule.webpack.WebpackError;
+}
 
 if (!fs.existsSync(nextBinary)) {
   console.error(
@@ -66,10 +81,18 @@ if (profilerEnabled) {
   }
 }
 
+const patchModulePath = path.join(rootDir, "scripts", "patch-next-webpack-error.cjs");
+const nodeOptions = [process.env.NODE_OPTIONS, `--require ${patchModulePath}`]
+  .filter(Boolean)
+  .join(" ");
+
 const child = spawn(nextBinary, [command, ...forwardedArgs], {
   cwd: rootDir,
   stdio: "inherit",
-  env: process.env,
+  env: {
+    ...process.env,
+    NODE_OPTIONS: nodeOptions,
+  },
 });
 
 child.on("error", (error) => {
