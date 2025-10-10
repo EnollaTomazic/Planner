@@ -89,6 +89,39 @@ describe("loadClientEnv", () => {
     }
   });
 
+  it("surfaces validation errors when NEXT_PUBLIC_SAFE_MODE is blank", () => {
+    const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
+    const originalSafeMode = process.env.SAFE_MODE;
+
+    process.env.NEXT_PUBLIC_SAFE_MODE = "  ";
+    delete process.env.SAFE_MODE;
+
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const error = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    try {
+      expect(() => readClientEnv()).toThrowError(ZodError);
+      expect(warn).not.toHaveBeenCalled();
+      expect(error).toHaveBeenCalled();
+      expect(process.env.SAFE_MODE).toBeUndefined();
+    } finally {
+      warn.mockRestore();
+      error.mockRestore();
+
+      if (typeof originalNextPublicSafeMode === "string") {
+        process.env.NEXT_PUBLIC_SAFE_MODE = originalNextPublicSafeMode;
+      } else {
+        delete process.env.NEXT_PUBLIC_SAFE_MODE;
+      }
+
+      if (typeof originalSafeMode === "string") {
+        process.env.SAFE_MODE = originalSafeMode;
+      } else {
+        delete process.env.SAFE_MODE;
+      }
+    }
+  });
+
   it("matches the happy-path snapshot", () => {
     const env = loadClientEnv({
       NEXT_PUBLIC_BASE_PATH: "/planner",

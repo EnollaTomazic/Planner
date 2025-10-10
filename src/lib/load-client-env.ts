@@ -8,7 +8,7 @@ function withSafeModeFallback(): NodeJS.ProcessEnv {
       ? (process.env as NodeJS.ProcessEnv)
       : ({} as NodeJS.ProcessEnv)
 
-  if (envSource.NEXT_PUBLIC_SAFE_MODE && envSource.NEXT_PUBLIC_SAFE_MODE.trim()) {
+  if (envSource.NEXT_PUBLIC_SAFE_MODE !== undefined) {
     return envSource
   }
 
