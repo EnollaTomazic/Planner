@@ -153,7 +153,17 @@ let nextConfig = {
       },
     ];
   },
-  webpack: (config) => {
+  webpack: (config, context) => {
+    const webpackRef = context?.webpack;
+
+    if (
+      webpackRef &&
+      typeof webpackRef.WebpackError !== "function" &&
+      typeof webpackRef.webpack?.WebpackError === "function"
+    ) {
+      webpackRef.WebpackError = webpackRef.webpack.WebpackError;
+    }
+
     config.resolve.alias["@"] = path.resolve(__dirname, "src");
     return config;
   },
