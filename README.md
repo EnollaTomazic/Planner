@@ -49,6 +49,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 Run `pnpm run deploy` (or `npm run deploy`) from the project root whenever you're ready to publish. The `deploy:pages` script rebuilds the site with the correct GitHub Pages base path (`GITHUB_PAGES=true` and `BASE_PATH=<repo>`), then calls the [`gh-pages`](https://github.com/tschaub/gh-pages) CLI with `--nojekyll` so the `.nojekyll` marker is always published. Set `GH_PAGES_BRANCH` (or `GITHUB_PAGES_BRANCH`) if your site publishes from a branch other than the repository's default branch (detected automatically, falling back to `gh-pages`) so the deploy script targets the same branch you serve from.
 
+Regardless of how you publish the static files, ensure the exported artifact contains `.nojekyll` so GitHub Pages doesn't strip the `_next/` assets. The repository ships a [`public/.nojekyll`](public/.nojekyll) placeholder so `pnpm run export` copies the marker into `out/.nojekyll`; keep that file alongside `_next/**` if you upload the export manually.
+
 After the first run, visit **Settings → Pages** in the GitHub UI and confirm the source matches the branch or "GitHub Actions" artifact you publish to. When the status banner reports "Your site is live" with the expected URL (for example, `https://<username>.github.io/<repo>/`), reload that address to verify the exported app is being served instead of the repository README.
 
 Before building, the script verifies that a Git push target is configured. If `git remote get-url origin` fails and both `GITHUB_REPOSITORY` and `GITHUB_TOKEN` are missing, the deploy exits early and asks you to add an `origin` remote or supply those environment variables before re-running `pnpm run deploy` or `npm run deploy`.
