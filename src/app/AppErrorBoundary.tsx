@@ -1,4 +1,4 @@
-// src/app/AppClientBoundary.tsx
+// src/app/AppErrorBoundary.tsx
 "use client";
 
 import * as React from "react";
@@ -6,13 +6,13 @@ import * as React from "react";
 import ClientErrorBoundary from "@/components/error/ClientErrorBoundary";
 import { RouteErrorContent } from "./error";
 
-type AppClientBoundaryProps = {
+type AppErrorBoundaryProps = {
   readonly children: React.ReactNode;
 };
 
-export default function AppClientBoundary({
+export default function AppErrorBoundary({
   children,
-}: AppClientBoundaryProps) {
+}: AppErrorBoundaryProps) {
   return (
     <ClientErrorBoundary
       name="app:root"
@@ -31,4 +31,3 @@ export default function AppClientBoundary({
     </ClientErrorBoundary>
   );
 }
-
