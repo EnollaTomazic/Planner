@@ -12,12 +12,10 @@ import "./style.css";
 
 import * as React from "react";
 import {
-  Button,
   GlitchSegmentedButton,
   GlitchSegmentedGroup,
   PageHeader,
   PageShell,
-  SectionCard,
 } from "@/components/ui";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
@@ -30,7 +28,7 @@ import DayView from "./views/DayView";
 import WeekView from "./views/WeekView";
 import MonthView from "./views/MonthView";
 import AgendaView from "./views/AgendaView";
-import ClientErrorBoundary from "@/components/error/ClientErrorBoundary";
+import PlannerIslandBoundary from "./PlannerIslandBoundary";
 
 const VIEW_MODE_OPTIONS: Array<{ value: PlannerViewMode; label: string }> = [
   { value: "day", label: "Day" },
@@ -46,30 +44,6 @@ const VIEW_COMPONENTS: Record<PlannerViewMode, React.ComponentType> = {
   month: MonthView,
   agenda: AgendaView,
 };
-
-type WeekPickerErrorFallbackProps = {
-  readonly onRetry: () => void;
-};
-
-function WeekPickerErrorFallback({ onRetry }: WeekPickerErrorFallbackProps) {
-  return (
-    <SectionCard role="alert" aria-live="assertive">
-      <SectionCard.Body className="space-y-[var(--space-2)]">
-        <p className="text-label font-semibold text-foreground">
-          Week controls unavailable
-        </p>
-        <p className="text-body text-muted-foreground">
-          We hit an error loading the planner controls. Retry to restore the week picker.
-        </p>
-        <div>
-          <Button size="sm" variant="default" onClick={onRetry}>
-            Retry controls
-          </Button>
-        </div>
-      </SectionCard.Body>
-    </SectionCard>
-  );
-}
 
 /* ───────── Page body under provider ───────── */
 
@@ -111,14 +85,14 @@ function Inner() {
             heading: "Week controls",
             children: (
               <>
-                <ClientErrorBoundary
+                <PlannerIslandBoundary
                   name="planner:week-picker"
-                  renderFallback={({ reset }) => (
-                    <WeekPickerErrorFallback onRetry={reset} />
-                  )}
+                  title="Week controls unavailable"
+                  description="We hit an error loading the planner controls. Retry to restore the week picker."
+                  retryLabel="Retry controls"
                 >
                   <WeekPicker />
-                </ClientErrorBoundary>
+                </PlannerIslandBoundary>
                 <div aria-live="polite" className="sr-only">
                   {weekAnnouncement}
                 </div>
