@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const SAFE_MODE_FALLBACK = "false";
+
 const optionalNonEmptyString = z
   .string()
   .trim()
@@ -11,7 +13,8 @@ const safeModeSchema = z
     required_error: "SAFE_MODE must be provided to coordinate server safe mode.",
   })
   .trim()
-  .min(1, "SAFE_MODE cannot be an empty string.");
+  .min(1, "SAFE_MODE cannot be an empty string.")
+  .default(SAFE_MODE_FALLBACK);
 
 const serverEnvSchema = z
   .object({
@@ -39,16 +42,48 @@ const serverEnvSchema = z
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
 
+function withSafeModeFallback(source: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
+  if (source.SAFE_MODE !== undefined) {
+    return source;
+  }
+
+  const envWithFallback: NodeJS.ProcessEnv = {
+    ...source,
+    SAFE_MODE: SAFE_MODE_FALLBACK,
+  };
+
+  if (typeof process !== "undefined" && source === process.env) {
+    process.env.SAFE_MODE = SAFE_MODE_FALLBACK;
+
+    if (
+      process.env.NEXT_PUBLIC_SAFE_MODE === undefined ||
+      process.env.NEXT_PUBLIC_SAFE_MODE.trim().length === 0
+    ) {
+      process.env.NEXT_PUBLIC_SAFE_MODE = SAFE_MODE_FALLBACK;
+    }
+  }
+
+  if (typeof console !== "undefined" && typeof console.warn === "function") {
+    console.warn(
+      '[env] SAFE_MODE was missing; defaulting to "false" so the server runtime can continue.'
+    );
+  }
+
+  return envWithFallback;
+}
+
 export function loadServerEnv(source: NodeJS.ProcessEnv = process.env): ServerEnv {
+  const envSource = withSafeModeFallback(source);
+
   return serverEnvSchema.parse({
-    GITHUB_PAGES: source.GITHUB_PAGES,
-    NEXT_PHASE: source.NEXT_PHASE,
-    NODE_ENV: source.NODE_ENV,
-    SAFE_MODE: source.SAFE_MODE,
-    SENTRY_DSN: source.SENTRY_DSN,
-    SENTRY_ENVIRONMENT: source.SENTRY_ENVIRONMENT,
-    SENTRY_TRACES_SAMPLE_RATE: source.SENTRY_TRACES_SAMPLE_RATE,
-    SKIP_PREVIEW_STATIC: source.SKIP_PREVIEW_STATIC,
+    GITHUB_PAGES: envSource.GITHUB_PAGES,
+    NEXT_PHASE: envSource.NEXT_PHASE,
+    NODE_ENV: envSource.NODE_ENV,
+    SAFE_MODE: envSource.SAFE_MODE,
+    SENTRY_DSN: envSource.SENTRY_DSN,
+    SENTRY_ENVIRONMENT: envSource.SENTRY_ENVIRONMENT,
+    SENTRY_TRACES_SAMPLE_RATE: envSource.SENTRY_TRACES_SAMPLE_RATE,
+    SKIP_PREVIEW_STATIC: envSource.SKIP_PREVIEW_STATIC,
   });
 }
 
