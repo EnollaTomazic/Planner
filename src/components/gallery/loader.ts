@@ -1,8 +1,5 @@
-import {
-  galleryPreviewModules,
-  type GalleryPreviewModuleManifest,
-} from "./generated-manifest";
-import tokens from "../../../tokens/tokens.js";
+import { galleryPreviewModules } from './generated-manifest'
+import tokens from '../../../tokens/tokens.js'
 import {
   createGalleryRegistry,
   type GalleryEntryKind,
@@ -11,22 +8,23 @@ import {
   type GallerySerializableEntry,
   type GalleryRelatedSurface,
   formatGallerySectionLabel,
-} from "./registry";
-import usage from "./usage.json";
+} from './registry'
+import usage from './usage.json'
 import {
   GALLERY_SECTION_GROUPS,
   type GallerySectionMeta,
-} from "./metadata";
+} from './metadata'
 import type {
   GalleryLoaderSlices,
   GalleryNavigationData,
   GalleryNavigationGroup,
   GalleryNavigationSection,
-} from "./types";
+} from './types'
 import {
   buildDesignTokenGroups,
   type DesignTokenGroup,
-} from "@/lib/design-token-registry";
+} from '@/lib/design-token-registry'
+import type { Manifest } from './manifest.schema'
 
 const DESIGN_TOKEN_GROUPS = buildDesignTokenGroups(tokens);
 
@@ -98,9 +96,11 @@ const mergeSurfaces = (
   return next;
 };
 
-type GalleryModuleExport = {
-  readonly default: GallerySection | readonly GallerySection[];
-};
+type GalleryPreviewModuleManifest = Manifest['galleryPreviewModules'][string]
+
+type GalleryModuleExport = Awaited<
+  ReturnType<GalleryPreviewModuleManifest['loader']>
+>
 
 const galleryPreviewModuleList = Object.values(galleryPreviewModules);
 
@@ -110,7 +110,7 @@ const moduleSectionCache = new WeakMap<
 >();
 
 const normalizeSections = (
-  exported: GalleryModuleExport["default"],
+  exported: GalleryModuleExport['default'],
 ): readonly GallerySection[] =>
   (Array.isArray(exported) ? exported : [exported]) as readonly GallerySection[];
 
@@ -211,6 +211,6 @@ export type {
   GalleryNavigationData,
   GalleryNavigationGroup,
   GalleryNavigationSection,
-} from "./types";
-export type { GalleryHeroCopy, GallerySectionGroupKey } from "./metadata";
-export type { DesignTokenGroup } from "@/lib/design-token-registry";
+} from './types';
+export type { GalleryHeroCopy, GallerySectionGroupKey } from './metadata';
+export type { DesignTokenGroup } from '@/lib/design-token-registry';
