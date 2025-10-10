@@ -1,31 +1,26 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { ZodError } from "zod";
 
 import loadServerEnvDefault, { loadServerEnv } from "../../env/server";
 
 describe("loadServerEnv", () => {
-  it("throws when SAFE_MODE is missing", () => {
-    const attempt = () =>
-      loadServerEnv({
+  it("defaults SAFE_MODE to 'false' when missing", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    try {
+      const env = loadServerEnv({
         GITHUB_PAGES: "true",
         NEXT_PHASE: "phase",
         NODE_ENV: "production",
       } as unknown as NodeJS.ProcessEnv);
 
-    expect(attempt).toThrowError(ZodError);
-    expect(attempt).toThrowErrorMatchingInlineSnapshot(`
-      [ZodError: [
-        {
-          "code": "invalid_type",
-          "expected": "string",
-          "received": "undefined",
-          "path": [
-            "SAFE_MODE"
-          ],
-          "message": "SAFE_MODE must be provided to coordinate server safe mode."
-        }
-      ]]
-    `);
+      expect(env.SAFE_MODE).toBe("false");
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining("SAFE_MODE was missing"),
+      );
+    } finally {
+      warn.mockRestore();
+    }
   });
 
   it("throws when SENTRY_ENVIRONMENT is provided without a DSN", () => {
@@ -72,30 +67,23 @@ describe("loadServerEnv", () => {
     `);
   });
 
-  it("throws when SAFE_MODE is missing at runtime", () => {
+  it("applies SAFE_MODE fallback when missing at runtime", () => {
     const originalSafeMode = process.env.SAFE_MODE;
     const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
 
     delete process.env.SAFE_MODE;
     delete process.env.NEXT_PUBLIC_SAFE_MODE;
 
     try {
-      const attempt = () => loadServerEnvDefault();
+      const env = loadServerEnvDefault();
 
-      expect(attempt).toThrowError(ZodError);
-      expect(attempt).toThrowErrorMatchingInlineSnapshot(`
-        [ZodError: [
-          {
-            "code": "invalid_type",
-            "expected": "string",
-            "received": "undefined",
-            "path": [
-              "SAFE_MODE"
-            ],
-            "message": "SAFE_MODE must be provided to coordinate server safe mode."
-          }
-        ]]
-      `);
+      expect(env.SAFE_MODE).toBe("false");
+      expect(process.env.SAFE_MODE).toBe("false");
+      expect(process.env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining("SAFE_MODE was missing"),
+      );
     } finally {
       if (typeof originalSafeMode === "string") {
         process.env.SAFE_MODE = originalSafeMode;
@@ -108,6 +96,8 @@ describe("loadServerEnv", () => {
       } else {
         delete process.env.NEXT_PUBLIC_SAFE_MODE;
       }
+
+      warn.mockRestore();
     }
   });
 
