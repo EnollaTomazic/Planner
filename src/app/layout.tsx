@@ -13,6 +13,7 @@ import {
 import tokens from "../../tokens/tokens.js";
 import { resolveTokenColor } from "@/lib/color";
 import SiteChrome from "@/components/chrome/SiteChrome";
+import AppErrorBoundary from "@/components/layout/AppErrorBoundary";
 import { CatCompanion, DecorLayer, PageShell, SkipLink } from "@/components/ui";
 import { getBasePath, withBasePath } from "@/lib/utils";
 import Script from "next/script";
@@ -144,25 +145,27 @@ export default async function RootLayout({
                   <DecorLayer className="page-backdrop__layer" variant="drip" />
                 </div>
               </div>
-              <SiteChrome>
-                <CatCompanion />
-                <div className="relative z-10">
-                  <main id="main-content" role="main" tabIndex={-1}>
-                    {children}
-                  </main>
-                  <footer
-                    role="contentinfo"
-                    className="mt-[var(--space-8)] border-t border-border bg-surface"
-                  >
-                    <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
-                      <p className="text-ui font-medium text-foreground">
-                        Planner keeps local-first goals organized so every ritual stays actionable.
-                      </p>
-                      <p>© {year} Planner Labs. All rights reserved.</p>
-                    </PageShell>
-                  </footer>
-                </div>
-              </SiteChrome>
+              <AppErrorBoundary>
+                <SiteChrome>
+                  <CatCompanion />
+                  <div className="relative z-10">
+                    <main id="main-content" role="main" tabIndex={-1}>
+                      {children}
+                    </main>
+                    <footer
+                      role="contentinfo"
+                      className="mt-[var(--space-8)] border-t border-border bg-surface"
+                    >
+                      <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
+                        <p className="text-ui font-medium text-foreground">
+                          Planner keeps local-first goals organized so every ritual stays actionable.
+                        </p>
+                        <p>© {year} Planner Labs. All rights reserved.</p>
+                      </PageShell>
+                    </footer>
+                  </div>
+                </SiteChrome>
+              </AppErrorBoundary>
             </DepthThemeProvider>
           </ThemeProvider>
         </StyledJsxRegistry>

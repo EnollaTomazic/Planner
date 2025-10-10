@@ -3,8 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { Button, PageShell } from "@/components/ui";
-import { createLogger } from "@/lib/logging";
-import { captureException } from "@/lib/observability/sentry";
+import { reportError } from "@/lib/observability/error-reporter";
 import { withBasePath } from "@/lib/utils";
 
 export type RouteError = Error & { digest?: string };
@@ -22,8 +21,6 @@ type RouteErrorContentProps = RouteErrorBoundaryProps & {
   homeHref?: string;
 };
 
-const routeErrorLog = createLogger("route:error-boundary");
-
 export function RouteErrorContent({
   error,
   reset,
@@ -34,14 +31,9 @@ export function RouteErrorContent({
   homeHref = withBasePath("/"),
 }: RouteErrorContentProps) {
   useEffect(() => {
-    routeErrorLog.error("Route error boundary captured an exception", error);
-    void captureException(error, {
-      tags: {
-        boundary: "route",
-      },
-      extra: {
-        digest: error?.digest,
-      },
+    reportError(error, {
+      boundary: "route",
+      digest: error?.digest,
     });
   }, [error]);
 
