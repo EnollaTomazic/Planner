@@ -379,6 +379,7 @@ export function flattenBasePathDirectory(outDir: string, slug: string): void {
 }
 
 function ensureNoJekyll(outDir: string): void {
+  fs.mkdirSync(outDir, { recursive: true });
   const markerPath = path.join(outDir, ".nojekyll");
   if (fs.existsSync(markerPath)) {
     return;
