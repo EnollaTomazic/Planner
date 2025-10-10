@@ -31,7 +31,7 @@ import {
   createContentSecurityPolicy,
   defaultSecurityPolicyOptions,
 } from "../../security-headers.mjs";
-import AppClientBoundary from "./AppClientBoundary";
+import AppErrorBoundary from "./AppErrorBoundary";
 
 const contentSecurityPolicy = createContentSecurityPolicy(
   defaultSecurityPolicyOptions,
@@ -133,42 +133,42 @@ export default async function RootLayout({
             Animations stay optional—Planner works fully without JavaScript.
           </div>
         </noscript>
-        <StyledJsxRegistry>
-          <AppClientBoundary>
-            <ThemeProvider glitchLandingEnabled={glitchLandingState}>
-            <DepthThemeProvider
-              enabled={depthThemeState}
-              organicDepthEnabled={organicDepthState}
-            >
-              <div aria-hidden className="page-backdrop">
-                <div className="page-shell">
-                  <DecorLayer className="page-backdrop__layer" variant="grid" />
-                  <DecorLayer className="page-backdrop__layer" variant="drip" />
-                </div>
-              </div>
-              <SiteChrome>
-                <CatCompanion />
-                <div className="relative z-10">
-                  <main id="main-content" role="main" tabIndex={-1}>
-                    {children}
-                  </main>
-                  <footer
-                    role="contentinfo"
-                    className="mt-[var(--space-8)] border-t border-border bg-surface"
-                  >
-                    <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
-                      <p className="text-ui font-medium text-foreground">
-                        Planner keeps local-first goals organized so every ritual stays actionable.
-                      </p>
-                      <p>© {year} Planner Labs. All rights reserved.</p>
-                    </PageShell>
-                  </footer>
-                </div>
-              </SiteChrome>
-            </DepthThemeProvider>
-          </ThemeProvider>
-        </AppClientBoundary>
-        </StyledJsxRegistry>
+          <StyledJsxRegistry>
+            <AppErrorBoundary>
+              <ThemeProvider glitchLandingEnabled={glitchLandingState}>
+                <DepthThemeProvider
+                  enabled={depthThemeState}
+                  organicDepthEnabled={organicDepthState}
+                >
+                  <div aria-hidden className="page-backdrop">
+                    <div className="page-shell">
+                      <DecorLayer className="page-backdrop__layer" variant="grid" />
+                      <DecorLayer className="page-backdrop__layer" variant="drip" />
+                    </div>
+                  </div>
+                  <SiteChrome>
+                    <CatCompanion />
+                    <div className="relative z-10">
+                      <main id="main-content" role="main" tabIndex={-1}>
+                        {children}
+                      </main>
+                      <footer
+                        role="contentinfo"
+                        className="mt-[var(--space-8)] border-t border-border bg-surface"
+                      >
+                        <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
+                          <p className="text-ui font-medium text-foreground">
+                            Planner keeps local-first goals organized so every ritual stays actionable.
+                          </p>
+                          <p>© {year} Planner Labs. All rights reserved.</p>
+                        </PageShell>
+                      </footer>
+                    </div>
+                  </SiteChrome>
+                </DepthThemeProvider>
+              </ThemeProvider>
+            </AppErrorBoundary>
+          </StyledJsxRegistry>
       </body>
     </html>
   );

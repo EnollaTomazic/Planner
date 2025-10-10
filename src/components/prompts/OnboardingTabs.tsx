@@ -151,7 +151,10 @@ export default function OnboardingTabs() {
   );
   const [advancedSettings, setAdvancedSettings] = React.useState(INITIAL_ADVANCED_STATE);
   const { prompts } = useChatPrompts();
-  const [updatedAt, setUpdatedAt] = React.useState(Date.now());
+  const [updatedAt, setUpdatedAt] = React.useState<number | null>(null);
+  React.useEffect(() => {
+    setUpdatedAt(Date.now());
+  }, []);
   const contentRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -418,7 +421,7 @@ export default function OnboardingTabs() {
           </div>
         )}
         <p className="text-ui text-muted-foreground">
-          Last updated {new Date(updatedAt).toLocaleTimeString()}
+          Last updated {updatedAt ? new Date(updatedAt).toLocaleTimeString() : "—"}
         </p>
       </div>
     );
@@ -575,7 +578,7 @@ export default function OnboardingTabs() {
       </div>
 
       <p className="text-ui text-muted-foreground">
-        Last updated {new Date(updatedAt).toLocaleTimeString()}
+        Last updated {updatedAt ? new Date(updatedAt).toLocaleTimeString() : "—"}
       </p>
     </div>
   );

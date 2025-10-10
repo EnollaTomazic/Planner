@@ -3,8 +3,7 @@
 
 import * as React from "react";
 
-import { createLogger } from "@/lib/logging";
-import { captureException } from "@/lib/observability/sentry";
+import { reportBoundaryError } from "@/lib/observability/boundary-error-reporter";
 
 type BoundaryError = Error & { digest?: string };
 
@@ -21,8 +20,6 @@ type ClientErrorBoundaryState = {
   error: BoundaryError | null;
   resetKey: number;
 };
-
-const boundaryLog = createLogger("ui:error-boundary");
 
 export default class ClientErrorBoundary extends React.Component<
   ClientErrorBoundaryProps,
@@ -42,17 +39,10 @@ export default class ClientErrorBoundary extends React.Component<
   override componentDidCatch(error: BoundaryError, info: React.ErrorInfo) {
     const { name } = this.props;
 
-    boundaryLog.error("Client error boundary captured an exception", {
+    reportBoundaryError({
       boundary: name,
       error,
-      info,
-    });
-
-    void captureException(error, {
-      tags: {
-        boundary: name,
-      },
-      extra: {
+      info: {
         componentStack: info.componentStack,
       },
     });
