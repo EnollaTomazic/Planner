@@ -41,7 +41,10 @@ const restrictedDesignImportPatterns = [
 
 const eslintConfig = [
   {
-    ignores: ["src/components/gallery/generated-manifest.ts"],
+    ignores: [
+      "src/components/gallery/generated-manifest.ts",
+      "src/components/gallery/generated-manifest.g.ts",
+    ],
   },
   ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
   {
@@ -60,6 +63,17 @@ const eslintConfig = [
         },
       ],
       "design/no-raw-design-values": "error",
+    },
+  },
+  {
+    files: ["**/*.g.ts"],
+    rules: {
+      complexity: "off",
+      "max-depth": "off",
+      "max-lines": "off",
+      "max-lines-per-function": "off",
+      "max-nested-callbacks": "off",
+      "max-statements": "off",
     },
   },
 ];

@@ -24,7 +24,7 @@ const themesManifestFile = path.join(cacheDir, "generate-themes.json");
 const tokensManifestFile = path.join(cacheDir, "generate-tokens.json");
 const galleryManifestFile = path.join(
   rootDir,
-  "src/components/gallery/generated-manifest.ts",
+  "src/components/gallery/generated-manifest.g.ts",
 );
 
 const galleryUsageCommand = "pnpm run build-gallery-usage";
@@ -56,10 +56,20 @@ type Manifest = Record<string, ManifestEntry>;
 class GalleryManifestRawJsonError extends Error {
   constructor() {
     super(
-      `Gallery manifest appears to contain raw JSON. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.ts.`,
+      `Gallery manifest entrypoint appears to contain raw JSON. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.g.ts.`,
     );
     this.name = "GalleryManifestRawJsonError";
   }
+}
+
+const leadingCommentPattern = /^(?:\uFEFF)?\s*(?:\/\/[^\n]*\n|\/\*[\s\S]*?\*\/\s*)*/u;
+
+function isLikelyRawJson(contents: string): boolean {
+  const sanitized = contents.replace(leadingCommentPattern, "").trimStart();
+  if (!sanitized) {
+    return false;
+  }
+  return sanitized.startsWith("{") || sanitized.startsWith("[");
 }
 
 async function loadManifest(file: string): Promise<Manifest> {
@@ -264,22 +274,19 @@ async function validateGalleryManifest(): Promise<void> {
     contents = await fs.readFile(galleryManifestFile, "utf8");
   } catch {
     throw new Error(
-      `Missing gallery manifest. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.ts.`,
+      `Missing gallery manifest. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.g.ts.`,
     );
   }
 
-  const trimmed = contents.trimStart();
-  if (trimmed.startsWith("{")) {
+  if (isLikelyRawJson(contents)) {
     throw new GalleryManifestRawJsonError();
   }
 
   const requiredSnippets = [
-    "export const galleryPayload =",
-    "satisfies GalleryRegistryPayload;",
-    "export const galleryPreviewRoutes =",
-    "satisfies readonly GalleryPreviewRoute[];",
-    "export const galleryPreviewModules = Object.freeze",
-    "satisfies Record<string, GalleryPreviewModuleManifest>;",
+    "export const manifest =",
+    "satisfies Manifest",
+    "export { galleryPayload, galleryPreviewModules, galleryPreviewRoutes }",
+    "export default manifest",
   ];
   const missingSnippets = requiredSnippets.filter(
     (snippet) => !contents.includes(snippet),
@@ -287,7 +294,7 @@ async function validateGalleryManifest(): Promise<void> {
 
   if (missingSnippets.length > 0) {
     throw new Error(
-      `Gallery manifest is missing required typed exports: ${missingSnippets.join(", ")}. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.ts.`,
+      `Gallery manifest is missing required typed exports: ${missingSnippets.join(", ")}. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.g.ts.`,
     );
   }
 }
