@@ -6,6 +6,7 @@ import WeekSummary from "../WeekSummary";
 import WeekNotes from "../WeekNotes";
 import DayCard from "../DayCard";
 import { useWeek, useFocusDate } from "../useFocusDate";
+import PlannerIslandBoundary from "../PlannerIslandBoundary";
 
 export default function WeekView() {
   const { iso } = useFocusDate();
@@ -33,21 +34,44 @@ export default function WeekView() {
 
       <div className="col-span-full grid gap-[var(--space-4)] lg:grid-cols-12">
         <div className="lg:col-span-8 space-y-[var(--space-4)]">
-          <WeekSummary iso={iso} />
+          <PlannerIslandBoundary
+            name="planner:week-view:summary"
+            title="Week summary unavailable"
+            description="We hit an error loading the weekly summary. Retry to bring it back."
+            retryLabel="Retry summary"
+          >
+            <WeekSummary iso={iso} />
+          </PlannerIslandBoundary>
         </div>
         <aside
           aria-label="Week notes"
           className="lg:col-span-4 space-y-[var(--space-4)]"
         >
-          <WeekNotes iso={iso} />
+          <PlannerIslandBoundary
+            name="planner:week-view:notes"
+            title="Notes unavailable"
+            description="We couldn't load your notes for the selected week. Retry to open them again."
+            retryLabel="Retry notes"
+          >
+            <WeekNotes iso={iso} />
+          </PlannerIslandBoundary>
         </aside>
       </div>
 
-      <div className="col-span-full grid gap-[var(--space-4)] md:grid-cols-2">
-        {days.map((dayIso) => (
-          <DayCard key={dayIso} iso={dayIso} isToday={isToday(dayIso)} />
-        ))}
-      </div>
+      <PlannerIslandBoundary
+        name="planner:week-view:cards"
+        title="Week schedule unavailable"
+        description="We weren't able to render the day cards. Retry to reload the schedule."
+        retryLabel="Retry day cards"
+        variant="plain"
+        fallbackClassName="col-span-full grid gap-[var(--space-4)] md:grid-cols-2"
+      >
+        <div className="col-span-full grid gap-[var(--space-4)] md:grid-cols-2">
+          {days.map((dayIso) => (
+            <DayCard key={dayIso} iso={dayIso} isToday={isToday(dayIso)} />
+          ))}
+        </div>
+      </PlannerIslandBoundary>
     </PageShell>
   );
 }
