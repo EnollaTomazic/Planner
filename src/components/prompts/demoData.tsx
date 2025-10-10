@@ -27,12 +27,15 @@ export const NEON_ICONS = [
   { kind: "file", on: false },
 ] as const;
 
+const DEMO_TIMESTAMP = Date.UTC(2024, 3, 12, 15, 0, 0);
+const DAY_MS = 86_400_000;
+
 export const GOAL_DEMO_ITEMS: Goal[] = [
-  { id: "g1", title: "Demo active goal", done: false, createdAt: Date.now() },
+  { id: "g1", title: "Demo active goal", done: false, createdAt: DEMO_TIMESTAMP },
   {
     id: "g2",
     title: "Demo done goal",
     done: true,
-    createdAt: Date.now() - 86_400_000,
+    createdAt: DEMO_TIMESTAMP - DAY_MS,
   },
 ];

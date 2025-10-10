@@ -24,13 +24,16 @@ export const selectItems = [
   { value: "pear", label: "Pear" },
 ];
 
+const DEMO_TIMESTAMP = Date.UTC(2024, 3, 12, 15, 0, 0);
+const MINUTE_MS = 60_000;
+
 export const demoReview: Review = {
   id: "demo",
   title: "Demo Review",
   notes: "Quick note",
   tags: [],
   pillars: [],
-  createdAt: Date.now(),
+  createdAt: DEMO_TIMESTAMP,
   matchup: "Lux vs Ahri",
   role: "MID",
   score: 8,
@@ -38,20 +41,20 @@ export const demoReview: Review = {
 };
 
 export const demoProjects: DemoProject[] = [
-  { id: "p1", name: "Alpha", done: false, createdAt: Date.now() },
-  { id: "p2", name: "Beta", done: true, createdAt: Date.now() },
+  { id: "p1", name: "Alpha", done: false, createdAt: DEMO_TIMESTAMP - MINUTE_MS },
+  { id: "p2", name: "Beta", done: true, createdAt: DEMO_TIMESTAMP - MINUTE_MS * 2 },
   {
     id: "p3",
     name: "Gamma (disabled)",
     done: false,
-    createdAt: Date.now(),
+    createdAt: DEMO_TIMESTAMP - MINUTE_MS * 3,
     disabled: true,
   },
   {
     id: "p4",
     name: "Delta (syncing)",
     done: false,
-    createdAt: Date.now(),
+    createdAt: DEMO_TIMESTAMP - MINUTE_MS * 4,
     loading: true,
   },
 ];
@@ -62,7 +65,7 @@ export const demoTasks: DemoTask[] = [
     title: "Task A",
     done: false,
     projectId: "p1",
-    createdAt: Date.now(),
+    createdAt: DEMO_TIMESTAMP - MINUTE_MS * 5,
     images: [],
   },
   {
@@ -70,7 +73,7 @@ export const demoTasks: DemoTask[] = [
     title: "Task B",
     done: true,
     projectId: "p1",
-    createdAt: Date.now(),
+    createdAt: DEMO_TIMESTAMP - MINUTE_MS * 6,
     images: [],
   },
 ];

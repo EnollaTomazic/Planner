@@ -30,6 +30,7 @@ import type { PlannerPanelData } from "./useComponentGalleryState";
 const GOALS_TABS_WIDTH = "calc(var(--space-8)*3.5)" as const;
 const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
 const PANEL_ITEM_WIDTH = "calc(var(--space-8) * 3 + var(--space-2))" as const;
+const DEMO_TASK_CREATED_AT = Date.UTC(2024, 3, 12, 15, 45, 0);
 
 type WeekPickerShellDemoDay = {
   readonly iso: string;
@@ -261,7 +262,7 @@ export default function PlannerPanel({ data }: PlannerPanelProps) {
                   id: "t1",
                   title: "Sample",
                   done: false,
-                  createdAt: Date.now(),
+                  createdAt: DEMO_TASK_CREATED_AT,
                   images: ["https://placekitten.com/100/100"],
                 }}
                 toggleTask={() => {}}
