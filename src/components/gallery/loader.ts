@@ -1,4 +1,4 @@
-import { galleryPreviewModules } from './manifest'
+import manifest from './generated-manifest.g'
 import tokens from '../../../tokens/tokens.js'
 import {
   createGalleryRegistry,
@@ -25,6 +25,8 @@ import {
   type DesignTokenGroup,
 } from '@/lib/design-token-registry'
 import type { Manifest } from './manifest.schema'
+
+const { galleryPreviewModules } = manifest
 
 const DESIGN_TOKEN_GROUPS = buildDesignTokenGroups(tokens);
 

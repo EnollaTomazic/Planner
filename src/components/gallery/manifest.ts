@@ -1,15 +1,7 @@
-import {
-  galleryPayload as generatedGalleryPayload,
-  galleryPreviewModules as generatedGalleryPreviewModules,
-  galleryPreviewRoutes as generatedGalleryPreviewRoutes,
-} from './generated-manifest'
+import generatedManifest from './generated-manifest.g'
 import { ManifestSchema, type Manifest } from './manifest.schema'
 
-const manifestSource = {
-  galleryPayload: generatedGalleryPayload,
-  galleryPreviewModules: generatedGalleryPreviewModules,
-  galleryPreviewRoutes: generatedGalleryPreviewRoutes,
-}
+const manifestSource = generatedManifest
 
 let manifest: Manifest
 

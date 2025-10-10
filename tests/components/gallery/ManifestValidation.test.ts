@@ -5,7 +5,13 @@ describe("gallery manifest validation", () => {
     const originalNodeEnv = process.env.NODE_ENV;
 
     vi.resetModules();
-    vi.doMock("@/components/gallery/generated-manifest", () => ({
+    vi.doMock("@/components/gallery/generated-manifest.g", () => ({
+      __esModule: true,
+      default: {
+        galleryPayload: { sections: [] },
+        galleryPreviewRoutes: [],
+        galleryPreviewModules: {},
+      },
       galleryPayload: { sections: [] },
       galleryPreviewRoutes: [],
       galleryPreviewModules: {},
@@ -16,7 +22,7 @@ describe("gallery manifest validation", () => {
         /Gallery manifest validation failed/,
       );
     } finally {
-      vi.doUnmock("@/components/gallery/generated-manifest");
+      vi.doUnmock("@/components/gallery/generated-manifest.g");
       vi.resetModules();
       process.env.NODE_ENV = originalNodeEnv;
     }
