@@ -137,12 +137,14 @@ type LegacySpec = {
   usage?: { kind: "do" | "dont"; title: string; description: string }[];
 };
 
+const DEMO_TIMESTAMP = Date.UTC(2024, 3, 12, 15, 0, 0);
+
 const demoPrompts: PromptWithTitle[] = [
   {
     id: "p1",
     title: "Demo prompt",
     text: "",
-    createdAt: Date.now(),
+    createdAt: DEMO_TIMESTAMP,
   },
 ];
 
@@ -152,7 +154,7 @@ const demoReview: Review = {
   notes: "Quick note",
   tags: [],
   pillars: [],
-  createdAt: Date.now(),
+  createdAt: DEMO_TIMESTAMP,
   matchup: "Lux vs Ahri",
   role: "MID",
   score: 8,
