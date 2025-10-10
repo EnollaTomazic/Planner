@@ -11,7 +11,8 @@ const safeModeSchema = z
     required_error: "NEXT_PUBLIC_SAFE_MODE must be provided to coordinate client safe mode.",
   })
   .trim()
-  .min(1, "NEXT_PUBLIC_SAFE_MODE cannot be an empty string.");
+  .min(1, "NEXT_PUBLIC_SAFE_MODE cannot be an empty string.")
+  .default("false");
 
 const clientEnvSchema = z
   .object({

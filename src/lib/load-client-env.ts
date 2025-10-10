@@ -4,7 +4,19 @@ export type ClientEnv = ReturnType<typeof loadClientEnv>
 
 export function readClientEnv(): ClientEnv {
   try {
-    return loadClientEnv()
+    const env = loadClientEnv()
+
+    if (
+      typeof process !== 'undefined' &&
+      typeof process.env !== 'undefined' &&
+      process.env.NEXT_PUBLIC_SAFE_MODE === undefined
+    ) {
+      console.warn(
+        '[env] NEXT_PUBLIC_SAFE_MODE was not provided; defaulting to "false".'
+      )
+    }
+
+    return env
   } catch (error) {
     console.error('[env] Failed to load client environment variables.', error)
     if (
