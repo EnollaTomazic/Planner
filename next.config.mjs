@@ -74,7 +74,26 @@ const normalizedBasePathValue = isGitHubPages
     ? `/${githubPagesSlug}`
     : ""
   : normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.BASE_PATH ?? "");
-const isExportStatic = process.env.EXPORT_STATIC === "true";
+const normalizeOptionalBoolean = (value) => {
+  if (value === undefined) {
+    return undefined;
+  }
+
+  const normalized = value.trim().toLowerCase();
+
+  if (["1", "true", "yes", "on"].includes(normalized)) {
+    return true;
+  }
+
+  if (["0", "false", "no", "off"].includes(normalized)) {
+    return false;
+  }
+
+  return undefined;
+};
+
+const explicitExportStatic = normalizeOptionalBoolean(process.env.EXPORT_STATIC);
+const isExportStatic = explicitExportStatic ?? process.env.NODE_ENV === "production";
 const isProduction = process.env.NODE_ENV === "production";
 const isCI = process.env.CI === "true";
 const isAnalyzeExplicit = process.env.ANALYZE === "true";
@@ -83,7 +102,8 @@ const shouldApplyBasePath = normalizedBasePathValue.length > 0;
 const nextBasePath = shouldApplyBasePath ? normalizedBasePathValue : undefined;
 const nextAssetPrefix = shouldApplyBasePath ? normalizedBasePathValue : undefined;
 
-const shouldCollectBundleStats = !isExportStatic && (isDevelopment || isCI || isAnalyzeExplicit);
+const shouldCollectBundleStats =
+  isAnalyzeExplicit || (!isExportStatic && (isDevelopment || isCI));
 const securityPolicyOptions = defaultSecurityPolicyOptions;
 
 const withBundleAnalyzer = bundleAnalyzer({
@@ -96,7 +116,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 /** @type {import("next").NextConfig} */
 let nextConfig = {
   reactStrictMode: true,
-  ...(isExportStatic ? { output: "export" } : {}),
+  output: "export",
   trailingSlash: true,
   basePath: nextBasePath,
   assetPrefix: nextAssetPrefix,
