@@ -8,6 +8,7 @@ import DayRow from "../DayRow";
 import PlannerFab from "../PlannerFab";
 import { useFocusDate, useWeek } from "../useFocusDate";
 import type { ISODate } from "../plannerTypes";
+import PlannerIslandBoundary from "../PlannerIslandBoundary";
 
 const PLANNER_SCROLL_STORAGE_KEY = "planner:scroll-position";
 
@@ -82,25 +83,48 @@ export default function DayView() {
           className={`${layoutGridClassName} col-span-full lg:grid-cols-12`}
         >
           <div className="col-span-full lg:col-span-8" ref={heroRef}>
-            <TodayHero iso={iso} />
+            <PlannerIslandBoundary
+              name="planner:day-view:today-hero"
+              title="Today's planner unavailable"
+              description="We hit an error loading today's focus view. Retry to restore the hero section."
+              retryLabel="Retry focus view"
+            >
+              <TodayHero iso={iso} />
+            </PlannerIslandBoundary>
           </div>
 
           <aside
             aria-label="Day notes"
             className="col-span-full space-y-[var(--space-6)] lg:col-span-4 lg:sticky lg:top-[var(--header-stack)]"
           >
-            <WeekNotes iso={iso} />
+            <PlannerIslandBoundary
+              name="planner:day-view:notes"
+              title="Notes unavailable"
+              description="We ran into an error loading your notes for this day. Retry to reopen the editor."
+              retryLabel="Retry notes"
+            >
+              <WeekNotes iso={iso} />
+            </PlannerIslandBoundary>
           </aside>
         </div>
 
-        <ul
-          aria-label="Week days (Monday to Sunday)"
-          className="col-span-full flex flex-col gap-[var(--space-4)]"
+        <PlannerIslandBoundary
+          name="planner:day-view:list"
+          title="Day list unavailable"
+          description="We couldn't render the week overview. Retry to reload the day rows."
+          retryLabel="Retry day list"
+          variant="plain"
+          fallbackClassName="col-span-full flex flex-col gap-[var(--space-4)]"
         >
-          {dayItems.map((item) => (
-            <DayRow key={item.iso} iso={item.iso} isToday={item.isToday} />
-          ))}
-        </ul>
+          <ul
+            aria-label="Week days (Monday to Sunday)"
+            className="col-span-full flex flex-col gap-[var(--space-4)]"
+          >
+            {dayItems.map((item) => (
+              <DayRow key={item.iso} iso={item.iso} isToday={item.isToday} />
+            ))}
+          </ul>
+        </PlannerIslandBoundary>
       </PageShell>
       <PlannerFab />
     </>

@@ -393,6 +393,7 @@ export function usePersistentState<T>(
   const hasHydratedRef = React.useRef(false);
   const pendingInitialResetKeyRef = React.useRef<string | null>(key);
   const lastAppliedInitialRef = React.useRef<T | null>(initial);
+  const ignoreNextStorageHydrationRef = React.useRef(false);
   const renderRevision = stateRevisionRef.current;
 
   React.useEffect(() => {
@@ -430,6 +431,7 @@ export function usePersistentState<T>(
       const nextInitial = initialRef.current;
       if (!Object.is(stateRef.current, nextInitial)) {
         setState(nextInitial);
+        ignoreNextStorageHydrationRef.current = true;
       }
       lastAppliedInitialRef.current = nextInitial;
       pendingInitialResetKeyRef.current = null;
@@ -463,7 +465,12 @@ export function usePersistentState<T>(
       let shouldUpdateState = false;
       let nextState: T = stateRef.current;
 
-      if (fromStorage !== null) {
+      const skipStorageHydration =
+        ignoreNextStorageHydrationRef.current && fromStorage === null;
+      ignoreNextStorageHydrationRef.current = false;
+      if (skipStorageHydration) {
+        // Intentionally skip applying storage to honor a freshly-applied initial state.
+      } else if (fromStorage !== null) {
         const decoded = decodeValue(fromStorage);
         if (decoded !== null) {
           if (!Object.is(stateRef.current, decoded)) {
