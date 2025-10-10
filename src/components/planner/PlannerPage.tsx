@@ -11,13 +11,16 @@ import "./style.css";
  */
 
 import * as React from "react";
-import { GlitchSegmentedButton, GlitchSegmentedGroup } from "@/components/ui";
+import {
+  GlitchSegmentedButton,
+  GlitchSegmentedGroup,
+  PageHeader,
+  PageShell,
+} from "@/components/ui";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
 import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
 import WeekPicker from "./WeekPicker";
-import { PageHeader } from "@/components/ui";
-import PageShell from "@/components/ui/layout/PageShell";
 import { CalendarDays } from "lucide-react";
 import { formatWeekRangeLabel } from "@/lib/date";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
@@ -25,6 +28,7 @@ import DayView from "./views/DayView";
 import WeekView from "./views/WeekView";
 import MonthView from "./views/MonthView";
 import AgendaView from "./views/AgendaView";
+import PlannerIslandBoundary from "./PlannerIslandBoundary";
 
 const VIEW_MODE_OPTIONS: Array<{ value: PlannerViewMode; label: string }> = [
   { value: "day", label: "Day" },
@@ -81,7 +85,14 @@ function Inner() {
             heading: "Week controls",
             children: (
               <>
-                <WeekPicker />
+                <PlannerIslandBoundary
+                  name="planner:week-picker"
+                  title="Week controls unavailable"
+                  description="We hit an error loading the planner controls. Retry to restore the week picker."
+                  retryLabel="Retry controls"
+                >
+                  <WeekPicker />
+                </PlannerIslandBoundary>
                 <div aria-live="polite" className="sr-only">
                   {weekAnnouncement}
                 </div>
