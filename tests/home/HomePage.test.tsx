@@ -6,6 +6,12 @@ import Page from "@/app/page";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { ThemeProvider } from "@/lib/theme-context";
 vi.mock("@/components/gallery/manifest", () => ({
+  __esModule: true,
+  default: {
+    galleryPayload: { sections: [] },
+    galleryPreviewModules: {},
+    galleryPreviewRoutes: [],
+  },
   galleryPayload: { sections: [] },
   galleryPreviewModules: {},
   galleryPreviewRoutes: [],

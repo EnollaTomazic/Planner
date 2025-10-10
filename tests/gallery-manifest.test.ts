@@ -4,21 +4,20 @@ import { describe, expect, it } from "vitest";
 
 const manifestPath = path.resolve(
   process.cwd(),
-  "src/components/gallery/generated-manifest.ts",
+  "src/components/gallery/generated-manifest.g.ts",
 );
 
-const requiredExports = [
-  "export const galleryPayload",
-  "export const galleryPreviewRoutes",
-  "export const galleryPreviewModules",
+const requiredSnippets = [
+  "// checksum:",
+  "export const manifest =",
 ] as const;
 
 describe("gallery manifest source", () => {
   it("contains the expected exports", () => {
     const manifestSource = readFileSync(manifestPath, "utf8");
 
-    for (const requiredExport of requiredExports) {
-      expect(manifestSource).toContain(requiredExport);
+    for (const requiredSnippet of requiredSnippets) {
+      expect(manifestSource).toContain(requiredSnippet);
     }
   });
 });

@@ -1,8 +1,4 @@
-import {
-  galleryPayload,
-  galleryPreviewModules,
-  galleryPreviewRoutes,
-} from './manifest'
+import manifest from './generated-manifest.g'
 import {
   getGalleryEntryAxes,
   type GalleryAxis,
@@ -17,7 +13,7 @@ import type {
   Manifest,
 } from './manifest.schema'
 
-export { galleryPayload, galleryPreviewModules, galleryPreviewRoutes }
+export const { galleryPayload, galleryPreviewModules, galleryPreviewRoutes } = manifest
 export type { GalleryPreviewModuleManifest, GalleryPreviewRenderer, GalleryPreviewRoute }
 export type { GalleryModuleExport } from './manifest.schema'
 
