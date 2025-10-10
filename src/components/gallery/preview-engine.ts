@@ -2,7 +2,7 @@ import {
   galleryPayload,
   galleryPreviewModules,
   galleryPreviewRoutes,
-} from './generated-manifest'
+} from './manifest'
 import {
   getGalleryEntryAxes,
   type GalleryAxis,
