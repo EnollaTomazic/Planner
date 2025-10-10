@@ -158,11 +158,15 @@ jobs:
           TSX_TEMPDIR: node_modules/.cache/tsx
         run: pnpm run build-gallery-usage
 
+      - name: Baseline type check
+        run: |
+          echo "::add-matcher::.github/matchers/typescript.json"
+          pnpm exec tsc --noEmit
+
       - name: Type check
         env:
           TSX_TEMPDIR: node_modules/.cache/tsx
         run: |
-          echo "::add-matcher::.github/matchers/typescript.json"
           pnpm run typecheck:ci
 
       - name: Summarize type check
