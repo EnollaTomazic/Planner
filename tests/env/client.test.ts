@@ -1,7 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { ZodError } from "zod";
 
 import loadClientEnvDefault, { loadClientEnv } from "../../env/client";
+import { readClientEnv } from "../../src/lib/load-client-env";
 
 describe("loadClientEnv", () => {
   it("throws when NEXT_PUBLIC_SAFE_MODE is missing", () => {
@@ -68,31 +69,26 @@ describe("loadClientEnv", () => {
     `);
   });
 
-  it("throws when NEXT_PUBLIC_SAFE_MODE is missing at runtime", () => {
+  it("falls back to safe mode defaults when NEXT_PUBLIC_SAFE_MODE is missing at runtime", () => {
     const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
     const originalSafeMode = process.env.SAFE_MODE;
 
     delete process.env.NEXT_PUBLIC_SAFE_MODE;
     delete process.env.SAFE_MODE;
 
-    try {
-      const attempt = () => loadClientEnvDefault();
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
 
-      expect(attempt).toThrowError(ZodError);
-      expect(attempt).toThrowErrorMatchingInlineSnapshot(`
-        [ZodError: [
-          {
-            "code": "invalid_type",
-            "expected": "string",
-            "received": "undefined",
-            "path": [
-              "NEXT_PUBLIC_SAFE_MODE"
-            ],
-            "message": "NEXT_PUBLIC_SAFE_MODE must be provided to coordinate client safe mode."
-          }
-        ]]
-      `);
+    try {
+      const env = readClientEnv();
+
+      expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
+      expect(process.env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
+      expect(process.env.SAFE_MODE).toBe("false");
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining("NEXT_PUBLIC_SAFE_MODE was missing"),
+      );
     } finally {
+      warn.mockRestore();
       if (typeof originalNextPublicSafeMode === "string") {
         process.env.NEXT_PUBLIC_SAFE_MODE = originalNextPublicSafeMode;
       } else {
@@ -126,7 +122,9 @@ describe("loadClientEnv", () => {
         "NEXT_PUBLIC_BASE_PATH": "/planner",
         "NEXT_PUBLIC_DEPTH_THEME": "true",
         "NEXT_PUBLIC_ENABLE_METRICS": "auto",
+        "NEXT_PUBLIC_FEATURE_GLITCH_LANDING": undefined,
         "NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS": "true",
+        "NEXT_PUBLIC_METRICS_ENDPOINT": undefined,
         "NEXT_PUBLIC_ORGANIC_DEPTH": "false",
         "NEXT_PUBLIC_SAFE_MODE": "true",
         "NEXT_PUBLIC_SENTRY_DSN": "https://key@example.ingest.sentry.io/42",
