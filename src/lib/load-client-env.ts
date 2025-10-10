@@ -1,21 +1,6 @@
-import { ZodError } from 'zod'
-
 import loadClientEnv from '../../env/client'
 
 const SAFE_MODE_FALLBACK = 'false'
-
-function isMissingSafeModeError(error: unknown): error is ZodError {
-  if (!(error instanceof ZodError)) {
-    return false
-  }
-
-  return error.issues.some(
-    (issue) =>
-      issue.path.length === 1 &&
-      issue.path[0] === 'NEXT_PUBLIC_SAFE_MODE' &&
-      issue.message.includes('NEXT_PUBLIC_SAFE_MODE must be provided')
-  )
-}
 
 function withSafeModeFallback(): NodeJS.ProcessEnv {
   const envSource =
@@ -52,13 +37,11 @@ function withSafeModeFallback(): NodeJS.ProcessEnv {
 export type ClientEnv = ReturnType<typeof loadClientEnv>
 
 export function readClientEnv(): ClientEnv {
-  try {
-    return loadClientEnv()
-  } catch (error) {
-    if (isMissingSafeModeError(error)) {
-      return loadClientEnv(withSafeModeFallback())
-    }
+  const envWithFallback = withSafeModeFallback()
 
+  try {
+    return loadClientEnv(envWithFallback)
+  } catch (error) {
     console.error('[env] Failed to load client environment variables.', error)
     if (
       typeof process !== 'undefined' &&

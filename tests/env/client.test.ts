@@ -5,26 +5,12 @@ import loadClientEnvDefault, { loadClientEnv } from "../../env/client";
 import { readClientEnv } from "../../src/lib/load-client-env";
 
 describe("loadClientEnv", () => {
-  it("throws when NEXT_PUBLIC_SAFE_MODE is missing", () => {
-    const attempt = () =>
-      loadClientEnv({
-        NEXT_PUBLIC_BASE_PATH: "/planner",
-      } as unknown as NodeJS.ProcessEnv);
+  it("defaults NEXT_PUBLIC_SAFE_MODE to 'false' when missing", () => {
+    const env = loadClientEnv({
+      NEXT_PUBLIC_BASE_PATH: "/planner",
+    } as unknown as NodeJS.ProcessEnv);
 
-    expect(attempt).toThrowError(ZodError);
-    expect(attempt).toThrowErrorMatchingInlineSnapshot(`
-      [ZodError: [
-        {
-          "code": "invalid_type",
-          "expected": "string",
-          "received": "undefined",
-          "path": [
-            "NEXT_PUBLIC_SAFE_MODE"
-          ],
-          "message": "NEXT_PUBLIC_SAFE_MODE must be provided to coordinate client safe mode."
-        }
-      ]]
-    `);
+    expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
   });
 
   it("throws when NEXT_PUBLIC_SENTRY_ENVIRONMENT is provided without a DSN", () => {
