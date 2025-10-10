@@ -57,7 +57,7 @@ web_modules/
 # Optional stylelint cache
 .stylelintcache
 
-# tsx cache directories
+# tsx cache directories (keep runtime caches out of git)
 tsx-*/
 node-compile-cache/
 
