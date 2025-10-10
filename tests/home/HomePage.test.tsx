@@ -5,7 +5,7 @@ import { describe, it, expect, vi } from "vitest";
 import Page from "@/app/page";
 import SiteChrome from "@/components/chrome/SiteChrome";
 import { ThemeProvider } from "@/lib/theme-context";
-vi.mock("@/components/gallery/generated-manifest", () => ({
+vi.mock("@/components/gallery/manifest", () => ({
   galleryPayload: { sections: [] },
   galleryPreviewModules: {},
   galleryPreviewRoutes: [],

@@ -1,4 +1,4 @@
-import { galleryPreviewModules } from './generated-manifest'
+import { galleryPreviewModules } from './manifest'
 import tokens from '../../../tokens/tokens.js'
 import {
   createGalleryRegistry,

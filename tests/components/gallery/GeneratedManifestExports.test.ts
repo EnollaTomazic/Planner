@@ -4,8 +4,8 @@ import {
   galleryPayload,
   galleryPreviewModules,
   galleryPreviewRoutes,
-  type GalleryPreviewModuleManifest,
-} from "@/components/gallery/generated-manifest";
+} from "@/components/gallery/manifest";
+import type { GalleryPreviewModuleManifest } from "@/components/gallery/manifest.schema";
 
 describe("gallery manifest exports", () => {
   it("exposes the gallery payload", () => {

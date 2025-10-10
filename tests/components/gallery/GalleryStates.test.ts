@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { galleryPayload } from "@/components/gallery/generated-manifest";
+import { galleryPayload } from "@/components/gallery/manifest";
 import type { GalleryAxis } from "@/components/gallery/registry";
 
 describe("gallery primitives", () => {
