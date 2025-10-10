@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Button, PageShell } from "@/components/ui";
 import { createLogger } from "@/lib/logging";
-import { captureException } from "@/lib/observability/sentry";
+import { reportBoundaryError } from "@/lib/observability/boundary-error-reporter";
 import { copyText } from "@/lib/clipboard";
 import { withBasePath } from "@/lib/utils";
 
@@ -53,17 +53,14 @@ export function RouteErrorContent({
   const [copyFeedback, setCopyFeedback] = useState<string>("");
 
   useEffect(() => {
-    routeErrorLog.error("Route error boundary captured an exception", {
+    reportBoundaryError({
+      boundary: "route",
       error,
-      errorId,
-    });
-    void captureException(error, {
-      tags: {
-        boundary: "route",
-        errorId,
-      },
       extra: {
         digest: error?.digest,
+        errorId,
+      },
+      tags: {
         errorId,
       },
     });
