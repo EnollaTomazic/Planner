@@ -2,8 +2,7 @@ import {
   galleryPayload,
   galleryPreviewModules,
   galleryPreviewRoutes,
-  type GalleryPreviewModuleManifest,
-} from "./generated-manifest";
+} from './generated-manifest'
 import {
   getGalleryEntryAxes,
   type GalleryAxis,
@@ -11,16 +10,22 @@ import {
   type GalleryPreviewRenderer,
   type GalleryPreviewRoute,
   type GallerySection,
-} from "./registry";
+} from './registry'
+import type {
+  GalleryModuleExport,
+  GalleryPreviewModuleManifest,
+  Manifest,
+} from './manifest.schema'
 
-export { galleryPayload, galleryPreviewModules, galleryPreviewRoutes };
-export type { GalleryPreviewModuleManifest, GalleryPreviewRenderer, GalleryPreviewRoute };
+export { galleryPayload, galleryPreviewModules, galleryPreviewRoutes }
+export type { GalleryPreviewModuleManifest, GalleryPreviewRenderer, GalleryPreviewRoute }
+export type { GalleryModuleExport } from './manifest.schema'
 
-export type GalleryModuleExport = {
-  readonly default: unknown;
-};
+type ManifestPreviewModule = Manifest['galleryPreviewModules'][string]
 
-const galleryPreviewModuleList = Object.values(galleryPreviewModules);
+const galleryPreviewModuleList: ManifestPreviewModule[] = Object.values(
+  galleryPreviewModules,
+);
 
 const previewModuleIndex = new Map<string, GalleryPreviewModuleManifest>();
 for (const manifest of galleryPreviewModuleList) {
@@ -70,15 +75,15 @@ const getCachedEntryAxes = (entryId: string): readonly GalleryAxis[] => {
 
 const normalizeAxisSlug = (value: string | null | undefined): string => {
   if (!value) {
-    return "";
+    return '';
   }
   return value
     .trim()
     .toLowerCase()
-    .replace(/[^a-z0-9\s_-]/gu, "-")
-    .replace(/[\s_]+/gu, "-")
-    .replace(/-+/gu, "-")
-    .replace(/^-+|-+$/gu, "");
+    .replace(/[^a-z0-9\s_-]/gu, '-')
+    .replace(/[\s_]+/gu, '-')
+    .replace(/-+/gu, '-')
+    .replace(/^-+|-+$/gu, '');
 };
 
 const getAxisParamsForEntry = (
@@ -92,7 +97,7 @@ const getAxisParamsForEntry = (
   const keySet = new Set<string>();
 
   for (const axis of getCachedEntryAxes(entryId)) {
-    if (axis.type !== "variant" && axis.type !== "state") {
+    if (axis.type !== 'variant' && axis.type !== 'state') {
       continue;
     }
 
@@ -123,7 +128,7 @@ const getAxisParamsForEntry = (
         return {
           value,
           label: option.value,
-        } satisfies GalleryPreviewAxisParam["options"][number];
+        } satisfies GalleryPreviewAxisParam['options'][number];
       })
       .filter((option) => option.label || option.value);
 
@@ -150,9 +155,9 @@ const formatAxisSummary = (axes: readonly GalleryAxis[]): string =>
       (axis) =>
         `${axis.label}: ${axis.values
           .map((option) => option.value)
-          .join(", ")}`,
+          .join(', ')}`,
     )
-    .join(" · ");
+    .join(' · ');
 
 const getAxisSummaryForEntry = (entryId: string): string => {
   if (axisSummaryCache.has(entryId)) {
@@ -174,7 +179,7 @@ const moduleLoadCache = new WeakMap<
 >();
 
 const isGallerySection = (value: unknown): value is GallerySection => {
-  if (!value || typeof value !== "object") {
+  if (!value || typeof value !== 'object') {
     return false;
   }
 
@@ -183,7 +188,7 @@ const isGallerySection = (value: unknown): value is GallerySection => {
 };
 
 const normalizeSections = (
-  exported: GalleryModuleExport["default"],
+  exported: GalleryModuleExport['default'],
 ): readonly GallerySection[] => {
   if (Array.isArray(exported)) {
     return exported.filter(isGallerySection);
@@ -207,7 +212,7 @@ const collectModulePreviews = (
 
     for (const entry of section.entries) {
       const preview = entry?.preview;
-      if (preview && typeof preview.id === "string" && typeof preview.render === "function") {
+      if (preview && typeof preview.id === 'string' && typeof preview.render === 'function') {
         map.set(preview.id, preview.render);
       }
 
@@ -219,8 +224,8 @@ const collectModulePreviews = (
         const statePreview = state?.preview;
         if (
           statePreview &&
-          typeof statePreview.id === "string" &&
-          typeof statePreview.render === "function"
+          typeof statePreview.id === 'string' &&
+          typeof statePreview.render === 'function'
         ) {
           map.set(statePreview.id, statePreview.render);
         }
