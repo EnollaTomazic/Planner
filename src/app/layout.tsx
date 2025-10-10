@@ -31,6 +31,7 @@ import {
   createContentSecurityPolicy,
   defaultSecurityPolicyOptions,
 } from "../../security-headers.mjs";
+import AppClientBoundary from "./AppClientBoundary";
 
 const contentSecurityPolicy = createContentSecurityPolicy(
   defaultSecurityPolicyOptions,
@@ -133,7 +134,8 @@ export default async function RootLayout({
           </div>
         </noscript>
         <StyledJsxRegistry>
-          <ThemeProvider glitchLandingEnabled={glitchLandingState}>
+          <AppClientBoundary>
+            <ThemeProvider glitchLandingEnabled={glitchLandingState}>
             <DepthThemeProvider
               enabled={depthThemeState}
               organicDepthEnabled={organicDepthState}
@@ -165,6 +167,7 @@ export default async function RootLayout({
               </SiteChrome>
             </DepthThemeProvider>
           </ThemeProvider>
+        </AppClientBoundary>
         </StyledJsxRegistry>
       </body>
     </html>

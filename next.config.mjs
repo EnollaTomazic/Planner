@@ -120,6 +120,7 @@ let nextConfig = {
   trailingSlash: true,
   basePath: nextBasePath,
   assetPrefix: nextAssetPrefix,
+  productionBrowserSourceMaps: true,
   images: {
     unoptimized: true,
     remotePatterns: [
