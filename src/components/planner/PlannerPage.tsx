@@ -21,7 +21,7 @@ import {
 import PortraitFrame from "@/components/home/PortraitFrame";
 import ProgressRingIcon from "@/icons/ProgressRingIcon";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
-import { useTheme } from "@/lib/theme-context";
+import { useOptionalTheme } from "@/lib/theme-context";
 import { cn } from "@/lib/utils";
 import styles from "./PlannerPage.module.css";
 import { useFocusDate, useWeek } from "./useFocusDate";
@@ -59,7 +59,8 @@ function Inner() {
   const { viewMode, setViewMode } = usePlanner();
   const { start, end } = useWeek(iso);
   const hydrating = today === FOCUS_PLACEHOLDER;
-  const [theme] = useTheme();
+  const themeContext = useOptionalTheme();
+  const themeVariant = themeContext?.[0].variant ?? "aurora";
   const prefersReducedMotion = usePrefersReducedMotion();
   const [planningEnergy, setPlanningEnergy] = React.useState(72);
   const weekAnnouncement = React.useMemo(
@@ -77,15 +78,14 @@ function Inner() {
   );
 
   const heroPose = React.useMemo(() => {
-    const variant = theme.variant;
-    if (variant === "noir" || variant === "hardstuck") {
+    if (themeVariant === "noir" || themeVariant === "hardstuck") {
       return "back-to-back";
     }
-    if (variant === "aurora" || variant === "ocean") {
+    if (themeVariant === "aurora" || themeVariant === "ocean") {
       return "angel-leading";
     }
     return "demon-leading";
-  }, [theme.variant]);
+  }, [themeVariant]);
 
   return (
     <>
