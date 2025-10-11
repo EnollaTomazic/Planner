@@ -225,8 +225,21 @@ export default {
   heroDividerBlur: "calc(var(--spacing-1) * 1.5)",
   heroIllustrationOpacity: "0.84",
   heroIllustrationBlur: "calc(var(--space-4) + var(--space-1))",
-  warningForeground: "0 0% 6%",
-  successForeground: "0 0% 6%",
+  warningForeground: "0 0% 100%",
+  successForeground: "0 0% 100%",
+  dangerForeground: "0 0% 100%",
+  stateSuccessSurface:
+    "color-mix(in oklab, hsl(var(--success)) 18%, hsl(var(--surface)))",
+  stateSuccessBorder:
+    "color-mix(in oklab, hsl(var(--success)) 65%, hsl(var(--border)))",
+  stateWarningSurface:
+    "color-mix(in oklab, hsl(var(--warning)) 20%, hsl(var(--surface)))",
+  stateWarningBorder:
+    "color-mix(in oklab, hsl(var(--warning)) 60%, hsl(var(--border)))",
+  stateDangerSurface:
+    "color-mix(in oklab, hsl(var(--danger)) 18%, hsl(var(--surface)))",
+  stateDangerBorder:
+    "color-mix(in oklab, hsl(var(--danger)) 62%, hsl(var(--border)))",
   auroraGLightColor: "hsl(var(--aurora-g-light))",
   auroraPLightColor: "hsl(var(--aurora-p-light))",
   elevation0: "none",
