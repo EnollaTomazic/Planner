@@ -62,7 +62,7 @@ const manifestEntrypointOutput = path.join(
   galleryDir,
   "generated-manifest.g.ts",
 );
-const tsconfigPath = path.join(rootDir, "tsconfig.json");
+const tsconfigPath = path.join(rootDir, "tsconfig.build.json");
 
 const TRACKED_PATTERNS = [
   "src/app/**/*.{ts,tsx}",
