@@ -6,7 +6,7 @@
   font-weight: 600;
   background: hsl(var(--card) / 0.75);
   color: hsl(var(--foreground));
-  border: 1px solid hsl(var(--border));
+  border: var(--hairline-w) solid hsl(var(--border));
   box-shadow: var(--depth-shadow-soft);
   transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
   backdrop-filter: blur(calc(var(--space-3) / 2));
