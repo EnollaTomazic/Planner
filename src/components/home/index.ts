@@ -18,6 +18,7 @@ export { default as PortraitFrame } from "./PortraitFrame";
 export type { PortraitFrameProps, PoseVariant } from "./PortraitFrame";
 export { default as WelcomeHeroFigure } from "./WelcomeHeroFigure";
 export { default as HomeSplash } from "./HomeSplash";
+export { useGlitchLandingSplash, useHydratedCallback } from "./hooks";
 export {
   HomeHeroSection,
   PlannerOverview,
