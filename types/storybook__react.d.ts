@@ -6,8 +6,8 @@ type StoryComponent<T> = T extends { component: infer C }
   ? C
   : T;
 
-type StoryArgs<T> = StoryComponent<T> extends ComponentType<any>
-  ? ComponentProps<StoryComponent<T>>
+type StoryArgs<T> = StoryComponent<T> extends ComponentType<infer Props>
+  ? Props
   : Record<string, unknown>;
 
 type StoryContext<TArgs> = {
