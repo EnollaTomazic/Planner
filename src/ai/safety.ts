@@ -6,6 +6,7 @@ import { recordLlmTokenUsage } from "@/lib/metrics/llmTokens";
 import { sanitizeText } from "@/lib/utils";
 
 const CONTROL_CHAR_PATTERN = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f\u2028\u2029]/g;
+const INVISIBLE_CHAR_PATTERN = /[\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\u2069\ufeff]/gi;
 const COLLAPSE_SPACES_PATTERN = /[ \t\f\v]+/g;
 const FALLBACK_MAX_INPUT_LENGTH = 16_000;
 const FALLBACK_TOKENS_PER_CHARACTER = 4;
@@ -26,10 +27,86 @@ const DEFAULT_TOKENS_PER_CHARACTER = resolveNumericEnv(
     min: Number.EPSILON,
   },
 );
-const SAFE_MODE_TOKEN_CEILING = 8_000;
-const SAFE_MODE_RESPONSE_RESERVE = 512;
-const SAFE_MODE_TEMPERATURE_CEILING = 0.4;
-const SAFE_MODE_MAX_TOOL_CALLS = 1;
+const SAFE_MODE_TOKEN_CEILING = resolveNumericEnv(
+  "SAFE_MODE_TOKEN_CEILING",
+  8_000,
+  {
+    min: 1,
+    integer: true,
+  },
+);
+const SAFE_MODE_RESPONSE_RESERVE = resolveNumericEnv(
+  "SAFE_MODE_RESPONSE_RESERVE",
+  512,
+  {
+    min: 0,
+    integer: true,
+  },
+);
+const SAFE_MODE_TEMPERATURE_CEILING = resolveNumericEnv(
+  "SAFE_MODE_TEMPERATURE_CEILING",
+  0.4,
+  {
+    min: 0,
+  },
+);
+const SAFE_MODE_MAX_TOOL_CALLS = resolveNumericEnv(
+  "SAFE_MODE_MAX_TOOL_CALLS",
+  1,
+  {
+    min: 0,
+    integer: true,
+  },
+);
+
+const warnedMessages = new Set<string>();
+
+function warnOnce(key: string, message: string): void {
+  if (typeof console === "undefined") {
+    return;
+  }
+  if (warnedMessages.has(key)) {
+    return;
+  }
+  warnedMessages.add(key);
+  console.warn(message);
+}
+
+function reportTokenEstimateIssue(index: number, raw: unknown, reason: string): void {
+  const printable = typeof raw === "number" ? raw.toString() : JSON.stringify(raw);
+  const key = `estimate:${index}:${reason}`;
+  warnOnce(
+    key,
+    `[ai.safety] Token estimator produced ${reason} for message index ${index}; clamping "${printable}" to a safe integer budget.`,
+  );
+}
+
+function formatIssuePath(path: ReadonlyArray<string | number>): string {
+  if (path.length === 0) {
+    return "<root>";
+  }
+  return path.reduce<string>((acc, segment) => {
+    if (typeof segment === "number") {
+      return `${acc}[${segment}]`;
+    }
+    return acc.length === 0 ? segment : `${acc}.${segment}`;
+  }, "");
+}
+
+function reportSchemaValidationFailure(label: string, error: unknown): void {
+  if (error instanceof z.ZodError) {
+    const summary = error.issues
+      .map((issue) => `${formatIssuePath(issue.path)} → ${issue.message}`)
+      .join("; ");
+    const key = `schema:${label}:${summary}`;
+    warnOnce(key, `[ai.safety] ${label} failed schema validation: ${summary}`);
+    return;
+  }
+
+  const description = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+  const key = `schema:${label}:${description}`;
+  warnOnce(key, `[ai.safety] ${label} validation threw: ${description}`);
+}
 
 type SegmenterConstructor =
   | (new (locale?: string, options?: Intl.SegmenterOptions) => Intl.Segmenter)
@@ -88,6 +165,12 @@ interface NumericEnvOptions {
   readonly integer?: boolean;
 }
 
+function reportNumericEnvIssue(name: string, raw: string, reason: string): void {
+  const trimmed = raw.trim();
+  const key = `numeric:${name}:${reason}:${trimmed}`;
+  warnOnce(key, `[ai.safety] Ignoring ${name} value "${trimmed}" (${reason}).`);
+}
+
 function resolveNumericEnv(
   names: string | readonly string[],
   fallback: number,
@@ -109,22 +192,26 @@ function resolveNumericEnv(
     const normalized = raw.trim();
 
     if (normalized.length === 0) {
+      reportNumericEnvIssue(name, raw, "empty string");
       continue;
     }
 
     const parsed = Number(normalized);
 
     if (!Number.isFinite(parsed)) {
+      reportNumericEnvIssue(name, raw, "non-numeric value");
       continue;
     }
 
     const value = options.integer ? Math.trunc(parsed) : parsed;
 
     if (Number.isNaN(value)) {
+      reportNumericEnvIssue(name, raw, "not a number");
       continue;
     }
 
     if (options.min !== undefined && value < options.min) {
+      reportNumericEnvIssue(name, raw, `below minimum ${options.min}`);
       continue;
     }
 
@@ -178,6 +265,7 @@ export function sanitizePrompt(
   const normalized = raw
     .replace(/\r\n?/g, "\n")
     .replace(CONTROL_CHAR_PATTERN, "")
+    .replace(INVISIBLE_CHAR_PATTERN, "")
     .replace(/\n{3,}/g, "\n\n")
     .split("\n")
     .map((line) => line.replace(COLLAPSE_SPACES_PATTERN, " ").trimEnd())
@@ -220,17 +308,40 @@ function defaultTokenEstimator(content: string): number {
   return Math.ceil(characterCount / tokensPerCharacter);
 }
 
+function normalizeTokenEstimate(raw: number, index: number): number {
+  if (!Number.isFinite(raw)) {
+    reportTokenEstimateIssue(index, raw, "a non-finite value");
+    return 0;
+  }
+
+  if (raw < 0) {
+    reportTokenEstimateIssue(index, raw, "a negative value");
+    return 0;
+  }
+
+  if (!Number.isInteger(raw)) {
+    reportTokenEstimateIssue(index, raw, "a fractional value");
+  }
+
+  return Math.ceil(raw);
+}
+
 function enforceTokenBudgetInternal<T extends TokenBudgetContent>(
   messages: readonly T[],
   options: TokenBudgetOptions,
 ): TokenBudgetResult<T> {
   const estimator = options.estimateTokens ?? defaultTokenEstimator;
-  const reserved = options.reservedForResponse ?? 0;
+  const incomingReserved = options.reservedForResponse ?? 0;
+  const reserved = Number.isFinite(incomingReserved)
+    ? Math.max(Math.floor(incomingReserved), 0)
+    : 0;
   const safeMode = isSafeModeEnabled() && isServerSafeModeExplicitlyEnabled();
   const safeReserved = safeMode
     ? Math.max(reserved, SAFE_MODE_RESPONSE_RESERVE)
     : reserved;
-  const incomingMaxTokens = Math.max(options.maxTokens, 0);
+  const incomingMaxTokens = Number.isFinite(options.maxTokens)
+    ? Math.max(Math.floor(options.maxTokens), 0)
+    : 0;
   const safeMaxTokens = safeMode
     ? Math.min(incomingMaxTokens, SAFE_MODE_TOKEN_CEILING)
     : incomingMaxTokens;
@@ -242,7 +353,8 @@ function enforceTokenBudgetInternal<T extends TokenBudgetContent>(
 
   for (let index = messages.length - 1; index >= 0; index -= 1) {
     const message = messages[index]!;
-    const tokens = estimator(message.content);
+    const estimate = estimator(message.content);
+    const tokens = normalizeTokenEstimate(estimate, index);
     if (message.pinned) {
       kept.push(message);
       used += tokens;
@@ -364,6 +476,7 @@ export function guardResponse<T>(
       data: parsed,
     };
   } catch (error) {
+    reportSchemaValidationFailure(label, error);
     if (error instanceof z.ZodError) {
       const issues = error.issues.map<SchemaValidationIssue>((issue: z.ZodIssue) => ({
         path: [...issue.path],
