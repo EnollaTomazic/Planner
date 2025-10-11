@@ -97,18 +97,31 @@ export function useTodayHeroTasks({
         event.preventDefault();
         return;
       }
+
       event.preventDefault();
+
       const input = event.currentTarget.elements.namedItem(
         taskInputName,
       ) as HTMLInputElement | null;
-      const value = input?.value ?? "";
+
+      const rawValue = input?.value ?? "";
+      const trimmedValue = rawValue.trim();
+
+      if (!trimmedValue) {
+        if (input) input.value = "";
+        return;
+      }
+
       const id = createTask({
         iso,
         projectId,
-        title: value,
+        title: trimmedValue,
         select: setSelectedTaskId,
       });
-      if (id && input) input.value = "";
+
+      if (id && input) {
+        input.value = "";
+      }
     },
     [createTask, iso, projectId, setSelectedTaskId, taskInputName],
   );

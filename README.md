@@ -84,6 +84,10 @@ The app reads configuration from your shell environment at build time. Use `.env
 | `SAFE_MODE` | `true` | Server-side safe mode for AI-assisted tooling. Leave enabled in production to enforce conservative token budgets and guardrails; disable locally when you need unrestricted profiling or debugging. |
 | `AI_MAX_INPUT_LENGTH` | `"16000"` | Default grapheme cap applied when sanitizing prompts. Increase when your provider accepts longer inputs; decrease to enforce tighter limits. |
 | `AI_TOKENS_PER_CHAR` | `"3"` | Heuristic tokens-per-character ratio used when estimating budgets without provider-specific metadata. Lowering the ratio to 3 overestimates usage slightly so prompts stay within response limits. |
+| `SAFE_MODE_TOKEN_CEILING` | `"8000"` | Maximum combined prompt + response budget enforced when server safe mode is on. Raise only after validating the provider's context window and downstream processing limits. |
+| `SAFE_MODE_RESPONSE_RESERVE` | `"512"` | Reserved token budget carved out for responses while safe mode is enabled. Prevents long prompts from exhausting the model's reply window. |
+| `SAFE_MODE_TEMPERATURE_CEILING` | `"0.4"` | Highest temperature allowed when safe mode is active. Keeps completions grounded by capping creative variance. |
+| `SAFE_MODE_MAX_TOOL_CALLS` | `"1"` | Maximum number of tool calls permitted in a single safe-mode exchange. Increase cautiously when agents rely on multi-step tool plans. |
 | `NEXT_PUBLIC_SAFE_MODE` | `true` | Client-side mirror of `SAFE_MODE`. Keep the values in sync so browser logic agrees with server enforcement. |
 | `NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS` | `true` | Feature flag for SVG numeric filters in the planner UI. Disable if custom deployments hit rendering issues. |
 | `NEXT_PUBLIC_DEPTH_THEME` | `false` | Feature flag enabling additional depth theming. Disable to render the legacy flat palette. |
@@ -114,6 +118,7 @@ The app reads configuration from your shell environment at build time. Use `.env
 
 - Copy `.env.example` to `.env.local` and keep `SAFE_MODE` and `NEXT_PUBLIC_SAFE_MODE` identical. Mismatched values cause the browser to ignore server safeguards (or vice versa) and can lead to inconsistent token budgeting.
 - The stricter `AI_TOKENS_PER_CHAR` default (`3`) intentionally overestimates usage so that long prompts leave enough room for model responses. Raise the value only after validating the provider's tokenizer, or lower it further when integrating models with smaller context windows.
+- Safe-mode ceiling variables (`SAFE_MODE_TOKEN_CEILING`, `SAFE_MODE_RESPONSE_RESERVE`, `SAFE_MODE_TEMPERATURE_CEILING`, `SAFE_MODE_MAX_TOOL_CALLS`) should mirror the conservative defaults unless you have validated higher limits with your provider and downstream tooling. Adjust them together so prompts, completions, and tool orchestration remain in sync.
 
 ## AI response validation
 
