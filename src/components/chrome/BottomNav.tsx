@@ -2,15 +2,14 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { cn, withoutBasePath } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import {
   NAV_ITEMS,
   PRIMARY_NAV_LABEL,
   type NavItem,
-  isNavActive,
 } from "@/config/nav";
 import Spinner from "@/components/ui/feedback/Spinner";
+import { useNavActivity } from "./useNavActivity";
 
 type BottomNavState =
   | "default"
@@ -35,8 +34,7 @@ export default function BottomNav({
   className,
   items = NAV_ITEMS,
 }: BottomNavProps = {}) {
-  const rawPathname = usePathname() ?? "/";
-  const pathname = withoutBasePath(rawPathname);
+  const { isActive } = useNavActivity();
   const navigationLabel = PRIMARY_NAV_LABEL;
   return (
     <div
@@ -62,50 +60,50 @@ export default function BottomNav({
         />
         <ul className="flex w-full justify-around">
           {items.map((item) => {
-          const { href, label, mobileIcon: Icon } = item;
-          if (!Icon) {
-            return null;
-          }
+            const { href, label, mobileIcon: Icon } = item;
+            if (!Icon) {
+              return null;
+            }
 
-          const active = isNavActive(pathname, href);
-          const disabled = Boolean(item.disabled);
-          const busy = Boolean(item.busy);
-          const providedState = item.state;
-          const derivedState: BottomNavState = providedState
-            ? providedState
-            : disabled
-            ? "disabled"
-            : busy
-            ? "syncing"
-            : active
-            ? "active"
-            : "default";
-          const pressed = derivedState === "active";
-          const isDisabledState = derivedState === "disabled";
-          const isBusyState = derivedState === "syncing";
-          const ariaDisabled = isDisabledState || disabled;
-          const ariaBusy = isBusyState || busy;
+            const active = isActive(href);
+            const disabled = Boolean(item.disabled);
+            const busy = Boolean(item.busy);
+            const providedState = item.state;
+            const derivedState: BottomNavState = providedState
+              ? providedState
+              : disabled
+              ? "disabled"
+              : busy
+              ? "syncing"
+              : active
+              ? "active"
+              : "default";
+            const pressed = derivedState === "active";
+            const isDisabledState = derivedState === "disabled";
+            const isBusyState = derivedState === "syncing";
+            const ariaDisabled = isDisabledState || disabled;
+            const ariaBusy = isBusyState || busy;
 
-          return (
-            <li key={href}>
-              <Link
-                href={href}
-                aria-current={active ? "page" : undefined}
-                role="button"
-                aria-pressed={pressed || undefined}
-                aria-disabled={ariaDisabled || undefined}
-                aria-busy={ariaBusy || undefined}
-                tabIndex={ariaDisabled ? -1 : undefined}
-                onClick={
-                  ariaDisabled
-                    ? (event) => {
-                        event.preventDefault();
-                      }
-                    : undefined
-                }
-                data-state={derivedState}
-                data-busy={ariaBusy || undefined}
-                className={cn(
+            return (
+              <li key={href}>
+                <Link
+                  href={href}
+                  aria-current={active ? "page" : undefined}
+                  role="button"
+                  aria-pressed={pressed || undefined}
+                  aria-disabled={ariaDisabled || undefined}
+                  aria-busy={ariaBusy || undefined}
+                  tabIndex={ariaDisabled ? -1 : undefined}
+                  onClick={
+                    ariaDisabled
+                      ? (event) => {
+                          event.preventDefault();
+                        }
+                      : undefined
+                  }
+                  data-state={derivedState}
+                  data-busy={ariaBusy || undefined}
+                  className={cn(
                   "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-[var(--ring-size-2)] focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
                   "data-[state=default]:text-[hsl(var(--fg-muted))] data-[state=default]:hover:text-[hsl(var(--accent))]",
                   "data-[state=active]:text-[hsl(var(--accent-contrast))] data-[state=active]:ring-[var(--ring-size-2)] data-[state=active]:ring-[var(--theme-ring)]",

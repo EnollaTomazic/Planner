@@ -137,6 +137,7 @@ runs:
       with:
         version: "${{ steps.detect.outputs['manager-version'] != '' && steps.detect.outputs['manager-version'] || 'latest' }}"
         run_install: false
+        standalone: true
 
     - name: Setup Node.js
       uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
@@ -146,7 +147,7 @@ runs:
         cache-dependency-path: "${{ steps.detect.outputs.lockfile }}"
 
     - name: Enable Corepack for alternative package managers
-      if: ${{ steps.detect.outputs.manager != 'npm' }}
+      if: ${{ steps.detect.outputs.manager == 'yarn' }}
       shell: bash
       run: |
         set -euo pipefail
@@ -155,14 +156,8 @@ runs:
           MANAGER="${{ steps.detect.outputs.manager }}"
           VERSION="${{ steps.detect.outputs['manager-version'] }}"
           if ! corepack prepare "$MANAGER@$VERSION" --activate; then
-            echo "::warning::Corepack failed to prepare $MANAGER@$VERSION; attempting fallback installation." >&2
-            if [ "$MANAGER" = "pnpm" ]; then
-              FALLBACK_VERSION="${VERSION:-latest}"
-              npm install -g "pnpm@$FALLBACK_VERSION"
-            else
-              echo "::warning::No fallback installer configured for $MANAGER; continuing without manual installation." >&2
-              exit 1
-            fi
+            echo "::warning::Corepack failed to prepare $MANAGER@$VERSION; continuing without manual installation." >&2
+            exit 1
           fi
         fi
 
@@ -187,7 +182,7 @@ runs:
             corepack prepare pnpm@latest --activate
           fi
         else
-          npm install -g "pnpm@${MANAGER_VERSION:-latest}"
+          npm install -g --force "pnpm@${MANAGER_VERSION:-latest}"
         fi
 
     - name: Export CI environment

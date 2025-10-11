@@ -2,19 +2,18 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 import Sheet from "@/components/ui/Sheet";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { MEDIA_QUERY_MD } from "@/lib/breakpoints";
 import { useMatchMedia } from "@/lib/react";
-import { cn, withoutBasePath } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import {
   type NavItem,
   NAV_ITEMS,
   PRIMARY_NAV_LABEL,
-  isNavActive,
 } from "@/config/nav";
+import { useNavActivity } from "./useNavActivity";
 
 export type MobileNavDrawerProps = {
   open: boolean;
@@ -29,8 +28,7 @@ export default function MobileNavDrawer({
   items = NAV_ITEMS,
   id,
 }: MobileNavDrawerProps) {
-  const rawPathname = usePathname() ?? "/";
-  const pathname = withoutBasePath(rawPathname);
+  const { isActive } = useNavActivity();
   const isDesktop = useMatchMedia(MEDIA_QUERY_MD);
 
   React.useEffect(() => {
@@ -69,7 +67,7 @@ export default function MobileNavDrawer({
         >
           <ul className="flex flex-col gap-[var(--space-1)]">
             {items.map(({ href, label, mobileIcon: Icon }) => {
-              const active = isNavActive(pathname, href);
+              const active = isActive(href);
 
               return (
                 <li key={href}>
