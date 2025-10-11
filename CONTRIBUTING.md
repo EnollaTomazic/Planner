@@ -1,6 +1,6 @@
 # Contributing
 
-Requires [Node.js](https://nodejs.org) >=20.15 and <21 (the active Node 20 LTS range) and [pnpm](https://pnpm.io) 10.13.1. The CI pipeline reads `.nvmrc` and checks `node --version` and `pnpm --version` to ensure they match these values, so align your local environment accordingly.
+Requires [Node.js](https://nodejs.org) >=22.11 and <23 (the active Node 22 LTS range) and [pnpm](https://pnpm.io) 10.13.1. The CI pipeline reads `.nvmrc` and checks `node --version` and `pnpm --version` to ensure they match these values, so align your local environment accordingly.
 
 ## Scripts
 
