@@ -3,9 +3,9 @@
 import * as React from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { HeroPlannerCards, HomeHeroSection, useHomePlannerOverview } from "@/components/home";
+import { useHomePlannerOverview } from "@/components/home";
 import type { HeroPlannerHighlight, PlannerOverviewProps } from "@/components/home";
-import { PageShell, Button, ThemeToggle, SectionCard } from "@/components/ui";
+import { PageShell, Button, ThemeToggle, SectionCard, Skeleton } from "@/components/ui";
 import { PlannerProvider } from "@/components/planner";
 import { useTheme, useUiFeatureFlags } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
@@ -20,6 +20,14 @@ type HomeSplashProps = {
 const HomeSplash = dynamic<HomeSplashProps>(
   () => import("@/components/home/HomeSplash"),
   { ssr: false },
+);
+
+const HomeHeroSection = React.lazy(
+  () => import("@/components/home/home-landing/HomeHeroSection"),
+);
+
+const HeroPlannerCards = React.lazy(
+  () => import("@/components/home/HeroPlannerCards"),
 );
 
 const weeklyHighlights = [
@@ -226,11 +234,20 @@ function HomePageBody({
           className="col-span-full"
         >
           <SectionCard.Body className="md:p-[var(--space-6)]">
-            <HomeHeroSection
-              variant={themeVariant}
-              actions={heroActions}
-              headingId={heroHeadingId}
-            />
+            <React.Suspense
+              fallback={
+                <HomeHeroSectionFallback
+                  headingId={heroHeadingId}
+                  actions={heroActions}
+                />
+              }
+            >
+              <HomeHeroSection
+                variant={themeVariant}
+                actions={heroActions}
+                headingId={heroHeadingId}
+              />
+            </React.Suspense>
           </SectionCard.Body>
         </SectionCard>
       </PageShell>
@@ -253,15 +270,120 @@ function HomePageBody({
             titleClassName="text-title font-semibold tracking-[-0.01em]"
           />
           <SectionCard.Body className="md:p-[var(--space-6)]">
-            <HeroPlannerCards
-              variant={themeVariant}
-              plannerOverviewProps={plannerOverviewProps}
-              highlights={weeklyHighlights}
-            />
+            <React.Suspense fallback={<HeroPlannerCardsFallback />}>
+              <HeroPlannerCards
+                variant={themeVariant}
+                plannerOverviewProps={plannerOverviewProps}
+                highlights={weeklyHighlights}
+              />
+            </React.Suspense>
           </SectionCard.Body>
         </SectionCard>
       </PageShell>
     </>
+  );
+}
+
+type HomeHeroSectionFallbackProps = {
+  headingId: string;
+  actions: React.ReactNode;
+};
+
+function HomeHeroSectionFallback({
+  headingId,
+  actions,
+}: HomeHeroSectionFallbackProps) {
+  return (
+    <div className="grid gap-[var(--space-5)] md:grid-cols-12 md:items-center">
+      <div className="flex flex-col gap-[var(--space-4)] md:col-span-6">
+        <div className="flex items-center gap-[var(--space-2)]" aria-hidden="true">
+          <Skeleton
+            radius="full"
+            className="h-[var(--space-6)] w-[var(--space-6)]"
+          />
+          <Skeleton className="h-[var(--space-4)] w-24" />
+        </div>
+        <div className="space-y-[var(--space-3)]">
+          <h1
+            id={headingId}
+            className="text-balance text-title-lg font-semibold tracking-[-0.01em] text-foreground"
+          >
+            Welcome to Planner
+          </h1>
+          <span className="sr-only">Loading Planner hero content</span>
+          <div className="space-y-[var(--space-2)]" aria-hidden="true">
+            <Skeleton className="h-[var(--space-4)] w-5/6" />
+            <Skeleton className="h-[var(--space-4)] w-2/3" />
+          </div>
+        </div>
+        {actions ? (
+          <div
+            role="group"
+            aria-label="Home hero actions"
+            className="flex flex-wrap items-center gap-[var(--space-3)]"
+          >
+            {actions}
+          </div>
+        ) : null}
+      </div>
+      <div
+        className="flex justify-center md:col-span-6 md:justify-end"
+        aria-hidden="true"
+      >
+        <Skeleton
+          radius="card"
+          className="h-[calc(var(--space-8)*4.5)] w-full max-w-[calc(var(--space-8)*4)] md:max-w-[calc(var(--space-8)*4.5)] lg:max-w-[calc(var(--space-8)*5)]"
+        />
+      </div>
+    </div>
+  );
+}
+
+function HeroPlannerCardsFallback() {
+  return (
+    <div role="status" aria-live="polite" className="space-y-[var(--space-5)]">
+      <span className="sr-only">Loading planner overview</span>
+      <div className="grid gap-[var(--space-4)] md:grid-cols-12">
+        <div className="md:col-span-6 space-y-[var(--space-3)]">
+          <Skeleton radius="card" className="h-[calc(var(--space-8)*3)]" />
+          <Skeleton className="h-[var(--space-4)] w-2/3" />
+        </div>
+        <div className="md:col-span-6 space-y-[var(--space-3)]">
+          <Skeleton radius="card" className="h-[calc(var(--space-8)*3)]" />
+          <Skeleton className="h-[var(--space-4)] w-1/2" />
+        </div>
+      </div>
+      <div className="space-y-[var(--space-3)]">
+        <Skeleton className="h-[var(--space-5)] w-1/3" />
+        <div className="grid gap-[var(--space-3)] md:grid-cols-3">
+          <Skeleton radius="card" className="h-[calc(var(--space-8)*2.5)]" />
+          <Skeleton radius="card" className="h-[calc(var(--space-8)*2.5)]" />
+          <Skeleton radius="card" className="h-[calc(var(--space-8)*2.5)]" />
+        </div>
+      </div>
+      <div className="grid gap-[var(--space-4)] md:grid-cols-12">
+        <Skeleton
+          radius="card"
+          className="md:col-span-4 h-[calc(var(--space-8)*3)]"
+        />
+        <Skeleton
+          radius="card"
+          className="md:col-span-4 h-[calc(var(--space-8)*3)]"
+        />
+        <Skeleton
+          radius="card"
+          className="md:col-span-4 h-[calc(var(--space-8)*3)]"
+        />
+        <Skeleton
+          radius="card"
+          className="md:col-span-6 h-[calc(var(--space-8)*3.5)]"
+        />
+        <Skeleton
+          radius="card"
+          className="md:col-span-6 h-[calc(var(--space-8)*3.5)]"
+        />
+      </div>
+    </div>
   );
 }
 
