@@ -273,10 +273,15 @@ export function planWithAssistant(
 
   const segments = splitSegments(finalPrompt);
   const now = options.now ?? new Date();
+  const requestedLimit =
+    options.suggestionLimit ??
+    (safeModeEnabled ? SAFE_MODE_SUGGESTION_LIMIT : DEFAULT_SUGGESTION_LIMIT);
+
   const limit = Math.max(
     1,
-    options.suggestionLimit ??
-      (safeModeEnabled ? SAFE_MODE_SUGGESTION_LIMIT : DEFAULT_SUGGESTION_LIMIT),
+    safeModeEnabled
+      ? Math.min(requestedLimit, SAFE_MODE_SUGGESTION_LIMIT)
+      : requestedLimit,
   );
 
   const rawSuggestions = segments

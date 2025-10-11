@@ -60,6 +60,26 @@ describe("planWithAssistant", () => {
     expect(plan.suggestions.length).toBeLessThanOrEqual(3);
   });
 
+  it("caps explicit suggestion limit overrides in safe mode", async () => {
+    setSafeMode("true", "true");
+    vi.resetModules();
+    const { planWithAssistant } = await loadAgent();
+
+    const plan = planWithAssistant({
+      prompt: [
+        "Task alpha on Monday",
+        "Task beta on Tuesday",
+        "Task gamma on Wednesday",
+        "Task delta on Thursday",
+        "Task epsilon on Friday",
+      ].join("\n"),
+      suggestionLimit: 10,
+    });
+
+    expect(plan.safety.safeMode).toBe(true);
+    expect(plan.suggestions.length).toBeLessThanOrEqual(3);
+  });
+
   it("keeps broader suggestion sets when safe mode is disabled", async () => {
     setSafeMode("false", "false");
     vi.resetModules();
