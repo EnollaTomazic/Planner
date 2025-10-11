@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { Plus, CalendarClock, Sparkles } from "lucide-react";
+import { Bot, Loader2, Plus, CalendarClock, Sparkles } from "lucide-react";
 import {
   Button,
   GlitchSegmentedButton,
@@ -20,6 +20,7 @@ import {
   parsePlannerPhrase,
   summariseParse,
 } from "@/lib/scheduling";
+import type { PlannerAssistantPlan } from "@/lib/assistant/plannerAgent";
 import { fromISODate, toISODate } from "@/lib/date";
 import {
   usePlannerActions,
@@ -32,6 +33,89 @@ const FLOATING_BUTTON_POSITION =
   "fixed bottom-[var(--space-8)] right-[max(var(--space-3),calc((var(--viewport-width) - var(--shell-max,var(--shell-width))) / 2 + var(--space-3)))] z-50";
 
 type Mode = "task" | "project";
+
+type AssistantSafeModeState = {
+  readonly server: boolean;
+  readonly client: boolean;
+  readonly active: boolean;
+};
+
+type PlannerAssistantSuccessPayload = {
+  ok: true;
+  plan: PlannerAssistantPlan;
+  safeMode: AssistantSafeModeState;
+};
+
+type PlannerAssistantErrorPayload = {
+  ok: false;
+  error: string;
+  message: string;
+  safeMode: AssistantSafeModeState;
+};
+
+function isAssistantSuccessPayload(
+  value: unknown,
+): value is PlannerAssistantSuccessPayload {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+  const candidate = value as { ok?: unknown; plan?: unknown; safeMode?: unknown };
+  return candidate.ok === true && candidate.plan !== undefined && candidate.safeMode !== undefined;
+}
+
+function isAssistantErrorPayload(value: unknown): value is PlannerAssistantErrorPayload {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+  const candidate = value as { ok?: unknown; error?: unknown; message?: unknown; safeMode?: unknown };
+  return candidate.ok === false && typeof candidate.error === "string";
+}
+
+function describeAssistantError(error: string | undefined, fallback: string): string {
+  switch (error) {
+    case "invalid_request":
+      return "Planner assistant request was invalid.";
+    case "safe_mode_mismatch":
+      return "Planner assistant is disabled until SAFE_MODE and NEXT_PUBLIC_SAFE_MODE match.";
+    case "empty_prompt":
+      return "Describe what you want before asking the planner assistant.";
+    case "budget_exhausted":
+      return "Your request is too long for the planner assistant.";
+    default:
+      return fallback;
+  }
+}
+
+function formatConfidence(
+  confidence: PlannerAssistantPlan["suggestions"][number]["confidence"],
+): string {
+  if (confidence === "none") {
+    return "None";
+  }
+  return confidence.replace(/^(.)/, (letter) => letter.toUpperCase());
+}
+
+function formatSchedule(
+  schedule: PlannerAssistantPlan["suggestions"][number]["schedule"] | undefined,
+): string | null {
+  if (!schedule) {
+    return null;
+  }
+
+  if (schedule.date && schedule.time) {
+    return `${schedule.date} at ${schedule.time}`;
+  }
+
+  if (schedule.date) {
+    return schedule.date;
+  }
+
+  if (schedule.time) {
+    return schedule.time;
+  }
+
+  return null;
+}
 
 type PlannerCreationDialogProps = {
   open: boolean;
@@ -129,7 +213,12 @@ export default function PlannerFab() {
   const [inputValue, setInputValue] = React.useState("");
   const [selectedProjectId, setSelectedProjectId] = React.useState<string>("");
   const [error, setError] = React.useState<string | null>(null);
+  const [assistantPlan, setAssistantPlan] = React.useState<PlannerAssistantPlan | null>(null);
+  const [assistantError, setAssistantError] = React.useState<string | null>(null);
+  const [assistantSafeMode, setAssistantSafeMode] = React.useState<AssistantSafeModeState | null>(null);
+  const [assistantLoading, setAssistantLoading] = React.useState(false);
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+  const assistantRequestRef = React.useRef<AbortController | null>(null);
   const titleId = React.useId();
   const descriptionId = React.useId();
   const summaryId = React.useId();
@@ -160,6 +249,10 @@ export default function PlannerFab() {
     return () => window.cancelAnimationFrame(frame);
   }, [open]);
 
+  React.useEffect(() => () => {
+    assistantRequestRef.current?.abort();
+  }, []);
+
   React.useEffect(() => {
     if (parsed.intent === "project" && parsed.confidence !== "low") {
       setMode("project");
@@ -177,10 +270,28 @@ export default function PlannerFab() {
   }, [focusProjects, mode, projects, selectedProjectId]);
 
   React.useEffect(() => {
+    if (inputValue.trim()) {
+      return;
+    }
+    setAssistantPlan(null);
+    setAssistantError(null);
+    setAssistantSafeMode(null);
+    setAssistantLoading(false);
+    assistantRequestRef.current?.abort();
+    assistantRequestRef.current = null;
+  }, [inputValue]);
+
+  React.useEffect(() => {
     if (!open) {
       setInputValue("");
       setError(null);
       setMode("task");
+      setAssistantPlan(null);
+      setAssistantError(null);
+      setAssistantSafeMode(null);
+      setAssistantLoading(false);
+      assistantRequestRef.current?.abort();
+      assistantRequestRef.current = null;
     }
   }, [open]);
 
@@ -301,6 +412,82 @@ export default function PlannerFab() {
     },
     [handleSubmit],
   );
+
+  const handleAskAssistant = React.useCallback(async () => {
+    const trimmed = inputValue.trim();
+    if (!trimmed) {
+      setAssistantPlan(null);
+      setAssistantError("Describe what you want before asking the planner assistant.");
+      setAssistantSafeMode(null);
+      return;
+    }
+
+    setAssistantPlan(null);
+    assistantRequestRef.current?.abort();
+    const controller = new AbortController();
+    assistantRequestRef.current = controller;
+
+    setAssistantLoading(true);
+    setAssistantError(null);
+
+    try {
+      const response = await fetch("/api/planner/assistant", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: trimmed,
+          focusDate: targetIso,
+        }),
+        signal: controller.signal,
+      });
+
+      const data = await response
+        .json()
+        .catch(() => null);
+
+      if (isAssistantSuccessPayload(data)) {
+        setAssistantSafeMode(data.safeMode);
+        setAssistantPlan(data.plan);
+        setAssistantError(null);
+        return;
+      }
+
+      if (isAssistantErrorPayload(data)) {
+        setAssistantSafeMode(data.safeMode);
+        setAssistantPlan(null);
+        setAssistantError(
+          describeAssistantError(data.error, data.message ?? "Planner assistant is unavailable."),
+        );
+        return;
+      }
+
+      if (data && typeof data === "object" && "safeMode" in data) {
+        setAssistantSafeMode((data as { safeMode?: AssistantSafeModeState }).safeMode ?? null);
+      }
+
+      setAssistantPlan(null);
+      setAssistantError("Planner assistant returned an unexpected response.");
+      setAssistantSafeMode(null);
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        return;
+      }
+      setAssistantPlan(null);
+      setAssistantError(
+        error instanceof Error
+          ? error.message
+          : "Planner assistant request failed.",
+      );
+      setAssistantSafeMode(null);
+    } finally {
+      if (assistantRequestRef.current === controller) {
+        assistantRequestRef.current = null;
+      }
+      setAssistantLoading(false);
+    }
+  }, [inputValue, targetIso]);
 
   const projectItems = React.useMemo(
     () =>
@@ -469,6 +656,72 @@ export default function PlannerFab() {
                   </div>
                 </div>
               )}
+              <div
+                className="space-y-[var(--space-2)]"
+                aria-live="polite"
+              >
+                <div className="flex items-center gap-[var(--space-2)] text-label font-medium text-muted-foreground">
+                  <Bot className="size-[var(--space-4)]" aria-hidden />
+                  Planner assistant
+                </div>
+                {assistantPlan?.summary && (
+                  <p className="text-caption text-muted-foreground">
+                    {assistantPlan.summary}
+                  </p>
+                )}
+                {assistantPlan?.suggestions.length ? (
+                  <ul className="space-y-[var(--space-2)]">
+                    {assistantPlan.suggestions.map((suggestion) => {
+                      const scheduleText = formatSchedule(suggestion.schedule);
+                      return (
+                        <li
+                          key={suggestion.id}
+                          className="rounded-[var(--radius-md)] border border-dashed border-muted-foreground/40 px-[var(--space-4)] py-[var(--space-3)]"
+                        >
+                          <p className="font-medium text-foreground">{suggestion.title}</p>
+                          <p className="text-caption text-muted-foreground">
+                            {suggestion.intent === "project" ? "Project" : "Task"} • Confidence {formatConfidence(suggestion.confidence)}
+                            {scheduleText ? ` • ${scheduleText}` : ""}
+                          </p>
+                          {suggestion.summary && (
+                            <p className="text-label text-muted-foreground">{suggestion.summary}</p>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : null}
+                {assistantError && (
+                  <p className="text-caption text-danger" role="alert">
+                    {assistantError}
+                  </p>
+                )}
+                {(assistantPlan?.safety.safeMode || assistantSafeMode?.active) && (
+                  <p className="text-caption text-muted-foreground">
+                    Safe mode is active. Suggestions are limited for additional safety.
+                  </p>
+                )}
+                <Button
+                  type="button"
+                  variant="neo"
+                  size="sm"
+                  onClick={handleAskAssistant}
+                  disabled={assistantLoading}
+                  className="flex items-center gap-[var(--space-2)] rounded-full"
+                >
+                  {assistantLoading ? (
+                    <>
+                      <Loader2 className="size-[var(--space-4)] animate-spin" aria-hidden />
+                      <span>Asking assistant…</span>
+                    </>
+                  ) : (
+                    <>
+                      <Bot className="size-[var(--space-4)]" aria-hidden />
+                      <span>Ask planner assistant</span>
+                    </>
+                  )}
+                </Button>
+              </div>
               <p
                 id={aiDisclosureId}
                 className="text-caption text-muted-foreground"
