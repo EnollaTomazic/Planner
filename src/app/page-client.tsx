@@ -3,7 +3,13 @@
 import * as React from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { HeroPlannerCards, HomeHeroSection, useHomePlannerOverview } from "@/components/home";
+import {
+  HeroPlannerCards,
+  HomeHeroSection,
+  useGlitchLandingSplash,
+  useHomePlannerOverview,
+  useHydratedCallback,
+} from "@/components/home";
 import type { HeroPlannerHighlight, PlannerOverviewProps } from "@/components/home";
 import { PageShell, Button, ThemeToggle, SectionCard } from "@/components/ui";
 import { PlannerProvider } from "@/components/planner";
@@ -21,6 +27,25 @@ const HomeSplash = dynamic<HomeSplashProps>(
   () => import("@/components/home/HomeSplash"),
   { ssr: false },
 );
+
+type InertableElement = HTMLElement & { inert: boolean };
+
+function isInertable(element: HTMLElement): element is InertableElement {
+  return "inert" in element;
+}
+
+function setElementInert(element: HTMLElement, inert: boolean) {
+  if (isInertable(element)) {
+    element.inert = inert;
+    return;
+  }
+
+  if (inert) {
+    element.setAttribute("inert", "");
+  } else {
+    element.removeAttribute("inert");
+  }
+}
 
 const weeklyHighlights = [
   {
@@ -42,73 +67,6 @@ const weeklyHighlights = [
     summary: "Encourage the team to log highlights before the week wraps.",
   },
 ] as const satisfies readonly HeroPlannerHighlight[];
-
-function useGlitchLandingSplash(
-  glitchLandingEnabled: boolean,
-  hydrated: boolean,
-) {
-  const initialSplashState = glitchLandingEnabled && !hydrated;
-  const [isSplashVisible, setSplashVisible] = React.useState(
-    () => initialSplashState,
-  );
-  const [isSplashMounted, setSplashMounted] = React.useState(
-    () => initialSplashState,
-  );
-
-  const beginHideSplash = React.useCallback(() => {
-    setSplashVisible((prev) => {
-      if (!prev) {
-        return prev;
-      }
-      return false;
-    });
-  }, []);
-
-  React.useEffect(() => {
-    if (!glitchLandingEnabled) {
-      setSplashVisible(false);
-      setSplashMounted(false);
-      return;
-    }
-    if (!hydrated) {
-      setSplashMounted(true);
-      setSplashVisible(true);
-      return;
-    }
-    beginHideSplash();
-  }, [beginHideSplash, glitchLandingEnabled, hydrated]);
-
-  const handleClientReady = React.useCallback(() => {
-    beginHideSplash();
-  }, [beginHideSplash]);
-
-  const handleSplashExit = React.useCallback(() => {
-    setSplashMounted(false);
-  }, []);
-
-  return {
-    isSplashVisible,
-    isSplashMounted,
-    handleClientReady,
-    handleSplashExit,
-  } as const;
-}
-
-function useHydratedCallback(hydrated: boolean, onReady?: () => void) {
-  const hasAnnouncedReadyRef = React.useRef(false);
-
-  React.useEffect(() => {
-    if (!hydrated) {
-      hasAnnouncedReadyRef.current = false;
-      return;
-    }
-    if (!onReady || hasAnnouncedReadyRef.current) {
-      return;
-    }
-    onReady();
-    hasAnnouncedReadyRef.current = true;
-  }, [hydrated, onReady]);
-}
 
 function HomePageContent() {
   const [theme] = useTheme();
@@ -136,6 +94,7 @@ function HomePagePlannerContent({
 }: HomePagePlannerContentProps) {
   const plannerOverviewProps = useHomePlannerOverview();
   const { hydrated } = plannerOverviewProps;
+  const contentRef = React.useRef<HTMLElement>(null);
 
   const {
     isSplashVisible,
@@ -144,16 +103,41 @@ function HomePagePlannerContent({
     handleSplashExit,
   } = useGlitchLandingSplash(glitchLandingEnabled, hydrated);
 
+  React.useEffect(() => {
+    const content = contentRef.current;
+
+    if (!content) {
+      return;
+    }
+
+    setElementInert(content, isSplashVisible);
+
+    if (isSplashVisible && document.activeElement === content) {
+      (document.activeElement as HTMLElement).blur();
+    }
+
+    return () => {
+      if (!content.isConnected) {
+        return;
+      }
+
+      setElementInert(content, false);
+    };
+  }, [isSplashVisible]);
+
   return (
     <div className={styles.root}>
       {glitchLandingEnabled && isSplashMounted ? (
         <HomeSplash active={isSplashVisible} onExited={handleSplashExit} />
       ) : null}
       <section
+        ref={contentRef}
         tabIndex={-1}
         className={styles.content}
         data-state={isSplashVisible ? "splash" : "ready"}
         aria-hidden={isSplashVisible ? true : undefined}
+        data-inert={isSplashVisible ? "" : undefined}
+        data-home-content=""
       >
         <HomePageBody
           themeVariant={themeVariant}

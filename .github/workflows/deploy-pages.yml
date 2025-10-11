@@ -21,7 +21,7 @@ permissions:
   pages: write
 
 jobs:
-  # Builds and publishes the static Next.js export to GitHub Pages.
+  # Packages the static Next.js export and publishes it to the configured GitHub Pages branch.
   build:
     if: github.actor != 'github-pages[bot]'
     name: Build static site
