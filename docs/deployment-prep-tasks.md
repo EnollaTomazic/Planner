@@ -3,7 +3,7 @@
 This checklist summarizes the hands-on work required before running the deployment command. Use it alongside the full deployment plan so every release starts from a clean, predictable state.
 
 ## 1. Environment readiness
-- [ ] Install Node.js >=22.11 and <23 (the active Node 22 LTS range) along with pnpm 10.13.1 to match the repository engines.
+- [ ] Install Node.js >=22.11 and <23 (the active Node 22 LTS range) along with pnpm 10.18.2 to match the repository engines.
 - [ ] Copy `.env.example` to `.env.local` and adjust secrets, feature flags, and base-path variables.
 - [ ] Confirm Sentry, metrics, and any other external integrations have production-ready endpoints.
 
