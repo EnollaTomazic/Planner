@@ -132,6 +132,18 @@ const SUPPORTS_SECTION = String.raw`/* Upgrade tokens when color-mix(oklab) is s
       var(--accent-overlay) vs hsl(var(--foreground)),
       hsl(var(--background))
     );
+    --success-foreground: color-contrast(
+      var(--state-success-surface) vs hsl(var(--foreground)),
+      hsl(var(--background))
+    );
+    --warning-foreground: color-contrast(
+      var(--state-warning-surface) vs hsl(var(--foreground)),
+      hsl(var(--background))
+    );
+    --danger-foreground: color-contrast(
+      var(--state-danger-surface) vs hsl(var(--foreground)),
+      hsl(var(--background))
+    );
   }
 }
 
