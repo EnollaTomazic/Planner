@@ -7,6 +7,7 @@ import { X } from "lucide-react";
 import Sheet from "@/components/ui/Sheet";
 import IconButton from "@/components/ui/primitives/IconButton";
 import { MEDIA_QUERY_MD } from "@/lib/breakpoints";
+import { useMatchMedia } from "@/lib/react";
 import { cn, withoutBasePath } from "@/lib/utils";
 import {
   type NavItem,
@@ -14,49 +15,6 @@ import {
   PRIMARY_NAV_LABEL,
   isNavActive,
 } from "@/config/nav";
-
-function useMediaQuery(query: string) {
-  const getMatches = React.useCallback(() => {
-    if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
-      return false;
-    }
-
-    try {
-      return window.matchMedia(query).matches;
-    } catch {
-      return false;
-    }
-  }, [query]);
-
-  const [matches, setMatches] = React.useState(getMatches);
-
-  React.useEffect(() => {
-    if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
-      return;
-    }
-
-    const mediaQueryList = window.matchMedia(query);
-    const handleChange = (event: MediaQueryListEvent) => {
-      setMatches(event.matches);
-    };
-
-    setMatches(mediaQueryList.matches);
-
-    if (typeof mediaQueryList.addEventListener === "function") {
-      mediaQueryList.addEventListener("change", handleChange);
-      return () => {
-        mediaQueryList.removeEventListener("change", handleChange);
-      };
-    }
-
-    mediaQueryList.addListener(handleChange);
-    return () => {
-      mediaQueryList.removeListener(handleChange);
-    };
-  }, [getMatches, query]);
-
-  return matches;
-}
 
 export type MobileNavDrawerProps = {
   open: boolean;
@@ -73,7 +31,7 @@ export default function MobileNavDrawer({
 }: MobileNavDrawerProps) {
   const rawPathname = usePathname() ?? "/";
   const pathname = withoutBasePath(rawPathname);
-  const isDesktop = useMediaQuery(MEDIA_QUERY_MD);
+  const isDesktop = useMatchMedia(MEDIA_QUERY_MD);
 
   React.useEffect(() => {
     if (open && isDesktop) {

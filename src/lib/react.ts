@@ -11,3 +11,77 @@ export const hasTextContent = (node: React.ReactNode): boolean => {
   }
   return false;
 };
+
+export function observeMediaQuery(
+  query: string,
+  onChange: (matches: boolean, mediaQuery: MediaQueryList) => void,
+): (() => void) | undefined {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return undefined;
+  }
+
+  let mediaQuery: MediaQueryList;
+
+  try {
+    mediaQuery = window.matchMedia(query);
+  } catch {
+    return undefined;
+  }
+
+  const handleChange = (event: MediaQueryListEvent) => {
+    onChange(event.matches, mediaQuery);
+  };
+
+  const handleLegacyChange = () => {
+    onChange(mediaQuery.matches, mediaQuery);
+  };
+
+  onChange(mediaQuery.matches, mediaQuery);
+
+  if (typeof mediaQuery.addEventListener === "function") {
+    mediaQuery.addEventListener("change", handleChange);
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }
+
+  if (typeof mediaQuery.addListener === "function") {
+    mediaQuery.addListener(handleLegacyChange);
+    return () => {
+      mediaQuery.removeListener(handleLegacyChange);
+    };
+  }
+
+  return undefined;
+}
+
+export function useMatchMedia(
+  query: string,
+  getServerSnapshot?: () => boolean,
+): boolean {
+  const getMatches = React.useCallback(() => {
+    if (typeof window === "undefined") {
+      return typeof getServerSnapshot === "function" ? getServerSnapshot() : false;
+    }
+
+    if (typeof window.matchMedia !== "function") {
+      return false;
+    }
+
+    try {
+      return window.matchMedia(query).matches;
+    } catch {
+      return false;
+    }
+  }, [query, getServerSnapshot]);
+
+  const [matches, setMatches] = React.useState<boolean>(getMatches);
+
+  React.useEffect(() => {
+    return observeMediaQuery(query, (nextMatches) => {
+      setMatches(nextMatches);
+    });
+  }, [query]);
+
+  return matches;
+}
