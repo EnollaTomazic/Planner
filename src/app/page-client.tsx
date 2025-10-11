@@ -28,6 +28,25 @@ const HomeSplash = dynamic<HomeSplashProps>(
   { ssr: false },
 );
 
+type InertableElement = HTMLElement & { inert: boolean };
+
+function isInertable(element: HTMLElement): element is InertableElement {
+  return "inert" in element;
+}
+
+function setElementInert(element: HTMLElement, inert: boolean) {
+  if (isInertable(element)) {
+    element.inert = inert;
+    return;
+  }
+
+  if (inert) {
+    element.setAttribute("inert", "");
+  } else {
+    element.removeAttribute("inert");
+  }
+}
+
 const weeklyHighlights = [
   {
     id: "strategy-sync",
@@ -75,6 +94,7 @@ function HomePagePlannerContent({
 }: HomePagePlannerContentProps) {
   const plannerOverviewProps = useHomePlannerOverview();
   const { hydrated } = plannerOverviewProps;
+  const contentRef = React.useRef<HTMLElement>(null);
 
   const {
     isSplashVisible,
@@ -83,16 +103,41 @@ function HomePagePlannerContent({
     handleSplashExit,
   } = useGlitchLandingSplash(glitchLandingEnabled, hydrated);
 
+  React.useEffect(() => {
+    const content = contentRef.current;
+
+    if (!content) {
+      return;
+    }
+
+    setElementInert(content, isSplashVisible);
+
+    if (isSplashVisible && document.activeElement === content) {
+      (document.activeElement as HTMLElement).blur();
+    }
+
+    return () => {
+      if (!content.isConnected) {
+        return;
+      }
+
+      setElementInert(content, false);
+    };
+  }, [isSplashVisible]);
+
   return (
     <div className={styles.root}>
       {glitchLandingEnabled && isSplashMounted ? (
         <HomeSplash active={isSplashVisible} onExited={handleSplashExit} />
       ) : null}
       <section
+        ref={contentRef}
         tabIndex={-1}
         className={styles.content}
         data-state={isSplashVisible ? "splash" : "ready"}
         aria-hidden={isSplashVisible ? true : undefined}
+        data-inert={isSplashVisible ? "" : undefined}
+        data-home-content=""
       >
         <HomePageBody
           themeVariant={themeVariant}
