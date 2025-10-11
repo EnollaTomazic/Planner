@@ -19,12 +19,24 @@ const { NEXT_PUBLIC_BASE_PATH } = readClientEnv();
 
 const NORMALIZED_BASE = normalizeBasePath(NEXT_PUBLIC_BASE_PATH);
 
+type NextData = {
+  assetPrefix?: string;
+  basePath?: string;
+  runtimeConfig?: {
+    basePath?: string;
+  };
+  config?: {
+    basePath?: string;
+  };
+};
+
 type NextWindow = Window & {
   next?: {
     router?: {
       basePath?: string;
     };
   };
+  __NEXT_DATA__?: NextData;
 };
 
 let cachedRuntimeBasePath: string | undefined;
@@ -56,20 +68,46 @@ function readRuntimeBasePath(): string | null {
     return null;
   }
 
+  const nextWindow = window as NextWindow;
+
   const runtimeRouterBase = normalizeRuntimeBasePath(
-    (window as NextWindow).next?.router?.basePath,
+    nextWindow.next?.router?.basePath,
   );
 
   if (runtimeRouterBase !== null) {
+    cachedRuntimeBasePath = runtimeRouterBase;
     return runtimeRouterBase;
   }
 
   const attributeBase = normalizeRuntimeBasePath(
-    window.document?.documentElement?.getAttribute?.("data-base-path"),
+    nextWindow.document?.documentElement?.getAttribute?.("data-base-path"),
   );
 
   if (attributeBase !== null) {
+    cachedRuntimeBasePath = attributeBase;
     return attributeBase;
+  }
+
+  const nextData = nextWindow.__NEXT_DATA__;
+
+  if (nextData) {
+    const nextDataAssetPrefix = normalizeRuntimeBasePath(nextData.assetPrefix);
+
+    if (nextDataAssetPrefix !== null) {
+      cachedRuntimeBasePath = nextDataAssetPrefix;
+      return nextDataAssetPrefix;
+    }
+
+    const nextDataBasePath = normalizeRuntimeBasePath(
+      nextData.basePath ??
+        nextData.runtimeConfig?.basePath ??
+        nextData.config?.basePath,
+    );
+
+    if (nextDataBasePath !== null) {
+      cachedRuntimeBasePath = nextDataBasePath;
+      return nextDataBasePath;
+    }
   }
 
   return null;
