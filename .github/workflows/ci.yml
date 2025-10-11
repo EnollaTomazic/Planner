@@ -1,7 +1,7 @@
 name: CI
 
 env:
-  PNPM_VERSION: 10.13.1 # Pin pnpm version to keep installs consistent across jobs
+  PNPM_VERSION: 10.18.2 # Pin pnpm version to keep installs consistent across jobs
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
