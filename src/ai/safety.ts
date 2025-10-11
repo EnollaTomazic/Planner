@@ -666,32 +666,84 @@ export interface ModelSafetyResult extends ModelSafetyConfig {
 }
 
 const DEFAULT_TEMPERATURE = 0.7;
+const MIN_TEMPERATURE = 0;
+const MAX_TEMPERATURE = 2;
+const MIN_TOP_P = Number.EPSILON;
+const MAX_TOP_P = 1;
+
+function normalizeTemperature(value: number | undefined): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return DEFAULT_TEMPERATURE;
+  }
+
+  const clamped = Math.min(Math.max(value, MIN_TEMPERATURE), MAX_TEMPERATURE);
+  return Number.isNaN(clamped) ? DEFAULT_TEMPERATURE : clamped;
+}
+
+function normalizeTopP(value: number | undefined): number | undefined {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return undefined;
+  }
+
+  const clamped = Math.min(Math.max(value, MIN_TOP_P), MAX_TOP_P);
+  return Number.isNaN(clamped) ? undefined : clamped;
+}
+
+function normalizeMaxToolCalls(value: number | undefined): number | undefined {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return undefined;
+  }
+
+  const rounded = Math.max(0, Math.trunc(value));
+  return Number.isNaN(rounded) ? undefined : rounded;
+}
+
+function normalizeToolChoice(value: ToolChoiceConfig | undefined): ToolChoiceConfig {
+  const normalizedMode =
+    value?.mode === "auto" || value?.mode === "none" || value?.mode === "required"
+      ? value.mode
+      : "auto";
+  const normalizedMax = normalizeMaxToolCalls(value?.maxToolCalls);
+
+  return {
+    mode: normalizedMode,
+    ...(normalizedMax !== undefined ? { maxToolCalls: normalizedMax } : {}),
+  } satisfies ToolChoiceConfig;
+}
 
 export function applyModelSafety(config: ModelSafetyConfig = {}): ModelSafetyResult {
   const safeMode = isSafeModeEnabled();
-  const incomingTemperature = config.temperature ?? DEFAULT_TEMPERATURE;
-  const incomingToolChoice: ToolChoiceConfig = config.toolChoice ?? { mode: "auto" };
+  const temperature = normalizeTemperature(config.temperature);
+  const topP = normalizeTopP(config.topP);
+  const toolChoiceConfig = normalizeToolChoice(config.toolChoice);
 
-  const temperature = safeMode
-    ? Math.min(incomingTemperature, SAFE_MODE_TEMPERATURE_CEILING)
-    : incomingTemperature;
+  const safeTemperature = safeMode
+    ? Math.min(temperature, SAFE_MODE_TEMPERATURE_CEILING)
+    : temperature;
+
+  const safeToolMax = safeMode
+    ? Math.min(
+        toolChoiceConfig.maxToolCalls ?? SAFE_MODE_MAX_TOOL_CALLS,
+        SAFE_MODE_MAX_TOOL_CALLS,
+      )
+    : toolChoiceConfig.maxToolCalls;
 
   const toolChoice: ToolChoiceConfig = safeMode
     ? {
-        mode: incomingToolChoice.mode === "none" ? "none" : "auto",
-        maxToolCalls: Math.min(
-          incomingToolChoice.maxToolCalls ?? SAFE_MODE_MAX_TOOL_CALLS,
-          SAFE_MODE_MAX_TOOL_CALLS,
-        ),
+        mode: toolChoiceConfig.mode === "none" ? "none" : "auto",
+        ...(safeToolMax !== undefined ? { maxToolCalls: safeToolMax } : {}),
       }
-    : incomingToolChoice;
+    : {
+        mode: toolChoiceConfig.mode,
+        ...(safeToolMax !== undefined ? { maxToolCalls: safeToolMax } : {}),
+      };
 
   return {
-    ...config,
-    temperature,
+    temperature: safeTemperature,
+    ...(topP !== undefined ? { topP } : {}),
     toolChoice,
     safeMode,
-  };
+  } satisfies ModelSafetyResult;
 }
 
 export interface StreamingAbortController {
