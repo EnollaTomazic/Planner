@@ -4,7 +4,7 @@ For repository-wide conventions, automation entry points, and required pre-commi
 
 ## Getting Started
 
-> **Prerequisite:** Install [Node.js](https://nodejs.org) 22 or newer for full support. Older LTS releases may still run, but expect reduced support and additional warnings.
+> **Prerequisite:** Install [Node.js](https://nodejs.org) >=20.15 and <21 (the active Node 20 LTS range) along with pnpm 10.13.1 to match the repository engines. Other releases may still run, but expect reduced support and additional warnings.
 
 Copy `.env.example` to `.env.local` before you start the dev server. The sample file documents every supported variable and now ships with production-safe defaults (safe mode enabled, conservative AI budgets). Update the values to match your repository name, deployment branch, and any API endpoints you integrate, and opt out of safe mode locally only when you understand the implications.
 
