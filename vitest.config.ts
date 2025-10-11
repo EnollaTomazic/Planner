@@ -2,6 +2,7 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
+    environment: "jsdom",
     // Limit vitest to a single worker across all pools to avoid high memory usage
     // during collection/execution of the massive generated fixture set in this repo.
     fileParallelism: false,
