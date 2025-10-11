@@ -6,7 +6,7 @@ For repository-wide conventions, automation entry points, and required pre-commi
 
 > **Prerequisite:** Install [Node.js](https://nodejs.org) 22 or newer for full support. Older LTS releases may still run, but expect reduced support and additional warnings.
 
-Copy `.env.example` to `.env.local` before you start the dev server. The sample file documents every supported variable and provides sensible defaults for local work. Update the values to match your repository name, deployment branch, and any API endpoints you integrate.
+Copy `.env.example` to `.env.local` before you start the dev server. The sample file documents every supported variable and now ships with production-safe defaults (safe mode enabled, conservative AI budgets). Update the values to match your repository name, deployment branch, and any API endpoints you integrate, and opt out of safe mode locally only when you understand the implications.
 
 This project automatically regenerates its UI component export index. The `pnpm run dev` and `pnpm run build` commands run `pnpm run regen-ui` to keep exports in sync, and the `postinstall` script does the same after dependency installs. You can run `pnpm run regen-ui` manually whenever components are added or removed.
 
@@ -81,10 +81,10 @@ The app reads configuration from your shell environment at build time. Use `.env
 | `NEXT_PUBLIC_BASE_PATH` | `""` | Browser-visible base path. Mirror `BASE_PATH` when `GITHUB_PAGES` is `true` to keep runtime navigation and asset fetching in sync. |
 | `NEXT_PUBLIC_ENABLE_METRICS` | `"auto"` | Controls the browser web vitals hook. `auto` only ships metrics in production when a metrics endpoint is configured; set to `true`/`false` to force enable or disable respectively. |
 | `NEXT_PUBLIC_METRICS_ENDPOINT` | `""` | Absolute or relative URL the browser uses for web vitals submissions. Leave empty to disable metrics when hosting static exports without a backend. |
-| `SAFE_MODE` | `false` | Server-side safe mode for AI-assisted tooling. Enable in CI or production when external AI providers should remain isolated from unreleased flows. |
+| `SAFE_MODE` | `true` | Server-side safe mode for AI-assisted tooling. Leave enabled in production to enforce conservative token budgets and guardrails; disable locally when you need unrestricted profiling or debugging. |
 | `AI_MAX_INPUT_LENGTH` | `"16000"` | Default grapheme cap applied when sanitizing prompts. Increase when your provider accepts longer inputs; decrease to enforce tighter limits. |
-| `AI_TOKENS_PER_CHAR` | `"4"` | Heuristic tokens-per-character ratio used when estimating budgets without provider-specific metadata. Tweak to better reflect your model's tokenization. |
-| `NEXT_PUBLIC_SAFE_MODE` | `false` | Client-side mirror of `SAFE_MODE`. Keep the values in sync so browser logic agrees with server enforcement. |
+| `AI_TOKENS_PER_CHAR` | `"3"` | Heuristic tokens-per-character ratio used when estimating budgets without provider-specific metadata. Lowering the ratio to 3 overestimates usage slightly so prompts stay within response limits. |
+| `NEXT_PUBLIC_SAFE_MODE` | `true` | Client-side mirror of `SAFE_MODE`. Keep the values in sync so browser logic agrees with server enforcement. |
 | `NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS` | `true` | Feature flag for SVG numeric filters in the planner UI. Disable if custom deployments hit rendering issues. |
 | `NEXT_PUBLIC_DEPTH_THEME` | `false` | Feature flag enabling additional depth theming. Disable to render the legacy flat palette. |
 | `NEXT_PUBLIC_ORGANIC_DEPTH` | `false` | Experimental organic depth visuals. Pair with `NEXT_PUBLIC_DEPTH_THEME` when exploring the layered look. |
@@ -108,7 +108,12 @@ The app reads configuration from your shell environment at build time. Use `.env
 
 > **Tip:** Keep `.env.local` out of version control. Only `.env.example` belongs in the repository so collaborators and CI pipelines can discover the supported configuration.
 
-> **Note:** The gallery usage generator (`pnpm run build-gallery-usage`) defaults both `SAFE_MODE` and `NEXT_PUBLIC_SAFE_MODE` to `"false"` when they are missing so CI and local automation stay aligned with `.env.example` without extra setup.
+> **Note:** The gallery usage generator (`pnpm run build-gallery-usage`) defaults both `SAFE_MODE` and `NEXT_PUBLIC_SAFE_MODE` to `"true"` when they are missing so CI and local automation stay aligned with `.env.example` without extra setup.
+
+### AI configuration defaults
+
+- Copy `.env.example` to `.env.local` and keep `SAFE_MODE` and `NEXT_PUBLIC_SAFE_MODE` identical. Mismatched values cause the browser to ignore server safeguards (or vice versa) and can lead to inconsistent token budgeting.
+- The stricter `AI_TOKENS_PER_CHAR` default (`3`) intentionally overestimates usage so that long prompts leave enough room for model responses. Raise the value only after validating the provider's tokenizer, or lower it further when integrating models with smaller context windows.
 
 ## AI response validation
 

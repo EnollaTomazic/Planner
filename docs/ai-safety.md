@@ -5,7 +5,7 @@ This document explains how the Planner backend keeps AI interactions within safe
 ## Key Constants and Defaults
 
 - **`AI_MAX_INPUT_LENGTH`** – Controls the maximum number of Unicode grapheme clusters that `sanitizePrompt` will keep from user input. If the environment variable is unset, the code falls back to 16,000 characters. The value is clamped to a positive integer when loaded. 【F:src/ai/safety.ts†L11-L19】【F:src/ai/safety.ts†L168-L188】
-- **`AI_TOKENS_PER_CHAR`** – Used by the default token estimator (`characterCount / tokensPerCharacter`) to approximate how many tokens a message will consume. Accepts fractional values and defaults to 4 when no override is provided. `AI_TOKENS_PER_CHARACTER` is treated as an alias. 【F:src/ai/safety.ts†L20-L26】【F:src/ai/safety.ts†L211-L218】
+- **`AI_TOKENS_PER_CHAR`** – Used by the default token estimator (`characterCount / tokensPerCharacter`) to approximate how many tokens a message will consume. Accepts fractional values and defaults to 3 when no override is provided. `AI_TOKENS_PER_CHARACTER` is treated as an alias. 【F:src/ai/safety.ts†L20-L26】【F:src/ai/safety.ts†L211-L218】
 - **Safe-mode overrides** – When safe mode is active, token budgets and model behaviour are constrained:
   - `SAFE_MODE_TOKEN_CEILING` caps the total request budget at 8,000 tokens. 【F:src/ai/safety.ts†L27-L33】【F:src/ai/safety.ts†L220-L234】
   - `SAFE_MODE_RESPONSE_RESERVE` ensures at least 512 tokens remain for the model response, even if a caller reserved less. 【F:src/ai/safety.ts†L27-L33】【F:src/ai/safety.ts†L220-L234】

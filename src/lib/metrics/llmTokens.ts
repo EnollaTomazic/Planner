@@ -62,6 +62,10 @@ function normalizeTokenCount(value: number): number | null {
     return null;
   }
 
+  if (value < 0) {
+    return null;
+  }
+
   const rounded = Math.round(value);
   return rounded > 0 ? rounded : 0;
 }

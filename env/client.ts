@@ -12,7 +12,7 @@ const safeModeSchema = z
   })
   .trim()
   .min(1, "NEXT_PUBLIC_SAFE_MODE cannot be an empty string.")
-  .default('false');
+  .default('true');
 
 const clientEnvSchema = z
   .object({
@@ -52,7 +52,7 @@ export function loadClientEnv(source?: NodeJS.ProcessEnv): ClientEnv {
       ? (process.env as NodeJS.ProcessEnv)
       : ({} as NodeJS.ProcessEnv));
 
-  const safeMode = envSource.NEXT_PUBLIC_SAFE_MODE ?? 'false';
+  const safeMode = envSource.NEXT_PUBLIC_SAFE_MODE ?? 'true';
 
   return clientEnvSchema.parse({
     NEXT_PUBLIC_BASE_PATH: envSource.NEXT_PUBLIC_BASE_PATH,
