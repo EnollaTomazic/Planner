@@ -69,6 +69,9 @@ import PromptList from "./PromptList";
 import PromptsComposePanel from "./PromptsComposePanel";
 import PromptsDemos from "./PromptsDemos";
 import PromptsHeader from "./PromptsHeader";
+import ChatPromptsTab from "./ChatPromptsTab";
+import CodexPromptsTab from "./CodexPromptsTab";
+import NotesTab from "./NotesTab";
 import SpinnerShowcase from "./SpinnerShowcase";
 import SnackbarShowcase from "./SnackbarShowcase";
 import SkeletonShowcase from "./SkeletonShowcase";
@@ -105,7 +108,7 @@ import {
   ScoreMeter,
 } from "@/components/reviews";
 import type { HeroPlannerHighlight, PlannerOverviewProps } from "@/components/home";
-import type { PromptWithTitle } from "./types";
+import type { Persona, PromptWithTitle } from "./types";
 import type { Review, Role, Pillar } from "@/lib/types";
 import { VARIANTS, defaultTheme } from "@/lib/theme";
 import type { Background, Variant } from "@/lib/theme";
@@ -138,13 +141,30 @@ type LegacySpec = {
 };
 
 const DEMO_TIMESTAMP = Date.UTC(2024, 3, 12, 15, 0, 0);
+const DAY_MS = 86_400_000;
 
 const demoPrompts: PromptWithTitle[] = [
   {
     id: "p1",
-    title: "Demo prompt",
-    text: "",
+    title: "Focus review",
+    text: "Summarize mid-match adjustments and confirm next objectives.",
     createdAt: DEMO_TIMESTAMP,
+  },
+  {
+    id: "p2",
+    title: "Draft opener",
+    text: "Outline first rotation plans and priority bans.",
+    createdAt: DEMO_TIMESTAMP - DAY_MS,
+  },
+];
+
+const demoPersonas: Persona[] = [
+  {
+    id: "persona-shotcaller",
+    name: "Shotcaller",
+    description: "Confident voice for calling objective trades.",
+    prompt: "Speak as a calm shotcaller who highlights rotations and pressure windows.",
+    createdAt: DEMO_TIMESTAMP - DAY_MS,
   },
 ];
 
@@ -1985,6 +2005,53 @@ function PromptListEmptyState() {
   return <PromptList prompts={[]} query="" />;
 }
 
+function ChatPromptsTabDemo() {
+  const [title, setTitle] = React.useState("Post-match sync");
+  const [text, setText] = React.useState(
+    "Capture three improvement areas and who owns the follow-up.",
+  );
+  const query = "focus";
+
+  return (
+    <ChatPromptsTab
+      title={title}
+      text={text}
+      onTitleChange={setTitle}
+      onTextChange={setText}
+      prompts={demoPrompts}
+      query={query}
+      personas={demoPersonas}
+    />
+  );
+}
+
+function CodexPromptsTabDemo() {
+  const [title, setTitle] = React.useState("Patch audit");
+  const [text, setText] = React.useState(
+    "List risky balance changes and mitigation steps before scrims.",
+  );
+  const query = "review";
+
+  return (
+    <CodexPromptsTab
+      title={title}
+      text={text}
+      onTitleChange={setTitle}
+      onTextChange={setText}
+      prompts={demoPrompts}
+      query={query}
+    />
+  );
+}
+
+function NotesTabDemo() {
+  const [notes, setNotes] = React.useState(
+    "Track counter picks and ward timings for tomorrow's block.",
+  );
+
+  return <NotesTab value={notes} onChange={setNotes} />;
+}
+
 function DemoHeaderShowcase() {
   const [role, setRole] = React.useState<Role>("MID");
   const [fruit, setFruit] = React.useState<string>("apple");
@@ -2588,6 +2655,71 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
 </div>`,
         },
       ],
+    },
+    {
+      id: "chat-prompts-tab",
+      name: "ChatPromptsTab",
+      description: "Chat workspace for saving conversational prompts.",
+      element: <ChatPromptsTabDemo />,
+      tags: ["prompts", "chat"],
+      code: `function ChatPromptsTabDemo() {
+  const [title, setTitle] = React.useState("Post-match sync");
+  const [text, setText] = React.useState(
+    "Capture three improvement areas and who owns the follow-up.",
+  );
+  const query = "focus";
+
+  return (
+    <ChatPromptsTab
+      title={title}
+      text={text}
+      onTitleChange={setTitle}
+      onTextChange={setText}
+      prompts={demoPrompts}
+      query={query}
+      personas={demoPersonas}
+    />
+  );
+}`,
+    },
+    {
+      id: "codex-prompts-tab",
+      name: "CodexPromptsTab",
+      description: "Codex checklist tab for patch and review prep.",
+      element: <CodexPromptsTabDemo />,
+      tags: ["prompts", "codex"],
+      code: `function CodexPromptsTabDemo() {
+  const [title, setTitle] = React.useState("Patch audit");
+  const [text, setText] = React.useState(
+    "List risky balance changes and mitigation steps before scrims.",
+  );
+  const query = "review";
+
+  return (
+    <CodexPromptsTab
+      title={title}
+      text={text}
+      onTitleChange={setTitle}
+      onTextChange={setText}
+      prompts={demoPrompts}
+      query={query}
+    />
+  );
+}`,
+    },
+    {
+      id: "notes-tab",
+      name: "NotesTab",
+      description: "Scratchpad panel that auto-saves local prompt ideas.",
+      element: <NotesTabDemo />,
+      tags: ["prompts", "notes"],
+      code: `function NotesTabDemo() {
+  const [notes, setNotes] = React.useState(
+    "Track counter picks and ward timings for tomorrow's block.",
+  );
+
+  return <NotesTab value={notes} onChange={setNotes} />;
+}`,
     },
     {
       id: "prompts-demos",
