@@ -53,7 +53,9 @@ describe('gallery manifest exports', () => {
     expect(typeof moduleManifest?.loader).toBe('function')
     expect(Array.isArray(moduleManifest?.previewIds)).toBe(true)
 
-    const firstKey = Object.keys(galleryPreviewModules)[0]
+    const [firstKey] = Object.keys(
+      galleryPreviewModules,
+    ) as (keyof typeof galleryPreviewModules)[]
     const helperPreviewIds = helperModules[firstKey]?.previewIds
     const exportedPreviewIds = galleryPreviewModules[firstKey]?.previewIds
     expect(helperPreviewIds).toStrictEqual(exportedPreviewIds)
