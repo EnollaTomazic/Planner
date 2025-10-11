@@ -1,6 +1,6 @@
 import loadClientEnv from '../../env/client'
 
-const SAFE_MODE_FALLBACK = 'false'
+const SAFE_MODE_FALLBACK = 'true'
 
 function withSafeModeFallback(): NodeJS.ProcessEnv {
   const envSource =
@@ -30,7 +30,7 @@ function withSafeModeFallback(): NodeJS.ProcessEnv {
 
   if (typeof console !== 'undefined' && typeof console.warn === 'function') {
     console.warn(
-      '[env] NEXT_PUBLIC_SAFE_MODE was missing; defaulting to "false" so the client runtime can continue.'
+      '[env] NEXT_PUBLIC_SAFE_MODE was missing; defaulting to "true" so the client runtime can continue with stricter AI guardrails.'
     )
   }
 

@@ -248,8 +248,15 @@
   --hero-divider-blur: calc(var(--spacing-1) * 1.5);
   --hero-illustration-opacity: 0.84;
   --hero-illustration-blur: calc(var(--space-4) + var(--space-1));
-  --warning-foreground: 0 0% 6%;
-  --success-foreground: 0 0% 6%;
+  --warning-foreground: 0 0% 100%;
+  --success-foreground: 0 0% 100%;
+  --danger-foreground: 0 0% 100%;
+  --state-success-surface: color-mix(in oklab, hsl(var(--success)) 18%, hsl(var(--surface)));
+  --state-success-border: color-mix(in oklab, hsl(var(--success)) 65%, hsl(var(--border)));
+  --state-warning-surface: color-mix(in oklab, hsl(var(--warning)) 20%, hsl(var(--surface)));
+  --state-warning-border: color-mix(in oklab, hsl(var(--warning)) 60%, hsl(var(--border)));
+  --state-danger-surface: color-mix(in oklab, hsl(var(--danger)) 18%, hsl(var(--surface)));
+  --state-danger-border: color-mix(in oklab, hsl(var(--danger)) 62%, hsl(var(--border)));
   --aurora-g-light-color: hsl(var(--aurora-g-light));
   --aurora-p-light-color: hsl(var(--aurora-p-light));
   --elevation0: none;

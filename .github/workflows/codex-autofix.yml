@@ -1,0 +1,189 @@
+name: Codex Autofix
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+jobs:
+  # Triggers Codex to draft automated fixes whenever the CI workflow finishes with a failure.
+  autofix:
+    if: >-
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.head_repository.fork != true
+    name: Run Codex autofix
+    runs-on: ubuntu-latest
+
+    env:
+      TARGET_WORKFLOW: ${{ github.event.workflow_run.name }} # Record the failing workflow name for logging and prompts
+      TARGET_RUN_ID: ${{ github.event.workflow_run.id }} # Reference the failed run when downloading logs
+      TARGET_RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }} # Track retries so prompts mention the correct attempt
+      TARGET_HEAD_SHA: ${{ github.event.workflow_run.head_sha }} # Checkout the exact commit that triggered the failure
+      TARGET_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }} # Use the source branch when opening a follow-up PR
+      TARGET_HTML_URL: ${{ github.event.workflow_run.html_url }} # Link back to the failed run in generated summaries
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+        with:
+          ref: ${{ env.TARGET_HEAD_SHA }}
+          fetch-depth: 0
+
+      - name: Setup Node project
+        uses: ./.github/actions/setup-node-project
+        with:
+          skip-checkout: 'true'
+          cache-prefix: codex-autofix
+          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
+          checkout-ref: ${{ env.TARGET_HEAD_SHA }}
+          node-version-file: .nvmrc
+
+      - name: Install Codex CLI
+        run: npm install -g @openai/codex@latest
+
+      - name: Export OpenAI credentials
+        run: |
+          set -euo pipefail
+          if [ -n "${OPENAI_API_KEY}" ]; then
+            echo "OPENAI_API_KEY=${OPENAI_API_KEY}" >>"$GITHUB_ENV"
+          fi
+          if [ -n "${OPENAI_ORG_ID}" ]; then
+            echo "OPENAI_ORG_ID=${OPENAI_ORG_ID}" >>"$GITHUB_ENV"
+          fi
+          if [ -n "${OPENAI_PROJECT}" ]; then
+            echo "OPENAI_PROJECT=${OPENAI_PROJECT}" >>"$GITHUB_ENV"
+          fi
+          if [ -n "${OPENAI_BASE_URL}" ]; then
+            echo "OPENAI_BASE_URL=${OPENAI_BASE_URL}" >>"$GITHUB_ENV"
+          fi
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} # Provide Codex with API credentials when available
+          OPENAI_ORG_ID: ${{ secrets.OPENAI_ORG_ID }} # Supply optional org ID to target the correct OpenAI org
+          OPENAI_PROJECT: ${{ secrets.OPENAI_PROJECT }} # Pass project context if the account uses project scoping
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }} # Allow custom API base URL for enterprise routing
+
+      - name: Download CI workflow logs
+        id: download_logs
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const runId = process.env.TARGET_RUN_ID;
+            const response = await github.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/logs', {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: runId,
+              request: { responseType: 'arraybuffer' },
+            });
+            const logsPath = path.join(process.env.GITHUB_WORKSPACE, 'codex-logs.zip');
+            fs.writeFileSync(logsPath, Buffer.from(response.data));
+            core.setOutput('zip-path', logsPath);
+
+      - name: Extract workflow logs
+        run: |
+          set -euo pipefail
+          mkdir -p codex-logs/raw
+          unzip -q "${{ steps.download_logs.outputs.zip-path }}" -d codex-logs/raw
+
+      - name: Capture failure context
+        id: collect_logs
+        run: |
+          set -euo pipefail
+          SUMMARY="codex-logs/ci-failure.log"
+          : >"$SUMMARY"
+          while IFS= read -r -d '' file; do
+            printf '===== %s =====\n' "${file#codex-logs/raw/}" >>"$SUMMARY"
+            tail -n 400 "$file" >>"$SUMMARY"
+            printf '\n' >>"$SUMMARY"
+          done < <(find codex-logs/raw -type f -name '*.txt' -print0 | sort -z)
+          tail -n 400 "$SUMMARY" > codex-logs/ci-failure-tail.log
+          echo "log-path=codex-logs/ci-failure-tail.log" >>"$GITHUB_OUTPUT"
+
+      - name: Write Codex prompt
+        run: |
+          cat <<'PROMPT' > codex-autofix-prompt.md
+          You are assisting with an automated CI repair workflow.
+
+          Repository: ${{ github.repository }}
+          Workflow run: ${{ env.TARGET_HTML_URL }}
+          Branch: ${{ env.TARGET_HEAD_BRANCH }}
+          Head SHA: ${{ env.TARGET_HEAD_SHA }}
+
+          Review the CI failure logs saved at codex-logs/ci-failure-tail.log to diagnose why the CI workflow "${{ env.TARGET_WORKFLOW }}" failed.
+
+          Implement the minimal code changes necessary to resolve the failure. Update or add tests as required and ensure formatting and lint rules are satisfied.
+
+          After applying the fix, summarize the root cause and the changes you made so they can be included in the pull request body.
+          PROMPT
+
+      - name: Run Codex
+        id: run_codex
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt-file: codex-autofix-prompt.md
+          output-file: codex-autofix-output.md
+
+      - name: Configure Git author
+        run: |
+          git config user.name "planner-codex-bot"
+          git config user.email "planner-codex-bot@users.noreply.github.com"
+
+      - name: Detect Codex changes
+        id: detect_changes
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "changed=false" >>"$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >>"$GITHUB_OUTPUT"
+          fi
+
+      - name: Create fix branch
+        if: steps.detect_changes.outputs.changed == 'true'
+        run: |
+          git checkout -b codex/autofix/${{ env.TARGET_RUN_ID }}
+
+      - name: Commit Codex changes
+        if: steps.detect_changes.outputs.changed == 'true'
+        run: |
+          git add -A
+          git commit -m "Codex autofix for run ${{ env.TARGET_RUN_ID }}"
+
+      - name: Push fix branch
+        if: steps.detect_changes.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Authenticate pushes back to the repository
+        run: |
+          git push --set-upstream origin codex/autofix/${{ env.TARGET_RUN_ID }}
+
+      - name: Open pull request
+        if: steps.detect_changes.outputs.changed == 'true' && env.TARGET_HEAD_BRANCH != ''
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Codex autofix: Resolve CI failure"
+          body: |
+            Codex attempted to fix the CI failure detected in [workflow run ${{ env.TARGET_RUN_ID }}](${{ env.TARGET_HTML_URL }}).
+
+            - Workflow: `${{ env.TARGET_WORKFLOW }}` (attempt ${{ env.TARGET_RUN_ATTEMPT }})
+            - Head SHA: `${{ env.TARGET_HEAD_SHA }}`
+
+            ## Codex summary
+            ${{ steps.run_codex.outputs['final-message'] || 'Codex did not return a summary.' }}
+
+            > Logs reviewed: `codex-logs/ci-failure-tail.log`
+          head: codex/autofix/${{ env.TARGET_RUN_ID }}
+          base: ${{ env.TARGET_HEAD_BRANCH }}
+
+      - name: No changes detected
+        if: steps.detect_changes.outputs.changed != 'true'
+        run: echo "Codex did not make any changes."

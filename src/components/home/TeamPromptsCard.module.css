@@ -1,9 +1,144 @@
-.promptsOverlay {
-  --seg-active-grad: linear-gradient(
-    90deg,
-    hsl(var(--primary-soft) / 0.45),
-    hsl(var(--accent-soft) / 0.45),
-    hsl(var(--accent-2) / 0.4)
-  );
-  background: var(--seg-active-grad);
+.root {
+  row-gap: var(--space-4);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.stack {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.suggestion {
+  position: relative;
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: calc(var(--radius-lg) * 1.05);
+  border: var(--hairline-w) solid hsl(var(--card-hairline) / 0.45);
+  background: hsl(var(--surface) / 0.85);
+  box-shadow:
+    inset 0 0 0 calc(var(--hairline-w) * 1.2) hsl(var(--card-hairline) / 0.4),
+    0 var(--spacing-1) var(--spacing-3) hsl(var(--shadow-color) / 0.22);
+}
+
+.suggestionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  background: hsl(var(--state-success-surface));
+  border: var(--hairline-w) solid hsl(var(--state-success-border));
+  color: hsl(var(--success-foreground));
+  font-size: var(--font-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.draft .statusChip {
+  background: hsl(var(--state-success-surface));
+  border-color: hsl(var(--state-success-border));
+}
+
+.loading .statusChip {
+  background: hsl(var(--state-warning-surface));
+  border-color: hsl(var(--state-warning-border));
+  color: hsl(var(--warning-foreground));
+}
+
+.error .statusChip {
+  background: hsl(var(--state-danger-surface));
+  border-color: hsl(var(--state-danger-border));
+  color: hsl(var(--danger-foreground));
+}
+
+.empty .statusChip {
+  background: hsl(var(--surface-2) / 0.6);
+  border-color: hsl(var(--card-hairline) / 0.4);
+  color: hsl(var(--muted-foreground));
+}
+
+.confidence {
+  font-size: var(--font-label);
+  color: hsl(var(--muted-foreground));
+}
+
+.body {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.title {
+  font-size: var(--font-ui);
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+.summary {
+  font-size: var(--font-label);
+  color: hsl(var(--muted-foreground));
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.loadingBar {
+  width: 100%;
+  height: var(--space-2);
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, hsl(var(--accent-2) / 0.35), hsl(var(--accent) / 0.4));
+  overflow: hidden;
+  position: relative;
+}
+
+.loadingBar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, hsl(var(--accent-2)) 50%, transparent);
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.loading {
+  background: hsl(var(--surface) / 0.75);
+}
+
+.error {
+  background: hsl(var(--state-danger-surface));
+  border-color: hsl(var(--state-danger-border));
+  color: hsl(var(--danger-foreground));
+}
+
+.error .title,
+.error .summary {
+  color: currentColor;
+}
+
+.empty {
+  border-style: dashed;
+  background: hsl(var(--surface) / 0.65);
 }

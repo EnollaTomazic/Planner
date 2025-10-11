@@ -3,8 +3,6 @@
    Depends on tokens/utilities in src/app/globals.css.
    Avoids redefining global shells/rails/pills.
 */
-@reference "tailwindcss/utilities";
-
 /* ============ Page header tweaks ============ */
 .planner-header__hero {
   --planner-header-hero-offset: calc(var(--space-5) - var(--space-5));

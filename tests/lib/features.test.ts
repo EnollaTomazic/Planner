@@ -15,7 +15,7 @@ type MockedClientEnv = {
 };
 
 const baseEnv: MockedClientEnv = {
-  NEXT_PUBLIC_SAFE_MODE: "false",
+  NEXT_PUBLIC_SAFE_MODE: "true",
 };
 
 function mockClientEnv(overrides: Partial<MockedClientEnv>): void {
