@@ -76,6 +76,12 @@ const eslintConfig = [
       "max-statements": "off",
     },
   },
+  {
+    files: ["types/**/*.d.ts"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "error",
+    },
+  },
 ];
 
 
