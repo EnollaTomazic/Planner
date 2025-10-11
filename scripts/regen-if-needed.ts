@@ -26,6 +26,10 @@ const galleryManifestFile = path.join(
   rootDir,
   "src/components/gallery/generated-manifest.g.ts",
 );
+const galleryManifestPayloadFile = path.join(
+  rootDir,
+  "src/components/gallery/generated-manifest.ts",
+);
 
 const galleryUsageCommand = "pnpm run build-gallery-usage";
 
@@ -54,10 +58,12 @@ type ManifestEntry = { mtimeMs: number };
 type Manifest = Record<string, ManifestEntry>;
 
 class GalleryManifestRawJsonError extends Error {
-  constructor() {
-    super(
-      `Gallery manifest entrypoint appears to contain raw JSON. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.g.ts.`,
-    );
+  constructor(target: "entrypoint" | "payload") {
+    const message =
+      target === "payload"
+        ? `Gallery manifest payload appears to contain raw JSON. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.ts.`
+        : `Gallery manifest entrypoint appears to contain raw JSON. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.g.ts.`;
+    super(message);
     this.name = "GalleryManifestRawJsonError";
   }
 }
@@ -268,18 +274,34 @@ const isCiEnvironment = (() => {
   return value !== "false" && value !== "0";
 })();
 
-async function validateGalleryManifest(): Promise<void> {
-  let contents: string;
+async function readRequiredFile(
+  filePath: string,
+  missingMessage: string,
+): Promise<string> {
   try {
-    contents = await fs.readFile(galleryManifestFile, "utf8");
+    return await fs.readFile(filePath, "utf8");
   } catch {
-    throw new Error(
-      `Missing gallery manifest. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.g.ts.`,
-    );
+    throw new Error(missingMessage);
+  }
+}
+
+async function validateGalleryManifest(): Promise<void> {
+  const entrypointContents = await readRequiredFile(
+    galleryManifestFile,
+    `Missing gallery manifest. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.g.ts.`,
+  );
+
+  if (isLikelyRawJson(entrypointContents)) {
+    throw new GalleryManifestRawJsonError("entrypoint");
   }
 
-  if (isLikelyRawJson(contents)) {
-    throw new GalleryManifestRawJsonError();
+  const payloadContents = await readRequiredFile(
+    galleryManifestPayloadFile,
+    `Missing gallery manifest payload. Run \`${galleryUsageCommand}\` to regenerate src/components/gallery/generated-manifest.ts.`,
+  );
+
+  if (isLikelyRawJson(payloadContents)) {
+    throw new GalleryManifestRawJsonError("payload");
   }
 
   const requiredSnippets = [
@@ -290,7 +312,7 @@ async function validateGalleryManifest(): Promise<void> {
     "export default manifest",
   ];
   const missingSnippets = requiredSnippets.filter(
-    (snippet) => !contents.includes(snippet),
+    (snippet) => !entrypointContents.includes(snippet),
   );
 
   if (missingSnippets.length > 0) {
