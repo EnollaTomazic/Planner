@@ -8,23 +8,17 @@
  */
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
-import { cn, withoutBasePath } from "@/lib/utils";
-import {
-  NAV_ITEMS,
-  PRIMARY_NAV_LABEL,
-  NavItem,
-  isNavActive,
-} from "@/config/nav";
+import { cn } from "@/lib/utils";
+import { NAV_ITEMS, PRIMARY_NAV_LABEL, NavItem } from "@/config/nav";
+import { useNavActivity } from "./useNavActivity";
 
 type NavBarProps = {
   items?: readonly NavItem[];
 };
 
 export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
-  const rawPath = usePathname() ?? "/";
-  const path = withoutBasePath(rawPath);
+  const { isActive } = useNavActivity();
   const reduceMotion = useReducedMotion();
   return (
     <nav
@@ -34,7 +28,7 @@ export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
     >
       <ul className="flex list-none flex-nowrap items-center justify-center gap-[var(--space-1)] md:gap-[var(--space-2)]">
         {items.map(({ href, label, mobileIcon: Icon }) => {
-          const active = isNavActive(path, href);
+          const active = isActive(href);
 
           return (
             <li key={href} className="relative">
