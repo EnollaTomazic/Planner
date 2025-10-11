@@ -648,7 +648,7 @@ jobs:
 
       - name: Refresh gallery usage manifest
         env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
+          TSX_TEMPDIR: node_modules/.cache/tsx # Share the tsx cache directory with other jobs to prevent rebuild churn
         run: pnpm run build-gallery-usage
 
       - name: Install Playwright browsers

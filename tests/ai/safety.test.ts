@@ -33,6 +33,7 @@ afterEach(() => {
   delete process.env.AI_TOKENS_PER_CHAR;
   delete process.env.AI_TOKENS_PER_CHARACTER;
   delete process.env.SAFE_MODE;
+  delete process.env.SAFE_MODE_TOKEN_CEILING;
   resetLlmTokenUsage();
 });
 
@@ -114,6 +115,14 @@ describe("sanitizePrompt", () => {
     const raw = "Safe";
     expect(sanitizePromptInput(raw)).toBe("Safe");
   });
+
+  it("honors runtime max length overrides via environment variables", () => {
+    process.env.AI_MAX_INPUT_LENGTH = "20";
+
+    const sanitized = sanitizePrompt("a".repeat(50));
+
+    expect(Array.from(sanitized)).toHaveLength(20);
+  });
 });
 
 const tokenBudgetContentSchema = z.object({
@@ -162,6 +171,7 @@ describe("capTokens", () => {
   });
 
   it("does not lower the ceiling when server safe mode is disabled", async () => {
+    process.env.SAFE_MODE_TOKEN_CEILING = "256";
     const features = await getFeaturesModule();
     const safeModeSpy = vi.spyOn(features, "isSafeModeEnabled");
     safeModeSpy.mockReturnValue(true);
@@ -174,6 +184,26 @@ describe("capTokens", () => {
     expect(result.availableTokens).toBe(9_000);
     expect(result.totalTokens).toBe(1_000);
     expect(result.messages).toEqual([{ content: "prompt" }]);
+
+    safeModeSpy.mockRestore();
+  });
+
+  it("applies the safe mode token ceiling when explicitly enabled", async () => {
+    process.env.SAFE_MODE = "true";
+    process.env.SAFE_MODE_TOKEN_CEILING = "256";
+
+    const features = await getFeaturesModule();
+    const safeModeSpy = vi.spyOn(features, "isSafeModeEnabled");
+    safeModeSpy.mockReturnValue(true);
+
+    const result = enforceTokenBudget(
+      tokenBudgetContentSchema.array().parse([{ content: "prompt" }]),
+      { maxTokens: 1_000, reservedForResponse: 0, estimateTokens: () => 100 },
+    );
+
+    expect(result.availableTokens).toBe(0);
+    expect(result.totalTokens).toBe(0);
+    expect(result.removedCount).toBe(1);
 
     safeModeSpy.mockRestore();
   });
@@ -241,18 +271,15 @@ describe("capTokens", () => {
     expect(result.totalTokens).toBe(0);
   });
 
-  it("honors environment overrides for default estimators", async () => {
+  it("honors environment overrides for default estimators", () => {
     process.env.AI_MAX_INPUT_LENGTH = "32";
     process.env.AI_TOKENS_PER_CHAR = "2";
 
-    vi.resetModules();
-    const safety = await import("@/ai/safety");
-
     const payload = z.object({ prompt: z.string() }).parse({ prompt: "a".repeat(50) });
-    const sanitized = safety.sanitizePrompt(payload.prompt);
+    const sanitized = sanitizePrompt(payload.prompt);
     expect(Array.from(sanitized)).toHaveLength(32);
 
-    const result = safety.enforceTokenBudget(
+    const result = enforceTokenBudget(
       tokenBudgetContentSchema.array().parse([{ content: "abcdefghij" }]),
       { maxTokens: 10, reservedForResponse: 0 },
     );
@@ -318,6 +345,7 @@ describe("guardResponse", () => {
       expect(result.error.issues).toEqual([
         expect.objectContaining({
           path: ["id"],
+          pathText: "id",
           message: "Required",
           code: "invalid_type",
         }),
@@ -351,14 +379,37 @@ describe("guardResponse", () => {
         expect.arrayContaining([
           expect.objectContaining({
             path: ["meta", "status"],
+            pathText: "meta.status",
             message: expect.stringContaining("\"ok\""),
           }),
           expect.objectContaining({
             path: ["meta", "payload", "id"],
+            pathText: "meta.payload.id",
             message: expect.stringContaining("string"),
           }),
         ]),
       );
+    }
+  });
+
+  it("wraps unexpected validation exceptions with root issue metadata", () => {
+    const schema = z.string().transform(() => {
+      throw new Error("boom");
+    });
+
+    const result = guardResponse("value", schema, { label: "transform" });
+
+    expect(result.success).toBe(false);
+
+    if (!result.success) {
+      expect(result.error.label).toBe("transform");
+      expect(result.error.issues).toEqual([
+        {
+          path: [],
+          pathText: "<root>",
+          message: "boom",
+        },
+      ]);
     }
   });
 
