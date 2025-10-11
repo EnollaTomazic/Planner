@@ -15,7 +15,7 @@ import type {
 } from "../src/components/gallery/registry";
 import type { Background, Variant } from "../src/lib/theme";
 
-const SAFE_MODE_DEFAULT = "false";
+const SAFE_MODE_DEFAULT = "true";
 
 function ensureSafeModeEnv(): void {
   const nextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;

@@ -38,7 +38,7 @@ const glitchLandingRaw =
     ? rawFeatureGlitchLanding
     : rawLegacyGlitchLanding;
 const glitchLandingEnabled = parseBooleanFlag(glitchLandingRaw, true);
-const safeModeEnabled = parseBooleanFlag(rawSafeMode, false);
+const safeModeEnabled = parseBooleanFlag(rawSafeMode, true);
 
 export function isSafeModeEnabled(): boolean {
   return safeModeEnabled;

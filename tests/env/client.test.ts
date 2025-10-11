@@ -5,12 +5,12 @@ import loadClientEnvDefault, { loadClientEnv } from "../../env/client";
 import { readClientEnv } from "../../src/lib/load-client-env";
 
 describe("loadClientEnv", () => {
-  it("defaults NEXT_PUBLIC_SAFE_MODE to 'false' when missing", () => {
+  it("defaults NEXT_PUBLIC_SAFE_MODE to 'true' when missing", () => {
     const env = loadClientEnv({
       NEXT_PUBLIC_BASE_PATH: "/planner",
     } as unknown as NodeJS.ProcessEnv);
 
-    expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
+    expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("true");
   });
 
   it("throws when NEXT_PUBLIC_SENTRY_ENVIRONMENT is provided without a DSN", () => {
@@ -67,9 +67,9 @@ describe("loadClientEnv", () => {
     try {
       const env = readClientEnv();
 
-      expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
-      expect(process.env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
-      expect(process.env.SAFE_MODE).toBe("false");
+      expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("true");
+      expect(process.env.NEXT_PUBLIC_SAFE_MODE).toBe("true");
+      expect(process.env.SAFE_MODE).toBe("true");
       expect(warn).toHaveBeenCalledWith(
         expect.stringContaining("NEXT_PUBLIC_SAFE_MODE was missing"),
       );
@@ -98,7 +98,7 @@ describe("loadClientEnv", () => {
     try {
       const env = readClientEnv();
 
-      expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
+      expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("true");
       expect(error).not.toHaveBeenCalled();
       expect(warn).toHaveBeenCalledWith(
         expect.stringContaining("NEXT_PUBLIC_SAFE_MODE was missing"),

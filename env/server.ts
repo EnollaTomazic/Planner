@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const SAFE_MODE_FALLBACK = "false";
+const SAFE_MODE_FALLBACK = "true";
 
 const optionalNonEmptyString = z
   .string()
@@ -67,7 +67,7 @@ function withSafeModeFallback(source: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
 
   if (typeof console !== "undefined" && typeof console.warn === "function") {
     console.warn(
-      '[env] SAFE_MODE was missing; defaulting to "false" so the server runtime can continue.'
+      '[env] SAFE_MODE was missing; defaulting to "true" so the server runtime can continue with stricter AI guardrails.'
     );
   }
 
