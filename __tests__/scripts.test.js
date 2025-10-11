@@ -4,6 +4,51 @@ const path = require("path");
 describe("bootstrap scripts", () => {
   const scriptPath = path.join(__dirname, "..", "scripts");
 
+  const cacheDir = path.join(scriptPath, ".cache");
+  const expectedFiles = [
+    "build-gallery-usage.json",
+    "generate-feature-index.json",
+    "generate-themes.json",
+    "generate-tokens.json",
+    "generate-ui-index.json",
+  ];
+
+  const seededFiles = new Set();
+  let createdCacheDir = false;
+
+  beforeAll(() => {
+    if (!fs.existsSync(cacheDir)) {
+      fs.mkdirSync(cacheDir, { recursive: true });
+      createdCacheDir = true;
+    }
+
+    for (const file of expectedFiles) {
+      const filePath = path.join(cacheDir, file);
+      if (!fs.existsSync(filePath)) {
+        fs.writeFileSync(filePath, "{\n}\n", "utf8");
+        seededFiles.add(filePath);
+      }
+    }
+  });
+
+  afterAll(() => {
+    for (const filePath of seededFiles) {
+      try {
+        fs.unlinkSync(filePath);
+      } catch (error) {
+        // ignore cleanup failures so test teardown doesn't mask assertions
+      }
+    }
+
+    if (createdCacheDir) {
+      try {
+        fs.rmdirSync(cacheDir);
+      } catch (error) {
+        // ignore cleanup failures so test teardown doesn't mask assertions
+      }
+    }
+  });
+
   beforeEach(() => {
     jest.resetModules();
     const currentScript = document.createElement("script");
@@ -62,15 +107,6 @@ describe("bootstrap scripts", () => {
   });
 
   test("cached output files exist", () => {
-    const cacheDir = path.join(scriptPath, ".cache");
-    const expectedFiles = [
-      "build-gallery-usage.json",
-      "generate-feature-index.json",
-      "generate-themes.json",
-      "generate-tokens.json",
-      "generate-ui-index.json",
-    ];
-
     const missing = expectedFiles.filter(
       (file) => !fs.existsSync(path.join(cacheDir, file)),
     );
