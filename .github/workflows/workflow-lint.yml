@@ -25,6 +25,7 @@ permissions:
   contents: read
 
 jobs:
+  # Lints workflow files to keep automation definitions consistent and valid.
   lint:
     runs-on: ubuntu-latest
     permissions:
