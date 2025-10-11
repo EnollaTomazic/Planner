@@ -1,7 +1,5 @@
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
 
-import { resetLlmTokenUsage } from "@/lib/metrics/llmTokens";
-
 const ORIGINAL_ENV = { ...process.env };
 
 function setSafeMode(server: string, client: string) {
@@ -13,21 +11,28 @@ async function loadAgent() {
   return import("@/lib/assistant/plannerAgent");
 }
 
-beforeEach(() => {
-  resetLlmTokenUsage();
+beforeEach(async () => {
+  const metrics = await import("@/lib/metrics/llmTokens");
+  metrics.resetLlmTokenUsage();
 });
 
-afterEach(() => {
+afterEach(async () => {
   vi.resetModules();
   Object.assign(process.env, ORIGINAL_ENV);
-  resetLlmTokenUsage();
+  const metrics = await import("@/lib/metrics/llmTokens");
+  metrics.resetLlmTokenUsage();
 });
 
 describe("planWithAssistant", () => {
   it("generates planner suggestions and records token usage", async () => {
     setSafeMode("false", "false");
     vi.resetModules();
+    const metrics = await import("@/lib/metrics/llmTokens");
+    metrics.resetLlmTokenUsage();
     const { planWithAssistant } = await loadAgent();
+
+    const initialSummary = metrics.getLlmTokenUsageSummary();
+    expect(initialSummary.totalTokens).toBe(0);
 
     const plan = planWithAssistant({
       prompt: "Plan sprint review on Friday at 10am",
@@ -39,6 +44,21 @@ describe("planWithAssistant", () => {
     expect(plan.safety.safeMode).toBe(false);
 
     expect(plan.tokenBudget.totalTokens).toBeGreaterThan(0);
+
+    const firstSummary = metrics.getLlmTokenUsageSummary();
+    expect(firstSummary.totalTokens).toBe(plan.tokenBudget.totalTokens);
+    expect(metrics.getLlmTokenUsageSummary().totalTokens).toBe(
+      firstSummary.totalTokens,
+    );
+
+    const nextPlan = planWithAssistant({
+      prompt: "Schedule retro on Monday at 2pm",
+    });
+
+    expect(nextPlan.tokenBudget.totalTokens).toBeGreaterThan(0);
+
+    const secondSummary = metrics.getLlmTokenUsageSummary();
+    expect(secondSummary.totalTokens).toBe(nextPlan.tokenBudget.totalTokens);
   });
 
   it("limits suggestions when safe mode is active", async () => {
