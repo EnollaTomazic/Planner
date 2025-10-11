@@ -2,6 +2,8 @@
 
 import * as React from "react";
 
+import { observeMediaQuery } from "@/lib/react";
+
 function detectCoarsePointer() {
   if (typeof window === "undefined") {
     return false;
@@ -45,30 +47,9 @@ export function useCoarsePointer() {
 
     setIsCoarse(detectCoarsePointer());
 
-    if (typeof window.matchMedia !== "function") {
-      return;
-    }
-
-    const media = window.matchMedia("(hover: none)");
-    const handleChange = (event: MediaQueryListEvent) => {
-      setIsCoarse(event.matches || detectCoarsePointer());
-    };
-
-    if (typeof media.addEventListener === "function") {
-      media.addEventListener("change", handleChange);
-      return () => {
-        media.removeEventListener("change", handleChange);
-      };
-    }
-
-    if (typeof media.addListener === "function") {
-      media.addListener(handleChange);
-      return () => {
-        media.removeListener(handleChange);
-      };
-    }
-
-    return;
+    return observeMediaQuery("(hover: none)", (matches) => {
+      setIsCoarse(matches || detectCoarsePointer());
+    });
   }, []);
 
   return isCoarse;
