@@ -30,11 +30,15 @@ import { GITHUB_PAGES_BOOTSTRAP_SCRIPT_PATH } from "@/lib/github-pages";
 import {
   createContentSecurityPolicy,
   defaultSecurityPolicyOptions,
+  sanitizeContentSecurityPolicyForMeta,
 } from "../../security-headers.mjs";
 import AppErrorBoundary from "./AppErrorBoundary";
 
 const contentSecurityPolicy = createContentSecurityPolicy(
   defaultSecurityPolicyOptions,
+);
+const metaContentSecurityPolicy = sanitizeContentSecurityPolicyForMeta(
+  contentSecurityPolicy,
 );
 
 export const metadata: Metadata = {
@@ -100,7 +104,7 @@ export default async function RootLayout({
       <head>
         <meta
           httpEquiv="Content-Security-Policy"
-          content={contentSecurityPolicy}
+          content={metaContentSecurityPolicy}
         />
         <meta name="color-scheme" content="dark light" />
         <style

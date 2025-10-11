@@ -12,6 +12,9 @@ export declare const baseSecurityHeaders: ReadonlyArray<SecurityHeader>;
 export declare const createContentSecurityPolicy: (
   options?: SecurityPolicyOptions,
 ) => string;
+export declare const sanitizeContentSecurityPolicyForMeta: (
+  policy: string,
+) => string;
 export declare const createSecurityHeaders: (
   options?: SecurityPolicyOptions,
 ) => ReadonlyArray<SecurityHeader>;
