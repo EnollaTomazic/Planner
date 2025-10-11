@@ -3,11 +3,42 @@ import { act, renderHook, waitFor } from "@testing-library/react";
 import * as React from "react";
 import type { FormEvent, ReactNode } from "react";
 
-import {
-  PlannerProvider,
-  useTodayHeroTasks,
-  type DayTask,
-} from "@/components/planner";
+import { useTodayHeroTasks, type DayTask } from "@/components/planner";
+
+vi.mock("@/components/planner/usePlannerStore", async () => {
+  const actual = await vi.importActual<
+    typeof import("@/components/planner/usePlannerStore")
+  >("@/components/planner/usePlannerStore");
+
+  let projectCounter = 0;
+  let taskCounter = 0;
+
+  type PlannerActions = ReturnType<typeof actual.usePlannerActions>;
+
+  const actions: PlannerActions = {
+    createProject: ({ iso, name, select }) => {
+      if (!iso) return undefined;
+      const trimmed = name.trim();
+      if (!trimmed) return undefined;
+      const id = `proj-${(projectCounter += 1).toString().padStart(2, "0")}`;
+      select?.(id);
+      return id;
+    },
+    createTask: ({ iso, projectId, title, select }) => {
+      if (!iso || !projectId) return undefined;
+      const trimmed = title.trim();
+      if (!trimmed) return undefined;
+      const id = `task-${(taskCounter += 1).toString().padStart(2, "0")}`;
+      select?.(id);
+      return id;
+    },
+  } satisfies PlannerActions;
+
+  return {
+    ...actual,
+    usePlannerActions: () => actions,
+  };
+});
 
 const PREVIEW_LIMIT = 12;
 
@@ -63,9 +94,7 @@ function createFormEvent(fieldName: string, value: string) {
 
 const iso = "2024-05-02";
 
-const wrapper = ({ children }: { children: ReactNode }) => (
-  <PlannerProvider>{children}</PlannerProvider>
-);
+const wrapper = ({ children }: { children: ReactNode }) => <>{children}</>;
 
 describe("useTodayHeroTasks", () => {
   it("collapses previews and expands when toggled", async () => {
