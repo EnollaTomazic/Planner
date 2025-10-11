@@ -340,6 +340,7 @@ export function usePersistentState<T>(
   const initialRef = React.useRef(initial);
   const stateRef = React.useRef(state);
   const stateRevisionRef = React.useRef(0);
+  const lastAppliedInitialSignatureRef = React.useRef<string | null>(null);
   React.useEffect(() => {
     stateRef.current = state;
     stateRevisionRef.current += 1;
@@ -357,6 +358,19 @@ export function usePersistentState<T>(
   React.useEffect(() => {
     encodeRef.current = options?.encode ?? null;
   }, [options?.encode]);
+
+  const computeSignature = React.useCallback(
+    (value: T): string | null => {
+      try {
+        const encode = encodeRef.current;
+        const encoded = encode ? encode(value) : value;
+        return stringifyWithBinary(encoded);
+      } catch {
+        return null;
+      }
+    },
+    [],
+  );
 
   const decodeValue = React.useCallback(
     (value: unknown): T | null => {
@@ -412,9 +426,27 @@ export function usePersistentState<T>(
     const initialChanged = !Object.is(initialRef.current, initial);
     if (initialChanged) {
       initialRef.current = initial;
-      const stateMatchesAppliedInitial =
+      let stateMatchesAppliedInitial =
         previousAppliedInitial !== null &&
         Object.is(stateRef.current, previousAppliedInitial);
+      if (!stateMatchesAppliedInitial) {
+        const referenceSignature =
+          previousAppliedInitial !== null
+            ? computeSignature(previousAppliedInitial)
+            : lastAppliedInitialSignatureRef.current;
+        if (previousAppliedInitial !== null) {
+          lastAppliedInitialSignatureRef.current = referenceSignature;
+        }
+        if (referenceSignature !== null) {
+          const currentSignature = computeSignature(stateRef.current);
+          if (
+            currentSignature !== null &&
+            currentSignature === referenceSignature
+          ) {
+            stateMatchesAppliedInitial = true;
+          }
+        }
+      }
       if (
         pendingInitialResetKeyRef.current !== null ||
         stateMatchesAppliedInitial
@@ -434,9 +466,10 @@ export function usePersistentState<T>(
         ignoreNextStorageHydrationRef.current = true;
       }
       lastAppliedInitialRef.current = nextInitial;
+      lastAppliedInitialSignatureRef.current = computeSignature(nextInitial);
       pendingInitialResetKeyRef.current = null;
     }
-  }, [initial, key]);
+  }, [initial, key, computeSignature]);
 
   React.useEffect(() => {
     if (!isBrowser) return;
@@ -526,14 +559,28 @@ export function usePersistentState<T>(
 
       if (shouldUpdateState) {
         setState(nextState);
-        if (Object.is(nextState, initialRef.current)) {
+        const initialMatches =
+          Object.is(nextState, initialRef.current) ||
+          (() => {
+            const nextSignature = computeSignature(nextState);
+            if (nextSignature === null) return false;
+            const initialSignature = computeSignature(initialRef.current);
+            return (
+              initialSignature !== null && nextSignature === initialSignature
+            );
+          })();
+        if (initialMatches) {
           lastAppliedInitialRef.current = initialRef.current;
+          lastAppliedInitialSignatureRef.current = computeSignature(
+            initialRef.current,
+          );
         } else {
           lastAppliedInitialRef.current = null;
+          lastAppliedInitialSignatureRef.current = null;
         }
       }
     }
-  }, [key, decodeValue, encodeValue, renderRevision]);
+  }, [key, decodeValue, encodeValue, renderRevision, computeSignature]);
 
   const handleExternal = React.useCallback(
     (raw: string | null) => {
@@ -543,6 +590,9 @@ export function usePersistentState<T>(
         if (!Object.is(stateRef.current, initialRef.current))
           setState(initialRef.current);
         lastAppliedInitialRef.current = initialRef.current;
+        lastAppliedInitialSignatureRef.current = computeSignature(
+          initialRef.current,
+        );
         return;
       }
       const parsed = parseJSON<unknown>(raw);
@@ -552,14 +602,18 @@ export function usePersistentState<T>(
         pendingInitialResetKeyRef.current = null;
         if (!Object.is(stateRef.current, decoded)) setState(decoded);
         lastAppliedInitialRef.current = null;
+        lastAppliedInitialSignatureRef.current = null;
         return;
       }
       pendingInitialResetKeyRef.current = key;
       if (!Object.is(stateRef.current, initialRef.current))
         setState(initialRef.current);
       lastAppliedInitialRef.current = initialRef.current;
+      lastAppliedInitialSignatureRef.current = computeSignature(
+        initialRef.current,
+      );
     },
-    [decodeValue, key],
+    [decodeValue, key, computeSignature],
   );
 
   useStorageSync(key, handleExternal);
@@ -568,6 +622,7 @@ export function usePersistentState<T>(
     (value: React.SetStateAction<T>) => {
       pendingInitialResetKeyRef.current = null;
       lastAppliedInitialRef.current = null;
+      lastAppliedInitialSignatureRef.current = null;
       setState(value);
     },
     [setState],
