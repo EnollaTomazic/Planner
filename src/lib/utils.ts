@@ -48,16 +48,20 @@ function normalizeRuntimeBasePath(
     return null;
   }
 
-  const normalized = normalizeBasePath(candidate);
-
-  if (normalized.length > 0) {
-    return normalized;
-  }
-
   const trimmed = candidate.trim();
 
   if (trimmed.length === 0 || trimmed === "/") {
     return "";
+  }
+
+  if (isAbsoluteUrl(trimmed)) {
+    return null;
+  }
+
+  const normalized = normalizeBasePath(trimmed);
+
+  if (normalized.length > 0) {
+    return normalized;
   }
 
   return null;

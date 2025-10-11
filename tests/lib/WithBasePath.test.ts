@@ -94,6 +94,28 @@ describe("WithBasePath", () => {
     );
   });
 
+  it("ignores absolute asset prefixes from Next.js runtime data", async () => {
+    delete process.env.NEXT_PUBLIC_BASE_PATH;
+    vi.resetModules();
+
+    vi.stubGlobal("window", {
+      __NEXT_DATA__: {
+        assetPrefix: "https://cdn.example.com/static",
+      },
+      document: {
+        documentElement: {
+          getAttribute: vi.fn().mockReturnValue(null),
+        },
+      },
+    } as unknown as Window);
+
+    const { withBasePath } = await importBasePathUtils();
+
+    expect(withBasePath("/scripts/github-pages-bootstrap.js")).toBe(
+      "/scripts/github-pages-bootstrap.js",
+    );
+  });
+
   it("keeps hash anchors untouched regardless of base path", async () => {
     delete process.env.NEXT_PUBLIC_BASE_PATH;
     vi.resetModules();
