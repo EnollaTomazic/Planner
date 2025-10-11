@@ -55,7 +55,7 @@ export function useTodayHeroTasks({
   toggleTask,
   setSelectedTaskId,
 }: UseTodayHeroTasksParams): UseTodayHeroTasksResult {
-  const [showAllTasks, setShowAllTasks] = useState(false);
+  const [showAllTasksState, setShowAllTasksState] = useState(false);
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editingTaskText, setEditingTaskText] = useState("");
   const [taskAnnouncement, setTaskAnnouncement] = useState<TodayHeroTaskAnnouncement>({
@@ -80,6 +80,8 @@ export function useTodayHeroTasks({
   );
 
   const totalTaskCount = scopedTasks.length;
+
+  const showAllTasks = showAllTasksState && totalTaskCount > TASK_PREVIEW_LIMIT;
 
   const visibleTasks = useMemo(
     () =>
@@ -180,18 +182,22 @@ export function useTodayHeroTasks({
   }, []);
 
   const toggleShowAllTasks = useCallback(() => {
-    setShowAllTasks((prev) => !prev);
-  }, []);
+    if (!shouldShowTaskToggle) {
+      setShowAllTasksState(false);
+      return;
+    }
+    setShowAllTasksState((prev) => !prev);
+  }, [shouldShowTaskToggle]);
 
   useEffect(() => {
-    setShowAllTasks(false);
+    setShowAllTasksState(false);
   }, [projectId]);
 
   useEffect(() => {
-    if (showAllTasks && totalTaskCount <= TASK_PREVIEW_LIMIT) {
-      setShowAllTasks(false);
+    if (showAllTasksState && totalTaskCount <= TASK_PREVIEW_LIMIT) {
+      setShowAllTasksState(false);
     }
-  }, [showAllTasks, totalTaskCount]);
+  }, [showAllTasksState, totalTaskCount]);
 
   useEffect(() => {
     if (editingTaskId && !scopedTasks.some((task) => task.id === editingTaskId)) {
