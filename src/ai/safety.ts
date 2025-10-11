@@ -10,31 +10,8 @@ const INVISIBLE_CHAR_PATTERN = /[\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\
 const COLLAPSE_SPACES_PATTERN = /[ \t\f\v]+/g;
 const FALLBACK_MAX_INPUT_LENGTH = 16_000;
 const FALLBACK_TOKENS_PER_CHARACTER = 4;
+const SAFE_MODE_TOKEN_CEILING_FALLBACK = 8_000;
 
-const DEFAULT_MAX_INPUT_LENGTH = resolveNumericEnv(
-  "AI_MAX_INPUT_LENGTH",
-  FALLBACK_MAX_INPUT_LENGTH,
-  {
-    min: 1,
-    integer: true,
-  },
-);
-
-const DEFAULT_TOKENS_PER_CHARACTER = resolveNumericEnv(
-  ["AI_TOKENS_PER_CHAR", "AI_TOKENS_PER_CHARACTER"],
-  FALLBACK_TOKENS_PER_CHARACTER,
-  {
-    min: Number.EPSILON,
-  },
-);
-const SAFE_MODE_TOKEN_CEILING = resolveNumericEnv(
-  "SAFE_MODE_TOKEN_CEILING",
-  8_000,
-  {
-    min: 1,
-    integer: true,
-  },
-);
 const SAFE_MODE_RESPONSE_RESERVE = resolveNumericEnv(
   "SAFE_MODE_RESPONSE_RESERVE",
   512,
@@ -222,11 +199,35 @@ function resolveNumericEnv(
 }
 
 function getDefaultMaxInputLength(): number {
-  return DEFAULT_MAX_INPUT_LENGTH;
+  return resolveNumericEnv(
+    "AI_MAX_INPUT_LENGTH",
+    FALLBACK_MAX_INPUT_LENGTH,
+    {
+      min: 1,
+      integer: true,
+    },
+  );
 }
 
 function getDefaultTokensPerCharacter(): number {
-  return DEFAULT_TOKENS_PER_CHARACTER;
+  return resolveNumericEnv(
+    ["AI_TOKENS_PER_CHAR", "AI_TOKENS_PER_CHARACTER"],
+    FALLBACK_TOKENS_PER_CHARACTER,
+    {
+      min: Number.EPSILON,
+    },
+  );
+}
+
+function getSafeModeTokenCeiling(): number {
+  return resolveNumericEnv(
+    "SAFE_MODE_TOKEN_CEILING",
+    SAFE_MODE_TOKEN_CEILING_FALLBACK,
+    {
+      min: 1,
+      integer: true,
+    },
+  );
 }
 
 function isServerSafeModeExplicitlyEnabled(): boolean {
@@ -335,7 +336,9 @@ function enforceTokenBudgetInternal<T extends TokenBudgetContent>(
   const reserved = Number.isFinite(incomingReserved)
     ? Math.max(Math.floor(incomingReserved), 0)
     : 0;
-  const safeMode = isSafeModeEnabled() && isServerSafeModeExplicitlyEnabled();
+  const clientSafeMode = isSafeModeEnabled();
+  const serverSafeMode = isServerSafeModeExplicitlyEnabled();
+  const safeMode = clientSafeMode && serverSafeMode;
   const safeReserved = safeMode
     ? Math.max(reserved, SAFE_MODE_RESPONSE_RESERVE)
     : reserved;
@@ -343,7 +346,7 @@ function enforceTokenBudgetInternal<T extends TokenBudgetContent>(
     ? Math.max(Math.floor(options.maxTokens), 0)
     : 0;
   const safeMaxTokens = safeMode
-    ? Math.min(incomingMaxTokens, SAFE_MODE_TOKEN_CEILING)
+    ? Math.min(incomingMaxTokens, getSafeModeTokenCeiling())
     : incomingMaxTokens;
   const availableTokens = Math.max(safeMaxTokens - safeReserved, 0);
 
@@ -435,6 +438,7 @@ export function enforceTokenBudget<T extends TokenBudgetContent>(
 
 export interface SchemaValidationIssue {
   readonly path: ReadonlyArray<string | number>;
+  readonly pathText: string;
   readonly message: string;
   readonly code?: string;
 }
@@ -480,6 +484,7 @@ export function guardResponse<T>(
     if (error instanceof z.ZodError) {
       const issues = error.issues.map<SchemaValidationIssue>((issue: z.ZodIssue) => ({
         path: [...issue.path],
+        pathText: formatIssuePath(issue.path),
         message: issue.message,
         code: issue.code,
       }));
@@ -504,6 +509,7 @@ export function guardResponse<T>(
         issues: [
           {
             path: [],
+            pathText: formatIssuePath([]),
             message,
           },
         ],
