@@ -155,6 +155,30 @@ runs:
           corepack prepare "${{ steps.detect.outputs.manager }}@${{ steps.detect.outputs['manager-version'] }}" --activate
         fi
 
+    - name: Ensure package manager command is available
+      if: ${{ steps.detect.outputs.manager == 'pnpm' }}
+      shell: bash
+      env:
+        MANAGER_VERSION: "${{ steps.detect.outputs['manager-version'] }}"
+      run: |
+        set -euo pipefail
+
+        if command -v pnpm >/dev/null 2>&1; then
+          exit 0
+        fi
+
+        echo "pnpm command not found; bootstrapping fallback installation." >&2
+
+        if command -v corepack >/dev/null 2>&1; then
+          if [ -n "$MANAGER_VERSION" ]; then
+            corepack prepare "pnpm@$MANAGER_VERSION" --activate
+          else
+            corepack prepare pnpm@latest --activate
+          fi
+        else
+          npm install -g "pnpm@${MANAGER_VERSION:-latest}"
+        fi
+
     - name: Export CI environment
       shell: bash
       run: echo "CI=1" >>"$GITHUB_ENV"
