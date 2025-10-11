@@ -498,8 +498,7 @@ export function usePersistentState<T>(
       let shouldUpdateState = false;
       let nextState: T = stateRef.current;
 
-      const skipStorageHydration =
-        ignoreNextStorageHydrationRef.current && fromStorage === null;
+      const skipStorageHydration = ignoreNextStorageHydrationRef.current;
       ignoreNextStorageHydrationRef.current = false;
       if (skipStorageHydration) {
         // Intentionally skip applying storage to honor a freshly-applied initial state.
