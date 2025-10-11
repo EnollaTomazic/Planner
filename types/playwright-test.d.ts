@@ -79,6 +79,8 @@ declare module "playwright/test" {
     name?: string | RegExp;
   };
 
+  type Negatable<T> = T & { readonly not: T };
+
   interface LocatorAssertions {
     toBeVisible(): Promise<void>;
     toBeFocused(): Promise<void>;
@@ -105,6 +107,7 @@ declare module "playwright/test" {
     click(options?: Record<string, unknown>): Promise<void>;
     first(): Locator;
     getByRole(role: Role, options?: GetByRoleOptions): Locator;
+    waitFor(options?: { state?: "attached" | "detached" | "visible" | "hidden"; timeout?: number }): Promise<void>;
     evaluate<T, Args extends unknown[]>(
       fn: (element: Element, ...args: Args) => T,
       ...args: Args
@@ -135,8 +138,8 @@ declare module "playwright/test" {
   }
 
   interface TestExpect {
-    (subject: Locator | Page): LocatorAssertions & PageAssertions;
-    <T>(value: T): ValueAssertions;
+    (subject: Locator | Page): Negatable<LocatorAssertions & PageAssertions>;
+    <T>(value: T): Negatable<ValueAssertions>;
   }
 
   interface PlaywrightProjectConfig {

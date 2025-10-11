@@ -1,22 +1,8 @@
 name: CI
 
-env:
-  PNPM_VERSION: 10.18.2 # Pin pnpm version to keep installs consistent across jobs
-
-concurrency:
-  group: ci-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: true
-
 on:
   workflow_call:
-  pull_request:
-    branches:
-      - main
-      - work
-    paths-ignore:
-      - '**/*.md'
-      - 'docs/**'
-      - 'CHANGELOG.md'
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -25,706 +11,130 @@ on:
       - '**/*.md'
       - 'docs/**'
       - 'CHANGELOG.md'
+  pull_request:
+    branches:
+      - main
+      - work
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - 'CHANGELOG.md'
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PNPM_VERSION: 10.18.2
 
 jobs:
-  # Audits dependencies to catch known vulnerabilities early in CI.
-  audit:
-    name: Audit
+  quality:
+    name: Quality checks (Node 22)
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Setup Node project
-        uses: ./.github/actions/setup-node-project
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
         with:
-          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          cache-prefix: ci
-          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
-          node-version-file: .nvmrc
-          skip-checkout: 'true'
+          node-version: '22.x'
+          check-latest: true
 
-      - name: Ensure Node.js version matches .nvmrc
-        shell: bash
+      - name: Activate pnpm
+        run: corepack prepare pnpm@${{ env.PNPM_VERSION }} --activate
+
+      - name: Prepare pnpm cache directories
         run: |
-          set -euo pipefail
-
-          if [ ! -f .nvmrc ]; then
-            echo "::error::.nvmrc file is missing." >&2
-            exit 1
-          fi
-
-          EXPECTED_NODE="$(tr -d '\r\n[:space:]' < .nvmrc)"
-
-          if [ -z "$EXPECTED_NODE" ]; then
-            echo "::error::.nvmrc did not contain a Node.js version." >&2
-            exit 1
-          fi
-
-          case "$EXPECTED_NODE" in
-            v*) ;;
-            *) EXPECTED_NODE="v$EXPECTED_NODE" ;;
-          esac
-
-          ACTUAL_NODE="$(node --version)"
-
-          echo "Expected Node.js version: $EXPECTED_NODE"
-          echo "Detected Node.js version: $ACTUAL_NODE"
-
-          if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
-            echo "::error::Node.js version mismatch. Update the runtime to $EXPECTED_NODE before continuing." >&2
-            exit 1
-          fi
-
-
-
-      - name: Verify tool versions
-        uses: ./.github/actions/verify-tool-versions
-        with:
-          node-version-file: .nvmrc
-          pnpm-version: ${{ env.PNPM_VERSION }}
-
-      - name: Refresh gallery usage manifest
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx # Store tsx cache in repo to avoid permission issues on CI
-        run: pnpm run build-gallery-usage
-
-      - name: Audit dependencies
-        run: pnpm run audit:ci
-
-      - name: Summarize audit
-        if: always()
-        run: |
-          {
-            echo "## Audit";
-            echo "- Status: ${{ job.status }}";
-          } >> "$GITHUB_STEP_SUMMARY"
-
-  # Runs linting, design checks, and prompt validation for code quality.
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
-        with:
-          fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
-      - name: Setup Node project
-        uses: ./.github/actions/setup-node-project
-        with:
-          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          cache-prefix: ci
-          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
-          node-version-file: .nvmrc
-          skip-checkout: 'true'
-
-      - name: Ensure Node.js version matches .nvmrc
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          if [ ! -f .nvmrc ]; then
-            echo "::error::.nvmrc file is missing." >&2
-            exit 1
-          fi
-
-          EXPECTED_NODE="$(tr -d '\r\n[:space:]' < .nvmrc)"
-
-          if [ -z "$EXPECTED_NODE" ]; then
-            echo "::error::.nvmrc did not contain a Node.js version." >&2
-            exit 1
-          fi
-
-          case "$EXPECTED_NODE" in
-            v*) ;;
-            *) EXPECTED_NODE="v$EXPECTED_NODE" ;;
-          esac
-
-          ACTUAL_NODE="$(node --version)"
-
-          echo "Expected Node.js version: $EXPECTED_NODE"
-          echo "Detected Node.js version: $ACTUAL_NODE"
-
-          if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
-            echo "::error::Node.js version mismatch. Update the runtime to $EXPECTED_NODE before continuing." >&2
-            exit 1
-          fi
-
-
-
-      - name: Verify tool versions
-        uses: ./.github/actions/verify-tool-versions
-        with:
-          node-version-file: .nvmrc
-          pnpm-version: ${{ env.PNPM_VERSION }}
-
-      - name: Refresh gallery usage manifest
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx # Keep tsx scratch files within the workspace
-        run: pnpm run build-gallery-usage
-
-      - name: Lint
-        run: |
-          echo "::add-matcher::.github/matchers/eslint-stylish.json"
-          pnpm run lint:ci
-
-      - name: Design lint
-        run: |
-          echo "::add-matcher::.github/matchers/eslint-stylish.json"
-          pnpm run design-lint
-
-      - name: Verify prompts registry
-        id: verify_prompts
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx # Reuse local tsx cache for prompt verification
-        run: pnpm run verify-prompts
-
-      - name: Guard generated artifacts
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx # Ensure guard scripts share the same tsx cache location
-        run: pnpm run guard:artifacts
-
-      - name: Summarize lint
-        if: always()
-        run: |
-          {
-            echo "## Lint";
-            echo "- Status: ${{ job.status }}"; 
-            echo "- Prompt verification: ${{ steps.verify_prompts.outcome || 'not run' }}";
-          } >> "$GITHUB_STEP_SUMMARY"
-
-  # Performs TypeScript compile checks to enforce type safety.
-  typecheck:
-    name: Type check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
-        with:
-          fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
-      - name: Setup Node project
-        uses: ./.github/actions/setup-node-project
-        with:
-          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          cache-prefix: ci
-          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
-          node-version-file: .nvmrc
-          skip-checkout: 'true'
-
-      - name: Ensure Node.js version matches .nvmrc
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          if [ ! -f .nvmrc ]; then
-            echo "::error::.nvmrc file is missing." >&2
-            exit 1
-          fi
-
-          EXPECTED_NODE="$(tr -d '\r\n[:space:]' < .nvmrc)"
-
-          if [ -z "$EXPECTED_NODE" ]; then
-            echo "::error::.nvmrc did not contain a Node.js version." >&2
-            exit 1
-          fi
-
-          case "$EXPECTED_NODE" in
-            v*) ;;
-            *) EXPECTED_NODE="v$EXPECTED_NODE" ;;
-          esac
-
-          ACTUAL_NODE="$(node --version)"
-
-          echo "Expected Node.js version: $EXPECTED_NODE"
-          echo "Detected Node.js version: $ACTUAL_NODE"
-
-          if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
-            echo "::error::Node.js version mismatch. Update the runtime to $EXPECTED_NODE before continuing." >&2
-            exit 1
-          fi
-
-
-
-      - name: Verify tool versions
-        uses: ./.github/actions/verify-tool-versions
-        with:
-          node-version-file: .nvmrc
-          pnpm-version: ${{ env.PNPM_VERSION }}
-
-      - name: Refresh gallery usage manifest
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx # Cache tsx transpilation artifacts for type scripts
-        run: pnpm run build-gallery-usage
-
-      - name: Baseline type check
-        run: |
-          echo "::add-matcher::.github/matchers/typescript.json"
-          pnpm exec tsc --noEmit
-
-      - name: Type check
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx # Use the shared tsx cache for the typecheck command
-        run: |
-          pnpm run typecheck:ci
-
-      - name: Summarize type check
-        if: always()
-        run: |
-          {
-            echo "## Type check";
-            echo "- Status: ${{ job.status }}";
-          } >> "$GITHUB_STEP_SUMMARY"
-
-  # Executes unit tests and aggregates coverage data.
-  unit-tests:
-    name: Unit tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
-        with:
-          fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
-      - name: Setup Node project
-        uses: ./.github/actions/setup-node-project
-        with:
-          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          cache-prefix: ci
-          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
-          node-version-file: .nvmrc
-          skip-checkout: 'true'
-
-      - name: Ensure Node.js version matches .nvmrc
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          if [ ! -f .nvmrc ]; then
-            echo "::error::.nvmrc file is missing." >&2
-            exit 1
-          fi
-
-          EXPECTED_NODE="$(tr -d '\r\n[:space:]' < .nvmrc)"
-
-          if [ -z "$EXPECTED_NODE" ]; then
-            echo "::error::.nvmrc did not contain a Node.js version." >&2
-            exit 1
-          fi
-
-          case "$EXPECTED_NODE" in
-            v*) ;;
-            *) EXPECTED_NODE="v$EXPECTED_NODE" ;;
-          esac
-
-          ACTUAL_NODE="$(node --version)"
-
-          echo "Expected Node.js version: $EXPECTED_NODE"
-          echo "Detected Node.js version: $ACTUAL_NODE"
-
-          if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
-            echo "::error::Node.js version mismatch. Update the runtime to $EXPECTED_NODE before continuing." >&2
-            exit 1
-          fi
-
-
-
-      - name: Verify tool versions
-        uses: ./.github/actions/verify-tool-versions
-        with:
-          node-version-file: .nvmrc
-          pnpm-version: ${{ env.PNPM_VERSION }}
-
-      - name: Refresh gallery usage manifest
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx # Align tsx cache path with other jobs for consistency
-        run: pnpm run build-gallery-usage
-
-      - name: Restore Next.js cache
+          mkdir -p .pnpm-store
+          mkdir -p ~/.pnpm-store
+          mkdir -p ~/.cache/pnpm
+
+      - name: Cache pnpm store
         uses: actions/cache@v4
         with:
-          path: .next/cache
-          key: nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          path: |
+            .pnpm-store
+            ~/.pnpm-store
+            ~/.cache/pnpm
+          key: ${{ runner.os }}-node22-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
-            nextjs-${{ runner.os }}-
+            ${{ runner.os }}-node22-pnpm-
 
-      - name: Test (legacy depth)
-        run: |
-          mkdir -p artifacts/unit
-          pnpm run test:ci
-
-      - name: Test (organic depth)
-        run: NEXT_PUBLIC_ORGANIC_DEPTH=true pnpm test -- --run
-
-      - name: Report test summary
-        if: always()
-        run: |
-          node scripts/report-summary.mjs --junit=artifacts/unit --coverage=coverage/coverage-summary.json >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Summarize unit tests
-        if: always()
-        run: |
-          {
-            echo "## Unit tests";
-            echo "- Status: ${{ job.status }}";
-          } >> "$GITHUB_STEP_SUMMARY"
-
-  # Builds production assets and uploads artifacts for downstream jobs.
-  build:
-    needs:
-      - lint
-      - typecheck
-      - unit-tests
-      - audit
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
-        with:
-          fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
-      - name: Setup Node project
-        uses: ./.github/actions/setup-node-project
-        with:
-          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          cache-prefix: ci
-          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
-          node-version-file: .nvmrc
-          skip-checkout: 'true'
-
-      - name: Ensure Node.js version matches .nvmrc
-        shell: bash
+      - name: Configure pnpm for CI
         run: |
           set -euo pipefail
+          pnpm config set store-dir .pnpm-store
+          pnpm config set retry 4
+          pnpm config set fetch-retries 4
+          pnpm config set fetch-retry-maxtimeout 60000
 
-          if [ ! -f .nvmrc ]; then
-            echo "::error::.nvmrc file is missing." >&2
-            exit 1
-          fi
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts=false
 
-          EXPECTED_NODE="$(tr -d '\r\n[:space:]' < .nvmrc)"
+      - name: Run quality checks
+        run: pnpm run check
 
-          if [ -z "$EXPECTED_NODE" ]; then
-            echo "::error::.nvmrc did not contain a Node.js version." >&2
-            exit 1
-          fi
-
-          case "$EXPECTED_NODE" in
-            v*) ;;
-            *) EXPECTED_NODE="v$EXPECTED_NODE" ;;
-          esac
-
-          ACTUAL_NODE="$(node --version)"
-
-          echo "Expected Node.js version: $EXPECTED_NODE"
-          echo "Detected Node.js version: $ACTUAL_NODE"
-
-          if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
-            echo "::error::Node.js version mismatch. Update the runtime to $EXPECTED_NODE before continuing." >&2
-            exit 1
-          fi
-
-
-
-      - name: Verify tool versions
-        uses: ./.github/actions/verify-tool-versions
-        with:
-          node-version-file: .nvmrc
-          pnpm-version: ${{ env.PNPM_VERSION }}
-
-      - name: Refresh gallery usage manifest
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx # Maintain consistent tsx cache for build preparation
-        run: pnpm run build-gallery-usage
-
-      - name: Restore Next.js cache
-        uses: actions/cache@v4
-        with:
-          path: .next/cache
-          key: nextjs-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            nextjs-${{ runner.os }}-
-
-      - name: Validate runtime versions
-        env:
-          EXPECTED_PNPM: ${{ env.PNPM_VERSION }} # Pass expected pnpm version for runtime validation
-        run: |
-          set -euo pipefail
-
-          if [ ! -f .nvmrc ]; then
-            echo "Expected .nvmrc file is missing." >&2
-            exit 1
-          fi
-
-          EXPECTED_NODE_RAW="$(cat .nvmrc)"
-          EXPECTED_NODE="$(echo "$EXPECTED_NODE_RAW" | tr -d '\n\r[:space:]')"
-          EXPECTED_NODE="${EXPECTED_NODE#v}"
-
-          if [ -z "$EXPECTED_NODE" ]; then
-            echo "Unable to determine the expected Node.js version from .nvmrc." >&2
-            exit 1
-          fi
-
-          ACTUAL_NODE_RAW="$(node --version)"
-          ACTUAL_NODE="${ACTUAL_NODE_RAW#v}"
-
-          if [[ "$EXPECTED_NODE" == *.* || "$EXPECTED_NODE" == *-* ]]; then
-            if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
-              echo "Node.js version mismatch. Expected $EXPECTED_NODE but found $ACTUAL_NODE." >&2
-              exit 1
-            fi
-          else
-            ACTUAL_NODE_MAJOR="${ACTUAL_NODE%%.*}"
-            if [ "$ACTUAL_NODE_MAJOR" != "$EXPECTED_NODE" ]; then
-              echo "Node.js version mismatch. Expected $EXPECTED_NODE.x but found $ACTUAL_NODE." >&2
-              exit 1
-            fi
-          fi
-
-          if [ -z "$EXPECTED_PNPM" ]; then
-            echo "Expected pnpm version is not defined." >&2
-            exit 1
-          fi
-
-          ACTUAL_PNPM="$(pnpm --version)"
-          if [ "$ACTUAL_PNPM" != "$EXPECTED_PNPM" ]; then
-            echo "pnpm version mismatch. Expected $EXPECTED_PNPM but found $ACTUAL_PNPM." >&2
-            exit 1
-          fi
-
-          echo "Using Node.js $ACTUAL_NODE_RAW and pnpm $ACTUAL_PNPM."
-
-      - name: Build
+      - name: Build Next.js application
         run: pnpm run build
 
-      - name: Upload Next.js build
-        id: upload_next_build
-        uses: actions/upload-artifact@v4
-        with:
-          name: next-build
-          path: .next
-          if-no-files-found: error
-
-      - name: Bundle analysis
-        run: |
-          pnpm run prebuild:analyze
-          pnpm run build:analyze
-          pnpm run postbuild:analyze
-
-      - name: Upload bundle report
-        id: upload_bundle_report
-        uses: actions/upload-artifact@v4
-        with:
-          name: bundle-report
-          path: docs/bundle-report
-          if-no-files-found: error
-
-      - name: Summarize build artifacts
-        if: always()
-        run: |
-          {
-            echo "## Build Summary";
-            echo "- Status: ${{ job.status }}";
-            if [ -n "${{ steps.upload_bundle_report.outputs.artifact-url }}" ]; then
-              echo "- Bundle report: [Download](${{ steps.upload_bundle_report.outputs.artifact-url }})";
-            fi
-            if [ -n "${{ steps.upload_next_build.outputs.artifact-url }}" ]; then
-              echo "- Next.js build: [Download](${{ steps.upload_next_build.outputs.artifact-url }})";
-            fi
-            echo "- Preview routes validated: / (build)";
-          } >> "$GITHUB_STEP_SUMMARY"
-
-
-  # Runs Playwright end-to-end suites against the built Next.js site.
-  playwright:
-    needs:
-      - build
+  storybook:
+    name: Storybook build (Node 20)
     runs-on: ubuntu-latest
-    env:
-      PLAYWRIGHT_HOST: 127.0.0.1 # Bind the preview server to localhost for tests
-      PLAYWRIGHT_PORT: 3100 # Use a stable port so scripts know where to connect
-      PLAYWRIGHT_BASE_URL: http://127.0.0.1:3100 # Advertise the running server URL to test suites
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - suite: keyboard-navigation
-            title: Keyboard navigation
-            command: >-
-              npx playwright test tests/chrome/SiteChrome.tab-order.e2e.ts --config playwright.config.ts --project=chromium-w1440 --reporter=github --pass-with-no-tests
-            previews: " /, /planner"
-          - suite: rate-limit-ux
-            title: Rate limit UX
-            command: >-
-              npx playwright test --config playwright.config.ts --project=chromium-w1440 --grep @rate-limit --pass-with-no-tests
-            previews: " /api, planner streaming"
-          - suite: streaming-cancel
-            title: Streaming cancel
-            command: >-
-              npx playwright test --config playwright.config.ts --project=chromium-w1440 --grep @stream-cancel --pass-with-no-tests
-            previews: " streaming flows"
-          - suite: theme-previews
-            title: Theme previews + axe
-            command: >-
-              npx playwright test
-              tests/e2e/accessibility.spec.ts
-              tests/e2e/gallery-preview.spec.ts
-              tests/e2e/hero-images-preview.spec.ts
-              tests/e2e/home-planner-previews.spec.ts
-              --config playwright.config.ts
-              --project=chromium-w1440
-              --reporter=github
-              --pass-with-no-tests
-            previews: " /preview/theme-matrix, /preview/hero-images, /preview/gallery"
+    needs: quality
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - name: Setup Node project
-        uses: ./.github/actions/setup-node-project
+      - name: Setup Node.js from .nvmrc
+        uses: actions/setup-node@v4
         with:
-          checkout-ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          cache-prefix: ci
-          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
-          node-version-file: .nvmrc
-          skip-checkout: 'true'
+          node-version-file: '.nvmrc'
+          check-latest: true
 
-      - name: Ensure Node.js version matches .nvmrc
-        shell: bash
+      - name: Activate pnpm
+        run: corepack prepare pnpm@${{ env.PNPM_VERSION }} --activate
+
+      - name: Prepare pnpm cache directories
+        run: |
+          mkdir -p .pnpm-store
+          mkdir -p ~/.pnpm-store
+          mkdir -p ~/.cache/pnpm
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: |
+            .pnpm-store
+            ~/.pnpm-store
+            ~/.cache/pnpm
+          key: ${{ runner.os }}-node20-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node20-pnpm-
+
+      - name: Configure pnpm for CI
         run: |
           set -euo pipefail
+          pnpm config set store-dir .pnpm-store
+          pnpm config set retry 4
+          pnpm config set fetch-retries 4
+          pnpm config set fetch-retry-maxtimeout 60000
 
-          if [ ! -f .nvmrc ]; then
-            echo "::error::.nvmrc file is missing." >&2
-            exit 1
-          fi
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts=false
 
-          EXPECTED_NODE="$(tr -d '\r\n[:space:]' < .nvmrc)"
+      - name: Build Storybook
+        run: pnpm exec storybook build --config-dir storybook --output-dir storybook-static
 
-          if [ -z "$EXPECTED_NODE" ]; then
-            echo "::error::.nvmrc did not contain a Node.js version." >&2
-            exit 1
-          fi
-
-          case "$EXPECTED_NODE" in
-            v*) ;;
-            *) EXPECTED_NODE="v$EXPECTED_NODE" ;;
-          esac
-
-          ACTUAL_NODE="$(node --version)"
-
-          echo "Expected Node.js version: $EXPECTED_NODE"
-          echo "Detected Node.js version: $ACTUAL_NODE"
-
-          if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
-            echo "::error::Node.js version mismatch. Update the runtime to $EXPECTED_NODE before continuing." >&2
-            exit 1
-          fi
-
-
-
-      - name: Verify tool versions
-        uses: ./.github/actions/verify-tool-versions
-        with:
-          node-version-file: .nvmrc
-          pnpm-version: ${{ env.PNPM_VERSION }}
-
-      - name: Refresh gallery usage manifest
-        env:
-          TSX_TEMPDIR: node_modules/.cache/tsx # Share the tsx cache directory with other jobs to prevent rebuild churn
-        run: pnpm run build-gallery-usage
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
-      - name: Prepare Next.js build artifact
-        run: rm -rf .next
-
-      - name: Download Next.js build artifact
-        uses: actions/download-artifact@v5
-        with:
-          name: next-build
-          path: .
-
-      - name: Verify Next.js build artifact
-        run: |
-          if [ ! -f ".next/BUILD_ID" ]; then
-            echo "Downloaded Next.js build is missing .next/BUILD_ID" >&2
-            exit 1
-          fi
-
-      - name: Start Next.js server
-        run: |
-          pnpm run start -- --hostname "$PLAYWRIGHT_HOST" --port "$PLAYWRIGHT_PORT" &
-          echo "$!" > next.pid
-
-      - name: Wait for Next.js to boot
-        run: |
-          for attempt in {1..30}; do
-            echo "Attempt ${attempt}/30: checking http://${PLAYWRIGHT_HOST}:${PLAYWRIGHT_PORT}/"
-            if curl -sSf "http://${PLAYWRIGHT_HOST}:${PLAYWRIGHT_PORT}/" > /dev/null; then
-              exit 0
-            fi
-            sleep 2
-          done
-          echo "Next.js failed to boot" >&2
-          exit 1
-
-      - name: Run Playwright suite - ${{ matrix.title }}
-        run: ${{ matrix.command }}
-
-      - name: Stop Next.js server
-        if: always()
-        run: |
-          if [ -f next.pid ]; then
-            kill "$(cat next.pid)" || true
-            wait "$(cat next.pid)" 2>/dev/null || true
-          fi
-
-      - name: Prepare Playwright report artifact
-        if: always()
-        run: |
-          if [ -d playwright-report ]; then
-            mv playwright-report "playwright-report-${{ matrix.suite }}"
-          fi
-
-      - name: Upload Playwright report
-        if: always()
-        id: upload_playwright_report
+      - name: Upload Storybook artifact
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-${{ matrix.suite }}
-          path: playwright-report-${{ matrix.suite }}
-          if-no-files-found: ignore
-
-      - name: Summarize Playwright suite
-        if: always()
-        run: |
-          {
-            echo "## Playwright - ${{ matrix.title }}";
-            echo "- Status: ${{ job.status }}";
-            echo "- Preview coverage:${{ matrix.previews }}";
-            if [ -n "${{ steps.upload_playwright_report.outputs.artifact-url }}" ]; then
-              echo "- HTML report: [Download](${{ steps.upload_playwright_report.outputs.artifact-url }})";
-            else
-              echo "- HTML report: not generated";
-            fi
-            echo "- Base URL: $PLAYWRIGHT_BASE_URL";
-          } >> "$GITHUB_STEP_SUMMARY"
+          name: storybook-static
+          path: storybook-static
+          if-no-files-found: error
