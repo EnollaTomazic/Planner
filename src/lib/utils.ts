@@ -25,6 +25,10 @@ type NextWindow = Window & {
       basePath?: string;
     };
   };
+  __NEXT_DATA__?: {
+    assetPrefix?: string | null;
+    basePath?: string | null;
+  };
 };
 
 let cachedRuntimeBasePath: string | undefined;
@@ -70,6 +74,20 @@ function readRuntimeBasePath(): string | null {
 
   if (attributeBase !== null) {
     return attributeBase;
+  }
+
+  const nextData = (window as NextWindow).__NEXT_DATA__;
+
+  const nextDataAssetPrefix = normalizeRuntimeBasePath(nextData?.assetPrefix);
+
+  if (nextDataAssetPrefix !== null) {
+    return nextDataAssetPrefix;
+  }
+
+  const nextDataBasePath = normalizeRuntimeBasePath(nextData?.basePath);
+
+  if (nextDataBasePath !== null) {
+    return nextDataBasePath;
   }
 
   return null;

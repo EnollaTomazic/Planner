@@ -72,6 +72,28 @@ describe("WithBasePath", () => {
     expect(withBasePath("assets/icon.svg")).toBe("/runtime/assets/icon.svg");
   });
 
+  it("uses the runtime asset prefix exposed via __NEXT_DATA__", async () => {
+    delete process.env.NEXT_PUBLIC_BASE_PATH;
+    vi.resetModules();
+
+    vi.stubGlobal("window", {
+      __NEXT_DATA__: {
+        assetPrefix: "/planner",
+      },
+      document: {
+        documentElement: {
+          getAttribute: vi.fn().mockReturnValue(null),
+        },
+      },
+    } as unknown as Window);
+
+    const { withBasePath } = await importBasePathUtils();
+
+    expect(withBasePath("/scripts/github-pages-bootstrap.js")).toBe(
+      "/planner/scripts/github-pages-bootstrap.js",
+    );
+  });
+
   it("keeps hash anchors untouched regardless of base path", async () => {
     delete process.env.NEXT_PUBLIC_BASE_PATH;
     vi.resetModules();
