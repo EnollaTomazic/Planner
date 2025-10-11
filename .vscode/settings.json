@@ -5,6 +5,7 @@
   // Formatting: ESLint for TS/TSX, Prettier for CSS (so Tailwind class sorting works)
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "prettier.configPath": "prettier.config.cjs",
   "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[postcss]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[typescript]": { "editor.defaultFormatter": "dbaeumer.vscode-eslint" },

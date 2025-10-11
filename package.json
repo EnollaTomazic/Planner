@@ -38,7 +38,7 @@
     "guard:artifacts": "cross-env TSX_COMPILE_CACHE=0 tsx scripts/guard-artifacts.ts",
     "clean:artifacts": "cross-env TSX_COMPILE_CACHE=0 tsx scripts/clean-artifacts.ts",
     "check": "pnpm run clean:artifacts && concurrently \"pnpm test -- --run\" \"pnpm run lint\" \"pnpm run lint:design\" \"pnpm run typecheck\" \"pnpm run guard:artifacts\"",
-    "format": "prettier --write .",
+    "format": "prettier --config prettier.config.cjs --write .",
     "verify-prompts": "tsx scripts/verify-prompts.ts --verify",
     "check-prompts": "tsx scripts/verify-prompts.ts",
     "token-guard": "tsx scripts/token-guard.ts",
@@ -110,7 +110,7 @@
     "vitest": "^3.2.4"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,css,md}": "prettier --write",
+    "*.{js,jsx,ts,tsx,json,css,md}": "prettier --config prettier.config.cjs --write",
     "*.{js,jsx,ts,tsx}": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --fix"
   },
   "config": {
