@@ -15,7 +15,7 @@ pnpm dev
 
 ## Getting Started
 
-> **Prerequisite:** Install [Node.js](https://nodejs.org) >=22.12 and <23 (the active Node 22 LTS range) along with pnpm 10.13.1 to match the repository engines. Other releases may still run, but expect reduced support and additional warnings.
+> **Prerequisite:** Install [Node.js](https://nodejs.org) >=22.12 and <23 (the active Node 22 LTS range) along with pnpm 10.18.2 to match the repository engines. Other releases may still run, but expect reduced support and additional warnings.
 
 ### Installation
 
