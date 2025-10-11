@@ -2,13 +2,13 @@
 "use client";
 
 import * as React from "react";
-import SectionCard from "@/components/ui/layout/SectionCard";
-import IconButton from "@/components/ui/primitives/IconButton";
-import Hero from "@/components/ui/layout/Hero";
-import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
+import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { Hero } from "@/components/ui/layout/Hero";
+import { SegmentedButton } from "@/components/ui/primitives/SegmentedButton";
 import { useScopedCssVars } from "@/components/ui/hooks/useScopedCssVars";
-import TimerRing from "./TimerRing";
-import DurationSelector from "./DurationSelector";
+import { TimerRing } from "./TimerRing";
+import { DurationSelector } from "./DurationSelector";
 import styles from "./TimerTab.module.css";
 import {
   Play,
@@ -115,7 +115,7 @@ function isFiniteNumber(value: unknown): value is number {
 const ADJUST_BTN_CLASS =
   "absolute top-[var(--space-2)] sm:-top-[var(--space-4)] rounded-full bg-background/40 backdrop-blur shadow-[var(--shadow-glow-md)] transition-transform duration-motion-sm hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring";
 
-export default function TimerTab() {
+export function TimerTab() {
   const [timer, setTimer] = usePersistentState<TimerState>(
     TIMER_STATE_KEY,
     DEFAULT_TIMER_STATE,

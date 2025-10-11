@@ -8,7 +8,7 @@ import * as React from "react";
  * - Stacks on small screens, 2 cols on md+
  * - Keeps consistent gaps; no opinion about card chrome
  */
-export default function Split({
+export function Split({
   left,
   right,
   className = "",

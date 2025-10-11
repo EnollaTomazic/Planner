@@ -14,7 +14,7 @@ export type DurationSelectorProps = {
 
 const DEFAULT_OPTIONS = [10, 15, 20, 25, 30, 45, 60];
 
-export default function DurationSelector({
+export function DurationSelector({
   options = DEFAULT_OPTIONS,
   value,
   onChange,

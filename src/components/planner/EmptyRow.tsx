@@ -21,7 +21,7 @@ type EmptyRowProps = {
   variant?: EmptyRowVariant;
 };
 
-export default function EmptyRow({
+export function EmptyRow({
   text,
   tone = "default",
   variant = "default",

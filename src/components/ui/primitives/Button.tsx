@@ -8,10 +8,10 @@ import type { HTMLMotionProps } from "framer-motion";
 import { cn, withBasePath } from "@/lib/utils";
 import { useAnimationsDisabled } from "@/lib/useAnimationsDisabled";
 import { useOrganicDepthEnabled } from "@/lib/depth-theme-context";
-import Spinner, { type SpinnerTone, type SpinnerSize } from "../feedback/Spinner";
+import { type SpinnerTone, type SpinnerSize, Spinner } from "../feedback/Spinner";
 import neumorphicStyles from "../neumorphic.module.css";
-import BlobContainer, { type GlitchOverlayToken } from "./BlobContainer";
-import DripEdge from "./DripEdge";
+import { type GlitchOverlayToken, BlobContainer } from "./BlobContainer";
+import { DripEdge } from "./DripEdge";
 import { neuRaised, neuInset } from "./Neu";
 import styles from "./Button.module.css";
 import {
@@ -606,4 +606,3 @@ export const Button = React.forwardRef<
 });
 
 Button.displayName = "Button";
-export default Button;

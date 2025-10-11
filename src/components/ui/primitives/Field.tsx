@@ -5,10 +5,10 @@ import { Search, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-import Spinner from "../feedback/Spinner";
+import { Spinner } from "../feedback/Spinner";
 import neumorphicStyles from "../neumorphic.module.css";
-import BlobContainer, { type GlitchOverlayToken } from "./BlobContainer";
-import IconButton from "./IconButton";
+import { type GlitchOverlayToken, BlobContainer } from "./BlobContainer";
+import { IconButton } from "./IconButton";
 import styles from "./Field.module.css";
 
 export type FieldHeight = "sm" | "md" | "lg" | "xl";
@@ -456,5 +456,4 @@ const Field = {
   Select: FieldSelect,
   Search: FieldSearch,
 };
-
-export default Field;
+export { Field };

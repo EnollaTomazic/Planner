@@ -536,5 +536,4 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
 );
 
 NeomorphicHeroFrame.displayName = "NeomorphicHeroFrame";
-
-export default NeomorphicHeroFrame;
+export { NeomorphicHeroFrame };

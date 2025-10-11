@@ -1,7 +1,7 @@
 import * as React from "react";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import ChampListEditor from "@/components/team/ChampListEditor";
+import { ChampListEditor } from "@/components/team/ChampListEditor";
 
 describe("ChampListEditor", () => {
   it("trims champion names before committing changes", () => {

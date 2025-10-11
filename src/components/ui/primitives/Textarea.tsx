@@ -3,7 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useFieldIds } from "@/lib/useFieldIds";
-import Field from "./Field";
+import { Field } from "./Field";
 
 /**
  * Textarea primitive.
@@ -22,7 +22,7 @@ export type TextareaProps =
     "data-loading"?: string | boolean | number;
   };
 
-export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   function Textarea(
     {
       className,
@@ -70,4 +70,4 @@ export default React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       </Field.Root>
     );
   },
-);
+)

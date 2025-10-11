@@ -2,7 +2,7 @@
 "use client";
 import "./style.css";
 
-import SectionCard from "@/components/ui/layout/SectionCard";
+import { SectionCard } from "@/components/ui/layout/SectionCard";
 import { useWeek } from "./useFocusDate";
 import { useWeekData } from "./useWeekData";
 import type { ISODate } from "./plannerTypes";
@@ -33,7 +33,7 @@ type Props = {
   bleed?: boolean;
 };
 
-export default function WeekSummary({
+export function WeekSummary({
   iso,
   variant = "card",
   className,

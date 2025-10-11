@@ -14,7 +14,7 @@ describe("ButtonBasePath", () => {
   it("prefixes the configured base path for root-relative href", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/beta";
     vi.resetModules();
-    const { default: Button } = await import("@/components/ui/primitives/Button");
+    const { Button } = await import("@/components/ui/primitives/Button");
     const { getByRole } = render(
       <Button href="/planner">Planner</Button>,
     );
@@ -24,7 +24,7 @@ describe("ButtonBasePath", () => {
   it("prefixes the configured base path for relative href without scheme", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/beta";
     vi.resetModules();
-    const { default: Button } = await import("@/components/ui/primitives/Button");
+    const { Button } = await import("@/components/ui/primitives/Button");
     const { getByRole } = render(<Button href="planner">Planner</Button>);
     expect(getByRole("link")).toHaveAttribute("href", "/beta/planner");
   });
@@ -32,7 +32,7 @@ describe("ButtonBasePath", () => {
   it("prefixes when the base path shares the planner segment", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/planner";
     vi.resetModules();
-    const { default: Button } = await import("@/components/ui/primitives/Button");
+    const { Button } = await import("@/components/ui/primitives/Button");
     const { getByRole } = render(<Button href="/planner">Planner</Button>);
     expect(getByRole("link")).toHaveAttribute("href", "/planner");
   });
@@ -40,7 +40,7 @@ describe("ButtonBasePath", () => {
   it("preserves hash and query-only href values", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/planner";
     vi.resetModules();
-    const { default: Button } = await import("@/components/ui/primitives/Button");
+    const { Button } = await import("@/components/ui/primitives/Button");
     const { rerender, getByRole } = render(
       <Button href="#main">Skip</Button>,
     );
@@ -53,7 +53,7 @@ describe("ButtonBasePath", () => {
   it("keeps external href values unchanged", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/beta";
     vi.resetModules();
-    const { default: Button } = await import("@/components/ui/primitives/Button");
+    const { Button } = await import("@/components/ui/primitives/Button");
     const { getByRole } = render(
       <Button href="https://example.com">External</Button>,
     );
@@ -64,7 +64,7 @@ describe("ButtonBasePath", () => {
 describe("Button anchor security defaults", () => {
   it("applies noopener rel for blank targets without rel", async () => {
     vi.resetModules();
-    const { default: Button } = await import("@/components/ui/primitives/Button");
+    const { Button } = await import("@/components/ui/primitives/Button");
     const { getByRole } = render(
       <Button href="https://example.com" target="_blank">
         External
@@ -79,7 +79,7 @@ describe("Button anchor security defaults", () => {
 
   it("preserves a provided rel for blank targets", async () => {
     vi.resetModules();
-    const { default: Button } = await import("@/components/ui/primitives/Button");
+    const { Button } = await import("@/components/ui/primitives/Button");
     const { getByRole } = render(
       <Button href="https://example.com" rel="external" target="_blank">
         External
@@ -94,7 +94,7 @@ describe("QuickActions base path integration", () => {
   it("passes raw routes to Link components", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/beta";
     vi.resetModules();
-    const { default: QuickActions } = await import(
+    const { QuickActions } = await import(
       "@/components/home/QuickActions",
     );
     render(<QuickActions />);

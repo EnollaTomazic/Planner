@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import NeoCard from "@/components/ui/primitives/NeoCard";
-import Label from "@/components/ui/Label";
-import Input from "@/components/ui/primitives/Input";
-import Select from "@/components/ui/Select";
-import Toggle from "@/components/ui/toggles/Toggle";
+import { NeoCard } from "@/components/ui/primitives/NeoCard";
+import { Label } from "@/components/ui/Label";
+import { Input } from "@/components/ui/primitives/Input";
+import { Select } from "@/components/ui/Select";
+import { Toggle } from "@/components/ui/toggles/Toggle";
 import { AnimatedSelect } from "@/components/ui";
 import { usePersistentState } from "@/lib/db";
 import { usePlannerReminders } from "./plannerContext";
@@ -27,7 +27,7 @@ type TaskReminderSettingsProps = {
   onChange: (partial: Partial<TaskReminder> | null) => void;
 };
 
-export default function TaskReminderSettings({
+export function TaskReminderSettings({
   task,
   onChange,
 }: TaskReminderSettingsProps) {

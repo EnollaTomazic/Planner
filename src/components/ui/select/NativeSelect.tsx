@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { ChevronDown } from "lucide-react";
-import Field from "../primitives/Field";
+import { Field } from "../primitives/Field";
 import { useFieldIds } from "@/lib/useFieldIds";
 import { cn } from "@/lib/utils";
 
@@ -95,5 +95,4 @@ const NativeSelect = React.forwardRef<HTMLSelectElement, NativeSelectProps>(
 );
 
 NativeSelect.displayName = "NativeSelect";
-
-export default NativeSelect;
+export { NativeSelect };

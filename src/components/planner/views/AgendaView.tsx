@@ -1,15 +1,15 @@
 "use client";
 
 import * as React from "react";
-import PageShell from "@/components/ui/layout/PageShell";
+import { PageShell } from "@/components/ui/layout/PageShell";
 import { cn } from "@/lib/utils";
 import { addDays, formatWeekDay, toISODate } from "@/lib/date";
 import { useWeek, useFocusDate } from "../useFocusDate";
 import { usePlannerStore } from "../usePlannerStore";
 import { ensureDay } from "../plannerSerialization";
-import PlannerIslandBoundary from "../PlannerIslandBoundary";
+import { PlannerIslandBoundary } from "../PlannerIslandBoundary";
 
-export default function AgendaView() {
+export function AgendaView() {
   const { iso } = useFocusDate();
   const { start, isToday } = useWeek(iso);
   const { days: map } = usePlannerStore();

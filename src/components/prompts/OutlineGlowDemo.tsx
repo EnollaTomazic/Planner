@@ -1,7 +1,7 @@
 import * as React from "react";
 
 // Demos should represent all interactive states for clarity.
-export default function OutlineGlowDemo() {
+export function OutlineGlowDemo() {
   return (
     <div className="mb-[var(--space-4)] flex gap-[var(--space-2)]">
       <button

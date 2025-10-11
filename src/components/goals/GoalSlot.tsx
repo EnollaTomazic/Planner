@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import useAutoFocus from "@/lib/useAutoFocus";
 import type { Goal } from "@/lib/types";
 import { PillarBadge } from "@/components/ui";
-import Input from "@/components/ui/primitives/Input";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { Input } from "@/components/ui/primitives/Input";
+import { IconButton } from "@/components/ui/primitives/IconButton";
 
 const ICON_SM = "size-[var(--icon-size-sm)]";
 const ICON_MD = "size-[var(--icon-size-md)]";
@@ -19,7 +19,7 @@ interface GoalSlotProps {
   onDelete?: (id: string) => void;
 }
 
-export default function GoalSlot({
+export function GoalSlot({
   goal,
   onToggleDone,
   onEdit,

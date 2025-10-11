@@ -36,7 +36,7 @@ const paddingClassNames: Record<ReviewSurfacePadding, string> = {
   inline: "px-[var(--space-4)]",
 };
 
-export default function ReviewSurface<
+export function ReviewSurface<
   T extends React.ElementType = "div",
 >({
   tone = "default",

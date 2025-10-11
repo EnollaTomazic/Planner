@@ -1,7 +1,7 @@
 import * as React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import Toast from "@/components/ui/Toast";
+import { Toast } from "@/components/ui/Toast";
 
 describe("Toast", () => {
   it("announces and auto dismisses", () => {

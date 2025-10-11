@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Card from "@/components/ui/primitives/Card";
+import { Card } from "@/components/ui/primitives/Card";
 import { cn } from "@/lib/utils";
 import { VARIANT_LABELS, type Variant } from "@/lib/theme";
 
@@ -24,7 +24,7 @@ const VARIANT_STYLES: Record<Variant, string> = {
     "[--room-floor:var(--hardstuck-deep)] [--room-wall:var(--hardstuck-forest)] [--room-accent:var(--hardstuck-forest)]",
 };
 
-export default function IsometricRoom({ variant }: IsometricRoomProps) {
+export function IsometricRoom({ variant }: IsometricRoomProps) {
   const label = VARIANT_LABELS[variant];
   return (
     <Card

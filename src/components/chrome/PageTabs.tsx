@@ -10,10 +10,9 @@ import {
   useSearchParams,
 } from "next/navigation";
 
-import TabBar, {
+import {
   type TabItem as TabBarItem,
-  type TabRenderContext,
-} from "@/components/ui/layout/TabBar";
+  type TabRenderContext, TabBar } from "@/components/ui/layout/TabBar";
 import { cn } from "@/lib/utils";
 import segmentedButtonStyles from "@/components/ui/primitives/SegmentedButton.module.css";
 
@@ -44,7 +43,7 @@ export interface PageTabsProps {
  * - Delegates focus and keyboard handling to TabBar.
  * - Renders glitch underline with motion span.
  */
-export default function PageTabs({
+export function PageTabs({
   tabs,
   value,
   onChange,

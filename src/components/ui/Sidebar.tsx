@@ -1,4 +1,3 @@
-import Sidebar from "@/components/layout/Sidebar";
-
-export default Sidebar;
+import { Sidebar } from "@/components/layout/Sidebar";
 export type { SidebarProps } from "@/components/layout/Sidebar";
+export { Sidebar };

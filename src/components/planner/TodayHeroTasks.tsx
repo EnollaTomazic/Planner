@@ -4,10 +4,10 @@ import { Pencil, Trash2 } from "lucide-react";
 import type { FormEvent, KeyboardEvent, MouseEvent } from "react";
 
 import { cn } from "@/lib/utils";
-import Button from "@/components/ui/primitives/Button";
-import IconButton from "@/components/ui/primitives/IconButton";
-import Input from "@/components/ui/primitives/Input";
-import CheckCircle from "@/components/ui/toggles/CheckCircle";
+import { Button } from "@/components/ui/primitives/Button";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { Input } from "@/components/ui/primitives/Input";
+import { CheckCircle } from "@/components/ui/toggles/CheckCircle";
 import type { DayTask } from "./plannerTypes";
 
 const TASK_OPTION_GUARD_SELECTOR = "[data-task-option-guard='true']";
@@ -35,7 +35,7 @@ export type TodayHeroTasksProps = {
   onToggleShowAllTasks: () => void;
 };
 
-export default function TodayHeroTasks({
+export function TodayHeroTasks({
   projectId,
   projectName,
   tasksListId,

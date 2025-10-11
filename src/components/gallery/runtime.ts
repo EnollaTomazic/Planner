@@ -9,7 +9,7 @@ import {
   getPreviewManifest,
   getPreviewRoute,
 } from "./preview-engine";
-import PreviewRendererClient from "./PreviewRendererClient";
+import { PreviewRendererClient } from "./PreviewRendererClient";
 import type {
   GalleryEntryKind,
   GalleryPreviewRenderer,

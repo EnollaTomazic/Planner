@@ -1,7 +1,7 @@
 import * as React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import TeamCompPage from "@/components/team/TeamCompPage";
+import { TeamCompPage } from "@/components/team/TeamCompPage";
 import * as BuilderModule from "@/components/team/Builder";
 import type { TeamState } from "@/components/team/Builder";
 import { createStorageKey } from "@/lib/db";

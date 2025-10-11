@@ -18,7 +18,7 @@ import {
   PageHeader,
   PageShell,
 } from "@/components/ui";
-import PortraitFrame from "@/components/home/PortraitFrame";
+import { PortraitFrame } from "@/components/home/PortraitFrame";
 import ProgressRingIcon from "@/icons/ProgressRingIcon";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { useOptionalTheme } from "@/lib/theme-context";
@@ -27,15 +27,15 @@ import styles from "./PlannerPage.module.css";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
 import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
-import WeekPicker from "./WeekPicker";
+import { WeekPicker } from "./WeekPicker";
 import { CalendarDays } from "lucide-react";
 import { formatWeekRangeLabel } from "@/lib/date";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
-import DayView from "./views/DayView";
-import WeekView from "./views/WeekView";
-import MonthView from "./views/MonthView";
-import AgendaView from "./views/AgendaView";
-import PlannerIslandBoundary from "./PlannerIslandBoundary";
+import { DayView } from "./views/DayView";
+import { WeekView } from "./views/WeekView";
+import { MonthView } from "./views/MonthView";
+import { AgendaView } from "./views/AgendaView";
+import { PlannerIslandBoundary } from "./PlannerIslandBoundary";
 
 const VIEW_MODE_OPTIONS: Array<{ value: PlannerViewMode; label: string }> = [
   { value: "day", label: "Day" },
@@ -247,7 +247,7 @@ function Inner() {
 
 /* ───────── Provider shell ───────── */
 
-export default function PlannerPage() {
+export function PlannerPage() {
   return (
     <RemindersProvider>
       <PlannerProvider>

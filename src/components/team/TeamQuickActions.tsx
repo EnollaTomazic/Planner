@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import Badge, { type BadgeProps } from "@/components/ui/primitives/Badge";
+import { type BadgeProps, Badge } from "@/components/ui/primitives/Badge";
 import { cn } from "@/lib/utils";
 
 const LIST_CLASSNAME =
@@ -38,7 +38,7 @@ type TooltipState = {
   id: string;
 };
 
-export default function TeamQuickActions({
+export function TeamQuickActions({
   actions,
   className,
 }: TeamQuickActionsProps) {

@@ -1,7 +1,7 @@
 import * as React from "react";
 import CatCompanionIcon from "@/icons/CatCompanionIcon";
 
-export default function CatCompanion() {
+export function CatCompanion() {
   return (
     <div className="fixed bottom-[var(--space-4)] left-[var(--space-4)] z-50 pointer-events-none select-none">
       <CatCompanionIcon

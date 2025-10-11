@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
-import Label from "@/components/ui/Label";
+import { Label } from "@/components/ui/Label";
 
 afterEach(() => {
   cleanup();

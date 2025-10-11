@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Select from "../Select";
+import { Select } from "../Select";
 import type { AnimatedSelectProps } from "../select/shared";
 import { cn } from "@/lib/utils";
 
@@ -15,7 +15,7 @@ export type SettingsSelectProps = Omit<
   buttonClassName?: string;
 };
 
-export default function SettingsSelect({
+export function SettingsSelect({
   buttonClassName,
   containerClassName,
   ...props

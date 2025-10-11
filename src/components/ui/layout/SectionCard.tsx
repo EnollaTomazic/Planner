@@ -159,4 +159,4 @@ const SectionCard = Object.assign(SectionCardRoot, {
 });
 
 export { SectionCardHeader, SectionCardBody };
-export default SectionCard;
+export { SectionCard };

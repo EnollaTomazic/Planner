@@ -10,7 +10,7 @@ interface PreviewThemeClientProps {
   readonly background: Background;
 }
 
-export default function PreviewThemeClient({
+export function PreviewThemeClient({
   variant,
   background,
 }: PreviewThemeClientProps) {

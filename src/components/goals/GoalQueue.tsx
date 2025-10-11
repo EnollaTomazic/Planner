@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { SectionCard } from "@/components/ui";
-import Input from "@/components/ui/primitives/Input";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { Input } from "@/components/ui/primitives/Input";
+import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Trash2 } from "lucide-react";
 import { shortDate } from "@/lib/date";
 import { useCoarsePointer } from "@/lib/useCoarsePointer";
@@ -32,7 +32,7 @@ interface GoalQueueProps {
   onRemove: (id: string) => void;
 }
 
-export default function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
+export function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
   const [val, setVal] = React.useState("");
   const inputId = React.useId();
   const isCoarsePointer = useCoarsePointer();

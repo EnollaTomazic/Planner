@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Button, PageHeader } from "@/components/ui";
-import Badge from "@/components/ui/primitives/Badge";
+import { Badge } from "@/components/ui/primitives/Badge";
 
 const chips = ["hover", "focus", "active", "disabled", "loading"];
 
@@ -15,7 +15,7 @@ interface PromptsHeaderProps {
   disabled: boolean;
 }
 
-export default function PromptsHeader({
+export function PromptsHeader({
   id = "prompts-header",
   count,
   query,

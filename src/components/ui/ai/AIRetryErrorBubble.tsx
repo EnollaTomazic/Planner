@@ -68,5 +68,4 @@ const AIRetryErrorBubble = React.forwardRef<HTMLDivElement, AIRetryErrorBubblePr
 );
 
 AIRetryErrorBubble.displayName = "AIRetryErrorBubble";
-
-export default AIRetryErrorBubble;
+export { AIRetryErrorBubble };

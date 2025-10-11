@@ -3,14 +3,14 @@
 import * as React from "react";
 
 import { Button } from "@/components/ui";
-import RadioIconGroup from "@/components/ui/radio/RadioIconGroup";
+import { RadioIconGroup } from "@/components/ui/radio/RadioIconGroup";
 import {
   RADIO_ICON_GROUP_DEMO_OPTIONS,
   RADIO_ICON_GROUP_SIZES,
   RADIO_ICON_GROUP_TONES,
 } from "@/components/ui/radio/RadioIconGroup.gallery";
 
-export default function RadioIconGroupShowcase() {
+export function RadioIconGroupShowcase() {
   const defaultValue = RADIO_ICON_GROUP_DEMO_OPTIONS[0]?.value ?? null;
   const [value, setValue] = React.useState<string | null>(defaultValue);
   const baseName = React.useId();

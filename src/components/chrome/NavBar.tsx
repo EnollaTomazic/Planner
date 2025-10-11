@@ -17,7 +17,7 @@ type NavBarProps = {
   items?: readonly NavItem[];
 };
 
-export default function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
+export function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
   const { isActive } = useNavActivity();
   const reduceMotion = useReducedMotion();
   return (

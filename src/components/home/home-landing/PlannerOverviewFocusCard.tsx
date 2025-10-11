@@ -83,4 +83,4 @@ function PlannerOverviewFocusCardComponent({
   );
 }
 
-export default React.memo(PlannerOverviewFocusCardComponent);
+export const PlannerOverviewFocusCard = React.memo(PlannerOverviewFocusCardComponent)

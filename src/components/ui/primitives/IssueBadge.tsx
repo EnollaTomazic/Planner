@@ -62,6 +62,4 @@ const IssueBadge = React.forwardRef<HTMLButtonElement, IssueBadgeProps>(
 );
 
 IssueBadge.displayName = "IssueBadge";
-
-export default IssueBadge;
-
+export { IssueBadge };

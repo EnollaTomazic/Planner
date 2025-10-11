@@ -62,28 +62,27 @@ import {
   AITypingIndicator,
 } from "@/components/ui/ai";
 import { Check as CheckIcon } from "lucide-react";
-import DemoHeader from "./DemoHeader";
-import GoalListDemo from "./GoalListDemo";
-import OutlineGlowDemo from "./OutlineGlowDemo";
-import PromptList from "./PromptList";
-import PromptsComposePanel from "./PromptsComposePanel";
-import PromptsDemos from "./PromptsDemos";
-import PromptsHeader from "./PromptsHeader";
-import ChatPromptsTab from "./ChatPromptsTab";
-import CodexPromptsTab from "./CodexPromptsTab";
-import NotesTab from "./NotesTab";
-import SpinnerShowcase from "./SpinnerShowcase";
-import SnackbarShowcase from "./SnackbarShowcase";
-import SkeletonShowcase from "./SkeletonShowcase";
-import ToggleShowcase from "./ToggleShowcase";
-import PageHeaderDemo from "./PageHeaderDemo";
-import NeomorphicHeroFrameDemo from "./NeomorphicHeroFrameDemo";
-import RadioIconGroupShowcase from "./RadioIconGroupShowcase";
-import WeekPickerDemo from "./component-gallery/WeekPickerDemo";
-import PlannerCalendarPreview, {
+import { DemoHeader } from "./DemoHeader";
+import { GoalListDemo } from "./GoalListDemo";
+import { OutlineGlowDemo } from "./OutlineGlowDemo";
+import { PromptList } from "./PromptList";
+import { PromptsComposePanel } from "./PromptsComposePanel";
+import { PromptsDemos } from "./PromptsDemos";
+import { PromptsHeader } from "./PromptsHeader";
+import { ChatPromptsTab } from "./ChatPromptsTab";
+import { CodexPromptsTab } from "./CodexPromptsTab";
+import { NotesTab } from "./NotesTab";
+import { SpinnerShowcase } from "./SpinnerShowcase";
+import { SnackbarShowcase } from "./SnackbarShowcase";
+import { SkeletonShowcase } from "./SkeletonShowcase";
+import { ToggleShowcase } from "./ToggleShowcase";
+import { PageHeaderDemo } from "./PageHeaderDemo";
+import { NeomorphicHeroFrameDemo } from "./NeomorphicHeroFrameDemo";
+import { RadioIconGroupShowcase } from "./RadioIconGroupShowcase";
+import { WeekPickerDemo } from "./component-gallery/WeekPickerDemo";
+import {
   CalendarPreviewError,
-  CalendarPreviewLoading,
-} from "./component-gallery/CalendarLayoutPreview";
+  CalendarPreviewLoading, CalendarPreview as PlannerCalendarPreview } from "./component-gallery/CalendarLayoutPreview";
 import {
   DashboardCard,
   DashboardList,
@@ -95,7 +94,7 @@ import {
   WelcomeHeroFigure,
 } from "@/components/home";
 import { NAV_ITEMS, type NavItem } from "@/config/nav";
-import ChampListEditor from "@/components/team/ChampListEditor";
+import { ChampListEditor } from "@/components/team/ChampListEditor";
 import {
   RoleSelector,
   ReviewListItem,
@@ -5392,5 +5391,4 @@ const gallerySections: GallerySection[] = Object.entries(LEGACY_SPEC_DATA).map(
       })),
     }),
 );
-
-export default gallerySections;
+export { gallerySections };

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import TabBar, { type TabItem } from "@/components/ui/layout/TabBar";
+import { type TabItem, TabBar } from "@/components/ui/layout/TabBar";
 import { Circle, CircleDot, CircleCheck } from "lucide-react";
 
 export type FilterKey = "All" | "Active" | "Done";
@@ -17,7 +17,7 @@ interface GoalsTabsProps {
   onChange: (val: FilterKey) => void;
 }
 
-export default function GoalsTabs({ value, onChange }: GoalsTabsProps) {
+export function GoalsTabs({ value, onChange }: GoalsTabsProps) {
   return (
     <TabBar<FilterKey>
       items={FILTER_ITEMS}

@@ -205,7 +205,7 @@ const SEGMENT_OPTIONS: Array<{ value: Mode; label: string }> = [
   { value: "project", label: "Project" },
 ];
 
-export default function PlannerFab() {
+export function PlannerFab() {
   const { focus, getDay, upsertDay } = usePlannerStore();
   const { createProject, createTask } = usePlannerActions();
   const [open, setOpen] = React.useState(false);

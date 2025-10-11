@@ -1,12 +1,12 @@
 "use client";
 
 import * as React from "react";
-import DashboardCard from "./DashboardCard";
-import DashboardList from "./DashboardList";
+import { DashboardCard } from "./DashboardCard";
+import { DashboardList } from "./DashboardList";
 import { useReviews } from "@/components/reviews";
 import { LOCALE } from "@/lib/utils";
 
-export default function ReviewsCard() {
+export function ReviewsCard() {
   const { recentReviews } = useReviews();
 
   return (
