@@ -21,6 +21,7 @@ permissions:
   pages: write
 
 jobs:
+  # Builds and publishes the static Next.js export to GitHub Pages.
   build:
     if: github.actor != 'github-pages[bot]'
     name: Build static site
@@ -29,11 +30,11 @@ jobs:
       contents: write
       actions: write
     env:
-      NEXT_TELEMETRY_DISABLED: '1'
-      GITHUB_PAGES: 'true'
-      BASE_PATH: ${{ endsWith(github.event.repository.name, '.github.io') && '' || github.event.repository.name }}
-      NEXT_PUBLIC_BASE_PATH: ${{ endsWith(github.event.repository.name, '.github.io') && '' || format('/{0}', github.event.repository.name) }}
-      PUBLISH_BRANCH: ${{ vars.GH_PAGES_BRANCH || vars.GITHUB_PAGES_BRANCH || (endsWith(github.event.repository.name, '.github.io') && github.event.repository.default_branch) || '' }}
+      NEXT_TELEMETRY_DISABLED: '1' # Disable Next.js telemetry to keep CI logs clean
+      GITHUB_PAGES: 'true' # Signal the app to generate assets suitable for GitHub Pages
+      BASE_PATH: ${{ endsWith(github.event.repository.name, '.github.io') && '' || github.event.repository.name }} # Configure base path for repo-hosted pages
+      NEXT_PUBLIC_BASE_PATH: ${{ endsWith(github.event.repository.name, '.github.io') && '' || format('/{0}', github.event.repository.name) }} # Mirror base path on the client for routing
+      PUBLISH_BRANCH: ${{ vars.GH_PAGES_BRANCH || vars.GITHUB_PAGES_BRANCH || (endsWith(github.event.repository.name, '.github.io') && github.event.repository.default_branch) || '' }} # Select the branch to receive published artifacts
     steps:
       - name: Checkout repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
