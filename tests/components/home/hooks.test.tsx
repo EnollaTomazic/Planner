@@ -1,117 +1,135 @@
-import { act, renderHook } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { act, renderHook } from '@testing-library/react'
+import { describe, expect, it, vi } from 'vitest'
 import {
   useGlitchLandingSplash,
   useHydratedCallback,
-} from "@/components/home/hooks";
+} from '@/components/home/hooks'
 
-describe("useGlitchLandingSplash", () => {
-  it("mounts the splash while hydration completes", () => {
-    const { result } = renderHook(({ enabled, hydrated }) =>
-      useGlitchLandingSplash(enabled, hydrated),
-    {
-      initialProps: { enabled: true, hydrated: false },
-    });
+type GlitchLandingSplashProps = {
+  enabled: boolean
+  hydrated: boolean
+}
 
-    expect(result.current.isSplashVisible).toBe(true);
-    expect(result.current.isSplashMounted).toBe(true);
-  });
+type HydratedCallbackHookProps = {
+  hydrated: boolean
+  callback?: () => void
+}
 
-  it("disables the splash when the feature flag is off", () => {
-    const { result } = renderHook(({ enabled, hydrated }) =>
-      useGlitchLandingSplash(enabled, hydrated),
-    {
-      initialProps: { enabled: false, hydrated: false },
-    });
+describe('useGlitchLandingSplash', () => {
+  it('mounts the splash while hydration completes', () => {
+    const { result } = renderHook(
+      ({ enabled, hydrated }: GlitchLandingSplashProps) =>
+        useGlitchLandingSplash(enabled, hydrated),
+      {
+        initialProps: { enabled: true, hydrated: false },
+      },
+    )
 
-    expect(result.current.isSplashVisible).toBe(false);
-    expect(result.current.isSplashMounted).toBe(false);
+    expect(result.current.isSplashVisible).toBe(true)
+    expect(result.current.isSplashMounted).toBe(true)
+  })
 
-    act(() => {
-      result.current.handleClientReady();
-      result.current.handleSplashExit();
-    });
+  it('disables the splash when the feature flag is off', () => {
+    const { result } = renderHook(
+      ({ enabled, hydrated }: GlitchLandingSplashProps) =>
+        useGlitchLandingSplash(enabled, hydrated),
+      {
+        initialProps: { enabled: false, hydrated: false },
+      },
+    )
 
-    expect(result.current.isSplashVisible).toBe(false);
-    expect(result.current.isSplashMounted).toBe(false);
-  });
-
-  it("hides the splash once hydration completes", () => {
-    const { result, rerender } = renderHook(({ enabled, hydrated }) =>
-      useGlitchLandingSplash(enabled, hydrated),
-    {
-      initialProps: { enabled: true, hydrated: false },
-    });
+    expect(result.current.isSplashVisible).toBe(false)
+    expect(result.current.isSplashMounted).toBe(false)
 
     act(() => {
-      rerender({ enabled: true, hydrated: true });
-    });
+      result.current.handleClientReady()
+      result.current.handleSplashExit()
+    })
 
-    expect(result.current.isSplashVisible).toBe(false);
-    expect(result.current.isSplashMounted).toBe(true);
+    expect(result.current.isSplashVisible).toBe(false)
+    expect(result.current.isSplashMounted).toBe(false)
+  })
 
-    act(() => {
-      result.current.handleSplashExit();
-    });
-
-    expect(result.current.isSplashMounted).toBe(false);
-  });
-});
-
-describe("useHydratedCallback", () => {
-  it("invokes the callback once when hydration finishes", () => {
-    const onReady = vi.fn();
-    const { rerender } = renderHook(({ hydrated, callback }) =>
-      useHydratedCallback(hydrated, callback),
-    {
-      initialProps: { hydrated: false, callback: onReady },
-    });
-
-    expect(onReady).not.toHaveBeenCalled();
+  it('hides the splash once hydration completes', () => {
+    const { result, rerender } = renderHook(
+      ({ enabled, hydrated }: GlitchLandingSplashProps) =>
+        useGlitchLandingSplash(enabled, hydrated),
+      {
+        initialProps: { enabled: true, hydrated: false },
+      },
+    )
 
     act(() => {
-      rerender({ hydrated: true, callback: onReady });
-    });
+      rerender({ enabled: true, hydrated: true })
+    })
 
-    expect(onReady).toHaveBeenCalledTimes(1);
-
-    act(() => {
-      rerender({ hydrated: true, callback: onReady });
-    });
-
-    expect(onReady).toHaveBeenCalledTimes(1);
+    expect(result.current.isSplashVisible).toBe(false)
+    expect(result.current.isSplashMounted).toBe(true)
 
     act(() => {
-      rerender({ hydrated: false, callback: onReady });
-    });
+      result.current.handleSplashExit()
+    })
 
-    expect(onReady).toHaveBeenCalledTimes(1);
+    expect(result.current.isSplashMounted).toBe(false)
+  })
+})
 
-    act(() => {
-      rerender({ hydrated: true, callback: onReady });
-    });
+describe('useHydratedCallback', () => {
+  it('invokes the callback once when hydration finishes', () => {
+    const onReady = vi.fn()
+    const { rerender } = renderHook<void, HydratedCallbackHookProps>(
+      ({ hydrated, callback }) => useHydratedCallback(hydrated, callback),
+      {
+        initialProps: { hydrated: false, callback: onReady },
+      },
+    )
 
-    expect(onReady).toHaveBeenCalledTimes(2);
-  });
-
-  it("skips invocation when no callback is provided", () => {
-    const onReady = vi.fn();
-    const { rerender } = renderHook(({ hydrated, callback }) =>
-      useHydratedCallback(hydrated, callback),
-    {
-      initialProps: { hydrated: false, callback: undefined },
-    });
-
-    act(() => {
-      rerender({ hydrated: true, callback: undefined });
-    });
-
-    expect(onReady).not.toHaveBeenCalled();
+    expect(onReady).not.toHaveBeenCalled()
 
     act(() => {
-      rerender({ hydrated: true, callback: onReady });
-    });
+      rerender({ hydrated: true, callback: onReady })
+    })
 
-    expect(onReady).toHaveBeenCalledTimes(1);
-  });
-});
+    expect(onReady).toHaveBeenCalledTimes(1)
+
+    act(() => {
+      rerender({ hydrated: true, callback: onReady })
+    })
+
+    expect(onReady).toHaveBeenCalledTimes(1)
+
+    act(() => {
+      rerender({ hydrated: false, callback: onReady })
+    })
+
+    expect(onReady).toHaveBeenCalledTimes(1)
+
+    act(() => {
+      rerender({ hydrated: true, callback: onReady })
+    })
+
+    expect(onReady).toHaveBeenCalledTimes(2)
+  })
+
+  it('skips invocation when no callback is provided', () => {
+    const onReady = vi.fn()
+    const { rerender } = renderHook<void, HydratedCallbackHookProps>(
+      ({ hydrated, callback }) => useHydratedCallback(hydrated, callback),
+      {
+        initialProps: { hydrated: false },
+      },
+    )
+
+    act(() => {
+      rerender({ hydrated: true })
+    })
+
+    expect(onReady).not.toHaveBeenCalled()
+
+    act(() => {
+      rerender({ hydrated: true, callback: onReady })
+    })
+
+    expect(onReady).toHaveBeenCalledTimes(1)
+  })
+})
