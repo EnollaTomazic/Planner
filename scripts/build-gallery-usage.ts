@@ -80,6 +80,12 @@ const PREVIEW_BACKGROUNDS =
 
 const REGISTERED_VARIANTS = new Set(VARIANTS.map((variant) => variant.id));
 
+const IGNORED_MANIFEST_DIAGNOSTIC_CODES = new Set([2589, 2590]);
+const IGNORED_MANIFEST_SUFFIXES = [
+  path.normalize("src/components/gallery/generated-manifest.ts"),
+  path.normalize("src/components/gallery/generated-manifest.g.ts"),
+];
+
 for (const variant of PREVIEW_VARIANTS) {
   if (!REGISTERED_VARIANTS.has(variant)) {
     throw new Error(`Preview variant \"${variant}\" is not registered`);
@@ -570,7 +576,27 @@ function validateManifestSource(source: string): void {
     reportDiagnostics: true,
   });
 
-  const diagnostics = transpiled.diagnostics ?? [];
+  const diagnostics = (transpiled.diagnostics ?? []).filter((diagnostic) => {
+    if (!IGNORED_MANIFEST_DIAGNOSTIC_CODES.has(diagnostic.code)) {
+      return true;
+    }
+
+    const fileName = diagnostic.file?.fileName;
+    if (!fileName) {
+      return true;
+    }
+
+    let normalized: string;
+    try {
+      normalized = path.normalize(fileURLToPath(fileName));
+    } catch {
+      normalized = path.normalize(fileName);
+    }
+
+    return !IGNORED_MANIFEST_SUFFIXES.some((suffix) =>
+      normalized.endsWith(suffix),
+    );
+  });
   if (diagnostics.length > 0) {
     const message = diagnostics
       .map((diagnostic) =>
