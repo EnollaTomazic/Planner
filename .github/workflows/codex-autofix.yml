@@ -13,7 +13,7 @@ permissions:
   actions: read
 
 jobs:
-  # Invokes Codex to attempt automatic fixes when the CI workflow fails.
+  # Triggers Codex to draft automated fixes whenever the CI workflow finishes with a failure.
   autofix:
     if: >-
       github.event.workflow_run.conclusion == 'failure' &&
