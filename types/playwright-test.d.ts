@@ -79,12 +79,15 @@ declare module "playwright/test" {
     name?: string | RegExp;
   };
 
+  type LocatorAssertionResult = LocatorAssertions & PageAssertions
+
   interface LocatorAssertions {
-    toBeVisible(): Promise<void>;
-    toBeFocused(): Promise<void>;
-    toHaveAttribute(name: string, value: string): Promise<void>;
-    toHaveCount(value: number): Promise<void>;
-    toBeChecked(): Promise<void>;
+    toBeVisible(): Promise<void>
+    toBeFocused(): Promise<void>
+    toHaveAttribute(name: string, value: string): Promise<void>
+    toHaveCount(value: number): Promise<void>
+    toBeChecked(): Promise<void>
+    not: LocatorAssertionResult
   }
 
   interface ScreenshotOptions {
@@ -101,14 +104,15 @@ declare module "playwright/test" {
   }
 
   interface Locator {
-    focus(): Promise<void>;
-    click(options?: Record<string, unknown>): Promise<void>;
-    first(): Locator;
-    getByRole(role: Role, options?: GetByRoleOptions): Locator;
+    focus(): Promise<void>
+    click(options?: Record<string, unknown>): Promise<void>
+    first(): Locator
+    getByRole(role: Role, options?: GetByRoleOptions): Locator
     evaluate<T, Args extends unknown[]>(
       fn: (element: Element, ...args: Args) => T,
       ...args: Args
-    ): Promise<T>;
+    ): Promise<T>
+    waitFor(options?: { state?: "attached" | "detached" | "visible" | "hidden"; timeout?: number }): Promise<void>
   }
 
   interface Keyboard {
@@ -135,8 +139,8 @@ declare module "playwright/test" {
   }
 
   interface TestExpect {
-    (subject: Locator | Page): LocatorAssertions & PageAssertions;
-    <T>(value: T): ValueAssertions;
+    (subject: Locator | Page): LocatorAssertionResult
+    <T>(value: T): ValueAssertions
   }
 
   interface PlaywrightProjectConfig {
