@@ -17,6 +17,7 @@ import {
   enforceTokenBudget,
   validateSchema,
   withStopSequences,
+  type ToolChoiceMode,
 } from "@/ai/safety";
 
 import { z } from "zod";
@@ -488,5 +489,19 @@ describe("applyModelSafety", () => {
     expect(result.toolChoice).toEqual({ mode: "auto", maxToolCalls: 1 });
 
     safeModeSpy.mockRestore();
+  });
+
+  it("normalizes invalid configuration values before applying safety", () => {
+    const result = applyModelSafety({
+      temperature: -5,
+      topP: 3,
+      // Cast to satisfy the type system for the invalid mode input
+      toolChoice: { mode: "invalid" as ToolChoiceMode, maxToolCalls: -2.4 },
+    });
+
+    expect(result.safeMode).toBe(false);
+    expect(result.temperature).toBe(0);
+    expect(result.topP).toBe(1);
+    expect(result.toolChoice).toEqual({ mode: "auto", maxToolCalls: 0 });
   });
 });
