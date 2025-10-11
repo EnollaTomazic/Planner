@@ -164,6 +164,10 @@ let nextConfig = {
       webpackRef.WebpackError = webpackRef.webpack.WebpackError;
     }
 
+    if (context?.dev) {
+      config.devtool = "source-map";
+    }
+
     config.resolve.alias["@"] = path.resolve(__dirname, "src");
     return config;
   },
