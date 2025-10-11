@@ -15,6 +15,7 @@
   flex: 1 0 auto;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition:
     opacity var(--motion-duration-lg) var(--ease-out),
     visibility 0s linear var(--motion-duration-lg);
@@ -23,7 +24,12 @@
 .content[data-state="ready"] {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
   transition-delay: 0s, 0s;
+}
+
+.content[data-inert] {
+  pointer-events: none;
 }
 
 .content:focus {
