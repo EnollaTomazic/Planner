@@ -1,13 +1,365 @@
 .root {
-  min-height: var(--space-16);
+  position: relative;
+  border-radius: calc(var(--radius-2xl) * 1.1);
+  padding: clamp(var(--space-5), 4vw, var(--space-7));
+  background:
+    radial-gradient(
+      140% 120% at -20% 10%,
+      hsl(var(--accent-2) / 0.22),
+      transparent 65%
+    ),
+    radial-gradient(
+      130% 110% at 110% 0%,
+      hsl(var(--accent) / 0.18),
+      transparent 72%
+    ),
+    linear-gradient(160deg, hsl(var(--surface-2) / 0.92), hsl(var(--card) / 0.88));
+  box-shadow:
+    inset 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--card-hairline) / 0.5),
+    0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.35),
+    0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.28);
+  overflow: hidden;
+  isolation: isolate;
 }
 
-@media (min-width: 48rem) {
-  .root {
-    min-height: calc(var(--space-16) + var(--space-4));
+.backdrop {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background:
+    radial-gradient(120% 160% at 0% 0%, hsl(var(--accent-2) / 0.32), transparent 68%),
+    radial-gradient(110% 130% at 100% 10%, hsl(var(--accent-3, var(--accent-2)) / 0.28), transparent 72%),
+    linear-gradient(180deg, transparent, hsl(var(--surface) / 0.35));
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  gap: clamp(var(--space-5), 3vw, var(--space-7));
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  z-index: 1;
+}
+
+@media (min-width: 64rem) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: stretch;
+  }
+  .contentColumn {
+    grid-column: span 6;
+  }
+  .portraitColumn {
+    grid-column: span 6;
   }
 }
 
-.mediaColumn {
-  min-height: inherit;
+.contentColumn {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(var(--space-4), 2.2vw, var(--space-5));
+  min-width: 0;
+}
+
+.eyebrowRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: hsl(var(--muted-foreground));
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: var(--font-label);
+}
+
+.eyebrowLabel {
+  font-weight: 600;
+}
+
+.eyebrowStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  background: hsl(var(--state-warning-surface, var(--warning) / 0.2));
+  color: hsl(var(--warning-foreground));
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.headlineBlock {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.heading {
+  font-size: clamp(2.2rem, 4vw, 2.8rem);
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  text-wrap: balance;
+}
+
+.subtitle {
+  font-size: var(--font-body);
+  color: hsl(var(--muted-foreground));
+  max-width: 48ch;
+}
+
+.hudFrame {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: calc(var(--radius-xl) * 1.1);
+  background:
+    linear-gradient(140deg, hsl(var(--state-success-surface) / 0.45), transparent),
+    hsl(var(--surface) / 0.72);
+  border: var(--hairline-w) solid hsl(var(--state-success-border) / 0.65);
+  box-shadow:
+    inset 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--card-hairline) / 0.4),
+    inset 0 calc(var(--spacing-1) * -0.35) calc(var(--spacing-3) / 1.5)
+      hsl(var(--shadow-color) / 0.22);
+}
+
+.hudMetric {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.hudMetricLabel {
+  font-size: var(--font-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+.hudMetricValue {
+  font-size: var(--font-title);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: hsl(var(--foreground));
+}
+
+.hudMetricHint {
+  font-size: var(--font-label);
+  color: hsl(var(--muted-foreground));
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.portraitColumn {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.portraitCard {
+  position: relative;
+  display: grid;
+  gap: var(--space-4);
+  padding: clamp(var(--space-4), 3vw, var(--space-6));
+  border-radius: calc(var(--radius-2xl) * 0.95);
+  background: hsl(var(--surface-2) / 0.85);
+  border: var(--hairline-w) solid hsl(var(--card-hairline) / 0.5);
+  box-shadow:
+    inset 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--card-hairline) / 0.55),
+    0 var(--spacing-3) var(--spacing-5) hsl(var(--shadow-color) / 0.32),
+    0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.26);
+  overflow: hidden;
+}
+
+.portraitCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(120% 120% at 12% -10%, hsl(var(--accent) / 0.26), transparent 68%);
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.tone-light {
+  --portrait-aura: hsl(var(--accent-2) / 0.28);
+}
+
+.tone-dark {
+  --portrait-aura: hsl(var(--lav-deep) / 0.32);
+}
+
+.portraitFrame {
+  width: min(320px, 100%);
+  margin: 0 auto;
+}
+
+.portraitMeta {
+  position: relative;
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: calc(var(--radius-xl) * 0.9);
+  background: linear-gradient(165deg, hsl(var(--surface) / 0.9), hsl(var(--surface-2) / 0.82));
+  border: var(--hairline-w) solid hsl(var(--card-hairline) / 0.5);
+  box-shadow:
+    inset 0 0 0 calc(var(--hairline-w) * 1.5) hsl(var(--card-hairline) / 0.4),
+    inset 0 calc(var(--spacing-1) * -0.45) calc(var(--spacing-3) / 1.8)
+      hsl(var(--shadow-color) / 0.28);
+}
+
+.metaHeader {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.metaLabel {
+  font-size: var(--font-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+.metaDescription {
+  font-size: var(--font-ui);
+  color: hsl(var(--muted-foreground));
+  text-wrap: balance;
+}
+
+.metaFooter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.metaPill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  border: var(--hairline-w) solid hsl(var(--state-success-border) / 0.6);
+  background: hsl(var(--state-success-surface));
+  color: hsl(var(--success-foreground));
+  font-size: var(--font-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.dial {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.dialRing {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(220px, 60vw);
+  aspect-ratio: 1 / 1;
+  margin-inline: auto;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, hsl(var(--state-success-surface) / 0.6), transparent 70%),
+    hsl(var(--surface-2) / 0.9);
+  border: var(--hairline-w) solid hsl(var(--state-success-border));
+  box-shadow:
+    0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.28),
+    inset 0 calc(var(--spacing-1) * -0.35) calc(var(--spacing-3) / 2.4)
+      hsl(var(--shadow-color) / 0.28);
+  color: hsl(var(--accent));
+}
+
+.dialRingReduced {
+  isolation: isolate;
+}
+
+.dialRingReduced .motion-safe\:animate-pulse {
+  animation: none !important;
+}
+
+.dialValue {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: clamp(1.75rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  text-shadow: 0 0 var(--space-2) hsl(var(--accent) / 0.4);
+}
+
+.dialCaption {
+  position: absolute;
+  bottom: 14%;
+  font-size: var(--font-label);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+.dialLabel {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.dialSlider {
+  appearance: none;
+  width: 100%;
+  height: var(--spacing-2);
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, hsl(var(--accent-2)), hsl(var(--accent)));
+  outline: none;
+  position: relative;
+  box-shadow: inset 0 0 0 calc(var(--hairline-w) * 1.5) hsl(var(--card-hairline) / 0.5);
+}
+
+.dialSlider::-webkit-slider-thumb {
+  appearance: none;
+  width: var(--space-4);
+  height: var(--space-4);
+  border-radius: 50%;
+  background: hsl(var(--background));
+  border: var(--hairline-w) solid hsl(var(--accent));
+  box-shadow:
+    0 0 var(--space-2) hsl(var(--accent) / 0.55),
+    0 0 0 calc(var(--hairline-w) * 2) hsl(var(--accent) / 0.45);
+  cursor: pointer;
+  transition: transform var(--motion-duration-sm) var(--ease-out);
+}
+
+.dialSlider::-moz-range-thumb {
+  width: var(--space-4);
+  height: var(--space-4);
+  border-radius: 50%;
+  background: hsl(var(--background));
+  border: var(--hairline-w) solid hsl(var(--accent));
+  box-shadow:
+    0 0 var(--space-2) hsl(var(--accent) / 0.55),
+    0 0 0 calc(var(--hairline-w) * 2) hsl(var(--accent) / 0.45);
+  cursor: pointer;
+  transition: transform var(--motion-duration-sm) var(--ease-out);
+}
+
+.dialSlider:focus-visible::-webkit-slider-thumb,
+.dialSlider:focus-visible::-moz-range-thumb,
+.dialSlider:hover::-webkit-slider-thumb,
+.dialSlider:hover::-moz-range-thumb {
+  transform: scale(1.05);
+}
+
+.dialFeedback {
+  font-size: var(--font-label);
+  color: hsl(var(--muted-foreground));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialSlider::-webkit-slider-thumb,
+  .dialSlider::-moz-range-thumb {
+    transition: none;
+  }
 }

@@ -252,8 +252,15 @@
   --hero-divider-blur: calc(var(--spacing-1) * 1.5);
   --hero-illustration-opacity: 0.84;
   --hero-illustration-blur: calc(var(--space-4) + var(--space-1));
-  --warning-foreground: 0 0% 6%;
-  --success-foreground: 0 0% 6%;
+  --warning-foreground: 0 0% 100%;
+  --success-foreground: 0 0% 100%;
+  --danger-foreground: 0 0% 100%;
+  --state-success-surface: color-mix(in oklab, hsl(var(--success)) 18%, hsl(var(--surface)));
+  --state-success-border: color-mix(in oklab, hsl(var(--success)) 65%, hsl(var(--border)));
+  --state-warning-surface: color-mix(in oklab, hsl(var(--warning)) 20%, hsl(var(--surface)));
+  --state-warning-border: color-mix(in oklab, hsl(var(--warning)) 60%, hsl(var(--border)));
+  --state-danger-surface: color-mix(in oklab, hsl(var(--danger)) 18%, hsl(var(--surface)));
+  --state-danger-border: color-mix(in oklab, hsl(var(--danger)) 62%, hsl(var(--border)));
   --aurora-g-light-color: hsl(var(--aurora-g-light));
   --aurora-p-light-color: hsl(var(--aurora-p-light));
   --elevation0: none;
@@ -451,6 +458,15 @@
   --neo-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--panel)) 12%);
   --neo-surface-alt: color-mix(in oklab, hsl(var(--panel)) 82%, hsl(var(--card)) 18%);
   --neo-highlight: color-mix(in oklab, hsl(var(--ring)) 18%, hsl(var(--card)));
+  --success-foreground: 0 0% 100%;
+  --warning-foreground: 0 0% 100%;
+  --danger-foreground: 0 0% 100%;
+  --state-success-surface: hsl(var(--success) / 0.18);
+  --state-success-border: hsl(var(--success) / 0.55);
+  --state-warning-surface: hsl(var(--warning) / 0.2);
+  --state-warning-border: hsl(var(--warning) / 0.6);
+  --state-danger-surface: hsl(var(--danger) / 0.18);
+  --state-danger-border: hsl(var(--danger) / 0.62);
   /* Depth shadows (outer/inner) */
   --depth-shadow-outer: var(--shadow-depth-outer);
   --depth-shadow-outer-strong: var(--shadow-depth-outer-strong);
@@ -679,6 +695,18 @@
       var(--accent-overlay) vs hsl(var(--foreground)),
       hsl(var(--background))
     );
+    --success-foreground: color-contrast(
+      var(--state-success-surface) vs hsl(var(--foreground)),
+      hsl(var(--background))
+    );
+    --warning-foreground: color-contrast(
+      var(--state-warning-surface) vs hsl(var(--foreground)),
+      hsl(var(--background))
+    );
+    --danger-foreground: color-contrast(
+      var(--state-danger-surface) vs hsl(var(--foreground)),
+      hsl(var(--background))
+    );
   }
 }
 /* Retina half-pixel hairlines when available */
@@ -733,7 +761,12 @@ html.theme-aurora {
   --glitch-static-opacity: 0.1;
   --lav-deep: 276 88% 68%;
   --success: 148 72% 48%;
+  --success-foreground: 0 0% 100%;
   --success-glow: 148 72% 38% / 0.6;
+  --warning: 43 96% 56%;
+  --warning-foreground: 0 0% 100%;
+  --danger: 0 84% 60%;
+  --danger-foreground: 0 0% 100%;
   --aurora-g: var(--accent-2);
   --aurora-g-light: 150 100% 85%;
   --aurora-p: var(--accent);
@@ -818,7 +851,12 @@ html.theme-citrus {
   --glitch-static-opacity: 0.09;
   --lav-deep: 28 90% 56%;
   --success: 150 68% 46%;
+  --success-foreground: 0 0% 100%;
   --success-glow: 150 68% 36% / 0.6;
+  --warning: 43 96% 56%;
+  --warning-foreground: 0 0% 100%;
+  --danger: 0 84% 60%;
+  --danger-foreground: 0 0% 100%;
   --citrus-teal: 168 72% 42%;
   --backdrop-blob-1: var(--ring);
   --backdrop-blob-2: var(--citrus-teal);
@@ -890,7 +928,12 @@ html.theme-noir {
   --glitch-noise-contrast: hsl(var(--foreground) / 0.14);
   --lav-deep: 356 80% 62%;
   --success: 136 56% 52%;
+  --success-foreground: 0 0% 100%;
   --success-glow: 136 56% 42% / 0.6;
+  --warning: 43 96% 56%;
+  --warning-foreground: 0 0% 100%;
+  --danger: 0 84% 60%;
+  --danger-foreground: 0 0% 100%;
   --noir-red: 356 82% 58%;
   --noir-rose: 352 68% 54%;
   --noir-ink: 352 80% 6%;
@@ -964,7 +1007,12 @@ html.theme-ocean {
   --glitch-static-opacity: 0.1;
   --lav-deep: 254 78% 68%;
   --success: 158 72% 48%;
+  --success-foreground: 0 0% 100%;
   --success-glow: 158 72% 38% / 0.6;
+  --warning: 43 96% 56%;
+  --warning-foreground: 0 0% 100%;
+  --danger: 0 84% 60%;
+  --danger-foreground: 0 0% 100%;
   --ocean-cyan: 194 88% 52%;
   --ocean-indigo: 230 72% 62%;
   --backdrop-blob-1: var(--ring);
@@ -1031,7 +1079,12 @@ html.theme-kitten {
   --glitch-static-opacity: 0.085;
   --lav-deep: 336 84% 64%;
   --success: 152 62% 48%;
+  --success-foreground: 0 0% 100%;
   --success-glow: 152 62% 38% / 0.6;
+  --warning: 43 96% 56%;
+  --warning-foreground: 0 0% 100%;
+  --danger: 0 84% 60%;
+  --danger-foreground: 0 0% 100%;
   --kitten-rose: 346 94% 42%;
   --kitten-pink: 342 96% 48%;
   --kitten-blush: 348 88% 88%;
@@ -1111,7 +1164,12 @@ html.theme-hardstuck {
   --lav-deep: 120 90% 52%;
   --icon-fg: 120 92% 64%;
   --success: 120 94% 52%;
+  --success-foreground: 0 0% 100%;
   --success-glow: 120 90% 42% / 0.6;
+  --warning: 43 96% 56%;
+  --warning-foreground: 0 0% 100%;
+  --danger: 0 84% 60%;
+  --danger-foreground: 0 0% 100%;
   --hardstuck-forest: 120 70% 42%;
   --hardstuck-deep: 120 82% 8%;
   --glow-primary: hsl(var(--ring) / 0.5);
@@ -1181,7 +1239,12 @@ html.theme-retro {
   --glitch-static-opacity: 0.2;
   --lav-deep: 257.5 85.7% 72.5%;
   --success: 158 72% 48%;
+  --success-foreground: 0 0% 100%;
   --success-glow: 158 72% 38% / 0.6;
+  --warning: 43 96% 56%;
+  --warning-foreground: 0 0% 100%;
+  --danger: 0 84% 60%;
+  --danger-foreground: 0 0% 100%;
   --glow: 304 100% 68%;
   --glow-active: hsl(var(--accent-2));
   --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22);

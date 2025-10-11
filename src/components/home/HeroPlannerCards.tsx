@@ -11,9 +11,11 @@ import QuickActions from "./QuickActions";
 import ReviewsCard from "./ReviewsCard";
 import TeamPromptsCard from "./TeamPromptsCard";
 import TodayCard from "./TodayCard";
+import { Button } from "@/components/ui";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import type { Variant } from "@/lib/theme";
 import { cn } from "@/lib/utils";
+import styles from "./HeroPlannerCards.module.css";
 
 export interface HeroPlannerHighlight {
   id: string;
@@ -46,46 +48,85 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
     : "col-span-full";
 
   return (
-    <div
-      className={cn(layoutGridClassName, "md:grid-cols-12", className)}
-    >
+    <section className={cn(styles.root, className)}>
       <div
-        className="col-span-full grid items-start gap-[var(--space-4)] md:grid-cols-12 supports-[grid-template-columns:subgrid]:md:[grid-template-columns:subgrid]"
-      >
-        <div className="md:col-span-6">
-          <QuickActions />
-        </div>
-        <div className="md:col-span-6">
-          <IsometricRoom variant={variant} />
-        </div>
-      </div>
-      <PlannerOverview
-        {...plannerOverviewProps}
-        className="pt-[var(--space-4)]"
-      />
-      <section
         className={cn(
           layoutGridClassName,
-          "col-span-full md:grid-cols-12 supports-[grid-template-columns:subgrid]:md:[grid-template-columns:subgrid]",
+          styles.shell,
+          "md:grid-cols-12 supports-[grid-template-columns:subgrid]:md:[grid-template-columns:subgrid]",
         )}
       >
-        <div className="md:col-span-4">
-          <TodayCard />
+        <div className={cn("col-span-full", styles.widgetRow)}>
+          <div className={cn("md:col-span-6", styles.splitHalf)}>
+            <div className={styles.section}>
+              <p className={styles.sectionHeading}>Quick calibrations</p>
+              <QuickActions />
+            </div>
+          </div>
+          <div className={cn("md:col-span-6", styles.splitHalf)}>
+            <div className={styles.section}>
+              <p className={styles.sectionHeading}>Ambient room</p>
+              <IsometricRoom variant={variant} />
+            </div>
+          </div>
         </div>
-        <div className="md:col-span-4">
-          <GoalsCard />
+        <div className="col-span-full">
+          <div className={styles.section}>
+            <p className={styles.sectionHeading}>Planner overview</p>
+            <PlannerOverview
+              {...plannerOverviewProps}
+              className={styles.miniGrid}
+            />
+          </div>
         </div>
-        <div className="md:col-span-4">
-          <ReviewsCard />
+        <div className={cn("col-span-full", styles.miniGrid)}>
+          <div className={styles.section}>
+            <p className={styles.sectionHeading}>Today focus</p>
+            <TodayCard />
+          </div>
+          <div className={styles.section}>
+            <p className={styles.sectionHeading}>Goals pulse</p>
+            <GoalsCard />
+          </div>
+          <div className={styles.section}>
+            <p className={styles.sectionHeading}>Highlights</p>
+            <ReviewsCard />
+          </div>
+          <div className={cn(styles.section, activityColumnClass)}>
+            <p className={styles.sectionHeading}>Activity trace</p>
+            <ActivityCard {...activity} />
+          </div>
+          <div className={cn(styles.section, promptsColumnClass)}>
+            <p className={styles.sectionHeading}>Prompts orbit</p>
+            <TeamPromptsCard />
+          </div>
         </div>
-        <div className={activityColumnClass}>
-          <ActivityCard {...activity} />
+        <div className="col-span-full">
+          <div className={styles.aiPanel}>
+            <div className={styles.aiHeader}>
+              <span className={styles.aiChip}>AI draft</span>
+              <p className="text-ui text-foreground">
+                Agnes and Noxi surfaced three momentum bets. Everything stays editable, retryable, and dismissible.
+              </p>
+            </div>
+            <div className={styles.aiActions}>
+              <Button size="sm" variant="ghost" tone="accent">
+                Retry
+              </Button>
+              <Button size="sm" variant="default" tone="accent">
+                Edit draft
+              </Button>
+              <Button size="sm" variant="ghost">
+                Cancel
+              </Button>
+            </div>
+            <p className={styles.aiHint}>
+              Confidence: medium. Suggestions will adapt once you complete today’s plan or dismiss items manually.
+            </p>
+          </div>
         </div>
-        <div className={promptsColumnClass}>
-          <TeamPromptsCard />
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 });
 
