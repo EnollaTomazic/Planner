@@ -128,27 +128,6 @@ const mockPlannerOverview: PlannerOverviewProps = {
   },
 };
 
-const mockHighlights = [
-  {
-    id: "sync",
-    title: "Strategy sync",
-    schedule: "Today · 3:00 PM",
-    summary: "Re-align on early jungle pathing & lane priorities.",
-  },
-  {
-    id: "retro",
-    title: "Sprint retro",
-    schedule: "Wed · 11:00 AM",
-    summary: "Collect insights before locking the next sprint.",
-  },
-  {
-    id: "review",
-    title: "Review window",
-    schedule: "Fri · All day",
-    summary: "Encourage highlights before the weekend cooldown.",
-  },
-];
-
 const actions = (
   <div className="flex flex-wrap items-center gap-[var(--space-2)]">
     <Button size="sm" variant="secondary">
@@ -166,7 +145,6 @@ const Template: React.FC = () => (
     <HeroPlannerCards
       variant="lg"
       plannerOverviewProps={mockPlannerOverview}
-      highlights={mockHighlights}
     />
   </div>
 );

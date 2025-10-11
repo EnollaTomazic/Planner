@@ -107,7 +107,7 @@ import {
   ReviewSliderTrack,
   ScoreMeter,
 } from "@/components/reviews";
-import type { HeroPlannerHighlight, PlannerOverviewProps } from "@/components/home";
+import type { PlannerOverviewProps } from "@/components/home";
 import type { Persona, PromptWithTitle } from "./types";
 import type { Review, Role, Pillar } from "@/lib/types";
 import { VARIANTS, defaultTheme } from "@/lib/theme";
@@ -180,27 +180,6 @@ const demoReview: Review = {
   score: 8,
   result: "Win",
 };
-
-const heroPlannerHighlightsDemo = [
-  {
-    id: "strategy-sync",
-    title: "Strategy sync",
-    schedule: "Today · 3:00 PM",
-    summary: "Align backlog for the Q2 milestone and confirm owners.",
-  },
-  {
-    id: "retro",
-    title: "Sprint retro",
-    schedule: "Wed · 11:00 AM",
-    summary: "Collect insights for the retro and lock the next sprint goals.",
-  },
-  {
-    id: "review-window",
-    title: "Review window",
-    schedule: "Fri · All day",
-    summary: "Encourage everyone to log highlights before the week wraps.",
-  },
-] as const satisfies readonly HeroPlannerHighlight[];
 
 const heroAvatarSrc = withBasePath("/hero_image.png");
 
@@ -4435,7 +4414,6 @@ const [value, setValue] = React.useState(options[0].value);
             <HeroPlannerCards
               variant="aurora"
               plannerOverviewProps={heroPlannerOverviewDemo}
-              highlights={heroPlannerHighlightsDemo}
             />
           </UiSectionCard.Body>
         </UiSectionCard>
@@ -4453,7 +4431,6 @@ const [value, setValue] = React.useState(options[0].value);
     <HeroPlannerCards
       variant="aurora"
       plannerOverviewProps={plannerOverviewProps}
-      highlights={weeklyHighlights}
     />
   </SectionCard.Body>
 </SectionCard>`,

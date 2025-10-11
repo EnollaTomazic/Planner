@@ -17,28 +17,18 @@ import type { Variant } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import styles from "./HeroPlannerCards.module.css";
 
-export interface HeroPlannerHighlight {
-  id: string;
-  title: string;
-  schedule: string;
-  summary: string;
-}
-
 export interface HeroPlannerCardsProps {
   variant: Variant;
   plannerOverviewProps: PlannerOverviewProps;
-  highlights: readonly HeroPlannerHighlight[];
   className?: string;
 }
 
 const HeroPlannerCards = React.memo(function HeroPlannerCards({
   variant,
   plannerOverviewProps,
-  highlights: _highlights,
   className,
 }: HeroPlannerCardsProps) {
   const { activity } = plannerOverviewProps;
-  void _highlights;
 
   const activityColumnClass = activity.hasData || activity.loading
     ? "col-span-full md:col-span-6 lg:col-span-4"

@@ -24,7 +24,7 @@ export {
   PlannerOverview,
   useHomePlannerOverview,
 } from "./home-landing";
-export type { HeroPlannerCardsProps, HeroPlannerHighlight } from "./HeroPlannerCards";
+export type { HeroPlannerCardsProps } from "./HeroPlannerCards";
 export type {
   PlannerOverviewProps,
   PlannerOverviewSummaryProps,

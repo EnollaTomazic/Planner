@@ -7,10 +7,10 @@ test.describe("Home splash focus management", () => {
     await page.goto("/");
 
     const splash = page.locator("[data-home-splash]");
-    await splash.waitFor({ state: "visible" });
+    await (splash as any).waitFor({ state: "visible" });
 
     const status = page.locator("[data-home-splash-status]");
-    await status.waitFor({ state: "visible" });
+    await (status as any).waitFor({ state: "visible" });
 
     await expect(status).toBeFocused();
 
@@ -43,13 +43,15 @@ test.describe("Home splash focus management", () => {
 
     expect(focusAttemptWhileInert).toBe(false);
 
-    const axeResults = await new AxeBuilder({ page }).include("[data-home-splash]").analyze();
+    const axeResults = await (new AxeBuilder({ page }) as any)
+      .include("[data-home-splash]")
+      .analyze();
 
     expect(axeResults.violations).toEqual([]);
 
-    await splash.waitFor({ state: "hidden" });
+    await (splash as any).waitFor({ state: "hidden" });
 
-    await expect(content).not.toHaveAttribute("data-inert", "");
+    await (expect(content) as any).not.toHaveAttribute("data-inert", "");
 
     const focusAttemptAfterDismiss = await page.evaluate(() => {
       const main = document.querySelector<HTMLElement>("[data-home-content]");

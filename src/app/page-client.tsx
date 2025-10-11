@@ -10,7 +10,7 @@ import {
   useHomePlannerOverview,
   useHydratedCallback,
 } from "@/components/home";
-import type { HeroPlannerHighlight, PlannerOverviewProps } from "@/components/home";
+import type { PlannerOverviewProps } from "@/components/home";
 import { PageShell, Button, ThemeToggle, SectionCard } from "@/components/ui";
 import { PlannerProvider } from "@/components/planner";
 import { useTheme, useUiFeatureFlags } from "@/lib/theme-context";
@@ -28,45 +28,20 @@ const HomeSplash = dynamic<HomeSplashProps>(
   { ssr: false },
 );
 
-type InertableElement = HTMLElement & { inert: boolean };
-
-function isInertable(element: HTMLElement): element is InertableElement {
-  return "inert" in element;
-}
-
 function setElementInert(element: HTMLElement, inert: boolean) {
-  if (isInertable(element)) {
+  const fallback = element as Element;
+
+  if ("inert" in element) {
     element.inert = inert;
     return;
   }
 
   if (inert) {
-    element.setAttribute("inert", "");
+    fallback.setAttribute("inert", "");
   } else {
-    element.removeAttribute("inert");
+    fallback.removeAttribute("inert");
   }
 }
-
-const weeklyHighlights = [
-  {
-    id: "strategy-sync",
-    title: "Strategy sync",
-    schedule: "Today · 3:00 PM",
-    summary: "Align backlog for the Q2 milestone and confirm owners.",
-  },
-  {
-    id: "retro",
-    title: "Sprint retro",
-    schedule: "Wed · 11:00 AM",
-    summary: "Collect insights to finalize review prompts and next sprint goals.",
-  },
-  {
-    id: "review-window",
-    title: "Review window",
-    schedule: "Fri · All day",
-    summary: "Encourage the team to log highlights before the week wraps.",
-  },
-] as const satisfies readonly HeroPlannerHighlight[];
 
 function HomePageContent() {
   const [theme] = useTheme();
@@ -240,7 +215,6 @@ function HomePageBody({
             <HeroPlannerCards
               variant={themeVariant}
               plannerOverviewProps={plannerOverviewProps}
-              highlights={weeklyHighlights}
             />
           </SectionCard.Body>
         </SectionCard>
