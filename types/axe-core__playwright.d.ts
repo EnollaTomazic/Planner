@@ -7,6 +7,7 @@ declare module "@axe-core/playwright" {
 
   export default class AxeBuilder {
     constructor(options: { page: Page });
+    include(selector: string): this;
     analyze(): Promise<AnalyzeResults>;
   }
 }
