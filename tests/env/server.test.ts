@@ -4,7 +4,7 @@ import { ZodError } from "zod";
 import loadServerEnvDefault, { loadServerEnv } from "../../env/server";
 
 describe("loadServerEnv", () => {
-  it("defaults SAFE_MODE to 'false' when missing", () => {
+  it("defaults SAFE_MODE to 'true' when missing", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
 
     try {
@@ -14,7 +14,7 @@ describe("loadServerEnv", () => {
         NODE_ENV: "production",
       } as unknown as NodeJS.ProcessEnv);
 
-      expect(env.SAFE_MODE).toBe("false");
+      expect(env.SAFE_MODE).toBe("true");
       expect(warn).toHaveBeenCalledWith(
         expect.stringContaining("SAFE_MODE was missing"),
       );
@@ -78,9 +78,9 @@ describe("loadServerEnv", () => {
     try {
       const env = loadServerEnvDefault();
 
-      expect(env.SAFE_MODE).toBe("false");
-      expect(process.env.SAFE_MODE).toBe("false");
-      expect(process.env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
+      expect(env.SAFE_MODE).toBe("true");
+      expect(process.env.SAFE_MODE).toBe("true");
+      expect(process.env.NEXT_PUBLIC_SAFE_MODE).toBe("true");
       expect(warn).toHaveBeenCalledWith(
         expect.stringContaining("SAFE_MODE was missing"),
       );

@@ -4,11 +4,11 @@ import { cleanup } from "@testing-library/react";
 
 if (typeof process !== "undefined") {
   if (process.env.NEXT_PUBLIC_SAFE_MODE === undefined) {
-    process.env.NEXT_PUBLIC_SAFE_MODE = "false";
+    process.env.NEXT_PUBLIC_SAFE_MODE = "true";
   }
 
   if (process.env.SAFE_MODE === undefined) {
-    process.env.SAFE_MODE = "false";
+    process.env.SAFE_MODE = "true";
   }
 }
 
