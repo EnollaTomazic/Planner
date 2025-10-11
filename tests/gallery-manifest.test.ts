@@ -10,6 +10,7 @@ const manifestPath = path.resolve(
 const requiredSnippets = [
   "// checksum:",
   "export const manifest =",
+  "satisfies Manifest",
 ] as const;
 
 describe("gallery manifest source", () => {
