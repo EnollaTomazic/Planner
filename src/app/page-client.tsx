@@ -4,13 +4,16 @@ import * as React from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
-  HeroPlannerCards,
-  HomeHeroSection,
   useGlitchLandingSplash,
   useHomePlannerOverview,
   useHydratedCallback,
 } from "@/components/home";
-import type { HeroPlannerHighlight, PlannerOverviewProps } from "@/components/home";
+import type {
+  HeroPlannerCardsProps,
+  HeroPlannerHighlight,
+  PlannerOverviewProps,
+} from "@/components/home";
+import type { HomeHeroSectionProps } from "@/components/home/home-landing/types";
 import { PageShell, Button, ThemeToggle, SectionCard } from "@/components/ui";
 import { PlannerProvider } from "@/components/planner";
 import { useTheme, useUiFeatureFlags } from "@/lib/theme-context";
@@ -28,13 +31,97 @@ const HomeSplash = dynamic<HomeSplashProps>(
   { ssr: false },
 );
 
+const HomeHeroSection = dynamic(
+  () => import("@/components/home/home-landing/HomeHeroSection"),
+  {
+    loading: () => <HomeHeroSectionFallback />,
+  },
+) as React.ComponentType<HomeHeroSectionProps>;
+
+const HeroPlannerCards = dynamic(
+  () => import("@/components/home/HeroPlannerCards"),
+  {
+    loading: () => <HeroPlannerCardsFallback />,
+  },
+) as React.ComponentType<HeroPlannerCardsProps>;
+
+const HeroSectionFallbackContext =
+  React.createContext<HomeHeroSectionProps | null>(null);
+
+const HeroPlannerCardsFallbackContext =
+  React.createContext<HeroPlannerCardsProps | null>(null);
+
+function HomeHeroSectionFallback() {
+  const fallbackProps = React.useContext(HeroSectionFallbackContext);
+  const headingId = fallbackProps?.headingId ?? "home-hero-fallback";
+  const actions = fallbackProps?.actions;
+
+  return (
+    <section
+      aria-labelledby={headingId}
+      className="flex flex-col gap-[var(--space-4)] rounded-[var(--radius-xl)] border border-border/80 bg-surface p-[var(--space-5)]"
+    >
+      <div className="space-y-[var(--space-3)]">
+        <div className="h-8 w-2/3 animate-pulse rounded-md bg-muted/40" aria-hidden />
+        <div className="h-4 w-3/4 animate-pulse rounded-md bg-muted/30" aria-hidden />
+        <div className="h-4 w-1/2 animate-pulse rounded-md bg-muted/20" aria-hidden />
+      </div>
+      <div className="space-y-[var(--space-2)]">
+        <div className="h-20 w-full animate-pulse rounded-xl bg-muted/10" aria-hidden />
+        <div className="h-20 w-full animate-pulse rounded-xl bg-muted/10" aria-hidden />
+      </div>
+      {actions ? (
+        <div
+          role="group"
+          aria-label="Home hero actions"
+          className="flex flex-wrap items-center gap-[var(--space-3)]"
+        >
+          {actions}
+        </div>
+      ) : null}
+      <span className="sr-only">Loading planner hero section…</span>
+    </section>
+  );
+}
+
+function HeroPlannerCardsFallback() {
+  const fallbackProps = React.useContext(HeroPlannerCardsFallbackContext);
+  const className = fallbackProps?.className;
+  const summaryKeys = fallbackProps?.plannerOverviewProps.summary.items.map(
+    (item) => item.key,
+  ) ?? ["summary-placeholder-0", "summary-placeholder-1", "summary-placeholder-2"];
+  const rootClassName = className
+    ? `space-y-[var(--space-4)] ${className}`
+    : "space-y-[var(--space-4)]";
+
+  return (
+    <section className={rootClassName} aria-busy>
+      <div className="grid gap-[var(--space-3)] md:grid-cols-3">
+        {summaryKeys.map((key) => (
+          <div
+            key={key}
+            className="h-28 animate-pulse rounded-[var(--radius-lg)] border border-border/60 bg-muted/10"
+            aria-hidden
+          />
+        ))}
+      </div>
+      <div className="grid gap-[var(--space-3)] md:grid-cols-2">
+        <div className="h-40 animate-pulse rounded-[var(--radius-lg)] border border-border/60 bg-muted/10" aria-hidden />
+        <div className="h-40 animate-pulse rounded-[var(--radius-lg)] border border-border/60 bg-muted/10" aria-hidden />
+      </div>
+      <div className="h-36 animate-pulse rounded-[var(--radius-lg)] border border-border/60 bg-muted/10" aria-hidden />
+      <span className="sr-only">Loading planner overview widgets…</span>
+    </section>
+  );
+}
+
 type InertableElement = HTMLElement & { inert: boolean };
 
-function isInertable(element: HTMLElement): element is InertableElement {
+function isInertable(element: Element): element is InertableElement {
   return "inert" in element;
 }
 
-function setElementInert(element: HTMLElement, inert: boolean) {
+function setElementInert(element: Element, inert: boolean) {
   if (isInertable(element)) {
     element.inert = inert;
     return;
@@ -210,11 +297,19 @@ function HomePageBody({
           className="col-span-full"
         >
           <SectionCard.Body className="md:p-[var(--space-6)]">
-            <HomeHeroSection
-              variant={themeVariant}
-              actions={heroActions}
-              headingId={heroHeadingId}
-            />
+            <HeroSectionFallbackContext.Provider
+              value={{
+                variant: themeVariant,
+                actions: heroActions,
+                headingId: heroHeadingId,
+              }}
+            >
+              <HomeHeroSection
+                variant={themeVariant}
+                actions={heroActions}
+                headingId={heroHeadingId}
+              />
+            </HeroSectionFallbackContext.Provider>
           </SectionCard.Body>
         </SectionCard>
       </PageShell>
@@ -237,11 +332,20 @@ function HomePageBody({
             titleClassName="text-title font-semibold tracking-[-0.01em]"
           />
           <SectionCard.Body className="md:p-[var(--space-6)]">
-            <HeroPlannerCards
-              variant={themeVariant}
-              plannerOverviewProps={plannerOverviewProps}
-              highlights={weeklyHighlights}
-            />
+            <HeroPlannerCardsFallbackContext.Provider
+              value={{
+                variant: themeVariant,
+                plannerOverviewProps,
+                highlights: weeklyHighlights,
+                className: undefined,
+              }}
+            >
+              <HeroPlannerCards
+                variant={themeVariant}
+                plannerOverviewProps={plannerOverviewProps}
+                highlights={weeklyHighlights}
+              />
+            </HeroPlannerCardsFallbackContext.Provider>
           </SectionCard.Body>
         </SectionCard>
       </PageShell>
