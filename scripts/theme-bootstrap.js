@@ -335,13 +335,13 @@
     }
 
     dataset.themePref = hasStoredTheme ? "persisted" : "system";
-    let prefersDark = hasStoredTheme;
+    let prefersDark = true;
     if (!hasStoredTheme) {
       try {
         prefersDark = !!window.matchMedia &&
           window.matchMedia("(prefers-color-scheme: dark)").matches;
       } catch {
-        prefersDark = false;
+        prefersDark = true;
       }
     }
 
