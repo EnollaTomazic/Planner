@@ -12,11 +12,18 @@ import "./style.css";
 
 import * as React from "react";
 import {
+  Button,
   GlitchSegmentedButton,
   GlitchSegmentedGroup,
   PageHeader,
   PageShell,
 } from "@/components/ui";
+import PortraitFrame from "@/components/home/PortraitFrame";
+import ProgressRingIcon from "@/icons/ProgressRingIcon";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
+import { useOptionalTheme } from "@/lib/theme-context";
+import { cn } from "@/lib/utils";
+import styles from "./PlannerPage.module.css";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
 import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
@@ -52,11 +59,16 @@ function Inner() {
   const { viewMode, setViewMode } = usePlanner();
   const { start, end } = useWeek(iso);
   const hydrating = today === FOCUS_PLACEHOLDER;
+  const themeContext = useOptionalTheme();
+  const themeVariant = themeContext?.[0].variant ?? "aurora";
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [planningEnergy, setPlanningEnergy] = React.useState(72);
   const weekAnnouncement = React.useMemo(
     () => (hydrating ? "Week preview loading…" : formatWeekRangeLabel(start, end)),
     [end, hydrating, start],
   );
   const labelId = React.useId();
+  const sliderId = React.useId();
   const handleViewModeChange = React.useCallback(
     (value: string) => {
       if (value === viewMode) return;
@@ -65,9 +77,89 @@ function Inner() {
     [setViewMode, viewMode],
   );
 
+  const heroPose = React.useMemo(() => {
+    if (themeVariant === "noir" || themeVariant === "hardstuck") {
+      return "back-to-back";
+    }
+    if (themeVariant === "aurora" || themeVariant === "ocean") {
+      return "angel-leading";
+    }
+    return "demon-leading";
+  }, [themeVariant]);
+
   return (
     <>
       <PageShell as="header" grid className="py-[var(--space-6)]">
+        <section className={styles.heroPanel} aria-labelledby="planner-hero-heading">
+          <div className={styles.heroContent}>
+            <div className={cn(styles.heroText, "col-span-full")}> 
+              <span className={styles.heroEyebrow}>Planner autopilot</span>
+              <h2 id="planner-hero-heading" className={styles.heroHeading}>
+                Agnes &amp; Noxi tuned this sprint blueprint
+              </h2>
+              <p className={styles.heroSubtitle}>
+                Tweak the focus dial before locking the week. Agnes maps the calm line, Noxi keeps the glitch guardrails on.
+                Every suggestion stays editable.
+              </p>
+              <div className={styles.heroDial}>
+                <div
+                  className={cn(
+                    styles.heroRing,
+                    prefersReducedMotion && styles.heroRingReduced,
+                  )}
+                >
+                  <ProgressRingIcon pct={planningEnergy} size="l" />
+                  <span className={styles.heroRingValue}>{planningEnergy}%</span>
+                </div>
+                <span className={styles.heroRingCaption}>Focus calibration</span>
+                <label className={styles.heroSliderLabel} htmlFor={sliderId}>
+                  <span className="text-label font-medium tracking-[0.08em] uppercase">
+                    Adjust energy
+                  </span>
+                  <input
+                    id={sliderId}
+                    type="range"
+                    min={20}
+                    max={100}
+                    step={1}
+                    value={planningEnergy}
+                    onChange={(event) => setPlanningEnergy(Number(event.target.value))}
+                    className={styles.heroSlider}
+                    aria-valuemin={20}
+                    aria-valuemax={100}
+                    aria-valuenow={planningEnergy}
+                    aria-describedby={`${sliderId}-feedback`}
+                  />
+                  <span
+                    id={`${sliderId}-feedback`}
+                    className={styles.heroFeedback}
+                    aria-live="polite"
+                  >
+                    {planningEnergy >= 75
+                      ? "High-intensity push queued."
+                      : planningEnergy <= 40
+                        ? "Keeping a low-impact tempo."
+                        : "Balanced cadence engaged."}
+                  </span>
+                </label>
+              </div>
+              <div className={styles.heroActions}>
+                <Button size="sm" variant="ghost" tone="accent">
+                  Retry suggestions
+                </Button>
+                <Button size="sm" variant="default" tone="accent">
+                  Edit draft
+                </Button>
+                <Button size="sm" variant="ghost">
+                  Cancel
+                </Button>
+              </div>
+            </div>
+            <div className={styles.heroPortrait}>
+              <PortraitFrame pose={heroPose} transparentBackground />
+            </div>
+          </div>
+        </section>
         {/* Week header (range, nav, totals, day chips) */}
         <PageHeader
           containerClassName="col-span-full"
