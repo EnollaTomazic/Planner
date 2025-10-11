@@ -109,9 +109,9 @@
   transform: translateY(var(--segmented-translate-hover));
 }
 
+:global(.is-active).root,
 .root[data-selected="true"],
-.root[aria-current="page"],
-.root:global(.is-active) {
+.root[aria-current="page"] {
   color: hsl(var(--foreground));
   background: var(--segmented-selected);
   border-color: hsl(var(--ring));
