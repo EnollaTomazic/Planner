@@ -48,9 +48,44 @@ jobs:
           node-version-file: .nvmrc
           skip-checkout: 'true'
 
+      - name: Ensure Node.js version matches .nvmrc
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ ! -f .nvmrc ]; then
+            echo "::error::.nvmrc file is missing." >&2
+            exit 1
+          fi
+
+          EXPECTED_NODE="$(tr -d '\r\n[:space:]' < .nvmrc)"
+
+          if [ -z "$EXPECTED_NODE" ]; then
+            echo "::error::.nvmrc did not contain a Node.js version." >&2
+            exit 1
+          fi
+
+          case "$EXPECTED_NODE" in
+            v*) ;;
+            *) EXPECTED_NODE="v$EXPECTED_NODE" ;;
+          esac
+
+          ACTUAL_NODE="$(node --version)"
+
+          echo "Expected Node.js version: $EXPECTED_NODE"
+          echo "Detected Node.js version: $ACTUAL_NODE"
+
+          if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
+            echo "::error::Node.js version mismatch. Update the runtime to $EXPECTED_NODE before continuing." >&2
+            exit 1
+          fi
+
+
+
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
         with:
+          node-version-file: .nvmrc
           pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Refresh gallery usage manifest
@@ -90,9 +125,44 @@ jobs:
           node-version-file: .nvmrc
           skip-checkout: 'true'
 
+      - name: Ensure Node.js version matches .nvmrc
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ ! -f .nvmrc ]; then
+            echo "::error::.nvmrc file is missing." >&2
+            exit 1
+          fi
+
+          EXPECTED_NODE="$(tr -d '\r\n[:space:]' < .nvmrc)"
+
+          if [ -z "$EXPECTED_NODE" ]; then
+            echo "::error::.nvmrc did not contain a Node.js version." >&2
+            exit 1
+          fi
+
+          case "$EXPECTED_NODE" in
+            v*) ;;
+            *) EXPECTED_NODE="v$EXPECTED_NODE" ;;
+          esac
+
+          ACTUAL_NODE="$(node --version)"
+
+          echo "Expected Node.js version: $EXPECTED_NODE"
+          echo "Detected Node.js version: $ACTUAL_NODE"
+
+          if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
+            echo "::error::Node.js version mismatch. Update the runtime to $EXPECTED_NODE before continuing." >&2
+            exit 1
+          fi
+
+
+
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
         with:
+          node-version-file: .nvmrc
           pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Refresh gallery usage manifest
@@ -151,9 +221,44 @@ jobs:
           node-version-file: .nvmrc
           skip-checkout: 'true'
 
+      - name: Ensure Node.js version matches .nvmrc
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ ! -f .nvmrc ]; then
+            echo "::error::.nvmrc file is missing." >&2
+            exit 1
+          fi
+
+          EXPECTED_NODE="$(tr -d '\r\n[:space:]' < .nvmrc)"
+
+          if [ -z "$EXPECTED_NODE" ]; then
+            echo "::error::.nvmrc did not contain a Node.js version." >&2
+            exit 1
+          fi
+
+          case "$EXPECTED_NODE" in
+            v*) ;;
+            *) EXPECTED_NODE="v$EXPECTED_NODE" ;;
+          esac
+
+          ACTUAL_NODE="$(node --version)"
+
+          echo "Expected Node.js version: $EXPECTED_NODE"
+          echo "Detected Node.js version: $ACTUAL_NODE"
+
+          if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
+            echo "::error::Node.js version mismatch. Update the runtime to $EXPECTED_NODE before continuing." >&2
+            exit 1
+          fi
+
+
+
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
         with:
+          node-version-file: .nvmrc
           pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Refresh gallery usage manifest
@@ -201,9 +306,44 @@ jobs:
           node-version-file: .nvmrc
           skip-checkout: 'true'
 
+      - name: Ensure Node.js version matches .nvmrc
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ ! -f .nvmrc ]; then
+            echo "::error::.nvmrc file is missing." >&2
+            exit 1
+          fi
+
+          EXPECTED_NODE="$(tr -d '\r\n[:space:]' < .nvmrc)"
+
+          if [ -z "$EXPECTED_NODE" ]; then
+            echo "::error::.nvmrc did not contain a Node.js version." >&2
+            exit 1
+          fi
+
+          case "$EXPECTED_NODE" in
+            v*) ;;
+            *) EXPECTED_NODE="v$EXPECTED_NODE" ;;
+          esac
+
+          ACTUAL_NODE="$(node --version)"
+
+          echo "Expected Node.js version: $EXPECTED_NODE"
+          echo "Detected Node.js version: $ACTUAL_NODE"
+
+          if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
+            echo "::error::Node.js version mismatch. Update the runtime to $EXPECTED_NODE before continuing." >&2
+            exit 1
+          fi
+
+
+
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
         with:
+          node-version-file: .nvmrc
           pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Refresh gallery usage manifest
@@ -265,9 +405,44 @@ jobs:
           node-version-file: .nvmrc
           skip-checkout: 'true'
 
+      - name: Ensure Node.js version matches .nvmrc
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ ! -f .nvmrc ]; then
+            echo "::error::.nvmrc file is missing." >&2
+            exit 1
+          fi
+
+          EXPECTED_NODE="$(tr -d '\r\n[:space:]' < .nvmrc)"
+
+          if [ -z "$EXPECTED_NODE" ]; then
+            echo "::error::.nvmrc did not contain a Node.js version." >&2
+            exit 1
+          fi
+
+          case "$EXPECTED_NODE" in
+            v*) ;;
+            *) EXPECTED_NODE="v$EXPECTED_NODE" ;;
+          esac
+
+          ACTUAL_NODE="$(node --version)"
+
+          echo "Expected Node.js version: $EXPECTED_NODE"
+          echo "Detected Node.js version: $ACTUAL_NODE"
+
+          if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
+            echo "::error::Node.js version mismatch. Update the runtime to $EXPECTED_NODE before continuing." >&2
+            exit 1
+          fi
+
+
+
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
         with:
+          node-version-file: .nvmrc
           pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Refresh gallery usage manifest
@@ -431,9 +606,44 @@ jobs:
           node-version-file: .nvmrc
           skip-checkout: 'true'
 
+      - name: Ensure Node.js version matches .nvmrc
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ ! -f .nvmrc ]; then
+            echo "::error::.nvmrc file is missing." >&2
+            exit 1
+          fi
+
+          EXPECTED_NODE="$(tr -d '\r\n[:space:]' < .nvmrc)"
+
+          if [ -z "$EXPECTED_NODE" ]; then
+            echo "::error::.nvmrc did not contain a Node.js version." >&2
+            exit 1
+          fi
+
+          case "$EXPECTED_NODE" in
+            v*) ;;
+            *) EXPECTED_NODE="v$EXPECTED_NODE" ;;
+          esac
+
+          ACTUAL_NODE="$(node --version)"
+
+          echo "Expected Node.js version: $EXPECTED_NODE"
+          echo "Detected Node.js version: $ACTUAL_NODE"
+
+          if [ "$ACTUAL_NODE" != "$EXPECTED_NODE" ]; then
+            echo "::error::Node.js version mismatch. Update the runtime to $EXPECTED_NODE before continuing." >&2
+            exit 1
+          fi
+
+
+
       - name: Verify tool versions
         uses: ./.github/actions/verify-tool-versions
         with:
+          node-version-file: .nvmrc
           pnpm-version: ${{ env.PNPM_VERSION }}
 
       - name: Refresh gallery usage manifest

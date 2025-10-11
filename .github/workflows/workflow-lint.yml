@@ -44,14 +44,13 @@ jobs:
           cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
           skip-checkout: 'true'
 
-      - name: actionlint (all workflows)
+      - name: Run actionlint across workflows
         uses: reviewdog/action-actionlint@0b71b30a47a15c4d849868cca394fb656f1cf657 # v1.67.0
         with:
           github_token: ${{ github.token }}
           fail_level: error
           filter_mode: nofilter
-          actionlint_flags: >-
-            $(git ls-files '.github/workflows/*.yml' '.github/workflows/*.yaml')
+          actionlint_flags: --color never
 
       - name: Install yamllint
         run: sudo apt-get update && sudo apt-get install -y yamllint
@@ -61,4 +60,5 @@ jobs:
           yamllint -d "{extends: default, rules: {line-length: {max: 200}, comments: disable, document-start: disable, truthy: disable}}" .github
 
       - name: Guard transient artifacts
+        if: always()
         run: pnpm run guard:artifacts
