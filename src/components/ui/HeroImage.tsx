@@ -45,5 +45,3 @@ export function HeroImage({
     />
   );
 }
-
-export default HeroImage;

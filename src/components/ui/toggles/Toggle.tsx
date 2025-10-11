@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import Spinner from "../feedback/Spinner";
+import { Spinner } from "../feedback/Spinner";
 import styles from "./Toggle.module.css";
 
 type Side = "Left" | "Right";
@@ -10,7 +10,7 @@ type Side = "Left" | "Right";
 const STATE_TOKEN_CLASSES =
   "[--toggle-hover-surface:hsl(var(--accent)/0.16)] [--toggle-active-surface:hsl(var(--accent)/0.26)] [--toggle-focus-ring:var(--ring-contrast)] [--toggle-focus-glow:var(--shadow-glow-md)]";
 
-export default function Toggle({
+export function Toggle({
   leftLabel = "Left",
   rightLabel = "Right",
   value = "Left",

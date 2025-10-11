@@ -3,7 +3,7 @@ import * as React from "react";
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 import { cn } from "@/lib/utils";
 
-import Toggle from "./Toggle";
+import { Toggle } from "./Toggle";
 
 type ToggleProps = React.ComponentProps<typeof Toggle>;
 
@@ -95,7 +95,7 @@ function ToggleGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const ToggleGallery = defineGallerySection({
   id: "toggles",
   entries: [
     {
@@ -151,4 +151,4 @@ export default defineGallerySection({
 </div>`,
     },
   ],
-});
+})

@@ -1,12 +1,12 @@
 "use client";
 
 import * as React from "react";
-import DashboardCard from "./DashboardCard";
-import DashboardList from "./DashboardList";
+import { DashboardCard } from "./DashboardCard";
+import { DashboardList } from "./DashboardList";
 import { todayISO } from "@/components/planner/plannerSerialization";
 import { useDay } from "@/components/planner";
 
-export default function TodayCard() {
+export function TodayCard() {
   const iso = todayISO();
   const { tasks } = useDay(iso);
   const topTasks = React.useMemo(() => tasks.slice(0, 3), [tasks]);

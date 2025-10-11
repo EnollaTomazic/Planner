@@ -34,7 +34,7 @@ type SpinnerProps = {
   tone?: SpinnerTone;
 };
 
-export default function Spinner({
+export function Spinner({
   className,
   size = "xl",
   tone = "accent",

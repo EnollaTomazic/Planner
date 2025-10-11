@@ -1,9 +1,8 @@
 import React from "react";
 import { render, cleanup, waitFor } from "@testing-library/react";
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
-import IconButton, {
-  type IconButtonProps,
-} from "../../src/components/ui/primitives/IconButton";
+import {
+  type IconButtonProps, IconButton } from "../../src/components/ui/primitives/IconButton";
 
 afterEach(cleanup);
 

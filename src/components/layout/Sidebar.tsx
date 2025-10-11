@@ -37,7 +37,7 @@ export type SidebarProps<TElement extends LayoutElement = "section"> =
       keyof SidebarOwnProps<TElement>
     >;
 
-export default function Sidebar<TElement extends LayoutElement = "section">({
+export function Sidebar<TElement extends LayoutElement = "section">({
   as,
   className,
   style,

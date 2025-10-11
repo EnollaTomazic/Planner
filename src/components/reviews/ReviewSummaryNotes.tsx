@@ -1,12 +1,12 @@
 import * as React from "react";
-import SectionLabel from "@/components/reviews/SectionLabel";
-import ReviewSurface from "./ReviewSurface";
+import { SectionLabel } from "@/components/reviews/SectionLabel";
+import { ReviewSurface } from "./ReviewSurface";
 
 export type ReviewSummaryNotesProps = {
   notes: string;
 };
 
-export default function ReviewSummaryNotes({ notes }: ReviewSummaryNotesProps) {
+export function ReviewSummaryNotes({ notes }: ReviewSummaryNotesProps) {
   return (
     <div>
       <SectionLabel>Notes</SectionLabel>

@@ -3,8 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
-import Sheet from "@/components/ui/Sheet";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { Sheet } from "@/components/ui/Sheet";
+import { IconButton } from "@/components/ui/primitives/IconButton";
 import { MEDIA_QUERY_MD } from "@/lib/breakpoints";
 import { useMatchMedia } from "@/lib/react";
 import { cn } from "@/lib/utils";
@@ -22,7 +22,7 @@ export type MobileNavDrawerProps = {
   id?: string;
 };
 
-export default function MobileNavDrawer({
+export function MobileNavDrawer({
   open,
   onClose,
   items = NAV_ITEMS,

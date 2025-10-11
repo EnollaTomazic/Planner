@@ -16,12 +16,12 @@ import {
   ThemeToggle,
   Toggle,
 } from "@/components/ui";
-import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
+import { SegmentedButton } from "@/components/ui/primitives/SegmentedButton";
 import segmentedButtonStyles from "@/components/ui/primitives/SegmentedButton.module.css";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn } from "@/lib/utils";
-import GalleryItem from "../GalleryItem";
-import IconButtonShowcase from "../IconButtonShowcase";
+import { GalleryItem } from "../GalleryItem";
+import { IconButtonShowcase } from "../IconButtonShowcase";
 import type { ButtonsPanelData } from "./useComponentGalleryState";
 
 interface ButtonsPanelProps {
@@ -34,7 +34,7 @@ const sampleWidth = "calc(var(--space-8) * 3.5)";
 const sampleWidthStyle: React.CSSProperties = { width: sampleWidth };
 type PanelItem = { label: string; element: React.ReactNode; className?: string };
 
-export default function ButtonsPanel({ data }: ButtonsPanelProps) {
+export function ButtonsPanel({ data }: ButtonsPanelProps) {
   const items = React.useMemo<PanelItem[]>(
     () =>
       [

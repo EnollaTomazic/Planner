@@ -7,7 +7,7 @@ type SectionLabelProps<T extends React.ElementType = "h3"> = {
 } & Omit<React.ComponentPropsWithoutRef<T>, "as" | "children">;
 
 /** Reusable section label divider for grouping review sections. */
-export default function SectionLabel<T extends React.ElementType = "h3">({
+export function SectionLabel<T extends React.ElementType = "h3">({
   as,
   children,
   className,

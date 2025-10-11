@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import Card, { type CardProps } from "./Card";
+import { type CardProps, Card } from "./Card";
 
 export type NeoCardProps = CardProps & {
   overlay?: React.ReactNode;
@@ -25,5 +25,4 @@ const NeoCard = React.forwardRef<React.ElementRef<"div">, NeoCardProps>(
   ),
 );
 NeoCard.displayName = "NeoCard";
-
-export default NeoCard;
+export { NeoCard };

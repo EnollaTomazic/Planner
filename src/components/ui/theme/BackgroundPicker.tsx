@@ -4,7 +4,7 @@ import * as React from "react";
 import type { SelectItem } from "@/components/ui";
 import { BG_CLASSES, Background } from "@/lib/theme";
 import { cn } from "@/lib/utils";
-import SettingsSelect from "./SettingsSelect";
+import { SettingsSelect } from "./SettingsSelect";
 
 const BG_NAMES = ["Default", "Alt 1", "Alt 2", "VHS", "Streak"];
 
@@ -32,7 +32,7 @@ export type BackgroundPickerProps = {
   loadingBackground?: Background | null;
 };
 
-export default function BackgroundPicker({
+export function BackgroundPicker({
   bg,
   onBgChange,
   className = "",

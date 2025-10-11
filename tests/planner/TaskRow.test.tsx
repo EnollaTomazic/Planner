@@ -8,7 +8,7 @@ import {
   cleanup,
 } from "@testing-library/react";
 import { describe, it, expect, vi, afterEach } from "vitest";
-import TaskRow from "@/components/planner/TaskRow";
+import { TaskRow } from "@/components/planner/TaskRow";
 
 const noop = (..._args: unknown[]): void => {};
 

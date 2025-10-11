@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import OutlineGlowDemo from "./OutlineGlowDemo";
-import SectionLabel from "@/components/reviews/SectionLabel";
+import { OutlineGlowDemo } from "./OutlineGlowDemo";
+import { SectionLabel } from "@/components/reviews/SectionLabel";
 import {
   Card,
   Input,
@@ -28,8 +28,8 @@ import {
   IssueBadge,
   SkipLink,
 } from "@/components/ui";
-import Badge from "@/components/ui/primitives/Badge";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { Badge } from "@/components/ui/primitives/Badge";
+import { IconButton } from "@/components/ui/primitives/IconButton";
 import { cn } from "@/lib/utils";
 // Prompts components: GalleryItem, PromptsComposePanel, PromptsHeader
 import { ArrowUp, Check as CheckIcon } from "lucide-react";
@@ -54,7 +54,7 @@ const DEMO_SWATCH_STYLE: React.CSSProperties = {
   width: DEMO_SWATCH,
 };
 
-export default function PromptsDemos() {
+export function PromptsDemos() {
   const labelDemoId = React.useId();
   const issueDemoPanelId = React.useId();
   const issueDemoBadgeId = `${issueDemoPanelId}-badge`;

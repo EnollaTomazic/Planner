@@ -63,5 +63,4 @@ const AILoadingShimmer = React.forwardRef<HTMLDivElement, AILoadingShimmerProps>
 );
 
 AILoadingShimmer.displayName = "AILoadingShimmer";
-
-export default AILoadingShimmer;
+export { AILoadingShimmer };

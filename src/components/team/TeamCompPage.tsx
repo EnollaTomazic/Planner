@@ -25,18 +25,17 @@ import {
 } from "lucide-react";
 import { type HeaderTab } from "@/components/ui/layout/Header";
 import type { HeroProps } from "@/components/ui/layout/Hero";
-import Builder, {
+import {
   type BuilderHandle,
   type LaneKey,
   useTeamBuilderState,
-  LANES as BUILDER_LANES,
-} from "./Builder";
-import JungleClears, { type JungleClearsHandle } from "./JungleClears";
-import CheatSheet from "./CheatSheet";
-import MyComps from "./MyComps";
+  LANES as BUILDER_LANES, Builder } from "./Builder";
+import { type JungleClearsHandle, JungleClears } from "./JungleClears";
+import { CheatSheet } from "./CheatSheet";
+import { MyComps } from "./MyComps";
 import { usePersistentState } from "@/lib/db";
-import IconButton from "@/components/ui/primitives/IconButton";
-import Button from "@/components/ui/primitives/Button";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { Button } from "@/components/ui/primitives/Button";
 import { PageHeader, PageShell, Badge } from "@/components/ui";
 import type { BadgeProps } from "@/components/ui";
 import type { ClearSpeed } from "./data";
@@ -64,7 +63,7 @@ const decodeSubTab = (value: unknown): SubTab | null => {
   return null;
 };
 
-export default function TeamCompPage() {
+export function TeamCompPage() {
   const searchParams = useSearchParams();
   const [tab, setTab] = usePersistentState<Tab>(TAB_KEY, "cheat", {
     decode: decodeTab,

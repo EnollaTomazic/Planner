@@ -17,10 +17,10 @@ import { usePersistentState, uid } from "@/lib/db";
 import { isRecord, isStringArray, safeNumber } from "@/lib/validators";
 import { copyText } from "@/lib/clipboard";
 import { useCoarsePointer } from "@/lib/useCoarsePointer";
-import SectionCard from "@/components/ui/layout/SectionCard";
-import IconButton from "@/components/ui/primitives/IconButton";
-import Input from "@/components/ui/primitives/Input";
-import Textarea from "@/components/ui/primitives/Textarea";
+import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { Input } from "@/components/ui/primitives/Input";
+import { Textarea } from "@/components/ui/primitives/Textarea";
 import {
   Clipboard,
   ClipboardCheck,
@@ -32,7 +32,7 @@ import {
 } from "lucide-react";
 import { ROLES } from "./constants";
 import type { Role } from "./constants";
-import ChampListEditor from "./ChampListEditor";
+import { ChampListEditor } from "./ChampListEditor";
 
 /* ───────────── Types ───────────── */
 
@@ -142,7 +142,7 @@ export function normalizeTeamComps(list: unknown[]): TeamComp[] {
 
 export type MyCompsProps = { query?: string; editing?: boolean };
 
-export default function MyComps({ query = "", editing = false }: MyCompsProps) {
+export function MyComps({ query = "", editing = false }: MyCompsProps) {
   // Load and normalize so old/bad records don't break the UI.
   const [raw, setRaw] = usePersistentState<TeamComp[]>(DB_KEY, SEEDS);
   const items = React.useMemo(

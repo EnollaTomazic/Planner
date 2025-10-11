@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import SectionLabel from "@/components/reviews/SectionLabel";
-import PillarBadge from "@/components/ui/league/pillars/PillarBadge";
+import { SectionLabel } from "@/components/reviews/SectionLabel";
+import { PillarBadge } from "@/components/ui/league/pillars/PillarBadge";
 import { ALL_PILLARS } from "@/components/reviews/reviewData";
 import { cn } from "@/lib/utils";
 import type { Pillar, Review } from "@/lib/types";
@@ -137,4 +137,6 @@ function PillarsSelector(
   );
 }
 
-export default React.forwardRef(PillarsSelector);
+const PillarsSelectorComponent = React.forwardRef(PillarsSelector)
+
+export { PillarsSelectorComponent as PillarsSelector }

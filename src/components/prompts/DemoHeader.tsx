@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Header, Hero, Button, Input, Select } from "@/components/ui";
 import { Star } from "lucide-react";
-import Banner from "@/components/chrome/Banner";
+import { Banner } from "@/components/chrome/Banner";
 import { GoalsProgress } from "@/components/goals";
 import {
   RoleSelector,
@@ -19,7 +19,7 @@ const DEMO_SCORE = 7;
 const { Icon: DemoScoreIcon, cls: demoScoreCls } = scoreIcon(DEMO_SCORE);
 const DEMO_SCORE_MSG = SCORE_POOLS[DEMO_SCORE][0];
 
-export default function DemoHeader({
+export function DemoHeader({
   role,
   onRoleChange,
   fruit,

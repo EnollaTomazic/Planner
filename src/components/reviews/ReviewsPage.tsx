@@ -5,10 +5,10 @@ import { useSearchParams } from "next/navigation";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useReviewFilter } from "@/components/reviews";
-import ReviewList from "./ReviewList";
-import ReviewEditor from "./ReviewEditor";
-import ReviewSummary from "./ReviewSummary";
-import ReviewPanel from "./ReviewPanel";
+import { ReviewList } from "./ReviewList";
+import { ReviewEditor } from "./ReviewEditor";
+import { ReviewSummary } from "./ReviewSummary";
+import { ReviewPanel } from "./ReviewPanel";
 import { BookOpen, Ghost, Plus } from "lucide-react";
 
 import {
@@ -40,7 +40,7 @@ export type ReviewsPageProps = {
   onChangeMeta?: (id: string, partial: Partial<Review>) => void;
 };
 
-export default function ReviewsPage({
+export function ReviewsPage({
   reviews,
   loading,
   error = null,

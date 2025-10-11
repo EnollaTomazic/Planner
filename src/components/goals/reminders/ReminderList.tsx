@@ -1,18 +1,18 @@
 "use client";
 
 import * as React from "react";
-import Badge from "@/components/ui/primitives/Badge";
-import Button from "@/components/ui/primitives/Button";
-import IconButton from "@/components/ui/primitives/IconButton";
-import Input from "@/components/ui/primitives/Input";
-import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
-import Textarea from "@/components/ui/primitives/Textarea";
+import { Badge } from "@/components/ui/primitives/Badge";
+import { Button } from "@/components/ui/primitives/Button";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { Input } from "@/components/ui/primitives/Input";
+import { SegmentedButton } from "@/components/ui/primitives/SegmentedButton";
+import { Textarea } from "@/components/ui/primitives/Textarea";
 import useAutoFocus from "@/lib/useAutoFocus";
 import { capitalize } from "@/lib/utils";
 import { Pencil, Trash2, Pin, PinOff } from "lucide-react";
 import { useReminders, Reminder, Group, Source, Domain } from "./useReminders";
 
-export default function ReminderList() {
+export function ReminderList() {
   const { filtered, updateReminder, removeReminder } = useReminders();
   const handleChange = React.useCallback(
     (id: string, partial: Partial<Reminder>) => {

@@ -21,7 +21,7 @@ type ClientErrorBoundaryState = {
   resetKey: number;
 };
 
-export default class ClientErrorBoundary extends React.Component<
+export class ClientErrorBoundary extends React.Component<
   ClientErrorBoundaryProps,
   ClientErrorBoundaryState
 > {

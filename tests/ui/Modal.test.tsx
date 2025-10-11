@@ -1,7 +1,7 @@
 import * as React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import Modal from "@/components/ui/Modal";
+import { Modal } from "@/components/ui/Modal";
 
 describe("Modal", () => {
   it("traps focus, locks scroll and closes on Escape", async () => {

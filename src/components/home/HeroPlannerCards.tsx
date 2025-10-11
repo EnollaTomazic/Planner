@@ -2,15 +2,15 @@
 
 import * as React from "react";
 
-import ActivityCard from "./ActivityCard";
-import GoalsCard from "./GoalsCard";
-import IsometricRoom from "./IsometricRoom";
-import PlannerOverview from "./home-landing/PlannerOverview";
+import { ActivityCard } from "./ActivityCard";
+import { GoalsCard } from "./GoalsCard";
+import { IsometricRoom } from "./IsometricRoom";
+import { PlannerOverview } from "./home-landing/PlannerOverview";
 import type { PlannerOverviewProps } from "./home-landing";
-import QuickActions from "./QuickActions";
-import ReviewsCard from "./ReviewsCard";
-import TeamPromptsCard from "./TeamPromptsCard";
-import TodayCard from "./TodayCard";
+import { QuickActions } from "./QuickActions";
+import { ReviewsCard } from "./ReviewsCard";
+import { TeamPromptsCard } from "./TeamPromptsCard";
+import { TodayCard } from "./TodayCard";
 import { Button } from "@/components/ui";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import type { Variant } from "@/lib/theme";
@@ -131,5 +131,4 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
 });
 
 HeroPlannerCards.displayName = "HeroPlannerCards";
-
-export default HeroPlannerCards;
+export { HeroPlannerCards };

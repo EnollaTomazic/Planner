@@ -103,5 +103,4 @@ const ReviewSliderTrack = ({
     </div>
   );
 };
-
-export default ReviewSliderTrack;
+export { ReviewSliderTrack };

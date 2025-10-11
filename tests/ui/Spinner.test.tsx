@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Spinner from '@/components/ui/feedback/Spinner';
+import { Spinner } from '@/components/ui/feedback/Spinner';
 import { describe, expect, it } from 'vitest';
 
 describe('Spinner', () => {

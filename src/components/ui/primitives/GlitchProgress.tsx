@@ -124,5 +124,4 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
 );
 
 GlitchProgress.displayName = "GlitchProgress";
-
-export default GlitchProgress;
+export { GlitchProgress };

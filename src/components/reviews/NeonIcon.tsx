@@ -13,7 +13,7 @@ type Props = {
   staticGlow?: boolean;
 };
 
-export default function NeonIcon({
+export function NeonIcon({
   kind,
   on,
   size: sizeProp = "md",

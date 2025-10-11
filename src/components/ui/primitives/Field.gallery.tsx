@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 
-import Field from "./Field";
+import { Field } from "./Field";
 
 const options = [
   { value: "one", label: "One" },
@@ -248,7 +248,7 @@ function FieldGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const FieldGallery = defineGallerySection({
   id: "inputs",
   entries: [
     {
@@ -348,4 +348,4 @@ export default defineGallerySection({
 </Field.Root>`,
     },
   ],
-});
+})

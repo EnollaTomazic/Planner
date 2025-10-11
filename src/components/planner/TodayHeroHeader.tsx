@@ -5,7 +5,7 @@ import type { ChangeEvent } from "react";
 import { Calendar } from "lucide-react";
 
 import { toISODate } from "@/lib/date";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { IconButton } from "@/components/ui/primitives/IconButton";
 import type { ISODate } from "./plannerTypes";
 
 const HEADER_TITLE = "Today";
@@ -18,7 +18,7 @@ type TodayHeroHeaderProps = {
   onChange: (nextIso: ISODate) => void;
 };
 
-export default function TodayHeroHeader({
+export function TodayHeroHeader({
   viewIso,
   isToday,
   onChange,

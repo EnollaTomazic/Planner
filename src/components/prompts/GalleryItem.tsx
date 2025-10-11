@@ -9,7 +9,7 @@ interface GalleryItemProps {
   className?: string;
 }
 
-export default function GalleryItem({
+export function GalleryItem({
   label,
   children,
   className,

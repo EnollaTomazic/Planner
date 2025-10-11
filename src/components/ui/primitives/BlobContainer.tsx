@@ -118,5 +118,4 @@ const BlobContainer = React.forwardRef<HTMLSpanElement, BlobContainerProps>(
 );
 
 BlobContainer.displayName = "BlobContainer";
-
-export default BlobContainer;
+export { BlobContainer };
