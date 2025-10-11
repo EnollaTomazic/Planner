@@ -2,7 +2,7 @@ import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { existsSync, readFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { dirname, resolve, relative } from "node:path";
 
 if (process.env.npm_config_package_lock_only === "true") {
   console.log("Skipping postinstall: package-lock-only install detected.");
@@ -35,10 +35,16 @@ try {
 }
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
+const repoRoot = resolve(scriptDir, "..");
 const manifestPath = resolve(
-  scriptDir,
-  "../src/components/gallery/generated-manifest.g.ts",
+  repoRoot,
+  "src/components/gallery/generated-manifest.g.ts",
 );
+const manifestPayloadPath = resolve(
+  repoRoot,
+  "src/components/gallery/generated-manifest.ts",
+);
+const manifestFiles = [manifestPath, manifestPayloadPath];
 const scriptPath = resolve(scriptDir, "regen-if-needed.ts");
 
 const leadingCommentPattern = /^(?:\uFEFF)?\s*(?:\/\/[^\n]*\n|\/\*[\s\S]*?\*\/\s*)*/u;
@@ -73,6 +79,22 @@ const runGalleryManifestGeneration = () => {
   return exitCode;
 };
 
+const describeManifestFile = (filePath) =>
+  relative(repoRoot, filePath).replace(/\\/g, "/");
+
+const findRawJsonManifestFile = () => {
+  for (const filePath of manifestFiles) {
+    if (!existsSync(filePath)) {
+      continue;
+    }
+    const contents = readFileSync(filePath, "utf8");
+    if (appearsToBeRawJson(contents)) {
+      return filePath;
+    }
+  }
+  return null;
+};
+
 const runRegenIfNeeded = () => {
   const result = spawnSync(process.execPath, ["--import", tsxModulePath, scriptPath], {
     stdio: "inherit",
@@ -90,12 +112,12 @@ const runRegenIfNeeded = () => {
 };
 
 if (isCiEnvironment) {
-  if (existsSync(manifestPath)) {
-    const manifestContents = readFileSync(manifestPath, "utf8");
-    if (appearsToBeRawJson(manifestContents)) {
-      console.log("[postinstall][CI] Raw JSON detected → running build-gallery-usage…");
-      runGalleryManifestGeneration();
-    }
+  const rawJsonFile = findRawJsonManifestFile();
+  if (rawJsonFile) {
+    console.log(
+      `[postinstall][CI] Raw JSON detected in ${describeManifestFile(rawJsonFile)} → running build-gallery-usage…`,
+    );
+    runGalleryManifestGeneration();
   }
 
   console.log("[postinstall][CI] Skipping strict validation on CI (validated later in workflow).");
@@ -105,15 +127,16 @@ if (isCiEnvironment) {
 let attemptedGalleryRegeneration = false;
 let galleryRegenerationExitCode = 0;
 
-if (existsSync(manifestPath)) {
-  const manifestContents = readFileSync(manifestPath, "utf8");
-  if (appearsToBeRawJson(manifestContents)) {
-    attemptedGalleryRegeneration = true;
-    galleryRegenerationExitCode = runGalleryManifestGeneration();
+const rawJsonFile = findRawJsonManifestFile();
+if (rawJsonFile) {
+  attemptedGalleryRegeneration = true;
+  console.log(
+    `[postinstall] Raw JSON detected in ${describeManifestFile(rawJsonFile)} → running build-gallery-usage…`,
+  );
+  galleryRegenerationExitCode = runGalleryManifestGeneration();
 
-    if (galleryRegenerationExitCode !== 0) {
-      process.exit(galleryRegenerationExitCode);
-    }
+  if (galleryRegenerationExitCode !== 0) {
+    process.exit(galleryRegenerationExitCode);
   }
 }
 
