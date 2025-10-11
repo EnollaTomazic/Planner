@@ -60,10 +60,11 @@ describe("useGlitchLandingSplash", () => {
 
 describe("useHydratedCallback", () => {
   it("invokes the callback once when hydration finishes", () => {
-    const onReady = vi.fn();
-    const { rerender } = renderHook(({ hydrated, callback }) =>
-      useHydratedCallback(hydrated, callback),
-    {
+    const onReady = vi.fn<() => void>();
+    const { rerender } = renderHook<void, {
+      hydrated: boolean;
+      callback?: () => void;
+    }>(({ hydrated, callback }) => useHydratedCallback(hydrated, callback), {
       initialProps: { hydrated: false, callback: onReady },
     });
 
@@ -95,10 +96,11 @@ describe("useHydratedCallback", () => {
   });
 
   it("skips invocation when no callback is provided", () => {
-    const onReady = vi.fn();
-    const { rerender } = renderHook(({ hydrated, callback }) =>
-      useHydratedCallback(hydrated, callback),
-    {
+    const onReady = vi.fn<() => void>();
+    const { rerender } = renderHook<void, {
+      hydrated: boolean;
+      callback?: () => void;
+    }>(({ hydrated, callback }) => useHydratedCallback(hydrated, callback), {
       initialProps: { hydrated: false, callback: undefined },
     });
 
