@@ -283,6 +283,7 @@ async function validateGalleryManifest(): Promise<void> {
   }
 
   const requiredSnippets = [
+    "// checksum:",
     "export const manifest =",
     "satisfies Manifest",
     "export { galleryPayload, galleryPreviewModules, galleryPreviewRoutes }",
