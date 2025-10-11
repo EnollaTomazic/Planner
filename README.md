@@ -90,12 +90,12 @@ The app reads configuration from your shell environment at build time. Use `.env
 | `NEXT_PUBLIC_ORGANIC_DEPTH` | `false` | Experimental organic depth visuals. Pair with `NEXT_PUBLIC_DEPTH_THEME` when exploring the layered look. |
 | `GITHUB_PAGES` | `false` | Enables GitHub Pages specific behavior in Next.js builds (base path awareness and export tweaks). Set to `true` for GitHub Pages previews or exports. |
 | `SKIP_PREVIEW_STATIC` | `false` | Disables generating preview routes during `next export`. Useful when slimming down GitHub Pages artifacts. |
-| `SENTRY_DSN` | `""` | Server-side Sentry DSN. Provide alongside `SENTRY_ENVIRONMENT` to ship monitoring from production builds. |
-| `SENTRY_ENVIRONMENT` | `""` | Human-readable label for server Sentry events (for example, `production` or `preview`). |
-| `SENTRY_TRACES_SAMPLE_RATE` | `""` | Overrides the default tracing sample rate server-side. Leave empty to rely on Sentry defaults. |
-| `NEXT_PUBLIC_SENTRY_DSN` | `""` | Browser Sentry DSN. Must be set when client-side monitoring is required. |
-| `NEXT_PUBLIC_SENTRY_ENVIRONMENT` | `""` | Human-readable label for browser Sentry events mirroring the server environment. |
-| `NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE` | `""` | Overrides the tracing sample rate for browser spans. Leave empty to inherit Sentry defaults. |
+| `SENTRY_DSN` | `"https://examplePublicKey.ingest.sentry.io/1234567"` | Server-side Sentry DSN. Provide alongside `SENTRY_ENVIRONMENT` to ship monitoring from production builds. |
+| `SENTRY_ENVIRONMENT` | `"development"` | Human-readable label for server Sentry events (for example, `production` or `preview`). |
+| `SENTRY_TRACES_SAMPLE_RATE` | `"0.25"` | Overrides the default tracing sample rate server-side. Leave empty to rely on Sentry defaults. |
+| `NEXT_PUBLIC_SENTRY_DSN` | `"https://examplePublicKey.ingest.sentry.io/1234567"` | Browser Sentry DSN. Must be set when client-side monitoring is required. |
+| `NEXT_PUBLIC_SENTRY_ENVIRONMENT` | `"development"` | Human-readable label for browser Sentry events mirroring the server environment. |
+| `NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE` | `"0.25"` | Overrides the tracing sample rate for browser spans. Leave empty to inherit Sentry defaults. |
 | `GITHUB_TOKEN` | `""` | Personal access token used by the deploy script to push from CI. Needs `public_repo` scope for public repositories. Leave empty locally when an `origin` remote is configured. |
 | `GITHUB_REPOSITORY` | `""` | `owner/repo` slug resolved by the deploy script when no git remote is available (common in CI). |
 | `GH_PAGES_BRANCH` | `gh-pages` | Target branch for the GitHub Pages deploy script. Override if your site publishes from a different branch. |
@@ -107,6 +107,8 @@ The app reads configuration from your shell environment at build time. Use `.env
 | `NODE_ENV` | `development` | Runtime environment hint used by Next.js. The build pipeline sets this automatically; override only for advanced debugging. |
 
 > **Tip:** Keep `.env.local` out of version control. Only `.env.example` belongs in the repository so collaborators and CI pipelines can discover the supported configuration.
+
+> **Note:** The Sentry defaults above mirror the illustrative placeholders in `.env.example`. Replace the DSN, environment labels, and sample rates with project-specific values before deploying to production.
 
 > **Note:** The gallery usage generator (`pnpm run build-gallery-usage`) defaults both `SAFE_MODE` and `NEXT_PUBLIC_SAFE_MODE` to `"true"` when they are missing so CI and local automation stay aligned with `.env.example` without extra setup.
 
