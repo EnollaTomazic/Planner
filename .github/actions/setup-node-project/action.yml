@@ -152,7 +152,18 @@ runs:
         set -euo pipefail
         corepack enable
         if [ -n "${{ steps.detect.outputs['manager-version'] }}" ]; then
-          corepack prepare "${{ steps.detect.outputs.manager }}@${{ steps.detect.outputs['manager-version'] }}" --activate
+          MANAGER="${{ steps.detect.outputs.manager }}"
+          VERSION="${{ steps.detect.outputs['manager-version'] }}"
+          if ! corepack prepare "$MANAGER@$VERSION" --activate; then
+            echo "::warning::Corepack failed to prepare $MANAGER@$VERSION; attempting fallback installation." >&2
+            if [ "$MANAGER" = "pnpm" ]; then
+              FALLBACK_VERSION="${VERSION:-latest}"
+              npm install -g "pnpm@$FALLBACK_VERSION"
+            else
+              echo "::warning::No fallback installer configured for $MANAGER; continuing without manual installation." >&2
+              exit 1
+            fi
+          fi
         fi
 
     - name: Ensure package manager command is available
