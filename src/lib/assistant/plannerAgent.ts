@@ -13,10 +13,7 @@ import {
   summariseParse,
   type PlannerParseConfidence,
 } from "@/lib/scheduling";
-import {
-  recordLlmTokenUsage,
-  type LlmAgentMetadata,
-} from "@/lib/metrics/llmTokens";
+import { type LlmAgentMetadata } from "@/lib/metrics/llmTokens";
 
 const SYSTEM_PROMPT = [
   "You are Planner, an assistant that helps people organise projects and daily tasks.",
@@ -268,8 +265,6 @@ export function planWithAssistant(
       "The planner assistant could not keep the user's prompt within the token budget.",
     );
   }
-
-  recordLlmTokenUsage(AGENT_METADATA, budget.totalTokens);
 
   const segments = splitSegments(finalPrompt);
   const now = options.now ?? new Date();
