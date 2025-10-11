@@ -17,9 +17,43 @@ const STATUS_MESSAGE = "Preparing your planner…";
 export default function HomeSplash({ active, onExited }: HomeSplashProps) {
   const statusHeadingId = React.useId();
   const exitNotifiedRef = React.useRef(false);
+  const statusRef = React.useRef<HTMLDivElement | null>(null);
+  const previousFocusRef = React.useRef<HTMLElement | null>(null);
 
   React.useEffect(() => {
     exitNotifiedRef.current = false;
+  }, [active]);
+
+  React.useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    const statusNode = statusRef.current;
+
+    if (!statusNode) {
+      return;
+    }
+
+    if (active) {
+      const currentActive = document.activeElement as HTMLElement | null;
+
+      if (currentActive && currentActive !== statusNode) {
+        previousFocusRef.current = currentActive;
+      }
+
+      if (statusNode !== currentActive) {
+        statusNode.focus({ preventScroll: true });
+      }
+
+      return;
+    }
+
+    if (previousFocusRef.current?.isConnected) {
+      previousFocusRef.current.focus({ preventScroll: true });
+    }
+
+    previousFocusRef.current = null;
   }, [active]);
 
   React.useEffect(() => {
@@ -67,6 +101,7 @@ export default function HomeSplash({ active, onExited }: HomeSplashProps) {
       role={active ? "status" : undefined}
       aria-live={active ? "polite" : undefined}
       aria-hidden={active ? undefined : true}
+      data-home-splash=""
       onTransitionEnd={handleTransitionEnd}
     >
       <PageShell className={styles.shell} aria-labelledby={statusHeadingId}>
@@ -90,8 +125,12 @@ export default function HomeSplash({ active, onExited }: HomeSplashProps) {
             <p className={cn("text-body text-muted-foreground", styles.tagline)}>
               Plan your day, track goals, and review games.
             </p>
-            <div className={cn(styles.status, "text-label")}
+            <div
+              ref={statusRef}
+              className={cn(styles.status, "text-label")}
               aria-live="polite"
+              tabIndex={-1}
+              data-home-splash-status=""
             >
               <Spinner size="lg" tone="accent" />
               <span className={styles.statusText}>{STATUS_MESSAGE}</span>
