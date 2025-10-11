@@ -13,19 +13,21 @@ This document defines expectations for the entire repository. Check for nested `
   - Unit tests: `pnpm test`
   - Linting: `pnpm lint`
   - Type checking: `pnpm run typecheck`
-  - Pattern-specific vitest runs: `pnpm vitest run -t "<test name>"`
+  - Pattern-specific Vitest runs: `pnpm vitest run -t "<test name>"` or `pnpm vitest related <file>` when scoping to a module.
 - Use `pnpm run verify-prompts` whenever you modify prompt definitions or AI-related flows.
 
 ## Build & Deploy
 - Create production builds using `pnpm run build`.
-- Deploy the static export to GitHub Pages with `pnpm run deploy` (alias of `pnpm run deploy:pages`).
-- Ensure the GitHub Pages environment variables are configured: `GITHUB_PAGES=true`, `BASE_PATH`, and `NEXT_PUBLIC_BASE_PATH`. Refer to [README#GitHub Pages Deployment](https://raw.githubusercontent.com/PlannerProject/Planner/main/README.md#github-pages-deployment) for full details.
+- Deploy the static export to GitHub Pages with `pnpm run deploy` (alias of `pnpm run deploy:pages`). The script prepares `out/` and pushes it to the configured Pages branch.
+- Ensure the GitHub Pages environment variables are configured: `GITHUB_PAGES=true`, `BASE_PATH`, and `NEXT_PUBLIC_BASE_PATH`. Provide `GITHUB_TOKEN` and `GITHUB_REPOSITORY` in CI so the push succeeds without manual remotes.
+- When metrics collection is required, set `NEXT_PUBLIC_METRICS_ENDPOINT` to the deployed collector URL so static exports keep reporting.
 - For bundle analysis, run `pnpm run analyze` (copies reports to `docs/bundle-report/`).
 
 ## Code Style Guidelines
 - TypeScript strict mode must remain enabled; do not relax `tsconfig.json` settings.
-- Format strings with single quotes and omit semicolons. Keep trailing commas where valid and maintain 2-space indentation.
+- Format code with single quotes, omit semicolons, and keep trailing commas where valid with 2-space indentation.
 - Organize imports by grouping external dependencies before local modules.
+- Follow the tokens-only design system: introduce visual changes through the design tokens in `/tokens` (and synced assets in `docs/design-system.md`) instead of ad-hoc values.
 - Reuse primitives documented in `docs/design-system.md`, and add new UI primitives to `src/app/prompts/page.tsx` so the gallery stays comprehensive.
 
 ## Maintenance Tips
