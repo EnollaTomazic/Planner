@@ -92,7 +92,11 @@ async function runGuard(): Promise<void> {
   process.exit(1);
 }
 
-runGuard().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+const executedPath = process.argv[1] ? path.resolve(process.argv[1]) : undefined;
+
+if (executedPath === __filename) {
+  runGuard().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
