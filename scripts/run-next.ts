@@ -56,6 +56,7 @@ const [command = "dev", ...args] = process.argv.slice(2);
 
 const profilerEnabled = normalizeBoolean(process.env.REACT_PROFILER);
 const safeModeEnabled = normalizeBoolean(process.env.SAFE_MODE);
+const preferTurboDev = normalizeBoolean(process.env.PREFER_TURBO_DEV);
 
 if (profilerEnabled && safeModeEnabled) {
   console.error(
@@ -81,6 +82,14 @@ if (profilerEnabled) {
   }
 }
 
+if (
+  command === "dev" &&
+  preferTurboDev &&
+  !forwardedArgs.some((arg) => ["--turbo", "--no-turbo"].includes(arg))
+) {
+  forwardedArgs.push("--turbo");
+}
+
 const patchModulePath = path.join(rootDir, "scripts", "patch-next-webpack-error.cjs");
 const nodeOptions = [process.env.NODE_OPTIONS, `--require ${patchModulePath}`]
   .filter(Boolean)
@@ -92,6 +101,8 @@ const child = spawn(nextBinary, [command, ...forwardedArgs], {
   env: {
     ...process.env,
     NODE_OPTIONS: nodeOptions,
+    NEXT_DISABLE_REACT_REFRESH: "1",
+    DISABLE_FAST_REFRESH: "true",
   },
 });
 

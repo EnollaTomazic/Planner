@@ -37,6 +37,9 @@ export const createContentSecurityPolicy = (options) => {
   const allowVercelFeedback = options?.allowVercelFeedback === true;
 
   const scriptSrc = ["'self'", "'unsafe-inline'"];
+  if (process.env.NODE_ENV !== "production") {
+    scriptSrc.push("'unsafe-eval'");
+  }
   const styleSrcBase = ["'self'", "'unsafe-inline'"];
   const styleSrc = [...styleSrcBase];
   const styleSrcElem = [...styleSrcBase];

@@ -94,4 +94,17 @@ describe("llm token usage metrics", () => {
     expect(summary.totalTokens).toBe(120);
     expect(summary.agents.map((agent) => agent.id)).toEqual(["critic"]);
   });
+
+  it("ignores negative token updates", () => {
+    recordLlmTokenUsage({ id: "planner" }, 150);
+
+    recordLlmTokenUsage({ id: "planner" }, -25);
+    recordLlmTokenUsage({ id: "critic" }, -10);
+
+    const summary = getLlmTokenUsageSummary();
+
+    expect(summary.totalTokens).toBe(150);
+    expect(summary.agents).toHaveLength(1);
+    expect(summary.agents[0]).toMatchObject({ id: "planner", tokens: 150 });
+  });
 });
