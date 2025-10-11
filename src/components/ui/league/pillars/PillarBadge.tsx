@@ -35,7 +35,7 @@ type Props = {
  * - If you render this INSIDE another <button>, set `as="span"` here.
  *   HTML forbids <button> inside <button>, and React will warn during hydration.
  */
-export default function PillarBadge({
+export function PillarBadge({
   pillar,
   size = "md",
   className = "",

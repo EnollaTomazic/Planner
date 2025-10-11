@@ -4,9 +4,8 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { configureAxe, toHaveNoViolations } from "jest-axe";
 
-import RadioIconGroup, {
-  type RadioIconGroupOption,
-} from "@/components/ui/radio/RadioIconGroup";
+import {
+  type RadioIconGroupOption, RadioIconGroup } from "@/components/ui/radio/RadioIconGroup";
 
 import type { AxeMatchers } from "jest-axe";
 

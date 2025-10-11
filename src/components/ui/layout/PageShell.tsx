@@ -30,7 +30,7 @@ export type PageShellProps<T extends PageShellElement = "div"> =
 export const layoutGridClassName =
   "[--grid-gutter:var(--space-4)] grid grid-cols-1 gap-[var(--grid-gutter)] md:[--grid-gutter:var(--space-5)]";
 
-export default function PageShell<T extends PageShellElement = "div">({
+export function PageShell<T extends PageShellElement = "div">({
   as,
   className,
   grid = false,

@@ -8,9 +8,8 @@ import {
 } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import LaneOpponentForm, {
-  type LaneOpponentFormHandle,
-} from "@/components/reviews/LaneOpponentForm";
+import {
+  type LaneOpponentFormHandle, LaneOpponentForm } from "@/components/reviews/LaneOpponentForm";
 
 afterEach(cleanup);
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Button, PageShell, SectionCard } from "@/components/ui";
-import HeroPortraitFrame from "@/components/home/HeroPortraitFrame";
+import { HeroPortraitFrame } from "@/components/home/HeroPortraitFrame";
 import { getBasePath, withBasePath } from "@/lib/utils";
 
 const basePath = getBasePath();

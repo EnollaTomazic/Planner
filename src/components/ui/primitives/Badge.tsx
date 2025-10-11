@@ -5,7 +5,7 @@ import * as React from "react";
 import { useOrganicDepthEnabled } from "@/lib/depth-theme-context";
 import { cn } from "@/lib/utils";
 
-import BlobContainer from "./BlobContainer";
+import { BlobContainer } from "./BlobContainer";
 import styles from "./Badge.module.css";
 import neumorphicStyles from "../neumorphic.module.css";
 
@@ -69,7 +69,7 @@ const toneInteraction: Record<Tone, string> = {
   support: "[--hover:hsl(var(--tone-sup)/0.24)] [--active:hsl(var(--tone-sup)/0.34)]",
 };
 
-export default function Badge<T extends React.ElementType = "span">(
+export function Badge<T extends React.ElementType = "span">(
   props: BadgeProps<T>,
 ) {
   const {

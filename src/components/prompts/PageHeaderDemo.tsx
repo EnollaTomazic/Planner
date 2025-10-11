@@ -65,7 +65,7 @@ const heroFilterCopy: Record<HeroFilter, string> = {
     "Archive of plays already reviewed—perfect for pattern spotting and sharing.",
 };
 
-export default function PageHeaderDemo() {
+export function PageHeaderDemo() {
   const [activePrimaryNav, setActivePrimaryNav] =
     React.useState<CompactNav>("summary");
   const [profileOpen, setProfileOpen] = React.useState(false);

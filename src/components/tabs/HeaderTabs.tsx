@@ -172,5 +172,3 @@ export function HeaderTabs<Key extends string = string>({
     </div>
   );
 }
-
-export default HeaderTabs;

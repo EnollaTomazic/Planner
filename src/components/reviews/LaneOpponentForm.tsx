@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import SectionLabel from "@/components/reviews/SectionLabel";
-import Input from "@/components/ui/primitives/Input";
+import { SectionLabel } from "@/components/reviews/SectionLabel";
+import { Input } from "@/components/ui/primitives/Input";
 import { Target, Shield } from "lucide-react";
 import type { Review } from "@/lib/types";
 
@@ -118,4 +118,6 @@ function LaneOpponentForm(
   );
 }
 
-export default React.forwardRef(LaneOpponentForm);
+const LaneOpponentFormComponent = React.forwardRef(LaneOpponentForm)
+
+export { LaneOpponentFormComponent as LaneOpponentForm }

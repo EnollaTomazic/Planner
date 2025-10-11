@@ -36,7 +36,7 @@ export type ClusterProps<TElement extends LayoutElement = "div"> =
       keyof ClusterOwnProps<TElement>
     >;
 
-export default function Cluster<TElement extends LayoutElement = "div">({
+export function Cluster<TElement extends LayoutElement = "div">({
   as,
   className,
   style,

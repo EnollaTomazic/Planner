@@ -1,8 +1,8 @@
 import * as React from "react";
 import type { Metadata } from "next";
 
-import SiteChrome from "@/components/chrome/SiteChrome";
-import NavBar from "@/components/chrome/NavBar";
+import { SiteChrome } from "@/components/chrome/SiteChrome";
+import { NavBar } from "@/components/chrome/NavBar";
 import { DecorLayer, PageShell } from "@/components/ui";
 
 import ThemeCycleControl from "./ThemeCycleControl";

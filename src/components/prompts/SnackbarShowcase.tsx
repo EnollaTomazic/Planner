@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Button, Snackbar } from "@/components/ui";
 
-export default function SnackbarShowcase() {
+export function SnackbarShowcase() {
   const [open, setOpen] = React.useState(false);
   return open ? (
     <Snackbar

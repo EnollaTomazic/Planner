@@ -8,12 +8,13 @@ import { PreviewContent, PreviewUnavailable } from "@/app/preview/[slug]/page";
 
 vi.mock("@/components/gallery/PreviewSurfaceClient", () => ({
   __esModule: true,
-  default: () => <div data-testid="preview-surface" />,
+  PreviewSurface: () => <div data-testid="preview-surface" />,
   PREVIEW_SURFACE_CONTAINER_CLASSNAME: "preview-surface",
 }));
 
 vi.mock("@/components/gallery/PreviewThemeClient", () => ({
-  default: () => null,
+  __esModule: true,
+  PreviewThemeClient: () => null,
 }));
 
 const baseRoute: GalleryPreviewRoute = {

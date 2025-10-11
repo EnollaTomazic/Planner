@@ -3,7 +3,7 @@ import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, beforeEach, afterEach } from "vitest";
 
-import CheatSheet from "@/components/team/CheatSheet";
+import { CheatSheet } from "@/components/team/CheatSheet";
 import { decodeCheatSheet, type Archetype } from "@/components/team/cheatSheet.model";
 import {
   createStorageKey,

@@ -16,7 +16,7 @@ import {
   HeaderTabs as HeaderTabsControl,
   type HeaderTabItem,
 } from "@/components/tabs/HeaderTabs";
-import TabBar, { type TabBarProps } from "./TabBar";
+import { type TabBarProps, TabBar } from "./TabBar";
 import {
   resolveUIVariant,
   type DeprecatedUIVariant,
@@ -83,7 +83,7 @@ export interface HeaderProps<Key extends string = string>
   underlineTone?: "brand" | "neutral";
 }
 
-export default function Header<Key extends string = string>({
+export function Header<Key extends string = string>({
   eyebrow,
   heading,
   subtitle,

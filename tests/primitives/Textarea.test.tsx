@@ -2,7 +2,7 @@ import React from "react";
 import { render, cleanup } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
-import Textarea from "../../src/components/ui/primitives/Textarea";
+import { Textarea } from "../../src/components/ui/primitives/Textarea";
 import { slugify } from "../../src/lib/utils";
 
 afterEach(cleanup);

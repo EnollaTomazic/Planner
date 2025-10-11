@@ -25,10 +25,10 @@ import {
 } from "lucide-react";
 
 import { type HeaderTab } from "@/components/ui/layout/Header";
-import SectionCard from "@/components/ui/layout/SectionCard";
+import { SectionCard } from "@/components/ui/layout/SectionCard";
 import { Snackbar, PageHeader, PageShell, Modal } from "@/components/ui";
 import { PlannerProvider } from "@/components/planner";
-import Button from "@/components/ui/primitives/Button";
+import { Button } from "@/components/ui/primitives/Button";
 import {
   CardHeader,
   CardTitle,
@@ -36,10 +36,10 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/primitives/Card";
-import GoalsTabs, { FilterKey } from "./GoalsTabs";
-import GoalForm, { GoalFormHandle } from "./GoalForm";
-import GoalsProgress from "./GoalsProgress";
-import GoalList from "./GoalList";
+import { FilterKey, GoalsTabs } from "./GoalsTabs";
+import { GoalFormHandle, GoalForm } from "./GoalForm";
+import { GoalsProgress } from "./GoalsProgress";
+import { GoalList } from "./GoalList";
 import { GOALS_STICKY_TOP_CLASS } from "./constants";
 
 import { usePersistentState } from "@/lib/db";
@@ -48,8 +48,8 @@ import { useGoals, ACTIVE_CAP } from "./useGoals";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 /* Tabs */
-import RemindersTab from "./RemindersTab";
-import TimerTab from "./TimerTab";
+import { RemindersTab } from "./RemindersTab";
+import { TimerTab } from "./TimerTab";
 import {
   RemindersProvider,
   useReminders,
@@ -118,7 +118,7 @@ const getGoalsPanelId = (key: Tab) => `${GOALS_TABS_ID_BASE}-${key}-panel`;
 
 /* ====================================================================== */
 
-export default function GoalsPage() {
+export function GoalsPage() {
   return (
     <PlannerProvider>
       <RemindersProvider>

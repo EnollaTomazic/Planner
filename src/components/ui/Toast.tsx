@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import Card from "./primitives/Card";
-import IconButton from "./primitives/IconButton";
+import { Card } from "./primitives/Card";
+import { IconButton } from "./primitives/IconButton";
 import styles from "./Toast.module.css";
 import { X } from "lucide-react";
 import useMounted from "@/lib/useMounted";
@@ -18,7 +18,7 @@ export interface ToastProps extends React.ComponentProps<typeof Card> {
   showProgress?: boolean;
 }
 
-export default function Toast({
+export function Toast({
   open,
   onOpenChange,
   duration = 3000,

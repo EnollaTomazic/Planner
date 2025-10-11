@@ -9,11 +9,11 @@ import {
   SectionCard,
   TabBar,
 } from "@/components/ui";
-import GalleryItem from "../GalleryItem";
-import PromptsComposePanel from "../PromptsComposePanel";
-import PromptsDemos from "../PromptsDemos";
-import PromptsHeader from "../PromptsHeader";
-import WelcomeHeroFigure from "@/components/home/WelcomeHeroFigure";
+import { GalleryItem } from "../GalleryItem";
+import { PromptsComposePanel } from "../PromptsComposePanel";
+import { PromptsDemos } from "../PromptsDemos";
+import { PromptsHeader } from "../PromptsHeader";
+import { WelcomeHeroFigure } from "@/components/home/WelcomeHeroFigure";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn } from "@/lib/utils";
 import type { PromptsPanelData } from "./useComponentGalleryState";
@@ -28,7 +28,7 @@ interface PromptsPanelProps {
   data: PromptsPanelData;
 }
 
-export default function PromptsPanel({ data }: PromptsPanelProps) {
+export function PromptsPanel({ data }: PromptsPanelProps) {
   const items = React.useMemo<PanelItem[]>(
     () =>
       [

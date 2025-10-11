@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import ComponentsPage from "@/components/gallery-page/ComponentsPage";
+import { ComponentsPage } from "@/components/gallery-page/ComponentsPage";
 import { PageShell, Spinner } from "@/components/ui";
 
 export const dynamic = "force-static";

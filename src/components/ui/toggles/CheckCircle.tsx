@@ -26,7 +26,7 @@ const SIZE: Record<Size, string> = {
   lg: "h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[var(--space-6)]",
 };
 
-export default function CheckCircle({
+export function CheckCircle({
   checked,
   onChange = () => {},
   size = "sm",

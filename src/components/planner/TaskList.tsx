@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import Label from "@/components/ui/Label";
-import Input from "@/components/ui/primitives/Input";
-import EmptyRow from "./EmptyRow";
-import PlannerListPanel from "./PlannerListPanel";
-import TaskRow from "./TaskRow";
+import { Label } from "@/components/ui/Label";
+import { Input } from "@/components/ui/primitives/Input";
+import { EmptyRow } from "./EmptyRow";
+import { PlannerListPanel } from "./PlannerListPanel";
+import { TaskRow } from "./TaskRow";
 import type { DayTask } from "./plannerTypes";
 
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
   setSelectedTaskId: (id: string) => void;
 };
 
-export default function TaskList({
+export function TaskList({
   tasksById,
   tasksByProject,
   selectedProjectId,

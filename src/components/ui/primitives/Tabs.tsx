@@ -3,10 +3,9 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import TabBar, {
+import {
   type TabBarProps,
-  type TabItem,
-} from "../layout/TabBar";
+  type TabItem, TabBar } from "../layout/TabBar";
 
 interface TabsContextValue<Key extends string> {
   value: Key;
@@ -148,5 +147,3 @@ export function TabPanel<Key extends string = string>({
     </div>
   );
 }
-
-export default Tabs;

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import SearchBar, { type SearchBarProps } from "@/components/ui/primitives/SearchBar";
+import { type SearchBarProps, SearchBar } from "@/components/ui/primitives/SearchBar";
 
 export interface HeroSearchBarProps extends SearchBarProps {
   className?: string;

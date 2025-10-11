@@ -3,7 +3,7 @@
 import * as React from "react";
 import type { SelectItem } from "@/components/ui";
 import { VARIANTS, Variant } from "@/lib/theme";
-import SettingsSelect from "./SettingsSelect";
+import { SettingsSelect } from "./SettingsSelect";
 
 export type ThemePickerProps = {
   variant: Variant;
@@ -14,7 +14,7 @@ export type ThemePickerProps = {
   loadingVariant?: Variant | null;
 };
 
-export default function ThemePicker({
+export function ThemePicker({
   variant,
   onVariantChange,
   className = "",

@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { Star } from "lucide-react";
-import Banner from "@/components/chrome/Banner";
-import BrandWordmark from "@/components/chrome/BrandWordmark";
-import NavBar from "@/components/chrome/NavBar";
+import { Banner } from "@/components/chrome/Banner";
+import { BrandWordmark } from "@/components/chrome/BrandWordmark";
+import { NavBar } from "@/components/chrome/NavBar";
 import {
   Button,
   Card,
@@ -24,8 +24,8 @@ import {
   TitleBar,
   TOKEN_WIDTH_CLASS,
 } from "@/components/ui";
-import Badge from "@/components/ui/primitives/Badge";
-import VirtualizedList from "@/components/ui/primitives/VirtualizedList";
+import { Badge } from "@/components/ui/primitives/Badge";
+import { VirtualizedList } from "@/components/ui/primitives/VirtualizedList";
 import { HERO_ILLUSTRATION_STATES, type HeroIllustrationState } from "@/data/heroImages";
 import { spacingTokens } from "@/lib/tokens";
 import {
@@ -35,7 +35,7 @@ import {
   ReviewSurface,
   ScoreMeter,
 } from "@/components/reviews";
-import GalleryItem from "../GalleryItem";
+import { GalleryItem } from "../GalleryItem";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn } from "@/lib/utils";
 import { demoReview } from "./ComponentGallery.demoData";
@@ -105,7 +105,7 @@ const VirtualizedListDemo = React.memo(function VirtualizedListDemo() {
   );
 });
 
-export default function MiscPanel({ data }: MiscPanelProps) {
+export function MiscPanel({ data }: MiscPanelProps) {
   const items = React.useMemo<PanelItem[]>(
     () =>
       [

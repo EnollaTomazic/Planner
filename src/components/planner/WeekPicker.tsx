@@ -9,8 +9,8 @@
  */
 
 import * as React from "react";
-import Hero from "@/components/ui/layout/Hero";
-import Button from "@/components/ui/primitives/Button";
+import { Hero } from "@/components/ui/layout/Hero";
+import { Button } from "@/components/ui/primitives/Button";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import type { ISODate } from "./plannerTypes";
 import { useWeekData } from "./useWeekData";
@@ -18,7 +18,7 @@ import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { ArrowUpToLine, ChevronLeft, ChevronRight } from "lucide-react";
 import { addDays, fromISODate, toISODate } from "@/lib/date";
 import { cn } from "@/lib/utils";
-import WeekPickerShell from "./WeekPickerShell";
+import { WeekPickerShell } from "./WeekPickerShell";
 
 /* ───────── date helpers ───────── */
 
@@ -225,7 +225,7 @@ const DayChip = React.forwardRef<HTMLButtonElement, DayChipProps>(function DayCh
 
 /* ───────── main ───────── */
 
-export default function WeekPicker() {
+export function WeekPicker() {
   const { iso, setIso, today } = useFocusDate();
   const { start, end, days } = useWeek(iso);
   const heading = `${dmy.format(start)} — ${dmy.format(end)}`;

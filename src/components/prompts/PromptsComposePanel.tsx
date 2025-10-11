@@ -11,7 +11,7 @@ interface PromptsComposePanelProps {
   onTextChange: (value: string) => void;
 }
 
-export default function PromptsComposePanel({
+export function PromptsComposePanel({
   title,
   onTitleChange,
   text,

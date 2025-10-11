@@ -22,5 +22,4 @@ const Label = React.forwardRef<HTMLLabelElement, LabelProps>(function Label(
     />
   );
 });
-
-export default Label;
+export { Label };

@@ -1,6 +1,4 @@
-import Grid from "@/components/layout/Grid";
-
-export default Grid;
+import { Grid } from "@/components/layout/Grid";
 export type {
   GridCollapseMode,
   GridProps,
@@ -9,3 +7,4 @@ export type {
   GridTemplateRow,
 } from "@/components/layout/Grid";
 export type { SpacingToken } from "@/components/layout/shared";
+export { Grid };

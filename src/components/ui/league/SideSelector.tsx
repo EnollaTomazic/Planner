@@ -22,7 +22,7 @@ type Props = {
  * - Responsive intrinsic size (no fixed width)
  * - Keyboard: Space/Enter toggles; ← → selects
  */
-export default function SideSelector({
+export function SideSelector({
   value = "Blue",
   onChange,
   className,

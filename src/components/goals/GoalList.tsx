@@ -20,7 +20,7 @@ interface GoalListProps {
   ) => void;
 }
 
-export default function GoalList({
+export function GoalList({
   goals,
   onToggleDone,
   onRemove,

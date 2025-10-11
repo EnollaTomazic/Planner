@@ -1,7 +1,7 @@
 import * as React from "react";
 import type { Pillar } from "@/lib/types";
-import SectionLabel from "@/components/reviews/SectionLabel";
-import PillarBadge from "@/components/ui/league/pillars/PillarBadge";
+import { SectionLabel } from "@/components/reviews/SectionLabel";
+import { PillarBadge } from "@/components/ui/league/pillars/PillarBadge";
 
 function StaticNeonWrap({ children }: { children: React.ReactNode }) {
   return (
@@ -23,7 +23,7 @@ export type ReviewSummaryPillarsProps = {
   pillars?: Pillar[];
 };
 
-export default function ReviewSummaryPillars({
+export function ReviewSummaryPillars({
   pillars,
 }: ReviewSummaryPillarsProps) {
   return (

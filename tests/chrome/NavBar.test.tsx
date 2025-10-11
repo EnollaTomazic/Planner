@@ -10,7 +10,7 @@ vi.mock("framer-motion", async () => {
   return { ...actual, useReducedMotion: () => true };
 });
 
-import NavBar from "@/components/chrome/NavBar";
+import { NavBar } from "@/components/chrome/NavBar";
 import { PRIMARY_NAV_LABEL } from "@/config/nav";
 
 describe("NavBar", () => {

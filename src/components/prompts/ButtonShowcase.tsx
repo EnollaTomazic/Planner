@@ -2,7 +2,7 @@ import * as React from "react";
 import { Button } from "@/components/ui";
 import { Plus } from "lucide-react";
 
-export default function ButtonShowcase() {
+export function ButtonShowcase() {
   return (
     <div className="mb-[var(--space-8)] space-y-[var(--space-4)]">
       <div className="flex flex-wrap gap-[var(--space-2)]">

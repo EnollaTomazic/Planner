@@ -18,7 +18,7 @@ type Props = {
  * Segmented control for role selection.
  * Uses glitch-styled segmented buttons with sliding indicator.
  */
-export default function RoleSelector({
+export function RoleSelector({
   value,
   onChange,
   className,
