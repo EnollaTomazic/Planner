@@ -1,4 +1,4 @@
-:global(.hero2-neomorph) {
+.hero2-neomorph {
   background: linear-gradient(145deg, hsl(var(--card)), hsl(var(--panel)));
   --hero2-shadow-key: var(--depth-shadow-outer);
   --hero2-shadow-ambient: var(--depth-shadow-inner);
@@ -26,8 +26,8 @@
   );
 }
 
-:global(.hero2-neomorph::before),
-:global(.hero2-neomorph::after) {
+.hero2-neomorph::before,
+.hero2-neomorph::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -36,7 +36,7 @@
   opacity: 1;
 }
 
-:global(.hero2-neomorph::before) {
+.hero2-neomorph::before {
   background: var(--hero2-glow-top-left);
   box-shadow: var(--hero2-focus-ring);
   transition:
@@ -44,34 +44,34 @@
   z-index: -1;
 }
 
-:global(.hero2-neomorph::after) {
+.hero2-neomorph::after {
   background: var(--hero2-glow-bottom-right);
   z-index: -2;
 }
 
-:global(.hero2-frame) {
+.hero2-frame {
   --hero-slot-shadow: var(--depth-shadow-soft);
 }
 
-:global(.hero2-frame[data-hero-slot-shadow="soft"]) {
+.hero2-frame[data-hero-slot-shadow="soft"] {
   --hero-slot-shadow: var(--depth-shadow-soft);
 }
 
-:global(.hero2-frame[data-hero-slot-shadow="strong"]) {
+.hero2-frame[data-hero-slot-shadow="strong"] {
   --hero-slot-shadow: var(--depth-shadow-outer-strong);
 }
 
-:global(.hero2-frame[data-hero-slot-shadow="none"]) {
+.hero2-frame[data-hero-slot-shadow="none"] {
   --hero-slot-shadow: none;
 }
 
-:global(.hero2-frame[data-hero-divider-tint="primary"]) {
+.hero2-frame[data-hero-divider-tint="primary"] {
   --hero-slot-divider: var(--ring);
   --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
     hsl(var(--ring) / 0.45);
 }
 
-:global(.hero2-frame[data-hero-divider-tint="life"]) {
+.hero2-frame[data-hero-divider-tint="life"] {
   --hero-slot-divider: var(--accent-3);
   --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
     hsl(var(--accent-3) / 0.42);
@@ -84,7 +84,7 @@
     hsl(var(--bg))
   )
 ) {
-  :global(.hero2-neomorph) {
+  .hero2-neomorph {
     --hero2-glow-top-left-color: color-mix(
       in oklab,
       hsl(var(--highlight)) 72%,
@@ -107,7 +107,7 @@
     );
   }
 
-  :global(.hero2-frame[data-hero-divider-tint="primary"]) {
+  .hero2-frame[data-hero-divider-tint="primary"] {
     --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
       color-mix(
         in oklab,
@@ -116,7 +116,7 @@
       );
   }
 
-  :global(.hero2-frame[data-hero-divider-tint="life"]) {
+  .hero2-frame[data-hero-divider-tint="life"] {
     --hero-slot-divider-shadow: 0 0 0 calc(var(--hairline-w) * 3)
       color-mix(
         in oklab,
@@ -127,10 +127,10 @@
 }
 
 @media (prefers-contrast: more) {
-  :global(.hero2-frame) {
+  .hero2-frame {
     border-color: hsl(var(--foreground) / 0.7) !important;
   }
-  :global(.hero2-neomorph) {
+  .hero2-neomorph {
     --hero2-shadow-key: var(--depth-shadow-outer-strong);
     --hero2-shadow-ambient: var(--depth-shadow-inner),
       0 0 0 calc(var(--hairline-w) * 2) hsl(var(--foreground) / 0.7);
@@ -146,11 +146,11 @@
 }
 
 @media (forced-colors: active) {
-  :global(.hero2-frame) {
+  .hero2-frame {
     border-color: CanvasText !important;
     background: Canvas !important;
   }
-  :global(.hero2-neomorph) {
+  .hero2-neomorph {
     background: Canvas !important;
   }
 }
