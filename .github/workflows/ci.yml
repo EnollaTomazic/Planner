@@ -68,7 +68,7 @@ jobs:
         run: pnpm run build
 
   storybook:
-    name: Storybook build (Node 20.17)
+    name: Storybook build (Node 22.12)
     runs-on: ubuntu-latest
     needs: next
 

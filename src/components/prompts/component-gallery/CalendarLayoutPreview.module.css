@@ -6,7 +6,7 @@
   padding: var(--space-5);
   border-radius: var(--radius-2xl);
   background: hsl(var(--surface));
-  border: 1px solid hsl(var(--card-hairline) / 0.6);
+  border: var(--hairline-w) solid hsl(var(--card-hairline) / 0.6);
   box-shadow: var(--shadow-outline-subtle);
   min-block-size: 100%;
   color: hsl(var(--foreground));
@@ -44,7 +44,7 @@
   justify-items: end;
   gap: var(--space-2);
   padding-right: var(--space-3);
-  border-right: 1px solid hsl(var(--card-hairline) / 0.4);
+  border-right: var(--hairline-w) solid hsl(var(--card-hairline) / 0.4);
   font-size: var(--font-label);
   color: hsl(var(--muted-foreground));
 }
@@ -59,7 +59,7 @@
   padding: var(--space-3);
   border-radius: var(--radius-xl);
   background: hsl(var(--surface-2) / 0.65);
-  border: 1px solid hsl(var(--card-hairline) / 0.45);
+  border: var(--hairline-w) solid hsl(var(--card-hairline) / 0.45);
   min-inline-size: 0;
 }
 
@@ -84,7 +84,7 @@
   min-block-size: var(--space-7);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-lg);
-  border: 1px dashed hsl(var(--card-hairline) / 0.45);
+  border: var(--hairline-w) dashed hsl(var(--card-hairline) / 0.45);
   background: hsl(var(--surface) / 0.6);
   color: hsl(var(--muted-foreground));
   text-align: left;
@@ -95,13 +95,13 @@
 
 .slotButton[data-state="active"] {
   background: hsl(var(--accent) / 0.18);
-  border: 1px solid hsl(var(--accent));
+  border: var(--hairline-w) solid hsl(var(--accent));
   color: hsl(var(--text-on-accent));
 }
 
 .slotButton:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px hsl(var(--focus));
+  box-shadow: 0 0 0 var(--ring-size-2, var(--spacing-1)) hsl(var(--focus));
 }
 
 .slotButton:not([aria-disabled="true"]):hover {
@@ -121,7 +121,7 @@
   min-block-size: var(--space-7);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-lg);
-  border: 1px solid hsl(var(--accent));
+  border: var(--hairline-w) solid hsl(var(--accent));
   background: linear-gradient(
     180deg,
     hsl(var(--accent) / 0.25),
@@ -167,7 +167,7 @@
   gap: var(--space-3);
   padding: var(--space-3);
   border-radius: var(--radius-xl);
-  border: 1px solid hsl(var(--danger));
+  border: var(--hairline-w) solid hsl(var(--danger));
   background: hsl(var(--danger) / 0.18);
   color: hsl(var(--danger-foreground));
 }
