@@ -161,6 +161,7 @@ runs:
               npm install -g "pnpm@$FALLBACK_VERSION"
             else
               echo "::warning::No fallback installer configured for $MANAGER; continuing without manual installation." >&2
+              exit 1
             fi
           fi
         fi
