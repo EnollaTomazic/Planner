@@ -23,7 +23,10 @@ export default defineConfig({
     coverage: {
       provider: "istanbul",
       include: ["src/**/*.{ts,tsx}", "app/**/*.{ts,tsx}"],
-      exclude: ["src/components/gallery/generated-manifest.ts"],
+      exclude: [
+        "src/components/gallery/generated-manifest.ts",
+        "src/components/gallery/generated-manifest.g.ts",
+      ],
     },
   },
   resolve: {
