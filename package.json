@@ -25,15 +25,15 @@
     "postbuild:analyze": "node --input-type=module -e \"import { cpSync, existsSync, mkdirSync, rmSync } from 'node:fs'; import { resolve } from 'node:path'; const fallback = 'docs/bundle-report'; const raw = (process.env.BUNDLE_ANALYZE_OUTPUT_DIR ?? '').trim(); const target = raw.length > 0 ? raw : fallback; const absolute = resolve(target); const source = resolve('.next', 'analyze'); if (existsSync(source)) { rmSync(absolute, { recursive: true, force: true }); mkdirSync(absolute, { recursive: true }); cpSync(source, absolute, { recursive: true }); console.log(`Bundle analysis artifacts saved to ${target}`); } else { console.warn('Bundle analyzer output not found at', source); }\"",
     "analyze": "pnpm run build:analyze",
     "start": "tsx scripts/run-next.ts start -p 3000",
-    "lint": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --cache --cache-location .eslintcache src",
-    "lint:ci": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --cache --cache-location .eslintcache src --max-warnings=0",
+    "lint": "pnpm exec eslint --cache --cache-location .eslintcache app src lib server scripts \"./*.config.{js,ts,mjs,cjs}\" security-headers.mjs security-headers.d.mts",
+    "lint:ci": "pnpm exec eslint --cache --cache-location .eslintcache app src lib server scripts \"./*.config.{js,ts,mjs,cjs}\" security-headers.mjs security-headers.d.mts --max-warnings=0",
     "typecheck": "cross-env TSX_COMPILE_CACHE=0 tsx scripts/typecheck.ts",
     "typecheck:ci": "pnpm run typecheck -- --pretty false",
     "test": "cross-env NODE_OPTIONS=--max-old-space-size=12288 VITEST_MAX_THREADS=1 vitest",
     "test:ci": "node --max-old-space-size=8192 ./node_modules/vitest/vitest.mjs run --reporter=default --reporter=junit --outputFile artifacts/unit/junit.xml --coverage --coverage.reporter=lcov --coverage.reporter=json-summary",
     "audit:ci": "pnpm audit --audit-level=high --json > audit-report.json || true; node scripts/audit-ci-report.mjs audit-report.json",
     "e2e:ci": "playwright test",
-    "lint:design": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --cache --cache-location .eslintcache --no-warn-ignored \"{app,src}/**/*.{js,jsx,ts,tsx}\"",
+    "lint:design": "pnpm exec eslint --cache --cache-location .eslintcache --no-warn-ignored '{app,src}/**/*.{js,jsx,ts,tsx}'",
     "design-lint": "pnpm run lint:design",
     "guard:artifacts": "cross-env TSX_COMPILE_CACHE=0 tsx scripts/guard-artifacts.ts",
     "clean:artifacts": "cross-env TSX_COMPILE_CACHE=0 tsx scripts/clean-artifacts.ts",
@@ -84,6 +84,8 @@
     "@types/postcss-import": "^14.0.3",
     "@types/react": "^19.1.15",
     "@types/react-dom": "^19.1.9",
+    "@typescript-eslint/eslint-plugin": "^8.46.0",
+    "@typescript-eslint/parser": "^8.46.0",
     "@vitest/coverage-istanbul": "^3.2.4",
     "autoprefixer": "^10.4.21",
     "cli-progress": "^3.12.0",
@@ -91,7 +93,6 @@
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "eslint": "9.37.0",
-    "eslint-config-next": "15.5.4",
     "eslint-config-prettier": "^10.1.8",
     "fast-glob": "^3.3.3",
     "gh-pages": "6.3.0",
@@ -111,7 +112,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,md}": "prettier --write",
-    "*.{js,jsx,ts,tsx}": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --fix"
+    "*.{js,jsx,ts,tsx}": "pnpm exec eslint --fix"
   },
   "config": {
     "commitizen": {
