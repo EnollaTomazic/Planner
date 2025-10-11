@@ -1,0 +1,8 @@
+node_modules/
+node-compile-cache/
+scripts/.cache/
+tsx-0/
+.DS_Store
+__pycache__/
+*.pyc
+.env
