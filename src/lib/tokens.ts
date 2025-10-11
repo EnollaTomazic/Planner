@@ -282,12 +282,226 @@ export const radiusValues: Record<RadiusVar, string> = radiusEntries.reduce(
   {} as Record<RadiusVar, string>,
 );
 
-const parseCssNumber = (value: string): number | null => {
-  if (!value) {
+const extractBalancedSubstring = (
+  input: string,
+  startIndex: number,
+): { body: string; endIndex: number } | null => {
+  if (input[startIndex] !== "(") {
     return null;
   }
-  const numeric = Number.parseFloat(value);
-  return Number.isFinite(numeric) ? numeric : null;
+
+  let depth = 0;
+
+  for (let index = startIndex; index < input.length; index += 1) {
+    const char = input[index];
+
+    if (char === "(") {
+      depth += 1;
+      continue;
+    }
+
+    if (char === ")") {
+      depth -= 1;
+
+      if (depth === 0) {
+        return {
+          body: input.slice(startIndex + 1, index),
+          endIndex: index + 1,
+        };
+      }
+    }
+  }
+
+  return null;
+};
+
+const parseVarFunction = (
+  raw: string,
+): { name: string; fallback?: string } | null => {
+  const trimmed = raw.trim();
+  const lower = trimmed.toLowerCase();
+
+  if (!lower.startsWith("var(") || !trimmed.endsWith(")")) {
+    return null;
+  }
+
+  const openIndex = lower.indexOf("(");
+  const extracted = extractBalancedSubstring(trimmed, openIndex);
+
+  if (!extracted) {
+    return null;
+  }
+
+  const inner = extracted.body;
+  let depth = 0;
+  let name = "";
+  let fallback = "";
+  let hasFallback = false;
+
+  for (let index = 0; index < inner.length; index += 1) {
+    const char = inner[index];
+
+    if (char === "(") {
+      depth += 1;
+    } else if (char === ")") {
+      depth -= 1;
+    } else if (char === "," && depth === 0 && !hasFallback) {
+      hasFallback = true;
+      continue;
+    }
+
+    if (!hasFallback) {
+      name += char;
+    } else {
+      fallback += char;
+    }
+  }
+
+  const variable = name.trim();
+
+  if (!variable.startsWith("--")) {
+    return null;
+  }
+
+  return {
+    name: variable,
+    fallback: hasFallback ? fallback.trim() || undefined : undefined,
+  };
+};
+
+const resolveCssNumber = (
+  raw: string,
+  computedStyle: CSSStyleDeclaration,
+  seen: Set<string>,
+): number | null => {
+  const trimmed = raw.trim();
+
+  if (!trimmed) {
+    return null;
+  }
+
+  const numeric = Number.parseFloat(trimmed);
+
+  if (Number.isFinite(numeric)) {
+    return numeric;
+  }
+
+  const lower = trimmed.toLowerCase();
+
+  if (lower.startsWith("var(")) {
+    const parsed = parseVarFunction(trimmed);
+
+    if (!parsed) {
+      return null;
+    }
+
+    const { name, fallback } = parsed;
+
+    if (seen.has(name)) {
+      return null;
+    }
+
+    const nextSeen = new Set(seen);
+    nextSeen.add(name);
+
+    const referenced = computedStyle.getPropertyValue(name).trim();
+
+    if (referenced) {
+      const resolved = resolveCssNumber(referenced, computedStyle, nextSeen);
+
+      if (resolved !== null) {
+        return resolved;
+      }
+    }
+
+    if (fallback) {
+      return resolveCssNumber(fallback, computedStyle, nextSeen);
+    }
+
+    return null;
+  }
+
+  if (lower.startsWith("calc(") && trimmed.endsWith(")")) {
+    const openIndex = lower.indexOf("(");
+    const extracted = extractBalancedSubstring(trimmed, openIndex);
+
+    if (!extracted) {
+      return null;
+    }
+
+    let index = 0;
+    const { body } = extracted;
+    let sanitized = "";
+    const lowerBody = body.toLowerCase();
+
+    while (index < body.length) {
+      if (lowerBody.startsWith("var(", index)) {
+        const varOpen = body.indexOf("(", index + 3);
+
+        if (varOpen === -1) {
+          return null;
+        }
+
+        const extractedVar = extractBalancedSubstring(body, varOpen);
+
+        if (!extractedVar) {
+          return null;
+        }
+
+        const rawVar = `var(${extractedVar.body})`;
+        const resolvedVar = resolveCssNumber(rawVar, computedStyle, new Set(seen));
+        sanitized += resolvedVar !== null ? String(resolvedVar) : "0";
+        index = extractedVar.endIndex;
+        continue;
+      }
+
+      if (lowerBody.startsWith("calc(", index)) {
+        const calcOpen = body.indexOf("(", index + 4);
+
+        if (calcOpen === -1) {
+          return null;
+        }
+
+        const extractedCalc = extractBalancedSubstring(body, calcOpen);
+
+        if (!extractedCalc) {
+          return null;
+        }
+
+        const nestedValue = resolveCssNumber(
+          `calc(${extractedCalc.body})`,
+          computedStyle,
+          new Set(seen),
+        );
+
+        sanitized += nestedValue !== null ? String(nestedValue) : "0";
+        index = extractedCalc.endIndex;
+        continue;
+      }
+
+      sanitized += body[index];
+      index += 1;
+    }
+
+    const withoutUnits = sanitized.replace(
+      /(-?\d*\.?\d+(?:e[+-]?\d+)?)\s*[a-z%]+/gi,
+      "$1",
+    );
+    const cleaned = withoutUnits.replace(/[^0-9+\-*/().\s]/g, "");
+
+    if (!cleaned.trim()) {
+      return null;
+    }
+
+    try {
+      const result = Function("return (" + cleaned + ");")();
+      return typeof result === "number" && Number.isFinite(result) ? result : null;
+    } catch {
+      return null;
+    }
+  }
+
+  return null;
 };
 
 export const readNumberToken = (token: string, fallback: number): number => {
@@ -296,8 +510,14 @@ export const readNumberToken = (token: string, fallback: number): number => {
   }
 
   const root = document.documentElement;
-  const computed = getComputedStyle(root).getPropertyValue(token).trim();
-  const resolved = parseCssNumber(computed);
+  const computedStyle = getComputedStyle(root);
+  const raw = computedStyle.getPropertyValue(token).trim();
+
+  if (!raw) {
+    return fallback;
+  }
+
+  const resolved = resolveCssNumber(raw, computedStyle, new Set([token]));
 
   if (resolved !== null) {
     return resolved;
