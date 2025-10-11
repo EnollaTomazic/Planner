@@ -1,6 +1,46 @@
 // src/lib/telemetry.ts
 // Lightweight helpers for emitting browser telemetry events.
 
+type Plausible = (event: string, options?: { props?: Record<string, unknown> }) => void
+
+type Analytics = {
+  track?: (event: string, properties?: Record<string, unknown>) => void
+}
+
+type TelemetryEmitDetail = Record<string, unknown> & {
+  dataLayer?: Record<string, unknown>
+}
+
+export type TelemetryEventPayload = {
+  eventName: string
+  domEventName: string
+  detail: TelemetryEmitDetail
+}
+
+export function emitTelemetryEvent({ eventName, domEventName, detail }: TelemetryEventPayload) {
+  if (typeof window === 'undefined') return
+
+  const { dataLayer: dataLayerDetail, ...eventDetail } = detail
+
+  window.dispatchEvent(
+    new CustomEvent(domEventName, {
+      detail: eventDetail,
+    }),
+  )
+
+  const plausible = (window as typeof window & { plausible?: Plausible }).plausible
+  plausible?.(eventName, { props: eventDetail })
+
+  const analytics = (window as typeof window & { analytics?: Analytics }).analytics
+  analytics?.track?.(eventName, eventDetail)
+
+  const dataLayer = (window as typeof window & { dataLayer?: unknown[] }).dataLayer
+  if (Array.isArray(dataLayer)) {
+    const payload = dataLayerDetail ?? eventDetail
+    dataLayer.push({ event: eventName, ...payload })
+  }
+}
+
 export type PlannerIslandErrorDetail = {
   island: string
   digest?: string | null
@@ -8,40 +48,18 @@ export type PlannerIslandErrorDetail = {
 }
 
 export function reportPlannerIslandError(detail: PlannerIslandErrorDetail) {
-  if (typeof window === 'undefined') return
-
-  const eventDetail = {
-    island: detail.island,
-    digest: detail.digest ?? null,
-    message: detail.message ?? null,
-  } as const
-
-  window.dispatchEvent(
-    new CustomEvent('planner:island-error', {
-      detail: eventDetail,
-    }),
-  )
-
-  const plausible = (window as typeof window & {
-    plausible?: (event: string, options?: { props?: Record<string, unknown> }) => void
-  }).plausible
-
-  plausible?.('planner_island_error', { props: eventDetail })
-
-  const analytics = (window as typeof window & {
-    analytics?: { track?: (event: string, properties?: Record<string, unknown>) => void }
-  }).analytics
-
-  analytics?.track?.('planner_island_error', eventDetail)
-
-  const dataLayer = (window as typeof window & { dataLayer?: unknown[] }).dataLayer
-
-  if (Array.isArray(dataLayer)) {
-    dataLayer.push({
-      event: 'planner_island_error',
-      planner_island: eventDetail.island,
-      planner_island_digest: eventDetail.digest,
-    })
-  }
+  emitTelemetryEvent({
+    eventName: 'planner_island_error',
+    domEventName: 'planner:island-error',
+    detail: {
+      island: detail.island,
+      digest: detail.digest ?? null,
+      message: detail.message ?? null,
+      dataLayer: {
+        planner_island: detail.island,
+        planner_island_digest: detail.digest ?? null,
+      },
+    },
+  })
 }
 
