@@ -25,7 +25,7 @@ async function main(): Promise<void> {
     return !process.env.CI;
   })();
   const projectDir = path.resolve(__dirname, "..");
-  const configPath = path.resolve(projectDir, "tsconfig.json");
+  const configPath = path.resolve(projectDir, "tsconfig.build.json");
   const configFile = ts.readConfigFile(configPath, ts.sys.readFile);
   const parsed = ts.parseJsonConfigFileContent(
     configFile.config,

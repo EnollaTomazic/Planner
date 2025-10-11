@@ -80,6 +80,26 @@ export const createContentSecurityPolicy = (options) => {
   ].join("; ");
 };
 
+const META_UNSUPPORTED_DIRECTIVES = Object.freeze(["frame-ancestors"]);
+const META_UNSUPPORTED_DIRECTIVES_SET = new Set(
+  META_UNSUPPORTED_DIRECTIVES.map((directive) => directive.toLowerCase()),
+);
+
+/**
+ * @param {string} policy
+ * @returns {string}
+ */
+export const sanitizeContentSecurityPolicyForMeta = (policy) =>
+  policy
+    .split(";")
+    .map((directive) => directive.trim())
+    .filter(Boolean)
+    .filter((directive) => {
+      const directiveName = directive.split(/\s+/, 1)[0]?.toLowerCase();
+      return directiveName && !META_UNSUPPORTED_DIRECTIVES_SET.has(directiveName);
+    })
+    .join("; ");
+
 /**
  * @returns {ReadonlyArray<SecurityHeader>}
  */

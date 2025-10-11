@@ -31,4 +31,7 @@
   --spacing-6: var(--spacing6);
   --spacing-7: var(--spacing7);
   --spacing-8: var(--spacing8);
+
+  --ring-size-1: var(--ring-size1);
+  --ring-size-2: var(--ring-size2);
 }
