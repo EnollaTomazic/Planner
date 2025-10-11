@@ -1,8 +1,17 @@
-Planner helps teams map ideas into actionable product plans, pairing AI-assisted exploration with a collaborative canvas that keeps design tokens, feature specs, and rollout timelines aligned. The web app bundles the shared UI system, workflow automations, and deployment tooling used across PlannerProject initiatives.
+Planner is a collaborative product-planning workspace that blends AI-guided ideation with shared roadmaps, reusable UI primitives, and release orchestration so teams can move from concept to shipping plans in one place.
 
 For repository-wide conventions, automation entry points, and required pre-commit checks, read [AGENTS.md](AGENTS.md). The guide summarizes the scripts that keep the UI index, feature exports, and GitHub Pages deploy pipeline healthy.
 
 > **Heads up for developers and agents:** `AGENTS.md` is the canonical source for setup, testing, deployment, and code-style expectations. Always re-check it (and any nested versions) before making changes.
+
+## Installation
+
+Set up the project with the standard pnpm workflow:
+
+```bash
+pnpm install
+pnpm dev
+```
 
 ## Getting Started
 
