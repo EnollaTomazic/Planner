@@ -13,6 +13,7 @@ permissions:
   actions: read
 
 jobs:
+  # Invokes Codex to attempt automatic fixes when the CI workflow fails.
   autofix:
     if: >-
       github.event.workflow_run.conclusion == 'failure' &&
@@ -21,12 +22,12 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TARGET_WORKFLOW: ${{ github.event.workflow_run.name }}
-      TARGET_RUN_ID: ${{ github.event.workflow_run.id }}
-      TARGET_RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
-      TARGET_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
-      TARGET_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
-      TARGET_HTML_URL: ${{ github.event.workflow_run.html_url }}
+      TARGET_WORKFLOW: ${{ github.event.workflow_run.name }} # Record the failing workflow name for logging and prompts
+      TARGET_RUN_ID: ${{ github.event.workflow_run.id }} # Reference the failed run when downloading logs
+      TARGET_RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }} # Track retries so prompts mention the correct attempt
+      TARGET_HEAD_SHA: ${{ github.event.workflow_run.head_sha }} # Checkout the exact commit that triggered the failure
+      TARGET_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }} # Use the source branch when opening a follow-up PR
+      TARGET_HTML_URL: ${{ github.event.workflow_run.html_url }} # Link back to the failed run in generated summaries
 
     steps:
       - name: Checkout repository
@@ -63,10 +64,10 @@ jobs:
             echo "OPENAI_BASE_URL=${OPENAI_BASE_URL}" >>"$GITHUB_ENV"
           fi
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_ORG_ID: ${{ secrets.OPENAI_ORG_ID }}
-          OPENAI_PROJECT: ${{ secrets.OPENAI_PROJECT }}
-          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} # Provide Codex with API credentials when available
+          OPENAI_ORG_ID: ${{ secrets.OPENAI_ORG_ID }} # Supply optional org ID to target the correct OpenAI org
+          OPENAI_PROJECT: ${{ secrets.OPENAI_PROJECT }} # Pass project context if the account uses project scoping
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }} # Allow custom API base URL for enterprise routing
 
       - name: Download CI workflow logs
         id: download_logs
@@ -160,7 +161,7 @@ jobs:
       - name: Push fix branch
         if: steps.detect_changes.outputs.changed == 'true'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Authenticate pushes back to the repository
         run: |
           git push --set-upstream origin codex/autofix/${{ env.TARGET_RUN_ID }}
 

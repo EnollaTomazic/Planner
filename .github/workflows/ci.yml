@@ -1,7 +1,7 @@
 name: CI
 
 env:
-  PNPM_VERSION: 10.13.1
+  PNPM_VERSION: 10.13.1 # Pin pnpm version to keep installs consistent across jobs
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
@@ -27,6 +27,7 @@ on:
       - 'CHANGELOG.md'
 
 jobs:
+  # Audits dependencies to catch known vulnerabilities early in CI.
   audit:
     name: Audit
     runs-on: ubuntu-latest
@@ -54,7 +55,7 @@ jobs:
 
       - name: Refresh gallery usage manifest
         env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
+          TSX_TEMPDIR: node_modules/.cache/tsx # Store tsx cache in repo to avoid permission issues on CI
         run: pnpm run build-gallery-usage
 
       - name: Audit dependencies
@@ -68,6 +69,7 @@ jobs:
             echo "- Status: ${{ job.status }}";
           } >> "$GITHUB_STEP_SUMMARY"
 
+  # Runs linting, design checks, and prompt validation for code quality.
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -95,7 +97,7 @@ jobs:
 
       - name: Refresh gallery usage manifest
         env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
+          TSX_TEMPDIR: node_modules/.cache/tsx # Keep tsx scratch files within the workspace
         run: pnpm run build-gallery-usage
 
       - name: Lint
@@ -111,12 +113,12 @@ jobs:
       - name: Verify prompts registry
         id: verify_prompts
         env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
+          TSX_TEMPDIR: node_modules/.cache/tsx # Reuse local tsx cache for prompt verification
         run: pnpm run verify-prompts
 
       - name: Guard generated artifacts
         env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
+          TSX_TEMPDIR: node_modules/.cache/tsx # Ensure guard scripts share the same tsx cache location
         run: pnpm run guard:artifacts
 
       - name: Summarize lint
@@ -128,6 +130,7 @@ jobs:
             echo "- Prompt verification: ${{ steps.verify_prompts.outcome || 'not run' }}";
           } >> "$GITHUB_STEP_SUMMARY"
 
+  # Performs TypeScript compile checks to enforce type safety.
   typecheck:
     name: Type check
     runs-on: ubuntu-latest
@@ -155,7 +158,7 @@ jobs:
 
       - name: Refresh gallery usage manifest
         env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
+          TSX_TEMPDIR: node_modules/.cache/tsx # Cache tsx transpilation artifacts for type scripts
         run: pnpm run build-gallery-usage
 
       - name: Baseline type check
@@ -165,7 +168,7 @@ jobs:
 
       - name: Type check
         env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
+          TSX_TEMPDIR: node_modules/.cache/tsx # Use the shared tsx cache for the typecheck command
         run: |
           pnpm run typecheck:ci
 
@@ -177,6 +180,7 @@ jobs:
             echo "- Status: ${{ job.status }}";
           } >> "$GITHUB_STEP_SUMMARY"
 
+  # Executes unit tests and aggregates coverage data.
   unit-tests:
     name: Unit tests
     runs-on: ubuntu-latest
@@ -204,7 +208,7 @@ jobs:
 
       - name: Refresh gallery usage manifest
         env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
+          TSX_TEMPDIR: node_modules/.cache/tsx # Align tsx cache path with other jobs for consistency
         run: pnpm run build-gallery-usage
 
       - name: Restore Next.js cache
@@ -236,6 +240,7 @@ jobs:
             echo "- Status: ${{ job.status }}";
           } >> "$GITHUB_STEP_SUMMARY"
 
+  # Builds production assets and uploads artifacts for downstream jobs.
   build:
     needs:
       - lint
@@ -267,7 +272,7 @@ jobs:
 
       - name: Refresh gallery usage manifest
         env:
-          TSX_TEMPDIR: node_modules/.cache/tsx
+          TSX_TEMPDIR: node_modules/.cache/tsx # Maintain consistent tsx cache for build preparation
         run: pnpm run build-gallery-usage
 
       - name: Restore Next.js cache
@@ -280,7 +285,7 @@ jobs:
 
       - name: Validate runtime versions
         env:
-          EXPECTED_PNPM: ${{ env.PNPM_VERSION }}
+          EXPECTED_PNPM: ${{ env.PNPM_VERSION }} # Pass expected pnpm version for runtime validation
         run: |
           set -euo pipefail
 
@@ -368,14 +373,15 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
 
+  # Runs Playwright end-to-end suites against the built Next.js site.
   playwright:
     needs:
       - build
     runs-on: ubuntu-latest
     env:
-      PLAYWRIGHT_HOST: 127.0.0.1
-      PLAYWRIGHT_PORT: 3100
-      PLAYWRIGHT_BASE_URL: http://127.0.0.1:3100
+      PLAYWRIGHT_HOST: 127.0.0.1 # Bind the preview server to localhost for tests
+      PLAYWRIGHT_PORT: 3100 # Use a stable port so scripts know where to connect
+      PLAYWRIGHT_BASE_URL: http://127.0.0.1:3100 # Advertise the running server URL to test suites
     strategy:
       fail-fast: false
       matrix:
