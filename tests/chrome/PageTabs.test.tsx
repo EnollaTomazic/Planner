@@ -1,5 +1,6 @@
 import * as React from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
 vi.mock("framer-motion", async () => {
@@ -106,5 +107,30 @@ describe("PageTabs", () => {
     );
 
     expect(container.querySelector("[data-sticky]")).toBeNull();
+  });
+
+  it("manages state internally when uncontrolled", async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(
+      <PageTabs tabs={tabs} defaultValue="one" ariaLabel="Planner sections" />,
+    );
+
+    expect(replace).toHaveBeenCalledWith("/path#one", { scroll: false });
+
+    replace.mockClear();
+    window.location.hash = "#one";
+
+    await user.click(screen.getByRole("tab", { name: "Two" }));
+
+    expect(replace).toHaveBeenCalledWith("/path#two", { scroll: false });
+
+    replace.mockClear();
+    window.location.hash = "#two";
+
+    rerender(
+      <PageTabs tabs={tabs} defaultValue="one" ariaLabel="Planner sections" />,
+    );
+
+    expect(replace).not.toHaveBeenCalled();
   });
 });
