@@ -271,6 +271,32 @@ function HomePageBody({
     )
   }
 
+  return (
+    <GlitchLandingLayout
+      heroActions={heroActions}
+      plannerOverviewProps={plannerOverviewProps}
+      themeVariant={themeVariant}
+      heroHeadingId={heroHeadingId}
+      overviewHeadingId={overviewHeadingId}
+    />
+  )
+}
+
+type GlitchLandingLayoutProps = {
+  heroActions: React.ReactNode
+  plannerOverviewProps: PlannerOverviewProps
+  themeVariant: Variant
+  heroHeadingId: string
+  overviewHeadingId: string
+}
+
+const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
+  heroActions,
+  plannerOverviewProps,
+  themeVariant,
+  heroHeadingId,
+  overviewHeadingId,
+}: GlitchLandingLayoutProps) {
   const summaryKeys = plannerOverviewProps.summary.items.map((item) => item.key)
 
   return (
@@ -334,7 +360,9 @@ function HomePageBody({
       </PageShell>
     </>
   )
-}
+})
+
+GlitchLandingLayout.displayName = "GlitchLandingLayout"
 
 export default function HomePlannerIsland({
   heroHeadingId,
@@ -361,14 +389,32 @@ const LegacyHomePageBody = React.memo(function LegacyHomePageBody({
   heroHeadingId,
   overviewHeadingId,
 }: LegacyHomePageBodyProps) {
-  const {
-    hydrating,
-    summary,
-    focus,
-    goals,
-    calendar,
-  } = plannerOverviewProps
+  return (
+    <LegacyLandingLayout
+      plannerOverviewProps={plannerOverviewProps}
+      heroActions={heroActions}
+      heroHeadingId={heroHeadingId}
+      overviewHeadingId={overviewHeadingId}
+    />
+  )
+})
 
+LegacyHomePageBody.displayName = "LegacyHomePageBody"
+
+type LegacyLandingLayoutProps = {
+  plannerOverviewProps: PlannerOverviewProps
+  heroActions: React.ReactNode
+  heroHeadingId: string
+  overviewHeadingId: string
+}
+
+const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
+  plannerOverviewProps,
+  heroActions,
+  heroHeadingId,
+  overviewHeadingId,
+}: LegacyLandingLayoutProps) {
+  const { hydrating, summary, focus, goals, calendar } = plannerOverviewProps
   const activeGoals = goals.active
 
   return (
@@ -545,4 +591,4 @@ const LegacyHomePageBody = React.memo(function LegacyHomePageBody({
   )
 })
 
-LegacyHomePageBody.displayName = "LegacyHomePageBody"
+LegacyLandingLayout.displayName = "LegacyLandingLayout"
