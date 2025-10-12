@@ -1,10 +1,11 @@
 # Continuous integration workflows
 
-This project maintains three first-party workflows under `.github/workflows/`:
+This project maintains first-party workflows under `.github/workflows/`:
 
 - `ci.yml` runs the validation and test matrix that gates every pull request and push.
 - `deploy-pages.yml` publishes the static export to GitHub Pages after changes land on protected branches.
 - `workflow-lint.yml` enforces style and correctness rules for workflow changes themselves.
+- `codex-autofix.yml` attempts an automated repair after the CI workflow fails, but only runs when the `OPENAI_API_KEY` secret is configured so Codex can authenticate.
 
 Each workflow wires directly into the shared composite action at `.github/actions/setup-node-project` so pnpm, caching, and environment bootstrapping stay consistent without relying on a separate reusable workflow.
 

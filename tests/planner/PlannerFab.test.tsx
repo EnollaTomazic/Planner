@@ -1,5 +1,5 @@
 import * as React from "react";
-import { describe, it, expect, afterEach } from "vitest";
+import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { render, cleanup, screen, waitFor, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
@@ -10,6 +10,36 @@ import {
 } from "@/components/planner";
 import { PlannerFab } from "@/components/planner/PlannerFab";
 import { addDays, toISODate, fromISODate } from "@/lib/date";
+import type {
+  PlannerAssistantActionInput,
+  PlannerAssistantActionResult,
+} from "@/app/planner/actions";
+import type { PlannerAssistantPlan } from "@/lib/assistant/plannerAgent";
+
+const defaultAssistantActionResult: PlannerAssistantActionResult = {
+  ok: true,
+  plan: {
+    sanitizedPrompt: "",
+    prompt: "",
+    summary: null,
+    suggestions: [],
+    safety: { safeMode: false, temperature: 0, toolChoice: { mode: "none" } },
+    tokenBudget: { totalTokens: 0, availableTokens: 0, removedCount: 0 },
+  },
+  safeMode: { server: false, client: false, active: false },
+};
+
+const planWithAssistantAction = vi.hoisted(() =>
+  vi.fn<
+    (
+      input: PlannerAssistantActionInput,
+    ) => Promise<PlannerAssistantActionResult>
+  >(() => Promise.resolve(defaultAssistantActionResult)),
+);
+
+vi.mock("@/app/planner/actions", () => ({
+  planWithAssistantAction,
+}));
 
 type HarnessState = {
   store: ReturnType<typeof usePlannerStore> | null;
@@ -42,10 +72,20 @@ function renderPlanner(ui: React.ReactElement) {
 }
 
 describe("PlannerFab", () => {
+  beforeEach(() => {
+    planWithAssistantAction.mockReset();
+    planWithAssistantAction.mockResolvedValue({
+      ok: true,
+      plan: createAssistantPlan(),
+      safeMode: createSafeModeState(),
+    });
+  });
+
   afterEach(() => {
     cleanup();
     harnessState.store = null;
     harnessState.actions = null;
+    planWithAssistantAction.mockReset();
   });
 
   it("renders the floating action button", () => {
@@ -178,4 +218,153 @@ describe("PlannerFab", () => {
       expect(projectSelect).toHaveTextContent("Alpha");
     });
   });
+
+  it("asks the planner assistant via the server action", async () => {
+    const { getStore } = renderPlanner(<PlannerFab />);
+    const focusIso = getStore().focus;
+
+    planWithAssistantAction.mockResolvedValue({
+      ok: true,
+      plan: createAssistantPlan({ summary: "Sprint summary" }),
+      safeMode: createSafeModeState(),
+    });
+
+    await userEvent.click(
+      screen.getByRole("button", { name: /open planner creation sheet/i }),
+    );
+    await userEvent.type(
+      screen.getByLabelText(/what are you planning/i),
+      "Plan the sprint",
+    );
+
+    await userEvent.click(
+      screen.getByRole("button", { name: /ask planner assistant/i }),
+    );
+
+    await waitFor(() =>
+      expect(planWithAssistantAction).toHaveBeenCalledTimes(1),
+    );
+
+    const call = planWithAssistantAction.mock.calls.at(0);
+    expect(call?.[0]).toEqual({ prompt: "Plan the sprint", focusDate: focusIso });
+
+    await screen.findByText("Sprint summary");
+    expect(screen.getByText("Review backlog")).toBeInTheDocument();
+  });
+
+  it("shows safe mode notices when the assistant is restricted", async () => {
+    renderPlanner(<PlannerFab />);
+
+    planWithAssistantAction.mockResolvedValue({
+      ok: true,
+      plan: createAssistantPlan({
+        safety: { safeMode: true, temperature: 0.5, toolChoice: { mode: "none" } },
+      }),
+      safeMode: createSafeModeState({ server: true, client: true, active: true }),
+    });
+
+    await userEvent.click(
+      screen.getByRole("button", { name: /open planner creation sheet/i }),
+    );
+    await userEvent.type(
+      screen.getByLabelText(/what are you planning/i),
+      "Plan the sprint",
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: /ask planner assistant/i }),
+    );
+
+    await screen.findByText(/review backlog/i);
+    expect(
+      screen.getByText(
+        /safe mode is active\. suggestions are limited for additional safety\./i,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("renders friendly planner assistant errors", async () => {
+    renderPlanner(<PlannerFab />);
+
+    planWithAssistantAction.mockResolvedValue({
+      ok: false,
+      error: "invalid_request",
+      message: "Planner assistant request was invalid.",
+      safeMode: createSafeModeState(),
+      issues: [{ path: ["prompt"], message: "Required" }],
+    });
+
+    await userEvent.click(
+      screen.getByRole("button", { name: /open planner creation sheet/i }),
+    );
+    await userEvent.type(
+      screen.getByLabelText(/what are you planning/i),
+      "Plan the sprint",
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: /ask planner assistant/i }),
+    );
+
+    await screen.findByText(/planner assistant request was invalid\./i);
+    expect(screen.queryByText(/review backlog/i)).not.toBeInTheDocument();
+  });
 });
+
+function createSafeModeState(
+  overrides: Partial<{
+    server: boolean;
+    client: boolean;
+    active: boolean;
+  }> = {},
+) {
+  return {
+    server: false,
+    client: false,
+    active: false,
+    ...overrides,
+  };
+}
+
+function createAssistantPlan(
+  overrides: Partial<PlannerAssistantPlan> = {},
+): PlannerAssistantPlan {
+  const base: PlannerAssistantPlan = {
+    sanitizedPrompt: "Plan the sprint",
+    prompt: "Plan the sprint",
+    summary: "Review backlog",
+    suggestions: [
+      {
+        id: "suggestion-1",
+        title: "Review backlog",
+        intent: "task",
+        confidence: "medium",
+        summary: "Refine backlog items",
+        schedule: { date: "2024-03-01", time: "09:00" },
+      },
+    ],
+    safety: {
+      safeMode: false,
+      temperature: 0.3,
+      toolChoice: { mode: "none" },
+    },
+    tokenBudget: {
+      totalTokens: 1000,
+      availableTokens: 900,
+      removedCount: 100,
+    },
+  };
+
+  return {
+    ...base,
+    ...overrides,
+    suggestions: overrides.suggestions ?? base.suggestions,
+    safety: {
+      ...base.safety,
+      ...overrides.safety,
+    },
+    tokenBudget: {
+      ...base.tokenBudget,
+      ...overrides.tokenBudget,
+    },
+  } satisfies PlannerAssistantPlan;
+}
+
