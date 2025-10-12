@@ -1,9 +1,13 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { ZodError } from "zod";
 
-import loadServerEnvDefault, { loadServerEnv } from "../../env/server";
+import { loadServerEnv, readServerEnv, resetServerEnvCache } from "@env";
 
 describe("loadServerEnv", () => {
+  afterEach(() => {
+    resetServerEnvCache();
+  });
+
   it("defaults SAFE_MODE to 'true' when missing", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
 
@@ -16,7 +20,7 @@ describe("loadServerEnv", () => {
 
       expect(env.SAFE_MODE).toBe("true");
       expect(warn).toHaveBeenCalledWith(
-        expect.stringContaining("SAFE_MODE was missing"),
+        expect.stringContaining("NEXT_PUBLIC_SAFE_MODE was missing"),
       );
     } finally {
       warn.mockRestore();
@@ -76,13 +80,13 @@ describe("loadServerEnv", () => {
     delete process.env.NEXT_PUBLIC_SAFE_MODE;
 
     try {
-      const env = loadServerEnvDefault();
+      const env = readServerEnv();
 
       expect(env.SAFE_MODE).toBe("true");
       expect(process.env.SAFE_MODE).toBe("true");
       expect(process.env.NEXT_PUBLIC_SAFE_MODE).toBe("true");
       expect(warn).toHaveBeenCalledWith(
-        expect.stringContaining("SAFE_MODE was missing"),
+        expect.stringContaining("NEXT_PUBLIC_SAFE_MODE was missing"),
       );
     } finally {
       if (typeof originalSafeMode === "string") {

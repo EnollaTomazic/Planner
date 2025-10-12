@@ -1,4 +1,4 @@
-import { manifest } from './generated-manifest.g'
+import { manifest } from './manifest'
 import {
   getGalleryEntryAxes,
   type GalleryAxis,

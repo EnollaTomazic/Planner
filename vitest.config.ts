@@ -2,6 +2,7 @@ import path from "path";
 import { defineConfig } from "vitest/config";
 
 const isCI = Boolean(process.env.CI);
+const pool = isCI ? "forks" : "threads";
 
 export default defineConfig({
   test: {
@@ -9,17 +10,25 @@ export default defineConfig({
     setupFiles: "./tests/setup.ts",
     include: ["tests/**/*.test.{ts,tsx}", "tests/**/*.spec.{ts,tsx}"],
     exclude: ["**/node_modules/**", "**/dist/**"],
-    testTimeout: 15000,
-    ...(isCI
-      ? {
-          poolOptions: {
-            threads: {
-              minThreads: 1,
-              maxThreads: 1,
-            },
-          },
-        }
-      : {}),
+    testTimeout: 20000,
+    teardownTimeout: 10000,
+    hookTimeout: 10000,
+    retry: isCI ? 2 : 0,
+    pool,
+    poolOptions: {
+      threads: {
+        isolate: true,
+        maxThreads: isCI ? 2 : undefined,
+        minThreads: 1,
+      },
+      forks: {
+        isolate: true,
+        singleFork: isCI,
+      },
+    },
+    sequence: {
+      hooks: "list",
+    },
     coverage: {
       provider: "istanbul",
       include: ["src/**/*.{ts,tsx}", "app/**/*.{ts,tsx}"],
@@ -32,6 +41,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
+      "@env": path.resolve(__dirname, "env"),
     },
   },
 });

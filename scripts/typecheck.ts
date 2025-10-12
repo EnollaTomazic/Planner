@@ -35,7 +35,25 @@ async function main(): Promise<void> {
 
   fs.mkdirSync(path.join(projectDir, ".cache"), { recursive: true });
 
-  const rootFiles = new Set(parsed.fileNames.map((f) => path.normalize(f)));
+  const rawManifestSuffixes = [
+    path.normalize("src/components/gallery/generated-manifest.ts"),
+  ];
+
+  const ignoredDiagnosticSuffixes = [
+    ...rawManifestSuffixes,
+    path.normalize("src/components/gallery/generated-manifest.g.ts"),
+  ];
+
+  const filteredRootNames = parsed.fileNames.filter((fileName) => {
+    const normalized = path.normalize(fileName);
+    return !rawManifestSuffixes.some((suffix) =>
+      normalized.endsWith(suffix),
+    );
+  });
+
+  parsed.fileNames = filteredRootNames;
+
+  const rootFiles = new Set(filteredRootNames.map((f) => path.normalize(f)));
   const total = rootFiles.size;
   const bars = new MultiBar(
     { clearOnComplete: false, hideCursor: true },
@@ -46,19 +64,47 @@ async function main(): Promise<void> {
 
   const host = ts.createIncrementalCompilerHost(parsed.options);
   const origGetSourceFile = host.getSourceFile;
+  const manifestStub = [
+    "import type { Manifest } from './manifest.schema';",
+    "",
+    "export const galleryPayload = {} as Manifest['galleryPayload'];",
+    "export const galleryPreviewModules = {} as Manifest['galleryPreviewModules'];",
+    "export const galleryPreviewRoutes = {} as Manifest['galleryPreviewRoutes'];",
+    "",
+    "export const manifest = {",
+    "  galleryPayload,",
+    "  galleryPreviewModules,",
+    "  galleryPreviewRoutes,",
+    "} as Manifest;",
+    "",
+    "export default manifest;",
+    "",
+  ].join("\n");
+
   host.getSourceFile = (
     fileName,
     languageVersion,
     onError,
     shouldCreateNewSourceFile,
   ) => {
+    const norm = path.normalize(fileName);
+    if (rawManifestSuffixes.some((suffix) => norm.endsWith(suffix))) {
+      const source = ts.createSourceFile(
+        fileName,
+        manifestStub,
+        parsed.options.target ?? ts.ScriptTarget.ESNext,
+        true,
+        ts.ScriptKind.TS,
+      ) as ts.SourceFile & { version: string };
+      source.version = "stub";
+      return source;
+    }
     const result = origGetSourceFile(
       fileName,
       languageVersion,
       onError,
       shouldCreateNewSourceFile,
     );
-    const norm = path.normalize(fileName);
     if (rootFiles.has(norm)) {
       completed += 1;
       bar.update(completed);
@@ -68,7 +114,7 @@ async function main(): Promise<void> {
   };
 
   const program = ts.createIncrementalProgram({
-    rootNames: parsed.fileNames,
+    rootNames: filteredRootNames,
     options: {
       ...parsed.options,
       noEmit: true,
@@ -77,11 +123,6 @@ async function main(): Promise<void> {
     },
     host,
   });
-
-  const ignoredManifestSuffixes = [
-    path.normalize("src/components/gallery/generated-manifest.ts"),
-    path.normalize("src/components/gallery/generated-manifest.g.ts"),
-  ];
 
   const diagnostics = ts
     .getPreEmitDiagnostics(program.getProgram())
@@ -94,7 +135,11 @@ async function main(): Promise<void> {
         return true;
       }
       const normalized = path.normalize(fileName);
-      if (ignoredManifestSuffixes.some((suffix) => normalized.endsWith(suffix))) {
+      if (
+        ignoredDiagnosticSuffixes.some((suffix) =>
+          normalized.endsWith(suffix),
+        )
+      ) {
         // Ignore union size explosions from the large auto-generated manifest file.
         return false;
       }

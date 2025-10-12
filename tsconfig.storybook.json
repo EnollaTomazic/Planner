@@ -1,0 +1,28 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": [
+      "vitest/globals",
+      "react",
+      "node",
+      "@playwright/test",
+      "vite/client"
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "storybook/**/*.ts",
+    "storybook/**/*.tsx",
+    "storybook/**/*.cts",
+    "storybook/**/*.mts",
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
+    "src/**/*.stories.mdx",
+    "src/**/*.mdx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "env/**/*.ts",
+    "types/**/*.d.ts"
+  ],
+  "exclude": ["node_modules", "src/components/gallery/generated-manifest.ts"]
+}
