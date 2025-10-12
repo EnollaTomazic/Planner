@@ -9,45 +9,10 @@ import {
   planWithAssistant,
 } from "@/lib/assistant/plannerAgent";
 
-const ENABLED_FLAG_VALUES = new Set(["1", "true", "on", "yes"]);
-const DISABLED_FLAG_VALUES = new Set(["0", "false", "off", "no"]);
-
-function normalizeFlag(value: string | undefined): boolean {
-  if (typeof value !== "string") {
-    return false;
-  }
-
-  const normalized = value.trim().toLowerCase();
-  if (!normalized) {
-    return false;
-  }
-
-  if (ENABLED_FLAG_VALUES.has(normalized)) {
-    return true;
-  }
-
-  if (DISABLED_FLAG_VALUES.has(normalized)) {
-    return false;
-  }
-
-  return false;
-}
-
-export type PlannerAssistantSafeModeState = {
-  readonly server: boolean;
-  readonly client: boolean;
-  readonly active: boolean;
-};
-
-export function resolvePlannerAssistantSafeMode(): PlannerAssistantSafeModeState {
-  const server = normalizeFlag(process.env.SAFE_MODE);
-  const client = normalizeFlag(process.env.NEXT_PUBLIC_SAFE_MODE);
-  return {
-    server,
-    client,
-    active: server && client,
-  } satisfies PlannerAssistantSafeModeState;
-}
+import {
+  resolvePlannerAssistantSafeMode,
+  type PlannerAssistantSafeModeState,
+} from "@/lib/assistant/safe-mode";
 
 export const plannerAssistantRequestSchema = z.object({
   prompt: z.string(),

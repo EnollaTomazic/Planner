@@ -17,11 +17,13 @@ jobs:
   autofix:
     if: >-
       github.event.workflow_run.conclusion == 'failure' &&
-      github.event.workflow_run.head_repository.fork != true
+      github.event.workflow_run.head_repository.fork != true &&
+      env.HAS_OPENAI_API_KEY == 'true'
     name: Run Codex autofix
     runs-on: ubuntu-latest
 
     env:
+      HAS_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY != '' }}
       TARGET_WORKFLOW: ${{ github.event.workflow_run.name }} # Record the failing workflow name for logging and prompts
       TARGET_RUN_ID: ${{ github.event.workflow_run.id }} # Reference the failed run when downloading logs
       TARGET_RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }} # Track retries so prompts mention the correct attempt
