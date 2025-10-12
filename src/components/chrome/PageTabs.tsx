@@ -29,7 +29,8 @@ type PageTabBarItem = TabBarItem<string> & { href?: string };
 
 export interface PageTabsProps {
   tabs: PageTabDefinition[];
-  value: string;
+  value?: string;
+  defaultValue?: string;
   onChange?: (id: string) => void;
   className?: string;
   sticky?: boolean;
@@ -46,6 +47,7 @@ export interface PageTabsProps {
 export function PageTabs({
   tabs,
   value,
+  defaultValue,
   onChange,
   className = "",
   sticky = true,
@@ -64,6 +66,31 @@ export function PageTabs({
     const serialized = searchParams.toString();
     return serialized ? `?${serialized}` : "";
   }, [searchParams]);
+
+  const fallbackTabId = React.useMemo(
+    () => tabs[0]?.id ?? "",
+    [tabs],
+  );
+  const isControlled = value !== undefined;
+  const [internalValue, setInternalValue] = React.useState<string>(() => {
+    if (value !== undefined) return value;
+    if (defaultValue !== undefined) return defaultValue;
+    return fallbackTabId;
+  });
+  const activeValue = isControlled ? value : internalValue;
+
+  React.useEffect(() => {
+    if (isControlled) {
+      return;
+    }
+    const preferred = defaultValue ?? fallbackTabId;
+    setInternalValue((current) => {
+      if (current && tabs.some((tab) => tab.id === current)) {
+        return current;
+      }
+      return preferred;
+    });
+  }, [defaultValue, fallbackTabId, isControlled, tabs]);
 
   const hasRestoredFromHash = React.useRef(false);
 
@@ -88,16 +115,35 @@ export function PageTabs({
 
     const hash = window.location.hash.replace("#", "");
     if (hash && tabs.some((tab) => tab.id === hash)) {
-      onChange?.(hash);
+      if (isControlled) {
+        onChange?.(hash);
+        return;
+      }
+      setInternalValue(hash);
     }
-  }, [tabs, onChange]);
+  }, [isControlled, onChange, tabs]);
 
   // Sync active tab to URL hash
   React.useEffect(() => {
-    if (window.location.hash !== `#${value}`) {
-      router.replace(`${pathname}${search}#${value}`, { scroll: false });
+    if (!activeValue) {
+      return;
     }
-  }, [value, router, pathname, search]);
+    if (window.location.hash !== `#${activeValue}`) {
+      router.replace(`${pathname}${search}#${activeValue}`, {
+        scroll: false,
+      });
+    }
+  }, [activeValue, router, pathname, search]);
+
+  const handleValueChange = React.useCallback(
+    (next: string) => {
+      if (!isControlled) {
+        setInternalValue(next);
+      }
+      onChange?.(next);
+    },
+    [isControlled, onChange],
+  );
 
   const renderTab = React.useCallback(
     ({
@@ -198,8 +244,8 @@ export function PageTabs({
       <div className="page-shell">
         <TabBar<string, { href?: string }>
           items={tabItems}
-          value={value}
-          onValueChange={(next) => onChange?.(next)}
+          value={activeValue}
+          onValueChange={handleValueChange}
           ariaLabel={ariaLabel}
           variant="glitch"
           renderItem={renderTab}
