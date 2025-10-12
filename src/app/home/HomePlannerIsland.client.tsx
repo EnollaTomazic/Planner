@@ -57,6 +57,11 @@ const HeroSectionFallbackContext =
 const HeroPlannerCardsFallbackContext =
   React.createContext<HeroPlannerCardsFallbackContentProps | null>(null)
 
+type HomePlannerIslandProps = {
+  heroHeadingId: string
+  overviewHeadingId: string
+}
+
 function HomeHeroSectionFallback() {
   const fallbackProps = React.useContext(HeroSectionFallbackContext)
   const headingId = fallbackProps?.headingId ?? "home-hero-fallback"
@@ -120,7 +125,10 @@ const weeklyHighlights = [
   },
 ] as const satisfies readonly HeroPlannerHighlight[]
 
-function HomePageContent() {
+function HomePageContent({
+  heroHeadingId,
+  overviewHeadingId,
+}: HomePlannerIslandProps) {
   const [theme] = useTheme()
   const { glitchLandingEnabled } = useUiFeatureFlags()
   useThemeQuerySync()
@@ -130,6 +138,8 @@ function HomePageContent() {
       <HomePagePlannerContent
         themeVariant={theme.variant}
         glitchLandingEnabled={glitchLandingEnabled}
+        heroHeadingId={heroHeadingId}
+        overviewHeadingId={overviewHeadingId}
       />
     </PlannerProvider>
   )
@@ -138,11 +148,15 @@ function HomePageContent() {
 type HomePagePlannerContentProps = {
   themeVariant: Variant
   glitchLandingEnabled: boolean
+  heroHeadingId: string
+  overviewHeadingId: string
 }
 
 function HomePagePlannerContent({
   themeVariant,
   glitchLandingEnabled,
+  heroHeadingId,
+  overviewHeadingId,
 }: HomePagePlannerContentProps) {
   const plannerOverviewProps = useHomePlannerOverview()
   const { hydrated } = plannerOverviewProps
@@ -196,6 +210,8 @@ function HomePagePlannerContent({
           plannerOverviewProps={plannerOverviewProps}
           onClientReady={glitchLandingEnabled ? handleClientReady : undefined}
           glitchLandingEnabled={glitchLandingEnabled}
+          heroHeadingId={heroHeadingId}
+          overviewHeadingId={overviewHeadingId}
         />
       </section>
     </div>
@@ -207,6 +223,8 @@ type HomePageBodyProps = {
   plannerOverviewProps: PlannerOverviewProps
   onClientReady?: () => void
   glitchLandingEnabled: boolean
+  heroHeadingId: string
+  overviewHeadingId: string
 }
 
 function HomePageBody({
@@ -214,10 +232,10 @@ function HomePageBody({
   plannerOverviewProps,
   onClientReady,
   glitchLandingEnabled,
+  heroHeadingId,
+  overviewHeadingId,
 }: HomePageBodyProps) {
   const { hydrated } = plannerOverviewProps
-  const heroHeadingId = "home-hero-heading"
-  const overviewHeadingId = "home-overview-heading"
   const heroActions = React.useMemo<React.ReactNode>(
     () => (
       <>
@@ -314,8 +332,16 @@ function HomePageBody({
   )
 }
 
-export default function HomePlannerIsland() {
-  return <HomePageContent />
+export default function HomePlannerIsland({
+  heroHeadingId,
+  overviewHeadingId,
+}: HomePlannerIslandProps) {
+  return (
+    <HomePageContent
+      heroHeadingId={heroHeadingId}
+      overviewHeadingId={overviewHeadingId}
+    />
+  )
 }
 
 type LegacyHomePageBodyProps = {
