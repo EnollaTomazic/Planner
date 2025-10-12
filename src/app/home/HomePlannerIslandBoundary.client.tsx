@@ -1,13 +1,19 @@
 "use client";
 
 import * as React from "react";
+import type { ReactNode } from "react";
 import HomePlannerIsland, {
   type HomePlannerIslandProps,
 } from "./HomePlannerIsland.client";
 
-export default function HomePlannerIslandBoundary(
-  props: HomePlannerIslandProps,
-) {
+type HomePlannerIslandBoundaryProps = HomePlannerIslandProps & {
+  fallback?: ReactNode;
+};
+
+export default function HomePlannerIslandBoundary({
+  fallback,
+  ...islandProps
+}: HomePlannerIslandBoundaryProps) {
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -15,8 +21,8 @@ export default function HomePlannerIslandBoundary(
   }, []);
 
   if (!mounted) {
-    return null;
+    return fallback ?? null;
   }
 
-  return <HomePlannerIsland {...props} />;
+  return <HomePlannerIsland {...islandProps} />;
 }

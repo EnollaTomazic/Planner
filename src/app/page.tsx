@@ -20,16 +20,19 @@ export const metadata: Metadata = {
 export default function Page() {
   const glitchLandingState = glitchLandingEnabled;
 
+  const fallback = (
+    <HomePageSuspenseFallback
+      heroHeadingId={HOME_HERO_HEADING_ID}
+      overviewHeadingId={HOME_OVERVIEW_HEADING_ID}
+    />
+  );
+
   return (
-    <Suspense
-      fallback={
-        <HomePageSuspenseFallback
-          heroHeadingId={HOME_HERO_HEADING_ID}
-          overviewHeadingId={HOME_OVERVIEW_HEADING_ID}
-        />
-      }
-    >
-      <HomePlannerIsland glitchLandingEnabled={glitchLandingState} />
+    <Suspense fallback={fallback}>
+      <HomePlannerIsland
+        fallback={fallback}
+        glitchLandingEnabled={glitchLandingState}
+      />
     </Suspense>
   );
 }
