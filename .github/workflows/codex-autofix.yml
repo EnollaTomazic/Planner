@@ -12,6 +12,9 @@ permissions:
   pull-requests: write
   actions: read
 
+env:
+  HAS_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY != '' }}
+
 jobs:
   # Triggers Codex to draft automated fixes whenever the CI workflow finishes with a failure.
   autofix:
@@ -23,7 +26,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      HAS_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY != '' }}
       TARGET_WORKFLOW: ${{ github.event.workflow_run.name }} # Record the failing workflow name for logging and prompts
       TARGET_RUN_ID: ${{ github.event.workflow_run.id }} # Reference the failed run when downloading logs
       TARGET_RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }} # Track retries so prompts mention the correct attempt
