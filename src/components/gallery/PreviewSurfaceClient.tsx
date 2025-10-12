@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-import { PREVIEW_SURFACE_CONTAINER_CLASSNAME } from "./constants";
+import { PREVIEW_SURFACE_CONTAINER_CLASSNAME } from "@/components/gallery/constants";
 import { PreviewRendererClient } from "./PreviewRendererClient";
 
 function PreviewSurfaceContainer({
