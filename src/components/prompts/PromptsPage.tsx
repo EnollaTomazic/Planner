@@ -6,13 +6,23 @@ import { PageShell } from "@/components/ui";
 import { Tabs, TabList, TabPanel, type TabListItem } from "@/components/ui/primitives/Tabs";
 import { usePersistentState } from "@/lib/db";
 import { PromptsHeader } from "./PromptsHeader";
-import { ChatPromptsTab } from "./ChatPromptsTab";
-import { CodexPromptsTab } from "./CodexPromptsTab";
-import { NotesTab } from "./NotesTab";
+import type { Persona, PromptWithTitle } from "./types";
 import { useChatPrompts } from "./useChatPrompts";
 import { useCodexPrompts } from "./useCodexPrompts";
 import { useNotes } from "./useNotes";
 import { usePersonas } from "./usePersonas";
+
+const ChatPromptsTab = React.lazy(async () => ({
+  default: (await import("./ChatPromptsTab")).ChatPromptsTab,
+}));
+
+const CodexPromptsTab = React.lazy(async () => ({
+  default: (await import("./CodexPromptsTab")).CodexPromptsTab,
+}));
+
+const NotesTab = React.lazy(async () => ({
+  default: (await import("./NotesTab")).NotesTab,
+}));
 
 const TAB_STORAGE_KEY = "prompts.tab.v1" as const;
 
@@ -47,24 +57,10 @@ export function PromptsPage() {
     "chat",
   );
 
-  const [chatTitleDraft, setChatTitleDraft] = React.useState("");
-  const [chatTextDraft, setChatTextDraft] = React.useState("");
-  const [codexTitleDraft, setCodexTitleDraft] = React.useState("");
-  const [codexTextDraft, setCodexTextDraft] = React.useState("");
-
-  const handleChatSave = React.useCallback(() => {
-    if (saveChatPrompt(chatTitleDraft, chatTextDraft)) {
-      setChatTitleDraft("");
-      setChatTextDraft("");
-    }
-  }, [chatTitleDraft, chatTextDraft, saveChatPrompt]);
-
-  const handleCodexSave = React.useCallback(() => {
-    if (saveCodexPrompt(codexTitleDraft, codexTextDraft)) {
-      setCodexTitleDraft("");
-      setCodexTextDraft("");
-    }
-  }, [codexTextDraft, codexTitleDraft, saveCodexPrompt]);
+  const chatSaveRef = React.useRef<(() => void) | null>(null);
+  const codexSaveRef = React.useRef<(() => void) | null>(null);
+  const [chatCanSave, setChatCanSave] = React.useState(false);
+  const [codexCanSave, setCodexCanSave] = React.useState(false);
 
   const tabItems = React.useMemo<TabListItem<PromptsTabKey>[]>(() => {
     return BASE_TAB_ITEMS.map<TabListItem<PromptsTabKey>>((item) => {
@@ -109,23 +105,23 @@ export function PromptsPage() {
 
   const handleSave = React.useCallback(() => {
     if (activeTab === "chat") {
-      handleChatSave();
+      chatSaveRef.current?.();
       return;
     }
     if (activeTab === "codex") {
-      handleCodexSave();
+      codexSaveRef.current?.();
     }
-  }, [activeTab, handleChatSave, handleCodexSave]);
+  }, [activeTab]);
 
   const saveDisabled = React.useMemo(() => {
     if (activeTab === "chat") {
-      return !chatTitleDraft.trim() && !chatTextDraft.trim();
+      return !chatCanSave;
     }
     if (activeTab === "codex") {
-      return !codexTitleDraft.trim() && !codexTextDraft.trim();
+      return !codexCanSave;
     }
     return true;
-  }, [activeTab, chatTitleDraft, chatTextDraft, codexTitleDraft, codexTextDraft]);
+  }, [activeTab, chatCanSave, codexCanSave]);
 
   const activeCount = React.useMemo(() => {
     if (activeTab === "chat") return chatPrompts.length;
@@ -160,34 +156,173 @@ export function PromptsPage() {
           />
 
           <TabPanel value="chat" className="pb-[var(--space-8)]">
-            <ChatPromptsTab
-              title={chatTitleDraft}
-              text={chatTextDraft}
-              onTitleChange={setChatTitleDraft}
-              onTextChange={setChatTextDraft}
-              prompts={chatFiltered}
-              query={chatQuery}
-              personas={personas}
-            />
+            <React.Suspense fallback={<TabFallback>Loading ChatGPT workspace…</TabFallback>}>
+              <ChatTabPanel
+                prompts={chatFiltered}
+                query={chatQuery}
+                personas={personas}
+                savePrompt={saveChatPrompt}
+                saveRef={chatSaveRef}
+                onCanSaveChange={setChatCanSave}
+              />
+            </React.Suspense>
           </TabPanel>
 
           <TabPanel value="codex" className="pb-[var(--space-8)]">
-            <CodexPromptsTab
-              title={codexTitleDraft}
-              text={codexTextDraft}
-              onTitleChange={setCodexTitleDraft}
-              onTextChange={setCodexTextDraft}
-              prompts={codexFiltered}
-              query={codexQuery}
-            />
+            <React.Suspense fallback={<TabFallback>Loading Codex checklist…</TabFallback>}>
+              <CodexTabPanel
+                prompts={codexFiltered}
+                query={codexQuery}
+                savePrompt={saveCodexPrompt}
+                saveRef={codexSaveRef}
+                onCanSaveChange={setCodexCanSave}
+              />
+            </React.Suspense>
           </TabPanel>
 
           <TabPanel value="notes" className="pb-[var(--space-8)]">
-            <NotesTab value={notes} onChange={setNotes} />
+            <React.Suspense fallback={<TabFallback>Preparing notes…</TabFallback>}>
+              <NotesTab value={notes} onChange={setNotes} />
+            </React.Suspense>
           </TabPanel>
         </Tabs>
       </PageShell>
     </>
+  );
+}
+
+interface ChatTabPanelProps {
+  prompts: PromptWithTitle[];
+  query: string;
+  personas: Persona[];
+  savePrompt: (title: string, text: string) => boolean;
+  saveRef: React.MutableRefObject<(() => void) | null>;
+  onCanSaveChange: (canSave: boolean) => void;
+}
+
+function ChatTabPanel({
+  prompts,
+  query,
+  personas,
+  savePrompt,
+  saveRef,
+  onCanSaveChange,
+}: ChatTabPanelProps) {
+  const [title, setTitle] = React.useState("");
+  const [text, setText] = React.useState("");
+
+  const canSave = React.useMemo(() => {
+    return Boolean(title.trim() || text.trim());
+  }, [text, title]);
+
+  React.useEffect(() => {
+    onCanSaveChange(canSave);
+  }, [canSave, onCanSaveChange]);
+
+  React.useEffect(() => {
+    return () => {
+      onCanSaveChange(false);
+    };
+  }, [onCanSaveChange]);
+
+  const handleSave = React.useCallback(() => {
+    if (savePrompt(title, text)) {
+      setTitle("");
+      setText("");
+    }
+  }, [savePrompt, text, title]);
+
+  React.useEffect(() => {
+    saveRef.current = handleSave;
+    return () => {
+      if (saveRef.current === handleSave) {
+        saveRef.current = null;
+      }
+    };
+  }, [handleSave, saveRef]);
+
+  return (
+    <ChatPromptsTab
+      title={title}
+      text={text}
+      onTitleChange={setTitle}
+      onTextChange={setText}
+      prompts={prompts}
+      query={query}
+      personas={personas}
+    />
+  );
+}
+
+interface CodexTabPanelProps {
+  prompts: PromptWithTitle[];
+  query: string;
+  savePrompt: (title: string, text: string) => boolean;
+  saveRef: React.MutableRefObject<(() => void) | null>;
+  onCanSaveChange: (canSave: boolean) => void;
+}
+
+function CodexTabPanel({
+  prompts,
+  query,
+  savePrompt,
+  saveRef,
+  onCanSaveChange,
+}: CodexTabPanelProps) {
+  const [title, setTitle] = React.useState("");
+  const [text, setText] = React.useState("");
+
+  const canSave = React.useMemo(() => {
+    return Boolean(title.trim() || text.trim());
+  }, [text, title]);
+
+  React.useEffect(() => {
+    onCanSaveChange(canSave);
+  }, [canSave, onCanSaveChange]);
+
+  React.useEffect(() => {
+    return () => {
+      onCanSaveChange(false);
+    };
+  }, [onCanSaveChange]);
+
+  const handleSave = React.useCallback(() => {
+    if (savePrompt(title, text)) {
+      setTitle("");
+      setText("");
+    }
+  }, [savePrompt, text, title]);
+
+  React.useEffect(() => {
+    saveRef.current = handleSave;
+    return () => {
+      if (saveRef.current === handleSave) {
+        saveRef.current = null;
+      }
+    };
+  }, [handleSave, saveRef]);
+
+  return (
+    <CodexPromptsTab
+      title={title}
+      text={text}
+      onTitleChange={setTitle}
+      onTextChange={setText}
+      prompts={prompts}
+      query={query}
+    />
+  );
+}
+
+function TabFallback({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className="rounded-[var(--radius-md)] border border-dashed border-border bg-muted/30 p-[var(--space-4)] text-center text-ui text-muted-foreground"
+    >
+      {children}
+    </div>
   );
 }
 
