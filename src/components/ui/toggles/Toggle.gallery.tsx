@@ -152,3 +152,5 @@ export const ToggleGallery = defineGallerySection({
     },
   ],
 })
+
+export default ToggleGallery

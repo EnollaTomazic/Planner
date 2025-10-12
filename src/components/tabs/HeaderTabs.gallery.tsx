@@ -93,3 +93,5 @@ export const HeaderTabsGallery = defineGallerySection({
     },
   ],
 })
+
+export default HeaderTabsGallery

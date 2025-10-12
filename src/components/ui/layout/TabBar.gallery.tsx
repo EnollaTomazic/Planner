@@ -288,3 +288,5 @@ export const TabBarGallery = defineGallerySection({
     },
   ],
 })
+
+export default TabBarGallery

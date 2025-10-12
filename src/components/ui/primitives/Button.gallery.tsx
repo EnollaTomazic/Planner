@@ -311,3 +311,5 @@ export const ButtonGallery = defineGallerySection({
     },
   ],
 })
+
+export default ButtonGallery

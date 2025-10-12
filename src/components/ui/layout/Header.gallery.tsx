@@ -322,3 +322,5 @@ export const HeaderGallery = defineGallerySection({
     },
   ],
 })
+
+export default HeaderGallery

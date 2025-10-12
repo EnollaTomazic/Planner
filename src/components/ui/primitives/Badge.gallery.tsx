@@ -173,3 +173,5 @@ export const BadgeGallery = defineGallerySection({
     },
   ],
 })
+
+export default BadgeGallery
