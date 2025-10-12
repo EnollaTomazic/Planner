@@ -31,11 +31,20 @@ import { WeekPicker } from "./WeekPicker";
 import { CalendarDays } from "lucide-react";
 import { formatWeekRangeLabel } from "@/lib/date";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
-import { DayView } from "./views/DayView";
-import { WeekView } from "./views/WeekView";
-import { MonthView } from "./views/MonthView";
-import { AgendaView } from "./views/AgendaView";
 import { PlannerIslandBoundary } from "./PlannerIslandBoundary";
+
+const LazyDayView = React.lazy(async () => ({
+  default: (await import("./views/DayView")).DayView,
+}));
+const LazyWeekView = React.lazy(async () => ({
+  default: (await import("./views/WeekView")).WeekView,
+}));
+const LazyMonthView = React.lazy(async () => ({
+  default: (await import("./views/MonthView")).MonthView,
+}));
+const LazyAgendaView = React.lazy(async () => ({
+  default: (await import("./views/AgendaView")).AgendaView,
+}));
 
 const VIEW_MODE_OPTIONS: Array<{ value: PlannerViewMode; label: string }> = [
   { value: "day", label: "Day" },
@@ -45,12 +54,58 @@ const VIEW_MODE_OPTIONS: Array<{ value: PlannerViewMode; label: string }> = [
 ];
 
 const VIEW_TAB_ID_BASE = "planner-view";
-const VIEW_COMPONENTS: Record<PlannerViewMode, React.ComponentType> = {
-  day: DayView,
-  week: WeekView,
-  month: MonthView,
-  agenda: AgendaView,
+const VIEW_COMPONENTS: Record<
+  PlannerViewMode,
+  React.LazyExoticComponent<React.ComponentType>
+> = {
+  day: LazyDayView,
+  week: LazyWeekView,
+  month: LazyMonthView,
+  agenda: LazyAgendaView,
 };
+
+type PlannerViewFallbackProps = {
+  mode: PlannerViewMode;
+};
+
+const VIEW_FALLBACK_CONTENT: Record<
+  PlannerViewMode,
+  { title: string; description: string }
+> = {
+  day: {
+    title: "Loading day planner",
+    description: "Syncing today's focus and notes…",
+  },
+  week: {
+    title: "Loading week overview",
+    description: "Pulling the sprint schedule and totals…",
+  },
+  month: {
+    title: "Loading month planner",
+    description: "Rendering the expanded calendar grid…",
+  },
+  agenda: {
+    title: "Loading agenda",
+    description: "Collecting tasks and reminders for the list…",
+  },
+};
+
+function PlannerViewFallback({ mode }: PlannerViewFallbackProps) {
+  const copy = VIEW_FALLBACK_CONTENT[mode];
+
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className="flex min-h-[12rem] flex-col items-center justify-center gap-[var(--space-2)] rounded-lg border border-dashed border-border/60 bg-muted/20 p-[var(--space-6)] text-center text-muted-foreground"
+    >
+      <span className="text-label font-medium tracking-[0.08em] uppercase">
+        {copy.title}
+      </span>
+      <p className="max-w-prose text-subtle">{copy.description}</p>
+    </div>
+  );
+}
 
 /* ───────── Page body under provider ───────── */
 
@@ -237,7 +292,11 @@ function Inner() {
             hidden={!isActive}
             tabIndex={isActive ? 0 : -1}
           >
-            {isActive ? <ViewComponent /> : null}
+            {isActive ? (
+              <React.Suspense fallback={<PlannerViewFallback mode={option.value} />}>
+                <ViewComponent />
+              </React.Suspense>
+            ) : null}
           </div>
         );
       })}
