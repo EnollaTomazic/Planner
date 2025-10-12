@@ -229,8 +229,6 @@ export function WeekPicker() {
   const { iso, setIso, today } = useFocusDate();
   const { start, end, days } = useWeek(iso);
   const heading = `${dmy.format(start)} — ${dmy.format(end)}`;
-  const rangeLabel = `${dmy.format(start)} → ${dmy.format(end)}`;
-
   const { per, weekDone, weekTotal } = useWeekData(days);
   const reduceMotion = usePrefersReducedMotion();
   const accessibleRange = `${chipAccessibleFormatter.format(start)} to ${chipAccessibleFormatter.format(end)}`;
@@ -333,11 +331,20 @@ export function WeekPicker() {
   }, []);
 
   // Select (single-click) vs jump (double-click)
-  const selectOnly = (d: ISODate) => setIso(d);
-  const jumpToDay = (d: ISODate) => {
-    setIso(d);
-    const el = document.getElementById(`day-${d}`);
-    if (el) {
+  const selectOnly = React.useCallback(
+    (d: ISODate) => {
+      if (d === iso) return;
+      setIso(d);
+    },
+    [iso, setIso],
+  );
+  const jumpToDay = React.useCallback(
+    (d: ISODate) => {
+      setIso(d);
+      if (typeof document === "undefined") return;
+      const el = document.getElementById(`day-${d}`);
+      if (!(el instanceof HTMLElement)) return;
+
       const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
       el.scrollIntoView({
         behavior,
@@ -345,25 +352,29 @@ export function WeekPicker() {
         inline: "nearest",
       });
       el.focus({ preventScroll: true });
-      setShowTop(true);
-    }
-  };
-
-  const jumpToTop = () => {
-    if (typeof window !== "undefined") {
-      const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
-      window.scrollTo({ top: 0, behavior });
-      const focusTarget =
-        document.getElementById("planner-header") ??
-        document.getElementById("main-content");
-      if (focusTarget instanceof HTMLElement) {
-        window.requestAnimationFrame(() => {
-          focusTarget.focus({ preventScroll: true });
-        });
+      if (typeof window !== "undefined") {
+        setShowTop(true);
       }
-      // The scroll listener will auto-hide the button when we reach the top
+    },
+    [reduceMotion, setIso],
+  );
+
+  const jumpToTop = React.useCallback(() => {
+    if (typeof window === "undefined") return;
+
+    const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
+    window.scrollTo({ top: 0, behavior });
+    if (typeof document === "undefined") return;
+    const focusTarget =
+      document.getElementById("planner-header") ??
+      document.getElementById("main-content");
+    if (focusTarget instanceof HTMLElement) {
+      window.requestAnimationFrame(() => {
+        focusTarget.focus({ preventScroll: true });
+      });
     }
-  };
+    // The scroll listener will auto-hide the button when we reach the top
+  }, [reduceMotion]);
 
   const prevWeek = React.useCallback(() => {
     setIso(toISODate(addDays(start, -7)));
@@ -452,7 +463,7 @@ export function WeekPicker() {
         <WeekPickerShell.Chips slotId="week-days">
           <div
             role="listbox"
-            aria-label={`Select a focus day between ${rangeLabel}`}
+            aria-label={`Select a focus day between ${accessibleRange}`}
             className="flex flex-nowrap chip-gap-x overflow-x-auto snap-x snap-mandatory lg:flex-wrap lg:chip-gap-y lg:overflow-visible lg:[scroll-snap-type:none]"
           >
             {days.map((d, i) => (

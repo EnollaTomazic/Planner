@@ -28,6 +28,13 @@ const rateLimiter = {
 
 const processMetrics = createMetricsProcessor({ rateLimiter })
 
+class PayloadTooLargeError extends Error {
+  constructor(message = 'Request body exceeds limit') {
+    super(message)
+    this.name = 'PayloadTooLargeError'
+  }
+}
+
 function now(): number {
   if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
     return performance.now()
@@ -65,6 +72,58 @@ function methodNotAllowed(): NextResponse {
   return withServerTiming(response, startedAt)
 }
 
+async function readRequestBody(request: NextRequest): Promise<string> {
+  const stream = request.body
+  if (!stream) {
+    return ''
+  }
+
+  const reader = stream.getReader()
+  const chunks: Buffer[] = []
+  let totalBytes = 0
+  let cancelled = false
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) {
+        break
+      }
+
+      if (!value) {
+        continue
+      }
+
+      const chunk = Buffer.from(value.buffer, value.byteOffset, value.byteLength)
+      totalBytes += chunk.byteLength
+
+      if (totalBytes > METRICS_MAX_BODY_BYTES) {
+        await reader.cancel('payload_too_large')
+        cancelled = true
+        throw new PayloadTooLargeError()
+      }
+
+      chunks.push(chunk)
+    }
+  } catch (error) {
+    if (!cancelled) {
+      await reader.cancel(error instanceof Error ? error.message : undefined)
+      cancelled = true
+    }
+    throw error
+  } finally {
+    if (stream.locked) {
+      reader.releaseLock()
+    }
+  }
+
+  if (chunks.length === 0) {
+    return ''
+  }
+
+  return Buffer.concat(chunks, totalBytes).toString('utf8')
+}
+
 export async function POST(request: NextRequest) {
   const startedAt = now()
   const headers = normalizeHeaders(request.headers)
@@ -88,19 +147,25 @@ export async function POST(request: NextRequest) {
     return withServerTiming(response, startedAt)
   }
 
-  const bodyText = await request.text()
+  let bodyText = ''
 
-  if (Buffer.byteLength(bodyText, 'utf8') > METRICS_MAX_BODY_BYTES) {
-    rateLimiter.clear(identifier)
-    const response = NextResponse.json(
-      { error: 'payload_too_large' },
-      {
-        status: 413,
-        headers: { 'Cache-Control': 'no-store' },
-      },
-    )
+  try {
+    bodyText = await readRequestBody(request)
+  } catch (error) {
+    if (error instanceof PayloadTooLargeError) {
+      rateLimiter.clear(identifier)
+      const response = NextResponse.json(
+        { error: 'payload_too_large' },
+        {
+          status: 413,
+          headers: { 'Cache-Control': 'no-store' },
+        },
+      )
 
-    return withServerTiming(response, startedAt)
+      return withServerTiming(response, startedAt)
+    }
+
+    throw error
   }
 
   const result = processMetrics({
