@@ -77,6 +77,19 @@ const eslintConfig = [
     },
   },
   {
+    files: ["src/lib/**/*.{ts,tsx}", "src/utils/**/*.{ts,tsx}"],
+    rules: {
+      "@typescript-eslint/explicit-function-return-type": [
+        "error",
+        {
+          allowExpressions: true,
+          allowTypedFunctionExpressions: true,
+          allowHigherOrderFunctions: true,
+        },
+      ],
+    },
+  },
+  {
     files: ["types/**/*.d.ts"],
     rules: {
       "@typescript-eslint/no-explicit-any": "error",

@@ -9,7 +9,7 @@ const isBrowser = typeof window !== 'undefined'
 
 let migrated = false
 
-function ensureMigration() {
+function ensureMigration(): void {
   if (!isBrowser || migrated) return
 
   migrated = true

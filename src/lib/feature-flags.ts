@@ -7,7 +7,9 @@ export type FeatureFlagAnalyticsDetail = {
   state?: string
 }
 
-export function reportFeatureFlagAnalytics(detail: FeatureFlagAnalyticsDetail) {
+export function reportFeatureFlagAnalytics(
+  detail: FeatureFlagAnalyticsDetail,
+): void {
   if (typeof window === 'undefined') return
 
   const state = typeof detail.state === 'string' ? detail.state : detail.enabled ? 'enabled' : 'disabled'

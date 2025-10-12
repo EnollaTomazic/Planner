@@ -36,11 +36,11 @@ const writeQueue = new Map<string, QueuedWrite>();
 let writeTimer: ReturnType<typeof setTimeout> | null = null;
 
 export let writeLocalDelay = 50;
-export function setWriteLocalDelay(ms: number) {
+export function setWriteLocalDelay(ms: number): void {
   writeLocalDelay = Math.max(0, ms);
 }
 
-function flushWriteQueue() {
+function flushWriteQueue(): void {
   if (writeTimer) {
     clearTimeout(writeTimer);
     writeTimer = null;
@@ -63,7 +63,7 @@ function flushWriteQueue() {
   writeQueue.clear();
 }
 
-export function flushWriteLocal() {
+export function flushWriteLocal(): void {
   if (!isBrowser) return;
   flushWriteQueue();
 }
@@ -172,7 +172,7 @@ function describeNonSerializable(
   return null;
 }
 
-export function scheduleWrite(key: string, value: unknown) {
+export function scheduleWrite(key: string, value: unknown): void {
   let issue: string | null = null;
   if (process.env.NODE_ENV !== "production") {
     issue = describeNonSerializable(value);
@@ -256,7 +256,7 @@ export function readLocal<T>(key: string): T | null {
 }
 
 /** Write to localStorage safely */
-export function writeLocal(key: string, value: unknown) {
+export function writeLocal(key: string, value: unknown): void {
   if (!isBrowser) return;
   try {
     scheduleWrite(createStorageKey(key), value);
@@ -269,7 +269,7 @@ export function writeLocal(key: string, value: unknown) {
 }
 
 /** Remove a key from localStorage safely */
-export function removeLocal(key: string) {
+export function removeLocal(key: string): void {
   if (!isBrowser) return;
   const targets = new Set<string>();
   try {
@@ -300,11 +300,11 @@ export function removeLocal(key: string) {
 export function useStorageSync(
   key: string,
   onChange: (raw: string | null) => void,
-) {
+): void {
   React.useEffect(() => {
     if (!isBrowser) return;
     const fullKey = createStorageKey(key);
-    const handler = (e: StorageEvent) => {
+    const handler = (e: StorageEvent): void => {
       if (e.storageArea !== window.localStorage) return;
       if (e.key !== fullKey) return;
       onChange(e.newValue);
@@ -492,8 +492,8 @@ export function usePersistentState<T>(
         }
       }
       const queuedRevision = renderRevision;
-      const stateChangedSinceQueue = () =>
-        stateRevisionRef.current !== queuedRevision;
+        const stateChangedSinceQueue = (): boolean =>
+          stateRevisionRef.current !== queuedRevision;
 
       let shouldUpdateState = false;
       let nextState: T = stateRef.current;

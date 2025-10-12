@@ -179,7 +179,7 @@ export function readLocal<T>(key: string): T | null {
   }
 }
 
-export function writeLocal(key: string, value: unknown) {
+export function writeLocal(key: string, value: unknown): void {
   try {
     if (typeof window === "undefined") return;
     if (value === undefined || value === null) {
