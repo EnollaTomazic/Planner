@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { IconButton } from "@/components/ui/primitives/IconButton";
 import { ArrowUp } from "lucide-react";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
@@ -10,7 +10,7 @@ type ScrollTopFloatingButtonProps = {
   forceVisible?: boolean;
 };
 
-export default function ScrollTopFloatingButton({
+export function ScrollTopFloatingButton({
   watchRef,
   forceVisible = false,
 }: ScrollTopFloatingButtonProps) {

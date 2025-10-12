@@ -12,7 +12,7 @@ import {
 } from "./fonts";
 import tokens from "../../tokens/tokens.js";
 import { resolveTokenColor } from "@/lib/color";
-import SiteChrome from "@/components/chrome/SiteChrome";
+import { SiteChrome } from "@/components/chrome/SiteChrome";
 import { CatCompanion, DecorLayer, PageShell, SkipLink } from "@/components/ui";
 import { getBasePath, withBasePath } from "@/lib/utils";
 import Script from "next/script";

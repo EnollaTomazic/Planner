@@ -1,12 +1,12 @@
 "use client";
 
 import * as React from "react";
-import TabBar from "@/components/ui/layout/TabBar";
-import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
+import { TabBar } from "@/components/ui/layout/TabBar";
+import { SegmentedButton } from "@/components/ui/primitives/SegmentedButton";
 import { SlidersHorizontal, Pin, PinOff } from "lucide-react";
 import { useReminders, Group, SourceFilter } from "./useReminders";
 
-export default function ReminderFilters() {
+export function ReminderFilters() {
   const {
     showGroups,
     groupTabs,

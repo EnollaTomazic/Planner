@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PromptsPage from "@/components/prompts/PromptsPage";
+import { PromptsPage } from "@/components/prompts/PromptsPage";
 
 export const dynamic = "force-static";
 

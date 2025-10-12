@@ -2,8 +2,8 @@
 
 import * as React from "react";
 
-import PromptsComposePanel from "./PromptsComposePanel";
-import PromptList from "./PromptList";
+import { PromptsComposePanel } from "./PromptsComposePanel";
+import { PromptList } from "./PromptList";
 import type { PromptWithTitle } from "./types";
 
 interface CodexPromptsTabProps {
@@ -15,7 +15,7 @@ interface CodexPromptsTabProps {
   query: string;
 }
 
-export default function CodexPromptsTab({
+export function CodexPromptsTab({
   title,
   text,
   onTitleChange,

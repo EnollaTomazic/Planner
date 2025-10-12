@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 
-import Input from "./Input";
+import { Input } from "./Input";
 
 export type InputStateSpec = {
   id: string;
@@ -105,7 +105,7 @@ function InputGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const InputGallery = defineGallerySection({
   id: "inputs",
   entries: [
     {
@@ -163,4 +163,4 @@ export default defineGallerySection({
 </div>`,
     },
   ],
-});
+})

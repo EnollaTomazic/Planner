@@ -2,7 +2,7 @@ import * as React from "react";
 import { render } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import DashboardSectionHeader from "@/components/home/DashboardSectionHeader";
+import { DashboardSectionHeader } from "@/components/home/DashboardSectionHeader";
 
 describe("DashboardSectionHeader", () => {
   it("renders the title layout with actions and show code button", () => {

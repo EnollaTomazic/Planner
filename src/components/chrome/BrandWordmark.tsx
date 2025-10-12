@@ -6,7 +6,7 @@ import styles from "./BrandWordmark.module.css";
 
 type BrandWordmarkProps = React.ComponentPropsWithoutRef<"span">;
 
-export default function BrandWordmark({
+export function BrandWordmark({
   className,
   children = "noxi",
   ...props

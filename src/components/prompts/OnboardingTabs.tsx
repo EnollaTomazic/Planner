@@ -140,7 +140,7 @@ const INITIAL_ADVANCED_STATE: Record<AdvancedSettingKey, boolean> = {
   heroDividers: true,
 };
 
-export default function OnboardingTabs() {
+export function OnboardingTabs() {
   const [role, setRole] = React.useState<Role>("designer");
   const [stepIndex, setStepIndex] = React.useState(0);
   const [skipped, setSkipped] = React.useState(false);

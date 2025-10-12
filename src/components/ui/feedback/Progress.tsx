@@ -4,7 +4,7 @@
 import * as React from "react";
 
 /** Simple progress bar (0..100), with SR label */
-export default function Progress({ value, label }: { value: number; label?: string }) {
+export function Progress({ value, label }: { value: number; label?: string }) {
   const v = Math.max(0, Math.min(100, Math.round(value)));
 
   return (

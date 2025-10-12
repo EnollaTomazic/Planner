@@ -3,7 +3,7 @@
 
 import * as React from "react";
 
-import ClientErrorBoundary from "@/components/error/ClientErrorBoundary";
+import { ClientErrorBoundary } from "@/components/error/ClientErrorBoundary";
 import { Button, SectionCard } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { reportPlannerIslandError } from "@/lib/telemetry";
@@ -86,7 +86,7 @@ function PlannerIslandFallback({
   );
 }
 
-export default function PlannerIslandBoundary({
+export function PlannerIslandBoundary({
   name,
   title,
   description,

@@ -13,9 +13,8 @@ vi.mock("@/components/prompts/constants", () => ({
   getGalleryPreview: () => () => <div data-testid="preview" />,
 }));
 
-import ComponentsView, {
-  PROPS_DISCLOSURE_COLLAPSE_THRESHOLD,
-} from "@/components/prompts/ComponentsView";
+import {
+  PROPS_DISCLOSURE_COLLAPSE_THRESHOLD, ComponentsView } from "@/components/prompts/ComponentsView";
 import type { GallerySerializableEntry } from "@/components/gallery";
 
 type GalleryProp = NonNullable<GallerySerializableEntry["props"]>[number];

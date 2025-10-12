@@ -10,7 +10,7 @@ interface GoalsProgressProps {
   maxWidth?: number | string;
 }
 
-export default function GoalsProgress({
+export function GoalsProgress({
   total,
   pct,
   maxWidth,

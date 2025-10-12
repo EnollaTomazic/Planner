@@ -2,7 +2,7 @@ import * as React from "react";
 import { render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import DashboardList from "@/components/home/DashboardList";
+import { DashboardList } from "@/components/home/DashboardList";
 
 let restoreFns: Array<() => void> = [];
 

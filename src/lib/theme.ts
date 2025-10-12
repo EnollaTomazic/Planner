@@ -28,7 +28,7 @@ const BG_CLASS_SET = new Set<string>(
   BG_CLASSES.filter((className) => className.length > 0),
 );
 
-export function resetThemeClasses(classList: DOMTokenList) {
+export function resetThemeClasses(classList: DOMTokenList): void {
   const classesToRemove: string[] = [];
 
   classList.forEach((className) => {
@@ -143,7 +143,7 @@ export function defaultTheme(): ThemeState {
   return { variant: "lg", bg: 0 };
 }
 
-export function applyTheme({ variant, bg }: ThemeState) {
+export function applyTheme({ variant, bg }: ThemeState): void {
   if (typeof document === "undefined") {
     return;
   }

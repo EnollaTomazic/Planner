@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import PageShell from "@/components/ui/layout/PageShell";
+import { PageShell } from "@/components/ui/layout/PageShell";
 import { LOCALE, cn } from "@/lib/utils";
 import {
   addDays,
@@ -15,7 +15,7 @@ import { ensureDay } from "../plannerSerialization";
 
 const weekdayFormatter = new Intl.DateTimeFormat(LOCALE, { weekday: "short" });
 
-export default function MonthView() {
+export function MonthView() {
   const { iso } = useFocusDate();
   const { days: map } = usePlannerStore();
 

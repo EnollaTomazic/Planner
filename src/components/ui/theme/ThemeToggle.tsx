@@ -25,7 +25,7 @@ type ThemeToggleProps = {
   cycleLoading?: boolean;
 };
 
-export default function ThemeToggle({
+export function ThemeToggle({
   className = "",
   id,
   ariaLabel,

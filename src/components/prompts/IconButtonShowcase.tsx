@@ -76,7 +76,7 @@ const PRESSED_ICON_BUTTONS = [
   },
 ] satisfies ShowcaseButtonProps[];
 
-export default function IconButtonShowcase() {
+export function IconButtonShowcase() {
   return (
     <div className="mb-[var(--space-8)] flex flex-col gap-[var(--space-4)]">
       <div className="flex gap-[var(--space-2)]">

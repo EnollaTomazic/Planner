@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import AnimationToggle from "@/components/ui/AnimationToggle";
+import { AnimationToggle } from "@/components/ui/AnimationToggle";
 
 beforeEach(() => {
   window.localStorage.clear();

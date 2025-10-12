@@ -11,9 +11,9 @@ import "./style.css";
  */
 
 import * as React from "react";
-import Input from "@/components/ui/primitives/Input";
-import Textarea from "@/components/ui/primitives/Textarea";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { Input } from "@/components/ui/primitives/Input";
+import { Textarea } from "@/components/ui/primitives/Textarea";
+import { IconButton } from "@/components/ui/primitives/IconButton";
 import {
   Shield,
   Swords,
@@ -108,7 +108,7 @@ type BuilderProps = {
   onStateChange?: React.Dispatch<React.SetStateAction<TeamState>>;
 };
 
-export default React.forwardRef<BuilderHandle, BuilderProps>(
+export const Builder = React.forwardRef<BuilderHandle, BuilderProps>(
   function Builder({ editing, state: providedState, onStateChange }: BuilderProps, ref) {
     void editing;
     const [internalState, setInternalState] = useTeamBuilderState();
@@ -288,7 +288,7 @@ export default React.forwardRef<BuilderHandle, BuilderProps>(
       </section>
     </div>
   );
-});
+})
 
 /* ───────────────── subcomponents ───────────────── */
 

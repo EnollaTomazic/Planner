@@ -3,10 +3,9 @@
 import * as React from "react";
 import { Suspense } from "react";
 
-import PreviewSurface, {
-  PREVIEW_SURFACE_CONTAINER_CLASSNAME,
-} from "@/components/gallery/PreviewSurfaceClient";
-import PreviewThemeClient from "@/components/gallery/PreviewThemeClient";
+import {
+  PREVIEW_SURFACE_CONTAINER_CLASSNAME, PreviewSurface } from "@/components/gallery/PreviewSurfaceClient";
+import { PreviewThemeClient } from "@/components/gallery/PreviewThemeClient";
 import {
   getGalleryPreviewAxisSummary,
   type GalleryPreviewRoute,

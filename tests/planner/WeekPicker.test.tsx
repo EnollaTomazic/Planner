@@ -36,7 +36,7 @@ vi.mock("@/lib/db", async () => {
   };
 });
 
-import WeekPicker from "@/components/planner/WeekPicker";
+import { WeekPicker } from "@/components/planner/WeekPicker";
 import { PlannerProvider } from "@/components/planner";
 
 const isoWeek = [

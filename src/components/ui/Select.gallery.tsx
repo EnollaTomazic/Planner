@@ -5,7 +5,7 @@ import * as React from "react";
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 import { cn } from "@/lib/utils";
 
-import Select from "./Select";
+import { Select } from "./Select";
 import type { AnimatedSelectProps } from "./select/shared";
 
 type SelectStateSpec = {
@@ -121,7 +121,7 @@ function SelectGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const SelectGallery = defineGallerySection({
   id: "inputs",
   entries: [
     {
@@ -241,4 +241,4 @@ const [value, setValue] = React.useState(items[0]?.value ?? "");
 </div>`,
     },
   ],
-});
+})

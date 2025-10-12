@@ -25,7 +25,7 @@ export function DepthThemeProvider({
   enabled,
   organicDepthEnabled = false,
   children,
-}: DepthThemeProviderProps) {
+}: DepthThemeProviderProps): JSX.Element {
   React.useEffect(() => {
     if (typeof document === "undefined") {
       return;

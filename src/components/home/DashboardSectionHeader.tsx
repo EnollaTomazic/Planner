@@ -102,7 +102,7 @@ function renderShowCode(
   );
 }
 
-export default function DashboardSectionHeader({
+export function DashboardSectionHeader({
   title,
   actions,
   loading,

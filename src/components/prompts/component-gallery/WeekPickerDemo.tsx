@@ -149,7 +149,7 @@ function DayChipMock({ iso, done, total, selected, today, tabIndex }: DayChipMoc
   );
 }
 
-export default function WeekPickerDemo() {
+export function WeekPickerDemo() {
   const start = React.useMemo(() => fromISODate(DEMO_DAYS[0]?.iso ?? ""), []);
   const end = React.useMemo(() => fromISODate(DEMO_DAYS[DEMO_DAYS.length - 1]?.iso ?? ""), []);
 

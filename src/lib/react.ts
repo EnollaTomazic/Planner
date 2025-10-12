@@ -28,11 +28,11 @@ export function observeMediaQuery(
     return undefined;
   }
 
-  const handleChange = (event: MediaQueryListEvent) => {
+  const handleChange = (event: MediaQueryListEvent): void => {
     onChange(event.matches, mediaQuery);
   };
 
-  const handleLegacyChange = () => {
+  const handleLegacyChange = (): void => {
     onChange(mediaQuery.matches, mediaQuery);
   };
 

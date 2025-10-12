@@ -3,7 +3,7 @@
 
 import * as React from "react";
 
-import ClientErrorBoundary from "@/components/error/ClientErrorBoundary";
+import { ClientErrorBoundary } from "@/components/error/ClientErrorBoundary";
 import { RouteErrorContent } from "./error";
 
 type AppErrorBoundaryProps = {

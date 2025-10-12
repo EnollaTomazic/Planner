@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { describe, it, afterEach, expect, vi } from "vitest";
-import GoalQueue from "@/components/goals/GoalQueue";
+import { GoalQueue } from "@/components/goals/GoalQueue";
 
 describe("GoalQueue", () => {
   afterEach(cleanup);

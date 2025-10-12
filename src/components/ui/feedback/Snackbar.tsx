@@ -28,7 +28,7 @@ const toneClassNames: Record<SnackbarTone, string> = {
     "[--snackbar-border:hsl(var(--danger)/0.45)] [--snackbar-background:theme('colors.interaction.danger.surfaceHover')] [--snackbar-foreground:hsl(var(--danger-surface-foreground))] shadow-outline-subtle",
 };
 
-export default function Snackbar({
+export function Snackbar({
   message,
   actionLabel,
   actionAriaLabel,

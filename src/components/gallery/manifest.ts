@@ -1,4 +1,4 @@
-import generatedManifest from './generated-manifest.g'
+import { manifest as generatedManifest } from './generated-manifest.g'
 import { ManifestSchema, type Manifest } from './manifest.schema'
 
 const manifestSource = generatedManifest
@@ -17,5 +17,4 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export const { galleryPayload, galleryPreviewModules, galleryPreviewRoutes } = manifest
-
-export default manifest
+export { manifest };

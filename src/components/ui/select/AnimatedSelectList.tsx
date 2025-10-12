@@ -6,7 +6,7 @@ import { Check } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-import Spinner from "../feedback/Spinner";
+import { Spinner } from "../feedback/Spinner";
 import { useFloatingStyleClass } from "../hooks/useFloatingStyleClass";
 import type { AnimatedSelectProps } from "./shared";
 import type { UseAnimatedSelectReturn } from "./useAnimatedSelect";

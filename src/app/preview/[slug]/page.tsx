@@ -10,7 +10,7 @@ import {
   type GalleryPreviewRoute,
 } from "@/components/gallery";
 import PreviewContentClient from "./PreviewContentClient";
-import PreviewThemeClient from "@/components/gallery/PreviewThemeClient";
+import { PreviewThemeClient } from "@/components/gallery/PreviewThemeClient";
 import { VARIANT_LABELS } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import loadServerEnv from "../../../../env/server";

@@ -13,14 +13,14 @@
 
 
 import * as React from "react";
-import SectionCard from "@/components/ui/layout/SectionCard";
-import Button from "@/components/ui/primitives/Button";
-import Input from "@/components/ui/primitives/Input";
-import Textarea from "@/components/ui/primitives/Textarea";
-import Badge from "@/components/ui/primitives/Badge";
-import IconButton from "@/components/ui/primitives/IconButton";
-import TabBar from "@/components/ui/layout/TabBar";
-import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
+import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { Button } from "@/components/ui/primitives/Button";
+import { Input } from "@/components/ui/primitives/Input";
+import { Textarea } from "@/components/ui/primitives/Textarea";
+import { Badge } from "@/components/ui/primitives/Badge";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { TabBar } from "@/components/ui/layout/TabBar";
+import { SegmentedButton } from "@/components/ui/primitives/SegmentedButton";
 import { uid, usePersistentState } from "@/lib/db";
 import useAutoFocus from "@/lib/useAutoFocus";
 import useDebouncedCallback from "@/lib/useDebouncedCallback";
@@ -101,7 +101,7 @@ const GROUP_TABS: Array<{ key: Group | "all"; label: string }> = [
 
 /* ---------- component ---------- */
 
-export default function Reminders() {
+export function Reminders() {
   const [items, setItems] = usePersistentState<Reminder[]>(STORE_KEY, SEEDS);
   const [searchState, setSearchState] = React.useState(() => ({
     input: "",

@@ -3,14 +3,14 @@
 import * as React from "react";
 
 import { ThemeMatrix } from "@/components/prompts/ComponentsView";
-import Field from "@/components/ui/primitives/Field";
+import { Field } from "@/components/ui/primitives/Field";
 import { FIELD_STATE_SPECS } from "@/components/ui/primitives/Field.gallery";
-import Input from "@/components/ui/primitives/Input";
+import { Input } from "@/components/ui/primitives/Input";
 import {
   INPUT_STATE_SPECS,
   type InputStateSpec,
 } from "@/components/ui/primitives/Input.gallery";
-import RadioIconGroup from "@/components/ui/radio/RadioIconGroup";
+import { RadioIconGroup } from "@/components/ui/radio/RadioIconGroup";
 import {
   RADIO_ICON_GROUP_DEMO_OPTIONS,
   RADIO_ICON_GROUP_STATE_SPECS,

@@ -12,7 +12,7 @@ type Props = {
   idText?: string; // optional right-side pill (defaults to NOXI vibe)
 };
 
-export default function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
+export function TitleBar({ label, idText = "ID:0x13LG" }: Props) {
   return (
     <div
       className={cn(

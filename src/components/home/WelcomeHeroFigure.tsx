@@ -27,7 +27,7 @@ export interface WelcomeHeroFigureProps {
   state?: HeroIllustrationState;
 }
 
-export default function WelcomeHeroFigure({
+export function WelcomeHeroFigure({
   className,
   imageSizes = defaultSizes,
   haloTone = "default",

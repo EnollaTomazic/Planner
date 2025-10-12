@@ -11,15 +11,15 @@
 import "./style.css";
 
 import * as React from "react";
-import SectionCard from "@/components/ui/layout/SectionCard";
-import Input from "@/components/ui/primitives/Input";
-import Button from "@/components/ui/primitives/Button";
+import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { Input } from "@/components/ui/primitives/Input";
+import { Button } from "@/components/ui/primitives/Button";
 import { useDayFocus } from "./useDayFocus";
 import type { ISODate } from "./plannerTypes";
 
 type Props = { iso: ISODate };
 
-export default function FocusPanel({ iso }: Props) {
+export function FocusPanel({ iso }: Props) {
   const { value, setValue, saving, isDirty, lastSavedRef, commit } =
     useDayFocus(iso);
   const headerId = React.useMemo(() => `focus-${iso}-header`, [iso]);

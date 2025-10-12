@@ -1,18 +1,18 @@
 "use client";
 
 import * as React from "react";
-import PageShell, { layoutGridClassName } from "@/components/ui/layout/PageShell";
-import TodayHero from "../TodayHero";
-import WeekNotes from "../WeekNotes";
-import DayRow from "../DayRow";
-import PlannerFab from "../PlannerFab";
+import { layoutGridClassName, PageShell } from "@/components/ui/layout/PageShell";
+import { TodayHero } from "../TodayHero";
+import { WeekNotes } from "../WeekNotes";
+import { DayRow } from "../DayRow";
+import { PlannerFab } from "../PlannerFab";
 import { useFocusDate, useWeek } from "../useFocusDate";
 import type { ISODate } from "../plannerTypes";
-import PlannerIslandBoundary from "../PlannerIslandBoundary";
+import { PlannerIslandBoundary } from "../PlannerIslandBoundary";
 
 const PLANNER_SCROLL_STORAGE_KEY = "planner:scroll-position";
 
-export default function DayView() {
+export function DayView() {
   const { iso, today } = useFocusDate();
   const { days } = useWeek(iso);
 

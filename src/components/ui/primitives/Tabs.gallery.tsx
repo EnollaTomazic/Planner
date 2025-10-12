@@ -4,8 +4,8 @@ import * as React from "react";
 
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 
-import Card from "./Card";
-import Tabs, { TabList, TabPanel, type TabListItem } from "./Tabs";
+import { Card } from "./Card";
+import { TabList, TabPanel, type TabListItem, Tabs } from "./Tabs";
 
 type ProjectTabKey = "overview" | "activity" | "files";
 type StatusTabKey = "inbox" | "updates" | "archive" | "disabled" | "sync";
@@ -241,7 +241,7 @@ function TabsStatePreview({ state }: { state: TabsStateSpec }) {
   );
 }
 
-export default defineGallerySection({
+export const TabsGallery = defineGallerySection({
   id: "toggles",
   entries: [
     {
@@ -342,4 +342,4 @@ export default defineGallerySection({
 </Tabs>`,
     },
   ],
-});
+})

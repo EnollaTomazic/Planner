@@ -35,7 +35,7 @@ interface StyledJsxRegistryProps extends PropsWithChildren {
 export default function StyledJsxRegistry({
   children,
   nonce,
-}: StyledJsxRegistryProps) {
+}: StyledJsxRegistryProps): JSX.Element {
   const registry: StyledJsxStyleRegistry = useMemo(
     () => createStyleRegistry(),
     [],

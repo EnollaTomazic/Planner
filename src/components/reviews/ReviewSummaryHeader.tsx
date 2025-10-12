@@ -3,7 +3,7 @@
 import * as React from "react";
 import type { Role } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Pencil } from "lucide-react";
 import { ROLE_OPTIONS } from "@/components/reviews/reviewData";
 
@@ -14,7 +14,7 @@ export type ReviewSummaryHeaderProps = {
   onEdit?: () => void;
 };
 
-export default function ReviewSummaryHeader({
+export function ReviewSummaryHeader({
   title,
   role,
   result,

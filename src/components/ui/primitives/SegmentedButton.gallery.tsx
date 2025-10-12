@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 
-import SegmentedButton from "./SegmentedButton";
+import { SegmentedButton } from "./SegmentedButton";
 
 const SEGMENTED_BUTTON_HOVER_STATE_CLASSNAME =
   "[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]";
@@ -89,7 +89,7 @@ function SegmentedButtonGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const SegmentedButtonGallery = defineGallerySection({
   id: "buttons",
   entries: [
     {
@@ -137,4 +137,4 @@ export default defineGallerySection({
 </div>`,
     },
   ],
-});
+})

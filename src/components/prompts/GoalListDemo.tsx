@@ -5,7 +5,7 @@ import { GoalList } from "@/components/goals";
 import type { Goal } from "@/lib/types";
 import { GOAL_DEMO_ITEMS } from "./demoData";
 
-export default function GoalListDemo() {
+export function GoalListDemo() {
   const [items, setItems] = React.useState<Goal[]>(GOAL_DEMO_ITEMS);
   return (
     <div className="mb-[var(--space-8)]">

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
-import Select from '../../src/components/ui/Select';
+import { Select } from '../../src/components/ui/Select';
 
 afterEach(cleanup);
 

@@ -12,7 +12,7 @@ interface TimerRingProps {
   size?: number | RingSize;
 }
 
-export default function TimerRing({
+export function TimerRing({
   pct,
   className,
   size,

@@ -157,5 +157,4 @@ export const CardFooter = React.forwardRef<
   />
 ));
 CardFooter.displayName = "CardFooter";
-
-export default Card;
+export { Card };

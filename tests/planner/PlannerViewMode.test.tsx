@@ -9,7 +9,7 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import PlannerPage from "@/components/planner/PlannerPage";
+import { PlannerPage } from "@/components/planner/PlannerPage";
 import { PlannerProvider, usePlanner } from "@/components/planner";
 import { flushWriteLocal } from "@/lib/db";
 

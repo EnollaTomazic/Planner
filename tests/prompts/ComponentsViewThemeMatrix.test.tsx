@@ -1,7 +1,7 @@
 import React from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import ComponentsView from "@/components/prompts/ComponentsView";
+import { ComponentsView } from "@/components/prompts/ComponentsView";
 import { ThemeProvider } from "@/lib/theme-context";
 import { VARIANTS } from "@/lib/theme";
 import * as themeModule from "@/lib/theme";

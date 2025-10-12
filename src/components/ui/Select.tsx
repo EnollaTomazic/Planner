@@ -2,8 +2,8 @@
 
 import * as React from "react";
 
-import AnimatedSelect from "./select/AnimatedSelect";
-import NativeSelect from "./select/NativeSelect";
+import { AnimatedSelect } from "./select/AnimatedSelect";
+import { NativeSelect } from "./select/NativeSelect";
 import selectStyles from "./select/Select.module.css";
 import type {
   AnimatedSelectProps,
@@ -43,7 +43,6 @@ const Select = React.forwardRef<SelectRef, SelectProps>(function Select(
 });
 
 Select.displayName = "Select";
-
-export default Select;
 export { AnimatedSelect, NativeSelect };
 export * from "./select/shared";
+export { Select };

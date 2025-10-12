@@ -29,7 +29,7 @@ const statusTabs: TabItem<MissionStatus>[] = [
   { key: "completed", label: "Completed" },
 ];
 
-export default function NeomorphicHeroFrameDemo() {
+export function NeomorphicHeroFrameDemo() {
   const [activeView, setActiveView] = React.useState<MissionView>("missions");
   const [status, setStatus] = React.useState<MissionStatus>("active");
   const [query, setQuery] = React.useState("");

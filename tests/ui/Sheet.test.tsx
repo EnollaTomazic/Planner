@@ -9,7 +9,7 @@ vi.mock("framer-motion", async () => {
   return { ...actual, useReducedMotion: () => true };
 });
 
-import Sheet from "@/components/ui/Sheet";
+import { Sheet } from "@/components/ui/Sheet";
 
 describe("Sheet", () => {
   it("locks scroll and closes on Escape", async () => {

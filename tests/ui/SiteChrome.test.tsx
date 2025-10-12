@@ -1,7 +1,7 @@
 import * as React from "react";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import SiteChrome from "@/components/chrome/SiteChrome";
+import { SiteChrome } from "@/components/chrome/SiteChrome";
 import { ThemeProvider } from "@/lib/theme-context";
 
 describe("SiteChrome", () => {

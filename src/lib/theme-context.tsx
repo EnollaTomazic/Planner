@@ -37,7 +37,7 @@ type ThemeProviderProps = {
 export function ThemeProvider({
   children,
   glitchLandingEnabled = glitchLandingDefault,
-}: ThemeProviderProps) {
+}: ThemeProviderProps): JSX.Element {
   const [hydrated, setHydrated] = React.useState(false);
   const defaultThemeValue = React.useMemo<ThemeState>(() => defaultTheme(), []);
   const initialThemeState = React.useMemo<ThemeState>(() => {

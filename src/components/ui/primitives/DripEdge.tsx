@@ -83,5 +83,4 @@ const DripEdge = React.forwardRef<HTMLSpanElement, DripEdgeProps>(
 );
 
 DripEdge.displayName = "DripEdge";
-
-export default DripEdge;
+export { DripEdge };

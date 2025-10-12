@@ -8,7 +8,7 @@ const items = [
   { value: "two", label: "Two" },
 ];
 
-export default function SelectShowcase() {
+export function SelectShowcase() {
   const [value, setValue] = React.useState<string>();
   return (
     <div className="flex flex-col gap-[var(--space-4)]">

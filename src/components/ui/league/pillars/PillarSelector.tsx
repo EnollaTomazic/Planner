@@ -8,7 +8,7 @@ import styles from "./PillarSelector.module.css";
 
 const ORDER: Pillar[] = ["Wave", "Trading", "Vision", "Tempo", "Positioning", "Comms"];
 
-export default function PillarSelector({
+export function PillarSelector({
   value = [],
   onChange,
   className,
