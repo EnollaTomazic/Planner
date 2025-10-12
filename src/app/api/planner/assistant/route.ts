@@ -6,17 +6,18 @@ import {
   type PlannerAssistantActionInput,
   type PlannerAssistantActionResult,
   type PlannerAssistantSafeModeState,
-} from "@/app/planner/actions";
+} from "@/app/planner/planner-assistant-service";
 
 export const runtime = "nodejs";
 
-function errorResponse(
+async function errorResponse(
   status: number,
   payload: Omit<PlannerAssistantActionError, "ok" | "safeMode"> & {
     safeMode?: PlannerAssistantSafeModeState;
   },
-): NextResponse {
-  const safeMode = payload.safeMode ?? resolvePlannerAssistantSafeMode();
+): Promise<NextResponse> {
+  const safeMode =
+    payload.safeMode ?? (await resolvePlannerAssistantSafeMode());
   const body: PlannerAssistantActionError = {
     ok: false,
     safeMode,
