@@ -27,18 +27,16 @@ type LegacySnapshot = {
 const LEGACY_PROJECTS_KEY = "planner:projects";
 const LEGACY_TASKS_KEY = "planner:tasks";
 
-let legacyMigrated = false;
 function migrateLegacy(
   days: Record<ISODate, DayRecord>,
   iso: ISODate,
   legacy?: LegacySnapshot,
 ): Record<ISODate, DayRecord> {
-  if (legacyMigrated || typeof window === "undefined") return days;
+  if (typeof window === "undefined") return days;
   const projects =
     legacy?.projects ?? readLocal<Project[]>(LEGACY_PROJECTS_KEY);
   const tasks = legacy?.tasks ?? readLocal<DayTask[]>(LEGACY_TASKS_KEY);
   if (!projects && !tasks) {
-    legacyMigrated = true;
     return days;
   }
   const next = { ...days } as Record<ISODate, DayRecord>;
@@ -57,7 +55,6 @@ function migrateLegacy(
   next[iso] = { ...updated, doneCount, totalCount };
   removeLocal(LEGACY_PROJECTS_KEY);
   removeLocal(LEGACY_TASKS_KEY);
-  legacyMigrated = true;
   return next;
 }
 
@@ -69,6 +66,7 @@ export function usePlannerStore() {
   const { days, setDays } = useDays();
   const { focus, setFocus, today } = useFocus();
   const activeFocus = focus === FOCUS_PLACEHOLDER ? today : focus;
+  const legacyMigratedRef = React.useRef(false);
 
   const applyDaysUpdate = React.useCallback(
     (
@@ -94,21 +92,22 @@ export function usePlannerStore() {
   );
 
   React.useEffect(() => {
-    if (!legacyMigrated) {
-      if (!activeFocus) return;
-      const projects = readLocal<Project[]>(LEGACY_PROJECTS_KEY);
-      const tasks = readLocal<DayTask[]>(LEGACY_TASKS_KEY);
+    if (legacyMigratedRef.current) return;
+    if (!activeFocus) return;
 
-      if (!projects && !tasks) {
-        legacyMigrated = true;
-        return;
-      }
+    const projects = readLocal<Project[]>(LEGACY_PROJECTS_KEY);
+    const tasks = readLocal<DayTask[]>(LEGACY_TASKS_KEY);
 
-      applyDaysUpdate(
-        (prev) => migrateLegacy(prev, activeFocus, { projects, tasks }),
-        activeFocus,
-      );
+    if (!projects && !tasks) {
+      legacyMigratedRef.current = true;
+      return;
     }
+
+    applyDaysUpdate(
+      (prev) => migrateLegacy(prev, activeFocus, { projects, tasks }),
+      activeFocus,
+    );
+    legacyMigratedRef.current = true;
   }, [activeFocus, applyDaysUpdate]);
 
   const upsertDay = React.useCallback(
