@@ -20,58 +20,81 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  gallery-manifest:
+    name: Build gallery manifest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node project
+        uses: ./.github/actions/setup-node-project
+        with:
+          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
+
+      - name: Build gallery usage manifest
+        run: pnpm run build-gallery-usage
+
+      - name: Upload manifest artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: gallery-manifest
+          path: |
+            src/components/gallery/generated-manifest.ts
+            src/components/gallery/generated-manifest.g.ts
+            scripts/.cache/build-gallery-usage.json
+          if-no-files-found: error
+          retention-days: 1
+
   quality:
     name: ${{ matrix.name }}
+    needs: gallery-manifest
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
           - name: Lint
-            node: "22.x"
+            node: "22.12.0"
+            node-version-file: .nvmrc
             command: pnpm run lint:ci
           - name: Type check
-            node: "22.x"
+            node: "22.12.0"
+            node-version-file: .nvmrc
             command: pnpm run typecheck:ci
           - name: Unit tests
-            node: "22.x"
+            node: "22.12.0"
+            node-version-file: .nvmrc
             command: pnpm test:ci
           - name: Next build + bundle guard
-            node: "22.x"
+            node: "22.12.0"
+            node-version-file: .nvmrc
             command: pnpm run bundle:guard
             cache-next: true
           - name: Storybook build (Node 20)
-            node: "20.x"
+            node: "20.17.0"
+            node-version-file: storybook/.nvmrc
             command: pnpm run sb:build
             cache-storybook: true
           - name: Playwright E2E
-            node: "22.x"
+            node: "22.12.0"
+            node-version-file: .nvmrc
             command: pnpm e2e:ci
             cache-playwright: true
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Download gallery manifest artifacts
+        uses: actions/download-artifact@v4
         with:
-          node-version: ${{ matrix.node }}
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
+          name: gallery-manifest
+          path: .
 
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Activate pnpm ${{ env.PNPM_VERSION }}
-        run: corepack prepare pnpm@${{ env.PNPM_VERSION }} --activate
-
-      - name: Configure pnpm retry strategy
-        run: |
-          pnpm config set retry 4 --global
-          pnpm config set fetch-retries 4 --global
-          pnpm config set fetch-retry-maxtimeout 60000 --global
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts=false
+      - name: Setup Node project
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version-file: ${{ matrix.node-version-file }}
+          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
 
       - name: Restore Next.js cache
         if: matrix.cache-next == 'true'
