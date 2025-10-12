@@ -2,11 +2,11 @@
 
 import * as React from "react";
 
-import ColorsView from "@/components/prompts/ColorsView";
-import ComponentSpecView from "@/components/prompts/ComponentsView";
+import { ColorsView } from "@/components/prompts/ColorsView";
+import { ComponentsView as ComponentSpecView } from "@/components/prompts/ComponentsView";
 import type { DesignTokenGroup } from "@/components/gallery/types";
 import { Card, CardContent } from "@/components/ui";
-import Badge from "@/components/ui/primitives/Badge";
+import { Badge } from "@/components/ui/primitives/Badge";
 import { cn } from "@/lib/utils";
 
 import {
@@ -41,7 +41,7 @@ function formatCategoryHeadingId(key: string, index: number): string {
   return `components-category-${index}`;
 }
 
-export default function ComponentsGalleryPanels({
+export function ComponentsGalleryPanels({
   view,
   categoryGroups,
   sectionLabel,

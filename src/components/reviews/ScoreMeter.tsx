@@ -1,11 +1,10 @@
 import * as React from "react";
-import SectionLabel from "@/components/reviews/SectionLabel";
+import { SectionLabel } from "@/components/reviews/SectionLabel";
 import { cn } from "@/lib/utils";
-import ReviewSurface, { type ReviewSurfaceProps } from "./ReviewSurface";
-import ReviewSliderTrack, {
+import { type ReviewSurfaceProps, ReviewSurface } from "./ReviewSurface";
+import {
   type ReviewSliderTone,
-  type ReviewSliderVariant,
-} from "./ReviewSliderTrack";
+  type ReviewSliderVariant, ReviewSliderTrack } from "./ReviewSliderTrack";
 
 const formatDefaultValue = (value: number) => `${value}/10`;
 
@@ -30,7 +29,7 @@ const isElementWithProps = (
 ): node is React.ReactElement<Record<string, unknown>> =>
   React.isValidElement(node);
 
-export default function ScoreMeter({
+export function ScoreMeter({
   value,
   label,
   tone = "score",

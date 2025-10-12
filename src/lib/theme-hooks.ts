@@ -10,7 +10,7 @@ import {
   type Background,
 } from "@/lib/theme";
 
-export function useThemeQuerySync() {
+export function useThemeQuerySync(): void {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

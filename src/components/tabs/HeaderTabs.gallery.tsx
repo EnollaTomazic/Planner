@@ -5,7 +5,7 @@ import { Circle, CircleCheck, CircleDot } from "lucide-react";
 
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery";
 
-import HeaderTabs, { type HeaderTabItem } from "./HeaderTabs";
+import { type HeaderTabItem, HeaderTabs } from "./HeaderTabs";
 
 type ItemKey = "plan" | "review" | "archive";
 
@@ -44,7 +44,7 @@ function HeaderTabsGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const HeaderTabsGallery = defineGallerySection({
   id: "layout",
   entries: [
     {
@@ -92,4 +92,4 @@ export default defineGallerySection({
 />`,
     },
   ],
-});
+})

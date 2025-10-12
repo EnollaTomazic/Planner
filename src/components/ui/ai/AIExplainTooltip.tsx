@@ -203,11 +203,10 @@ const AIExplainTooltip = React.forwardRef<HTMLDivElement, AIExplainTooltipProps>
 );
 
 AIExplainTooltip.displayName = "AIExplainTooltip";
-
-export default AIExplainTooltip;
-
 const alignClassNames: Record<AIExplainTooltipAlignment, string> = {
   start: "left-0",
   center: "left-1/2 -translate-x-1/2 transform",
   end: "right-0",
 };
+
+export { AIExplainTooltip };

@@ -5,7 +5,7 @@ import * as React from "react";
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 import { Button } from "@/components/ui";
 
-import SearchBar from "./SearchBar";
+import { SearchBar } from "./SearchBar";
 
 type SearchBarStateHelpers = {
   interactiveValue: string;
@@ -144,7 +144,7 @@ function SearchBarGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const SearchBarGallery = defineGallerySection({
   id: "inputs",
   entries: [
     {
@@ -241,4 +241,4 @@ const handleNoop = React.useCallback((_value: string) => {}, []);
 />`,
     },
   ],
-});
+})

@@ -12,9 +12,9 @@ import { GlitchProgress, TOKEN_WIDTH_CLASS } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 import type { ISODate } from "./plannerTypes";
-import TodayHeroHeader from "./TodayHeroHeader";
-import TodayHeroProjects from "./TodayHeroProjects";
-import TodayHeroTasks from "./TodayHeroTasks";
+import { TodayHeroHeader } from "./TodayHeroHeader";
+import { TodayHeroProjects } from "./TodayHeroProjects";
+import { TodayHeroTasks } from "./TodayHeroTasks";
 import { useDay } from "./useDay";
 import { useFocusDate } from "./useFocusDate";
 import { useSelectedProject, useSelectedTask } from "./useSelection";
@@ -23,7 +23,7 @@ import { useTodayHeroTasks } from "./useTodayHeroTasks";
 
 type Props = { iso?: ISODate };
 
-export default function TodayHero({ iso }: Props) {
+export function TodayHero({ iso }: Props) {
   const { iso: isoActive, setIso, today } = useFocusDate();
   const viewIso = iso ?? isoActive;
   const isToday = viewIso === today;

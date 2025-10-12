@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
-import ReviewListItem from '../../src/components/reviews/ReviewListItem';
+import { ReviewListItem } from '../../src/components/reviews/ReviewListItem';
 import type { Review } from '../../src/lib/types';
 
 afterEach(cleanup);

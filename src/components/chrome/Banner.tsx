@@ -18,7 +18,7 @@ export type BannerProps = {
  * - sticky uses .sticky-blur surface and a hairline.
  * - no mystery CSS variables; uses theme tokens.
  */
-export default function Banner({
+export function Banner({
   sticky = false,
   title,
   actions,

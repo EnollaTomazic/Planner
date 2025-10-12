@@ -212,9 +212,13 @@ export type MetricsProcessorDependencies = {
   rateLimiter?: RateLimiter
 }
 
+export type MetricsProcessor = (
+  input: ProcessMetricsInput,
+) => ProcessMetricsResult
+
 export function createMetricsProcessor(
   dependencies: MetricsProcessorDependencies = {},
-) {
+): MetricsProcessor {
   const rateLimiter = dependencies.rateLimiter ?? defaultRateLimiter
 
   return function processMetricsRequest(
@@ -323,7 +327,7 @@ export function createMetricsProcessor(
   }
 }
 
-export function createDefaultMetricsProcessor() {
+export function createDefaultMetricsProcessor(): MetricsProcessor {
   return createMetricsProcessor()
 }
 

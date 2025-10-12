@@ -1,14 +1,14 @@
 import * as React from "react";
 import type { ReviewMarker } from "@/lib/types";
-import NeonIcon from "@/components/reviews/NeonIcon";
-import ReviewSurface from "./ReviewSurface";
+import { NeonIcon } from "@/components/reviews/NeonIcon";
+import { ReviewSurface } from "./ReviewSurface";
 import { FileText } from "lucide-react";
 
 export type ReviewSummaryTimestampsProps = {
   markers: ReviewMarker[];
 };
 
-export default function ReviewSummaryTimestamps({
+export function ReviewSummaryTimestamps({
   markers,
 }: ReviewSummaryTimestampsProps) {
   const { sortedMarkers, hasTimed, hasNoteOnly } = React.useMemo(

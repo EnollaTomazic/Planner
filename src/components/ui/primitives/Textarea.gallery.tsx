@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 
-import Textarea from "./Textarea";
+import { Textarea } from "./Textarea";
 
 type TextareaStateSpec = {
   id: string;
@@ -96,7 +96,7 @@ function TextareaGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const TextareaGallery = defineGallerySection({
   id: "inputs",
   entries: [
     {
@@ -157,4 +157,4 @@ export default defineGallerySection({
 <Textarea placeholder="Resizable textarea" resize="resize-y" aria-label="Resizable textarea" />`,
     },
   ],
-});
+})

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import QuickActionGrid from "@/components/home/QuickActionGrid";
+import { QuickActionGrid } from "@/components/home/QuickActionGrid";
 
 afterEach(cleanup);
 

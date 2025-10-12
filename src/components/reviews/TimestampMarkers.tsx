@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import SectionLabel from "@/components/reviews/SectionLabel";
-import NeonIcon from "@/components/reviews/NeonIcon";
-import Input from "@/components/ui/primitives/Input";
-import IconButton from "@/components/ui/primitives/IconButton";
-import Badge from "@/components/ui/primitives/Badge";
+import { SectionLabel } from "@/components/reviews/SectionLabel";
+import { NeonIcon } from "@/components/reviews/NeonIcon";
+import { Input } from "@/components/ui/primitives/Input";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { Badge } from "@/components/ui/primitives/Badge";
 import { Plus, FileText, Trash2 } from "lucide-react";
 import { uid, usePersistentState } from "@/lib/db";
 import { formatMmSs, parseMmSs } from "@/lib/date";
@@ -14,7 +14,7 @@ import {
   LAST_MARKER_MODE_KEY,
   LAST_MARKER_TIME_KEY,
 } from "@/components/reviews/reviewData";
-import ReviewSurface from "./ReviewSurface";
+import { ReviewSurface } from "./ReviewSurface";
 
 export type TimestampMarkersHandle = {
   save: () => void;
@@ -273,4 +273,6 @@ function TimestampMarkers(
   );
 }
 
-export default React.forwardRef(TimestampMarkers);
+const TimestampMarkersComponent = React.forwardRef(TimestampMarkers)
+
+export { TimestampMarkersComponent as TimestampMarkers }

@@ -1,11 +1,10 @@
 import React from "react";
 import { render, cleanup, fireEvent } from "@testing-library/react";
 import { describe, it, expect, afterEach, vi } from "vitest";
-import Button, {
+import {
   type ButtonProps,
   type ButtonSize,
-  type ButtonVariant,
-} from "@/components/ui/primitives/Button";
+  type ButtonVariant, Button } from "@/components/ui/primitives/Button";
 
 afterEach(cleanup);
 

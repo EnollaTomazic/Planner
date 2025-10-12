@@ -2,15 +2,14 @@
 "use client";
 
 import * as React from "react";
-import Header, { type HeaderProps } from "./Header";
-import Hero, { type HeroProps, HeroSearchBar } from "./hero";
-import NeomorphicHeroFrame, {
+import { type HeaderProps, Header } from "./Header";
+import { type HeroProps, HeroSearchBar, Index as Hero } from "./hero";
+import {
   type NeomorphicHeroFrameProps,
   type HeroSlot,
   type HeroSlotInput,
-  type HeroSlots,
-} from "./NeomorphicHeroFrame";
-import TabBar, { type TabBarA11yProps, type TabBarProps } from "./TabBar";
+  type HeroSlots, NeomorphicHeroFrame } from "./NeomorphicHeroFrame";
+import { type TabBarA11yProps, type TabBarProps, TabBar } from "./TabBar";
 import { cn } from "@/lib/utils";
 
 type PageHeaderElement = Extract<
@@ -649,16 +648,16 @@ const PageHeaderInner = <
   );
 };
 
-const PageHeader = React.forwardRef<
+const PageHeaderComponent = React.forwardRef<
   PageHeaderFrameElement,
   PageHeaderBaseProps<HeaderKey, HeroKey>
 >(PageHeaderInner);
 
-PageHeader.displayName = "PageHeader";
+PageHeaderComponent.displayName = "PageHeader";
 
-export default PageHeader as <
+export const PageHeader = PageHeaderComponent as <
   HeaderKey extends string = string,
   HeroKey extends string = string,
 >(
   props: PageHeaderProps<HeaderKey, HeroKey>,
-) => React.ReactElement | null;
+) => React.ReactElement | null

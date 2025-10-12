@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import Spinner from "@/components/ui/feedback/Spinner";
+import { Spinner } from "@/components/ui/feedback/Spinner";
 import { cn } from "@/lib/utils";
 
 import { radioIconGroupToneClasses, type RadioIconGroupTone } from "./tone";
@@ -44,7 +44,7 @@ const LABEL_SIZE: Record<RadioIconGroupSize, string> = {
   lg: "text-ui",
 };
 
-export default function RadioIconGroup({
+export function RadioIconGroup({
   name,
   options,
   value,

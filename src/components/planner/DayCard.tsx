@@ -13,15 +13,15 @@ import { useSelectedProject, useSelectedTask } from "./useSelection";
 import type { ISODate, TaskReminder } from "./plannerTypes";
 import { useDay } from "./useDay";
 import { cn } from "@/lib/utils";
-import DayCardHeader from "./DayCardHeader";
-import ProjectList from "./ProjectList";
-import TaskList from "./TaskList";
+import { DayCardHeader } from "./DayCardHeader";
+import { ProjectList } from "./ProjectList";
+import { TaskList } from "./TaskList";
 import { usePlannerActions } from "./usePlannerStore";
-import TaskReminderSettings from "./TaskReminderSettings";
+import { TaskReminderSettings } from "./TaskReminderSettings";
 
 type Props = { iso: ISODate; isToday?: boolean };
 
-export default function DayCard({ iso, isToday }: Props) {
+export function DayCard({ iso, isToday }: Props) {
   const {
     projects,
     renameProject,

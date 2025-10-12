@@ -88,26 +88,24 @@ function readRuntimeBasePath(): string | null {
     return attributeBase;
   }
 
-  const nextData = nextWindow.__NEXT_DATA__;
+  const nextDataAssetPrefix = normalizeRuntimeBasePath(
+    nextWindow.__NEXT_DATA__?.assetPrefix,
+  );
 
-  if (nextData) {
-    const nextDataAssetPrefix = normalizeRuntimeBasePath(nextData.assetPrefix);
+  if (nextDataAssetPrefix !== null) {
+    cachedRuntimeBasePath = nextDataAssetPrefix;
+    return nextDataAssetPrefix;
+  }
 
-    if (nextDataAssetPrefix !== null) {
-      cachedRuntimeBasePath = nextDataAssetPrefix;
-      return nextDataAssetPrefix;
-    }
+  const nextDataBasePath = normalizeRuntimeBasePath(
+    nextWindow.__NEXT_DATA__?.basePath ??
+      nextWindow.__NEXT_DATA__?.runtimeConfig?.basePath ??
+      nextWindow.__NEXT_DATA__?.config?.basePath,
+  );
 
-    const nextDataBasePath = normalizeRuntimeBasePath(
-      nextData.basePath ??
-        nextData.runtimeConfig?.basePath ??
-        nextData.config?.basePath,
-    );
-
-    if (nextDataBasePath !== null) {
-      cachedRuntimeBasePath = nextDataBasePath;
-      return nextDataBasePath;
-    }
+  if (nextDataBasePath !== null) {
+    cachedRuntimeBasePath = nextDataBasePath;
+    return nextDataBasePath;
   }
 
   return null;

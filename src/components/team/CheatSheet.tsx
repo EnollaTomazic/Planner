@@ -11,7 +11,7 @@ import "./style.css";
 
 import * as React from "react";
 import { usePersistentState } from "@/lib/db";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Pencil, Check } from "lucide-react";
 import { ROLES } from "./constants";
 import { DEFAULT_SHEET } from "./data";
@@ -27,7 +27,7 @@ import {
   ParagraphEdit,
   BulletListEdit,
 } from "./CheatSheetEditors";
-import ChampListEditor from "./ChampListEditor";
+import { ChampListEditor } from "./ChampListEditor";
 
 export { decodeCheatSheet, ensureExamples } from "./cheatSheet.model";
 export type { Archetype, LaneExamples } from "./cheatSheet.model";
@@ -42,7 +42,7 @@ export type CheatSheetProps = {
 
 /* ───────────── main component ───────────── */
 
-export default function CheatSheet({
+export function CheatSheet({
   className = "",
   dense = false,
   data = DEFAULT_SHEET,

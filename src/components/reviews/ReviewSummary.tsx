@@ -9,12 +9,12 @@ import {
   pickIndex,
   scoreIcon,
 } from "@/components/reviews/reviewData";
-import SectionCard from "@/components/ui/layout/SectionCard";
-import ReviewSummaryHeader from "@/components/reviews/ReviewSummaryHeader";
-import ReviewSummaryScore from "@/components/reviews/ReviewSummaryScore";
-import ReviewSummaryPillars from "@/components/reviews/ReviewSummaryPillars";
-import ReviewSummaryTimestamps from "@/components/reviews/ReviewSummaryTimestamps";
-import ReviewSummaryNotes from "@/components/reviews/ReviewSummaryNotes";
+import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { ReviewSummaryHeader } from "@/components/reviews/ReviewSummaryHeader";
+import { ReviewSummaryScore } from "@/components/reviews/ReviewSummaryScore";
+import { ReviewSummaryPillars } from "@/components/reviews/ReviewSummaryPillars";
+import { ReviewSummaryTimestamps } from "@/components/reviews/ReviewSummaryTimestamps";
+import { ReviewSummaryNotes } from "@/components/reviews/ReviewSummaryNotes";
 
 type Props = {
   review: Review;
@@ -22,7 +22,7 @@ type Props = {
   className?: string;
 };
 
-export default function ReviewSummary({ review, onEdit, className }: Props) {
+export function ReviewSummary({ review, onEdit, className }: Props) {
   const role: Role | undefined = review.role as Role | undefined;
   const result: "Win" | "Loss" | undefined = review.result;
   const score = Number.isFinite(review.score) ? Number(review.score) : 5;

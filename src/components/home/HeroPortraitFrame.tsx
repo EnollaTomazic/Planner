@@ -1,7 +1,7 @@
 import * as React from "react";
 import Image from "next/image";
 
-import AvatarFrame from "@/components/ui/primitives/AvatarFrame";
+import { AvatarFrame } from "@/components/ui/primitives/AvatarFrame";
 import { withBasePath } from "@/lib/utils";
 
 export interface HeroPortraitFrameProps {
@@ -16,7 +16,7 @@ export interface HeroPortraitFrameProps {
 const defaultSizes =
   "(max-width: 640px) 104px, (max-width: 1024px) 136px, 168px";
 
-export default function HeroPortraitFrame({
+export function HeroPortraitFrame({
   imageSrc,
   imageAlt,
   imageSizes = defaultSizes,

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn } from "@/lib/utils";
-import GalleryItem from "../GalleryItem";
+import { GalleryItem } from "../GalleryItem";
 import { selectItems } from "./ComponentGallery.demoData";
 import type { InputsPanelData } from "./useComponentGalleryState";
 
@@ -28,7 +28,7 @@ interface InputsPanelProps {
   data: InputsPanelData;
 }
 
-export default function InputsPanel({ data }: InputsPanelProps) {
+export function InputsPanel({ data }: InputsPanelProps) {
   const items = React.useMemo<PanelItem[]>(
     () =>
       [

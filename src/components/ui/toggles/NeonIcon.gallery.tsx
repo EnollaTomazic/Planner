@@ -68,7 +68,7 @@ function NeonIconGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const NeonIconGallery = defineGallerySection({
   id: "toggles",
   entries: [
     {
@@ -130,4 +130,4 @@ export default defineGallerySection({
 </div>`,
     },
   ],
-});
+})

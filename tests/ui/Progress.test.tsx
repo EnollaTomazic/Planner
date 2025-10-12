@@ -1,7 +1,7 @@
 import * as React from "react";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import Progress from "@/components/ui/feedback/Progress";
+import { Progress } from "@/components/ui/feedback/Progress";
 
 describe("Progress", () => {
   it("exposes its label on the progressbar element", () => {

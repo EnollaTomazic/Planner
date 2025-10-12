@@ -1,7 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import HomeHeroSection from "@/components/home/home-landing/HomeHeroSection";
-import HeroPlannerCards from "@/components/home/HeroPlannerCards";
+import { HomeHeroSection } from "@/components/home/home-landing/HomeHeroSection";
+import { HeroPlannerCards } from "@/components/home/HeroPlannerCards";
 import type { PlannerOverviewProps } from "@/components/home";
 import { Button } from "@/components/ui";
 

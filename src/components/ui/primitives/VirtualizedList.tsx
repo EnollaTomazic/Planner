@@ -226,4 +226,6 @@ function VirtualizedList<Item>({
   return <>{children}</>;
 }
 
-export default React.memo(VirtualizedList) as typeof VirtualizedList;
+const VirtualizedListComponent = React.memo(VirtualizedList) as typeof VirtualizedList
+
+export { VirtualizedListComponent as VirtualizedList }

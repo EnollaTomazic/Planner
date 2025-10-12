@@ -2,17 +2,17 @@
 
 import "@/app/globals.css";
 import * as React from "react";
-import NavBar from "@/components/chrome/NavBar";
-import MobileNavDrawer from "@/components/chrome/MobileNavDrawer";
-import BrandWordmark from "@/components/chrome/BrandWordmark";
-import ThemeToggle from "@/components/ui/theme/ThemeToggle";
-import AnimationToggle from "@/components/ui/AnimationToggle";
+import { NavBar } from "@/components/chrome/NavBar";
+import { MobileNavDrawer } from "@/components/chrome/MobileNavDrawer";
+import { BrandWordmark } from "@/components/chrome/BrandWordmark";
+import { ThemeToggle } from "@/components/ui/theme/ThemeToggle";
+import { AnimationToggle } from "@/components/ui/AnimationToggle";
 import { PageShell } from "@/components/ui";
 import { withBasePath } from "@/lib/utils";
 import Link from "next/link";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Menu } from "lucide-react";
-import Toolbar from "@/components/chrome/Toolbar";
+import { Toolbar } from "@/components/chrome/Toolbar";
 
 export type SiteChromeProps = {
   children?: React.ReactNode;
@@ -24,7 +24,7 @@ export type SiteChromeProps = {
  * - Full-width container; content constrained by .page-shell
  * - Z-index > heroes, so it stays above scrolling headers
  */
-export default function SiteChrome({ children }: SiteChromeProps) {
+export function SiteChrome({ children }: SiteChromeProps) {
   const [mobileNavOpen, setMobileNavOpen] = React.useState(false);
   const navId = React.useId();
   const openMobileNav = React.useCallback(() => {

@@ -55,5 +55,4 @@ const Toolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(
 );
 
 Toolbar.displayName = "Toolbar";
-
-export default Toolbar;
+export { Toolbar };

@@ -1,5 +1,5 @@
 import * as React from "react";
-import DayCard from "./DayCard";
+import { DayCard } from "./DayCard";
 import type { ISODate } from "./plannerTypes";
 
 type DayRowProps = { iso: ISODate; isToday: boolean };
@@ -20,5 +20,4 @@ const DayRow = React.memo(
   (a: Readonly<DayRowProps>, b: Readonly<DayRowProps>) =>
     a.iso === b.iso && a.isToday === b.isToday,
 );
-
-export default DayRow;
+export { DayRow };

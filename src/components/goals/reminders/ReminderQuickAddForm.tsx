@@ -1,13 +1,13 @@
 "use client";
 
 import * as React from "react";
-import Input from "@/components/ui/primitives/Input";
-import IconButton from "@/components/ui/primitives/IconButton";
+import { Input } from "@/components/ui/primitives/Input";
+import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Plus } from "lucide-react";
 import { useReminders } from "./useReminders";
 import styles from "./ReminderQuickAddForm.module.css";
 
-export default function ReminderQuickAddForm() {
+export function ReminderQuickAddForm() {
   const { quickAdd, setQuickAdd, addReminder, group, groups, neonClass } = useReminders();
 
   const groupLabel = React.useMemo(() => {

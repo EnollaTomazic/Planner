@@ -2,11 +2,10 @@
 "use client";
 
 import * as React from "react";
-import TabBar, {
+import {
   type TabBarA11yProps,
   type TabBarProps,
-  type TabItem,
-} from "../TabBar";
+  type TabItem, TabBar } from "../TabBar";
 import type { HeaderTabsProps } from "@/components/ui/layout/Header";
 import { cn } from "@/lib/utils";
 import { NeomorphicFrameStyles } from "../NeomorphicFrameStyles";
@@ -307,5 +306,4 @@ function Hero<Key extends string = string>({
   );
 }
 
-export default Hero;
-
+export { Hero };

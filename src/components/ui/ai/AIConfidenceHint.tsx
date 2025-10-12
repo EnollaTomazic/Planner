@@ -127,8 +127,8 @@ const AIConfidenceHint = React.forwardRef<HTMLDivElement, AIConfidenceHintProps>
 
 AIConfidenceHint.displayName = "AIConfidenceHint";
 
-export default AIConfidenceHint;
-
 function defaultFormat(score: number) {
   return `${Math.round(score * 100)}%`;
 }
+
+export { AIConfidenceHint };

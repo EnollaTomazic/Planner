@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import ScrollTopFloatingButton from "@/components/planner/ScrollTopFloatingButton";
+import { ScrollTopFloatingButton } from "@/components/planner/ScrollTopFloatingButton";
 
 const meta: Meta<typeof ScrollTopFloatingButton> = {
   title: "Planner/ScrollTopFloatingButton",

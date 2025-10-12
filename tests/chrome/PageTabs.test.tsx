@@ -17,7 +17,7 @@ vi.mock("next/navigation", () => ({
   useSearchParams: () => mockSearchParams,
 }));
 
-import PageTabs from "@/components/chrome/PageTabs";
+import { PageTabs } from "@/components/chrome/PageTabs";
 
 describe("PageTabs", () => {
   const tabs = [

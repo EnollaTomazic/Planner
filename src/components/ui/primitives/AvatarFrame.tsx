@@ -134,5 +134,4 @@ function AvatarFrame<T extends React.ElementType = "div">({
 }
 
 AvatarFrame.displayName = "AvatarFrame";
-
-export default AvatarFrame;
+export { AvatarFrame };

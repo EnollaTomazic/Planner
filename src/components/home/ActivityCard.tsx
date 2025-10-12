@@ -2,12 +2,12 @@
 
 import * as React from "react";
 
-import DashboardCard from "./DashboardCard";
+import { DashboardCard } from "./DashboardCard";
 import type {
   PlannerOverviewActivityPoint,
   PlannerOverviewActivityProps,
 } from "./home-landing";
-import Skeleton from "@/components/ui/feedback/Skeleton";
+import { Skeleton } from "@/components/ui/feedback/Skeleton";
 import { cn } from "@/lib/utils";
 
 interface ActivityCardProps extends PlannerOverviewActivityProps {
@@ -17,7 +17,7 @@ interface ActivityCardProps extends PlannerOverviewActivityProps {
 const CHART_HEIGHT = 72;
 const CHART_WIDTH = 100;
 
-export default function ActivityCard({
+export function ActivityCard({
   loading,
   hasData,
   totalCompleted,

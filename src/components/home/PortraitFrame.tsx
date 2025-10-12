@@ -1,5 +1,5 @@
 import * as React from "react";
-import AvatarFrame from "@/components/ui/primitives/AvatarFrame";
+import { AvatarFrame } from "@/components/ui/primitives/AvatarFrame";
 import { cn } from "@/lib/utils";
 import styles from "./PortraitFrame.module.css";
 
@@ -86,7 +86,7 @@ const poseConfigs: Record<PoseVariant, PoseConfig> = {
   },
 };
 
-export default function PortraitFrame({
+export function PortraitFrame({
   pose = "duo",
   transparentBackground = false,
   className,

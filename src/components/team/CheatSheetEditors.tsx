@@ -2,7 +2,7 @@
 "use client";
 
 import * as React from "react";
-import Textarea from "@/components/ui/primitives/Textarea";
+import { Textarea } from "@/components/ui/primitives/Textarea";
 
 export function Label({ children }: { children: React.ReactNode }) {
   const text = typeof children === "string" ? children : String(children ?? "");

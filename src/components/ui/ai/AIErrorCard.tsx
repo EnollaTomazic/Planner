@@ -102,5 +102,4 @@ const AIErrorCard = React.forwardRef<HTMLDivElement, AIErrorCardProps>(
 );
 
 AIErrorCard.displayName = "AIErrorCard";
-
-export default AIErrorCard;
+export { AIErrorCard };

@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import { IssueBadge } from "@/components/ui";
-import Badge from "@/components/ui/primitives/Badge";
+import { Badge } from "@/components/ui/primitives/Badge";
 import type { IssueBadgeSeverity } from "@/components/ui/primitives/IssueBadge";
 import {
   type GalleryAxis,
@@ -969,7 +969,7 @@ function StatePreviewCard({
   );
 }
 
-export default function ComponentsView({
+export function ComponentsView({
   entry,
   onCurrentCodeChange,
 }: ComponentsViewProps) {

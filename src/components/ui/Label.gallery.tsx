@@ -3,7 +3,7 @@ import * as React from "react";
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 import { Input } from "@/components/ui";
 
-import Label from "./Label";
+import { Label } from "./Label";
 
 type LabelState = {
   id: string;
@@ -104,7 +104,7 @@ function LabelGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const LabelGallery = defineGallerySection({
   id: "inputs",
   entries: [
     {
@@ -155,4 +155,4 @@ export default defineGallerySection({
 </div>`,
     },
   ],
-});
+})
