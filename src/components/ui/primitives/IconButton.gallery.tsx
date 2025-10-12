@@ -324,3 +324,5 @@ export const IconButtonGallery = defineGallerySection({
     },
   ],
 })
+
+export default IconButtonGallery

@@ -131,3 +131,5 @@ export const NeonIconGallery = defineGallerySection({
     },
   ],
 })
+
+export default NeonIconGallery

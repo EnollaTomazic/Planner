@@ -14,3 +14,6 @@ export const manifest = {
 } as const satisfies Manifest
 
 export { galleryPayload, galleryPreviewModules, galleryPreviewRoutes }
+
+export default manifest
+

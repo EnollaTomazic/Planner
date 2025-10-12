@@ -156,3 +156,5 @@ export const LabelGallery = defineGallerySection({
     },
   ],
 })
+
+export default LabelGallery

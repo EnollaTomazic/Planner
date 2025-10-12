@@ -242,3 +242,5 @@ const [value, setValue] = React.useState(items[0]?.value ?? "");
     },
   ],
 })
+
+export default SelectGallery

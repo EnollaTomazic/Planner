@@ -5391,4 +5391,5 @@ const gallerySections: GallerySection[] = Object.entries(LEGACY_SPEC_DATA).map(
       })),
     }),
 );
+export default gallerySections;
 export { gallerySections };
