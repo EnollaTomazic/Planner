@@ -1,6 +1,4 @@
-"use client";
-
-import { PageShell, Skeleton } from "@/components/ui";
+import { PageShell, Skeleton } from "@/app/_loading";
 
 const CHIP_PLACEHOLDERS = [
   "hover",
