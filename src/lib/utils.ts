@@ -5,7 +5,7 @@ import { type ClassValue, clsx } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
 
 import { normalizeBasePath } from "../../lib/base-path.js";
-import { readClientEnv } from "./load-client-env";
+import { readClientEnv } from "../../env";
 
 const twMerge = extendTailwindMerge({
   extend: {

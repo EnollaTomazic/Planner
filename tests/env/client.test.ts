@@ -1,8 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { ZodError } from "zod";
 
-import loadClientEnvDefault, { loadClientEnv } from "../../env/client";
-import { readClientEnv } from "../../src/lib/load-client-env";
+import { loadClientEnv, readClientEnv } from "../../env";
 
 describe("loadClientEnv", () => {
   it("defaults NEXT_PUBLIC_SAFE_MODE to 'true' when missing", () => {

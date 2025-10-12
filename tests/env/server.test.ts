@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { ZodError } from "zod";
 
-import loadServerEnvDefault, { loadServerEnv } from "../../env/server";
+import { loadServerEnv, readServerEnv } from "../../env";
 
 describe("loadServerEnv", () => {
   it("defaults SAFE_MODE to 'true' when missing", () => {
@@ -76,7 +76,7 @@ describe("loadServerEnv", () => {
     delete process.env.NEXT_PUBLIC_SAFE_MODE;
 
     try {
-      const env = loadServerEnvDefault();
+    const env = readServerEnv();
 
       expect(env.SAFE_MODE).toBe("true");
       expect(process.env.SAFE_MODE).toBe("true");
