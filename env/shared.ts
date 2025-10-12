@@ -21,6 +21,14 @@ export function ensureClientSafeMode(
     return source;
   }
 
+  const setProcessEnvValue = (key: keyof NodeJS.ProcessEnv, value: string) => {
+    if (typeof process === "undefined") {
+      return;
+    }
+
+    Reflect.set(process.env, key, value);
+  };
+
   const nextEnv: NodeJS.ProcessEnv = {
     ...source,
     NEXT_PUBLIC_SAFE_MODE: SAFE_MODE_FALLBACK,
@@ -31,10 +39,10 @@ export function ensureClientSafeMode(
   }
 
   if (typeof process !== "undefined" && source === process.env) {
-    process.env.NEXT_PUBLIC_SAFE_MODE = SAFE_MODE_FALLBACK;
+    setProcessEnvValue("NEXT_PUBLIC_SAFE_MODE", SAFE_MODE_FALLBACK);
 
     if (!process.env.SAFE_MODE || !process.env.SAFE_MODE.trim()) {
-      process.env.SAFE_MODE = SAFE_MODE_FALLBACK;
+      setProcessEnvValue("SAFE_MODE", SAFE_MODE_FALLBACK);
     }
   }
 
