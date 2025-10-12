@@ -1,9 +1,7 @@
-"use client";
-
 import Link from "next/link";
-import * as React from "react";
+import type { CSSProperties } from "react";
 
-import { PREVIEW_SURFACE_CONTAINER_CLASSNAME } from "@/components/gallery/PreviewSurfaceClient";
+import { PREVIEW_SURFACE_CONTAINER_CLASSNAME } from "@/components/gallery/constants";
 import { SectionCard } from "@/components/ui";
 import { VARIANTS, type Variant } from "@/lib/theme";
 import { cn } from "@/lib/utils";
@@ -24,7 +22,7 @@ const GRID_TEMPLATE = `repeat(${VARIANTS.length}, minmax(${COLUMN_WIDTH}, 1fr))`
 
 const variantColumnsStyle = {
   gridTemplateColumns: GRID_TEMPLATE,
-} satisfies React.CSSProperties;
+} satisfies CSSProperties;
 
 const PREVIEW_HEIGHT_VARIABLE =
   "[--theme-matrix-preview-min-h:calc(var(--space-8) * 5 + var(--space-4))]";
@@ -149,7 +147,7 @@ function ThemeMatrixVariantGridCell({
 
 const matrixContainerStyle = {
   minWidth: `calc(${VARIANTS.length} * ${COLUMN_WIDTH})`,
-} satisfies React.CSSProperties;
+} satisfies CSSProperties;
 
 interface ThemeMatrixEntryCardProps {
   readonly entry: ThemeMatrixEntry;

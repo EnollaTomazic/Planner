@@ -3,8 +3,8 @@
 import * as React from "react";
 import { Suspense } from "react";
 
-import {
-  PREVIEW_SURFACE_CONTAINER_CLASSNAME, PreviewSurface } from "@/components/gallery/PreviewSurfaceClient";
+import { PREVIEW_SURFACE_CONTAINER_CLASSNAME } from "@/components/gallery/constants";
+import { PreviewSurface } from "@/components/gallery/PreviewSurfaceClient";
 import { PreviewThemeClient } from "@/components/gallery/PreviewThemeClient";
 import {
   getGalleryPreviewAxisSummary,
