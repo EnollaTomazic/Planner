@@ -1,10 +1,13 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { ZodError } from "zod";
 
-import loadClientEnvDefault, { loadClientEnv } from "../../env/client";
-import { readClientEnv } from "../../src/lib/load-client-env";
+import { loadClientEnv, readClientEnv, resetClientEnvCache } from "@env";
 
 describe("loadClientEnv", () => {
+  afterEach(() => {
+    resetClientEnvCache();
+  });
+
   it("defaults NEXT_PUBLIC_SAFE_MODE to 'true' when missing", () => {
     const env = loadClientEnv({
       NEXT_PUBLIC_BASE_PATH: "/planner",
@@ -74,6 +77,7 @@ describe("loadClientEnv", () => {
         expect.stringContaining("NEXT_PUBLIC_SAFE_MODE was missing"),
       );
     } finally {
+      resetClientEnvCache();
       warn.mockRestore();
       if (typeof originalNextPublicSafeMode === "string") {
         process.env.NEXT_PUBLIC_SAFE_MODE = originalNextPublicSafeMode;
@@ -104,6 +108,7 @@ describe("loadClientEnv", () => {
         expect.stringContaining("NEXT_PUBLIC_SAFE_MODE was missing"),
       );
     } finally {
+      resetClientEnvCache();
       warn.mockRestore();
       error.mockRestore();
       vi.unstubAllGlobals();
@@ -126,6 +131,7 @@ describe("loadClientEnv", () => {
       expect(error).toHaveBeenCalled();
       expect(process.env.SAFE_MODE).toBeUndefined();
     } finally {
+      resetClientEnvCache();
       warn.mockRestore();
       error.mockRestore();
 

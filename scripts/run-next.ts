@@ -90,6 +90,19 @@ if (
   forwardedArgs.push("--turbo");
 }
 
+const portOverride = process.env.PORT?.trim();
+const hasPortFlag = forwardedArgs.some((arg) =>
+  ["-p", "--port"].includes(arg),
+);
+
+if (
+  portOverride &&
+  !hasPortFlag &&
+  (command === "dev" || command === "start")
+) {
+  forwardedArgs.push("-p", portOverride);
+}
+
 const patchModulePath = path.join(rootDir, "scripts", "patch-next-webpack-error.cjs");
 const nodeOptions = [process.env.NODE_OPTIONS, `--require ${patchModulePath}`]
   .filter(Boolean)

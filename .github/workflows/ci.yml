@@ -20,19 +20,43 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  next:
-    name: Next.js checks (Node 22)
+  quality:
+    name: ${{ matrix.name }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Lint
+            node: "22.x"
+            command: pnpm run lint:ci
+          - name: Type check
+            node: "22.x"
+            command: pnpm run typecheck:ci
+          - name: Unit tests
+            node: "22.x"
+            command: pnpm test:ci
+          - name: Next build + bundle guard
+            node: "22.x"
+            command: pnpm run bundle:guard
+            cache-next: true
+          - name: Storybook build (Node 20)
+            node: "20.x"
+            command: pnpm run sb:build
+            cache-storybook: true
+          - name: Playwright E2E
+            node: "22.x"
+            command: pnpm e2e:ci
+            cache-playwright: true
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js 22.x
-        id: setup-node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Enable Corepack
         run: corepack enable
@@ -46,68 +70,35 @@ jobs:
           pnpm config set fetch-retries 4 --global
           pnpm config set fetch-retry-maxtimeout 60000 --global
 
-      - name: Restore pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.pnpm-store
-            ~/.cache/pnpm
-            .pnpm-store
-          key: ${{ runner.os }}-pnpm-store-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-node-${{ steps.setup-node.outputs.node-version }}-
-            ${{ runner.os }}-pnpm-store-
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts=false
 
-      - name: Run quality gate
-        run: pnpm run check
-
-      - name: Build Next.js
-        run: pnpm run build
-
-  storybook:
-    name: Storybook build (Node 22.12)
-    runs-on: ubuntu-latest
-    needs: next
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js from .nvmrc
-        id: setup-node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Activate pnpm ${{ env.PNPM_VERSION }}
-        run: corepack prepare pnpm@${{ env.PNPM_VERSION }} --activate
-
-      - name: Configure pnpm retry strategy
-        run: |
-          pnpm config set retry 4 --global
-          pnpm config set fetch-retries 4 --global
-          pnpm config set fetch-retry-maxtimeout 60000 --global
-
-      - name: Restore pnpm cache
+      - name: Restore Next.js cache
+        if: matrix.cache-next == 'true'
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.pnpm-store
-            ~/.cache/pnpm
-            .pnpm-store
-          key: ${{ runner.os }}-pnpm-store-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-node-${{ steps.setup-node.outputs.node-version }}-
-            ${{ runner.os }}-pnpm-store-
+          path: .next/cache
+          key: ${{ runner.os }}-next-${{ matrix.node }}-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts=false
+      - name: Restore Storybook cache
+        if: matrix.cache-storybook == 'true'
+        uses: actions/cache@v4
+        with:
+          path: node_modules/.cache/storybook
+          key: ${{ runner.os }}-storybook-${{ hashFiles('pnpm-lock.yaml', 'storybook/**/*') }}
 
-      - name: Build Storybook
-        run: pnpm exec storybook build --config-dir storybook --output-dir storybook-static
+      - name: Restore Playwright browsers
+        if: matrix.cache-playwright == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install Playwright browsers
+        if: matrix.cache-playwright == 'true'
+        run: pnpm exec playwright install --with-deps
+
+      - name: Run ${{ matrix.name }}
+        env:
+          CI: true
+        run: ${{ matrix.command }}

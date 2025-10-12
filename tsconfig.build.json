@@ -1,7 +1,21 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.base.json",
+  "include": [
+    "next-env.d.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "scripts/**/*.ts",
+    "env/**/*.ts",
+    "types/**/*.d.ts"
+  ],
   "exclude": [
     "**/*.test.*",
-    "**/*.stories.*"
+    "**/*.spec.*",
+    "**/*.stories.*",
+    "tests/**/*",
+    "storybook/**/*",
+    "src/components/gallery/generated-manifest.ts"
   ]
 }

@@ -21,9 +21,9 @@ const baseEnv: MockedClientEnv = {
 function mockClientEnv(overrides: Partial<MockedClientEnv>): void {
   const mockedEnv: MockedClientEnv = { ...baseEnv, ...overrides } as MockedClientEnv;
 
-  vi.doMock("../../env/client", () => ({
+  vi.doMock("@env", () => ({
     __esModule: true,
-    default: vi.fn(() => mockedEnv),
+    readClientEnv: vi.fn(() => mockedEnv),
   }));
 }
 
@@ -34,6 +34,7 @@ describe("features.safeModeEnabled", () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+    vi.doUnmock("@env");
     delete process.env.SAFE_MODE;
   });
 
@@ -71,6 +72,7 @@ describe("features.glitchLandingEnabled", () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+    vi.doUnmock("@env");
   });
 
   it("uses the legacy flag when the new alias is not provided", async () => {
