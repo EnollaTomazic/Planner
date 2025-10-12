@@ -91,6 +91,9 @@ jobs:
           #
           # You may remove this line if you want to manage the configuration yourself.
           static_site_generator: next
+          # Ensure the repository is configured to deploy with GitHub Actions. This avoids
+          # "Not Found" errors when the Pages site has not been provisioned yet.
+          enablement: true
       - name: Restore cache
         uses: actions/cache@v4
         with:
