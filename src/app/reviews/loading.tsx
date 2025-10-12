@@ -1,6 +1,4 @@
-"use client";
-
-import { PageShell, Skeleton } from "@/components/ui";
+import { PageShell, Skeleton } from "@/app/_loading";
 
 const FILTER_PLACEHOLDERS = ["filter-sort", "filter-tags"] as const;
 const LIST_PLACEHOLDERS = [

@@ -1,6 +1,4 @@
-"use client";
-
-import { PageShell, Skeleton } from "@/components/ui";
+import { PageShell, Skeleton } from "@/app/_loading";
 
 const MAIN_TABS = ["cheat", "builder", "clears"] as const;
 const SUB_TABS = ["sheet", "comps"] as const;

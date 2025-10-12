@@ -1,6 +1,4 @@
-"use client";
-
-import { PageShell, Skeleton } from "@/components/ui";
+import { PageShell, Skeleton } from "@/app/_loading";
 
 const TAB_PLACEHOLDERS = ["goals", "reminders", "timer"] as const;
 const QUEUE_PLACEHOLDERS = ["queue-1", "queue-2", "queue-3"] as const;

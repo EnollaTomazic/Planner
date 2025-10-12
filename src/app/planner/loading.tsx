@@ -1,6 +1,4 @@
-"use client";
-
-import { PageShell, Skeleton } from "@/components/ui";
+import { PageShell, Skeleton } from "@/app/_loading";
 
 const ACTION_PLACEHOLDERS = ["prev", "today", "next"] as const;
 const WEEKDAY_PLACEHOLDERS = [
