@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { observeMediaQuery } from "@/lib/react";
 
-function detectCoarsePointer() {
+function detectCoarsePointer(): boolean {
   if (typeof window === "undefined") {
     return false;
   }
@@ -39,7 +39,7 @@ function detectCoarsePointer() {
  * Detects whether the current pointer prefers coarse interactions (e.g. touch).
  * Falls back to hover heuristics when matchMedia isn't available.
  */
-export function useCoarsePointer() {
+export function useCoarsePointer(): boolean {
   const [isCoarse, setIsCoarse] = React.useState(() => detectCoarsePointer());
 
   React.useEffect(() => {
