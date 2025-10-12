@@ -1,136 +1,101 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import dynamic from "next/dynamic";
-import Link from "next/link";
+import * as React from "react"
+import dynamic from "next/dynamic"
+import Link from "next/link"
 import {
   useGlitchLandingSplash,
   useHomePlannerOverview,
   useHydratedCallback,
-} from "@/components/home";
+} from "@/components/home"
 import type {
   HeroPlannerCardsProps,
   HeroPlannerHighlight,
   PlannerOverviewProps,
-} from "@/components/home";
-import type { HomeHeroSectionProps } from "@/components/home/home-landing/types";
-import { PageShell, Button, ThemeToggle, SectionCard } from "@/components/ui";
-import { PlannerProvider } from "@/components/planner";
-import { useTheme, useUiFeatureFlags } from "@/lib/theme-context";
-import { useThemeQuerySync } from "@/lib/theme-hooks";
-import type { Variant } from "@/lib/theme";
-import styles from "./page-client.module.css";
+} from "@/components/home"
+import type { HomeHeroSectionProps } from "@/components/home/home-landing/types"
+import { PageShell, Button, ThemeToggle, SectionCard } from "@/components/ui"
+import { PlannerProvider } from "@/components/planner"
+import { useTheme, useUiFeatureFlags } from "@/lib/theme-context"
+import { useThemeQuerySync } from "@/lib/theme-hooks"
+import type { Variant } from "@/lib/theme"
+import {
+  HeroPlannerCardsFallbackContent,
+  HomeHeroSectionFallbackContent,
+  type HeroPlannerCardsFallbackContentProps,
+  type HomeHeroSectionFallbackContentProps,
+} from "./fallback-content"
+import styles from "../page-client.module.css"
 
 type HomeSplashProps = {
-  active: boolean;
-  onExited?: () => void;
-};
+  active: boolean
+  onExited?: () => void
+}
 
 const HomeSplash = dynamic<HomeSplashProps>(
   () => import("@/components/home/HomeSplash"),
   { ssr: false },
-);
+)
 
 const HomeHeroSection = dynamic(
   () => import("@/components/home/home-landing/HomeHeroSection"),
   {
     loading: () => <HomeHeroSectionFallback />,
   },
-) as React.ComponentType<HomeHeroSectionProps>;
+) as React.ComponentType<HomeHeroSectionProps>
 
 const HeroPlannerCards = dynamic(
   () => import("@/components/home/HeroPlannerCards"),
   {
     loading: () => <HeroPlannerCardsFallback />,
   },
-) as React.ComponentType<HeroPlannerCardsProps>;
+) as React.ComponentType<HeroPlannerCardsProps>
 
 const HeroSectionFallbackContext =
-  React.createContext<HomeHeroSectionProps | null>(null);
+  React.createContext<HomeHeroSectionFallbackContentProps | null>(null)
 
 const HeroPlannerCardsFallbackContext =
-  React.createContext<HeroPlannerCardsProps | null>(null);
+  React.createContext<HeroPlannerCardsFallbackContentProps | null>(null)
 
 function HomeHeroSectionFallback() {
-  const fallbackProps = React.useContext(HeroSectionFallbackContext);
-  const headingId = fallbackProps?.headingId ?? "home-hero-fallback";
-  const actions = fallbackProps?.actions;
+  const fallbackProps = React.useContext(HeroSectionFallbackContext)
+  const headingId = fallbackProps?.headingId ?? "home-hero-fallback"
 
   return (
-    <section
-      aria-labelledby={headingId}
-      className="flex flex-col gap-[var(--space-4)] rounded-[var(--radius-xl)] border border-border/80 bg-surface p-[var(--space-5)]"
-    >
-      <div className="space-y-[var(--space-3)]">
-        <div className="h-8 w-2/3 animate-pulse rounded-md bg-muted/40" aria-hidden />
-        <div className="h-4 w-3/4 animate-pulse rounded-md bg-muted/30" aria-hidden />
-        <div className="h-4 w-1/2 animate-pulse rounded-md bg-muted/20" aria-hidden />
-      </div>
-      <div className="space-y-[var(--space-2)]">
-        <div className="h-20 w-full animate-pulse rounded-xl bg-muted/10" aria-hidden />
-        <div className="h-20 w-full animate-pulse rounded-xl bg-muted/10" aria-hidden />
-      </div>
-      {actions ? (
-        <div
-          role="group"
-          aria-label="Home hero actions"
-          className="flex flex-wrap items-center gap-[var(--space-3)]"
-        >
-          {actions}
-        </div>
-      ) : null}
-      <span className="sr-only">Loading planner hero section…</span>
-    </section>
-  );
+    <HomeHeroSectionFallbackContent
+      headingId={headingId}
+      actions={fallbackProps?.actions}
+    />
+  )
 }
 
 function HeroPlannerCardsFallback() {
-  const fallbackProps = React.useContext(HeroPlannerCardsFallbackContext);
-  const className = fallbackProps?.className;
-  const summaryKeys = fallbackProps?.plannerOverviewProps.summary.items.map(
-    (item) => item.key,
-  ) ?? ["summary-placeholder-0", "summary-placeholder-1", "summary-placeholder-2"];
-  const rootClassName = className
-    ? `space-y-[var(--space-4)] ${className}`
-    : "space-y-[var(--space-4)]";
+  const fallbackProps = React.useContext(HeroPlannerCardsFallbackContext)
 
   return (
-    <section className={rootClassName} aria-busy>
-      <div className="grid gap-[var(--space-3)] md:grid-cols-3">
-        {summaryKeys.map((key) => (
-          <div
-            key={key}
-            className="h-28 animate-pulse rounded-[var(--radius-lg)] border border-border/60 bg-muted/10"
-            aria-hidden
-          />
-        ))}
-      </div>
-      <div className="grid gap-[var(--space-3)] md:grid-cols-2">
-        <div className="h-40 animate-pulse rounded-[var(--radius-lg)] border border-border/60 bg-muted/10" aria-hidden />
-        <div className="h-40 animate-pulse rounded-[var(--radius-lg)] border border-border/60 bg-muted/10" aria-hidden />
-      </div>
-      <div className="h-36 animate-pulse rounded-[var(--radius-lg)] border border-border/60 bg-muted/10" aria-hidden />
-      <span className="sr-only">Loading planner overview widgets…</span>
-    </section>
-  );
+    <HeroPlannerCardsFallbackContent
+      className={fallbackProps?.className}
+      summaryKeys={fallbackProps?.summaryKeys}
+    />
+  )
 }
 
-type InertableElement = HTMLElement & { inert: boolean };
+type InertableElement = HTMLElement & { inert: boolean }
 
 function isInertable(element: Element): element is InertableElement {
-  return "inert" in element;
+  return "inert" in element
 }
 
 function setElementInert(element: Element, inert: boolean) {
   if (isInertable(element)) {
-    element.inert = inert;
-    return;
+    element.inert = inert
+    return
   }
 
   if (inert) {
-    element.setAttribute("inert", "");
+    element.setAttribute("inert", "")
   } else {
-    element.removeAttribute("inert");
+    element.removeAttribute("inert")
   }
 }
 
@@ -153,12 +118,12 @@ const weeklyHighlights = [
     schedule: "Fri · All day",
     summary: "Encourage the team to log highlights before the week wraps.",
   },
-] as const satisfies readonly HeroPlannerHighlight[];
+] as const satisfies readonly HeroPlannerHighlight[]
 
 function HomePageContent() {
-  const [theme] = useTheme();
-  const { glitchLandingEnabled } = useUiFeatureFlags();
-  useThemeQuerySync();
+  const [theme] = useTheme()
+  const { glitchLandingEnabled } = useUiFeatureFlags()
+  useThemeQuerySync()
 
   return (
     <PlannerProvider>
@@ -167,50 +132,50 @@ function HomePageContent() {
         glitchLandingEnabled={glitchLandingEnabled}
       />
     </PlannerProvider>
-  );
+  )
 }
 
 type HomePagePlannerContentProps = {
-  themeVariant: Variant;
-  glitchLandingEnabled: boolean;
-};
+  themeVariant: Variant
+  glitchLandingEnabled: boolean
+}
 
 function HomePagePlannerContent({
   themeVariant,
   glitchLandingEnabled,
 }: HomePagePlannerContentProps) {
-  const plannerOverviewProps = useHomePlannerOverview();
-  const { hydrated } = plannerOverviewProps;
-  const contentRef = React.useRef<HTMLElement>(null);
+  const plannerOverviewProps = useHomePlannerOverview()
+  const { hydrated } = plannerOverviewProps
+  const contentRef = React.useRef<HTMLElement>(null)
 
   const {
     isSplashVisible,
     isSplashMounted,
     handleClientReady,
     handleSplashExit,
-  } = useGlitchLandingSplash(glitchLandingEnabled, hydrated);
+  } = useGlitchLandingSplash(glitchLandingEnabled, hydrated)
 
   React.useEffect(() => {
-    const content = contentRef.current;
+    const content = contentRef.current
 
     if (!content) {
-      return;
+      return
     }
 
-    setElementInert(content, isSplashVisible);
+    setElementInert(content, isSplashVisible)
 
     if (isSplashVisible && document.activeElement === content) {
-      (document.activeElement as HTMLElement).blur();
+      ;(document.activeElement as HTMLElement).blur()
     }
 
     return () => {
       if (!content.isConnected) {
-        return;
+        return
       }
 
-      setElementInert(content, false);
-    };
-  }, [isSplashVisible]);
+      setElementInert(content, false)
+    }
+  }, [isSplashVisible])
 
   return (
     <div className={styles.root}>
@@ -234,15 +199,15 @@ function HomePagePlannerContent({
         />
       </section>
     </div>
-  );
+  )
 }
 
 type HomePageBodyProps = {
-  themeVariant: Variant;
-  plannerOverviewProps: PlannerOverviewProps;
-  onClientReady?: () => void;
-  glitchLandingEnabled: boolean;
-};
+  themeVariant: Variant
+  plannerOverviewProps: PlannerOverviewProps
+  onClientReady?: () => void
+  glitchLandingEnabled: boolean
+}
 
 function HomePageBody({
   themeVariant,
@@ -250,9 +215,9 @@ function HomePageBody({
   onClientReady,
   glitchLandingEnabled,
 }: HomePageBodyProps) {
-  const { hydrated } = plannerOverviewProps;
-  const heroHeadingId = "home-hero-heading";
-  const overviewHeadingId = "home-overview-heading";
+  const { hydrated } = plannerOverviewProps
+  const heroHeadingId = "home-hero-heading"
+  const overviewHeadingId = "home-overview-heading"
   const heroActions = React.useMemo<React.ReactNode>(
     () => (
       <>
@@ -269,9 +234,9 @@ function HomePageBody({
       </>
     ),
     [],
-  );
+  )
 
-  useHydratedCallback(hydrated, onClientReady);
+  useHydratedCallback(hydrated, onClientReady)
 
   if (!glitchLandingEnabled) {
     return (
@@ -281,8 +246,10 @@ function HomePageBody({
         heroHeadingId={heroHeadingId}
         overviewHeadingId={overviewHeadingId}
       />
-    );
+    )
   }
+
+  const summaryKeys = plannerOverviewProps.summary.items.map((item) => item.key)
 
   return (
     <>
@@ -299,7 +266,6 @@ function HomePageBody({
           <SectionCard.Body className="md:p-[var(--space-6)]">
             <HeroSectionFallbackContext.Provider
               value={{
-                variant: themeVariant,
                 actions: heroActions,
                 headingId: heroHeadingId,
               }}
@@ -333,12 +299,7 @@ function HomePageBody({
           />
           <SectionCard.Body className="md:p-[var(--space-6)]">
             <HeroPlannerCardsFallbackContext.Provider
-              value={{
-                variant: themeVariant,
-                plannerOverviewProps,
-                highlights: weeklyHighlights,
-                className: undefined,
-              }}
+              value={{ summaryKeys }}
             >
               <HeroPlannerCards
                 variant={themeVariant}
@@ -350,19 +311,19 @@ function HomePageBody({
         </SectionCard>
       </PageShell>
     </>
-  );
+  )
 }
 
-export default function Page() {
-  return <HomePageContent />;
+export default function HomePlannerIsland() {
+  return <HomePageContent />
 }
 
 type LegacyHomePageBodyProps = {
-  plannerOverviewProps: PlannerOverviewProps;
-  heroActions: React.ReactNode;
-  heroHeadingId: string;
-  overviewHeadingId: string;
-};
+  plannerOverviewProps: PlannerOverviewProps
+  heroActions: React.ReactNode
+  heroHeadingId: string
+  overviewHeadingId: string
+}
 
 const LegacyHomePageBody = React.memo(function LegacyHomePageBody({
   plannerOverviewProps,
@@ -376,9 +337,9 @@ const LegacyHomePageBody = React.memo(function LegacyHomePageBody({
     focus,
     goals,
     calendar,
-  } = plannerOverviewProps;
+  } = plannerOverviewProps
 
-  const activeGoals = goals.active;
+  const activeGoals = goals.active
 
   return (
     <>
@@ -436,7 +397,9 @@ const LegacyHomePageBody = React.memo(function LegacyHomePageBody({
             titleAs="h2"
             titleClassName="text-title font-semibold tracking-[-0.01em]"
           />
-          <SectionCard.Body className="space-y-[var(--space-5)]" aria-busy={hydrating}
+          <SectionCard.Body
+            className="space-y-[var(--space-5)]"
+            aria-busy={hydrating}
             aria-live={hydrating ? "polite" : undefined}
           >
             <div className="grid gap-[var(--space-3)] md:grid-cols-3" role="list">
@@ -549,7 +512,7 @@ const LegacyHomePageBody = React.memo(function LegacyHomePageBody({
         </SectionCard>
       </PageShell>
     </>
-  );
-});
+  )
+})
 
-LegacyHomePageBody.displayName = "LegacyHomePageBody";
+LegacyHomePageBody.displayName = "LegacyHomePageBody"
