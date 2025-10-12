@@ -110,4 +110,4 @@ jobs:
         run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts=false
 
       - name: Build Storybook
-        run: ./.scripts/run-storybook.sh --output-dir storybook-static
+        run: pnpm exec storybook build --config-dir storybook --output-dir storybook-static

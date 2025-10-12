@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import fg from "fast-glob";
 import { MultiBar, Presets } from "cli-progress";
 import pLimit from "p-limit";
+import ts from "typescript";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +15,12 @@ const indexFile = path.join(uiDir, "index.ts");
 const cacheDir = path.join(__dirname, ".cache");
 const manifestFile = path.join(cacheDir, "generate-ui-index.json");
 
-type ManifestEntry = { mtimeMs: number; name?: string; lines: string[] };
+type ManifestEntry = {
+  mtimeMs: number;
+  name?: string;
+  valueExports: string[];
+  typeExports: string[];
+};
 type Manifest = Record<string, ManifestEntry>;
 
 async function loadManifest(): Promise<Manifest> {
@@ -39,7 +45,138 @@ function toExportName(file: string): string {
   return sanitized;
 }
 
-type ExportInfo = { name?: string; lines: string[] };
+type ExportInfo = {
+  name?: string;
+  valueExports: string[];
+  typeExports: string[];
+};
+
+function hasModifier(node: ts.Node, kind: ts.SyntaxKind): boolean {
+  if (!ts.canHaveModifiers(node)) {
+    return false;
+  }
+
+  const modifiers = ts.getModifiers(node) ?? ts.factory.createNodeArray();
+  return modifiers.some((modifier) => modifier.kind === kind);
+}
+
+function collectBindingNames(
+  name: ts.BindingName,
+  target: Set<string>,
+): void {
+  if (ts.isIdentifier(name)) {
+    target.add(name.text);
+    return;
+  }
+
+  for (const element of name.elements) {
+    if (ts.isBindingElement(element)) {
+      collectBindingNames(element.name, target);
+    }
+  }
+}
+
+function analyzeExports(file: string, content: string): ExportInfo {
+  const source = ts.createSourceFile(
+    file,
+    content,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  );
+
+  const valueExports = new Set<string>();
+  const typeExports = new Set<string>();
+  let hasDefault = false;
+
+  for (const statement of source.statements) {
+    if (ts.isExportAssignment(statement)) {
+      if (!statement.isExportEquals) {
+        hasDefault = true;
+      }
+      continue;
+    }
+
+    if (ts.isFunctionDeclaration(statement) || ts.isClassDeclaration(statement)) {
+      if (!hasModifier(statement, ts.SyntaxKind.ExportKeyword)) {
+        continue;
+      }
+
+      if (hasModifier(statement, ts.SyntaxKind.DefaultKeyword)) {
+        hasDefault = true;
+        continue;
+      }
+
+      const name = statement.name?.text;
+      if (name) {
+        valueExports.add(name);
+      }
+      continue;
+    }
+
+    if (ts.isEnumDeclaration(statement)) {
+      if (!hasModifier(statement, ts.SyntaxKind.ExportKeyword)) {
+        continue;
+      }
+
+      const name = statement.name.text;
+      valueExports.add(name);
+      continue;
+    }
+
+    if (ts.isVariableStatement(statement)) {
+      if (!hasModifier(statement, ts.SyntaxKind.ExportKeyword)) {
+        continue;
+      }
+
+      for (const declaration of statement.declarationList.declarations) {
+        collectBindingNames(declaration.name, valueExports);
+      }
+      continue;
+    }
+
+    if (ts.isInterfaceDeclaration(statement) || ts.isTypeAliasDeclaration(statement)) {
+      if (!hasModifier(statement, ts.SyntaxKind.ExportKeyword)) {
+        continue;
+      }
+
+      const name = statement.name.text;
+      typeExports.add(name);
+      continue;
+    }
+
+    if (!ts.isExportDeclaration(statement)) {
+      continue;
+    }
+
+    if (!statement.exportClause) {
+      // export * from "..."; – skip to avoid duplicate surface exports
+      continue;
+    }
+
+    if (ts.isNamespaceExport(statement.exportClause)) {
+      const name = statement.exportClause.name.text;
+      if (statement.isTypeOnly) {
+        typeExports.add(name);
+      } else {
+        valueExports.add(name);
+      }
+      continue;
+    }
+
+    for (const element of statement.exportClause.elements) {
+      const name = element.name.text;
+      const target = element.isTypeOnly || statement.isTypeOnly ? typeExports : valueExports;
+      target.add(name);
+    }
+  }
+
+  return {
+    name: hasDefault ? toExportName(file) : undefined,
+    valueExports: Array.from(valueExports).sort((a, b) => a.localeCompare(b)),
+    typeExports: Array.from(typeExports).sort((a, b) => a.localeCompare(b)),
+  };
+}
 
 async function buildExport(file: string): Promise<ExportInfo> {
   const rel =
@@ -49,19 +186,13 @@ async function buildExport(file: string): Promise<ExportInfo> {
       .replace(/\\/g, "/")
       .replace(/\.(tsx|ts)$/, "");
   const content = await fs.readFile(file, "utf8");
-  const hasDefault = /export\s+default/.test(content);
-  const hasNamed =
-    /export\s+(?:const|function|class|type|interface|enum|\{)/.test(content);
-  const lines: string[] = [];
-  let name: string | undefined;
-  if (hasDefault) {
-    name = toExportName(file);
-    lines.push(`export { default as ${name} } from "${rel}";`);
-  }
-  if (hasNamed) {
-    lines.push(`export * from "${rel}";`);
-  }
-  return { name, lines };
+  const exports = analyzeExports(file, content);
+
+  return {
+    name: exports.name,
+    valueExports: exports.valueExports,
+    typeExports: exports.typeExports,
+  };
 }
 
 async function main() {
@@ -80,7 +211,9 @@ async function main() {
     "// Auto-generated by scripts/generate-ui-index.ts",
     "// Do not edit directly.",
   ];
-  const used = new Set<string>();
+  const usedDefaultAliases = new Set<string>();
+  const usedValueExports = new Set<string>();
+  const usedTypeExports = new Set<string>();
   const limit = pLimit(8);
   const sortedFiles = files.sort((a, b) => {
     const aRel = path.relative(uiDir, a).replace(/\\/g, "/");
@@ -98,7 +231,12 @@ async function main() {
         const rel = path.relative(uiDir, file).replace(/\\/g, "/");
         const stat = await fs.stat(file);
         let info = manifest[rel];
-        if (!info || info.mtimeMs !== stat.mtimeMs) {
+        if (
+          !info ||
+          info.mtimeMs !== stat.mtimeMs ||
+          !Array.isArray(info.valueExports) ||
+          !Array.isArray(info.typeExports)
+        ) {
           const built = await buildExport(file);
           info = { mtimeMs: stat.mtimeMs, ...built };
         }
@@ -108,14 +246,51 @@ async function main() {
     ),
   );
   for (const { rel, info } of results) {
-    if (info.name && used.has(info.name)) {
-      nextManifest[rel] = info;
-      continue;
+    const importPath =
+      "./" + rel.replace(/\\/g, "/").replace(/\.(tsx|ts)$/, "");
+
+    const defaultAlias = info.name;
+    const valueNames = info.valueExports ?? [];
+    const typeNames = info.typeExports ?? [];
+
+    if (
+      defaultAlias &&
+      !usedDefaultAliases.has(defaultAlias) &&
+      !valueNames.includes(defaultAlias) &&
+      !typeNames.includes(defaultAlias)
+    ) {
+      exports.push(`export { default as ${defaultAlias} } from "${importPath}";`);
+      usedDefaultAliases.add(defaultAlias);
     }
-    if (info.name) {
-      used.add(info.name);
+
+    const valueExports = valueNames.filter((name) => {
+      if (usedValueExports.has(name)) {
+        return false;
+      }
+      usedValueExports.add(name);
+      return true;
+    });
+
+    if (valueExports.length > 0) {
+      exports.push(
+        `export { ${valueExports.join(", ")} } from "${importPath}";`,
+      );
     }
-    exports.push(...info.lines);
+
+    const typeExports = typeNames.filter((name) => {
+      if (usedTypeExports.has(name) || usedValueExports.has(name)) {
+        return false;
+      }
+      usedTypeExports.add(name);
+      return true;
+    });
+
+    if (typeExports.length > 0) {
+      exports.push(
+        `export type { ${typeExports.join(", ")} } from "${importPath}";`,
+      );
+    }
+
     nextManifest[rel] = info;
   }
   bars.stop();
