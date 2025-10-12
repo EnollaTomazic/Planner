@@ -28,7 +28,7 @@ export function useAnimationsDisabled(): boolean {
 
     const root = document.documentElement;
 
-    const sync = () => {
+    const sync = (): void => {
       setDisabled(root.classList.contains(NO_ANIMATIONS_CLASS));
     };
 

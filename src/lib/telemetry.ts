@@ -17,7 +17,11 @@ export type TelemetryEventPayload = {
   detail: TelemetryEmitDetail
 }
 
-export function emitTelemetryEvent({ eventName, domEventName, detail }: TelemetryEventPayload) {
+export function emitTelemetryEvent({
+  eventName,
+  domEventName,
+  detail,
+}: TelemetryEventPayload): void {
   if (typeof window === 'undefined') return
 
   const { dataLayer: dataLayerDetail, ...eventDetail } = detail
@@ -47,7 +51,7 @@ export type PlannerIslandErrorDetail = {
   message?: string | null
 }
 
-export function reportPlannerIslandError(detail: PlannerIslandErrorDetail) {
+export function reportPlannerIslandError(detail: PlannerIslandErrorDetail): void {
   emitTelemetryEvent({
     eventName: 'planner_island_error',
     domEventName: 'planner:island-error',

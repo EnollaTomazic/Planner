@@ -43,6 +43,17 @@ describe("WithBasePath", () => {
     expect(withBasePath("assets/icon.svg")).toBe("/beta/assets/icon.svg");
   });
 
+  it("prefixes the GitHub Pages bootstrap script with the repository slug", async () => {
+    process.env.NEXT_PUBLIC_BASE_PATH = "/Planner";
+    vi.resetModules();
+
+    const { withBasePath } = await importBasePathUtils();
+
+    expect(withBasePath("/scripts/github-pages-bootstrap.js")).toBe(
+      "/Planner/scripts/github-pages-bootstrap.js",
+    );
+  });
+
   it("prefixes the base path when route and slug share the same segment", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/planner";
     vi.resetModules();

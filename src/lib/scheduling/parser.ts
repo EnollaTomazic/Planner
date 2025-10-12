@@ -117,7 +117,7 @@ function normaliseTimeToken(match: RegExpExecArray): string | undefined {
   return `${hh}:${mm}`;
 }
 
-function addSpan(spans: Span[], start: number, length: number) {
+function addSpan(spans: Span[], start: number, length: number): void {
   if (start < 0 || length <= 0) return;
   spans.push({ start, end: start + length });
 }
@@ -368,11 +368,11 @@ export function parsePlannerPhrase(
 
   const recurrenceMatches: string[] = [];
 
-  const registerRecurrence = (
-    rule: PlannerRecurringRule,
-    token?: string,
-    priority: PlannerParseConfidence = "medium",
-  ) => {
+    const registerRecurrence = (
+      rule: PlannerRecurringRule,
+      token?: string,
+      priority: PlannerParseConfidence = "medium",
+    ): void => {
     if (!recurrence) {
       recurrence = rule;
     }
