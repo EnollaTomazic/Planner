@@ -2,14 +2,14 @@
 
 import * as React from "react";
 import { Zap, ZapOff } from "lucide-react";
-import Spinner from "./feedback/Spinner";
+import { Spinner } from "./feedback/Spinner";
 import { usePersistentState, readLocal, writeLocal } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 const KEY = "ui:animations";
 
-export default function AnimationToggle({
+export function AnimationToggle({
   loading = false,
 }: {
   loading?: boolean;

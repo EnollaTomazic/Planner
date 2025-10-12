@@ -60,7 +60,7 @@ export interface DashboardListProps<T> {
   className?: string;
 }
 
-export default function DashboardList<T>({
+export function DashboardList<T>({
   items,
   renderItem,
   empty,

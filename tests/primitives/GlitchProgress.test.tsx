@@ -2,7 +2,7 @@ import React from "react";
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
-import GlitchProgress from "../../src/components/ui/primitives/GlitchProgress";
+import { GlitchProgress } from "../../src/components/ui/primitives/GlitchProgress";
 
 afterEach(cleanup);
 

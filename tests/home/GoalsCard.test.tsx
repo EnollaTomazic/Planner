@@ -2,12 +2,11 @@ import * as React from "react";
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import GoalsCard, {
+import {
   deriveGoalProgress,
   parseFraction,
   parseOfFormat,
-  parsePercentage,
-} from "@/components/home/GoalsCard";
+  parsePercentage, GoalsCard } from "@/components/home/GoalsCard";
 import type { Goal } from "@/lib/types";
 
 vi.mock("@/components/goals", () => ({

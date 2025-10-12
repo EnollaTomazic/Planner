@@ -28,5 +28,4 @@ const DecorLayer = forwardRef<HTMLDivElement, DecorLayerProps>(
 );
 
 DecorLayer.displayName = "DecorLayer";
-
-export default DecorLayer;
+export { DecorLayer };

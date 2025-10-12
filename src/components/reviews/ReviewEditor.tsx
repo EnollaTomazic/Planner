@@ -2,18 +2,18 @@
 
 // Full Review Editor with icon-only header actions and RoleSelector rail control.
 import { RoleSelector } from "@/components/reviews";
-import SectionLabel from "@/components/reviews/SectionLabel";
-import SectionCard from "@/components/ui/layout/SectionCard";
-import NeonIcon from "@/components/reviews/NeonIcon";
-import ReviewSurface from "./ReviewSurface";
-import ReviewSliderTrack from "./ReviewSliderTrack";
+import { SectionLabel } from "@/components/reviews/SectionLabel";
+import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { NeonIcon } from "@/components/reviews/NeonIcon";
+import { ReviewSurface } from "./ReviewSurface";
+import { ReviewSliderTrack } from "./ReviewSliderTrack";
 
 import * as React from "react";
 import type { Review, Role } from "@/lib/types";
-import Input from "@/components/ui/primitives/Input";
-import Textarea from "@/components/ui/primitives/Textarea";
-import IconButton from "@/components/ui/primitives/IconButton";
-import Badge from "@/components/ui/primitives/Badge";
+import { Input } from "@/components/ui/primitives/Input";
+import { Textarea } from "@/components/ui/primitives/Textarea";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { Badge } from "@/components/ui/primitives/Badge";
 import { Tag, Trash2, Check, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePersistentState } from "@/lib/db";
@@ -23,12 +23,11 @@ import {
   pickIndex,
 } from "@/components/reviews/reviewData";
 
-import LaneOpponentForm, { LaneOpponentFormHandle } from "./LaneOpponentForm";
-import ResultScoreSection, {
-  ResultScoreSectionHandle,
-} from "./ResultScoreSection";
-import PillarsSelector, { PillarsSelectorHandle } from "./PillarsSelector";
-import TimestampMarkers, { TimestampMarkersHandle } from "./TimestampMarkers";
+import { LaneOpponentFormHandle, LaneOpponentForm } from "./LaneOpponentForm";
+import {
+  ResultScoreSectionHandle, ResultScoreSection } from "./ResultScoreSection";
+import { PillarsSelectorHandle, PillarsSelector } from "./PillarsSelector";
+import { TimestampMarkersHandle, TimestampMarkers } from "./TimestampMarkers";
 
 type ReviewEditorProps = {
   review: Review;
@@ -41,7 +40,7 @@ type ReviewEditorProps = {
   className?: string;
 };
 
-export default function ReviewEditor({
+export function ReviewEditor({
   review,
   onChangeNotes,
   onChangeTags,

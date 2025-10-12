@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Card } from "@/components/ui";
-import Badge from "@/components/ui/primitives/Badge";
+import { Badge } from "@/components/ui/primitives/Badge";
 import { LOCALE } from "@/lib/utils";
 import type { PromptWithTitle } from "./types";
 
@@ -11,7 +11,7 @@ export type PromptListProps = {
   query: string;
 };
 
-export default function PromptList({ prompts, query }: PromptListProps) {
+export function PromptList({ prompts, query }: PromptListProps) {
   const q = query.trim();
   const formattedPrompts = React.useMemo(
     () =>

@@ -90,5 +90,4 @@ const AITypingIndicator = React.forwardRef<HTMLDivElement, AITypingIndicatorProp
 );
 
 AITypingIndicator.displayName = "AITypingIndicator";
-
-export default AITypingIndicator;
+export { AITypingIndicator };

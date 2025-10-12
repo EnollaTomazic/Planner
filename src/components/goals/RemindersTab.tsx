@@ -2,12 +2,12 @@
 "use client";
 
 import * as React from "react";
-import SectionCard from "@/components/ui/layout/SectionCard";
-import ReminderFilters from "./reminders/ReminderFilters";
-import ReminderList from "./reminders/ReminderList";
-import ReminderQuickAddForm from "./reminders/ReminderQuickAddForm";
+import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { ReminderFilters } from "./reminders/ReminderFilters";
+import { ReminderList } from "./reminders/ReminderList";
+import { ReminderQuickAddForm } from "./reminders/ReminderQuickAddForm";
 
-export default function RemindersTab() {
+export function RemindersTab() {
   return (
     <SectionCard>
       <SectionCard.Body>

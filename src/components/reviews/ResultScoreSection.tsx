@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import SectionLabel from "@/components/reviews/SectionLabel";
+import { SectionLabel } from "@/components/reviews/SectionLabel";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import { SCORE_POOLS, pickIndex, scoreIcon } from "@/components/reviews/reviewData";
-import ScoreMeter from "./ScoreMeter";
+import { ScoreMeter } from "./ScoreMeter";
 import styles from "./ResultScoreSection.module.css";
 
 export type ResultScoreSectionHandle = {
@@ -162,4 +162,6 @@ function ResultScoreSection(
   );
 }
 
-export default React.forwardRef(ResultScoreSection);
+const ResultScoreSectionComponent = React.forwardRef(ResultScoreSection)
+
+export { ResultScoreSectionComponent as ResultScoreSection }

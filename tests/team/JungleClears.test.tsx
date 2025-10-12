@@ -9,7 +9,7 @@ import {
   it,
 } from "vitest";
 
-import JungleClears from "@/components/team/JungleClears";
+import { JungleClears } from "@/components/team/JungleClears";
 import {
   createStorageKey,
   flushWriteLocal,

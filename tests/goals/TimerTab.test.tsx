@@ -7,7 +7,7 @@ import {
   act,
 } from "@testing-library/react";
 import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
-import TimerTab from "@/components/goals/TimerTab";
+import { TimerTab } from "@/components/goals/TimerTab";
 
 afterEach(() => {
   cleanup();

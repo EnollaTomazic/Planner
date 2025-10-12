@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import Image from "next/image";
-import Input from "@/components/ui/primitives/Input";
-import IconButton from "@/components/ui/primitives/IconButton";
-import Button from "@/components/ui/primitives/Button";
-import CheckCircle from "@/components/ui/toggles/CheckCircle";
+import { Input } from "@/components/ui/primitives/Input";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { Button } from "@/components/ui/primitives/Button";
+import { CheckCircle } from "@/components/ui/toggles/CheckCircle";
 import { Pencil, Trash2 } from "lucide-react";
 import { motion, useAnimation } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -87,7 +87,7 @@ type Props = {
   removeImage: (url: string, index: number) => void;
 };
 
-export default function TaskRow({
+export function TaskRow({
   task,
   toggleTask,
   deleteTask,

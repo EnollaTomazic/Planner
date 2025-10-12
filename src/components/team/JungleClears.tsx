@@ -12,12 +12,11 @@ import "./style.css";
  */
 
 import * as React from "react";
-import SectionCard from "@/components/ui/layout/SectionCard";
-import IconButton from "@/components/ui/primitives/IconButton";
-import Input from "@/components/ui/primitives/Input";
-import VirtualizedList, {
-  VirtualizedSpacer,
-} from "@/components/ui/primitives/VirtualizedList";
+import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { Input } from "@/components/ui/primitives/Input";
+import {
+  VirtualizedSpacer, VirtualizedList } from "@/components/ui/primitives/VirtualizedList";
 import { spacingTokens } from "@/lib/tokens";
 import { usePersistentState, uid } from "@/lib/db";
 import { isRecord, isStringArray } from "@/lib/validators";
@@ -572,7 +571,7 @@ export type JungleClearsHandle = {
   addRow: (bucket: ClearSpeed) => void;
 };
 
-export default React.forwardRef<
+export const JungleClears = React.forwardRef<
   JungleClearsHandle,
   {
     editing: boolean;
@@ -754,4 +753,4 @@ export default React.forwardRef<
       </div>
     </div>
   );
-});
+})

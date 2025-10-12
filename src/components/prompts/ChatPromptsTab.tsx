@@ -3,8 +3,8 @@
 import * as React from "react";
 
 import { Card } from "@/components/ui";
-import PromptsComposePanel from "./PromptsComposePanel";
-import PromptList from "./PromptList";
+import { PromptsComposePanel } from "./PromptsComposePanel";
+import { PromptList } from "./PromptList";
 import type { Persona, PromptWithTitle } from "./types";
 import { LOCALE } from "@/lib/utils";
 
@@ -18,7 +18,7 @@ interface ChatPromptsTabProps {
   personas: Persona[];
 }
 
-export default function ChatPromptsTab({
+export function ChatPromptsTab({
   title,
   text,
   onTitleChange,

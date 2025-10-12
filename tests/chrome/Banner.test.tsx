@@ -2,7 +2,7 @@ import * as React from "react";
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, it, expect } from "vitest";
 
-import Banner from "@/components/chrome/Banner";
+import { Banner } from "@/components/chrome/Banner";
 
 describe("Banner", () => {
   afterEach(cleanup);

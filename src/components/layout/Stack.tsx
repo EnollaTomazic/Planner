@@ -29,7 +29,7 @@ export type StackProps<TElement extends LayoutElement = "div"> =
       keyof StackOwnProps<TElement>
     >;
 
-export default function Stack<TElement extends LayoutElement = "div">({
+export function Stack<TElement extends LayoutElement = "div">({
   as,
   className,
   style,

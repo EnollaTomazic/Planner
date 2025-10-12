@@ -49,4 +49,4 @@ function PlannerOverviewSummaryCardComponent({
   );
 }
 
-export default React.memo(PlannerOverviewSummaryCardComponent);
+export const PlannerOverviewSummaryCard = React.memo(PlannerOverviewSummaryCardComponent)

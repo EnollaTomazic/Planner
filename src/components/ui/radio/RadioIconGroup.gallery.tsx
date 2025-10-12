@@ -3,16 +3,15 @@
 import * as React from "react";
 import { Flame, MoonStar, ShieldHalf, Sun } from "lucide-react";
 
-import ThemeToggle from "@/components/ui/theme/ThemeToggle";
+import { ThemeToggle } from "@/components/ui/theme/ThemeToggle";
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 import { cn } from "@/lib/utils";
 
-import RadioIconGroup, {
+import {
   type RadioIconGroupOption,
   type RadioIconGroupProps,
   type RadioIconGroupSize,
-  type RadioIconGroupTone,
-} from "./RadioIconGroup";
+  type RadioIconGroupTone, RadioIconGroup } from "./RadioIconGroup";
 
 export const RADIO_ICON_GROUP_DEMO_OPTIONS: readonly RadioIconGroupOption[] = [
   { id: "radio-icon-sun", value: "sun", label: "Sun", icon: <Sun /> },
@@ -293,7 +292,7 @@ function RadioIconGroupGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const RadioIconGroupGallery = defineGallerySection({
   id: "toggles",
   entries: [
     {
@@ -375,4 +374,4 @@ export default defineGallerySection({
 />`,
     },
   ],
-});
+})

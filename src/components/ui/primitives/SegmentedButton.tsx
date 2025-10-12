@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-import BlobContainer from "./BlobContainer";
+import { BlobContainer } from "./BlobContainer";
 import styles from "./SegmentedButton.module.css";
 
 export type SegmentedButtonDepth = "flat" | "raised" | "sunken";
@@ -95,4 +95,4 @@ const SegmentedButton = React.forwardRef<
 );
 
 SegmentedButton.displayName = "SegmentedButton";
-export default SegmentedButton;
+export { SegmentedButton };

@@ -4,9 +4,8 @@ import * as React from "react";
 import Link from "next/link";
 import { Button, NeoCard } from "@/components/ui";
 
-import DashboardSectionHeader, {
-  type DashboardSectionHeaderShowCodeProps,
-} from "./DashboardSectionHeader";
+import {
+  type DashboardSectionHeaderShowCodeProps, DashboardSectionHeader } from "./DashboardSectionHeader";
 
 interface DashboardCardProps {
   title: string;
@@ -17,7 +16,7 @@ interface DashboardCardProps {
   showCode?: DashboardSectionHeaderShowCodeProps;
 }
 
-export default function DashboardCard({
+export function DashboardCard({
   title,
   children,
   cta,

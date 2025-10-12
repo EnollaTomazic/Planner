@@ -1,14 +1,14 @@
 "use client";
 
 import * as React from "react";
-import PageShell from "@/components/ui/layout/PageShell";
-import WeekSummary from "../WeekSummary";
-import WeekNotes from "../WeekNotes";
-import DayCard from "../DayCard";
+import { PageShell } from "@/components/ui/layout/PageShell";
+import { WeekSummary } from "../WeekSummary";
+import { WeekNotes } from "../WeekNotes";
+import { DayCard } from "../DayCard";
 import { useWeek, useFocusDate } from "../useFocusDate";
-import PlannerIslandBoundary from "../PlannerIslandBoundary";
+import { PlannerIslandBoundary } from "../PlannerIslandBoundary";
 
-export default function WeekView() {
+export function WeekView() {
   const { iso } = useFocusDate();
   const { days, isToday } = useWeek(iso);
 

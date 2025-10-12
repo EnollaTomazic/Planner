@@ -31,7 +31,7 @@ function buildCssDeclarations(
   return declarations;
 }
 
-export default function TokenPreviewBoundary({
+export function TokenPreviewBoundary({
   children,
 }: {
   readonly children: React.ReactNode;

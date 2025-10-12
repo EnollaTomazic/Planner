@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import ComponentsPageClient from "@/components/gallery-page/ComponentsPageClient";
+import { ComponentsPageClient } from "@/components/gallery-page/ComponentsPageClient";
 import { ThemeMatrix } from "@/components/prompts/ComponentsView";
 import type {
   DesignTokenGroup,

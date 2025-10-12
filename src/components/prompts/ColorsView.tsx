@@ -52,7 +52,7 @@ interface TokenCardProps {
   readonly selected: boolean;
 }
 
-export default function ColorsView({ groups }: ColorsViewProps) {
+export function ColorsView({ groups }: ColorsViewProps) {
   const [query, setQuery] = React.useState("");
   const [copiedToken, setCopiedToken] = React.useState<string | null>(null);
   const [announcement, setAnnouncement] = React.useState<string>("");

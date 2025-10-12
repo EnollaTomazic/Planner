@@ -1,10 +1,9 @@
 import { describe, expect, it } from 'vitest'
 
-import galleryManifest, {
+import {
   galleryPayload,
   galleryPreviewModules,
-  galleryPreviewRoutes,
-} from '@/components/gallery/generated-manifest.g'
+  galleryPreviewRoutes, manifest as galleryManifest } from '@/components/gallery/generated-manifest.g'
 import type { GalleryPreviewModuleManifest } from '@/components/gallery/manifest.schema'
 
 import { loadGeneratedManifest } from '../../helpers/loadGeneratedManifest'

@@ -6,7 +6,7 @@ import {
   getPreviewManifest,
   loadModulePreviews,
 } from "./preview-engine";
-import TokenPreviewBoundary from "./TokenPreviewBoundary";
+import { TokenPreviewBoundary } from "./TokenPreviewBoundary";
 import type { GalleryPreviewRenderer } from "./registry";
 
 const rendererCache = new Map<string, GalleryPreviewRenderer>();
@@ -38,7 +38,7 @@ interface PreviewRendererClientProps {
   readonly onError?: (error: Error) => void;
 }
 
-export default function PreviewRendererClient({
+export function PreviewRendererClient({
   previewId,
   onReady,
   onError,

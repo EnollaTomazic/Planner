@@ -81,7 +81,7 @@ function collectTemplateAreas<TAreas extends string>(
   return order;
 }
 
-export default function Grid<
+export function Grid<
   TAreas extends string,
   TElement extends LayoutElement = "div",
 >({

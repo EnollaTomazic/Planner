@@ -31,7 +31,7 @@ const statusSwatches: ReadonlyArray<{
   },
 ];
 
-export default function ColorGallery() {
+export function ColorGallery() {
   const [palette, setPalette] = React.useState<ColorPalette>("aurora");
   const panelRefs = React.useRef<Record<ColorPalette, HTMLDivElement | null>>({
     aurora: null,

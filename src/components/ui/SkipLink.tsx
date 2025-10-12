@@ -51,5 +51,4 @@ const SkipLink = React.forwardRef<HTMLAnchorElement, SkipLinkProps>(
 );
 
 SkipLink.displayName = "SkipLink";
-
-export default SkipLink;
+export { SkipLink };

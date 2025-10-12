@@ -16,7 +16,7 @@ import {
   SEGMENTED_BUTTON_STATE_SPECS,
 } from "@/components/ui/primitives/SegmentedButton.gallery";
 import { Button, IconButton } from "@/components/ui";
-import SegmentedButton from "@/components/ui/primitives/SegmentedButton";
+import { SegmentedButton } from "@/components/ui/primitives/SegmentedButton";
 import { cn } from "@/lib/utils";
 
 type PreviewStateId =

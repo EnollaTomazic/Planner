@@ -2,7 +2,7 @@ import * as React from "react";
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
-import SectionCard from "@/components/ui/layout/SectionCard";
+import { SectionCard } from "@/components/ui/layout/SectionCard";
 
 afterEach(cleanup);
 

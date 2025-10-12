@@ -18,13 +18,13 @@ import { Button, Input } from "@/components/ui";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import GalleryItem from "../GalleryItem";
+import { GalleryItem } from "../GalleryItem";
 import {
   demoProjects,
   demoTasksById,
   demoTasksByProject,
 } from "./ComponentGallery.demoData";
-import WeekPickerDemo from "./WeekPickerDemo";
+import { WeekPickerDemo } from "./WeekPickerDemo";
 import type { PlannerPanelData } from "./useComponentGalleryState";
 
 const GOALS_TABS_WIDTH = "calc(var(--space-8)*3.5)" as const;
@@ -211,7 +211,7 @@ interface PlannerPanelProps {
   data: PlannerPanelData;
 }
 
-export default function PlannerPanel({ data }: PlannerPanelProps) {
+export function PlannerPanel({ data }: PlannerPanelProps) {
   const items = React.useMemo<PanelItem[]>(
     () =>
       [

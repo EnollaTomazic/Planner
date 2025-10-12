@@ -5,10 +5,10 @@ import * as React from "react";
 import { PageShell } from "@/components/ui";
 import { Tabs, TabList, TabPanel, type TabListItem } from "@/components/ui/primitives/Tabs";
 import { usePersistentState } from "@/lib/db";
-import PromptsHeader from "./PromptsHeader";
-import ChatPromptsTab from "./ChatPromptsTab";
-import CodexPromptsTab from "./CodexPromptsTab";
-import NotesTab from "./NotesTab";
+import { PromptsHeader } from "./PromptsHeader";
+import { ChatPromptsTab } from "./ChatPromptsTab";
+import { CodexPromptsTab } from "./CodexPromptsTab";
+import { NotesTab } from "./NotesTab";
 import { useChatPrompts } from "./useChatPrompts";
 import { useCodexPrompts } from "./useCodexPrompts";
 import { useNotes } from "./useNotes";
@@ -24,7 +24,7 @@ const BASE_TAB_ITEMS = [
 
 type PromptsTabKey = (typeof BASE_TAB_ITEMS)[number]["key"];
 
-export default function PromptsPage() {
+export function PromptsPage() {
   const {
     prompts: chatPrompts,
     query: chatQuery,

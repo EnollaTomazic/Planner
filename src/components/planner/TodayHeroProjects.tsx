@@ -4,11 +4,11 @@ import { Pencil, Trash2 } from "lucide-react";
 import type { FormEvent } from "react";
 
 import { cn } from "@/lib/utils";
-import Label from "@/components/ui/Label";
-import Button from "@/components/ui/primitives/Button";
-import IconButton from "@/components/ui/primitives/IconButton";
-import Input from "@/components/ui/primitives/Input";
-import CheckCircle from "@/components/ui/toggles/CheckCircle";
+import { Label } from "@/components/ui/Label";
+import { Button } from "@/components/ui/primitives/Button";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { Input } from "@/components/ui/primitives/Input";
+import { CheckCircle } from "@/components/ui/toggles/CheckCircle";
 import type { Project } from "./plannerTypes";
 
 const PROJECT_OPTION_GUARD_SELECTOR = "[data-project-option-guard='true']";
@@ -36,7 +36,7 @@ export type TodayHeroProjectsProps = {
   onToggleShowAllProjects: () => void;
 };
 
-export default function TodayHeroProjects({
+export function TodayHeroProjects({
   projects,
   selectedProjectId,
   projectsListId,

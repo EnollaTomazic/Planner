@@ -2,7 +2,7 @@ import React from "react";
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
-import Select from "../../src/components/ui/Select";
+import { Select } from "../../src/components/ui/Select";
 
 const items = [
   { label: "Apple", value: "apple" },

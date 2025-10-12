@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import NeonIcon from "@/components/reviews/NeonIcon";
-import ScoreMeter from "./ScoreMeter";
+import { NeonIcon } from "@/components/reviews/NeonIcon";
+import { ScoreMeter } from "./ScoreMeter";
 
 export type ReviewSummaryScoreProps = {
   score: number;
@@ -13,7 +13,7 @@ export type ReviewSummaryScoreProps = {
   focusMsg?: string;
 };
 
-export default function ReviewSummaryScore({
+export function ReviewSummaryScore({
   score,
   msg,
   ScoreIcon,

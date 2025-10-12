@@ -12,7 +12,7 @@ type UseAutoFocusArgs<T extends FocusableElement> = {
 export default function useAutoFocus<T extends FocusableElement>({
   ref,
   when,
-}: UseAutoFocusArgs<T>) {
+}: UseAutoFocusArgs<T>): void {
   const prev = React.useRef(false);
 
   React.useEffect(() => {

@@ -33,7 +33,7 @@ type PlannerListPanelProps = {
   viewportProps?: Omit<React.HTMLAttributes<HTMLDivElement>, "style">;
 };
 
-export default function PlannerListPanel({
+export function PlannerListPanel({
   renderComposer,
   renderEmpty,
   renderList,

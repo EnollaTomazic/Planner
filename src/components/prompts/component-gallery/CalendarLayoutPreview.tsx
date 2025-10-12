@@ -502,8 +502,6 @@ function CalendarPreview({
   );
 }
 
-export default CalendarPreview;
-
 export function CalendarPreviewLoading() {
   return <CalendarPreview status="loading" />;
 }
@@ -511,3 +509,5 @@ export function CalendarPreviewLoading() {
 export function CalendarPreviewError() {
   return <CalendarPreview status="error" />;
 }
+
+export { CalendarPreview };

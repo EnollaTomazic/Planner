@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { formatIsoLabel } from "@/lib/date";
-import GlitchProgress from "@/components/ui/primitives/GlitchProgress";
+import { GlitchProgress } from "@/components/ui/primitives/GlitchProgress";
 import type { ISODate } from "./plannerTypes";
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
   totalCount: number;
 };
 
-export default function DayCardHeader({
+export function DayCardHeader({
   iso,
   projectCount,
   doneCount,

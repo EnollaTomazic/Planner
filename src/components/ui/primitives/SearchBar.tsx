@@ -4,8 +4,8 @@ import * as React from "react";
 import { useId } from "react";
 import { cn } from "@/lib/utils";
 import useDebouncedCallback from "@/lib/useDebouncedCallback";
-import Label from "../Label";
-import Field from "./Field";
+import { Label } from "../Label";
+import { Field } from "./Field";
 import type { InputSize } from "./Input";
 import { resolveUIVariant, type UIVariant } from "@/components/ui/variants";
 
@@ -39,7 +39,7 @@ export type SearchBarProps = Omit<
   variant?: SearchBarVariant;
 };
 
-export default function SearchBar({
+export function SearchBar({
   value,
   onValueChange,
   onChange,

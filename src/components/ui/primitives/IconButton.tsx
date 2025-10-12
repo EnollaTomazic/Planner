@@ -6,8 +6,8 @@ import { hasTextContent } from "@/lib/react";
 import { cn } from "@/lib/utils";
 import { useAnimationsDisabled } from "@/lib/useAnimationsDisabled";
 import neumorphicStyles from "../neumorphic.module.css";
-import BlobContainer, { type GlitchOverlayToken } from "./BlobContainer";
-import DripEdge from "./DripEdge";
+import { type GlitchOverlayToken, BlobContainer } from "./BlobContainer";
+import { DripEdge } from "./DripEdge";
 import styles from "./IconButton.module.css";
 import {
   resolveUIVariant,
@@ -350,4 +350,4 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
 );
 
 IconButton.displayName = "IconButton";
-export default IconButton;
+export { IconButton };

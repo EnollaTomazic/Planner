@@ -3,7 +3,7 @@
 import "./style.css";
 
 import * as React from "react";
-import Badge from "@/components/ui/primitives/Badge";
+import { Badge } from "@/components/ui/primitives/Badge";
 import { uid } from "@/lib/db";
 import { sanitizeList } from "@/lib/sanitizeList";
 import { cn } from "@/lib/utils";
@@ -32,7 +32,7 @@ const PILL_CLASSNAME =
 const INPUT_BASE =
   "bg-transparent border-none rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24";
 
-export default function ChampListEditor({
+export function ChampListEditor({
   list,
   onChange,
   editing,

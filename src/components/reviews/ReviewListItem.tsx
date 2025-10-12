@@ -4,7 +4,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
-import Badge from "@/components/ui/primitives/Badge";
+import { Badge } from "@/components/ui/primitives/Badge";
 
 const shellBase = cn(
   "relative w-full text-left rounded-card r-card-lg p-[var(--space-3)] bg-card/90 border border-border/35 transition-all duration-motion-sm focus-visible:outline-none disabled:opacity-disabled disabled:pointer-events-none disabled:bg-muted/20",
@@ -44,7 +44,7 @@ export type ReviewListItemProps = {
   onClick?: () => void;
 };
 
-export default function ReviewListItem({
+export function ReviewListItem({
   review,
   selected = false,
   disabled = false,

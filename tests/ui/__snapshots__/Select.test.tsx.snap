@@ -15,7 +15,7 @@ exports[`Select > renders default state 1`] = `
       <select
         aria-label="test"
         class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading pr-[calc(var(--space-6)+var(--space-2))]"
-        id=":r0:"
+        id="_r_0_"
         name="test"
       >
         <option
@@ -69,7 +69,7 @@ exports[`Select > renders disabled state 1`] = `
         aria-label="test"
         class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading pr-[calc(var(--space-6)+var(--space-2))]"
         disabled=""
-        id=":r4:"
+        id="_r_4_"
         name="test"
       >
         <option
@@ -114,11 +114,11 @@ exports[`Select > renders error state 1`] = `
       data-invalid="true"
     >
       <select
-        aria-describedby=":r2:-error"
+        aria-describedby="_r_2_-error"
         aria-invalid="true"
         aria-label="test"
         class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading pr-[calc(var(--space-6)+var(--space-2))]"
-        id=":r2:"
+        id="_r_2_"
         name="test"
       >
         <option
@@ -150,7 +150,7 @@ exports[`Select > renders error state 1`] = `
     >
       <span
         class="text-danger"
-        id=":r2:-error"
+        id="_r_2_-error"
       >
         Error
       </span>
@@ -174,7 +174,7 @@ exports[`Select > renders focus state 1`] = `
       <select
         aria-label="test"
         class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading pr-[calc(var(--space-6)+var(--space-2))]"
-        id=":r1:"
+        id="_r_1_"
         name="test"
       >
         <option
@@ -223,10 +223,10 @@ exports[`Select > renders success state 1`] = `
       data-field-state="default"
     >
       <select
-        aria-describedby=":r3:-success"
+        aria-describedby="_r_3_-success"
         aria-label="test"
         class="block h-[var(--field-h,var(--control-h-md))] w-full appearance-none rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading pr-[calc(var(--space-6)+var(--space-2))]"
-        id=":r3:"
+        id="_r_3_"
         name="test"
       >
         <option
@@ -257,7 +257,7 @@ exports[`Select > renders success state 1`] = `
   <p
     aria-live="polite"
     class="sr-only"
-    id=":r3:-success"
+    id="_r_3_-success"
     role="status"
   >
     Selection saved

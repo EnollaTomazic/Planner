@@ -52,5 +52,4 @@ const AIAbortButton = React.forwardRef<HTMLButtonElement, AIAbortButtonProps>(
 );
 
 AIAbortButton.displayName = "AIAbortButton";
-
-export default AIAbortButton;
+export { AIAbortButton };

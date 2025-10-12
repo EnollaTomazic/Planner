@@ -7,7 +7,7 @@ describe("gallery manifest validation", () => {
     vi.resetModules();
     vi.doMock("@/components/gallery/generated-manifest.g", () => ({
       __esModule: true,
-      default: {
+      manifest: {
         galleryPayload: { sections: [] },
         galleryPreviewRoutes: [],
         galleryPreviewModules: {},

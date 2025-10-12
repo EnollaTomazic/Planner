@@ -2,11 +2,10 @@
 "use client";
 
 import * as React from "react";
-import TabBar, {
+import {
   type TabBarA11yProps,
   type TabBarProps,
-  type TabItem,
-} from "../TabBar";
+  type TabItem, TabBar } from "../TabBar";
 
 export type HeroTab<K extends string> = TabItem<K> & {
   hint?: string;
