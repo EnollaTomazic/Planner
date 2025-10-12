@@ -33,19 +33,23 @@ type HomeSplashProps = {
 }
 
 const HomeSplash = dynamic<HomeSplashProps>(
-  () => import("@/components/home/HomeSplash"),
+  () => import("@/components/home/HomeSplash").then((mod) => mod.HomeSplash),
   { ssr: false },
 )
 
 const HomeHeroSection = dynamic(
-  () => import("@/components/home/home-landing/HomeHeroSection"),
+  () =>
+    import("@/components/home/home-landing/HomeHeroSection").then(
+      (mod) => mod.HomeHeroSection,
+    ),
   {
     loading: () => <HomeHeroSectionFallback />,
   },
 ) as React.ComponentType<HomeHeroSectionProps>
 
 const HeroPlannerCards = dynamic(
-  () => import("@/components/home/HeroPlannerCards"),
+  () =>
+    import("@/components/home/HeroPlannerCards").then((mod) => mod.HeroPlannerCards),
   {
     loading: () => <HeroPlannerCardsFallback />,
   },

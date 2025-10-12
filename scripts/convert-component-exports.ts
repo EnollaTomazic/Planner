@@ -62,7 +62,9 @@ for (const file of componentFiles) {
       let name = declaration.getName()
       if (!name) {
         name = deriveExportName(filePath)
-        declaration.setName(name)
+        if ('setName' in declaration) {
+          ;(declaration as { setName(next: string): void }).setName(name)
+        }
       }
       declaration.setIsDefaultExport(false)
       declaration.setIsExported(true)
