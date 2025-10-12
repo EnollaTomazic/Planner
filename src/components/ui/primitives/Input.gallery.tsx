@@ -164,3 +164,5 @@ export const InputGallery = defineGallerySection({
     },
   ],
 })
+
+export default InputGallery

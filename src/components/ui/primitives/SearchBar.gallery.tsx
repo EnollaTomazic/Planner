@@ -242,3 +242,5 @@ const handleNoop = React.useCallback((_value: string) => {}, []);
     },
   ],
 })
+
+export default SearchBarGallery

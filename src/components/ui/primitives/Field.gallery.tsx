@@ -349,3 +349,5 @@ export const FieldGallery = defineGallerySection({
     },
   ],
 })
+
+export default FieldGallery

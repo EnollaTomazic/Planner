@@ -343,3 +343,5 @@ export const TabsGallery = defineGallerySection({
     },
   ],
 })
+
+export default TabsGallery

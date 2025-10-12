@@ -158,3 +158,5 @@ export const TextareaGallery = defineGallerySection({
     },
   ],
 })
+
+export default TextareaGallery

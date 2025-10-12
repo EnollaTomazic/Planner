@@ -138,3 +138,5 @@ export const SegmentedButtonGallery = defineGallerySection({
     },
   ],
 })
+
+export default SegmentedButtonGallery
