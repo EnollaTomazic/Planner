@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import Input from "@/components/ui/primitives/Input";
-import Textarea from "@/components/ui/primitives/Textarea";
-import Button from "@/components/ui/primitives/Button";
-import SectionCard from "@/components/ui/layout/SectionCard";
-import Label from "@/components/ui/Label";
+import { Input } from "@/components/ui/primitives/Input";
+import { Textarea } from "@/components/ui/primitives/Textarea";
+import { Button } from "@/components/ui/primitives/Button";
+import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { Label } from "@/components/ui/Label";
 import { cn } from "@/lib/utils";
 import { GOAL_TEXTAREA_MIN_HEIGHT_CLASS } from "./constants";
 
@@ -25,7 +25,7 @@ interface GoalFormProps {
 export interface GoalFormHandle {
   focus: (options?: FocusOptions) => void;
 }
-export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm(
+export const GoalForm = React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm(
   {
     title,
     metric,
@@ -143,5 +143,5 @@ export default React.forwardRef<GoalFormHandle, GoalFormProps>(function GoalForm
       </SectionCard>
     </form>
   );
-});
+})
 

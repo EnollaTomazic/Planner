@@ -3,7 +3,7 @@ import { Plus } from "lucide-react";
 
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 
-import IconButton from "./IconButton";
+import { IconButton } from "./IconButton";
 
 export type IconButtonStateSpec = {
   id: string;
@@ -187,7 +187,7 @@ function IconButtonGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const IconButtonGallery = defineGallerySection({
   id: "buttons",
   entries: [
     {
@@ -323,4 +323,4 @@ export default defineGallerySection({
 </div>`,
     },
   ],
-});
+})

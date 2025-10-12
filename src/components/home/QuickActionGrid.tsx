@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import Button, { type ButtonProps } from "@/components/ui/primitives/Button";
+import { type ButtonProps, Button } from "@/components/ui/primitives/Button";
 import { cn, withBasePath } from "@/lib/utils";
 
 type QuickActionLayout = "stacked" | "grid" | "twelveColumn" | "inline";
@@ -54,7 +54,7 @@ type QuickActionGridProps = {
   hoverLift?: boolean;
 };
 
-export default function QuickActionGrid({
+export function QuickActionGrid({
   actions,
   layout = "stacked",
   className,

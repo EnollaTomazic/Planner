@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 
-import Badge from "./Badge";
+import { Badge } from "./Badge";
 
 const ROLE_BADGES = [
   { tone: "top", label: "Top lane" },
@@ -61,7 +61,7 @@ function BadgeGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const BadgeGallery = defineGallerySection({
   id: "buttons",
   entries: [
     {
@@ -172,4 +172,4 @@ export default defineGallerySection({
 </div>`,
     },
   ],
-});
+})

@@ -3,7 +3,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { motion, useReducedMotion } from "framer-motion";
-import Card from "./primitives/Card";
+import { Card } from "./primitives/Card";
 import { useDialogTrap } from "./hooks/useDialogTrap";
 import useMounted from "@/lib/useMounted";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,7 @@ export interface SheetProps extends React.ComponentProps<typeof Card> {
   side?: "left" | "right";
 }
 
-export default function Sheet({
+export function Sheet({
   open,
   onClose,
   side = "right",

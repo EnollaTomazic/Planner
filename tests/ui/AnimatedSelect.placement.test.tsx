@@ -2,7 +2,7 @@ import * as React from "react";
 import { cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import Select from "../../src/components/ui/Select";
+import { Select } from "../../src/components/ui/Select";
 
 afterEach(() => {
   cleanup();

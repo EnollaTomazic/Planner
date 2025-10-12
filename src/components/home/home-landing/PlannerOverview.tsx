@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
-import PlannerOverviewCalendarCard from "./PlannerOverviewCalendarCard";
-import PlannerOverviewFocusCard from "./PlannerOverviewFocusCard";
-import PlannerOverviewGoalsCard from "./PlannerOverviewGoalsCard";
-import PlannerOverviewSummaryCard from "./PlannerOverviewSummaryCard";
+import { PlannerOverviewCalendarCard } from "./PlannerOverviewCalendarCard";
+import { PlannerOverviewFocusCard } from "./PlannerOverviewFocusCard";
+import { PlannerOverviewGoalsCard } from "./PlannerOverviewGoalsCard";
+import { PlannerOverviewSummaryCard } from "./PlannerOverviewSummaryCard";
 import type { PlannerOverviewProps } from "./types";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +12,7 @@ interface PlannerOverviewComponentProps extends PlannerOverviewProps {
   className?: string;
 }
 
-export default function PlannerOverview({
+export function PlannerOverview({
   summary,
   focus,
   goals,

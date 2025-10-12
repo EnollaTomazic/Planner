@@ -273,7 +273,7 @@ export function removeVectorEntries(ids: readonly string[]): VectorStoreSnapshot
   return sanitized
 }
 
-export function clearVectorStore() {
+export function clearVectorStore(): void {
   removeLocal(VECTOR_STORE_KEY)
 }
 

@@ -4,7 +4,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useFieldIds } from "@/lib/useFieldIds";
-import Field from "./Field";
+import { Field } from "./Field";
 import styles from "./Input.module.css";
 
 export type InputRingTone =
@@ -49,14 +49,7 @@ export type InputProps = Omit<
   glitchText?: string;
 };
 
-/**
- * Input — Matte field with optional trailing slot.
- * - Accepts className overrides and passes all standard <input> props
- * - Auto-generates a stable `id`; if no `name` is supplied, the generated id is
- *   reused to ensure uniqueness. The `aria-label` is only slugified when a
- *   custom `id` guarantees uniqueness.
- */
-export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
   {
     className,
     inputClassName,
@@ -127,4 +120,4 @@ export default React.forwardRef<HTMLInputElement, InputProps>(function Input(
       {children}
     </Field.Root>
   );
-});
+})

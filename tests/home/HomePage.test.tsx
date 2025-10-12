@@ -3,11 +3,11 @@ import { Suspense } from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import Page from "@/app/page";
-import SiteChrome from "@/components/chrome/SiteChrome";
+import { SiteChrome } from "@/components/chrome/SiteChrome";
 import { ThemeProvider } from "@/lib/theme-context";
 vi.mock("@/components/gallery/manifest", () => ({
   __esModule: true,
-  default: {
+  manifest: {
     galleryPayload: { sections: [] },
     galleryPreviewModules: {},
     galleryPreviewRoutes: [],

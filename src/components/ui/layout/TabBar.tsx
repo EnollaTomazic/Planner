@@ -131,7 +131,7 @@ const sizeMap: Record<Size, { h: string; px: string; text: string }> = {
   },
 };
 
-export default function TabBar<
+export function TabBar<
   K extends string = string,
   Extra extends Record<string, unknown> | undefined = undefined,
 >({

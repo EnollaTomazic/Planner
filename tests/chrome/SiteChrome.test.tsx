@@ -7,17 +7,20 @@ vi.mock("next/navigation", () => ({
   usePathname: () => "/planner",
 }));
 vi.mock("@/components/chrome/NavBar", () => ({
-  default: () => <nav />,
+  __esModule: true,
+  NavBar: () => <nav />,
 }));
 vi.mock("@/components/ui/theme/ThemeToggle", () => ({
-  default: () => <button />,
+  __esModule: true,
+  ThemeToggle: () => <button />,
 }));
 vi.mock("@/components/ui/AnimationToggle", () => ({
-  default: () => <button />,
+  __esModule: true,
+  AnimationToggle: () => <button />,
 }));
 
-import SiteChrome from "@/components/chrome/SiteChrome";
-import BottomNav from "@/components/chrome/BottomNav";
+import { SiteChrome } from "@/components/chrome/SiteChrome";
+import { BottomNav } from "@/components/chrome/BottomNav";
 import { NAV_ITEMS, PRIMARY_NAV_LABEL } from "@/config/nav";
 
 describe("SiteChrome", () => {

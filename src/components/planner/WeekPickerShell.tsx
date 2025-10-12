@@ -115,5 +115,4 @@ const WeekPickerShell = Object.assign(WeekPickerShellBase, {
   Chips: WeekPickerShellChips,
   Controls: WeekPickerShellControls,
 }) as WeekPickerShellComponent;
-
-export default WeekPickerShell;
+export { WeekPickerShell };

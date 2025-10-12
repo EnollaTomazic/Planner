@@ -1,4 +1,4 @@
-import ComponentsPageClient from "./ComponentsPageClient";
+import { ComponentsPageClient } from "./ComponentsPageClient";
 import tokens from "../../../tokens/tokens.js";
 import {
   GALLERY_SECTION_GROUPS,
@@ -69,7 +69,7 @@ export const buildGalleryNavigation = (): GalleryNavigationData => {
   return { groups } satisfies GalleryNavigationData;
 };
 
-export default function ComponentsPage() {
+export function ComponentsPage() {
   const navigation = buildGalleryNavigation();
   const tokenGroups: readonly DesignTokenGroup[] = DESIGN_TOKEN_GROUPS;
 

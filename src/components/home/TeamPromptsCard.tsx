@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import DashboardCard from "./DashboardCard";
+import { DashboardCard } from "./DashboardCard";
 import { Button } from "@/components/ui";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn } from "@/lib/utils";
-import TeamQuickActions from "@/components/team/TeamQuickActions";
+import { TeamQuickActions } from "@/components/team/TeamQuickActions";
 import styles from "./TeamPromptsCard.module.css";
 
 const teamQuickActions = [
@@ -29,7 +29,7 @@ const teamQuickActions = [
   },
 ];
 
-export default function TeamPromptsCard() {
+export function TeamPromptsCard() {
   const suggestions = React.useMemo(
     () => [
       {

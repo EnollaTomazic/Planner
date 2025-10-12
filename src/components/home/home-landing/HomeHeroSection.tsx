@@ -5,7 +5,7 @@ import { Home, Sparkles } from "lucide-react";
 import ProgressRingIcon from "@/icons/ProgressRingIcon";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { cn } from "@/lib/utils";
-import PortraitFrame, { type PoseVariant } from "../PortraitFrame";
+import { type PoseVariant, PortraitFrame } from "../PortraitFrame";
 import styles from "./HomeHeroSection.module.css";
 import type { HomeHeroSectionProps } from "./types";
 
@@ -174,5 +174,4 @@ const HomeHeroSection = React.memo(function HomeHeroSection({
 });
 
 HomeHeroSection.displayName = "HomeHeroSection";
-
-export default HomeHeroSection;
+export { HomeHeroSection };

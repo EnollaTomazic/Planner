@@ -37,7 +37,7 @@ export type SwitcherProps<TElement extends LayoutElement = "div"> =
       keyof SwitcherOwnProps<TElement>
     >;
 
-export default function Switcher<TElement extends LayoutElement = "div">({
+export function Switcher<TElement extends LayoutElement = "div">({
   as,
   className,
   style,

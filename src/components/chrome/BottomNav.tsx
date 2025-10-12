@@ -8,7 +8,7 @@ import {
   PRIMARY_NAV_LABEL,
   type NavItem,
 } from "@/config/nav";
-import Spinner from "@/components/ui/feedback/Spinner";
+import { Spinner } from "@/components/ui/feedback/Spinner";
 import { useNavActivity } from "./useNavActivity";
 
 type BottomNavState =
@@ -30,7 +30,7 @@ type BottomNavProps = {
   items?: readonly BottomNavItem[];
 };
 
-export default function BottomNav({
+export function BottomNav({
   className,
   items = NAV_ITEMS,
 }: BottomNavProps = {}) {

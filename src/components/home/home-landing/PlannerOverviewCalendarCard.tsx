@@ -88,4 +88,4 @@ function PlannerOverviewCalendarCardComponent({
   );
 }
 
-export default React.memo(PlannerOverviewCalendarCardComponent);
+export const PlannerOverviewCalendarCard = React.memo(PlannerOverviewCalendarCardComponent)

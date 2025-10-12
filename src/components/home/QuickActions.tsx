@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import QuickActionGrid from "./QuickActionGrid";
+import { QuickActionGrid } from "./QuickActionGrid";
 
 const actions = [
   {
@@ -20,7 +20,7 @@ const actions = [
   },
 ];
 
-export default function QuickActions() {
+export function QuickActions() {
   return (
     <section aria-label="Quick actions" className="grid gap-[var(--space-4)]">
       <QuickActionGrid

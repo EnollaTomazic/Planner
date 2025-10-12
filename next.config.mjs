@@ -1,5 +1,5 @@
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import bundleAnalyzer from "@next/bundle-analyzer";
 import {
   createSecurityHeaders,
@@ -68,12 +68,24 @@ const resolvedRepositorySlugLower =
 const isUserOrOrgGitHubPage =
   expectedUserOrOrgSlug !== undefined &&
   resolvedRepositorySlugLower === expectedUserOrOrgSlug;
+const hasExplicitBasePathEnv =
+  process.env.NEXT_PUBLIC_BASE_PATH !== undefined ||
+  process.env.BASE_PATH !== undefined;
+const explicitBasePath = normalizeBasePath(
+  process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.BASE_PATH ?? "",
+);
+const fallbackBasePath = (() => {
+  const slug = resolveGitHubPagesSlug();
 
-const normalizedBasePathValue = isGitHubPages
-  ? githubPagesSlug && !isUserOrOrgGitHubPage
-    ? `/${githubPagesSlug}`
-    : ""
-  : normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.BASE_PATH ?? "");
+  if (!slug || isUserOrOrgGitHubPage) {
+    return "";
+  }
+
+  return normalizeBasePath(slug);
+})();
+const normalizedBasePathValue = hasExplicitBasePathEnv
+  ? explicitBasePath
+  : fallbackBasePath;
 const normalizeOptionalBoolean = (value) => {
   if (value === undefined) {
     return undefined;

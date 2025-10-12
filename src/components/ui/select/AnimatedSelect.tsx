@@ -189,5 +189,4 @@ const AnimatedSelect = React.forwardRef<
 });
 
 AnimatedSelect.displayName = "AnimatedSelect";
-
-export default AnimatedSelect;
+export { AnimatedSelect };

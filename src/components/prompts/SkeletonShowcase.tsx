@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 const AVATAR_WIDTH = "var(--space-12)";
 const AVATAR_WIDTH_CLASS = `w-[${AVATAR_WIDTH}]`;
 
-export default function SkeletonShowcase() {
+export function SkeletonShowcase() {
   return (
     <div className="space-y-[var(--space-4)]">
       <div className="space-y-[var(--space-2)]">

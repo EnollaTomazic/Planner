@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
-import DripEdge from "@/components/ui/primitives/DripEdge";
+import { DripEdge } from "@/components/ui/primitives/DripEdge";
 
 afterEach(cleanup);
 

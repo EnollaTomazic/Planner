@@ -1,6 +1,7 @@
 // src/components/ui/layout/hero/index.ts
 
-export { default } from "./Hero";
+export { Hero } from "./Hero";
+export { Hero as Index } from "./Hero";
 export type { HeroProps } from "./Hero";
 export * from "./Hero";
 export { HeroTabs } from "./HeroTabs";

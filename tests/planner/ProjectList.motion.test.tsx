@@ -2,7 +2,7 @@ import * as React from "react";
 import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 
-import ProjectList from "@/components/planner/ProjectList";
+import { ProjectList } from "@/components/planner/ProjectList";
 import type { Project } from "@/components/planner/plannerTypes";
 
 const baseProject: Project = {

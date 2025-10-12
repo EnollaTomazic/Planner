@@ -9,7 +9,7 @@ interface NotesTabProps {
   onChange: (value: string) => void;
 }
 
-export default function NotesTab({ value, onChange }: NotesTabProps) {
+export function NotesTab({ value, onChange }: NotesTabProps) {
   const notesId = React.useId();
 
   return (

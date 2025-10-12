@@ -1,14 +1,14 @@
 "use client";
 
 import * as React from "react";
-import Label from "@/components/ui/Label";
-import Input from "@/components/ui/primitives/Input";
-import IconButton from "@/components/ui/primitives/IconButton";
-import CheckCircle from "@/components/ui/toggles/CheckCircle";
+import { Label } from "@/components/ui/Label";
+import { Input } from "@/components/ui/primitives/Input";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { CheckCircle } from "@/components/ui/toggles/CheckCircle";
 import { Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import EmptyRow from "./EmptyRow";
-import PlannerListPanel from "./PlannerListPanel";
+import { EmptyRow } from "./EmptyRow";
+import { PlannerListPanel } from "./PlannerListPanel";
 import type { Project } from "./plannerTypes";
 
 const PROJECT_ROW_GUARD_SELECTOR = "[data-project-row-guard='true']";
@@ -24,7 +24,7 @@ type Props = {
   createProject: (name: string) => string | undefined;
 };
 
-export default function ProjectList({
+export function ProjectList({
   projects,
   selectedProjectId,
   setSelectedProjectId,

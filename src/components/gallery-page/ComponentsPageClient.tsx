@@ -7,7 +7,7 @@ import type { DesignTokenGroup, GalleryNavigationData } from "@/components/galle
 import { PageHeader, PageShell } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
-import ComponentsGalleryPanels from "./ComponentsGalleryPanels";
+import { ComponentsGalleryPanels } from "./ComponentsGalleryPanels";
 import {
   COMPONENTS_PANEL_ID,
   COMPONENTS_SECTION_TAB_ID_BASE,
@@ -53,7 +53,7 @@ interface ComponentsPageClientProps {
   readonly tokenGroups: readonly DesignTokenGroup[];
 }
 
-export default function ComponentsPageClient({
+export function ComponentsPageClient({
   navigation,
   tokenGroups,
 }: ComponentsPageClientProps) {

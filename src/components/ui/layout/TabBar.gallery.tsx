@@ -5,7 +5,7 @@ import { Circle, CircleCheck, CircleDot } from "lucide-react";
 
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 
-import TabBar, { type TabItem } from "./TabBar";
+import { type TabItem, TabBar } from "./TabBar";
 
 const focusVisibleClassName =
   "outline-[var(--spacing-0-5)_solid_var(--ring-contrast)] outline-offset-[var(--spacing-0-5)] ring-2 ring-[var(--ring-contrast)] shadow-[var(--shadow-glow-md)]";
@@ -204,7 +204,7 @@ function TabBarGalleryPreview() {
   );
 }
 
-export default defineGallerySection({
+export const TabBarGallery = defineGallerySection({
   id: "toggles",
   entries: [
     {
@@ -287,4 +287,4 @@ export default defineGallerySection({
 />`,
     },
   ],
-});
+})

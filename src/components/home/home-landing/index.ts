@@ -1,5 +1,5 @@
-export { default as HomeHeroSection } from "./HomeHeroSection";
-export { default as PlannerOverview } from "./PlannerOverview";
+export { HomeHeroSection as HomeHeroSection } from "./HomeHeroSection";
+export { PlannerOverview as PlannerOverview } from "./PlannerOverview";
 export { useHomePlannerOverview } from "./useHomePlannerOverview";
 export type {
   PlannerOverviewProps,

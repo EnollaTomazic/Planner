@@ -14,7 +14,7 @@ type HomeSplashProps = {
 const LOGO_SRC = withBasePath("/planner-logo.svg");
 const STATUS_MESSAGE = "Preparing your planner…";
 
-export default function HomeSplash({ active, onExited }: HomeSplashProps) {
+export function HomeSplash({ active, onExited }: HomeSplashProps) {
   const statusHeadingId = React.useId();
   const exitNotifiedRef = React.useRef(false);
   const statusRef = React.useRef<HTMLDivElement | null>(null);

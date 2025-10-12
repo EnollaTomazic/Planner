@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import Card, { type CardDepth } from "./primitives/Card";
-import IconButton from "./primitives/IconButton";
+import { type CardDepth, Card } from "./primitives/Card";
+import { IconButton } from "./primitives/IconButton";
 import { X } from "lucide-react";
 import { useDialogTrap } from "./hooks/useDialogTrap";
 import useMounted from "@/lib/useMounted";
@@ -19,7 +19,7 @@ export interface ModalProps
   glitch?: boolean;
 }
 
-export default function Modal({
+export function Modal({
   open,
   onClose,
   className,

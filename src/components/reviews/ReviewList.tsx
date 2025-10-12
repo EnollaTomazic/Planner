@@ -4,7 +4,7 @@
 import * as React from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import ReviewListItem from "./ReviewListItem";
+import { ReviewListItem } from "./ReviewListItem";
 import { Button, Skeleton, AIErrorCard } from "@/components/ui";
 import { BookOpen } from "lucide-react";
 
@@ -25,7 +25,7 @@ export type ReviewListProps = {
   onRetry?: (() => void) | null;
 };
 
-export default function ReviewList({
+export function ReviewList({
   reviews,
   selectedId,
   onSelect,

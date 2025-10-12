@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import DashboardCard from "./DashboardCard";
-import DashboardList from "./DashboardList";
+import { DashboardCard } from "./DashboardCard";
+import { DashboardList } from "./DashboardList";
 import { useGoals } from "@/components/goals";
 import type { Goal } from "@/lib/types";
 import { Progress } from "@/components/ui";
@@ -120,7 +120,7 @@ function getGoalStatus(goal: Goal): string {
   return goal.metric?.trim() || goal.notes?.trim() || "No metric yet";
 }
 
-export default function GoalsCard() {
+export function GoalsCard() {
   const { goals } = useGoals();
   const activeGoals = React.useMemo(
     () => goals.filter((g) => !g.done).slice(0, 3),

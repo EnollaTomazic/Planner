@@ -2,7 +2,7 @@ import * as React from "react";
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
-import NeoCard from "@/components/ui/primitives/NeoCard";
+import { NeoCard } from "@/components/ui/primitives/NeoCard";
 
 afterEach(cleanup);
 

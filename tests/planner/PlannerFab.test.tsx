@@ -8,7 +8,7 @@ import {
   usePlannerStore,
   type ISODate,
 } from "@/components/planner";
-import PlannerFab from "@/components/planner/PlannerFab";
+import { PlannerFab } from "@/components/planner/PlannerFab";
 import { addDays, toISODate, fromISODate } from "@/lib/date";
 
 type HarnessState = {
