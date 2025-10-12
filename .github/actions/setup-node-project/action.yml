@@ -5,6 +5,9 @@ inputs:
   node-version-file:
     description: "Path to the Node version file"
     default: ".nvmrc"
+  node-version:
+    description: "Explicit Node.js version to install"
+    default: ""
   package-manager:
     description: "Explicit package manager (npm, pnpm, yarn)"
     required: false
@@ -139,10 +142,19 @@ runs:
         run_install: false
         standalone: true
 
-    - name: Setup Node.js
+    - name: Setup Node.js from version file
+      if: ${{ inputs['node-version'] == '' }}
       uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
       with:
         node-version-file: "${{ inputs['node-version-file'] }}"
+        cache: "${{ steps.detect.outputs.manager }}"
+        cache-dependency-path: "${{ steps.detect.outputs.lockfile }}"
+
+    - name: Setup Node.js from explicit version
+      if: ${{ inputs['node-version'] != '' }}
+      uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
+      with:
+        node-version: "${{ inputs['node-version'] }}"
         cache: "${{ steps.detect.outputs.manager }}"
         cache-dependency-path: "${{ steps.detect.outputs.lockfile }}"
 
@@ -193,6 +205,65 @@ runs:
       id: node-version
       shell: bash
       run: echo "value=$(node -p "process.versions.node")" >>"$GITHUB_OUTPUT"
+
+    - name: Validate Node.js version
+      shell: bash
+      env:
+        EXPECTED_NODE_VERSION: "${{ inputs['node-version'] }}"
+        NODE_VERSION_FILE: "${{ inputs['node-version-file'] }}"
+        ACTUAL_NODE_VERSION: "${{ steps['node-version'].outputs.value }}"
+      run: |
+        set -euo pipefail
+
+        normalize_version() {
+          local value="$1"
+          value="${value#v}"
+          echo "${value}" | tr -d '\n\r[:space:]'
+        }
+
+        compare_versions() {
+          local expected="$1"
+          local actual="$2"
+
+          if [[ "$expected" == *.* || "$expected" == *-* ]]; then
+            if [ "$expected" != "$actual" ]; then
+              echo "Node.js version mismatch. Expected $expected but found $actual." >&2
+              exit 1
+            fi
+          else
+            local actual_major="${actual%%.*}"
+            if [ "$expected" != "$actual_major" ]; then
+              echo "Node.js major version mismatch. Expected $expected.x but found $actual." >&2
+              exit 1
+            fi
+          fi
+        }
+
+        ACTUAL_NODE_VERSION="$(normalize_version "$ACTUAL_NODE_VERSION")"
+
+        if [ -z "$ACTUAL_NODE_VERSION" ]; then
+          echo "Failed to detect the active Node.js version." >&2
+          exit 1
+        fi
+
+        if [ -n "$EXPECTED_NODE_VERSION" ]; then
+          compare_versions "$(normalize_version "$EXPECTED_NODE_VERSION")" "$ACTUAL_NODE_VERSION"
+          exit 0
+        fi
+
+        if [ ! -f "$NODE_VERSION_FILE" ]; then
+          echo "Node.js version file '$NODE_VERSION_FILE' not found." >&2
+          exit 1
+        fi
+
+        EXPECTED_FILE_VERSION="$(normalize_version "$(cat "$NODE_VERSION_FILE")")"
+
+        if [ -z "$EXPECTED_FILE_VERSION" ]; then
+          echo "Node.js version file '$NODE_VERSION_FILE' did not contain a version." >&2
+          exit 1
+        fi
+
+        compare_versions "$EXPECTED_FILE_VERSION" "$ACTUAL_NODE_VERSION"
 
     - name: Compute lockfile hash
       id: lockfile
