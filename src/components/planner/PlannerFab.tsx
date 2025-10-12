@@ -21,10 +21,8 @@ import {
   summariseParse,
 } from "@/lib/scheduling";
 import type { PlannerAssistantPlan } from "@/lib/assistant/plannerAgent";
-import {
-  planWithAssistantAction,
-  type PlannerAssistantSafeModeState,
-} from "@/app/planner/actions";
+import { planWithAssistantAction } from "@/app/planner/actions";
+import { type PlannerAssistantSafeModeState } from "@/lib/assistant/safe-mode";
 import { fromISODate, toISODate } from "@/lib/date";
 import {
   usePlannerActions,
