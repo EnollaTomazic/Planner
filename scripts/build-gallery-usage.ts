@@ -80,6 +80,72 @@ const PREVIEW_BACKGROUNDS =
 
 const JSON_INDENT = "  ";
 
+const sanitizeJsonLiteral = (value: unknown): unknown => {
+  if (value === null) {
+    return null;
+  }
+
+  const valueType = typeof value;
+
+  if (valueType === "string" || valueType === "boolean") {
+    return value;
+  }
+
+  if (valueType === "number") {
+    return Number.isFinite(value as number) ? value : null;
+  }
+
+  if (Array.isArray(value)) {
+    if (value.length === 0) {
+      return [];
+    }
+
+    return value.map((item) => {
+      if (item === undefined || typeof item === "function" || typeof item === "symbol") {
+        return null;
+      }
+
+      const sanitized = sanitizeJsonLiteral(item);
+      return sanitized === undefined ? null : sanitized;
+    });
+  }
+
+  if (isRecord(value)) {
+    const result: Record<string, unknown> = {};
+
+    for (const [key, entryValue] of Object.entries(value)) {
+      if (entryValue === undefined) {
+        continue;
+      }
+
+      const entryType = typeof entryValue;
+      if (entryType === "function" || entryType === "symbol") {
+        continue;
+      }
+
+      const sanitized = sanitizeJsonLiteral(entryValue);
+      if (sanitized === undefined) {
+        continue;
+      }
+
+      result[key] = sanitized;
+    }
+
+    return result;
+  }
+
+  return null;
+};
+
+const serializeJsonLiteral = (value: unknown): string => {
+  const sanitized = sanitizeJsonLiteral(value);
+  const serialized = JSON.stringify(sanitized, null, JSON_INDENT);
+  if (serialized === undefined) {
+    return "null";
+  }
+  return serialized;
+};
+
 const REGISTERED_VARIANTS = new Set(VARIANTS.map((variant) => variant.id));
 
 const IGNORED_MANIFEST_DIAGNOSTIC_CODES = new Set([2589, 2590]);
@@ -119,72 +185,6 @@ type Manifest = Record<string, ManifestEntry>;
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
-
-const serializeJsonLiteral = (value: unknown, indentLevel = 0): string => {
-  if (value === null) {
-    return "null";
-  }
-
-  if (typeof value === "string") {
-    return JSON.stringify(value);
-  }
-
-  if (typeof value === "number") {
-    return Number.isFinite(value) ? String(value) : "null";
-  }
-
-  if (typeof value === "boolean") {
-    return value ? "true" : "false";
-  }
-
-  if (Array.isArray(value)) {
-    if (value.length === 0) {
-      return "[]";
-    }
-
-    const nextIndent = indentLevel + 1;
-    const serializedItems = value.map((item) => {
-      const serialized =
-        item === undefined || typeof item === "function" || typeof item === "symbol"
-          ? "null"
-          : serializeJsonLiteral(item, nextIndent);
-      return `${JSON_INDENT.repeat(nextIndent)}${serialized}`;
-    });
-
-    return `[\n${serializedItems.join(",\n")}\n${JSON_INDENT.repeat(indentLevel)}]`;
-  }
-
-  if (isRecord(value)) {
-    const entries = Object.entries(value).filter(([, entryValue]) => {
-      if (entryValue === undefined) {
-        return false;
-      }
-
-      const entryType = typeof entryValue;
-      if (entryType === "function" || entryType === "symbol") {
-        return false;
-      }
-
-      return true;
-    });
-
-    if (entries.length === 0) {
-      return "{}";
-    }
-
-    const nextIndent = indentLevel + 1;
-    const serializedEntries = entries.map(([key, entryValue]) => {
-      const serializedValue = serializeJsonLiteral(entryValue, nextIndent);
-      return `${JSON_INDENT.repeat(nextIndent)}${JSON.stringify(key)}: ${serializedValue}`;
-    });
-
-    return `{\n${serializedEntries.join(",\n")}\n${JSON_INDENT.repeat(indentLevel)}}`;
-  }
-
-  throw new TypeError(
-    `Unsupported value type in manifest serialization: ${String(value)} (${typeof value})`,
-  );
-};
 
 interface ImportSymbol {
   readonly name: string;
