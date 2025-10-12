@@ -115,13 +115,20 @@ const nextBasePath = shouldApplyBasePath ? normalizedBasePathValue : undefined;
 const nextAssetPrefix = shouldApplyBasePath ? normalizedBasePathValue : undefined;
 
 const shouldCollectBundleStats =
-  isAnalyzeExplicit || (!isExportStatic && (isDevelopment || isCI));
+  isAnalyzeExplicit ||
+  process.env.BUNDLE_GUARD === "true" ||
+  (!isExportStatic && (isDevelopment || isCI));
+const bundleAnalyzerOutputDir =
+  process.env.BUNDLE_ANALYZE_OUTPUT_DIR ?? path.join(".next", "analyze");
 const securityPolicyOptions = defaultSecurityPolicyOptions;
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: shouldCollectBundleStats,
   openAnalyzer: false,
   analyzerMode: "static",
+  reportFilename: path.join(bundleAnalyzerOutputDir, "[name].html"),
+  statsFilename: path.join(bundleAnalyzerOutputDir, "[name].json"),
+  generateStatsFile: true,
   logLevel: "warn",
 });
 
@@ -181,6 +188,7 @@ let nextConfig = {
     }
 
     config.resolve.alias["@"] = path.resolve(__dirname, "src");
+    config.resolve.alias["@env"] = path.resolve(__dirname, "env");
     return config;
   },
 };

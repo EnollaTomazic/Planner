@@ -1,50 +1,5 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "jsx": "preserve",
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "allowImportingTsExtensions": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@storybook/react": [
-        "types/storybook__react"
-      ],
-      "ast-types": [
-        "types/ast-types/index"
-      ],
-      "ast-types/*": [
-        "types/ast-types/*"
-      ]
-    },
-    "types": [
-      "vitest/globals",
-      "react",
-      "node",
-      "@playwright/test"
-    ],
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "incremental": true,
-    "allowJs": true,
-    "skipLibCheck": true
-  },
+  "extends": "./tsconfig.base.json",
   "include": [
     "next-env.d.ts",
     "**/*.ts",
@@ -52,6 +7,9 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "storybook-static",
+    "out",
+    "src/components/gallery/generated-manifest.ts"
   ]
 }

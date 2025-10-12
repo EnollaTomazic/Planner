@@ -1,4 +1,4 @@
-import { readClientEnv } from "./load-client-env";
+import { readClientEnv } from '@env'
 
 const {
   NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS: rawSvgNumericFilters,

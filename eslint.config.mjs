@@ -44,9 +44,19 @@ const eslintConfig = [
     ignores: [
       "src/components/gallery/generated-manifest.ts",
       "src/components/gallery/generated-manifest.g.ts",
+      "storybook-static/**",
     ],
   },
   ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
+  {
+    files: ["**/*.{ts,tsx}"],
+    languageOptions: {
+      parserOptions: {
+        project: ["./tsconfig.json", "./tsconfig.storybook.json"],
+        tsconfigRootDir: __dirname,
+      },
+    },
+  },
   {
     files: ["**/*.{js,jsx,ts,tsx}", "**/*.cjs", "**/*.mjs"],
     plugins: {
