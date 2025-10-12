@@ -6,10 +6,14 @@ import { PreviewContent, PreviewUnavailable } from "@/app/preview/[slug]/page";
 
 (globalThis as { React?: typeof React }).React = React;
 
+vi.mock("@/components/gallery/constants", () => ({
+  __esModule: true,
+  PREVIEW_SURFACE_CONTAINER_CLASSNAME: "preview-surface",
+}));
+
 vi.mock("@/components/gallery/PreviewSurfaceClient", () => ({
   __esModule: true,
   PreviewSurface: () => <div data-testid="preview-surface" />,
-  PREVIEW_SURFACE_CONTAINER_CLASSNAME: "preview-surface",
 }));
 
 vi.mock("@/components/gallery/PreviewThemeClient", () => ({

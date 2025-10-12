@@ -15,7 +15,7 @@ import { VARIANT_LABELS } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import { readServerEnv } from '@env'
 
-import { PREVIEW_SURFACE_CONTAINER_CLASSNAME } from "@/components/gallery/PreviewSurfaceClient";
+import { PREVIEW_SURFACE_CONTAINER_CLASSNAME } from "@/components/gallery/constants";
 
 const { GITHUB_PAGES, SKIP_PREVIEW_STATIC } = readServerEnv();
 
