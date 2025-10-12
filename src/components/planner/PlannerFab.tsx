@@ -21,6 +21,10 @@ import {
   summariseParse,
 } from "@/lib/scheduling";
 import type { PlannerAssistantPlan } from "@/lib/assistant/plannerAgent";
+import {
+  planWithAssistantAction,
+  type PlannerAssistantSafeModeState,
+} from "@/app/planner/actions";
 import { fromISODate, toISODate } from "@/lib/date";
 import {
   usePlannerActions,
@@ -33,43 +37,6 @@ const FLOATING_BUTTON_POSITION =
   "fixed bottom-[var(--space-8)] right-[max(var(--space-3),calc((var(--viewport-width) - var(--shell-max,var(--shell-width))) / 2 + var(--space-3)))] z-50";
 
 type Mode = "task" | "project";
-
-type AssistantSafeModeState = {
-  readonly server: boolean;
-  readonly client: boolean;
-  readonly active: boolean;
-};
-
-type PlannerAssistantSuccessPayload = {
-  ok: true;
-  plan: PlannerAssistantPlan;
-  safeMode: AssistantSafeModeState;
-};
-
-type PlannerAssistantErrorPayload = {
-  ok: false;
-  error: string;
-  message: string;
-  safeMode: AssistantSafeModeState;
-};
-
-function isAssistantSuccessPayload(
-  value: unknown,
-): value is PlannerAssistantSuccessPayload {
-  if (!value || typeof value !== "object") {
-    return false;
-  }
-  const candidate = value as { ok?: unknown; plan?: unknown; safeMode?: unknown };
-  return candidate.ok === true && candidate.plan !== undefined && candidate.safeMode !== undefined;
-}
-
-function isAssistantErrorPayload(value: unknown): value is PlannerAssistantErrorPayload {
-  if (!value || typeof value !== "object") {
-    return false;
-  }
-  const candidate = value as { ok?: unknown; error?: unknown; message?: unknown; safeMode?: unknown };
-  return candidate.ok === false && typeof candidate.error === "string";
-}
 
 function describeAssistantError(error: string | undefined, fallback: string): string {
   switch (error) {
@@ -215,10 +182,11 @@ export function PlannerFab() {
   const [error, setError] = React.useState<string | null>(null);
   const [assistantPlan, setAssistantPlan] = React.useState<PlannerAssistantPlan | null>(null);
   const [assistantError, setAssistantError] = React.useState<string | null>(null);
-  const [assistantSafeMode, setAssistantSafeMode] = React.useState<AssistantSafeModeState | null>(null);
-  const [assistantLoading, setAssistantLoading] = React.useState(false);
+  const [assistantSafeMode, setAssistantSafeMode] =
+    React.useState<PlannerAssistantSafeModeState | null>(null);
+  const [assistantLoading, startAssistantTransition] = React.useTransition();
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-  const assistantRequestRef = React.useRef<AbortController | null>(null);
+  const assistantRequestIdRef = React.useRef(0);
   const titleId = React.useId();
   const descriptionId = React.useId();
   const summaryId = React.useId();
@@ -249,9 +217,12 @@ export function PlannerFab() {
     return () => window.cancelAnimationFrame(frame);
   }, [open]);
 
-  React.useEffect(() => () => {
-    assistantRequestRef.current?.abort();
-  }, []);
+  React.useEffect(
+    () => () => {
+      assistantRequestIdRef.current += 1;
+    },
+    [],
+  );
 
   React.useEffect(() => {
     if (parsed.intent === "project" && parsed.confidence !== "low") {
@@ -276,9 +247,7 @@ export function PlannerFab() {
     setAssistantPlan(null);
     setAssistantError(null);
     setAssistantSafeMode(null);
-    setAssistantLoading(false);
-    assistantRequestRef.current?.abort();
-    assistantRequestRef.current = null;
+    assistantRequestIdRef.current += 1;
   }, [inputValue]);
 
   React.useEffect(() => {
@@ -289,9 +258,7 @@ export function PlannerFab() {
       setAssistantPlan(null);
       setAssistantError(null);
       setAssistantSafeMode(null);
-      setAssistantLoading(false);
-      assistantRequestRef.current?.abort();
-      assistantRequestRef.current = null;
+      assistantRequestIdRef.current += 1;
     }
   }, [open]);
 
@@ -413,7 +380,7 @@ export function PlannerFab() {
     [handleSubmit],
   );
 
-  const handleAskAssistant = React.useCallback(async () => {
+  const handleAskAssistant = React.useCallback(() => {
     const trimmed = inputValue.trim();
     if (!trimmed) {
       setAssistantPlan(null);
@@ -423,71 +390,51 @@ export function PlannerFab() {
     }
 
     setAssistantPlan(null);
-    assistantRequestRef.current?.abort();
-    const controller = new AbortController();
-    assistantRequestRef.current = controller;
-
-    setAssistantLoading(true);
     setAssistantError(null);
 
-    try {
-      const response = await fetch("/api/planner/assistant", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+    const requestId = assistantRequestIdRef.current + 1;
+    assistantRequestIdRef.current = requestId;
+
+    startAssistantTransition(async () => {
+      try {
+        const result = await planWithAssistantAction({
           prompt: trimmed,
           focusDate: targetIso,
-        }),
-        signal: controller.signal,
-      });
+        });
 
-      const data = await response
-        .json()
-        .catch(() => null);
+        if (requestId !== assistantRequestIdRef.current) {
+          return;
+        }
 
-      if (isAssistantSuccessPayload(data)) {
-        setAssistantSafeMode(data.safeMode);
-        setAssistantPlan(data.plan);
-        setAssistantError(null);
-        return;
-      }
+        if (result.ok) {
+          setAssistantSafeMode(result.safeMode);
+          setAssistantPlan(result.plan);
+          setAssistantError(null);
+          return;
+        }
 
-      if (isAssistantErrorPayload(data)) {
-        setAssistantSafeMode(data.safeMode);
+        setAssistantSafeMode(result.safeMode);
         setAssistantPlan(null);
         setAssistantError(
-          describeAssistantError(data.error, data.message ?? "Planner assistant is unavailable."),
+          describeAssistantError(
+            result.error,
+            result.message ?? "Planner assistant is unavailable.",
+          ),
         );
-        return;
+      } catch (error) {
+        if (requestId !== assistantRequestIdRef.current) {
+          return;
+        }
+        setAssistantPlan(null);
+        setAssistantError(
+          error instanceof Error
+            ? error.message
+            : "Planner assistant request failed.",
+        );
+        setAssistantSafeMode(null);
       }
-
-      if (data && typeof data === "object" && "safeMode" in data) {
-        setAssistantSafeMode((data as { safeMode?: AssistantSafeModeState }).safeMode ?? null);
-      }
-
-      setAssistantPlan(null);
-      setAssistantError("Planner assistant returned an unexpected response.");
-      setAssistantSafeMode(null);
-    } catch (error) {
-      if (error instanceof DOMException && error.name === "AbortError") {
-        return;
-      }
-      setAssistantPlan(null);
-      setAssistantError(
-        error instanceof Error
-          ? error.message
-          : "Planner assistant request failed.",
-      );
-      setAssistantSafeMode(null);
-    } finally {
-      if (assistantRequestRef.current === controller) {
-        assistantRequestRef.current = null;
-      }
-      setAssistantLoading(false);
-    }
-  }, [inputValue, targetIso]);
+    });
+  }, [inputValue, startAssistantTransition, targetIso]);
 
   const projectItems = React.useMemo(
     () =>
