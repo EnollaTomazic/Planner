@@ -1,12 +1,14 @@
 import { NextResponse, type NextRequest } from "next/server";
 import {
   planWithAssistantAction,
-  resolvePlannerAssistantSafeMode,
   type PlannerAssistantActionError,
   type PlannerAssistantActionInput,
   type PlannerAssistantActionResult,
-  type PlannerAssistantSafeModeState,
 } from "@/app/planner/actions";
+import {
+  resolvePlannerAssistantSafeMode,
+  type PlannerAssistantSafeModeState,
+} from "@/lib/assistant/safe-mode";
 
 export const runtime = "nodejs";
 
