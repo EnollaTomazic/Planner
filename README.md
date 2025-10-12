@@ -208,6 +208,14 @@ The script shows a progress bar and runs automatically before `pnpm run build`.
 
 Use the dedicated profiler workflow when you need detailed commit timing data. The `pnpm run profile` command runs the standard prebuild checks, enables the React profiler flags, and launches the dev server with Turbo for faster iteration. Profiling is blocked automatically when `SAFE_MODE` is active so CI and production builds cannot leak profiling bundles. See [docs/profiling.md](docs/profiling.md) for the full workflow.
 
+## Running validation tasks in parallel
+
+The repository ships a composite `pnpm run check` command that executes the core quality gates at the same time. Internally it
+invokes `concurrently` to launch the unit tests (`pnpm test -- --run`), ESLint (`pnpm run lint`), the design lint rules (`pnpm run lint:design`),
+TypeScript validation (`pnpm run typecheck`), and the artifact guard (`pnpm run guard:artifacts`) in parallel. Use this when you
+need a fast all-in-one signal before pushing changes. Pair it with `pnpm run verify-prompts` whenever your edits touch prompt
+definitions so the gallery stays in sync.
+
 ## Contributing
 
 - Before committing, run `pnpm run verify-prompts` to confirm gallery coverage and `pnpm run check` to execute tests, lint, and type checks.
