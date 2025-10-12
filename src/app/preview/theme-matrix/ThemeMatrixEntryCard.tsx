@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import type { CSSProperties, JSX } from "react";
 
 import { PREVIEW_SURFACE_CONTAINER_CLASSNAME } from "@/components/gallery/constants";
 import { SectionCard } from "@/components/ui";
@@ -153,7 +153,9 @@ interface ThemeMatrixEntryCardProps {
   readonly entry: ThemeMatrixEntry;
 }
 
-export function ThemeMatrixEntryCard({ entry }: ThemeMatrixEntryCardProps) {
+export function ThemeMatrixEntryCard({
+  entry,
+}: ThemeMatrixEntryCardProps): JSX.Element {
   return (
     <SectionCard data-theme-matrix-entry={entry.entryId} className="flex flex-col">
       <SectionCard.Header
