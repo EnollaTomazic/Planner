@@ -205,6 +205,14 @@ function inferDomain(reminder: Reminder): Domain {
     : "League";
 }
 
+// Consolidated domain filtering so derived selectors share the same logic.
+function filterRemindersByDomain(
+  reminders: Reminder[],
+  domain: Domain,
+): Reminder[] {
+  return reminders.filter((reminder) => inferDomain(reminder) === domain);
+}
+
 function useRemindersState(): RemindersContextValue {
   const [items, setItems] = usePersistentState<Reminder[]>(STORE_KEY, SEEDS);
   const [query, setQuery] = React.useState("");
@@ -226,6 +234,11 @@ function useRemindersState(): RemindersContextValue {
   const [showFilters, setShowFilters] = React.useState(false);
   const showGroups = domain === "League" || domain === "Learn";
 
+  const domainItems = React.useMemo(
+    () => filterRemindersByDomain(items, domain),
+    [items, domain],
+  );
+
   const clearQuickAddError = React.useCallback(() => {
     setQuickAddErrorState(null);
   }, [setQuickAddErrorState]);
@@ -238,8 +251,7 @@ function useRemindersState(): RemindersContextValue {
   );
 
   const counts = React.useMemo(() => {
-    const domItems = items.filter((reminder) => inferDomain(reminder) === domain);
-    return domItems.reduce(
+    return domainItems.reduce(
       (acc, reminder) => {
         acc[reminder.group] = (acc[reminder.group] ?? 0) + 1;
         return acc;
@@ -253,12 +265,11 @@ function useRemindersState(): RemindersContextValue {
         review: 0,
       } as Record<Group, number>,
     );
-  }, [items, domain]);
+  }, [domainItems]);
 
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();
-    return items
-      .filter((reminder) => inferDomain(reminder) === domain)
+    return domainItems
       .filter((reminder) => (showGroups ? reminder.group === group : true))
       .filter((reminder) => (source === "all" ? true : reminder.source === source))
       .filter((reminder) => (onlyPinned ? reminder.pinned : true))
@@ -279,7 +290,7 @@ function useRemindersState(): RemindersContextValue {
         if (!!b.pinned === !!a.pinned) return b.updatedAt - a.updatedAt;
         return Number(b.pinned) - Number(a.pinned);
       });
-  }, [items, domain, group, source, onlyPinned, query, showGroups]);
+  }, [domainItems, group, source, onlyPinned, query, showGroups]);
 
   const addReminder = React.useCallback(
     (initialTitle?: string) => {
@@ -287,10 +298,8 @@ function useRemindersState(): RemindersContextValue {
       setItems((prev) => {
         const now = Date.now();
         const baseTitle = (initialTitle ?? "New reminder").trim() || "New reminder";
-        const domainItems = prev.filter(
-          (reminder) => inferDomain(reminder) === domain,
-        );
-        const hasDuplicate = domainItems.some(
+        const domainScoped = filterRemindersByDomain(prev, domain);
+        const hasDuplicate = domainScoped.some(
           (reminder) => normalizeTitle(reminder.title) === normalizeTitle(baseTitle),
         );
 
@@ -301,7 +310,7 @@ function useRemindersState(): RemindersContextValue {
         }
 
         const title = hasDuplicate
-          ? makeUniqueTitle(baseTitle, domainItems)
+          ? makeUniqueTitle(baseTitle, domainScoped)
           : baseTitle;
 
         const next: Reminder = {
