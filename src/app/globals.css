@@ -8,8 +8,12 @@
     --danger-foreground: var(--highlight);
     --danger-surface-foreground: var(--danger-foreground);
     --danger-tint-foreground: var(--danger-foreground);
-    --asset-noise-url: url("/noise.svg");
-    --asset-glitch-gif-url: url("/glitch-gif.gif");
+    --asset-noise-path-default: "/noise.svg";
+    --asset-noise-path: var(--asset-noise-path-default);
+    --asset-noise-url: url(var(--asset-noise-path));
+    --asset-glitch-gif-path-default: "/glitch-gif.gif";
+    --asset-glitch-gif-path: var(--asset-glitch-gif-path-default);
+    --asset-glitch-gif-url: url(var(--asset-glitch-gif-path));
     --glitch-gif-url: var(--asset-glitch-gif-url);
     --settings-column-width: calc(var(--space-4) * 14);
     --surface-overlay-soft: 0.12;
@@ -110,6 +114,20 @@
         transparent
       );
     }
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  [id] {
+    scroll-margin-top: 72px;
   }
 
   body {
@@ -221,7 +239,10 @@ body.fx-gifbars::before {
   z-index: 3;
   background-image: var(
     --glitch-gif-url,
-    var(--asset-glitch-gif-url, url("/glitch-gif.gif"))
+    var(
+      --asset-glitch-gif-url,
+      url(var(--asset-glitch-gif-path, var(--asset-glitch-gif-path-default)))
+    )
   );
   background-size: cover;
   background-position: center;
@@ -531,7 +552,10 @@ html.bg-intense body::after {
   background: inherit;
   background-image: var(
     --glitch-gif-url,
-    var(--asset-glitch-gif-url, url("/glitch-gif.gif"))
+    var(
+      --asset-glitch-gif-url,
+      url(var(--asset-glitch-gif-path, var(--asset-glitch-gif-path-default)))
+    )
   );
   background-size: cover;
   background-position: center;
@@ -560,7 +584,10 @@ html.bg-intense body::after {
     2px 100%;
 }
 .bg-noise {
-  background-image: var(--asset-noise-url, url("/noise.svg"));
+  background-image: var(
+    --asset-noise-url,
+    url(var(--asset-noise-path, var(--asset-noise-path-default)))
+  );
   opacity: var(--gradient-noise-opacity, 0.1);
 }
 
@@ -584,7 +611,10 @@ html.bg-intense body::after {
     background: inherit;
     background-image: var(
       --glitch-gif-url,
-      var(--asset-glitch-gif-url, url("/glitch-gif.gif"))
+      var(
+        --asset-glitch-gif-url,
+        url(var(--asset-glitch-gif-path, var(--asset-glitch-gif-path-default)))
+      )
     );
     background-size: cover;
     background-position: center;
