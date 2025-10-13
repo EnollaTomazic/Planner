@@ -86,9 +86,12 @@ type PublishBranchOptions = {
   readonly fallbackBranch?: string;
 };
 
-function resolvePublishBranch(
+type DetectDefaultBranch = () => string | undefined;
+
+export function resolvePublishBranch(
   env: NodeJS.ProcessEnv,
   options: PublishBranchOptions,
+  detect: DetectDefaultBranch = detectDefaultBranch,
 ): string {
   const fromEnv =
     sanitizeSlug(env.GH_PAGES_BRANCH) ?? sanitizeSlug(env.GITHUB_PAGES_BRANCH);
@@ -96,10 +99,15 @@ function resolvePublishBranch(
     return fromEnv;
   }
 
-  const fromGit = detectDefaultBranch();
-  const fallbackBranch = options.fallbackBranch;
+  const fromGit = detect();
+  const fallbackBranch = sanitizeSlug(options.fallbackBranch);
 
-  if (fromGit && (!fallbackBranch || fallbackBranch === fromGit)) {
+  if (fromGit) {
+    if (fallbackBranch && fallbackBranch !== fromGit) {
+      throw new Error(
+        `Detected default branch "${fromGit}" does not match the configured GitHub Pages branch "${fallbackBranch}". Set GH_PAGES_BRANCH to "${fromGit}" (or adjust your repository configuration) so GitHub Pages and main publish from the same branch.`,
+      );
+    }
     return fromGit;
   }
 
