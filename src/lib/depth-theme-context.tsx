@@ -71,10 +71,6 @@ export function useDepthTheme(): DepthThemeContextValue {
   return React.useContext(DepthThemeContext);
 }
 
-export function useDepthThemeEnabled(): boolean {
-  return useDepthTheme().enabled;
-}
-
 export function useOrganicDepthEnabled(): boolean {
   return useDepthTheme().organicDepthEnabled;
 }
