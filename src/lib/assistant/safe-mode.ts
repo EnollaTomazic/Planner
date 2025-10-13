@@ -1,14 +1,16 @@
+import { SAFE_MODE_FALLBACK } from '@env'
+
 const ENABLED_FLAG_VALUES = new Set(['1', 'true', 'on', 'yes'])
 const DISABLED_FLAG_VALUES = new Set(['0', 'false', 'off', 'no'])
 
-function normalizeFlag(value: string | undefined): boolean {
+function normalizeFlag(value: string | undefined | null): boolean | null {
   if (typeof value !== 'string') {
-    return false
+    return null
   }
 
   const normalized = value.trim().toLowerCase()
   if (!normalized) {
-    return false
+    return null
   }
 
   if (ENABLED_FLAG_VALUES.has(normalized)) {
@@ -19,7 +21,19 @@ function normalizeFlag(value: string | undefined): boolean {
     return false
   }
 
-  return false
+  return null
+}
+
+function resolveFlag(
+  primary: string | undefined,
+  secondary: string | undefined,
+): boolean {
+  return (
+    normalizeFlag(primary) ??
+    normalizeFlag(secondary) ??
+    normalizeFlag(SAFE_MODE_FALLBACK) ??
+    false
+  )
 }
 
 export type PlannerAssistantSafeModeState = {
@@ -37,8 +51,8 @@ type PlannerAssistantSafeModeEnv = {
 export function resolvePlannerAssistantSafeMode(
   env: PlannerAssistantSafeModeEnv = process.env,
 ): PlannerAssistantSafeModeState {
-  const server = normalizeFlag(env.SAFE_MODE)
-  const client = normalizeFlag(env.NEXT_PUBLIC_SAFE_MODE)
+  const server = resolveFlag(env.SAFE_MODE, env.NEXT_PUBLIC_SAFE_MODE)
+  const client = resolveFlag(env.NEXT_PUBLIC_SAFE_MODE, env.SAFE_MODE)
 
   return {
     server,
