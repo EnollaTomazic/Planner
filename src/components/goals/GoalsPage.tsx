@@ -50,11 +50,7 @@ import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 /* Tabs */
 import { RemindersTab } from "./RemindersTab";
 import { TimerTab } from "./TimerTab";
-import {
-  RemindersProvider,
-  useReminders,
-  type Domain,
-} from "./reminders/useReminders";
+import { useReminders, type Domain } from "./reminders/useReminders";
 
 /* ---------- Types & constants ---------- */
 type Tab = "goals" | "reminders" | "timer";
@@ -121,9 +117,7 @@ const getGoalsPanelId = (key: Tab) => `${GOALS_TABS_ID_BASE}-${key}-panel`;
 export function GoalsPage() {
   return (
     <PlannerProvider>
-      <RemindersProvider>
-        <GoalsPageContent />
-      </RemindersProvider>
+      <GoalsPageContent />
     </PlannerProvider>
   );
 }
