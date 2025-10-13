@@ -1,387 +1,47 @@
-name: "Setup Node project"
-description: "Checkout, configure Node.js, restore caches, and ensure dependencies are installed."
+name: Setup Node project
+description: Prepare a Node.js environment with pnpm and install dependencies.
 
 inputs:
-  node-version-file:
-    description: "Path to the Node version file"
-    default: ".nvmrc"
   node-version:
-    description: "Explicit Node.js version (takes precedence over node-version-file)"
+    description: Node.js version to install.
     required: false
-  package-manager:
-    description: "Explicit package manager (npm, pnpm, yarn)"
+    default: '22.x'
+  pnpm-version:
+    description: pnpm version to activate via Corepack.
     required: false
-  install-command:
-    description: "Override install command"
+    default: '9.12.3'
+  working-directory:
+    description: Directory that contains the project to install.
     required: false
-  cache-node-modules:
-    description: "Whether to cache node_modules"
-    default: "true"
-  cache-prefix:
-    description: "Prefix used when generating cache keys"
-    default: "node"
-  cache-suffix:
-    description: "Optional suffix appended to cache keys to bust caches"
-    default: ""
-  checkout-ref:
-    description: "Optional git ref to checkout"
-    required: false
-  checkout-fetch-depth:
-    description: "Depth used when checking out the repository"
-    default: "2"
-  skip-checkout:
-    description: "Skip the checkout step (requires repository to already be present)"
-    default: "false"
-
-outputs:
-  package-manager:
-    description: "Detected package manager"
-    value: "${{ steps.detect.outputs.manager }}"
-  install-command:
-    description: "Command used to install dependencies"
-    value: "${{ steps.detect.outputs.install }}"
-  lockfile:
-    description: "Detected lockfile"
-    value: "${{ steps.detect.outputs.lockfile }}"
-  node-version:
-    description: "Resolved Node.js version"
-    value: "${{ steps['node-version'].outputs.value }}"
-  node-modules-cache-hit:
-    description: "Whether the node_modules cache was restored"
-    value: "${{ steps['restore-node-modules'].outputs['cache-hit'] }}"
+    default: '.'
 
 runs:
-  using: "composite"
+  using: composite
   steps:
-    - name: Checkout
-      if: ${{ inputs['skip-checkout'] != 'true' }}
-      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+    - name: Setup Node
+      uses: actions/setup-node@v4
       with:
-        fetch-depth: "${{ inputs['checkout-fetch-depth'] }}"
-        ref: "${{ inputs['checkout-ref'] != '' && inputs['checkout-ref'] || github.ref }}"
+        node-version: ${{ inputs.node-version }}
+        cache: pnpm
+        cache-dependency-path: ${{ inputs.working-directory }}/pnpm-lock.yaml
 
-    - name: Detect package manager
-      id: detect
-      shell: bash
-      env:
-        NODE_DETECTION_SCRIPT: |
-          import { readFileSync } from "node:fs";
-          import { resolve } from "node:path";
-          import { cwd } from "node:process";
-
-          try {
-            const packageJsonPath = resolve(cwd(), "package.json");
-            const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8"));
-            console.log(packageJson?.packageManager ?? "");
-          } catch {
-            console.log("");
-          }
-      run: |
-        set -euo pipefail
-
-        if [ -n "${{ inputs['package-manager'] }}" ]; then
-          RAW_PM="${{ inputs['package-manager'] }}"
-        else
-          RAW_PM="$(
-            node --input-type=module <<<"$NODE_DETECTION_SCRIPT"
-          )"
-        fi
-
-        if [ -z "$RAW_PM" ]; then
-          RAW_PM="npm"
-        fi
-
-        MANAGER_NAME="${RAW_PM%%@*}"
-        MANAGER_VERSION="${RAW_PM#*@}"
-        if [ "$MANAGER_NAME" = "$MANAGER_VERSION" ]; then
-          MANAGER_VERSION=""
-        fi
-
-        case "$MANAGER_NAME" in
-          npm)
-            LOCKFILE="package-lock.json"
-            DEFAULT_INSTALL="npm ci --no-audit --no-fund"
-            ;;
-          pnpm)
-            LOCKFILE="pnpm-lock.yaml"
-            DEFAULT_INSTALL="pnpm install --frozen-lockfile"
-            ;;
-          yarn)
-            LOCKFILE="yarn.lock"
-            DEFAULT_INSTALL="yarn install --frozen-lockfile"
-            ;;
-          *)
-            echo "Unsupported package manager: $MANAGER_NAME" >&2
-            exit 1
-            ;;
-        esac
-
-        if [ -n "${{ inputs['install-command'] }}" ]; then
-          INSTALL_COMMAND="${{ inputs['install-command'] }}"
-        else
-          INSTALL_COMMAND="$DEFAULT_INSTALL"
-        fi
-
-        if [ ! -f "$LOCKFILE" ]; then
-          echo "Required lockfile '$LOCKFILE' was not found" >&2
-          exit 1
-        fi
-
-        {
-          echo "manager=$MANAGER_NAME"
-          echo "manager-version=$MANAGER_VERSION"
-          echo "install=$INSTALL_COMMAND"
-          echo "lockfile=$LOCKFILE"
-        } >>"$GITHUB_OUTPUT"
-
-    - name: Determine Node.js requirement
-      id: node-requirement
-      shell: bash
-      env:
-        EXPLICIT_NODE_VERSION: "${{ inputs['node-version'] }}"
-        VERSION_FILE: "${{ inputs['node-version-file'] }}"
-      run: |
-        set -euo pipefail
-
-        if [ -n "$EXPLICIT_NODE_VERSION" ]; then
-          NODE_SOURCE="node-version input"
-          RAW_VALUE="$EXPLICIT_NODE_VERSION"
-        else
-          FILE_PATH="${VERSION_FILE:-.nvmrc}"
-          if [ ! -f "$FILE_PATH" ]; then
-            echo "::error::Node version file '$FILE_PATH' was not found and no explicit node-version input was provided." >&2
-            exit 1
-          fi
-          NODE_SOURCE="$FILE_PATH"
-          RAW_VALUE="$(tr -d '\r\n\t ' <"$FILE_PATH")"
-        fi
-
-        if [ -z "$RAW_VALUE" ]; then
-          echo "::error::Node.js version resolved from $NODE_SOURCE is empty." >&2
-          exit 1
-        fi
-
-        mapfile -t NODE_DETAILS < <(
-          VALUE="$RAW_VALUE" node --input-type=module <<'EOF'
-            const raw = process.env.VALUE ?? "";
-            const normalized = raw.trim();
-            const match = normalized.match(/^[vV]?(\d+(?:\.\d+){0,2})$/u);
-            if (!match) {
-              console.error(`Unsupported Node.js version specification: ${raw}`);
-              process.exit(1);
-            }
-            const sanitized = match[1];
-            const segments = sanitized.split(".").length;
-            process.stdout.write(`${sanitized}\n${segments}`);
-EOF
-        )
-
-        if [ "${#NODE_DETAILS[@]}" -lt 2 ]; then
-          echo "::error::Failed to normalize Node.js version resolved from $NODE_SOURCE." >&2
-          exit 1
-        fi
-
-        SANITIZED_VERSION="${NODE_DETAILS[0]}"
-        SEGMENT_COUNT="${NODE_DETAILS[1]}"
-
-        {
-          echo "value=$SANITIZED_VERSION"
-          echo "segments=$SEGMENT_COUNT"
-          echo "source=$NODE_SOURCE"
-        } >>"$GITHUB_OUTPUT"
-
-    - name: Setup pnpm
-      if: ${{ steps.detect.outputs.manager == 'pnpm' }}
-      uses: pnpm/action-setup@v4
-      with:
-        version: "${{ steps.detect.outputs['manager-version'] != '' && steps.detect.outputs['manager-version'] || 'latest' }}"
-        run_install: false
-        standalone: true
-
-    - name: Setup Node.js
-      uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
-      with:
-        node-version: "${{ steps['node-requirement'].outputs.value }}"
-        cache: "${{ steps.detect.outputs.manager }}"
-        cache-dependency-path: "${{ steps.detect.outputs.lockfile }}"
-
-    - name: Enable Corepack for alternative package managers
-      if: ${{ steps.detect.outputs.manager == 'yarn' }}
+    - name: Enable Corepack and pnpm
       shell: bash
       run: |
         set -euo pipefail
         corepack enable
-        if [ -n "${{ steps.detect.outputs['manager-version'] }}" ]; then
-          MANAGER="${{ steps.detect.outputs.manager }}"
-          VERSION="${{ steps.detect.outputs['manager-version'] }}"
-          if ! corepack prepare "$MANAGER@$VERSION" --activate; then
-            echo "::warning::Corepack failed to prepare $MANAGER@$VERSION; continuing without manual installation." >&2
-            exit 1
-          fi
-        fi
-
-    - name: Ensure package manager command is available
-      if: ${{ steps.detect.outputs.manager == 'pnpm' }}
-      shell: bash
-      env:
-        MANAGER_VERSION: "${{ steps.detect.outputs['manager-version'] }}"
-      run: |
-        set -euo pipefail
-
-        if command -v pnpm >/dev/null 2>&1; then
-          exit 0
-        fi
-
-        echo "pnpm command not found; bootstrapping fallback installation." >&2
-
-        if command -v corepack >/dev/null 2>&1; then
-          if [ -n "$MANAGER_VERSION" ]; then
-            corepack prepare "pnpm@$MANAGER_VERSION" --activate
-          else
-            corepack prepare pnpm@latest --activate
-          fi
-        else
-          npm install -g --force "pnpm@${MANAGER_VERSION:-latest}"
-        fi
-
-    - name: Export CI environment
-      shell: bash
-      run: echo "CI=1" >>"$GITHUB_ENV"
-
-    - name: Resolve Node.js version
-      id: node-version
-      shell: bash
-      run: echo "value=$(node -p "process.versions.node")" >>"$GITHUB_OUTPUT"
-
-    - name: Validate Node.js runtime
-      shell: bash
-      env:
-        EXPECTED: "${{ steps['node-requirement'].outputs.value }}"
-        SEGMENTS: "${{ steps['node-requirement'].outputs.segments }}"
-        SOURCE: "${{ steps['node-requirement'].outputs.source }}"
-        ACTUAL: "${{ steps['node-version'].outputs.value }}"
-      run: |
-        set -euo pipefail
-
-        if [ -z "$SEGMENTS" ]; then
-          echo "::error::Unable to determine Node.js version precision for validation." >&2
-          exit 1
-        fi
-
-        case "$SEGMENTS" in
-          1)
-            if [[ "$ACTUAL" != "$EXPECTED" && $ACTUAL != $EXPECTED.* ]]; then
-              echo "::error::Node.js version '$ACTUAL' does not satisfy major requirement '$EXPECTED' from $SOURCE." >&2
-              exit 1
-            fi
-            ;;
-          2)
-            if [[ "$ACTUAL" != "$EXPECTED" && $ACTUAL != $EXPECTED.* ]]; then
-              echo "::error::Node.js version '$ACTUAL' does not satisfy minor requirement '$EXPECTED' from $SOURCE." >&2
-              exit 1
-            fi
-            ;;
-          3)
-            if [ "$ACTUAL" != "$EXPECTED" ]; then
-              echo "::error::Node.js version '$ACTUAL' does not match required version '$EXPECTED' from $SOURCE." >&2
-              exit 1
-            fi
-            ;;
-          *)
-            echo "::error::Unsupported Node.js version precision '$SEGMENTS'." >&2
-            exit 1
-            ;;
-        esac
-
-    - name: Compute lockfile hash
-      id: lockfile
-      shell: bash
-      env:
-        LOCKFILE: ${{ steps.detect.outputs.lockfile }}
-        LOCKFILE_HASH_SCRIPT: |
-          import { createHash } from "node:crypto";
-          import { readFileSync } from "node:fs";
-          import { resolve } from "node:path";
-
-          const lockfile = process.env.LOCKFILE;
-          if (!lockfile) {
-            console.error("LOCKFILE environment variable is required to compute the cache key.");
-            process.exit(1);
-          }
-
-          const absolute = resolve(lockfile);
-          const contents = readFileSync(absolute);
-          const hash = createHash("sha256").update(contents).digest("hex");
-          console.log(hash);
-      run: |
-        set -euo pipefail
-        HASH="$(
-          node --input-type=module <<<"$LOCKFILE_HASH_SCRIPT"
-        )"
-        echo "value=$HASH" >>"$GITHUB_OUTPUT"
-
-    - name: Derive node_modules cache key
-      id: cache-key
-      if: ${{ inputs['cache-node-modules'] == 'true' }}
-      shell: bash
-      env:
-        PREFIX: "${{ inputs['cache-prefix'] }}"
-        CACHE_SUFFIX: "${{ inputs['cache-suffix'] }}"
-        MANAGER: "${{ steps.detect.outputs.manager }}"
-        NODE_VERSION: "${{ steps['node-version'].outputs.value }}"
-        LOCK_HASH: "${{ steps.lockfile.outputs.value }}"
-      run: |
-        set -euo pipefail
-        LOWER_OS="$(echo "$RUNNER_OS" | tr '[:upper:]' '[:lower:]')"
-        PREFIX="${PREFIX:-node}"
-        if [ -n "$CACHE_SUFFIX" ]; then
-          SAFE_SUFFIX="$(
-            echo "$CACHE_SUFFIX" \
-              | tr '[:space:]' '-' \
-              | tr -c '[:alnum:]-' '-'
-          )"
-          SAFE_SUFFIX="${SAFE_SUFFIX#-}"
-          SAFE_SUFFIX="${SAFE_SUFFIX%-}"
-          if [ -n "$SAFE_SUFFIX" ]; then
-            SUFFIX="-$SAFE_SUFFIX"
-          else
-            SUFFIX=""
-          fi
-        else
-          SUFFIX=""
-        fi
-        KEY="${PREFIX}${SUFFIX}-${LOWER_OS}-${MANAGER}-${NODE_VERSION}-${LOCK_HASH}"
-        echo "primary=$KEY" >>"$GITHUB_OUTPUT"
-        echo "restore=${PREFIX}${SUFFIX}-${LOWER_OS}-${MANAGER}-${NODE_VERSION}-" >>"$GITHUB_OUTPUT"
-
-    - name: Restore node_modules cache
-      id: restore-node-modules
-      if: ${{ inputs['cache-node-modules'] == 'true' }}
-      uses: actions/cache/restore@v4
-      with:
-        path: ${{ github.workspace }}/node_modules
-        key: "${{ steps['cache-key'].outputs.primary }}"
-        restore-keys: |
-          ${{ steps['cache-key'].outputs.restore }}
+        corepack use pnpm@${{ inputs.pnpm-version }}
 
     - name: Install dependencies
-      if: ${{ inputs['cache-node-modules'] != 'true' || steps['restore-node-modules'].outputs['cache-hit'] != 'true' }}
       shell: bash
-      working-directory: ${{ github.workspace }}
-      run: "${{ steps.detect.outputs.install }}"
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set -euo pipefail
+        pnpm install --frozen-lockfile --prefer-offline --ignore-scripts=false
 
-    - name: Save node_modules cache
-      if: ${{ inputs['cache-node-modules'] == 'true' && steps['restore-node-modules'].outputs['cache-hit'] != 'true' }}
-      uses: actions/cache/save@v4
-      with:
-        path: ${{ github.workspace }}/node_modules
-        key: "${{ steps['cache-key'].outputs.primary }}"
-
-    - name: Verify dependencies restored
+    - name: Verify versions
       shell: bash
       run: |
         set -euo pipefail
-        if [ ! -d "${GITHUB_WORKSPACE}/node_modules" ]; then
-          echo "node_modules was not restored or installed" >&2
-          exit 1
-        fi
+        node -v
+        pnpm -v
