@@ -370,16 +370,16 @@ function useRemindersState(): RemindersContextValue {
   );
 }
 
-export function RemindersProvider({
-  children,
-}: {
+type RemindersProviderProps = {
   children: React.ReactNode;
-}) {
+};
+
+export function RemindersProvider({ children }: RemindersProviderProps) {
   const value = useRemindersState();
   return <RemindersContext.Provider value={value}>{children}</RemindersContext.Provider>;
 }
 
-export function useReminders() {
+export function useReminders(): RemindersContextValue {
   const context = React.useContext(RemindersContext);
   if (!context) {
     throw new Error("useReminders must be used within a RemindersProvider");

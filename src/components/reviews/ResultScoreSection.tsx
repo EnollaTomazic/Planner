@@ -162,6 +162,11 @@ function ResultScoreSection(
   );
 }
 
-const ResultScoreSectionComponent = React.forwardRef(ResultScoreSection)
+const ResultScoreSectionComponent = React.forwardRef<
+  ResultScoreSectionHandle,
+  ResultScoreSectionProps
+>(ResultScoreSection)
+
+ResultScoreSectionComponent.displayName = "ResultScoreSection"
 
 export { ResultScoreSectionComponent as ResultScoreSection }
