@@ -173,7 +173,7 @@ runs:
             const sanitized = match[1];
             const segments = sanitized.split(".").length;
             process.stdout.write(`${sanitized}\n${segments}`);
-EOF
+          EOF
         )
 
         if [ "${#NODE_DETAILS[@]}" -lt 2 ]; then
