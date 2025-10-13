@@ -116,6 +116,7 @@ export function DayCard({ iso, isToday }: Props) {
               tasksById={tasksById}
               tasksByProject={tasksByProject}
               selectedProjectId={selectedProjectId}
+              selectedTaskId={selectedTaskId}
               createTask={handleCreateTask}
               renameTask={renameTask}
               toggleTask={toggleTask}
