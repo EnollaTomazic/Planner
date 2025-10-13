@@ -118,6 +118,11 @@ function LaneOpponentForm(
   );
 }
 
-const LaneOpponentFormComponent = React.forwardRef(LaneOpponentForm)
+const LaneOpponentFormComponent = React.forwardRef<
+  LaneOpponentFormHandle,
+  LaneOpponentFormProps
+>(LaneOpponentForm)
+
+LaneOpponentFormComponent.displayName = "LaneOpponentForm"
 
 export { LaneOpponentFormComponent as LaneOpponentForm }

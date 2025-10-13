@@ -8,8 +8,6 @@ export const GITHUB_PAGES_BOOTSTRAP_SCRIPT_PATH = "/scripts/github-pages-bootstr
 export const GITHUB_PAGES_REDIRECT_STORAGE_KEY = createStorageKey(
   "gh-pages:redirect",
 );
-export const GITHUB_PAGES_STORAGE_PLACEHOLDER = "__GITHUB_PAGES_REDIRECT_STORAGE_KEY__";
-export const GITHUB_PAGES_BASE_PATH_PLACEHOLDER = "__BASE_PATH__";
 
 const ABSOLUTE_URL_PATTERN = /^[a-zA-Z][a-zA-Z\d+.-]*:/u;
 const GITHUB_PAGES_DEPLOY_ALIAS_PATTERN = /^[0-9a-f]{7,40}$/iu;

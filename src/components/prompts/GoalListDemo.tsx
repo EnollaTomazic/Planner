@@ -11,17 +11,20 @@ export function GoalListDemo() {
     <div className="mb-[var(--space-8)]">
       <GoalList
         goals={items}
-        onToggleDone={(id) =>
+        onToggleDone={(id) => {
           setItems((prev) =>
             prev.map((g) => (g.id === id ? { ...g, done: !g.done } : g)),
-          )
-        }
-        onRemove={(id) => setItems((prev) => prev.filter((g) => g.id !== id))}
-        onUpdate={(id, updates) =>
+          );
+        }}
+        onRemove={(id) => {
+          setItems((prev) => prev.filter((g) => g.id !== id));
+        }}
+        onUpdate={(id, updates) => {
           setItems((prev) =>
             prev.map((g) => (g.id === id ? { ...g, ...updates } : g)),
-          )
-        }
+          );
+          return true;
+        }}
       />
     </div>
   );

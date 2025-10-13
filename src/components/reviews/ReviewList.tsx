@@ -52,7 +52,18 @@ export function ReviewList({
     return String(error);
   }, [error]);
   const isErrored = Boolean(errorMessage);
-  const [visibleCount, setVisibleCount] = React.useState(PAGE_SIZE);
+  const [visibleCount, setVisibleCount] = React.useState(() =>
+    Math.min(PAGE_SIZE, reviews.length),
+  );
+  const firstPageSignature = React.useMemo(
+    () =>
+      reviews
+        .slice(0, PAGE_SIZE)
+        .map((review) => review.id)
+        .join("|"),
+    [reviews],
+  );
+  const previousSignatureRef = React.useRef(firstPageSignature);
   const [autoLoadEnabled, setAutoLoadEnabled] = React.useState(true);
   const scrollContainerRef = React.useRef<HTMLElement | null>(null);
   const sentinelRef = React.useRef<HTMLDivElement | null>(null);
@@ -69,8 +80,18 @@ export function ReviewList({
   }, []);
 
   React.useEffect(() => {
-    setVisibleCount(PAGE_SIZE);
-  }, [reviews]);
+    const baselineVisible = Math.min(PAGE_SIZE, reviews.length);
+    const previousSignature = previousSignatureRef.current;
+    previousSignatureRef.current = firstPageSignature;
+
+    setVisibleCount((prev) => {
+      if (previousSignature !== firstPageSignature) {
+        return prev === baselineVisible ? prev : baselineVisible;
+      }
+      const clamped = Math.min(prev, reviews.length);
+      return clamped === prev ? prev : clamped;
+    });
+  }, [firstPageSignature, reviews.length]);
 
   const visibleReviews = React.useMemo(
     () => reviews.slice(0, visibleCount),

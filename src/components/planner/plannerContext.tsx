@@ -95,10 +95,12 @@ function extractDaysUpdate(update: DaysUpdateResult) {
   return { days: update as Record<ISODate, DayRecord>, changed: undefined };
 }
 
+type SelectionMap = Partial<Record<ISODate, Selection>>;
+
 function cleanupSelections(
-  selected: Record<ISODate, Selection>,
+  selected: SelectionMap,
   days: Record<ISODate, DayRecord>,
-) {
+): SelectionMap {
   let result = selected;
   let mutated = false;
 
@@ -159,8 +161,8 @@ type FocusState = {
 };
 
 type SelectionState = {
-  selected: Record<ISODate, Selection>;
-  setSelected: React.Dispatch<React.SetStateAction<Record<ISODate, Selection>>>;
+  selected: SelectionMap;
+  setSelected: React.Dispatch<React.SetStateAction<SelectionMap>>;
 };
 
 type PlannerWeek = {
@@ -181,7 +183,7 @@ type PlannerGoalsState = {
   updateGoal: (
     id: string,
     updates: Pick<Goal, "title" | "metric" | "notes">
-  ) => void;
+  ) => boolean;
   undoRemove: VoidFunction;
   clearGoals: VoidFunction;
 };
@@ -227,9 +229,10 @@ function PlannerProviderInner({
     FOCUS_PLACEHOLDER,
     { decode: decodePlannerFocus },
   );
-  const [selectedState, setSelectedState] = usePersistentState<
-    Record<ISODate, Selection>
-  >("planner:selected", {});
+  const [selectedState, setSelectedState] = usePersistentState<SelectionMap>(
+    "planner:selected",
+    {},
+  );
   const [viewMode, setViewMode] = usePersistentState<PlannerViewMode>(
     "planner:view-mode",
     "day",
@@ -312,6 +315,14 @@ function PlannerProviderInner({
       const trimmedTitle = title.trim();
       if (!trimmedTitle) {
         setGoalErr("Title required.");
+        return false;
+      }
+      const normalizedTitle = trimmedTitle.toLowerCase();
+      const hasDuplicate = goalList.some(
+        (goal) => goal.title.trim().toLowerCase() === normalizedTitle,
+      );
+      if (hasDuplicate) {
+        setGoalErr("Goal already exists.");
         return false;
       }
       const currentActive = goalList.filter((goal) => !goal.done).length;
@@ -416,11 +427,77 @@ function PlannerProviderInner({
 
   const updateGoal = React.useCallback(
     (id: string, updates: Pick<Goal, "title" | "metric" | "notes">) => {
-      setGoalList((prev) =>
-        prev.map((goal) => (goal.id === id ? { ...goal, ...updates } : goal)),
-      );
+      let updated = false;
+      setGoalList((prev) => {
+        const index = prev.findIndex((goal) => goal.id === id);
+        if (index === -1) {
+          return prev;
+        }
+
+        const current = prev[index];
+        const next = { ...current };
+
+        const hasTitleUpdate = Object.prototype.hasOwnProperty.call(
+          updates,
+          "title",
+        );
+        if (hasTitleUpdate) {
+          const trimmedTitle = updates.title.trim();
+          if (!trimmedTitle) {
+            setGoalErr("Title required.");
+            return prev;
+          }
+          const normalizedTitle = trimmedTitle.toLowerCase();
+          const duplicate = prev.some(
+            (goal, goalIndex) =>
+              goalIndex !== index &&
+              goal.title.trim().toLowerCase() === normalizedTitle,
+          );
+          if (duplicate) {
+            setGoalErr("Goal already exists.");
+            return prev;
+          }
+          next.title = trimmedTitle;
+        }
+
+        const metricDefined = Object.prototype.hasOwnProperty.call(
+          updates,
+          "metric",
+        );
+        if (metricDefined) {
+          const trimmedMetric = updates.metric?.trim();
+          next.metric = trimmedMetric ? trimmedMetric : undefined;
+        }
+
+        const notesDefined = Object.prototype.hasOwnProperty.call(
+          updates,
+          "notes",
+        );
+        if (notesDefined) {
+          const trimmedNotes = updates.notes?.trim();
+          next.notes = trimmedNotes ? trimmedNotes : undefined;
+        }
+
+        const didChange =
+          next.title !== current.title ||
+          next.metric !== current.metric ||
+          next.notes !== current.notes;
+
+        if (!didChange) {
+          setGoalErr(null);
+          updated = true;
+          return prev;
+        }
+
+        setGoalErr(null);
+        updated = true;
+        const copy = [...prev];
+        copy[index] = next;
+        return copy;
+      });
+      return updated;
     },
-    [setGoalList],
+    [setGoalErr, setGoalList],
   );
 
   const undoRemoveGoal = React.useCallback(() => {
@@ -662,16 +739,14 @@ function PlannerProviderInner({
     [focus, setFocus, today],
   );
   const setSelected = React.useCallback<
-    React.Dispatch<React.SetStateAction<Record<ISODate, Selection>>>
+    React.Dispatch<React.SetStateAction<SelectionMap>>
   >(
     (update) => {
       setSelectedState((prev) => {
         const next =
           typeof update === "function"
             ? (
-                update as (
-                  current: Record<ISODate, Selection>,
-                ) => Record<ISODate, Selection>
+                update as (current: SelectionMap) => SelectionMap
               )(prev)
             : update;
 

@@ -22,11 +22,6 @@ export function resetServerEnvCache(): void {
   cachedServerEnv = null;
 }
 
-export function resetEnvCaches(): void {
-  resetClientEnvCache();
-  resetServerEnvCache();
-}
-
 export function readClientEnv(): ClientEnv {
   if (cachedClientEnv) {
     return cachedClientEnv;
