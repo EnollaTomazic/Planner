@@ -125,8 +125,6 @@ export const depthTokenNames = [
   "card-elev-3",
 ] as const;
 
-export type DepthTokenName = (typeof depthTokenNames)[number];
-
 export const surfaceTokenNames = [
   "danger-surface-foreground",
   "surface-overlay-soft",
@@ -141,8 +139,6 @@ export const surfaceTokenNames = [
   "surface-card-strong-empty",
   "surface-rail-accent",
 ] as const;
-
-export type SurfaceTokenName = (typeof surfaceTokenNames)[number];
 
 export const gradientTokenNames = [
   "edge-iris",
@@ -164,19 +160,13 @@ export const gradientTokenNames = [
   "gradient-panel-tilt-muted",
 ] as const;
 
-export type GradientTokenName = (typeof gradientTokenNames)[number];
-
 export const motionTokenNames = [
   "glow-pulse",
   "glitch-rgb-shift",
   "glitch-scanline",
 ] as const;
 
-export type MotionTokenName = (typeof motionTokenNames)[number];
-
 export const spacingTokens = [4, 8, 12, 16, 24, 32, 48, 64];
-
-export const shellWidthToken = "--shell-width";
 
 const ringEntries = [
   ["xs", { diameter: spacingTokens[4], stroke: spacingTokens[0] }],
@@ -271,15 +261,6 @@ export const radiusScale: Record<RadiusKey, number> = radiusEntries.reduce(
 
 export const radiusTokens = radiusEntries.map(
   ([token]) => `--radius-${token}` as RadiusVar,
-);
-
-export const radiusValues: Record<RadiusVar, string> = radiusEntries.reduce(
-  (acc, [token, value]) => {
-    const variable = `--radius-${token}` as RadiusVar;
-    acc[variable] = `${value}px`;
-    return acc;
-  },
-  {} as Record<RadiusVar, string>,
 );
 
 const extractBalancedSubstring = (
