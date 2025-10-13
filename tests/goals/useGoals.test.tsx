@@ -268,4 +268,55 @@ describe("useGoals", () => {
     expect(persistedExisting?.createdAt).toBe(existingGoal.createdAt);
     expect(persistedExisting?.id).toBe("existing");
   });
+
+  it("rejects duplicate titles when adding goals", () => {
+    const existing = createGoal({ id: "dup", title: "Repeat" });
+    seedGoals([existing]);
+
+    const { result } = renderHook(() => useGoals(), {
+      wrapper: PlannerWrapper,
+    });
+
+    let added = true;
+    act(() => {
+      added = result.current.addGoal({
+        title: " repeat \t",
+        metric: "",
+        notes: "",
+        pillar: "",
+      });
+    });
+
+    expect(added).toBe(false);
+    expect(result.current.err).toBe("Goal already exists.");
+    expect(result.current.goals).toHaveLength(1);
+    expect(result.current.goals[0].title).toBe("Repeat");
+  });
+
+  it("prevents renaming a goal to a duplicate title", () => {
+    const first = createGoal({ id: "first", title: "Warmup" });
+    const second = createGoal({ id: "second", title: "Focus" });
+    seedGoals([first, second]);
+
+    const { result } = renderHook(() => useGoals(), {
+      wrapper: PlannerWrapper,
+    });
+
+    let updated = true;
+    act(() => {
+      updated = result.current.updateGoal("second", {
+        title: " warmup ",
+        metric: "kept",
+        notes: "kept",
+      });
+    });
+
+    expect(updated).toBe(false);
+    expect(result.current.err).toBe("Goal already exists.");
+    const storedGoals = readGoalsState();
+    const untouched = storedGoals.find((goal) => goal.id === "second");
+    expect(untouched?.title).toBe("Focus");
+    expect(untouched?.metric).toBe(second.metric);
+    expect(untouched?.notes).toBe(second.notes);
+  });
 });
