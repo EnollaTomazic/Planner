@@ -37,7 +37,7 @@ import AppErrorBoundary from "./AppErrorBoundary";
 
 const HashScrollEffect = dynamic(async () => {
   const React = await import("react");
-  const { useEffect, useMemo, useState } = React;
+  const { useEffect, useMemo, useRef, useState } = React;
   const { usePathname, useSearchParams } = await import("next/navigation");
   const useHashScroll = (await import("@/hooks/useHashScroll")).default;
   const scrollToHash = (await import("@/lib/scrollToHash")).default;
@@ -50,6 +50,8 @@ const HashScrollEffect = dynamic(async () => {
       () => (searchParams ? searchParams.toString() : ""),
       [searchParams],
     );
+    const scrollPositionsRef = useRef(new Map<string, number>());
+    const activeRouteKeyRef = useRef<string | null>(null);
 
     useEffect(() => {
       setContainer(document.getElementById("scroll-root"));
@@ -69,6 +71,57 @@ const HashScrollEffect = dynamic(async () => {
         window.history.scrollRestoration = "manual";
       }
     }, []);
+
+    useEffect(() => {
+      if (!container) {
+        return;
+      }
+
+      const handleScroll = () => {
+        const key = activeRouteKeyRef.current;
+
+        if (!key) {
+          return;
+        }
+
+        scrollPositionsRef.current.set(key, container.scrollTop);
+      };
+
+      container.addEventListener("scroll", handleScroll, { passive: true });
+
+      return () => {
+        container.removeEventListener("scroll", handleScroll);
+      };
+    }, [container]);
+
+    useEffect(() => {
+      if (!container) {
+        return;
+      }
+
+      const previousKey = activeRouteKeyRef.current;
+
+      if (previousKey) {
+        scrollPositionsRef.current.set(previousKey, container.scrollTop);
+      }
+
+      const basePathname = pathname ?? "/";
+      const nextKey = searchString
+        ? `${basePathname}?${searchString}`
+        : basePathname;
+
+      activeRouteKeyRef.current = nextKey;
+
+      if (typeof window !== "undefined" && window.location.hash) {
+        return;
+      }
+
+      const savedPosition = scrollPositionsRef.current.get(nextKey) ?? 0;
+
+      if (container.scrollTop !== savedPosition) {
+        container.scrollTo({ top: savedPosition });
+      }
+    }, [pathname, searchString, container]);
 
     useEffect(() => {
       if (typeof window === "undefined" || !window.location.hash || !container) {
