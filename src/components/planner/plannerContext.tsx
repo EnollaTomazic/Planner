@@ -95,10 +95,12 @@ function extractDaysUpdate(update: DaysUpdateResult) {
   return { days: update as Record<ISODate, DayRecord>, changed: undefined };
 }
 
+type SelectionMap = Partial<Record<ISODate, Selection>>;
+
 function cleanupSelections(
-  selected: Record<ISODate, Selection>,
+  selected: SelectionMap,
   days: Record<ISODate, DayRecord>,
-) {
+): SelectionMap {
   let result = selected;
   let mutated = false;
 
@@ -159,8 +161,8 @@ type FocusState = {
 };
 
 type SelectionState = {
-  selected: Record<ISODate, Selection>;
-  setSelected: React.Dispatch<React.SetStateAction<Record<ISODate, Selection>>>;
+  selected: SelectionMap;
+  setSelected: React.Dispatch<React.SetStateAction<SelectionMap>>;
 };
 
 type PlannerWeek = {
@@ -227,9 +229,10 @@ function PlannerProviderInner({
     FOCUS_PLACEHOLDER,
     { decode: decodePlannerFocus },
   );
-  const [selectedState, setSelectedState] = usePersistentState<
-    Record<ISODate, Selection>
-  >("planner:selected", {});
+  const [selectedState, setSelectedState] = usePersistentState<SelectionMap>(
+    "planner:selected",
+    {},
+  );
   const [viewMode, setViewMode] = usePersistentState<PlannerViewMode>(
     "planner:view-mode",
     "day",
@@ -662,16 +665,14 @@ function PlannerProviderInner({
     [focus, setFocus, today],
   );
   const setSelected = React.useCallback<
-    React.Dispatch<React.SetStateAction<Record<ISODate, Selection>>>
+    React.Dispatch<React.SetStateAction<SelectionMap>>
   >(
     (update) => {
       setSelectedState((prev) => {
         const next =
           typeof update === "function"
             ? (
-                update as (
-                  current: Record<ISODate, Selection>,
-                ) => Record<ISODate, Selection>
+                update as (current: SelectionMap) => SelectionMap
               )(prev)
             : update;
 
