@@ -31,20 +31,22 @@ jobs:
           cache-node-modules: 'false'
           install-command: pnpm config set retry 4 --global && pnpm config set fetch-retries 4 --global && pnpm config set fetch-retry-maxtimeout 60000 --global && pnpm install --frozen-lockfile --prefer-offline --ignore-scripts=false
 
-      - name: Build gallery manifest
-        run: pnpm run build-gallery-usage
+      - name: Run prebuild
+        run: pnpm run prebuild
 
-      - name: Upload gallery manifest
+      - name: Upload gallery manifest assets
         uses: actions/upload-artifact@v4
         with:
           name: gallery-manifest
           path: |
             src/components/gallery/generated-manifest.ts
             src/components/gallery/generated-manifest.g.ts
+            src/components/gallery/usage.json
+            scripts/.cache/
           if-no-files-found: error
 
   quality:
-    needs: prepare-gallery
+    needs: ${{ fromJson(matrix.needs) }}
     name: ${{ matrix.name }}
     runs-on: ubuntu-latest
     strategy:
@@ -54,29 +56,42 @@ jobs:
           - name: Lint
             node: "22.12.0"
             command: pnpm run lint:ci
+            needs: '[]'
+            download-gallery: 'false'
           - name: Type check
             node: "22.12.0"
             command: pnpm run typecheck:ci
+            needs: '[]'
+            download-gallery: 'false'
           - name: Unit tests
             node: "22.12.0"
             command: pnpm test:ci
+            needs: '[]'
+            download-gallery: 'false'
           - name: Next build + bundle guard
             node: "22.12.0"
             command: pnpm run bundle:guard
             cache-next: true
+            needs: '["prepare-gallery"]'
+            download-gallery: 'true'
           - name: Storybook build (Node 20)
             node: "20.17.0"
             command: pnpm run sb:build
             cache-storybook: true
+            needs: '[]'
+            download-gallery: 'false'
           - name: Playwright E2E
             node: "22.12.0"
             command: pnpm e2e:ci
             cache-playwright: true
+            needs: '["prepare-gallery"]'
+            download-gallery: 'true'
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Restore gallery manifest
+      - name: Download gallery manifest assets
+        if: matrix.download-gallery == 'true'
         uses: actions/download-artifact@v4
         with:
           name: gallery-manifest
