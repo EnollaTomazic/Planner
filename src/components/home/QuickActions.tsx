@@ -9,7 +9,11 @@ const actions = [
     label: "Planner Today",
   },
   {
-    href: "/goals?tab=goals&intent=create-goal#goal-form",
+    href: {
+      pathname: "/goals",
+      query: { tab: "goals", intent: "create-goal" },
+      hash: "goal-form",
+    },
     label: "New Goal",
     tone: "accent" as const,
   },

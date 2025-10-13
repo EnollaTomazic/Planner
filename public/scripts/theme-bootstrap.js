@@ -277,7 +277,9 @@
 
       styleElement.textContent = [
         ":root {",
+        `  --asset-noise-path: "${escapeCssUrl(noiseUrl)}";`,
         `  --asset-noise-url: url('${escapeCssUrl(noiseUrl)}');`,
+        `  --asset-glitch-gif-path: "${escapeCssUrl(glitchUrl)}";`,
         `  --asset-glitch-gif-url: url('${escapeCssUrl(glitchUrl)}');`,
         "}",
       ].join("\n");
