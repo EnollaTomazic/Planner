@@ -37,7 +37,7 @@ jobs:
       PUBLISH_BRANCH: ${{ vars.GH_PAGES_BRANCH || vars.GITHUB_PAGES_BRANCH || (endsWith(github.event.repository.name, '.github.io') && github.event.repository.default_branch) || '' }} # Select the branch to receive published artifacts
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.2.1
+        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.2.1
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
