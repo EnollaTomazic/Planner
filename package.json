@@ -75,7 +75,7 @@
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@commitlint/cz-commitlint": "^20.1.0",
-    "@next/bundle-analyzer": "^15.5.4",
+    "@next/bundle-analyzer": "^15.5.5",
     "@next/eslint-plugin-next": "^15.5.4",
     "@playwright/test": "^1.56.0",
     "@storybook/react": "^9.1.10",
