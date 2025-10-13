@@ -15,12 +15,16 @@ interface TabsContextValue<Key extends string> {
 
 const TabsContext = React.createContext<TabsContextValue<string> | null>(null);
 
-function useTabsContext<Key extends string>() {
+function useTabsContext<Key extends string>(): TabsContextValue<Key> {
   const context = React.useContext(TabsContext);
   if (!context) {
     throw new Error("Tab components must be used within a <Tabs> provider.");
   }
-  return context as unknown as TabsContextValue<Key>;
+  return {
+    ...context,
+    value: context.value as Key,
+    setValue: context.setValue as (value: Key) => void,
+  };
 }
 
 export interface TabsProps<Key extends string = string>
@@ -55,11 +59,12 @@ export function Tabs<Key extends string = string>({
   const resolvedValue = (activeValue ?? defaultValue) as Key;
 
   const handleValueChange = React.useCallback(
-    (next: Key) => {
+    (next: string) => {
+      const typedNext = next as Key;
       if (!controlled) {
-        setInternal(next);
+        setInternal(typedNext);
       }
-      onValueChange?.(next);
+      onValueChange?.(typedNext);
     },
     [controlled, onValueChange],
   );
@@ -67,13 +72,13 @@ export function Tabs<Key extends string = string>({
   const generatedId = React.useId();
   const baseId = idBase ?? generatedId;
 
-  const context = React.useMemo<TabsContextValue<Key>>(
+  const context = React.useMemo<TabsContextValue<string>>(
     () => ({ value: resolvedValue, setValue: handleValueChange, idBase: baseId }),
     [baseId, handleValueChange, resolvedValue],
   );
 
   return (
-    <TabsContext.Provider value={context as unknown as TabsContextValue<string>}>
+    <TabsContext.Provider value={context}>
       <div className={cn("flex flex-col gap-[var(--space-6)]", className)} {...rest}>
         {children}
       </div>
@@ -86,28 +91,36 @@ export type TabListItem<Key extends string = string> = TabItem<Key>;
 export type TabListProps<
   Key extends string = string,
   Extra extends Record<string, unknown> | undefined = undefined,
-> = Omit<TabBarProps<Key, Extra>, "value" | "onValueChange" | "idBase"> & {
-  value?: never;
-  onValueChange?: never;
-  idBase?: never;
-};
+> = Omit<TabBarProps<Key, Extra>, "value" | "onValueChange" | "idBase">;
 
 export function TabList<
   Key extends string = string,
   Extra extends Record<string, unknown> | undefined = undefined,
 >(props: TabListProps<Key, Extra>) {
   const { value, setValue, idBase } = useTabsContext<Key>();
-  const { linkPanels = true, ...rest } = props;
-  const tabBarProps = rest as unknown as TabBarProps<Key, Extra>;
-  return (
-    <TabBar
-      {...tabBarProps}
-      value={value}
-      onValueChange={setValue}
-      idBase={idBase}
-      linkPanels={linkPanels}
-    />
-  );
+  const { linkPanels, ariaLabel, ariaLabelledBy, ...rest } = props;
+  const sharedProps = {
+    ...rest,
+    linkPanels: linkPanels ?? true,
+    value,
+    onValueChange: setValue,
+    idBase,
+  } satisfies Omit<TabBarProps<Key, Extra>, "ariaLabel" | "ariaLabelledBy">;
+
+  if (ariaLabelledBy !== undefined) {
+    const labelledProps: TabBarProps<Key, Extra> = {
+      ...sharedProps,
+      ariaLabelledBy,
+      ...(ariaLabel !== undefined ? { ariaLabel } : {}),
+    };
+    return <TabBar {...labelledProps} />;
+  }
+
+  const labelledProps: TabBarProps<Key, Extra> = {
+    ...sharedProps,
+    ariaLabel: ariaLabel as string,
+  };
+  return <TabBar {...labelledProps} />;
 }
 
 export interface TabPanelProps<Key extends string = string>

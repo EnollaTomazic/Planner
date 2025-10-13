@@ -108,6 +108,36 @@ const sanitizeSlotValue = (
   return hasRenderableSlotValue(value) ? value : null;
 };
 
+const adaptTabBarRenderItem = <
+  SourceKey extends string,
+  TargetKey extends string,
+>(
+  renderItem: TabBarProps<SourceKey>["renderItem"],
+): TabBarProps<TargetKey>["renderItem"] | undefined => {
+  if (!renderItem) {
+    return undefined;
+  }
+
+  type SourceContext = Parameters<
+    NonNullable<TabBarProps<SourceKey>["renderItem"]>
+  >[0];
+  type TargetContext = Parameters<
+    NonNullable<TabBarProps<TargetKey>["renderItem"]>
+  >[0];
+
+  return (context: TargetContext) => {
+    const sourceContext: SourceContext = {
+      ...context,
+      item: {
+        ...context.item,
+        key: String(context.item.key) as SourceKey,
+      },
+    };
+
+    return renderItem(sourceContext);
+  };
+};
+
 export interface PageHeaderBaseProps<
   HeaderKey extends string = string,
   HeroKey extends string = string,
@@ -213,9 +243,7 @@ const PageHeaderInner = <
     return {
       ...restHeaderTabs,
       ...(renderItem
-        ? {
-            renderItem: renderItem as unknown as TabBarProps<HeroKey>["renderItem"],
-          }
+        ? { renderItem: adaptTabBarRenderItem<HeaderKey, HeroKey>(renderItem) }
         : {}),
       items: items.map((item) => ({
         ...item,
