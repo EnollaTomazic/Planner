@@ -12,6 +12,32 @@ const PAGE_SIZE = 40;
 const REVIEW_SCROLL_STORAGE_KEY = "planner:reviews:list-scroll";
 const REVIEW_AUTOLOAD_STORAGE_KEY = "planner:reviews:auto-load";
 
+function readSessionStorage(key: string): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return window.sessionStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function writeSessionStorage(key: string, value: string) {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(key, value);
+  } catch {
+    // ignore write errors (e.g. storage disabled)
+  }
+}
+
+function readBooleanPreference(key: string, fallback: boolean) {
+  const stored = readSessionStorage(key);
+  if (stored === null) return fallback;
+  if (stored === "true") return true;
+  if (stored === "false") return false;
+  return fallback;
+}
+
 export type ReviewListProps = {
   reviews: Review[];
   selectedId: string | null;
@@ -64,20 +90,13 @@ export function ReviewList({
     [reviews],
   );
   const previousSignatureRef = React.useRef(firstPageSignature);
-  const [autoLoadEnabled, setAutoLoadEnabled] = React.useState(true);
+  const [autoLoadEnabled, setAutoLoadEnabled] = React.useState(() =>
+    readBooleanPreference(REVIEW_AUTOLOAD_STORAGE_KEY, true),
+  );
   const scrollContainerRef = React.useRef<HTMLElement | null>(null);
   const sentinelRef = React.useRef<HTMLDivElement | null>(null);
   const autoLoadLockRef = React.useRef(false);
   const restoredRef = React.useRef(false);
-
-  React.useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const stored = sessionStorage.getItem(REVIEW_AUTOLOAD_STORAGE_KEY);
-    if (stored !== null) {
-      setAutoLoadEnabled(stored === "true");
-    }
-  }, []);
 
   React.useEffect(() => {
     const baselineVisible = Math.min(PAGE_SIZE, reviews.length);
@@ -118,9 +137,7 @@ export function ReviewList({
   const handleToggleAutoLoad = React.useCallback(() => {
     setAutoLoadEnabled((prev) => {
       const next = !prev;
-      if (typeof window !== "undefined") {
-        sessionStorage.setItem(REVIEW_AUTOLOAD_STORAGE_KEY, String(next));
-      }
+      writeSessionStorage(REVIEW_AUTOLOAD_STORAGE_KEY, String(next));
       return next;
     });
   }, []);
@@ -130,7 +147,7 @@ export function ReviewList({
     const container = scrollContainerRef.current;
     if (!container) return undefined;
 
-    const stored = sessionStorage.getItem(REVIEW_SCROLL_STORAGE_KEY);
+    const stored = readSessionStorage(REVIEW_SCROLL_STORAGE_KEY);
     if (!restoredRef.current && stored) {
       const parsed = Number.parseInt(stored, 10);
       if (!Number.isNaN(parsed)) {
@@ -144,7 +161,7 @@ export function ReviewList({
       if (frame) return;
       frame = window.requestAnimationFrame(() => {
         frame = 0;
-        sessionStorage.setItem(
+        writeSessionStorage(
           REVIEW_SCROLL_STORAGE_KEY,
           Math.round(container.scrollTop).toString(),
         );
@@ -152,7 +169,7 @@ export function ReviewList({
     };
 
     const handlePageHide = () => {
-      sessionStorage.setItem(
+      writeSessionStorage(
         REVIEW_SCROLL_STORAGE_KEY,
         Math.round(container.scrollTop).toString(),
       );
@@ -167,7 +184,7 @@ export function ReviewList({
       if (frame) {
         window.cancelAnimationFrame(frame);
       }
-      sessionStorage.setItem(
+      writeSessionStorage(
         REVIEW_SCROLL_STORAGE_KEY,
         Math.round(container.scrollTop).toString(),
       );
