@@ -9,8 +9,28 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const isProd = process.env.NODE_ENV === "production";
-const basePath = isProd ? "/Planner" : "";
-const assetPrefix = isProd ? "/Planner/" : "";
+
+const normalizeBasePath = (rawValue) => {
+  const trimmed = rawValue?.trim();
+
+  if (!trimmed) {
+    return "";
+  }
+
+  const withLeadingSlash = trimmed.startsWith("/")
+    ? trimmed
+    : `/${trimmed}`;
+
+  return withLeadingSlash.endsWith("/")
+    ? withLeadingSlash.slice(0, -1)
+    : withLeadingSlash;
+};
+
+const resolvedBasePath =
+  normalizeBasePath(process.env.BASE_PATH) ||
+  normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH);
+const basePath = resolvedBasePath || (isProd ? "/Planner" : "");
+const assetPrefix = basePath ? `${basePath}/` : "";
 
 const normalizeOptionalBoolean = (value) => {
   if (value === undefined) {
