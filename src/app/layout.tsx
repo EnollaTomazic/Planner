@@ -5,6 +5,7 @@ import "./themes.css";
 import "@/env/validate-server-env";
 
 import type { Metadata, Viewport } from "next";
+import dynamic from "next/dynamic";
 import {
   geistMonoVariable,
   geistSansClassName,
@@ -33,6 +34,64 @@ import {
   sanitizeContentSecurityPolicyForMeta,
 } from "../../security-headers.mjs";
 import AppErrorBoundary from "./AppErrorBoundary";
+
+const HashScrollEffect = dynamic(async () => {
+  const React = await import("react");
+  const { useEffect, useMemo, useState } = React;
+  const { usePathname, useSearchParams } = await import("next/navigation");
+  const useHashScroll = (await import("@/hooks/useHashScroll")).default;
+  const scrollToHash = (await import("@/lib/scrollToHash")).default;
+
+  function HashScrollEffectComponent(): null {
+    const [container, setContainer] = useState<HTMLElement | null>(null);
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const searchString = useMemo(
+      () => (searchParams ? searchParams.toString() : ""),
+      [searchParams],
+    );
+
+    useEffect(() => {
+      setContainer(document.getElementById("scroll-root"));
+    }, []);
+
+    useHashScroll({
+      container: container ?? undefined,
+      behavior: "smooth",
+    });
+
+    useEffect(() => {
+      if (typeof window === "undefined") {
+        return;
+      }
+
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+    }, []);
+
+    useEffect(() => {
+      if (typeof window === "undefined" || !window.location.hash || !container) {
+        return;
+      }
+
+      const timeout = window.setTimeout(() => {
+        scrollToHash(window.location.hash, {
+          container,
+          behavior: "smooth",
+        });
+      }, 0);
+
+      return () => {
+        window.clearTimeout(timeout);
+      };
+    }, [pathname, searchString, container]);
+
+    return null;
+  }
+
+  return HashScrollEffectComponent;
+}, { ssr: false });
 
 const contentSecurityPolicy = createContentSecurityPolicy(
   defaultSecurityPolicyOptions,
@@ -154,25 +213,33 @@ export default async function RootLayout({
                       <DecorLayer className="page-backdrop__layer" variant="drip" />
                     </div>
                   </div>
-                  <SiteChrome>
-                    <CatCompanion />
-                    <div className="relative z-10">
-                      <main id="main-content" role="main" tabIndex={-1}>
-                        {children}
-                      </main>
-                      <footer
-                        role="contentinfo"
-                        className="mt-[var(--space-8)] border-t border-border bg-surface"
+                  <div className="flex min-h-screen flex-col">
+                    <SiteChrome>
+                      <HashScrollEffect />
+                      <CatCompanion />
+                      <div
+                        id="scroll-root"
+                        className="min-h-0 flex-1 overflow-y-auto"
                       >
-                        <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
-                          <p className="text-ui font-medium text-foreground">
-                            Planner keeps local-first goals organized so every ritual stays actionable.
-                          </p>
-                          <p>© {year} Planner Labs. All rights reserved.</p>
-                        </PageShell>
-                      </footer>
-                    </div>
-                  </SiteChrome>
+                        <div className="relative z-10">
+                          <main id="main-content" role="main" tabIndex={-1}>
+                            {children}
+                          </main>
+                          <footer
+                            role="contentinfo"
+                            className="mt-[var(--space-8)] border-t border-border bg-surface"
+                          >
+                            <PageShell className="flex flex-col gap-[var(--space-1)] py-[var(--space-5)] text-label text-muted-foreground md:flex-row md:items-center md:justify-between">
+                              <p className="text-ui font-medium text-foreground">
+                                Planner keeps local-first goals organized so every ritual stays actionable.
+                              </p>
+                              <p>© {year} Planner Labs. All rights reserved.</p>
+                            </PageShell>
+                          </footer>
+                        </div>
+                      </div>
+                    </SiteChrome>
+                  </div>
                 </DepthThemeProvider>
               </ThemeProvider>
             </AppErrorBoundary>
