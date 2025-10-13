@@ -137,6 +137,11 @@ function PillarsSelector(
   );
 }
 
-const PillarsSelectorComponent = React.forwardRef(PillarsSelector)
+const PillarsSelectorComponent = React.forwardRef<
+  PillarsSelectorHandle,
+  PillarsSelectorProps
+>(PillarsSelector)
+
+PillarsSelectorComponent.displayName = "PillarsSelector"
 
 export { PillarsSelectorComponent as PillarsSelector }

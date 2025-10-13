@@ -273,6 +273,11 @@ function TimestampMarkers(
   );
 }
 
-const TimestampMarkersComponent = React.forwardRef(TimestampMarkers)
+const TimestampMarkersComponent = React.forwardRef<
+  TimestampMarkersHandle,
+  TimestampMarkersProps
+>(TimestampMarkers)
+
+TimestampMarkersComponent.displayName = "TimestampMarkers"
 
 export { TimestampMarkersComponent as TimestampMarkers }
