@@ -6,6 +6,7 @@ const config: StorybookConfig = {
   stories: ["./src/components/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
   framework: {
     name: "@storybook/react-vite",
+    options: {},
   },
   viteFinal: async (config) =>
     mergeConfig(config, {
