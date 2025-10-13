@@ -17,7 +17,7 @@ interface GoalListProps {
   onUpdate: (
     id: string,
     updates: Pick<Goal, "title" | "metric" | "notes">,
-  ) => void;
+  ) => boolean;
 }
 
 export function GoalList({
@@ -47,12 +47,14 @@ export function GoalList({
   }
 
   function saveEdit(id: string) {
-    onUpdate(id, {
+    const updated = onUpdate(id, {
       title: draft.title,
       metric: draft.metric || undefined,
       notes: draft.notes || undefined,
     });
-    setEditingId(null);
+    if (updated) {
+      setEditingId(null);
+    }
   }
 
   return (

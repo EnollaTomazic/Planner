@@ -8,7 +8,21 @@ import { useReminders } from "./useReminders";
 import styles from "./ReminderQuickAddForm.module.css";
 
 export function ReminderQuickAddForm() {
-  const { quickAdd, setQuickAdd, addReminder, group, groups, neonClass } = useReminders();
+  const {
+    quickAdd,
+    setQuickAdd,
+    addReminder,
+    group,
+    groups,
+    neonClass,
+    quickAddError,
+    clearQuickAddError,
+    setQuickAddError,
+  } = useReminders();
+
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputId = React.useId();
+  const errorId = quickAddError ? `${inputId}-error` : undefined;
 
   const groupLabel = React.useMemo(() => {
     return groups.find((item) => item.key === group)?.label ?? "Group";
@@ -21,9 +35,27 @@ export function ReminderQuickAddForm() {
   const handleSubmit = React.useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      if (quickAdd.trim()) addReminder(quickAdd);
+      const trimmed = quickAdd.trim();
+      if (!trimmed) {
+        setQuickAddError("Enter a reminder before adding.");
+        return;
+      }
+      const added = addReminder(trimmed);
+      if (added) {
+        inputRef.current?.focus({ preventScroll: true });
+      }
     },
-    [addReminder, quickAdd],
+    [addReminder, quickAdd, setQuickAddError],
+  );
+
+  const handleChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (quickAddError) {
+        clearQuickAddError();
+      }
+      setQuickAdd(event.currentTarget.value);
+    },
+    [clearQuickAddError, quickAddError, setQuickAdd],
   );
 
   return (
@@ -33,12 +65,13 @@ export function ReminderQuickAddForm() {
         className="rounded-card flex items-center gap-[var(--space-2)] sm:gap-[var(--space-6)] glitch"
       >
         <Input
+          ref={inputRef}
+          id={inputId}
           aria-label="Quick add reminder"
           placeholder={`Quick add to ${groupLabel}…`}
           value={quickAdd}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setQuickAdd(event.currentTarget.value)
-          }
+          onChange={handleChange}
+          aria-describedby={errorId}
           className="flex-1"
         />
         <IconButton
@@ -58,6 +91,16 @@ export function ReminderQuickAddForm() {
           </p>
         </div>
       </form>
+      {quickAddError ? (
+        <p
+          id={errorId}
+          role="status"
+          aria-live="polite"
+          className="text-label font-medium tracking-[0.02em] text-danger"
+        >
+          {quickAddError}
+        </p>
+      ) : null}
     </>
   );
 }
