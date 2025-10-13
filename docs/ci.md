@@ -3,7 +3,9 @@
 This project maintains first-party workflows under `.github/workflows/`:
 
 - `ci.yml` runs the validation and test matrix that gates every pull request and push.
-- `deploy-pages.yml` publishes the static export to GitHub Pages after changes land on protected branches.
+- `deploy-pages.yml` publishes the static export to GitHub Pages after changes land on protected branches. It is the only Pages
+  workflow now that the stock `nextjs.yml` sample has been retired, and it listens for pushes to `main` and `work` alongside an
+  explicit `workflow_dispatch` trigger for manual redeploys.
 - `workflow-lint.yml` enforces style and correctness rules for workflow changes themselves.
 - `codex-autofix.yml` attempts an automated repair after the CI workflow fails, but only runs when the `OPENAI_API_KEY` secret is configured so Codex can authenticate.
 
@@ -27,7 +29,8 @@ The `ci.yml` workflow defines first-class jobs for audits, linting, type-checkin
 - The Vitest suite executes twice: once with the default legacy depth profile and again with `NEXT_PUBLIC_ORGANIC_DEPTH=true`. This keeps both code paths healthy so the flag can flip without requiring a fresh deploy.
 - The `theme-previews` entry in the Playwright matrix downloads the `next-build` artefact, verifies it before starting the server, and then exercises any tests tagged `@axe` (or the full suite when none are tagged).
 - Visual E2E coverage now captures per-theme snapshots for the depth-aware button and card previews while rerunning axe against those preview routes from the same matrix entry. Keep `npx playwright test` wired into CI so this job remains the source of truth for depth and theme regressions.
-- The `Deploy Pages` workflow builds the static export on pushes to `main`, verifying prompts before the export, uploading the artefact for traceability, and executing the [`actions/deploy-pages`](https://github.com/actions/deploy-pages) step to publish the site.
+- The `Deploy Pages` workflow builds the static export on pushes to `main`, verifying prompts before the export, uploading the artefact for traceability, and executing the [`actions/deploy-pages`](https://github.com/actions/deploy-pages) step to publish the site. When the pipeline needs a manual redeploy, run the workflow from the GitHub Actions UI via the `workflow_dispatch`
+  entry and the same job sequence executes without requiring a new commit.
 - `workflow-lint.yml` runs `actionlint`, `yamllint`, and `pnpm run guard:artifacts` whenever workflow files change (or on demand) so breaking changes surface before they land in `ci.yml` or `deploy-pages.yml`.
 
 ## Bundle analysis and performance budgets
@@ -46,4 +49,4 @@ Prompt checks always run through the consolidated matcher that scans every promp
 - The matrix declared under `jobs.playwright.strategy` spins up the production build uploaded by the `build` job, then executes the tagged suites (for example `theme-previews`) with `npx playwright test … --reporter=github` so screenshots, accessibility checks, and depth snapshots stay in sync. Inspect the job summary for direct links to the generated HTML reports (`playwright-report-<suite>` artefacts) when a diff appears.
 - For local debugging, mirror the CI command: `npx playwright test --config playwright.config.ts --project=chromium-w1440 --grep @visual`. The command respects `PLAYWRIGHT_ALLOW_LOCAL_FIRST=1` for persistence-heavy specs and produces the same `playwright-report` directory that CI uploads. Clean the report (`rm -rf playwright-report`) before re-running to avoid stale comparisons.
 
-The design token guard job is enforced as a required status check for protected branches so design regressions block merges alongside linting, type-checking, unit tests, the Playwright accessibility coverage, and the browser E2E checks that execute against the shared build. The `Deploy Pages` workflow is also required so merges confirm that the production Pages deployment pipeline remains healthy after each change.
+The design token guard job is enforced as a required status check for protected branches so design regressions block merges alongside linting, type-checking, unit tests, the Playwright accessibility coverage, and the browser E2E checks that execute against the shared build. The `Deploy Pages` workflow is also required so merges confirm that the production Pages deployment pipeline remains healthy after each change, and it is the only Pages workflow that must pass because `.github/workflows/nextjs.yml` no longer carries deployment triggers.

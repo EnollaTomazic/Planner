@@ -12,7 +12,7 @@ The `.github/actions/setup-node-project` composite action accepts a `node-versio
 
 ## Single deployment pipeline
 
-With the stock `nextjs.yml` sample removed, GitHub Pages deployments run exclusively through the bespoke `deploy-pages.yml` workflow, keeping environment validation and publishing logic in one place.【F:.github/workflows/deploy-pages.yml†L1-L70】 Maintaining a single pipeline avoids double publishes while preserving the repository-specific checks around prompt validation and export uploads.
+With the stock `nextjs.yml` sample removed, GitHub Pages deployments run exclusively through the bespoke `deploy-pages.yml` workflow, keeping environment validation and publishing logic in one place.【F:.github/workflows/deploy-pages.yml†L1-L70】 Maintaining a single pipeline avoids double publishes while preserving the repository-specific checks around prompt validation and export uploads. The remaining workflow keeps parity with the retired sample by watching the `main` and `work` branches and exposing a `workflow_dispatch` control for on-demand redeploys, so no automation paths were lost during the consolidation.【F:.github/workflows/deploy-pages.yml†L8-L18】
 
 ## Ongoing monitoring
 
