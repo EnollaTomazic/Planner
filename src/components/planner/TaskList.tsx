@@ -12,6 +12,7 @@ type Props = {
   tasksById: Record<string, DayTask>;
   tasksByProject: Record<string, string[]>;
   selectedProjectId: string;
+  selectedTaskId: string;
   createTask: (title: string) => string | undefined;
   renameTask: (id: string, title: string) => void;
   toggleTask: (id: string) => void;
@@ -25,6 +26,7 @@ export function TaskList({
   tasksById,
   tasksByProject,
   selectedProjectId,
+  selectedTaskId,
   createTask,
   renameTask,
   toggleTask,
@@ -102,7 +104,9 @@ export function TaskList({
               }}
               deleteTask={() => {
                 deleteTask(t.id);
-                setSelectedTaskId("");
+                if (selectedTaskId === t.id) {
+                  setSelectedTaskId("");
+                }
               }}
               renameTask={(title) => renameTask(t.id, title)}
               selectTask={() => setSelectedTaskId(t.id)}

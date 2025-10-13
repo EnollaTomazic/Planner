@@ -29,7 +29,7 @@ function createGoalsState(goals: Goal[]): GoalsHookValue {
     addGoal: returnTrue as GoalsHookValue["addGoal"],
     toggleDone: noop as GoalsHookValue["toggleDone"],
     removeGoal: noop as GoalsHookValue["removeGoal"],
-    updateGoal: noop as GoalsHookValue["updateGoal"],
+    updateGoal: returnTrue as GoalsHookValue["updateGoal"],
     undoRemove: noop,
     clearGoals: noop,
   };

@@ -183,7 +183,7 @@ type PlannerGoalsState = {
   updateGoal: (
     id: string,
     updates: Pick<Goal, "title" | "metric" | "notes">
-  ) => void;
+  ) => boolean;
   undoRemove: VoidFunction;
   clearGoals: VoidFunction;
 };
@@ -317,6 +317,14 @@ function PlannerProviderInner({
         setGoalErr("Title required.");
         return false;
       }
+      const normalizedTitle = trimmedTitle.toLowerCase();
+      const hasDuplicate = goalList.some(
+        (goal) => goal.title.trim().toLowerCase() === normalizedTitle,
+      );
+      if (hasDuplicate) {
+        setGoalErr("Goal already exists.");
+        return false;
+      }
       const currentActive = goalList.filter((goal) => !goal.done).length;
       if (currentActive >= ACTIVE_CAP) {
         setGoalErr("Cap reached. Mark something done first.");
@@ -419,11 +427,77 @@ function PlannerProviderInner({
 
   const updateGoal = React.useCallback(
     (id: string, updates: Pick<Goal, "title" | "metric" | "notes">) => {
-      setGoalList((prev) =>
-        prev.map((goal) => (goal.id === id ? { ...goal, ...updates } : goal)),
-      );
+      let updated = false;
+      setGoalList((prev) => {
+        const index = prev.findIndex((goal) => goal.id === id);
+        if (index === -1) {
+          return prev;
+        }
+
+        const current = prev[index];
+        const next = { ...current };
+
+        const hasTitleUpdate = Object.prototype.hasOwnProperty.call(
+          updates,
+          "title",
+        );
+        if (hasTitleUpdate) {
+          const trimmedTitle = updates.title.trim();
+          if (!trimmedTitle) {
+            setGoalErr("Title required.");
+            return prev;
+          }
+          const normalizedTitle = trimmedTitle.toLowerCase();
+          const duplicate = prev.some(
+            (goal, goalIndex) =>
+              goalIndex !== index &&
+              goal.title.trim().toLowerCase() === normalizedTitle,
+          );
+          if (duplicate) {
+            setGoalErr("Goal already exists.");
+            return prev;
+          }
+          next.title = trimmedTitle;
+        }
+
+        const metricDefined = Object.prototype.hasOwnProperty.call(
+          updates,
+          "metric",
+        );
+        if (metricDefined) {
+          const trimmedMetric = updates.metric?.trim();
+          next.metric = trimmedMetric ? trimmedMetric : undefined;
+        }
+
+        const notesDefined = Object.prototype.hasOwnProperty.call(
+          updates,
+          "notes",
+        );
+        if (notesDefined) {
+          const trimmedNotes = updates.notes?.trim();
+          next.notes = trimmedNotes ? trimmedNotes : undefined;
+        }
+
+        const didChange =
+          next.title !== current.title ||
+          next.metric !== current.metric ||
+          next.notes !== current.notes;
+
+        if (!didChange) {
+          setGoalErr(null);
+          updated = true;
+          return prev;
+        }
+
+        setGoalErr(null);
+        updated = true;
+        const copy = [...prev];
+        copy[index] = next;
+        return copy;
+      });
+      return updated;
     },
-    [setGoalList],
+    [setGoalErr, setGoalList],
   );
 
   const undoRemoveGoal = React.useCallback(() => {

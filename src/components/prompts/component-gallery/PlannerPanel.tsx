@@ -339,6 +339,7 @@ export function PlannerPanel({ data }: PlannerPanelProps) {
               tasksById={demoTasksById}
               tasksByProject={demoTasksByProject}
               selectedProjectId="p1"
+              selectedTaskId=""
               createTask={() => undefined}
               renameTask={() => {}}
               toggleTask={() => {}}
