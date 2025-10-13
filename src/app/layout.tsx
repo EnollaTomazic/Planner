@@ -83,10 +83,14 @@ export default async function RootLayout({
   const glitchLandingDataAttribute = glitchLandingState ? "enabled" : "legacy";
   const year = new Date().getFullYear();
   const basePath = getBasePath();
+  const noiseAssetPath = withBasePath("/noise.svg");
+  const glitchAssetPath = withBasePath("/glitch-gif.gif");
   const assetUrlCss = [
     ":root {",
-    `  --asset-noise-url: url("${withBasePath("/noise.svg")}");`,
-    `  --asset-glitch-gif-url: url("${withBasePath("/glitch-gif.gif")}");`,
+    `  --asset-noise-path: "${noiseAssetPath}";`,
+    `  --asset-noise-url: url("${noiseAssetPath}");`,
+    `  --asset-glitch-gif-path: "${glitchAssetPath}";`,
+    `  --asset-glitch-gif-url: url("${glitchAssetPath}");`,
     "}",
   ].join("\n");
 

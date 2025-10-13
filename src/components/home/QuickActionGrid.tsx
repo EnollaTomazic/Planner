@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
+import Link, { type LinkProps } from "next/link";
 import { type ButtonProps, Button } from "@/components/ui/primitives/Button";
 import { cn, withBasePath } from "@/lib/utils";
 
@@ -31,9 +31,11 @@ const isExternalHref = (href: string): boolean => {
   return /^(?:[a-zA-Z][a-zA-Z\d+.-]*:|\/\/)/.test(href);
 };
 
+type QuickActionHref = LinkProps["href"];
+
 type QuickActionDefinition = {
   id?: string;
-  href: string;
+  href: QuickActionHref;
   label: React.ReactNode;
   tone?: ButtonProps["tone"];
   asChild?: boolean;
@@ -66,7 +68,7 @@ export function QuickActionGrid({
 }: QuickActionGridProps) {
   return (
     <div className={cn(ROOT_CLASSNAME, layoutClassNames[layout], className)}>
-      {actions.map((action) => {
+      {actions.map((action, index) => {
         const {
           id,
           href,
@@ -79,7 +81,14 @@ export function QuickActionGrid({
           linkProps,
         } = action;
         void asChild;
-        const key = id ?? href;
+        const hrefIsString = typeof href === "string";
+        const trimmedHref = hrefIsString ? href.trim() : "";
+        const key =
+          id ??
+          (hrefIsString
+            ? trimmedHref || `${index}`
+            : JSON.stringify(href)) ??
+          `${index}`;
         const resolvedTone = tone ?? buttonTone;
         const resolvedSize = size ?? buttonSize;
         const resolvedVariant = variant ?? buttonVariant;
@@ -89,14 +98,23 @@ export function QuickActionGrid({
           buttonClassName,
           actionClassName,
         );
-        const trimmedHref = href.trim();
-        const isHash = trimmedHref.startsWith("#");
-        const isExternal = isExternalHref(trimmedHref);
-        const shouldPrefixBasePathForAnchor = !isHash && !isExternal;
+        const isHash = hrefIsString && trimmedHref.startsWith("#");
+        const isExternal = hrefIsString && isExternalHref(trimmedHref);
+        const shouldPrefixBasePathForAnchor =
+          hrefIsString &&
+          trimmedHref.length > 0 &&
+          !isHash &&
+          !isExternal;
         const anchorHref = shouldPrefixBasePathForAnchor
           ? withBasePath(trimmedHref)
-          : trimmedHref;
-        const linkHref = trimmedHref;
+          : hrefIsString && trimmedHref.length > 0
+            ? trimmedHref
+            : "#";
+        const linkHref = hrefIsString
+          ? trimmedHref.length > 0
+            ? trimmedHref
+            : "/"
+          : href;
         const {
           className: _omitClassName,
           target,
