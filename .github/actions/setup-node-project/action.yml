@@ -5,6 +5,9 @@ inputs:
   node-version-file:
     description: "Path to the Node version file"
     default: ".nvmrc"
+  node-version:
+    description: "Explicit Node.js version (takes precedence over node-version-file)"
+    required: false
   package-manager:
     description: "Explicit package manager (npm, pnpm, yarn)"
     required: false
@@ -131,6 +134,62 @@ runs:
           echo "lockfile=$LOCKFILE"
         } >>"$GITHUB_OUTPUT"
 
+    - name: Determine Node.js requirement
+      id: node-requirement
+      shell: bash
+      env:
+        EXPLICIT_NODE_VERSION: "${{ inputs['node-version'] }}"
+        VERSION_FILE: "${{ inputs['node-version-file'] }}"
+      run: |
+        set -euo pipefail
+
+        if [ -n "$EXPLICIT_NODE_VERSION" ]; then
+          NODE_SOURCE="node-version input"
+          RAW_VALUE="$EXPLICIT_NODE_VERSION"
+        else
+          FILE_PATH="${VERSION_FILE:-.nvmrc}"
+          if [ ! -f "$FILE_PATH" ]; then
+            echo "::error::Node version file '$FILE_PATH' was not found and no explicit node-version input was provided." >&2
+            exit 1
+          fi
+          NODE_SOURCE="$FILE_PATH"
+          RAW_VALUE="$(tr -d '\r\n\t ' <"$FILE_PATH")"
+        fi
+
+        if [ -z "$RAW_VALUE" ]; then
+          echo "::error::Node.js version resolved from $NODE_SOURCE is empty." >&2
+          exit 1
+        fi
+
+        mapfile -t NODE_DETAILS < <(
+          VALUE="$RAW_VALUE" node --input-type=module <<'EOF'
+            const raw = process.env.VALUE ?? "";
+            const normalized = raw.trim();
+            const match = normalized.match(/^[vV]?(\d+(?:\.\d+){0,2})$/u);
+            if (!match) {
+              console.error(`Unsupported Node.js version specification: ${raw}`);
+              process.exit(1);
+            }
+            const sanitized = match[1];
+            const segments = sanitized.split(".").length;
+            process.stdout.write(`${sanitized}\n${segments}`);
+EOF
+        )
+
+        if [ "${#NODE_DETAILS[@]}" -lt 2 ]; then
+          echo "::error::Failed to normalize Node.js version resolved from $NODE_SOURCE." >&2
+          exit 1
+        fi
+
+        SANITIZED_VERSION="${NODE_DETAILS[0]}"
+        SEGMENT_COUNT="${NODE_DETAILS[1]}"
+
+        {
+          echo "value=$SANITIZED_VERSION"
+          echo "segments=$SEGMENT_COUNT"
+          echo "source=$NODE_SOURCE"
+        } >>"$GITHUB_OUTPUT"
+
     - name: Setup pnpm
       if: ${{ steps.detect.outputs.manager == 'pnpm' }}
       uses: pnpm/action-setup@v4
@@ -142,7 +201,7 @@ runs:
     - name: Setup Node.js
       uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
       with:
-        node-version-file: "${{ inputs['node-version-file'] }}"
+        node-version: "${{ steps['node-requirement'].outputs.value }}"
         cache: "${{ steps.detect.outputs.manager }}"
         cache-dependency-path: "${{ steps.detect.outputs.lockfile }}"
 
@@ -193,6 +252,46 @@ runs:
       id: node-version
       shell: bash
       run: echo "value=$(node -p "process.versions.node")" >>"$GITHUB_OUTPUT"
+
+    - name: Validate Node.js runtime
+      shell: bash
+      env:
+        EXPECTED: "${{ steps['node-requirement'].outputs.value }}"
+        SEGMENTS: "${{ steps['node-requirement'].outputs.segments }}"
+        SOURCE: "${{ steps['node-requirement'].outputs.source }}"
+        ACTUAL: "${{ steps['node-version'].outputs.value }}"
+      run: |
+        set -euo pipefail
+
+        if [ -z "$SEGMENTS" ]; then
+          echo "::error::Unable to determine Node.js version precision for validation." >&2
+          exit 1
+        fi
+
+        case "$SEGMENTS" in
+          1)
+            if [[ "$ACTUAL" != "$EXPECTED" && $ACTUAL != $EXPECTED.* ]]; then
+              echo "::error::Node.js version '$ACTUAL' does not satisfy major requirement '$EXPECTED' from $SOURCE." >&2
+              exit 1
+            fi
+            ;;
+          2)
+            if [[ "$ACTUAL" != "$EXPECTED" && $ACTUAL != $EXPECTED.* ]]; then
+              echo "::error::Node.js version '$ACTUAL' does not satisfy minor requirement '$EXPECTED' from $SOURCE." >&2
+              exit 1
+            fi
+            ;;
+          3)
+            if [ "$ACTUAL" != "$EXPECTED" ]; then
+              echo "::error::Node.js version '$ACTUAL' does not match required version '$EXPECTED' from $SOURCE." >&2
+              exit 1
+            fi
+            ;;
+          *)
+            echo "::error::Unsupported Node.js version precision '$SEGMENTS'." >&2
+            exit 1
+            ;;
+        esac
 
     - name: Compute lockfile hash
       id: lockfile
