@@ -486,6 +486,7 @@ export default function DashboardLayoutPreviewPage() {
             cta: (
               <NeoCard asChild className={styles.ctaCard}>
                 <aside
+                  id="upgrade"
                   role="complementary"
                   aria-labelledby={ctaHeadingId}
                 >
@@ -525,6 +526,11 @@ export default function DashboardLayoutPreviewPage() {
           columns="var(--dashboard-columns)"
           gap="5"
           rowGap="6"
+        />
+        <section
+          id="compare"
+          aria-hidden="true"
+          className="sr-only"
         />
       </PageShell>
     </>
