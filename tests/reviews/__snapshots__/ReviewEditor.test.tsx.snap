@@ -22,7 +22,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             >
               <h3
                 class="text-ui tracking-wide text-muted-foreground"
-                id=":r0:"
+                id="_r_0_"
               >
                 Lane
               </h3>
@@ -48,7 +48,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 style="--indicator-index: 2;"
               />
               <div
-                aria-labelledby=":r0:"
+                aria-labelledby="_r_0_"
                 class="inline-flex rounded-card r-card-md gap-[var(--space-1)] [--hover:hsl(var(--foreground)/0.08)] [--focus:var(--ring-contrast)] [--active:hsl(var(--foreground)/0.12)] [--disabled:0.5] relative w-full bg-transparent p-0"
                 role="tablist"
               >
@@ -333,7 +333,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                     <input
                       aria-label="Lane (used as Title)"
                       class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-                      id=":r4:"
+                      id="_r_4_"
                       name="lane"
                       placeholder="Ashe/Lulu"
                       type="text"
@@ -349,7 +349,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               >
                 <h3
                   class="text-ui tracking-wide text-muted-foreground"
-                  id=":r3:"
+                  id="_r_3_"
                 >
                   Opponent
                 </h3>
@@ -386,9 +386,9 @@ exports[`ReviewEditor > renders default state 1`] = `
                     data-field-state="default"
                   >
                     <input
-                      aria-labelledby=":r3:"
+                      aria-labelledby="_r_3_"
                       class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-                      id=":r5:"
+                      id="_r_5_"
                       name="opponent"
                       placeholder="Draven/Thresh"
                       type="text"
@@ -414,7 +414,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
-            id=":r6:"
+            id="_r_6_"
           >
             Result
           </h3>
@@ -424,7 +424,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         </div>
         <button
           aria-checked="true"
-          aria-labelledby=":r6:"
+          aria-labelledby="_r_6_"
           class="relative inline-flex h-[var(--control-h-md)] w-[calc(var(--space-8)*3)] select-none items-center overflow-hidden rounded-card r-card-lg border border-border bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           role="switch"
           title="Toggle Win/Loss"
@@ -457,7 +457,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
-            id=":r7:"
+            id="_r_7_"
           >
             Score
           </h3>
@@ -470,7 +470,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <input
             aria-label="Score from 0 to 10"
-            aria-labelledby=":r7:"
+            aria-labelledby="_r_7_"
             class="absolute inset-0 z-10 cursor-pointer rounded-card r-card-lg opacity-0 [appearance:none]"
             max="10"
             min="0"
@@ -553,7 +553,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Brain light off"
             aria-pressed="false"
-            class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)] border-[hsl(var(--line)/0.35)] text-foreground [--neu-surface:hsl(var(--card)/0.35)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)] border-[hsl(var(--line)/0.35)] text-foreground [--neu-surface:hsl(var(--card)/0.35)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
             data-tone="primary"
             data-variant="quiet"
             tabindex="0"
@@ -1096,7 +1096,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Use timestamp"
             aria-pressed="true"
-            class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)] border-[hsl(var(--line)/0.35)] text-foreground [--neu-surface:hsl(var(--card)/0.35)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)] border-[hsl(var(--line)/0.35)] text-foreground [--neu-surface:hsl(var(--card)/0.35)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
             data-tone="primary"
             data-variant="quiet"
             tabindex="0"
@@ -1197,7 +1197,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Use note only"
             aria-pressed="false"
-            class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)] border-accent/35 text-on-accent [--neu-surface:hsl(var(--accent)/0.2)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] [--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)] border-accent/35 text-on-accent [--neu-surface:hsl(var(--accent)/0.2)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
             data-tone="accent"
             data-variant="quiet"
             tabindex="0"
@@ -1337,7 +1337,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                   aria-invalid="true"
                   aria-label="Timestamp time in mm:ss"
                   class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-                  id=":r8:"
+                  id="_r_8_"
                   inputmode="numeric"
                   name="timestamp-time"
                   pattern="^[0-9]?\\d:[0-5]\\d$"
@@ -1358,7 +1358,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 <input
                   aria-label="Timestamp note"
                   class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-                  id=":r9:"
+                  id="_r_9_"
                   name="timestamp-note"
                   placeholder="Quick note"
                   type="text"
@@ -1368,7 +1368,7 @@ exports[`ReviewEditor > renders default state 1`] = `
             </div>
             <button
               aria-label="Add timestamp"
-              class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] shadow-glow-sm hover:shadow-btn-primary-hover active:shadow-btn-primary-active [--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)] [--glow-active:hsl(var(--primary)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--primary)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--primary)/0.6)] border-[hsl(var(--primary)/0.35)] [--neu-surface:hsl(var(--primary-soft))] text-[hsl(var(--primary-foreground))] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[calc(var(--control-h-sm)/2)]"
+              class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] shadow-glow-sm hover:shadow-btn-primary-hover active:shadow-btn-primary-active [--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)] [--glow-active:hsl(var(--primary)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--primary)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--primary)/0.6)] border-[hsl(var(--primary)/0.35)] [--neu-surface:hsl(var(--primary-soft))] text-[hsl(var(--primary-foreground))] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[calc(var(--control-h-sm)/2)]"
               data-tone="primary"
               data-variant="default"
               disabled=""
@@ -1426,7 +1426,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
-            id=":r1:"
+            id="_r_1_"
           >
             Tags
           </h3>
@@ -1472,9 +1472,9 @@ exports[`ReviewEditor > renders default state 1`] = `
                 data-field-state="default"
               >
                 <input
-                  aria-labelledby=":r1:"
+                  aria-labelledby="_r_1_"
                   class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-                  id=":ra:"
+                  id="_r_a_"
                   name="tag-input"
                   placeholder="Add tag and press Enter"
                   type="text"
@@ -1485,7 +1485,7 @@ exports[`ReviewEditor > renders default state 1`] = `
           </div>
           <button
             aria-label="Add tag"
-            class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] shadow-glow-sm hover:shadow-btn-primary-hover active:shadow-btn-primary-active [--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)] [--glow-active:hsl(var(--primary)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--primary)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--primary)/0.6)] border-[hsl(var(--primary)/0.35)] [--neu-surface:hsl(var(--primary-soft))] text-[hsl(var(--primary-foreground))] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[calc(var(--control-h-sm)/2)]"
+            class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:shadow-[var(--shadow-glow-md)] focus-visible:[outline:var(--spacing-0-5)_solid_var(--ring-contrast)] focus-visible:[outline-offset:var(--spacing-0-5)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] shadow-glow-sm hover:shadow-btn-primary-hover active:shadow-btn-primary-active [--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)] [--glow-active:hsl(var(--primary)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--primary)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--primary)/0.6)] border-[hsl(var(--primary)/0.35)] [--neu-surface:hsl(var(--primary-soft))] text-[hsl(var(--primary-foreground))] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[calc(var(--control-h-sm)/2)]"
             data-tone="primary"
             data-variant="default"
             tabindex="0"
@@ -1535,7 +1535,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
-            id=":r2:"
+            id="_r_2_"
           >
             Notes
           </h3>
@@ -1552,9 +1552,9 @@ exports[`ReviewEditor > renders default state 1`] = `
             data-field-state="default"
           >
             <textarea
-              aria-labelledby=":r2:"
+              aria-labelledby="_r_2_"
               class="block w-full max-w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] py-[var(--space-3)] text-body text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading resize-y min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
-              id=":rb:"
+              id="_r_b_"
               name="rb"
               placeholder="Key moments, mistakes to fix, drills to run…"
             />
