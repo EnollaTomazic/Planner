@@ -76,6 +76,7 @@ jobs:
         uses: ./.github/actions/setup-node-project
         with:
           node-version: ${{ matrix.node }}
+          skip-checkout: 'true'
 
       - name: Restore Storybook cache
         if: matrix.cache-storybook
