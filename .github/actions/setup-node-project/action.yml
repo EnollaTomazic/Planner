@@ -140,6 +140,17 @@ runs:
       env:
         EXPLICIT_NODE_VERSION: "${{ inputs['node-version'] }}"
         VERSION_FILE: "${{ inputs['node-version-file'] }}"
+        NORMALIZE_NODE_VERSION_SCRIPT: |
+          const raw = process.env.VALUE ?? "";
+          const normalized = raw.trim();
+          const match = normalized.match(/^[vV]?(\d+(?:\.\d+){0,2})$/u);
+          if (!match) {
+            console.error(`Unsupported Node.js version specification: ${raw}`);
+            process.exit(1);
+          }
+          const sanitized = match[1];
+          const segments = sanitized.split(".").length;
+          process.stdout.write(`${sanitized}\n${segments}`);
       run: |
         set -euo pipefail
 
@@ -162,18 +173,7 @@ runs:
         fi
 
         mapfile -t NODE_DETAILS < <(
-          VALUE="$RAW_VALUE" node --input-type=module <<'EOF'
-            const raw = process.env.VALUE ?? "";
-            const normalized = raw.trim();
-            const match = normalized.match(/^[vV]?(\d+(?:\.\d+){0,2})$/u);
-            if (!match) {
-              console.error(`Unsupported Node.js version specification: ${raw}`);
-              process.exit(1);
-            }
-            const sanitized = match[1];
-            const segments = sanitized.split(".").length;
-            process.stdout.write(`${sanitized}\n${segments}`);
-EOF
+          VALUE="$RAW_VALUE" node --input-type=module <<<"$NORMALIZE_NODE_VERSION_SCRIPT"
         )
 
         if [ "${#NODE_DETAILS[@]}" -lt 2 ]; then
