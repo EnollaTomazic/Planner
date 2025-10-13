@@ -17,11 +17,12 @@ export function GoalListDemo() {
           )
         }
         onRemove={(id) => setItems((prev) => prev.filter((g) => g.id !== id))}
-        onUpdate={(id, updates) =>
+        onUpdate={(id, updates) => {
           setItems((prev) =>
             prev.map((g) => (g.id === id ? { ...g, ...updates } : g)),
-          )
-        }
+          );
+          return true;
+        }}
       />
     </div>
   );
