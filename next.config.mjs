@@ -5,87 +5,33 @@ import {
   createSecurityHeaders,
   defaultSecurityPolicyOptions,
 } from "./security-headers.mjs";
-import { collectPathSegments, normalizeBasePath } from "./lib/base-path.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const normalizeSlug = (value) => {
-  const segments = collectPathSegments(value);
-  return segments.length > 0 ? segments.join("/") : undefined;
-};
+const isProd = process.env.NODE_ENV === "production";
 
-const normalizeSlugCaseInsensitive = (value) => {
-  const normalized = normalizeSlug(value);
-  return normalized?.toLowerCase();
-};
+const normalizeBasePath = (rawValue) => {
+  const trimmed = rawValue?.trim();
 
-const isGitHubPages = process.env.GITHUB_PAGES === "true";
-const repositorySlug = normalizeSlug(
-  process.env.GITHUB_REPOSITORY?.split("/").pop(),
-);
-const repositoryOwnerSlug = normalizeSlug(
-  process.env.GITHUB_REPOSITORY?.split("/")?.[0],
-);
-const repositorySlugLower = normalizeSlugCaseInsensitive(repositorySlug);
-const repositoryOwnerSlugLower = normalizeSlugCaseInsensitive(repositoryOwnerSlug);
-
-const resolveGitHubPagesSlug = () => {
-  const explicitSlugSources = [process.env.NEXT_PUBLIC_BASE_PATH, process.env.BASE_PATH];
-
-  for (const candidate of explicitSlugSources) {
-    if (candidate !== undefined) {
-      const trimmed = candidate.trim();
-
-      if (trimmed.length === 0) {
-        return "";
-      }
-
-      const normalized = normalizeSlug(candidate);
-
-      if (normalized !== undefined) {
-        return normalized;
-      }
-
-      return "";
-    }
-  }
-
-  if (repositorySlug) {
-    return repositorySlug;
-  }
-
-  return "";
-};
-
-const githubPagesSlug = isGitHubPages ? resolveGitHubPagesSlug() : "";
-const expectedUserOrOrgSlug =
-  repositoryOwnerSlugLower !== undefined
-    ? `${repositoryOwnerSlugLower}.github.io`
-    : undefined;
-const resolvedRepositorySlug = repositorySlug ?? githubPagesSlug;
-const resolvedRepositorySlugLower =
-  repositorySlugLower ?? normalizeSlugCaseInsensitive(githubPagesSlug);
-const isUserOrOrgGitHubPage =
-  expectedUserOrOrgSlug !== undefined &&
-  resolvedRepositorySlugLower === expectedUserOrOrgSlug;
-const hasExplicitBasePathEnv =
-  process.env.NEXT_PUBLIC_BASE_PATH !== undefined ||
-  process.env.BASE_PATH !== undefined;
-const explicitBasePath = normalizeBasePath(
-  process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.BASE_PATH ?? "",
-);
-const fallbackBasePath = (() => {
-  const slug = resolveGitHubPagesSlug();
-
-  if (!slug || isUserOrOrgGitHubPage) {
+  if (!trimmed) {
     return "";
   }
 
-  return normalizeBasePath(slug);
-})();
-const normalizedBasePathValue = hasExplicitBasePathEnv
-  ? explicitBasePath
-  : fallbackBasePath;
+  const withLeadingSlash = trimmed.startsWith("/")
+    ? trimmed
+    : `/${trimmed}`;
+
+  return withLeadingSlash.endsWith("/")
+    ? withLeadingSlash.slice(0, -1)
+    : withLeadingSlash;
+};
+
+const resolvedBasePath =
+  normalizeBasePath(process.env.BASE_PATH) ||
+  normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH);
+const basePath = resolvedBasePath || (isProd ? "/Planner" : "");
+const assetPrefix = basePath ? `${basePath}/` : "";
+
 const normalizeOptionalBoolean = (value) => {
   if (value === undefined) {
     return undefined;
@@ -105,14 +51,10 @@ const normalizeOptionalBoolean = (value) => {
 };
 
 const explicitExportStatic = normalizeOptionalBoolean(process.env.EXPORT_STATIC);
-const isExportStatic = explicitExportStatic ?? process.env.NODE_ENV === "production";
-const isProduction = process.env.NODE_ENV === "production";
+const isExportStatic = explicitExportStatic ?? isProd;
 const isCI = process.env.CI === "true";
 const isAnalyzeExplicit = process.env.ANALYZE === "true";
 const isDevelopment = process.env.NODE_ENV === "development";
-const shouldApplyBasePath = normalizedBasePathValue.length > 0;
-const nextBasePath = shouldApplyBasePath ? normalizedBasePathValue : undefined;
-const nextAssetPrefix = shouldApplyBasePath ? normalizedBasePathValue : undefined;
 
 const shouldCollectBundleStats =
   isAnalyzeExplicit ||
@@ -137,8 +79,8 @@ let nextConfig = {
   reactStrictMode: true,
   output: "export",
   trailingSlash: true,
-  basePath: nextBasePath,
-  assetPrefix: nextAssetPrefix,
+  basePath,
+  assetPrefix,
   productionBrowserSourceMaps: true,
   images: {
     unoptimized: true,
@@ -154,7 +96,7 @@ let nextConfig = {
     ],
   },
   env: {
-    NEXT_PUBLIC_BASE_PATH: normalizedBasePathValue,
+    NEXT_PUBLIC_BASE_PATH: basePath,
   },
   headers: async () => {
     if (isExportStatic) {

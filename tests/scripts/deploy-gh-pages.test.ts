@@ -12,6 +12,7 @@ import {
   injectGitHubPagesPlaceholders,
   isUserOrOrgGitHubPagesRepository,
   parseGitHubRepository,
+  resolvePublishBranch,
 } from "../../scripts/deploy-gh-pages";
 import { GITHUB_PAGES_REDIRECT_STORAGE_KEY } from "@/lib/github-pages";
 
@@ -318,5 +319,39 @@ describe("detectRepositorySlug", () => {
     const shouldUseBasePath = slug.length > 0 && !isUserOrOrg;
     expect(isUserOrOrg).toBe(true);
     expect(shouldUseBasePath).toBe(false);
+  });
+});
+
+describe("resolvePublishBranch", () => {
+  const emptyEnv: NodeJS.ProcessEnv = {};
+
+  it("prefers the detected default branch when it matches the fallback", () => {
+    const branch = resolvePublishBranch(
+      emptyEnv,
+      { fallbackBranch: "main" },
+      () => "main",
+    );
+
+    expect(branch).toBe("main");
+  });
+
+  it("throws when the detected default branch differs from the fallback", () => {
+    expect(() =>
+      resolvePublishBranch(
+        emptyEnv,
+        { fallbackBranch: "gh-pages" },
+        () => "main",
+      ),
+    ).toThrow(/GitHub Pages branch/);
+  });
+
+  it("falls back to the provided branch when no default branch is detected", () => {
+    const branch = resolvePublishBranch(
+      emptyEnv,
+      { fallbackBranch: "gh-pages" },
+      () => undefined,
+    );
+
+    expect(branch).toBe("gh-pages");
   });
 });
