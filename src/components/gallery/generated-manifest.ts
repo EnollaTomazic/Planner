@@ -35098,56 +35098,103 @@ export const galleryPreviewRoutes = [
     "entryId": "ai-retry-error-bubble",
     "entryName": "AIRetryErrorBubble",
     "sectionId": "feedback",
+    "stateId": "acknowledged",
+    "stateName": "Acknowledged",
     "themeVariant": "ocean",
     "themeBackground": 3
   },
   {
+    "slug": "section-feedback--entry-ai-retry-error-bubble--preview-prompts-feedback-ai-retry-error-bubble-state-acknowledged--state-acknowledged--theme-ocean--bg-4",
+    "previewId": "prompts:feedback:ai-retry-error-bubble:state:acknowledged",
+    "entryId": "ai-retry-error-bubble",
+    "entryName": "AIRetryErrorBubble",
+    "sectionId": "feedback",
+    "stateId": "acknowledged",
+    "stateName": "Acknowledged",
     "themeVariant": "ocean",
     "themeBackground": 4
   },
   {
+    "slug": "section-feedback--entry-ai-typing-indicator--preview-prompts-feedback-ai-typing-indicator--theme-aurora",
+    "previewId": "prompts:feedback:ai-typing-indicator",
+    "entryId": "ai-typing-indicator",
+    "entryName": "AITypingIndicator",
+    "sectionId": "feedback",
     "stateId": null,
     "stateName": null,
     "themeVariant": "aurora",
     "themeBackground": 0
   },
   {
+    "slug": "section-feedback--entry-ai-typing-indicator--preview-prompts-feedback-ai-typing-indicator--theme-aurora--bg-1",
+    "previewId": "prompts:feedback:ai-typing-indicator",
+    "entryId": "ai-typing-indicator",
+    "entryName": "AITypingIndicator",
+    "sectionId": "feedback",
     "stateId": null,
     "stateName": null,
     "themeVariant": "aurora",
     "themeBackground": 1
   },
   {
+    "slug": "section-feedback--entry-ai-typing-indicator--preview-prompts-feedback-ai-typing-indicator--theme-aurora--bg-2",
+    "previewId": "prompts:feedback:ai-typing-indicator",
+    "entryId": "ai-typing-indicator",
+    "entryName": "AITypingIndicator",
+    "sectionId": "feedback",
     "stateId": null,
     "stateName": null,
     "themeVariant": "aurora",
     "themeBackground": 2
   },
   {
+    "slug": "section-feedback--entry-ai-typing-indicator--preview-prompts-feedback-ai-typing-indicator--theme-aurora--bg-3",
+    "previewId": "prompts:feedback:ai-typing-indicator",
+    "entryId": "ai-typing-indicator",
+    "entryName": "AITypingIndicator",
+    "sectionId": "feedback",
     "stateId": null,
     "stateName": null,
     "themeVariant": "aurora",
     "themeBackground": 3
   },
   {
+    "slug": "section-feedback--entry-ai-typing-indicator--preview-prompts-feedback-ai-typing-indicator--theme-aurora--bg-4",
+    "previewId": "prompts:feedback:ai-typing-indicator",
+    "entryId": "ai-typing-indicator",
+    "entryName": "AITypingIndicator",
+    "sectionId": "feedback",
     "stateId": null,
     "stateName": null,
     "themeVariant": "aurora",
     "themeBackground": 4
   },
   {
+    "slug": "section-feedback--entry-ai-typing-indicator--preview-prompts-feedback-ai-typing-indicator--theme-citrus",
+    "previewId": "prompts:feedback:ai-typing-indicator",
+    "entryId": "ai-typing-indicator",
+    "entryName": "AITypingIndicator",
+    "sectionId": "feedback",
     "stateId": null,
     "stateName": null,
     "themeVariant": "citrus",
     "themeBackground": 0
   },
   {
+    "slug": "section-feedback--entry-ai-typing-indicator--preview-prompts-feedback-ai-typing-indicator--theme-citrus--bg-1",
+    "previewId": "prompts:feedback:ai-typing-indicator",
+    "entryId": "ai-typing-indicator",
+    "entryName": "AITypingIndicator",
+    "sectionId": "feedback",
     "stateId": null,
     "stateName": null,
     "themeVariant": "citrus",
     "themeBackground": 1
   },
   {
+    "slug": "section-feedback--entry-ai-typing-indicator--preview-prompts-feedback-ai-typing-indicator--theme-citrus--bg-2",
+    "previewId": "prompts:feedback:ai-typing-indicator",
+    "entryId": "ai-typing-indicator",
     "stateId": null,
     "stateName": null,
     "themeVariant": "citrus",
@@ -38059,7 +38106,6 @@ export const galleryPreviewRoutes = [
     "themeBackground": 0
   },
   {
-    "themeBackground": 1
   },
   {
     "themeVariant": "citrus",
@@ -39055,7 +39101,6 @@ export const galleryPreviewRoutes = [
     "themeBackground": 1
   },
   {
-    "themeVariant": "hardstuck",
     "themeBackground": 2
   },
   {
@@ -42773,8 +42818,6 @@ export const galleryPreviewRoutes = [
     "themeBackground": 3
   },
   {
-    "themeVariant": "lg",
-    "themeBackground": 2
   },
   {
     "themeVariant": "lg",
