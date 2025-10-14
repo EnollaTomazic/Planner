@@ -10,11 +10,34 @@ vi.mock("framer-motion", async () => {
   return { ...actual, useReducedMotion: () => true };
 });
 
-import { NavBar } from "@/components/chrome/NavBar";
 import { PRIMARY_NAV_LABEL } from "@/config/nav";
 
+async function loadNavBar() {
+  const module = await import("@/components/chrome/NavBar");
+  return module.NavBar;
+}
+
 describe("NavBar", () => {
-  it("exposes a labelled primary navigation landmark", () => {
+  it("prefixes navigation links with the resolved base path", async () => {
+    const utils = await import("@/lib/utils");
+    const withBasePathSpy = vi
+      .spyOn(utils, "withBasePath")
+      .mockImplementation((path: string) => `/base${path}`);
+
+    try {
+      const NavBar = await loadNavBar();
+      render(<NavBar />);
+
+      const reviewsLink = screen.getByRole("link", { name: "Reviews" });
+      expect(reviewsLink).toHaveAttribute("href", "/base/reviews");
+      expect(withBasePathSpy).toHaveBeenCalledWith("/reviews");
+    } finally {
+      withBasePathSpy.mockRestore();
+    }
+  });
+
+  it("exposes a labelled primary navigation landmark", async () => {
+    const NavBar = await loadNavBar();
     render(<NavBar />);
 
     expect(
@@ -22,8 +45,10 @@ describe("NavBar", () => {
     ).toBeInTheDocument();
   });
 
-  it("disables underline animation with reduced motion", () => {
+  it("disables underline animation with reduced motion", async () => {
+    const NavBar = await loadNavBar();
     render(<NavBar />);
+
     const underline = screen.getByTestId("nav-underline");
     const dur = getComputedStyle(underline).transitionDuration;
     expect(["0s", ""].includes(dur)).toBe(true);
