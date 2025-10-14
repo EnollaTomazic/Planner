@@ -70,4 +70,6 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       </Field.Root>
     );
   },
-)
+);
+
+Textarea.displayName = "Textarea";
