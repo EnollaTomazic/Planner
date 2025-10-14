@@ -38,6 +38,34 @@ const SAFE_MODE_MAX_TOOL_CALLS = resolveNumericEnv(
 
 const warnedMessages = new Set<string>();
 
+type IssuePathSegment = string | number;
+
+function normalizeIssuePath(path: ReadonlyArray<PropertyKey>): IssuePathSegment[] {
+  const normalized: IssuePathSegment[] = [];
+
+  for (const segment of path) {
+    if (typeof segment === "string" || typeof segment === "number") {
+      normalized.push(segment);
+    } else {
+      normalized.push(segment.description ?? segment.toString());
+    }
+  }
+
+  return normalized;
+}
+
+function normalizeIssueMessage(issue: z.ZodIssue): string {
+  if (
+    issue.code === z.ZodIssueCode.invalid_type &&
+    typeof issue.message === "string" &&
+    /received undefined$/u.test(issue.message)
+  ) {
+    return "Required";
+  }
+
+  return issue.message;
+}
+
 function warnOnce(key: string, message: string): void {
   if (typeof console === "undefined") {
     return;
@@ -58,7 +86,7 @@ function reportTokenEstimateIssue(index: number, raw: unknown, reason: string): 
   );
 }
 
-function formatIssuePath(path: ReadonlyArray<string | number>): string {
+function formatIssuePath(path: ReadonlyArray<IssuePathSegment>): string {
   if (path.length === 0) {
     return "<root>";
   }
@@ -73,7 +101,11 @@ function formatIssuePath(path: ReadonlyArray<string | number>): string {
 function reportSchemaValidationFailure(label: string, error: unknown): void {
   if (error instanceof z.ZodError) {
     const summary = error.issues
-      .map((issue) => `${formatIssuePath(issue.path)} → ${issue.message}`)
+      .map((issue) => {
+        const path = normalizeIssuePath(issue.path);
+        const message = normalizeIssueMessage(issue);
+        return `${formatIssuePath(path)} → ${message}`;
+      })
       .join("; ");
     const key = `schema:${label}:${summary}`;
     warnOnce(key, `[ai.safety] ${label} failed schema validation: ${summary}`);
@@ -482,12 +514,15 @@ export function guardResponse<T>(
   } catch (error) {
     reportSchemaValidationFailure(label, error);
     if (error instanceof z.ZodError) {
-      const issues = error.issues.map<SchemaValidationIssue>((issue: z.ZodIssue) => ({
-        path: [...issue.path],
-        pathText: formatIssuePath(issue.path),
-        message: issue.message,
-        code: issue.code,
-      }));
+      const issues = error.issues.map<SchemaValidationIssue>((issue: z.ZodIssue) => {
+        const path = normalizeIssuePath(issue.path);
+        return {
+          path,
+          pathText: formatIssuePath(path),
+          message: normalizeIssueMessage(issue),
+          code: issue.code,
+        } satisfies SchemaValidationIssue;
+      });
 
       return {
         success: false,
