@@ -4,9 +4,7 @@ export const SAFE_MODE_FALLBACK = "true";
 
 const createSafeModeSchema = (envVar: string, audience: string) =>
   z
-    .string({
-      required_error: `${envVar} must be provided to coordinate ${audience} safe mode.`,
-    })
+    .string()
     .trim()
     .min(1, `${envVar} cannot be an empty string.`)
     .default(SAFE_MODE_FALLBACK);
