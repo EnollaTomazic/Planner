@@ -13,7 +13,7 @@ import {
 import {
   type TabItem as TabBarItem,
   type TabRenderContext, TabBar } from "@/components/ui/layout/TabBar";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 import segmentedButtonStyles from "@/components/ui/primitives/SegmentedButton.module.css";
 
 import { useStickyOffsetClass } from "./useStickyOffsetClass";
@@ -181,11 +181,13 @@ export function PageTabs({
       );
 
       if (item.href) {
+        const targetHref = withBasePath(item.href);
+
         return (
           <Link
             {...restProps}
             ref={ref as React.Ref<HTMLAnchorElement>}
-            href={item.href}
+            href={targetHref}
             scroll={false}
             className={mergedClassName}
             data-selected={active ? "true" : undefined}

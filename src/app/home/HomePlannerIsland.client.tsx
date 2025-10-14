@@ -19,6 +19,7 @@ import { PlannerProvider } from "@/components/planner"
 import { useTheme, useUiFeatureFlags } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
 import type { Variant } from "@/lib/theme"
+import { withBasePath } from "@/lib/utils"
 import {
   HeroPlannerCardsFallbackContent,
   HomeHeroSectionFallbackContent,
@@ -251,7 +252,7 @@ function HomePageBody({
           tactile
           className="whitespace-nowrap"
         >
-          <Link href="/planner">Plan Week</Link>
+          <Link href={withBasePath("/planner")}>Plan Week</Link>
         </Button>
       </>
     ),
@@ -490,7 +491,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
                     {item.value}
                   </p>
                   <Link
-                    href={item.href}
+                    href={withBasePath(item.href)}
                     className="text-label font-medium text-primary transition-colors hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   >
                     {item.cta}
