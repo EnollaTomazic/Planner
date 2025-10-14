@@ -7,7 +7,7 @@ import { Sheet } from "@/components/ui/Sheet";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { MEDIA_QUERY_MD } from "@/lib/breakpoints";
 import { useMatchMedia } from "@/lib/react";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 import {
   type NavItem,
   NAV_ITEMS,
@@ -68,11 +68,12 @@ export function MobileNavDrawer({
           <ul className="flex flex-col gap-[var(--space-1)]">
             {items.map(({ href, label, mobileIcon: Icon }) => {
               const active = isActive(href);
+              const targetHref = withBasePath(href);
 
               return (
                 <li key={href}>
                   <Link
-                    href={href}
+                    href={targetHref}
                     aria-current={active ? "page" : undefined}
                     data-active={active ? "true" : undefined}
                     onClick={onClose}
