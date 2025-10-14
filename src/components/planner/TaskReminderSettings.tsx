@@ -20,6 +20,10 @@ const LEAD_OPTIONS: Array<{ value: string; label: string }> = [
   { value: "60", label: "1 hour before" },
 ];
 
+const VALID_LEAD_MINUTES = new Set(
+  LEAD_OPTIONS.map((option) => Number.parseInt(option.value, 10)),
+);
+
 const DEFAULT_TIME = "09:00";
 
 type TaskReminderSettingsProps = {
@@ -75,8 +79,14 @@ export function TaskReminderSettings({
     availableReminders[0]?.value ??
     "";
   const reminderTime = activeReminder?.time ?? defaultTime ?? DEFAULT_TIME;
-  const leadMinutes =
+  const leadMinutesRaw =
     activeReminder?.leadMinutes ?? defaultLeadMinutes ?? 0;
+  const leadMinutes = React.useMemo(() => {
+    if (VALID_LEAD_MINUTES.has(leadMinutesRaw)) {
+      return leadMinutesRaw;
+    }
+    return 0;
+  }, [leadMinutesRaw]);
 
   const selectedTaskLabel = React.useMemo(() => {
     if (!task) return "No task selected";
@@ -117,6 +127,39 @@ export function TaskReminderSettings({
     setAreAdvancedOptionsOpen(nextOpen);
     previousIsEnabled.current = isEnabled;
   }, [isEnabled]);
+
+  React.useEffect(() => {
+    if (!task || !isEnabled) return;
+    if (availableReminders.length === 0) return;
+    if (
+      reminderId &&
+      availableReminders.some((reminder) => reminder.value === reminderId)
+    ) {
+      return;
+    }
+
+    const fallback = availableReminders[0]?.value;
+    if (!fallback) return;
+
+    onChange({ reminderId: fallback });
+    setDefaultReminderId(fallback);
+  }, [
+    availableReminders,
+    isEnabled,
+    onChange,
+    reminderId,
+    setDefaultReminderId,
+    task,
+  ]);
+
+  React.useEffect(() => {
+    if (!task || !isEnabled) return;
+    if (VALID_LEAD_MINUTES.has(leadMinutesRaw)) return;
+
+    const fallbackLead = 0;
+    onChange({ leadMinutes: fallbackLead });
+    setDefaultLeadMinutes(fallbackLead);
+  }, [isEnabled, leadMinutesRaw, onChange, setDefaultLeadMinutes, task]);
 
   const handleToggle = React.useCallback(
     (side: "Left" | "Right") => {
@@ -206,7 +249,10 @@ export function TaskReminderSettings({
     (value: string) => {
       if (!task) return;
       const minutes = Number.parseInt(value, 10);
-      const normalized = Number.isFinite(minutes) ? Math.max(0, minutes) : 0;
+      const normalized =
+        Number.isFinite(minutes) && VALID_LEAD_MINUTES.has(minutes)
+          ? minutes
+          : 0;
       onChange({ leadMinutes: normalized });
       setDefaultLeadMinutes(normalized);
     },

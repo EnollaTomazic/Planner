@@ -10,18 +10,15 @@ import {
 import type {
   GalleryModuleExport,
   GalleryPreviewModuleManifest,
-  Manifest,
 } from './manifest.schema'
 
 export const { galleryPayload, galleryPreviewModules, galleryPreviewRoutes } = manifest
 export type { GalleryPreviewModuleManifest, GalleryPreviewRenderer, GalleryPreviewRoute }
 export type { GalleryModuleExport } from './manifest.schema'
 
-type ManifestPreviewModule = Manifest['galleryPreviewModules'][string]
-
-const galleryPreviewModuleList: ManifestPreviewModule[] = Object.values(
-  galleryPreviewModules,
-);
+const galleryPreviewModuleList: GalleryPreviewModuleManifest[] = Object.values<
+  GalleryPreviewModuleManifest
+>(galleryPreviewModules);
 
 const previewModuleIndex = new Map<string, GalleryPreviewModuleManifest>();
 for (const manifest of galleryPreviewModuleList) {
@@ -244,15 +241,15 @@ export const loadModulePreviews = (
     return pending;
   }
 
-  const promise = manifest
-    .loader()
+  const loader: () => Promise<GalleryModuleExport> | GalleryModuleExport = manifest.loader
+  const promise = Promise.resolve(loader())
     .then((module: GalleryModuleExport) => {
       const sections = normalizeSections(module.default);
       const previews = collectModulePreviews(sections);
       modulePreviewCache.set(manifest, previews);
       return previews;
     })
-    .catch((error) => {
+    .catch((error: unknown) => {
       modulePreviewCache.delete(manifest);
       moduleLoadCache.delete(manifest);
       throw error;
