@@ -35027,30 +35027,77 @@ export const galleryPreviewRoutes = [
     "themeBackground": 1
   },
   {
+    "slug": "section-feedback--entry-ai-retry-error-bubble--preview-prompts-feedback-ai-retry-error-bubble-state-acknowledged--state-acknowledged--theme-noir--bg-2",
+    "previewId": "prompts:feedback:ai-retry-error-bubble:state:acknowledged",
+    "entryId": "ai-retry-error-bubble",
+    "entryName": "AIRetryErrorBubble",
+    "sectionId": "feedback",
+    "stateId": "acknowledged",
+    "stateName": "Acknowledged",
     "themeVariant": "noir",
     "themeBackground": 2
   },
   {
+    "slug": "section-feedback--entry-ai-retry-error-bubble--preview-prompts-feedback-ai-retry-error-bubble-state-acknowledged--state-acknowledged--theme-noir--bg-3",
+    "previewId": "prompts:feedback:ai-retry-error-bubble:state:acknowledged",
+    "entryId": "ai-retry-error-bubble",
+    "entryName": "AIRetryErrorBubble",
+    "sectionId": "feedback",
+    "stateId": "acknowledged",
+    "stateName": "Acknowledged",
     "themeVariant": "noir",
     "themeBackground": 3
   },
   {
+    "slug": "section-feedback--entry-ai-retry-error-bubble--preview-prompts-feedback-ai-retry-error-bubble-state-acknowledged--state-acknowledged--theme-noir--bg-4",
+    "previewId": "prompts:feedback:ai-retry-error-bubble:state:acknowledged",
+    "entryId": "ai-retry-error-bubble",
+    "entryName": "AIRetryErrorBubble",
+    "sectionId": "feedback",
+    "stateId": "acknowledged",
+    "stateName": "Acknowledged",
     "themeVariant": "noir",
     "themeBackground": 4
   },
   {
+    "slug": "section-feedback--entry-ai-retry-error-bubble--preview-prompts-feedback-ai-retry-error-bubble-state-acknowledged--state-acknowledged--theme-ocean",
+    "previewId": "prompts:feedback:ai-retry-error-bubble:state:acknowledged",
+    "entryId": "ai-retry-error-bubble",
+    "entryName": "AIRetryErrorBubble",
+    "sectionId": "feedback",
+    "stateId": "acknowledged",
+    "stateName": "Acknowledged",
     "themeVariant": "ocean",
     "themeBackground": 0
   },
   {
+    "slug": "section-feedback--entry-ai-retry-error-bubble--preview-prompts-feedback-ai-retry-error-bubble-state-acknowledged--state-acknowledged--theme-ocean--bg-1",
+    "previewId": "prompts:feedback:ai-retry-error-bubble:state:acknowledged",
+    "entryId": "ai-retry-error-bubble",
+    "entryName": "AIRetryErrorBubble",
+    "sectionId": "feedback",
+    "stateId": "acknowledged",
+    "stateName": "Acknowledged",
     "themeVariant": "ocean",
     "themeBackground": 1
   },
   {
+    "slug": "section-feedback--entry-ai-retry-error-bubble--preview-prompts-feedback-ai-retry-error-bubble-state-acknowledged--state-acknowledged--theme-ocean--bg-2",
+    "previewId": "prompts:feedback:ai-retry-error-bubble:state:acknowledged",
+    "entryId": "ai-retry-error-bubble",
+    "entryName": "AIRetryErrorBubble",
+    "sectionId": "feedback",
+    "stateId": "acknowledged",
+    "stateName": "Acknowledged",
     "themeVariant": "ocean",
     "themeBackground": 2
   },
   {
+    "slug": "section-feedback--entry-ai-retry-error-bubble--preview-prompts-feedback-ai-retry-error-bubble-state-acknowledged--state-acknowledged--theme-ocean--bg-3",
+    "previewId": "prompts:feedback:ai-retry-error-bubble:state:acknowledged",
+    "entryId": "ai-retry-error-bubble",
+    "entryName": "AIRetryErrorBubble",
+    "sectionId": "feedback",
     "themeVariant": "ocean",
     "themeBackground": 3
   },
@@ -38012,7 +38059,6 @@ export const galleryPreviewRoutes = [
     "themeBackground": 0
   },
   {
-    "themeVariant": "citrus",
     "themeBackground": 1
   },
   {
@@ -42725,8 +42771,6 @@ export const galleryPreviewRoutes = [
   {
     "themeVariant": "kitten",
     "themeBackground": 3
-  },
-  {
   },
   {
     "themeVariant": "lg",

@@ -93,10 +93,10 @@ export const ManifestEntryRelatedSchema: z.ZodType<GalleryEntryRelated> = z.obje
   surfaces: z.array(ManifestRelatedSurfaceSchema).readonly().optional(),
 })
 
-export const ManifestPreviewRendererSchema: z.ZodType<GalleryPreviewRenderer> = z.function(
-  z.tuple([]),
-  z.any(),
-)
+export const ManifestPreviewRendererSchema: z.ZodType<GalleryPreviewRenderer> = z
+  .function()
+  .input(z.tuple([]))
+  .output(z.any())
 
 export const ManifestPreviewSchema: z.ZodType<GalleryPreview> = z.object({
   id: z.string(),
@@ -196,17 +196,24 @@ export const ManifestModuleExportSchema: z.ZodType<GalleryModuleExport> = z.obje
   ]),
 })
 
-export const ManifestPreviewModuleSchema = z.object({
-  loader: z.function(z.tuple([]), z.promise(ManifestModuleExportSchema)),
-  previewIds: z.array(z.string()).readonly(),
-})
+export interface GalleryPreviewModuleManifest {
+  readonly loader: () => Promise<GalleryModuleExport> | GalleryModuleExport
+  readonly previewIds: readonly string[]
+}
 
-export type GalleryPreviewModuleManifest = z.infer<typeof ManifestPreviewModuleSchema>
+export const ManifestPreviewModuleSchema: z.ZodType<GalleryPreviewModuleManifest> =
+  z.object({
+    loader: z
+      .function()
+      .input(z.tuple([]))
+      .output(z.promise(ManifestModuleExportSchema)),
+    previewIds: z.array(z.string()).readonly(),
+  })
 
 export const ManifestSchema = z.object({
   galleryPayload: ManifestPayloadSchema,
   galleryPreviewRoutes: z.array(ManifestRouteSchema).readonly(),
-  galleryPreviewModules: z.record(ManifestPreviewModuleSchema),
+  galleryPreviewModules: z.record(z.string(), ManifestPreviewModuleSchema),
 })
 
 export type Manifest = z.infer<typeof ManifestSchema>

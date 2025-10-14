@@ -36,21 +36,25 @@ const scoreBadge = cn(
   "active:ring-[theme('colors.interaction.info.surfaceActive')]",
 );
 
-export type ReviewListItemProps = {
+export interface ReviewListItemProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
   review?: Review;
   selected?: boolean;
-  disabled?: boolean;
   loading?: boolean;
-  onClick?: () => void;
-};
+}
 
-export function ReviewListItem({
-  review,
-  selected = false,
-  disabled = false,
-  loading = false,
-  onClick,
-}: ReviewListItemProps) {
+const ReviewListItemInner = (
+  {
+    review,
+    selected = false,
+    loading = false,
+    className,
+    onClick,
+    disabled,
+    ...rest
+  }: ReviewListItemProps,
+  ref: React.ForwardedRef<HTMLButtonElement>,
+) => {
   if (loading) {
     return (
       <div data-scope="reviews" className={itemLoading}>
@@ -67,17 +71,24 @@ export function ReviewListItem({
   const matchup = review?.matchup?.trim() || "";
   const score = review?.score;
   const role = review?.role;
+  const isDisabled = disabled ?? false;
+
+  const { ["aria-label"]: ariaLabelProp, type = "button", ...buttonProps } = rest;
+  const ariaLabel =
+    ariaLabelProp ?? (title ? `Open review: ${title}` : undefined);
 
   return (
     <button
+      ref={ref}
       data-scope="reviews"
-      type="button"
-      disabled={disabled}
+      type={type}
+      disabled={isDisabled}
       onClick={onClick}
-      aria-label={`Open review: ${title}`}
+      aria-label={ariaLabel}
       aria-current={selected ? "true" : undefined}
       data-selected={selected ? "true" : undefined}
-      className={shellBase}
+      className={cn(shellBase, className)}
+      {...buttonProps}
     >
       <div className="flex flex-col gap-[var(--space-2)]">
         <div className="flex items-start justify-between gap-[var(--space-2)]">
@@ -133,4 +144,10 @@ export function ReviewListItem({
       </div>
     </button>
   );
-}
+};
+
+export const ReviewListItem = React.forwardRef<HTMLButtonElement, ReviewListItemProps>(
+  ReviewListItemInner,
+);
+
+ReviewListItem.displayName = "ReviewListItem";

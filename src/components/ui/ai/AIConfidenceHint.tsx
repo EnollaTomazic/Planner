@@ -1,5 +1,7 @@
+"use client";
+
 import * as React from "react";
-import { ShieldCheck, ShieldQuestion, ShieldAlert } from "lucide-react";
+import { ShieldAlert, ShieldCheck, ShieldQuestion } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -13,40 +15,42 @@ export interface AIConfidenceHintProps extends React.ComponentPropsWithoutRef<"d
   readonly formatScore?: (score: number) => string;
 }
 
-const LEVEL_CONFIG: Record<AIConfidenceLevel, { label: string; tone: string; foreground: string; icon: React.ReactNode }> = {
+type ConfidenceTone = "danger" | "warning" | "success";
+
+const LEVEL_CONFIG: Record<
+  AIConfidenceLevel,
+  { label: string; tone: ConfidenceTone; icon: React.ReactNode }
+> = {
   low: {
     label: "Low",
     tone: "danger",
-    foreground: "danger-foreground",
     icon: <ShieldAlert aria-hidden className="size-[var(--space-4)]" />,
   },
   medium: {
     label: "Medium",
     tone: "warning",
-    foreground: "warning-foreground",
     icon: <ShieldQuestion aria-hidden className="size-[var(--space-4)]" />,
   },
   high: {
     label: "High",
     tone: "success",
-    foreground: "success-foreground",
     icon: <ShieldCheck aria-hidden className="size-[var(--space-4)]" />,
   },
 };
 
-const toneBackground: Record<string, string> = {
+const toneBackground: Record<ConfidenceTone, string> = {
   danger: "bg-[hsl(var(--danger)/0.14)] border-[hsl(var(--danger)/0.35)]",
   warning: "bg-[hsl(var(--warning-soft-strong))] border-[hsl(var(--warning)/0.45)]",
   success: "bg-[hsl(var(--success-soft))] border-[hsl(var(--success)/0.35)]",
 };
 
-const toneForeground: Record<string, string> = {
+const toneForeground: Record<ConfidenceTone, string> = {
   danger: "text-[hsl(var(--danger-foreground))]",
   warning: "text-[hsl(var(--warning-foreground))]",
   success: "text-[hsl(var(--success-foreground))]",
 };
 
-const barTone: Record<string, string> = {
+const barTone: Record<ConfidenceTone, string> = {
   danger: "bg-[hsl(var(--danger))]",
   warning: "bg-[hsl(var(--warning))]",
   success: "bg-[hsl(var(--success))]",
@@ -54,16 +58,24 @@ const barTone: Record<string, string> = {
 
 const AIConfidenceHint = React.forwardRef<HTMLDivElement, AIConfidenceHintProps>(
   (
-    { level, label = "Confidence", score, description, formatScore = defaultFormat, className, children, ...props },
+    {
+      level,
+      label = "Confidence",
+      score,
+      description,
+      formatScore = defaultFormat,
+      className,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const config = LEVEL_CONFIG[level];
     const scoreLabel = typeof score === "number" ? formatScore(score) : undefined;
-    const normalizedScore = React.useMemo(() => {
-      if (typeof score !== "number") return undefined;
-      if (Number.isNaN(score)) return undefined;
-      return Math.min(1, Math.max(0, score));
-    }, [score]);
+    const normalizedScore =
+      typeof score === "number" && !Number.isNaN(score)
+        ? Math.min(1, Math.max(0, score))
+        : undefined;
 
     return (
       <div
