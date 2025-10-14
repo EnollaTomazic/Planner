@@ -3,6 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Button, NeoCard } from "@/components/ui";
+import { withBasePath } from "@/lib/utils";
 
 import {
   type DashboardSectionHeaderShowCodeProps, DashboardSectionHeader } from "./DashboardSectionHeader";
@@ -41,7 +42,7 @@ export function DashboardCard({
       )}
       {cta && (
         <Button asChild variant="default" size="md" className="self-start">
-          <Link href={cta.href}>{cta.label}</Link>
+          <Link href={withBasePath(cta.href)}>{cta.label}</Link>
         </Button>
       )}
     </NeoCard>

@@ -91,7 +91,7 @@ describe("Button anchor security defaults", () => {
 });
 
 describe("QuickActions base path integration", () => {
-  it("passes raw routes to Link components", async () => {
+  it("prefixes internal quick action links with the base path", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/beta";
     vi.resetModules();
     const { QuickActions } = await import(
@@ -101,14 +101,14 @@ describe("QuickActions base path integration", () => {
 
     expect(
       screen.getByRole("link", { name: "Planner Today" }),
-    ).toHaveAttribute("href", "/planner");
+    ).toHaveAttribute("href", "/beta/planner");
     expect(screen.getByRole("link", { name: "New Goal" })).toHaveAttribute(
       "href",
-      "/goals?tab=goals&intent=create-goal#goal-form",
+      "/beta/goals?tab=goals&intent=create-goal#goal-form",
     );
     expect(screen.getByRole("link", { name: "New Review" })).toHaveAttribute(
       "href",
-      "/reviews?intent=create-review",
+      "/beta/reviews?intent=create-review",
     );
   });
 });

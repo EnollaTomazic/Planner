@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { CircleSlash } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 const EMPTY_ICON_SIZE = "size-[var(--icon-size-xs)]";
 
@@ -122,7 +122,7 @@ export function DashboardList<T>({
               </span>
               {cta ? (
                 <Link
-                  href={cta.href}
+                  href={withBasePath(cta.href)}
                   className="inline-flex items-center text-label font-medium text-accent-3 underline underline-offset-4 transition-colors hover:text-on-accent active:text-on-accent active:bg-interaction-accent-tintActive focus-visible:outline-none focus-visible:ring-[var(--ring-size-1)] focus-visible:ring-offset-0 ring-[var(--theme-ring)] motion-reduce:transition-none"
                 >
                   {cta.label}

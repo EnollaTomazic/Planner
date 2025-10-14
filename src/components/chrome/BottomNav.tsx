@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 import {
   NAV_ITEMS,
   PRIMARY_NAV_LABEL,
@@ -83,11 +83,12 @@ export function BottomNav({
             const isBusyState = derivedState === "syncing";
             const ariaDisabled = isDisabledState || disabled;
             const ariaBusy = isBusyState || busy;
+            const targetHref = withBasePath(href);
 
             return (
               <li key={href}>
                 <Link
-                  href={href}
+                  href={targetHref}
                   aria-current={active ? "page" : undefined}
                   role="button"
                   aria-pressed={pressed || undefined}
