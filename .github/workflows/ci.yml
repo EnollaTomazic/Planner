@@ -24,7 +24,7 @@ jobs:
     name: Prepare gallery manifest
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup Node.js and dependencies
         uses: ./.github/actions/setup-node-project
@@ -70,7 +70,7 @@ jobs:
             cache-storybook: true
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup Node.js and dependencies
         uses: ./.github/actions/setup-node-project
@@ -112,7 +112,7 @@ jobs:
             download-gallery: true
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Download gallery manifest assets
         if: matrix.download-gallery
