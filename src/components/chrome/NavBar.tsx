@@ -9,7 +9,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 import { NAV_ITEMS, PRIMARY_NAV_LABEL, NavItem } from "@/config/nav";
 import { useNavActivity } from "./useNavActivity";
 
@@ -29,11 +29,12 @@ export function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
       <ul className="flex list-none flex-nowrap items-center justify-center gap-[var(--space-1)] md:gap-[var(--space-2)]">
         {items.map(({ href, label, mobileIcon: Icon }) => {
           const active = isActive(href);
+          const targetHref = withBasePath(href);
 
           return (
             <li key={href} className="relative">
               <Link
-                href={href}
+                href={targetHref}
                 aria-label={Icon ? label : undefined}
                 aria-current={active ? "page" : undefined}
                 data-active={active ? "true" : undefined}
