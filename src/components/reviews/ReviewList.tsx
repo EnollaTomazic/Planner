@@ -90,13 +90,16 @@ export function ReviewList({
     [reviews],
   );
   const previousSignatureRef = React.useRef(firstPageSignature);
-  const [autoLoadEnabled, setAutoLoadEnabled] = React.useState(() =>
-    readBooleanPreference(REVIEW_AUTOLOAD_STORAGE_KEY, true),
-  );
+  const [autoLoadEnabled, setAutoLoadEnabled] = React.useState(true);
   const scrollContainerRef = React.useRef<HTMLElement | null>(null);
   const sentinelRef = React.useRef<HTMLDivElement | null>(null);
   const autoLoadLockRef = React.useRef(false);
   const restoredRef = React.useRef(false);
+
+  React.useEffect(() => {
+    const stored = readBooleanPreference(REVIEW_AUTOLOAD_STORAGE_KEY, true);
+    setAutoLoadEnabled((prev) => (prev === stored ? prev : stored));
+  }, []);
 
   React.useEffect(() => {
     const baselineVisible = Math.min(PAGE_SIZE, reviews.length);
