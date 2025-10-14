@@ -120,4 +120,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
       {children}
     </Field.Root>
   );
-})
+});
+
+Input.displayName = "Input";
