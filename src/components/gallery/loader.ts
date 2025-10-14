@@ -24,7 +24,7 @@ import {
   buildDesignTokenGroups,
   type DesignTokenGroup,
 } from '@/lib/design-token-registry'
-import type { Manifest } from './manifest.schema'
+import type { GalleryModuleExport, GalleryPreviewModuleManifest } from './manifest.schema'
 
 const { galleryPreviewModules } = manifest
 
@@ -98,13 +98,9 @@ const mergeSurfaces = (
   return next;
 };
 
-type GalleryPreviewModuleManifest = Manifest['galleryPreviewModules'][string]
-
-type GalleryModuleExport = Awaited<
-  ReturnType<GalleryPreviewModuleManifest['loader']>
->
-
-const galleryPreviewModuleList = Object.values(galleryPreviewModules);
+const galleryPreviewModuleList = Object.values<GalleryPreviewModuleManifest>(
+  galleryPreviewModules,
+)
 
 const moduleSectionCache = new WeakMap<
   GalleryPreviewModuleManifest,
@@ -123,10 +119,10 @@ const loadModuleSections = (
   if (cached) {
     return cached;
   }
-  const promise = manifest
-    .loader()
+  const loader: () => Promise<GalleryModuleExport> | GalleryModuleExport = manifest.loader
+  const promise = Promise.resolve(loader())
     .then((mod: GalleryModuleExport) => normalizeSections(mod.default))
-    .catch((error) => {
+    .catch((error: unknown) => {
       moduleSectionCache.delete(manifest);
       throw error;
     });
