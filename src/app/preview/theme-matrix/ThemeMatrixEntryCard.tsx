@@ -2,7 +2,11 @@ import Link from "next/link";
 import type { CSSProperties, JSX } from "react";
 
 import { PREVIEW_SURFACE_CONTAINER_CLASSNAME } from "@/components/gallery/constants";
-import { SectionCard } from "@/components/ui";
+import {
+  SectionCard,
+  SectionCardBody,
+  SectionCardHeader,
+} from "@/components/ui";
 import { VARIANTS, type Variant } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
@@ -158,12 +162,12 @@ export function ThemeMatrixEntryCard({
 }: ThemeMatrixEntryCardProps): JSX.Element {
   return (
     <SectionCard data-theme-matrix-entry={entry.entryId} className="flex flex-col">
-      <SectionCard.Header
+      <SectionCardHeader
         title={entry.entryName}
         titleAs="h3"
         titleClassName="text-ui font-semibold tracking-[-0.01em]"
       />
-      <SectionCard.Body className="space-y-[var(--space-5)]">
+      <SectionCardBody className="space-y-[var(--space-5)]">
         {entry.groups.map((group) => {
           const stateLabel = group.stateName;
           const themeMatrixEntryId = group.stateId
@@ -265,7 +269,7 @@ export function ThemeMatrixEntryCard({
             </article>
           );
         })}
-      </SectionCard.Body>
+      </SectionCardBody>
     </SectionCard>
   );
 }
