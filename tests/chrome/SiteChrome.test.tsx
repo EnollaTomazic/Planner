@@ -119,12 +119,20 @@ describe("SiteChrome", () => {
 
 describe("BottomNav", () => {
   it("marks disabled and syncing items for accessibility", () => {
+    const reviewsNavItem = NAV_ITEMS.find((item) => item.label === "Reviews");
+    const plannerNavItem = NAV_ITEMS.find((item) => item.label === "Planner");
+    const teamNavItem = NAV_ITEMS.find((item) => item.label === "Team");
+
+    if (!reviewsNavItem || !plannerNavItem || !teamNavItem) {
+      throw new Error("Expected nav items to be defined");
+    }
+
     render(
       <BottomNav
         items={[
-          { ...NAV_ITEMS[0], href: "/reviews", state: "syncing" },
-          { ...NAV_ITEMS[1], href: "/planner", state: "active" },
-          { ...NAV_ITEMS[3], href: "/team", state: "disabled" },
+          { ...reviewsNavItem, href: "/reviews", state: "syncing" },
+          { ...plannerNavItem, href: "/planner", state: "active" },
+          { ...teamNavItem, href: "/team", state: "disabled" },
         ]}
       />,
     );

@@ -1,226 +1,1415 @@
 {
-  "ai-abort-button": [
-    "/",
-    "/preview/ai",
-    "/preview/ai-states"
-  ],
-  "badge": [
-    "/",
-    "/dashboard-layout",
-    "/preview/a11y",
-    "/preview/hero-images",
-    "/preview/perf"
-  ],
-  "button": [
-    "/",
-    "/dashboard-layout",
-    "/preview/a11y",
-    "/preview/ai",
-    "/preview/ai-states",
-    "/preview/buttons",
-    "/preview/cards",
-    "/preview/hero-images",
-    "/preview/pages-check",
-    "/preview/reviews"
-  ],
-  "icon-button": [
-    "/",
-    "/preview/buttons"
-  ],
-  "segmented-button": [
-    "/",
-    "/preview/buttons"
-  ],
-  "label": [
-    "/",
-    "/preview/[slug]"
-  ],
-  "select": [],
-  "field": [
-    "/",
-    "/preview/forms"
-  ],
-  "input": [
-    "/",
-    "/preview/forms"
-  ],
-  "search-bar": [],
-  "textarea": [],
-  "prompt-list": [],
-  "prompts-header": [],
-  "prompts-compose-panel": [],
-  "chat-prompts-tab": [],
-  "codex-prompts-tab": [],
-  "notes-tab": [],
-  "prompts-demos": [],
-  "week-picker": [],
-  "bottom-nav": [],
-  "calendar": [],
-  "card-demo": [
-    "/",
-    "/preview/[slug]",
-    "/preview/cards"
-  ],
-  "neo-card-demo": [
-    "/",
-    "/dashboard-layout",
-    "/preview/cards"
-  ],
-  "section-card-variants": [],
-  "page-shell": [
-    "/",
-    "/components",
-    "/dashboard-layout",
-    "/goals",
-    "/nav-and-bg",
-    "/planner",
-    "/preview/a11y",
-    "/preview/ai",
-    "/preview/ai-states",
-    "/preview/buttons",
-    "/preview/cards",
-    "/preview/forms",
-    "/preview/hero-images",
-    "/preview/pages-check",
-    "/preview/perf",
-    "/preview/reviews",
-    "/preview/tabs",
-    "/preview/theme-matrix",
-    "/prompts",
-    "/reviews",
-    "/team"
-  ],
-  "sheet-demo": [],
-  "modal-demo": [],
-  "split": [],
-  "title-bar": [],
-  "header-tabs": [],
-  "header": [],
-  "neomorphic-hero-frame": [],
-  "page-header-demo": [
-    "/"
-  ],
-  "demo-header": [],
-  "hero": [
-    "/",
-    "/preview/hero-images"
-  ],
-  "progress": [
-    "/",
-    "/preview/perf"
-  ],
-  "outline-glow": [],
-  "snackbar": [],
-  "toast-demo": [],
-  "skeleton": [
-    "/",
-    "/dashboard-layout",
-    "/goals",
-    "/planner",
-    "/preview/cards",
-    "/preview/reviews",
-    "/prompts",
-    "/reviews",
-    "/team"
-  ],
-  "spinner": [
-    "/",
-    "/components",
-    "/preview/[slug]"
-  ],
-  "ai-typing-indicator": [
-    "/",
-    "/preview/ai",
-    "/preview/ai-states"
-  ],
-  "ai-confidence-hint": [
-    "/",
-    "/preview/ai",
-    "/preview/ai-states"
-  ],
-  "ai-retry-error-bubble": [
-    "/",
-    "/preview/ai",
-    "/preview/ai-states"
-  ],
-  "ai-explain-tooltip": [
-    "/",
-    "/preview/ai",
-    "/preview/ai-states"
-  ],
-  "ai-loading-shimmer": [
-    "/",
-    "/preview/ai",
-    "/preview/ai-states"
-  ],
-  "ai-error-card": [
-    "/",
-    "/preview/ai",
-    "/preview/ai-states",
-    "/preview/reviews"
-  ],
-  "toggle": [
-    "/",
-    "/preview/[slug]"
-  ],
-  "radio-icon-group": [
-    "/",
-    "/preview/forms"
-  ],
-  "animation-toggle": [],
-  "check-circle": [],
-  "tab-bar": [],
-  "tabs": [],
-  "neon-icon": [],
-  "dashboard-card": [],
-  "dashboard-list": [],
-  "isometric-room": [],
-  "quick-action-grid": [],
-  "hero-planner-cards": [],
-  "avatar-frame": [],
-  "hero-portrait-frame": [
-    "/",
-    "/preview/pages-check"
-  ],
-  "portrait-frame": [],
-  "welcome-hero-figure": [],
-  "review-surface": [],
-  "review-slider-track": [],
-  "score-meter": [],
-  "review-list-item": [],
-  "lane-opponent-form": [],
-  "result-score-section": [],
-  "pillars-selector": [],
-  "timestamp-markers": [],
-  "goals-progress": [],
-  "goal-list-demo": [],
-  "reminders-tab": [],
-  "timer-ring": [],
-  "timer-tab": [],
-  "progress-ring-icon": [
-    "/",
-    "/dashboard-layout"
-  ],
-  "timer-ring-icon": [],
-  "side-selector": [],
-  "champ-list-editor": [],
-  "pillar-badge": [],
-  "pillar-selector": [],
-  "role-selector": [],
-  "theme-picker": [
-    "/",
-    "/preview/[slug]"
-  ],
-  "background-picker": [
-    "/",
-    "/preview/[slug]"
-  ],
-  "settings-select": [],
-  "theme-toggle": [
-    "/"
-  ],
-  "hero-image": [],
-  "cat-companion": [
-    "/"
-  ]
+  "ai-abort-button": {
+    "routes": [
+      "/",
+      "/preview/ai",
+      "/preview/ai-states"
+    ],
+    "states": {
+      "abort-busy": {
+        "routes": [
+          "/",
+          "/preview/ai",
+          "/preview/ai-states"
+        ]
+      },
+      "abort-idle": {
+        "routes": [
+          "/",
+          "/preview/ai",
+          "/preview/ai-states"
+        ]
+      },
+      "abort-custom-label": {
+        "routes": [
+          "/",
+          "/preview/ai",
+          "/preview/ai-states"
+        ]
+      }
+    }
+  },
+  "badge": {
+    "routes": [
+      "/",
+      "/dashboard-layout",
+      "/preview/a11y",
+      "/preview/hero-images",
+      "/preview/perf"
+    ]
+  },
+  "button": {
+    "routes": [
+      "/",
+      "/dashboard-layout",
+      "/preview/a11y",
+      "/preview/ai",
+      "/preview/ai-states",
+      "/preview/buttons",
+      "/preview/cards",
+      "/preview/hero-images",
+      "/preview/pages-check",
+      "/preview/reviews"
+    ],
+    "states": {
+      "default": {
+        "routes": [
+          "/",
+          "/dashboard-layout",
+          "/preview/a11y",
+          "/preview/ai",
+          "/preview/ai-states",
+          "/preview/buttons",
+          "/preview/cards",
+          "/preview/hero-images",
+          "/preview/pages-check",
+          "/preview/reviews"
+        ]
+      },
+      "hover": {
+        "routes": [
+          "/",
+          "/dashboard-layout",
+          "/preview/a11y",
+          "/preview/ai",
+          "/preview/ai-states",
+          "/preview/buttons",
+          "/preview/cards",
+          "/preview/hero-images",
+          "/preview/pages-check",
+          "/preview/reviews"
+        ]
+      },
+      "focus": {
+        "routes": [
+          "/",
+          "/dashboard-layout",
+          "/preview/a11y",
+          "/preview/ai",
+          "/preview/ai-states",
+          "/preview/buttons",
+          "/preview/cards",
+          "/preview/hero-images",
+          "/preview/pages-check",
+          "/preview/reviews"
+        ]
+      },
+      "active": {
+        "routes": [
+          "/",
+          "/dashboard-layout",
+          "/preview/a11y",
+          "/preview/ai",
+          "/preview/ai-states",
+          "/preview/buttons",
+          "/preview/cards",
+          "/preview/hero-images",
+          "/preview/pages-check",
+          "/preview/reviews"
+        ]
+      },
+      "disabled": {
+        "routes": [
+          "/",
+          "/dashboard-layout",
+          "/preview/a11y",
+          "/preview/ai",
+          "/preview/ai-states",
+          "/preview/buttons",
+          "/preview/cards",
+          "/preview/hero-images",
+          "/preview/pages-check",
+          "/preview/reviews"
+        ]
+      },
+      "loading": {
+        "routes": [
+          "/",
+          "/dashboard-layout",
+          "/preview/a11y",
+          "/preview/ai",
+          "/preview/ai-states",
+          "/preview/buttons",
+          "/preview/cards",
+          "/preview/hero-images",
+          "/preview/pages-check",
+          "/preview/reviews"
+        ]
+      },
+      "glitch": {
+        "routes": [
+          "/",
+          "/dashboard-layout",
+          "/preview/a11y",
+          "/preview/ai",
+          "/preview/ai-states",
+          "/preview/buttons",
+          "/preview/cards",
+          "/preview/hero-images",
+          "/preview/pages-check",
+          "/preview/reviews"
+        ]
+      }
+    }
+  },
+  "icon-button": {
+    "routes": [
+      "/",
+      "/preview/buttons"
+    ],
+    "states": {
+      "default": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "hover": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "focus": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "active": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "disabled": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "loading": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "glitch": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "default-variant": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "default-hover": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "default-active": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      }
+    }
+  },
+  "segmented-button": {
+    "routes": [
+      "/",
+      "/preview/buttons"
+    ],
+    "states": {
+      "default": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "hover": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "active": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "focus-visible": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "disabled": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "disabled-link": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      },
+      "loading": {
+        "routes": [
+          "/",
+          "/preview/buttons"
+        ]
+      }
+    }
+  },
+  "label": {
+    "routes": [
+      "/",
+      "/preview/[slug]"
+    ],
+    "states": {
+      "default": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "hover": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "focus-visible": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "disabled": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      }
+    }
+  },
+  "select": {
+    "routes": [],
+    "states": {
+      "default": {
+        "routes": []
+      },
+      "hover": {
+        "routes": []
+      },
+      "focus-visible": {
+        "routes": []
+      },
+      "active": {
+        "routes": []
+      },
+      "disabled": {
+        "routes": []
+      },
+      "loading": {
+        "routes": []
+      }
+    }
+  },
+  "field": {
+    "routes": [
+      "/",
+      "/preview/forms"
+    ],
+    "states": {
+      "default": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "focus-visible": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "invalid": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "loading": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "disabled": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "with-counter": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "select": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "search": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "glitch": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      }
+    }
+  },
+  "input": {
+    "routes": [
+      "/",
+      "/preview/forms"
+    ],
+    "states": {
+      "default": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "hover": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "focus": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "active": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "disabled": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "loading": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "custom-ring": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "glitch": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      }
+    }
+  },
+  "search-bar": {
+    "routes": [],
+    "states": {
+      "default": {
+        "routes": []
+      },
+      "with-label": {
+        "routes": []
+      },
+      "hover": {
+        "routes": []
+      },
+      "focus-visible": {
+        "routes": []
+      },
+      "active": {
+        "routes": []
+      },
+      "disabled": {
+        "routes": []
+      },
+      "loading": {
+        "routes": []
+      }
+    }
+  },
+  "textarea": {
+    "routes": [],
+    "states": {
+      "default": {
+        "routes": []
+      },
+      "hover": {
+        "routes": []
+      },
+      "focus-visible": {
+        "routes": []
+      },
+      "active": {
+        "routes": []
+      },
+      "invalid": {
+        "routes": []
+      },
+      "read-only": {
+        "routes": []
+      },
+      "disabled": {
+        "routes": []
+      },
+      "loading": {
+        "routes": []
+      }
+    }
+  },
+  "prompt-list": {
+    "routes": [],
+    "states": {
+      "loading": {
+        "routes": []
+      },
+      "empty": {
+        "routes": []
+      }
+    }
+  },
+  "prompts-header": {
+    "routes": [],
+    "states": {
+      "chip-hover": {
+        "routes": []
+      },
+      "chip-focus-visible": {
+        "routes": []
+      },
+      "chip-pressed": {
+        "routes": []
+      },
+      "chip-disabled": {
+        "routes": []
+      },
+      "chip-loading": {
+        "routes": []
+      },
+      "search-hover": {
+        "routes": []
+      },
+      "search-focus-visible": {
+        "routes": []
+      },
+      "search-active": {
+        "routes": []
+      },
+      "search-disabled": {
+        "routes": []
+      },
+      "search-loading": {
+        "routes": []
+      },
+      "search-error": {
+        "routes": []
+      },
+      "search-empty": {
+        "routes": []
+      }
+    }
+  },
+  "prompts-compose-panel": {
+    "routes": [],
+    "states": {
+      "compose-hover": {
+        "routes": []
+      },
+      "compose-focus-visible": {
+        "routes": []
+      },
+      "compose-active": {
+        "routes": []
+      },
+      "compose-disabled": {
+        "routes": []
+      },
+      "compose-loading": {
+        "routes": []
+      },
+      "compose-error": {
+        "routes": []
+      },
+      "compose-empty": {
+        "routes": []
+      }
+    }
+  },
+  "chat-prompts-tab": {
+    "routes": []
+  },
+  "codex-prompts-tab": {
+    "routes": []
+  },
+  "notes-tab": {
+    "routes": []
+  },
+  "prompts-demos": {
+    "routes": []
+  },
+  "week-picker": {
+    "routes": []
+  },
+  "bottom-nav": {
+    "routes": [],
+    "states": {
+      "active": {
+        "routes": []
+      },
+      "hover": {
+        "routes": []
+      },
+      "focus-visible": {
+        "routes": []
+      },
+      "disabled": {
+        "routes": []
+      },
+      "syncing": {
+        "routes": []
+      }
+    }
+  },
+  "calendar": {
+    "routes": [],
+    "states": {
+      "loading": {
+        "routes": []
+      },
+      "error": {
+        "routes": []
+      }
+    }
+  },
+  "card-demo": {
+    "routes": [
+      "/",
+      "/preview/[slug]",
+      "/preview/cards"
+    ],
+    "states": {
+      "loading": {
+        "routes": [
+          "/",
+          "/preview/[slug]",
+          "/preview/cards"
+        ]
+      },
+      "error": {
+        "routes": [
+          "/",
+          "/preview/[slug]",
+          "/preview/cards"
+        ]
+      }
+    }
+  },
+  "neo-card-demo": {
+    "routes": [
+      "/",
+      "/dashboard-layout",
+      "/preview/cards"
+    ],
+    "states": {
+      "loading": {
+        "routes": [
+          "/",
+          "/dashboard-layout",
+          "/preview/cards"
+        ]
+      },
+      "error": {
+        "routes": [
+          "/",
+          "/dashboard-layout",
+          "/preview/cards"
+        ]
+      }
+    }
+  },
+  "section-card-variants": {
+    "routes": []
+  },
+  "page-shell": {
+    "routes": [
+      "/",
+      "/components",
+      "/dashboard-layout",
+      "/goals",
+      "/nav-and-bg",
+      "/planner",
+      "/preview/a11y",
+      "/preview/ai",
+      "/preview/ai-states",
+      "/preview/buttons",
+      "/preview/cards",
+      "/preview/forms",
+      "/preview/hero-images",
+      "/preview/pages-check",
+      "/preview/perf",
+      "/preview/reviews",
+      "/preview/tabs",
+      "/preview/theme-matrix",
+      "/prompts",
+      "/reviews",
+      "/team"
+    ]
+  },
+  "sheet-demo": {
+    "routes": [],
+    "states": {
+      "closed": {
+        "routes": []
+      },
+      "opening": {
+        "routes": []
+      },
+      "focus-trap": {
+        "routes": []
+      },
+      "confirm-disabled": {
+        "routes": []
+      }
+    }
+  },
+  "modal-demo": {
+    "routes": [],
+    "states": {
+      "closed": {
+        "routes": []
+      },
+      "loading": {
+        "routes": []
+      },
+      "focus-trap": {
+        "routes": []
+      },
+      "confirm-disabled": {
+        "routes": []
+      }
+    }
+  },
+  "split": {
+    "routes": []
+  },
+  "title-bar": {
+    "routes": []
+  },
+  "header-tabs": {
+    "routes": []
+  },
+  "header": {
+    "routes": []
+  },
+  "neomorphic-hero-frame": {
+    "routes": [],
+    "states": {
+      "hero-tabs-hover": {
+        "routes": []
+      },
+      "hero-tabs-focus": {
+        "routes": []
+      },
+      "hero-tabs-loading": {
+        "routes": []
+      }
+    }
+  },
+  "page-header-demo": {
+    "routes": [
+      "/"
+    ],
+    "states": {
+      "page-header-search-focus": {
+        "routes": [
+          "/"
+        ]
+      },
+      "page-header-search-loading": {
+        "routes": [
+          "/"
+        ]
+      },
+      "page-header-search-disabled": {
+        "routes": [
+          "/"
+        ]
+      }
+    }
+  },
+  "demo-header": {
+    "routes": [],
+    "states": {
+      "demo-header-cta-hover": {
+        "routes": []
+      },
+      "demo-header-cta-focus": {
+        "routes": []
+      },
+      "demo-header-cta-loading": {
+        "routes": []
+      },
+      "demo-header-cta-disabled": {
+        "routes": []
+      }
+    }
+  },
+  "hero": {
+    "routes": [
+      "/",
+      "/preview/hero-images"
+    ],
+    "states": {
+      "hero-tabs-selected": {
+        "routes": [
+          "/",
+          "/preview/hero-images"
+        ]
+      },
+      "hero-tabs-disabled": {
+        "routes": [
+          "/",
+          "/preview/hero-images"
+        ]
+      }
+    }
+  },
+  "progress": {
+    "routes": [
+      "/",
+      "/preview/perf"
+    ]
+  },
+  "outline-glow": {
+    "routes": []
+  },
+  "snackbar": {
+    "routes": []
+  },
+  "toast-demo": {
+    "routes": []
+  },
+  "skeleton": {
+    "routes": [
+      "/",
+      "/dashboard-layout",
+      "/goals",
+      "/planner",
+      "/preview/cards",
+      "/preview/reviews",
+      "/prompts",
+      "/reviews",
+      "/team"
+    ]
+  },
+  "spinner": {
+    "routes": [
+      "/",
+      "/components",
+      "/preview/[slug]"
+    ]
+  },
+  "ai-typing-indicator": {
+    "routes": [
+      "/",
+      "/preview/ai",
+      "/preview/ai-states"
+    ],
+    "states": {
+      "paused": {
+        "routes": [
+          "/",
+          "/preview/ai",
+          "/preview/ai-states"
+        ]
+      },
+      "minimal": {
+        "routes": [
+          "/",
+          "/preview/ai",
+          "/preview/ai-states"
+        ]
+      }
+    }
+  },
+  "ai-confidence-hint": {
+    "routes": [
+      "/",
+      "/preview/ai",
+      "/preview/ai-states"
+    ],
+    "states": {
+      "low": {
+        "routes": [
+          "/",
+          "/preview/ai",
+          "/preview/ai-states"
+        ]
+      },
+      "high": {
+        "routes": [
+          "/",
+          "/preview/ai",
+          "/preview/ai-states"
+        ]
+      }
+    }
+  },
+  "ai-retry-error-bubble": {
+    "routes": [
+      "/",
+      "/preview/ai",
+      "/preview/ai-states"
+    ],
+    "states": {
+      "acknowledged": {
+        "routes": [
+          "/",
+          "/preview/ai",
+          "/preview/ai-states"
+        ]
+      }
+    }
+  },
+  "ai-explain-tooltip": {
+    "routes": [
+      "/",
+      "/preview/ai",
+      "/preview/ai-states"
+    ],
+    "states": {
+      "neutral": {
+        "routes": [
+          "/",
+          "/preview/ai",
+          "/preview/ai-states"
+        ]
+      },
+      "open": {
+        "routes": [
+          "/",
+          "/preview/ai",
+          "/preview/ai-states"
+        ]
+      }
+    }
+  },
+  "ai-loading-shimmer": {
+    "routes": [
+      "/",
+      "/preview/ai",
+      "/preview/ai-states"
+    ]
+  },
+  "ai-error-card": {
+    "routes": [
+      "/",
+      "/preview/ai",
+      "/preview/ai-states",
+      "/preview/reviews"
+    ]
+  },
+  "toggle": {
+    "routes": [
+      "/",
+      "/preview/[slug]"
+    ],
+    "states": {
+      "default": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "hover": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "focus-visible": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "active": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "disabled": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "loading": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      }
+    }
+  },
+  "radio-icon-group": {
+    "routes": [
+      "/",
+      "/preview/forms"
+    ],
+    "states": {
+      "default": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "unselected": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "hover": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "focus-visible": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "active": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "disabled": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      },
+      "loading": {
+        "routes": [
+          "/",
+          "/preview/forms"
+        ]
+      }
+    }
+  },
+  "animation-toggle": {
+    "routes": []
+  },
+  "check-circle": {
+    "routes": []
+  },
+  "tab-bar": {
+    "routes": [],
+    "states": {
+      "default": {
+        "routes": []
+      },
+      "hover": {
+        "routes": []
+      },
+      "active": {
+        "routes": []
+      },
+      "focus-visible": {
+        "routes": []
+      },
+      "disabled": {
+        "routes": []
+      },
+      "loading": {
+        "routes": []
+      }
+    }
+  },
+  "tabs": {
+    "routes": [],
+    "states": {
+      "active": {
+        "routes": []
+      },
+      "hover": {
+        "routes": []
+      },
+      "focus-visible": {
+        "routes": []
+      },
+      "disabled": {
+        "routes": []
+      },
+      "loading": {
+        "routes": []
+      }
+    }
+  },
+  "neon-icon": {
+    "routes": [],
+    "states": {
+      "accent": {
+        "routes": []
+      },
+      "danger": {
+        "routes": []
+      },
+      "danger-off": {
+        "routes": []
+      },
+      "accent-2xl": {
+        "routes": []
+      }
+    }
+  },
+  "dashboard-card": {
+    "routes": []
+  },
+  "dashboard-list": {
+    "routes": []
+  },
+  "isometric-room": {
+    "routes": []
+  },
+  "quick-action-grid": {
+    "routes": []
+  },
+  "hero-planner-cards": {
+    "routes": []
+  },
+  "avatar-frame": {
+    "routes": []
+  },
+  "hero-portrait-frame": {
+    "routes": [
+      "/",
+      "/preview/pages-check"
+    ]
+  },
+  "portrait-frame": {
+    "routes": []
+  },
+  "welcome-hero-figure": {
+    "routes": []
+  },
+  "review-surface": {
+    "routes": []
+  },
+  "review-slider-track": {
+    "routes": []
+  },
+  "score-meter": {
+    "routes": []
+  },
+  "review-list-item": {
+    "routes": []
+  },
+  "lane-opponent-form": {
+    "routes": []
+  },
+  "result-score-section": {
+    "routes": []
+  },
+  "pillars-selector": {
+    "routes": []
+  },
+  "timestamp-markers": {
+    "routes": []
+  },
+  "goals-progress": {
+    "routes": []
+  },
+  "goal-list-demo": {
+    "routes": []
+  },
+  "reminders-tab": {
+    "routes": []
+  },
+  "timer-ring": {
+    "routes": []
+  },
+  "timer-tab": {
+    "routes": []
+  },
+  "progress-ring-icon": {
+    "routes": [
+      "/",
+      "/dashboard-layout"
+    ]
+  },
+  "timer-ring-icon": {
+    "routes": []
+  },
+  "side-selector": {
+    "routes": [],
+    "states": {
+      "hover": {
+        "routes": []
+      },
+      "focus": {
+        "routes": []
+      },
+      "active": {
+        "routes": []
+      },
+      "disabled": {
+        "routes": []
+      },
+      "loading": {
+        "routes": []
+      }
+    }
+  },
+  "champ-list-editor": {
+    "routes": [],
+    "states": {
+      "hover": {
+        "routes": []
+      },
+      "focus": {
+        "routes": []
+      },
+      "active": {
+        "routes": []
+      },
+      "disabled": {
+        "routes": []
+      }
+    }
+  },
+  "pillar-badge": {
+    "routes": [],
+    "states": {
+      "hover": {
+        "routes": []
+      },
+      "focus": {
+        "routes": []
+      },
+      "active": {
+        "routes": []
+      },
+      "disabled": {
+        "routes": []
+      }
+    }
+  },
+  "pillar-selector": {
+    "routes": [],
+    "states": {
+      "hover": {
+        "routes": []
+      },
+      "focus": {
+        "routes": []
+      },
+      "active": {
+        "routes": []
+      },
+      "disabled": {
+        "routes": []
+      }
+    }
+  },
+  "role-selector": {
+    "routes": [],
+    "states": {
+      "hover": {
+        "routes": []
+      },
+      "focus": {
+        "routes": []
+      },
+      "active": {
+        "routes": []
+      },
+      "disabled": {
+        "routes": []
+      }
+    }
+  },
+  "theme-picker": {
+    "routes": [
+      "/",
+      "/preview/[slug]"
+    ],
+    "states": {
+      "hover": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "focus": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "active": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "disabled": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "loading": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      }
+    }
+  },
+  "background-picker": {
+    "routes": [
+      "/",
+      "/preview/[slug]"
+    ],
+    "states": {
+      "hover": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "focus": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "active": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "disabled": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      },
+      "loading": {
+        "routes": [
+          "/",
+          "/preview/[slug]"
+        ]
+      }
+    }
+  },
+  "settings-select": {
+    "routes": [],
+    "states": {
+      "hover": {
+        "routes": []
+      },
+      "focus": {
+        "routes": []
+      },
+      "active": {
+        "routes": []
+      },
+      "disabled": {
+        "routes": []
+      },
+      "loading": {
+        "routes": []
+      }
+    }
+  },
+  "theme-toggle": {
+    "routes": [
+      "/"
+    ],
+    "states": {
+      "hover": {
+        "routes": [
+          "/"
+        ]
+      },
+      "focus": {
+        "routes": [
+          "/"
+        ]
+      },
+      "active": {
+        "routes": [
+          "/"
+        ]
+      },
+      "disabled": {
+        "routes": [
+          "/"
+        ]
+      },
+      "loading": {
+        "routes": [
+          "/"
+        ]
+      }
+    }
+  },
+  "hero-image": {
+    "routes": []
+  },
+  "cat-companion": {
+    "routes": [
+      "/"
+    ]
+  }
 }

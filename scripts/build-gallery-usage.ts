@@ -375,7 +375,16 @@ function resolveModule(specifier: string, fromFile: string): string | null {
   return path.resolve(resolved);
 }
 
-type UsageMap = Record<string, readonly string[]>;
+interface UsageStateEntry {
+  readonly routes: readonly string[];
+}
+
+interface UsageEntry {
+  readonly routes: readonly string[];
+  readonly states?: Readonly<Record<string, UsageStateEntry>>;
+}
+
+type UsageMap = Record<string, UsageEntry>;
 
 type NameToIdsMap = Map<string, readonly string[]>;
 
@@ -563,7 +572,19 @@ async function buildUsage(
     const routes = Array.from(
       usage.get(entry.id) ?? new Set<string>(),
     ).sort((a, b) => a.localeCompare(b));
-    record[entry.id] = routes;
+
+    const stateEntries = entry.states ?? [];
+    if (stateEntries.length === 0) {
+      record[entry.id] = { routes } satisfies UsageEntry;
+      continue;
+    }
+
+    const states: Record<string, UsageStateEntry> = {};
+    for (const state of stateEntries) {
+      states[state.id] = { routes: [...routes] } satisfies UsageStateEntry;
+    }
+
+    record[entry.id] = { routes, states } satisfies UsageEntry;
   }
   return record;
 }
