@@ -8,6 +8,9 @@ This project maintains first-party workflows under `.github/workflows/`:
   explicit `workflow_dispatch` trigger for manual redeploys.
 - `workflow-lint.yml` enforces style and correctness rules for workflow changes themselves.
 - `codex-autofix.yml` attempts an automated repair after the CI workflow fails, but only runs when the `OPENAI_API_KEY` secret is configured so Codex can authenticate.
+- `regen-bot.yml` reacts to `CI` workflow failures caused by stale generated files. It reruns the regeneration scripts, pushes the
+  resulting changes to a dedicated `regen/…` branch, and opens a pull request so maintainers can merge the refreshed artifacts
+  without waiting for manual intervention.
 
 Each workflow wires directly into the shared composite action at `.github/actions/setup-node-project` so pnpm, caching, and environment bootstrapping stay consistent without relying on a separate reusable workflow.
 
