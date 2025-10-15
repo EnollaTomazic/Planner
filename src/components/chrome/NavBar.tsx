@@ -9,7 +9,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { cn, withBasePath } from "@/lib/utils";
+import { cn, withBasePath, withoutBasePath } from "@/lib/utils";
 import { NAV_ITEMS, PRIMARY_NAV_LABEL, NavItem } from "@/config/nav";
 import { useNavActivity } from "./useNavActivity";
 
@@ -28,8 +28,15 @@ export function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
     >
       <ul className="flex list-none flex-nowrap items-center justify-center gap-[var(--space-1)] md:gap-[var(--space-2)]">
         {items.map(({ href, label, mobileIcon: Icon }) => {
-          const active = isActive(href);
-          const targetHref = withBasePath(href);
+          const normalizedHref =
+            href.startsWith("#") || href.startsWith("?")
+              ? href
+              : withoutBasePath(href);
+          const active =
+            normalizedHref.startsWith("#") || normalizedHref.startsWith("?")
+              ? false
+              : isActive(normalizedHref);
+          const targetHref = withBasePath(normalizedHref);
 
           return (
             <li key={href} className="relative">
