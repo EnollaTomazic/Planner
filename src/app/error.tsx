@@ -101,7 +101,7 @@ export function RouteErrorContent({
             {retryLabel}
           </Button>
           <Button asChild variant="quiet">
-            <Link href={homeHref}>{homeLabel}</Link>
+            <Link href={withBasePath(homeHref)}>{homeLabel}</Link>
           </Button>
           <Button
             type="button"
