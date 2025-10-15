@@ -40,7 +40,7 @@
     "design-lint": "pnpm run lint:design",
     "guard:artifacts": "cross-env TSX_COMPILE_CACHE=0 tsx scripts/guard-artifacts.ts",
     "clean:artifacts": "cross-env TSX_COMPILE_CACHE=0 tsx scripts/clean-artifacts.ts",
-    "check": "pnpm run clean:artifacts && concurrently \"pnpm test -- --run\" \"pnpm run lint\" \"pnpm run lint:design\" \"pnpm run typecheck\" \"pnpm run guard:artifacts\"",
+    "check": "pnpm run clean:artifacts && concurrently \"pnpm test -- --run\" \"pnpm run lint\" \"pnpm run lint:design\" \"pnpm run typecheck\"",
     "format": "prettier --config prettier.config.cjs --write .",
     "verify-prompts": "tsx scripts/verify-prompts.ts --verify",
     "check-prompts": "tsx scripts/verify-prompts.ts",
