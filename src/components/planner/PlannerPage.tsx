@@ -33,6 +33,25 @@ import { formatWeekRangeLabel } from "@/lib/date";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 import { PlannerIslandBoundary } from "./PlannerIslandBoundary";
 
+const {
+  heroPanel,
+  heroContent,
+  heroText,
+  heroEyebrow,
+  heroHeading,
+  heroSubtitle,
+  heroDial,
+  heroRing,
+  heroRingReduced,
+  heroRingValue,
+  heroRingCaption,
+  heroSliderLabel,
+  heroSlider,
+  heroFeedback,
+  heroActions,
+  heroPortrait,
+} = styles;
+
 const LazyDayView = React.lazy(async () => ({
   default: (await import("./views/DayView")).DayView,
 }));
@@ -145,29 +164,29 @@ function Inner() {
   return (
     <>
       <PageShell as="header" grid className="py-[var(--space-6)]">
-        <section className={styles.heroPanel} aria-labelledby="planner-hero-heading">
-          <div className={styles.heroContent}>
-            <div className={cn(styles.heroText, "col-span-full")}> 
-              <span className={styles.heroEyebrow}>Planner autopilot</span>
-              <h2 id="planner-hero-heading" className={styles.heroHeading}>
+        <section className={heroPanel} aria-labelledby="planner-hero-heading">
+          <div className={heroContent}>
+            <div className={cn(heroText, "col-span-full")}>
+              <span className={heroEyebrow}>Planner autopilot</span>
+              <h2 id="planner-hero-heading" className={heroHeading}>
                 Agnes &amp; Noxi tuned this sprint blueprint
               </h2>
-              <p className={styles.heroSubtitle}>
+              <p className={heroSubtitle}>
                 Tweak the focus dial before locking the week. Agnes maps the calm line, Noxi keeps the glitch guardrails on.
                 Every suggestion stays editable.
               </p>
-              <div className={styles.heroDial}>
+              <div className={heroDial}>
                 <div
                   className={cn(
-                    styles.heroRing,
-                    prefersReducedMotion && styles.heroRingReduced,
+                    heroRing,
+                    prefersReducedMotion && heroRingReduced,
                   )}
                 >
                   <ProgressRingIcon pct={planningEnergy} size="l" />
-                  <span className={styles.heroRingValue}>{planningEnergy}%</span>
+                  <span className={heroRingValue}>{planningEnergy}%</span>
                 </div>
-                <span className={styles.heroRingCaption}>Focus calibration</span>
-                <label className={styles.heroSliderLabel} htmlFor={sliderId}>
+                <span className={heroRingCaption}>Focus calibration</span>
+                <label className={heroSliderLabel} htmlFor={sliderId}>
                   <span className="text-label font-medium tracking-[0.08em] uppercase">
                     Adjust energy
                   </span>
@@ -179,7 +198,7 @@ function Inner() {
                     step={1}
                     value={planningEnergy}
                     onChange={(event) => setPlanningEnergy(Number(event.target.value))}
-                    className={styles.heroSlider}
+                    className={heroSlider}
                     aria-valuemin={20}
                     aria-valuemax={100}
                     aria-valuenow={planningEnergy}
@@ -187,7 +206,7 @@ function Inner() {
                   />
                   <span
                     id={`${sliderId}-feedback`}
-                    className={styles.heroFeedback}
+                    className={heroFeedback}
                     aria-live="polite"
                   >
                     {planningEnergy >= 75
@@ -198,7 +217,7 @@ function Inner() {
                   </span>
                 </label>
               </div>
-              <div className={styles.heroActions}>
+              <div className={heroActions}>
                 <Button size="sm" variant="ghost" tone="accent">
                   Retry suggestions
                 </Button>
@@ -210,7 +229,7 @@ function Inner() {
                 </Button>
               </div>
             </div>
-            <div className={styles.heroPortrait}>
+            <div className={heroPortrait}>
               <PortraitFrame pose={heroPose} transparentBackground />
             </div>
           </div>
