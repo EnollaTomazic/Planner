@@ -40,7 +40,7 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
-            const actionsCore = require('@actions/core');
+            const actionsCore = core;
             const run = context.payload.workflow_run;
             const headBranch = run.head_branch || '';
             if (!headBranch || headBranch.startsWith('regen/')) {
