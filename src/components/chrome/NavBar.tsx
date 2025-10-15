@@ -42,8 +42,16 @@ export function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
               return "/";
             }
 
-            if (isHashLink || isQueryLink || isAbsoluteLink) {
+            if (isAbsoluteLink) {
               return trimmedHref;
+            }
+
+            if (isHashLink) {
+              return trimmedHref;
+            }
+
+            if (isQueryLink) {
+              return `/${trimmedHref}`;
             }
 
             return trimmedHref.startsWith("/")
