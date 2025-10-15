@@ -13,6 +13,7 @@ import type {
   GallerySerializableSection,
   GalleryPreviewRoute,
 } from "../src/components/gallery/registry";
+import { ManifestPayloadSchema } from "../src/components/gallery/manifest.schema";
 import type { Background, Variant } from "../src/lib/theme";
 
 const SAFE_MODE_DEFAULT = "true";
@@ -327,6 +328,151 @@ function resolveModule(specifier: string, fromFile: string): string | null {
 type UsageMap = Record<string, readonly string[]>;
 
 type NameToIdsMap = Map<string, readonly string[]>;
+
+function cloneGalleryUsageNotes(
+  notes: GallerySerializableEntry["usage"],
+): GallerySerializableEntry["usage"] {
+  if (!notes) {
+    return undefined;
+  }
+
+  return notes.map((note) => ({
+    title: note.title,
+    description: note.description,
+    kind: note.kind,
+  }));
+}
+
+function cloneGalleryRelated(
+  related: GallerySerializableEntry["related"],
+): GallerySerializableEntry["related"] {
+  if (!related) {
+    return undefined;
+  }
+
+  const { surfaces } = related;
+  if (!surfaces) {
+    return {};
+  }
+
+  return {
+    surfaces: surfaces.map((surface) => ({
+      id: surface.id,
+      description: surface.description,
+    })),
+  };
+}
+
+function cloneGalleryAxes(
+  axes: GallerySerializableEntry["axes"],
+): GallerySerializableEntry["axes"] {
+  if (!axes) {
+    return undefined;
+  }
+
+  return axes.map((axis) => ({
+    id: axis.id,
+    label: axis.label,
+    type: axis.type,
+    description: axis.description,
+    values: axis.values.map((value) => ({
+      value: value.value,
+      description: value.description,
+    })),
+  }));
+}
+
+function cloneGalleryProps(
+  props: GallerySerializableEntry["props"],
+): GallerySerializableEntry["props"] {
+  if (!props) {
+    return undefined;
+  }
+
+  return props.map((prop) => ({
+    name: prop.name,
+    type: prop.type,
+    required: prop.required,
+    defaultValue: prop.defaultValue,
+    description: prop.description,
+  }));
+}
+
+function cloneGalleryStates(
+  states: GallerySerializableEntry["states"],
+): GallerySerializableEntry["states"] {
+  if (!states) {
+    return undefined;
+  }
+
+  return states.map((state) => ({
+    id: state.id,
+    name: state.name,
+    description: state.description,
+    code: state.code,
+    preview: { id: state.preview.id },
+  }));
+}
+
+function normalizeGalleryEntry(
+  entry: GallerySerializableEntry,
+): GallerySerializableEntry {
+  return {
+    id: entry.id,
+    name: entry.name,
+    kind: entry.kind,
+    description: entry.description,
+    tags: entry.tags ? [...entry.tags] : undefined,
+    props: cloneGalleryProps(entry.props),
+    axes: cloneGalleryAxes(entry.axes),
+    usage: cloneGalleryUsageNotes(entry.usage),
+    related: cloneGalleryRelated(entry.related),
+    preview: { id: entry.preview.id },
+    code: entry.code,
+    states: cloneGalleryStates(entry.states),
+  } satisfies GallerySerializableEntry;
+}
+
+function normalizeGalleryPayload(
+  payload: GalleryRegistryPayload,
+): GalleryRegistryPayload {
+  const entryMap = new Map<string, GallerySerializableEntry>();
+
+  const sections = payload.sections.map((section) => {
+    const entries = section.entries.map((entry) => {
+      const normalized = normalizeGalleryEntry(entry);
+      entryMap.set(normalized.id, normalized);
+      return normalized;
+    });
+
+    return {
+      id: section.id,
+      entries,
+    } satisfies GallerySerializableSection;
+  });
+
+  const mapEntry = (entry: GallerySerializableEntry): GallerySerializableEntry => {
+    const normalized = entryMap.get(entry.id);
+    if (!normalized) {
+      throw new Error(
+        `Gallery payload reference "${entry.id}" is missing from its section list`,
+      );
+    }
+    return normalized;
+  };
+
+  const byKind: GalleryRegistryPayload["byKind"] = {
+    primitive: payload.byKind.primitive.map(mapEntry),
+    component: payload.byKind.component.map(mapEntry),
+    complex: payload.byKind.complex.map(mapEntry),
+    token: payload.byKind.token.map(mapEntry),
+  };
+
+  return {
+    sections,
+    byKind,
+  } satisfies GalleryRegistryPayload;
+}
 
 function normalizeSlug(value: string | null | undefined): string {
   if (!value) {
@@ -725,11 +871,14 @@ async function main(): Promise<void> {
   const modules = await collectGalleryModules();
   const allSections = modules.flatMap((module) => module.sections);
   const registry = createGalleryRegistry(allSections);
-  const usage = await buildUsage(registry.payload.sections);
-  const previewRoutes = buildPreviewRoutes(registry.payload.sections);
+  const manifestPayload = ManifestPayloadSchema.parse(
+    normalizeGalleryPayload(registry.payload),
+  );
+  const usage = await buildUsage(manifestPayload.sections);
+  const previewRoutes = buildPreviewRoutes(manifestPayload.sections);
   await fs.mkdir(path.dirname(usageFile), { recursive: true });
   await writeFileAtomically(usageFile, `${JSON.stringify(usage, null, 2)}\n`);
-  await buildGalleryManifest(modules, registry.payload, previewRoutes);
+  await buildGalleryManifest(modules, manifestPayload, previewRoutes);
   await writeManifest([...new Set(trackedFiles)]);
 }
 
