@@ -40,11 +40,11 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
-            const core = require('@actions/core');
+            const actionsCore = require('@actions/core');
             const run = context.payload.workflow_run;
             const headBranch = run.head_branch || '';
             if (!headBranch || headBranch.startsWith('regen/')) {
-              core.setOutput('should_run', 'false');
+              actionsCore.setOutput('should_run', 'false');
               return;
             }
 
@@ -58,8 +58,8 @@ jobs:
             const failingPrepareJob = data.jobs.find((job) => job.name === 'Prepare gallery manifest');
 
             if (!failingPrepareJob || failingPrepareJob.conclusion !== 'failure') {
-              core.info('Prepare gallery manifest job did not fail; skipping regeneration.');
-              core.setOutput('should_run', 'false');
+              actionsCore.info('Prepare gallery manifest job did not fail; skipping regeneration.');
+              actionsCore.setOutput('should_run', 'false');
               return;
             }
 
@@ -68,18 +68,18 @@ jobs:
               : null;
             const baseBranch = pullRequest?.base?.ref || headBranch;
 
-            core.setOutput('should_run', 'true');
-            core.setOutput('head_sha', failingPrepareJob.head_sha || run.head_sha || '');
-            core.setOutput('head_branch', headBranch);
-            core.setOutput('base_branch', baseBranch || headBranch);
+            actionsCore.setOutput('should_run', 'true');
+            actionsCore.setOutput('head_sha', failingPrepareJob.head_sha || run.head_sha || '');
+            actionsCore.setOutput('head_branch', headBranch);
+            actionsCore.setOutput('base_branch', baseBranch || headBranch);
             if (pullRequest?.number) {
-              core.setOutput('source_pr', String(pullRequest.number));
+              actionsCore.setOutput('source_pr', String(pullRequest.number));
             } else {
-              core.setOutput('source_pr', '');
+              actionsCore.setOutput('source_pr', '');
             }
-            core.setOutput('run_id', String(run.id));
-            core.setOutput('run_attempt', String(run.run_attempt || 1));
-            core.setOutput('workflow_url', run.html_url || '');
+            actionsCore.setOutput('run_id', String(run.id));
+            actionsCore.setOutput('run_attempt', String(run.run_attempt || 1));
+            actionsCore.setOutput('workflow_url', run.html_url || '');
 
   regenerate:
     name: Regenerate artifacts
