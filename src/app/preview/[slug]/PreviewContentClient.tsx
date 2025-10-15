@@ -367,7 +367,9 @@ export default function PreviewContentClient({ route }: PreviewContentClientProp
                   >
                     Snap the preview to the small, medium, or large container query breakpoints.
                   </p>
-                  <div className="group/slider relative mt-[var(--space-1)] h-[var(--space-6)]">
+                  <div
+                    className="group/slider relative mt-[var(--space-1)] h-[var(--space-6)] rounded-[var(--control-radius)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--ring-contrast)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--bg))]"
+                  >
                     <div
                       className="pointer-events-none absolute left-0 right-0 top-1/2 h-[var(--space-1)] -translate-y-1/2 rounded-full bg-card-hairline-45 shadow-[var(--shadow-inset-hairline)]"
                       aria-hidden
