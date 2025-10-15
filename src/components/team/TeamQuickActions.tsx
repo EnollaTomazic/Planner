@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
+import Link, { type LinkProps } from "next/link";
 import { type BadgeProps, Badge } from "@/components/ui/primitives/Badge";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 const LIST_CLASSNAME =
   "flex flex-wrap items-start gap-x-[var(--space-2)] gap-y-[var(--space-2)] chip-gap-x-tight chip-gap-y-tight";
@@ -22,9 +22,11 @@ const TOOLTIP_CLASSNAME = cn(
   "transition-[opacity,transform] duration-motion-sm ease-out motion-reduce:transition-none motion-reduce:transform-none",
 );
 
+type TeamQuickActionHref = LinkProps["href"];
+
 type TeamQuickAction = {
   id?: string;
-  href: string;
+  href: TeamQuickActionHref;
   label: string;
   tone?: BadgeProps["tone"];
 };
@@ -72,10 +74,26 @@ export function TeamQuickActions({
     <ul role="list" className={cn("list-none p-0", LIST_CLASSNAME, className)}>
       {actions.map((action, index) => {
         const { id, href, label, tone = "neutral" } = action;
-        const key = id ?? href;
+        const hrefIsString = typeof href === "string";
+        const trimmedHref = hrefIsString ? href.trim() : "";
+        const key =
+          id ??
+          (hrefIsString
+            ? trimmedHref || `${index}`
+            : JSON.stringify(href)) ??
+          `${index}`;
         const actionId = `${listId}-${index}`;
         const tooltipId = `${actionId}-tooltip`;
         const isTooltipOpen = tooltip?.id === actionId;
+
+        const resolvedHref: TeamQuickActionHref = hrefIsString
+          ? withBasePath(trimmedHref)
+          : typeof href === "object" &&
+              href !== null &&
+              "pathname" in href &&
+              typeof href.pathname === "string"
+            ? { ...href, pathname: withBasePath(href.pathname) }
+            : href;
 
         const handleOpen = () => {
           setTooltip({ id: actionId });
@@ -103,7 +121,7 @@ export function TeamQuickActions({
           <li key={key} role="listitem" className="relative">
             <Badge
               as={Link}
-              href={href}
+              href={resolvedHref}
               tone={tone}
               size="lg"
               interactive
