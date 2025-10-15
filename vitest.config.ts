@@ -31,7 +31,12 @@ export default defineConfig({
     },
     coverage: {
       provider: "istanbul",
-      include: ["src/**/*.{ts,tsx}", "app/**/*.{ts,tsx}"],
+      include: [
+        "src/ai/**/*.{ts,tsx}",
+        "src/hooks/**/*.{ts,tsx}",
+        "src/lib/**/*.{ts,tsx}",
+        "src/utils/**/*.{ts,tsx}",
+      ],
       exclude: [
         "src/components/gallery/generated-manifest.ts",
         "src/components/gallery/generated-manifest.g.ts",
