@@ -1,7 +1,7 @@
 {
   "packageManager": "pnpm@10.18.2",
   "engines": {
-    "node": ">=20.18.0 <23",
+    "node": ">=20.17.0 <23",
     "pnpm": ">=10.18.2"
   },
   "name": "noxis-planner",
