@@ -71,10 +71,10 @@ function resolveMetricsEndpoint(): string | undefined {
   }
 
   if (rawEndpoint.startsWith("/")) {
-    return withBasePath(rawEndpoint);
+    return withBasePath(rawEndpoint, { trailingSlash: false });
   }
 
-  return withBasePath(`/${rawEndpoint}`);
+  return withBasePath(`/${rawEndpoint}`, { trailingSlash: false });
 }
 
 export const metricsEndpoint = resolveMetricsEndpoint();

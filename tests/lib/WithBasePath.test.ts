@@ -64,6 +64,37 @@ describe("WithBasePath", () => {
     expect(withBasePath("planner")).toBe("/planner/");
   });
 
+  it("allows opting out of trailing slash behaviour", async () => {
+    process.env.NEXT_PUBLIC_BASE_PATH = "/planner";
+    vi.resetModules();
+
+    const { withBasePath } = await importBasePathUtils();
+
+    expect(withBasePath("/api/metrics", { trailingSlash: false })).toBe(
+      "/planner/api/metrics",
+    );
+    expect(withBasePath("api/metrics", { trailingSlash: false })).toBe(
+      "/planner/api/metrics",
+    );
+    expect(withBasePath("/metrics", { trailingSlash: false })).toBe(
+      "/planner/metrics",
+    );
+  });
+
+  it("respects trailingSlash opt out when no base path is configured", async () => {
+    delete process.env.NEXT_PUBLIC_BASE_PATH;
+    vi.resetModules();
+
+    const { withBasePath } = await importBasePathUtils();
+
+    expect(withBasePath("/api/metrics", { trailingSlash: false })).toBe(
+      "/api/metrics",
+    );
+    expect(withBasePath("api/metrics", { trailingSlash: false })).toBe(
+      "/api/metrics",
+    );
+  });
+
   it("uses the runtime router base path when available", async () => {
     delete process.env.NEXT_PUBLIC_BASE_PATH;
     vi.resetModules();
