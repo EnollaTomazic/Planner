@@ -30,7 +30,16 @@ const { galleryPreviewModules } = manifest
 
 const DESIGN_TOKEN_GROUPS = buildDesignTokenGroups(tokens);
 
-type GalleryUsageMap = Record<string, readonly string[]>;
+interface GalleryUsageStateEntry {
+  readonly routes: readonly string[];
+}
+
+interface GalleryUsageEntry {
+  readonly routes: readonly string[];
+  readonly states?: Readonly<Record<string, GalleryUsageStateEntry>>;
+}
+
+type GalleryUsageMap = Record<string, GalleryUsageEntry>;
 
 const usageMap = usage as GalleryUsageMap;
 
@@ -41,8 +50,9 @@ const mergeUsageIntoSections = (
   return sections.map((section) => {
     let changed = false;
     const entries = section.entries.map((entry) => {
-      const routes = surfacesByEntry[entry.id];
-      if (!routes || routes.length === 0) {
+      const entryUsage = surfacesByEntry[entry.id];
+      const routes = entryUsage?.routes ?? [];
+      if (routes.length === 0) {
         return entry;
       }
       const existingSurfaces = entry.related?.surfaces ?? [];
