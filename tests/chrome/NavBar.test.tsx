@@ -60,6 +60,23 @@ describe("NavBar", () => {
     expect(reviewsLink).toHaveAttribute("href", "/beta/reviews");
   });
 
+  it("prefixes query string navigation items with the base path", async () => {
+    process.env.NEXT_PUBLIC_BASE_PATH = "/beta";
+
+    const NavBar = await loadNavBar();
+    render(
+      <NavBar
+        items={[
+          { href: "?demo=true", label: "Demo" },
+          { href: "/planner", label: "Planner" },
+        ]}
+      />,
+    );
+
+    const demoLink = screen.getByRole("link", { name: "Demo" });
+    expect(demoLink).toHaveAttribute("href", "/beta?demo=true");
+  });
+
   it("exposes a labelled primary navigation landmark", async () => {
     const NavBar = await loadNavBar();
     render(<NavBar />);
