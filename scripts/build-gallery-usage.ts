@@ -188,13 +188,77 @@ const sanitizeJsonLiteral = (value: unknown): unknown => {
   return null;
 };
 
+const ensureParsableJson = (serialized: string): void => {
+  try {
+    JSON.parse(serialized);
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Unknown JSON serialization error";
+    throw new Error(`Failed to serialize manifest payload: ${message}`);
+  }
+};
+
 const serializeJsonLiteral = (value: unknown): string => {
   const sanitized = sanitizeJsonLiteral(value);
   const serialized = JSON.stringify(sanitized, null, JSON_INDENT);
   if (serialized === undefined) {
     return "null";
   }
+  ensureParsableJson(serialized);
   return serialized;
+};
+
+const cloneSerializablePreview = (
+  preview: GallerySerializableEntry["preview"],
+): GallerySerializableEntry["preview"] => ({
+  id: preview.id,
+});
+
+const cloneSerializableState = (
+  state: NonNullable<GallerySerializableEntry["states"]>[number],
+): NonNullable<GallerySerializableEntry["states"]>[number] => ({
+  ...state,
+  preview: cloneSerializablePreview(state.preview),
+});
+
+const cloneSerializableEntry = (
+  entry: GallerySerializableEntry,
+): GallerySerializableEntry => ({
+  ...entry,
+  preview: cloneSerializablePreview(entry.preview),
+  states: entry.states?.map((state) => cloneSerializableState(state)),
+});
+
+const normalizeGalleryPayloadForSerialization = (
+  payload: GalleryRegistryPayload,
+): GalleryRegistryPayload => {
+  const cache = new Map<string, GallerySerializableEntry>();
+  const getOrCloneEntry = (entry: GallerySerializableEntry): GallerySerializableEntry => {
+    const cached = cache.get(entry.id);
+    if (cached) {
+      return cached;
+    }
+    const cloned = cloneSerializableEntry(entry);
+    cache.set(entry.id, cloned);
+    return cloned;
+  };
+
+  const sections = payload.sections.map((section) => ({
+    id: section.id,
+    entries: section.entries.map((entry) => getOrCloneEntry(entry)),
+  })) satisfies GalleryRegistryPayload["sections"];
+
+  const byKind = {
+    primitive: payload.byKind.primitive.map((entry) => getOrCloneEntry(entry)),
+    component: payload.byKind.component.map((entry) => getOrCloneEntry(entry)),
+    complex: payload.byKind.complex.map((entry) => getOrCloneEntry(entry)),
+    token: payload.byKind.token.map((entry) => getOrCloneEntry(entry)),
+  } satisfies GalleryRegistryPayload["byKind"];
+
+  return {
+    sections,
+    byKind,
+  } satisfies GalleryRegistryPayload;
 };
 
 const REGISTERED_VARIANTS = new Set(VARIANTS.map((variant) => variant.id));
@@ -712,7 +776,9 @@ function buildGalleryManifestSource(
   payload: GalleryRegistryPayload,
   previewRoutes: readonly GalleryPreviewRoute[],
 ): string {
-  const payloadJson = serializeJsonLiteral(payload);
+  const payloadJson = serializeJsonLiteral(
+    normalizeGalleryPayloadForSerialization(payload),
+  );
   const routesJson = serializeJsonLiteral(previewRoutes);
   const hasAiAbortAugmentation = modules.some((module) =>
     modulesWithAiAbortAugmentation.has(module.importPath),
