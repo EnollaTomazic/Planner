@@ -203,7 +203,8 @@ export const StateGallery: Story = {
 };
 
 function FieldStateGallery() {
-  const hoverShadow = "shadow-[inset_0_1px_0_hsl(var(--highlight)/0.12),inset_0_-1px_0_hsl(var(--border)/0.45)]";
+  const hoverShadow =
+    "shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.12),inset_0_calc(var(--hairline-w)*-1)_0_hsl(var(--border)/0.45)]";
   const focusRing = "ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]";
   const focusValue = "Focused entry";
   const focusCounter = `${focusValue.length}/40`;
@@ -414,7 +415,7 @@ function SelectDropdownPreview({
   return (
     <div className="space-y-[var(--space-2)]">
       <div
-        className="max-h-[var(--select-menu-max-height)] w-full overflow-y-auto rounded-[var(--radius-2xl)] bg-card/92 p-[var(--space-2)] shadow-[0_12px_40px_hsl(var(--shadow-color)/0.55)] backdrop-blur-xl ring-1 ring-ring/18"
+        className="max-h-[var(--select-menu-max-height)] w-full overflow-y-auto rounded-[var(--radius-2xl)] bg-card/92 p-[var(--space-2)] shadow-[var(--shadow-dropdown)] backdrop-blur-xl ring-1 ring-ring/18"
       >
         <ul className="space-y-[var(--space-1)]">
           {options.map((option) => {
@@ -425,7 +426,7 @@ function SelectDropdownPreview({
                   className={cn(
                     "flex items-center justify-between gap-[var(--space-3)] rounded-[var(--radius-xl)] px-[var(--space-4)] py-[var(--space-3)] text-ui transition-colors duration-motion-sm ease-out",
                     selected
-                      ? "bg-[linear-gradient(90deg,hsl(var(--accent)/0.22),hsl(var(--accent)/0.05))] text-foreground shadow-[inset_0_0_0_1px_hsl(var(--accent)/0.35)]"
+                      ? "bg-[linear-gradient(90deg,hsl(var(--accent)/0.22),hsl(var(--accent)/0.05))] text-foreground shadow-[inset_0_0_0_var(--hairline-w)_hsl(var(--accent)/0.35)]"
                       : "text-muted-foreground hover:bg-[hsl(var(--foreground)/0.04)]",
                   )}
                 >
