@@ -10,10 +10,14 @@ test.describe("SiteChrome tab order", () => {
       page.getByRole("navigation", { name: PRIMARY_NAV_LABEL }),
     ).toBeVisible();
 
+    const primaryNav = page.getByRole("navigation", { name: PRIMARY_NAV_LABEL });
+
     const focusTargets = [
       page.getByRole("link", { name: "Skip to main content" }),
-      page.getByRole("link", { name: "Home" }),
-      ...NAV_ITEMS.map(({ label }) => page.getByRole("link", { name: label })),
+      page.getByRole("link", { name: "Home" }).first(),
+      ...NAV_ITEMS.map(({ label }) =>
+        primaryNav.getByRole("link", { name: label }),
+      ),
       page.getByRole("button", { name: "Theme: cycle background" }),
       page.getByRole("button", { name: /^Theme$/ }),
       page.getByRole("button", { name: /animations/i }),
