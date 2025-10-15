@@ -173,13 +173,20 @@ function applyTrailingSlash(path: string): string {
   return `${pathname}/${suffix}`
 }
 
-export function withBasePath(path: string): string {
+type WithBasePathOptions = {
+  readonly trailingSlash?: boolean
+}
+
+export function withBasePath(path: string, options?: WithBasePathOptions): string {
   if (isAbsoluteUrl(path)) {
     return path
   }
   const trimmedPath = path.trim()
   if (!trimmedPath) {
     const basePath = getBasePath()
+    if (options?.trailingSlash === false) {
+      return basePath || '/'
+    }
     return basePath ? `${basePath}/` : '/'
   }
 
@@ -203,6 +210,10 @@ export function withBasePath(path: string): string {
       normalizedPath.startsWith(`${basePath}#`)
 
     resultPath = alreadyPrefixed ? normalizedPath : `${basePath}${normalizedPath}`
+  }
+
+  if (options?.trailingSlash === false) {
+    return resultPath
   }
 
   return applyTrailingSlash(resultPath)
