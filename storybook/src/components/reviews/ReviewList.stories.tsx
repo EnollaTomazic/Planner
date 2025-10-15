@@ -164,7 +164,10 @@ export const Loading: Story = {
       <div className="relative">
         <ReviewList
           {...args}
-          className={cn("pointer-events-none opacity-30 blur-[1px]", args.className)}
+          className={cn(
+            "pointer-events-none opacity-30 blur-[var(--hairline-w)]",
+            args.className,
+          )}
         />
         <div
           aria-hidden
