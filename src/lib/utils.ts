@@ -146,6 +146,37 @@ export function cn(...inputs: ClassValue[]): string {
  * Prefix a path with the configured Next.js base path, if any.
  * Ensures consistent asset URLs for environments served from sub-paths.
  */
+function stripBasePathPrefix(path: string, basePath: string | null): string {
+  if (!basePath || basePath === "/") {
+    return path
+  }
+
+  if (path === basePath) {
+    return "/"
+  }
+
+  if (
+    path.startsWith(`${basePath}/`) ||
+    path.startsWith(`${basePath}?`) ||
+    path.startsWith(`${basePath}#`)
+  ) {
+    return path.slice(basePath.length)
+  }
+
+  return path
+}
+
+function isApiEndpointPath(path: string): boolean {
+  const queryIndex = path.search(/[?#]/)
+  const pathname = queryIndex === -1 ? path : path.slice(0, queryIndex)
+
+  if (pathname.length === 0) {
+    return false
+  }
+
+  return pathname === "/api" || pathname.startsWith("/api/")
+}
+
 function applyTrailingSlash(path: string): string {
   if (path.length === 0) {
     return path
@@ -203,6 +234,12 @@ export function withBasePath(path: string): string {
       normalizedPath.startsWith(`${basePath}#`)
 
     resultPath = alreadyPrefixed ? normalizedPath : `${basePath}${normalizedPath}`
+  }
+
+  const pathForTrailingSlash = stripBasePathPrefix(resultPath, basePath ?? null)
+
+  if (isApiEndpointPath(pathForTrailingSlash)) {
+    return resultPath
   }
 
   return applyTrailingSlash(resultPath)

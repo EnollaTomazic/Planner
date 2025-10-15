@@ -64,6 +64,31 @@ describe("WithBasePath", () => {
     expect(withBasePath("planner")).toBe("/planner/");
   });
 
+  it("does not append trailing slashes to API endpoints", async () => {
+    delete process.env.NEXT_PUBLIC_BASE_PATH;
+    vi.resetModules();
+
+    {
+      const { withBasePath } = await importBasePathUtils();
+
+      expect(withBasePath("/api/metrics")).toBe("/api/metrics");
+      expect(withBasePath("api/metrics")).toBe("/api/metrics");
+      expect(withBasePath("/api/metrics?detail=true")).toBe("/api/metrics?detail=true");
+    }
+
+    process.env.NEXT_PUBLIC_BASE_PATH = "/beta/";
+    vi.resetModules();
+
+    {
+      const { withBasePath } = await importBasePathUtils();
+
+      expect(withBasePath("/api/metrics")).toBe("/beta/api/metrics");
+      expect(withBasePath("api/metrics")).toBe("/beta/api/metrics");
+      expect(withBasePath("/beta/api/metrics")).toBe("/beta/api/metrics");
+      expect(withBasePath("/api/metrics?detail=true")).toBe("/beta/api/metrics?detail=true");
+    }
+  });
+
   it("uses the runtime router base path when available", async () => {
     delete process.env.NEXT_PUBLIC_BASE_PATH;
     vi.resetModules();
