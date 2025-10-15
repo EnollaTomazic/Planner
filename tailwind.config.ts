@@ -125,7 +125,7 @@ const config: Config = {
         "panel-tilt-bright": "var(--gradient-panel-tilt-bright)",
         "panel-tilt-muted": "var(--gradient-panel-tilt-muted)",
         "glitch-noise":
-          "var(--glitch-noise-image, var(--asset-noise-url, url(var(--asset-noise-path, var(--asset-noise-path-default)))))",
+          "var(--glitch-noise-image, var(--asset-noise-url, var(--asset-noise-url-default)))",
       },
       keyframes: {
         shimmer: {
