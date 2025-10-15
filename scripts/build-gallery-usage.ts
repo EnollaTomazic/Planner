@@ -381,7 +381,7 @@ interface UsageStateEntry {
 
 interface UsageEntry {
   readonly routes: readonly string[];
-  readonly states?: Readonly<Record<string, UsageStateEntry>>;
+  readonly states: Readonly<Record<string, UsageStateEntry>>;
 }
 
 type UsageMap = Record<string, UsageEntry>;
@@ -574,14 +574,20 @@ async function buildUsage(
     ).sort((a, b) => a.localeCompare(b));
 
     const stateEntries = entry.states ?? [];
-    if (stateEntries.length === 0) {
-      record[entry.id] = { routes } satisfies UsageEntry;
-      continue;
-    }
-
     const states: Record<string, UsageStateEntry> = {};
+
     for (const state of stateEntries) {
       states[state.id] = { routes: [...routes] } satisfies UsageStateEntry;
+    }
+
+    if (entry.id === AI_ABORT_BUTTON_ENTRY_ID) {
+      for (const config of AI_ABORT_BUTTON_STATE_CONFIGS) {
+        if (states[config.id]) {
+          continue;
+        }
+
+        states[config.id] = { routes: [...routes] } satisfies UsageStateEntry;
+      }
     }
 
     record[entry.id] = { routes, states } satisfies UsageEntry;

@@ -8,7 +8,7 @@ const UsageStateSchema = z.object({
 
 const UsageEntrySchema = z.object({
   routes: z.array(z.string()),
-  states: z.record(z.string(), UsageStateSchema).optional(),
+  states: z.record(z.string(), UsageStateSchema),
 })
 
 const UsageSchema = z.record(z.string(), UsageEntrySchema)
@@ -22,11 +22,24 @@ describe('gallery usage schema', () => {
         id,
         {
           routes: entry.routes.length,
-          states: entry.states ? Object.keys(entry.states).sort() : [],
+          states: Object.keys(entry.states).sort(),
         },
       ]),
     )
 
     expect(summary).toMatchSnapshot()
+  })
+
+  it('ensures all usage entries are objects with state maps', () => {
+    const normalized = JSON.parse(JSON.stringify(usage)) as unknown
+    const parsed = UsageSchema.parse(normalized)
+
+    for (const [id, entry] of Object.entries(parsed)) {
+      expect(entry.routes, `entry ${id} routes should be an array`).toBeInstanceOf(
+        Array,
+      )
+      expect(Object.getPrototypeOf(entry)).toBe(Object.prototype)
+      expect(Object.getPrototypeOf(entry.states)).toBe(Object.prototype)
+    }
   })
 })
