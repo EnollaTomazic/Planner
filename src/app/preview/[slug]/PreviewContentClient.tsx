@@ -368,7 +368,7 @@ export default function PreviewContentClient({ route }: PreviewContentClientProp
                     Snap the preview to the small, medium, or large container query breakpoints.
                   </p>
                   <div
-                    className="group/slider relative mt-[var(--space-1)] h-[var(--space-6)] rounded-[var(--control-radius)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--ring-contrast)] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--bg))]"
+                    className="group/slider relative mt-[var(--space-1)] h-[var(--space-6)] rounded-[var(--control-radius)] focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background"
                   >
                     <div
                       className="pointer-events-none absolute left-0 right-0 top-1/2 h-[var(--space-1)] -translate-y-1/2 rounded-full bg-card-hairline-45 shadow-[var(--shadow-inset-hairline)]"
@@ -380,7 +380,7 @@ export default function PreviewContentClient({ route }: PreviewContentClientProp
                       aria-hidden
                     />
                     <div
-                      className="pointer-events-none absolute top-1/2 size-[var(--space-5)] -translate-y-1/2 -translate-x-1/2 rounded-full border border-card-hairline-60 bg-card/90 shadow-[var(--shadow-control)] transition-[left] duration-motion-sm ease-out motion-reduce:transition-none group-focus-visible/slider:ring-2 group-focus-visible/slider:ring-[var(--ring-contrast)] group-focus-visible/slider:shadow-[var(--shadow-glow-md)]"
+                      className="pointer-events-none absolute top-1/2 size-[var(--space-5)] -translate-y-1/2 -translate-x-1/2 rounded-full border border-card-hairline-60 bg-card/90 shadow-[var(--shadow-control)] transition-[left] duration-motion-sm ease-out motion-reduce:transition-none group-focus-visible/slider:ring-2 group-focus-visible/slider:ring-ring group-focus-visible/slider:ring-offset-2 group-focus-visible/slider:ring-offset-background group-focus-visible/slider:shadow-[var(--shadow-glow-md)]"
                       style={{ left: `${containerProgress}%` }}
                       aria-hidden
                     />

@@ -11,7 +11,7 @@ const LIST_CLASSNAME =
 const CHIP_CLASSNAME = cn(
   "min-w-0 max-w-full truncate text-left overflow-hidden text-ellipsis",
   "hover:bg-muted/28",
-  "focus-visible:ring-2 focus-visible:ring-[var(--ring-contrast)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
   "transition-colors duration-motion-sm ease-out motion-reduce:transition-none",
 );
 

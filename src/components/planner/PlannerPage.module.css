@@ -90,7 +90,7 @@
 .heroDial {
   display: grid;
   gap: var(--space-3);
-  max-width: min(320px, 70vw);
+  max-width: min(calc(var(--space-8) * 5), 70vw);
   align-items: start;
   justify-items: start;
 }

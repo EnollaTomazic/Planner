@@ -17,6 +17,8 @@ type NavBarProps = {
   items?: readonly NavItem[];
 };
 
+const ABSOLUTE_URL_PATTERN = /^[a-zA-Z][a-zA-Z\d+.-]*:/;
+
 export function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
   const { isActive } = useNavActivity();
   const reduceMotion = useReducedMotion();
@@ -28,15 +30,49 @@ export function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
     >
       <ul className="flex list-none flex-nowrap items-center justify-center gap-[var(--space-1)] md:gap-[var(--space-2)]">
         {items.map(({ href, label, mobileIcon: Icon }) => {
-          const normalizedHref =
-            href.startsWith("#") || href.startsWith("?")
-              ? href
-              : withoutBasePath(href);
+          const trimmedHref = href.trim();
+          const isHashLink = trimmedHref.startsWith("#");
+          const isQueryLink = trimmedHref.startsWith("?");
+          const isAbsoluteLink =
+            ABSOLUTE_URL_PATTERN.test(trimmedHref) ||
+            trimmedHref.startsWith("//");
+
+          const normalizedHref = (() => {
+            if (!trimmedHref) {
+              return "/";
+            }
+
+            if (isHashLink || isQueryLink || isAbsoluteLink) {
+              return trimmedHref;
+            }
+
+            return trimmedHref.startsWith("/")
+              ? trimmedHref
+              : `/${trimmedHref}`;
+          })();
+
+          const comparableHref = (() => {
+            if (isHashLink || isQueryLink || isAbsoluteLink) {
+              return normalizedHref;
+            }
+
+            const baseStripped = withoutBasePath(normalizedHref);
+
+            if (baseStripped === "/" && normalizedHref !== "/") {
+              return normalizedHref;
+            }
+
+            return baseStripped;
+          })();
+
           const active =
-            normalizedHref.startsWith("#") || normalizedHref.startsWith("?")
+            isHashLink || isQueryLink || isAbsoluteLink
               ? false
-              : isActive(normalizedHref);
-          const targetHref = withBasePath(normalizedHref);
+              : isActive(comparableHref);
+
+          const targetHref = isAbsoluteLink
+            ? normalizedHref
+            : withBasePath(normalizedHref);
 
           return (
             <li key={href} className="relative">

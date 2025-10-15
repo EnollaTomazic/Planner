@@ -1,16 +1,30 @@
 import * as React from "react";
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
-
-vi.mock("next/navigation", () => ({ usePathname: () => "/reviews" }));
-vi.mock("framer-motion", async () => {
-  const actual = await vi.importActual<typeof import("framer-motion")>(
-    "framer-motion",
-  );
-  return { ...actual, useReducedMotion: () => true };
-});
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 import { PRIMARY_NAV_LABEL } from "@/config/nav";
+
+const ORIGINAL_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH;
+let mockedPathname = "/reviews";
+
+beforeEach(() => {
+  vi.resetModules();
+  vi.doMock("next/navigation", () => ({
+    usePathname: () => mockedPathname,
+  }));
+  vi.doMock("framer-motion", async () => {
+    const actual = await vi.importActual<
+      typeof import("framer-motion")
+    >("framer-motion");
+    return { ...actual, useReducedMotion: () => true };
+  });
+});
+
+afterEach(() => {
+  process.env.NEXT_PUBLIC_BASE_PATH = ORIGINAL_BASE_PATH;
+  mockedPathname = "/reviews";
+  vi.clearAllMocks();
+});
 
 async function loadNavBar() {
   const module = await import("@/components/chrome/NavBar");
@@ -34,6 +48,16 @@ describe("NavBar", () => {
     } finally {
       withBasePathSpy.mockRestore();
     }
+  });
+
+  it("renders navigation hrefs that include NEXT_PUBLIC_BASE_PATH", async () => {
+    process.env.NEXT_PUBLIC_BASE_PATH = "/beta";
+
+    const NavBar = await loadNavBar();
+    render(<NavBar />);
+
+    const reviewsLink = screen.getByRole("link", { name: "Reviews" });
+    expect(reviewsLink).toHaveAttribute("href", "/beta/reviews");
   });
 
   it("exposes a labelled primary navigation landmark", async () => {
