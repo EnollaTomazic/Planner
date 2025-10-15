@@ -135,6 +135,42 @@ describe("injectGitHubPagesPlaceholders", () => {
       `const key = "${GITHUB_PAGES_REDIRECT_STORAGE_KEY}"; const base = "/planner";`,
     );
   });
+
+  it("restores the redirect template when the generated 404.html omits placeholders", () => {
+    const outDir = fs.mkdtempSync(path.join(os.tmpdir(), "planner-gh-pages-restore-template-"));
+    tempRoot = outDir;
+    const scriptDir = path.join(outDir, "scripts");
+    fs.mkdirSync(scriptDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(outDir, "404.html"),
+      "<html><body><h1>Custom 404</h1></body></html>",
+      "utf8",
+    );
+    fs.writeFileSync(
+      path.join(scriptDir, "github-pages-bootstrap.js"),
+      "const key = '__GITHUB_PAGES_REDIRECT_STORAGE_KEY__';",
+      "utf8",
+    );
+
+    injectGitHubPagesPlaceholders(
+      outDir,
+      " planner ",
+      GITHUB_PAGES_REDIRECT_STORAGE_KEY,
+    );
+
+    const html = fs.readFileSync(path.join(outDir, "404.html"), "utf8");
+    expect(html).toContain('<a id="pages-redirect-link" href="/planner/index.html"');
+    expect(html).toContain("window.location.replace");
+    for (const placeholder of [
+      "__BASE_PATH__",
+      "__GITHUB_PAGES_REDIRECT_STORAGE_KEY__",
+    ]) {
+      expect(html.includes(placeholder)).toBe(false);
+    }
+    expect(
+      fs.readFileSync(path.join(scriptDir, "github-pages-bootstrap.js"), "utf8"),
+    ).toContain(`const key = '${GITHUB_PAGES_REDIRECT_STORAGE_KEY}';`);
+  });
 });
 
 describe("isUserOrOrgGitHubPagesRepository", () => {
