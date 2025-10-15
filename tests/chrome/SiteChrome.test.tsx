@@ -25,14 +25,22 @@ import { NAV_ITEMS, PRIMARY_NAV_LABEL } from "@/config/nav";
 
 describe("SiteChrome", () => {
   it("links the brand to home", async () => {
-    render(
-      <SiteChrome>
-        <div />
-      </SiteChrome>,
-    );
-    const link = screen.getByRole("link", { name: "Home" });
-    expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute("href", "/");
+    const utils = await import("@/lib/utils");
+    const withBasePathSpy = vi.spyOn(utils, "withBasePath");
+
+    try {
+      render(
+        <SiteChrome>
+          <div />
+        </SiteChrome>,
+      );
+      const link = screen.getByRole("link", { name: "Home" });
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute("href", "/");
+      expect(withBasePathSpy).toHaveBeenCalledWith("/");
+    } finally {
+      withBasePathSpy.mockRestore();
+    }
   });
 
   it("renders the mobile navigation drawer when opened", async () => {

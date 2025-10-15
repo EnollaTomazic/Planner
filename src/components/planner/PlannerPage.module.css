@@ -110,7 +110,7 @@
   color: hsl(var(--accent));
 }
 
-.heroRingReduced .motion-safe\:animate-pulse {
+.heroRingReduced :global(.motion-safe\:animate-pulse) {
   animation: none !important;
 }
 

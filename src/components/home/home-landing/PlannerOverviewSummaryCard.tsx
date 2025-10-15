@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { NeoCard } from "@/components/ui";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 import type { PlannerOverviewSummaryProps } from "./types";
 
 function PlannerOverviewSummaryCardComponent({
@@ -24,7 +24,7 @@ function PlannerOverviewSummaryCardComponent({
           {items.map((item) => (
             <li key={item.key}>
               <Link
-                href={item.href}
+                href={withBasePath(item.href)}
                 className={cn(
                   "group flex items-center justify-between gap-[var(--space-3)] rounded-[var(--control-radius)] border border-border/60 bg-card/70 px-[var(--space-3)] py-[var(--space-2)] transition",
                   "hover:border-primary/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",

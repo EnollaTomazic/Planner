@@ -8,7 +8,7 @@ import {
   SectionCardHeader,
 } from "@/components/ui";
 import { VARIANTS, type Variant } from "@/lib/theme";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 import type { ThemeMatrixEntry, ThemeMatrixVariantPreview } from "./types";
 
@@ -48,7 +48,7 @@ function ThemeMatrixPreviewFrame({
   readonly variantLabel: string;
   readonly preview: ThemeMatrixVariantPreview;
 }) {
-  const url = `/preview/${preview.slug}`;
+  const url = withBasePath(`/preview/${preview.slug}`);
   const backgroundLabel = getBackgroundLabel(preview.background);
   const titleParts = [entryName];
   if (stateName) {
