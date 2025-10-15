@@ -1,0 +1,188 @@
+name: Regen Bot
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+concurrency:
+  group: regen-bot-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    name: Evaluate CI failure
+    runs-on: ubuntu-latest
+    if: >-
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.head_repository.fork != true &&
+      github.event.workflow_run.head_branch != ''
+    outputs:
+      should_run: ${{ steps.analysis.outputs.should_run }}
+      head_sha: ${{ steps.analysis.outputs.head_sha }}
+      head_branch: ${{ steps.analysis.outputs.head_branch }}
+      base_branch: ${{ steps.analysis.outputs.base_branch }}
+      source_pr: ${{ steps.analysis.outputs.source_pr }}
+      run_id: ${{ steps.analysis.outputs.run_id }}
+      run_attempt: ${{ steps.analysis.outputs.run_attempt }}
+      workflow_url: ${{ steps.analysis.outputs.workflow_url }}
+    steps:
+      - name: Inspect workflow jobs
+        id: analysis
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const core = require('@actions/core');
+            const run = context.payload.workflow_run;
+            const headBranch = run.head_branch || '';
+            if (!headBranch || headBranch.startsWith('regen/')) {
+              core.setOutput('should_run', 'false');
+              return;
+            }
+
+            const { data } = await github.rest.actions.listJobsForWorkflowRun({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: run.id,
+              per_page: 100,
+            });
+
+            const failingPrepareJob = data.jobs.find((job) => job.name === 'Prepare gallery manifest');
+
+            if (!failingPrepareJob || failingPrepareJob.conclusion !== 'failure') {
+              core.info('Prepare gallery manifest job did not fail; skipping regeneration.');
+              core.setOutput('should_run', 'false');
+              return;
+            }
+
+            const pullRequest = Array.isArray(run.pull_requests) && run.pull_requests.length > 0
+              ? run.pull_requests[0]
+              : null;
+            const baseBranch = pullRequest?.base?.ref || headBranch;
+
+            core.setOutput('should_run', 'true');
+            core.setOutput('head_sha', failingPrepareJob.head_sha || run.head_sha || '');
+            core.setOutput('head_branch', headBranch);
+            core.setOutput('base_branch', baseBranch || headBranch);
+            if (pullRequest?.number) {
+              core.setOutput('source_pr', String(pullRequest.number));
+            } else {
+              core.setOutput('source_pr', '');
+            }
+            core.setOutput('run_id', String(run.id));
+            core.setOutput('run_attempt', String(run.run_attempt || 1));
+            core.setOutput('workflow_url', run.html_url || '');
+
+  regenerate:
+    name: Regenerate artifacts
+    needs: evaluate
+    if: needs.evaluate.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ needs.evaluate.outputs.head_sha }}
+          fetch-depth: 0
+
+      - name: Setup Node project
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version: '22.12.0'
+          checkout-ref: ${{ needs.evaluate.outputs.head_sha }}
+          skip-checkout: 'true'
+          cache-prefix: regen-bot
+          cache-suffix: ${{ vars.NODE_MODULES_CACHE_BUSTER }}
+
+      - name: Run generators
+        run: |
+          set -euo pipefail
+          pnpm run regen-ui
+          pnpm run regen-feature
+          pnpm run build-gallery-usage
+          pnpm run generate-themes
+          pnpm run generate-tokens
+
+      - name: Configure Git author
+        run: |
+          git config user.name "planner-regen-bot"
+          git config user.email "planner-regen-bot@users.noreply.github.com"
+
+      - name: Detect changes
+        id: detect_changes
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "changed=false" >>"$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >>"$GITHUB_OUTPUT"
+          fi
+
+      - name: Derive regeneration branch name
+        if: steps.detect_changes.outputs.changed == 'true'
+        id: branch_name
+        run: |
+          set -euo pipefail
+          HEAD_BRANCH="${{ needs.evaluate.outputs.head_branch }}"
+          SANITIZED_HEAD="$HEAD_BRANCH"
+          if [ -z "$SANITIZED_HEAD" ]; then
+            SANITIZED_HEAD="branch"
+          fi
+          SANITIZED_HEAD="$(echo "$SANITIZED_HEAD" | tr '[:upper:]' '[:lower:]' | tr '/ ' '--' | tr -c '[:alnum:]-' '-')"
+          SANITIZED_HEAD="${SANITIZED_HEAD#-}"
+          SANITIZED_HEAD="${SANITIZED_HEAD%-}"
+          if [ -z "$SANITIZED_HEAD" ]; then
+            SANITIZED_HEAD="branch"
+          fi
+          RUN_ID="${{ needs.evaluate.outputs.run_id }}"
+          BRANCH="regen/${SANITIZED_HEAD}-run-${RUN_ID}"
+          echo "name=$BRANCH" >>"$GITHUB_OUTPUT"
+
+      - name: Create regeneration branch
+        if: steps.detect_changes.outputs.changed == 'true'
+        run: git checkout -b "${{ steps.branch_name.outputs.name }}"
+
+      - name: Commit regenerated artifacts
+        if: steps.detect_changes.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          git add -A
+          git commit -m "chore: regenerate gallery and indexes"
+
+      - name: Push regeneration branch
+        if: steps.detect_changes.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git push --set-upstream origin "${{ steps.branch_name.outputs.name }}"
+
+      - name: Open pull request
+        if: steps.detect_changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          head: ${{ steps.branch_name.outputs.name }}
+          base: ${{ needs.evaluate.outputs.base_branch }}
+          title: "chore: regenerate UI artifacts (run ${{ needs.evaluate.outputs.run_id }})"
+          body: |
+            Automated regeneration detected stale UI or gallery artifacts in [workflow run ${{ needs.evaluate.outputs.run_id }}](${{ needs.evaluate.outputs.workflow_url }}).
+
+            - Source branch: `${{ needs.evaluate.outputs.head_branch }}`
+            - Run attempt: `${{ needs.evaluate.outputs.run_attempt }}`
+            - Commands executed: `pnpm run regen-ui`, `pnpm run regen-feature`, `pnpm run build-gallery-usage`, `pnpm run generate-themes`, `pnpm run generate-tokens`
+            ${{ needs.evaluate.outputs.source_pr != '' && format('- Original PR: #{0}', needs.evaluate.outputs.source_pr) || '' }}
+
+            Please review and merge to refresh generated files.
+
+      - name: No changes detected
+        if: steps.detect_changes.outputs.changed != 'true'
+        run: echo "No regenerated artifacts detected; skipping PR creation."
