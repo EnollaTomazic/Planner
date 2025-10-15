@@ -478,7 +478,7 @@ export function OnboardingTabs() {
                 baseClassName,
                 "glitch-wrapper group/glitch relative w-full min-w-0 flex-1 items-start gap-[var(--space-3)] rounded-[var(--control-radius-lg)] px-[var(--space-4)] py-[var(--space-3)] text-left",
                 "transition-[transform,filter] duration-[180ms] ease-out",
-                "focus-visible:outline-none focus-visible:ring-0",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--card))]",
                 active && "text-foreground",
                 status === "complete" && "text-foreground",
                 status === "upcoming" && !active && "text-muted-foreground",
