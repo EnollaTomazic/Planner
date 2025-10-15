@@ -130,6 +130,11 @@ jobs:
           After applying the fix, summarize the root cause and the changes you made so they can be included in the pull request body.
           PROMPT
 
+      - name: Init Codex
+        run: codex login || codex init
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
       - name: Run Codex
         id: run_codex
         uses: openai/codex-action@v1

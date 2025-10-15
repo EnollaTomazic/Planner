@@ -36,7 +36,8 @@
       "/preview/a11y",
       "/preview/hero-images",
       "/preview/perf"
-    ]
+    ],
+    "states": {}
   },
   "button": {
     "routes": [
@@ -577,19 +578,24 @@
     }
   },
   "chat-prompts-tab": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "codex-prompts-tab": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "notes-tab": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "prompts-demos": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "week-picker": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "bottom-nav": {
     "routes": [],
@@ -669,7 +675,8 @@
     }
   },
   "section-card-variants": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "page-shell": {
     "routes": [
@@ -694,7 +701,8 @@
       "/prompts",
       "/reviews",
       "/team"
-    ]
+    ],
+    "states": {}
   },
   "sheet-demo": {
     "routes": [],
@@ -731,16 +739,20 @@
     }
   },
   "split": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "title-bar": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "header-tabs": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "header": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "neomorphic-hero-frame": {
     "routes": [],
@@ -819,16 +831,20 @@
     "routes": [
       "/",
       "/preview/perf"
-    ]
+    ],
+    "states": {}
   },
   "outline-glow": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "snackbar": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "toast-demo": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "skeleton": {
     "routes": [
@@ -841,14 +857,16 @@
       "/prompts",
       "/reviews",
       "/team"
-    ]
+    ],
+    "states": {}
   },
   "spinner": {
     "routes": [
       "/",
       "/components",
       "/preview/[slug]"
-    ]
+    ],
+    "states": {}
   },
   "ai-typing-indicator": {
     "routes": [
@@ -940,7 +958,8 @@
       "/",
       "/preview/ai",
       "/preview/ai-states"
-    ]
+    ],
+    "states": {}
   },
   "ai-error-card": {
     "routes": [
@@ -948,7 +967,8 @@
       "/preview/ai",
       "/preview/ai-states",
       "/preview/reviews"
-    ]
+    ],
+    "states": {}
   },
   "toggle": {
     "routes": [
@@ -1045,10 +1065,12 @@
     }
   },
   "animation-toggle": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "check-circle": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "tab-bar": {
     "routes": [],
@@ -1111,82 +1133,106 @@
     }
   },
   "dashboard-card": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "dashboard-list": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "isometric-room": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "quick-action-grid": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "hero-planner-cards": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "avatar-frame": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "hero-portrait-frame": {
     "routes": [
       "/",
       "/preview/pages-check"
-    ]
+    ],
+    "states": {}
   },
   "portrait-frame": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "welcome-hero-figure": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "review-surface": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "review-slider-track": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "score-meter": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "review-list-item": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "lane-opponent-form": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "result-score-section": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "pillars-selector": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "timestamp-markers": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "goals-progress": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "goal-list-demo": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "reminders-tab": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "timer-ring": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "timer-tab": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "progress-ring-icon": {
     "routes": [
       "/",
       "/dashboard-layout"
-    ]
+    ],
+    "states": {}
   },
   "timer-ring-icon": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "side-selector": {
     "routes": [],
@@ -1405,11 +1451,13 @@
     }
   },
   "hero-image": {
-    "routes": []
+    "routes": [],
+    "states": {}
   },
   "cat-companion": {
     "routes": [
       "/"
-    ]
+    ],
+    "states": {}
   }
 }
