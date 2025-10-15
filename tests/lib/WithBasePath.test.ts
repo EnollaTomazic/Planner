@@ -60,8 +60,8 @@ describe("WithBasePath", () => {
 
     const { withBasePath } = await importBasePathUtils();
 
-    expect(withBasePath("/planner")).toBe("/planner");
-    expect(withBasePath("planner")).toBe("/planner");
+    expect(withBasePath("/planner")).toBe("/planner/");
+    expect(withBasePath("planner")).toBe("/planner/");
   });
 
   it("uses the runtime router base path when available", async () => {
@@ -141,8 +141,8 @@ describe("WithBasePath", () => {
 
     const { withBasePath } = await importBasePathUtils();
 
-    expect(withBasePath("/planner?modal=true")).toBe("/planner?modal=true");
-    expect(withBasePath("/planner#section")).toBe("/planner#section");
+    expect(withBasePath("/planner?modal=true")).toBe("/planner/?modal=true");
+    expect(withBasePath("/planner#section")).toBe("/planner/#section");
   });
 
   it("returns absolute URLs unchanged regardless of base path", async () => {

@@ -146,40 +146,66 @@ export function cn(...inputs: ClassValue[]): string {
  * Prefix a path with the configured Next.js base path, if any.
  * Ensures consistent asset URLs for environments served from sub-paths.
  */
-export function withBasePath(path: string): string {
-  if (isAbsoluteUrl(path)) {
-    return path;
-  }
-  const trimmedPath = path.trim();
-  if (!trimmedPath) {
-    const basePath = getBasePath();
-    return basePath ? `${basePath}/` : "/";
+function applyTrailingSlash(path: string): string {
+  if (path.length === 0) {
+    return path
   }
 
-  if (trimmedPath.startsWith("#") || trimmedPath.startsWith("?")) {
-    return trimmedPath;
-  }
-  const normalizedPath = trimmedPath.startsWith("/")
-    ? trimmedPath
-    : `/${trimmedPath}`;
-
-  const basePath = getBasePath();
-
-  if (!basePath) {
-    return normalizedPath;
-  }
+  const queryIndex = path.search(/[?#]/)
+  const pathname = queryIndex === -1 ? path : path.slice(0, queryIndex)
+  const suffix = queryIndex === -1 ? '' : path.slice(queryIndex)
 
   if (
-    normalizedPath === basePath ||
-    normalizedPath === `${basePath}/` ||
-    normalizedPath.startsWith(`${basePath}/`) ||
-    normalizedPath.startsWith(`${basePath}?`) ||
-    normalizedPath.startsWith(`${basePath}#`)
+    pathname.length === 0 ||
+    pathname === '/' ||
+    pathname.endsWith('/')
   ) {
-    return normalizedPath;
+    return path
   }
 
-  return `${basePath}${normalizedPath}`;
+  const lastSlashIndex = pathname.lastIndexOf('/')
+  const lastSegment = lastSlashIndex === -1 ? pathname : pathname.slice(lastSlashIndex + 1)
+
+  if (lastSegment.includes('.')) {
+    return path
+  }
+
+  return `${pathname}/${suffix}`
+}
+
+export function withBasePath(path: string): string {
+  if (isAbsoluteUrl(path)) {
+    return path
+  }
+  const trimmedPath = path.trim()
+  if (!trimmedPath) {
+    const basePath = getBasePath()
+    return basePath ? `${basePath}/` : '/'
+  }
+
+  if (trimmedPath.startsWith('#') || trimmedPath.startsWith('?')) {
+    return trimmedPath
+  }
+  const normalizedPath = trimmedPath.startsWith('/')
+    ? trimmedPath
+    : `/${trimmedPath}`
+
+  const basePath = getBasePath()
+
+  let resultPath = normalizedPath
+
+  if (basePath) {
+    const alreadyPrefixed =
+      normalizedPath === basePath ||
+      normalizedPath === `${basePath}/` ||
+      normalizedPath.startsWith(`${basePath}/`) ||
+      normalizedPath.startsWith(`${basePath}?`) ||
+      normalizedPath.startsWith(`${basePath}#`)
+
+    resultPath = alreadyPrefixed ? normalizedPath : `${basePath}${normalizedPath}`
+  }
+
+  return applyTrailingSlash(resultPath)
 }
 
 /** Remove the configured base path prefix from a pathname. */
