@@ -1,0 +1,28 @@
+name: Nightly UI Regeneration
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  nightly-regen:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version: '22.12.0'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Regenerate UI index
+        run: pnpm run regen-ui
+
+      - name: Build gallery usage
+        run: pnpm run build-gallery-usage
