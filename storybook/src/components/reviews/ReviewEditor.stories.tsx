@@ -163,7 +163,7 @@ export const Loading: Story = {
         <ReviewEditor
           {...args}
           className={cn(
-            "pointer-events-none opacity-40 blur-[1px]",
+            "pointer-events-none opacity-40 blur-[var(--hairline-w)]",
             args.className,
           )}
         />
