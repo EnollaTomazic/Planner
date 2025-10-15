@@ -6,6 +6,7 @@ import {
   BookOpen,
   CalendarDays,
   Flag,
+  Home,
   PanelsTopLeft,
   Sparkles,
   Users,
@@ -20,6 +21,7 @@ export type NavItem = {
 export const PRIMARY_NAV_LABEL = "Primary" as const;
 
 export const NAV_ITEMS = [
+  { href: "/", label: "Home", mobileIcon: Home },
   { href: "/reviews", label: "Reviews", mobileIcon: BookOpen },
   { href: "/planner", label: "Planner", mobileIcon: CalendarDays },
   { href: "/goals", label: "Goals", mobileIcon: Flag },
