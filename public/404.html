@@ -16,9 +16,10 @@
     </main>
     <script>
       (function () {
-        var placeholder = "__BASE_PATH__";
-        var basePath = placeholder;
-        if (basePath === "__BASE_PATH__") {
+        var BASE_PLACEHOLDER_SENTINEL = "__" + "BASE_PATH__";
+        var basePlaceholder = "__BASE_PATH__";
+        var basePath = basePlaceholder;
+        if (!basePath || basePath === BASE_PLACEHOLDER_SENTINEL) {
           basePath = "";
         } else {
           var trimmedBasePath = basePath.trim();
