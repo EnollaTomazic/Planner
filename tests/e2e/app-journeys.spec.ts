@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
 import { test } from "./playwright";
@@ -8,7 +7,7 @@ const plannerStorageKey = `${STORAGE_PREFIX}planner:days` as const;
 const reviewsStorageKey = `${STORAGE_PREFIX}reviews.v1` as const;
 const teamBuilderStorageKey = `${STORAGE_PREFIX}team_comp_v1` as const;
 
-const isTruthy = (value?: string | null) => {
+const isTruthy = (value?: string | null): boolean => {
   if (!value) return false;
   const normalized = value.trim().toLowerCase();
   return normalized !== "0" && normalized !== "false" && normalized !== "off" && normalized !== "no";
@@ -17,7 +16,7 @@ const isTruthy = (value?: string | null) => {
 const allowPersistence =
   isTruthy(process.env.CI ?? null) || isTruthy(process.env.PLAYWRIGHT_ALLOW_LOCAL_FIRST ?? null);
 
-async function primeLocalFirst(page: Page) {
+async function primeLocalFirst(page: Page): Promise<void> {
   await page.addInitScript(() => {
     window.sessionStorage.clear();
     window.localStorage.clear();
@@ -77,12 +76,11 @@ test.describe("Local-first journeys", () => {
     await expect(taskCheckbox).toBeVisible();
 
     await page.waitForFunction(
-      (storageKey: string, title: string) => {
+      ({ storageKey, title }: { storageKey: string; title: string }) => {
         const raw = window.localStorage.getItem(storageKey);
         return typeof raw === "string" && raw.includes(title);
       },
-      plannerStorageKey,
-      taskTitle,
+      { storageKey: plannerStorageKey, title: taskTitle },
     );
 
     await page.reload({ waitUntil: "networkidle" });
@@ -122,14 +120,12 @@ test.describe("Local-first journeys", () => {
     await enemyTop.fill(enemyValue);
 
     await page.waitForFunction(
-      (storageKey: string, ally: string, enemy: string) => {
+      ({ storageKey, ally, enemy }: { storageKey: string; ally: string; enemy: string }) => {
         const raw = window.localStorage.getItem(storageKey);
         if (typeof raw !== "string") return false;
         return raw.includes(ally) && raw.includes(enemy);
       },
-      teamBuilderStorageKey,
-      allyValue,
-      enemyValue,
+      { storageKey: teamBuilderStorageKey, ally: allyValue, enemy: enemyValue },
     );
 
     await page.goto("/team?tab=builder");
@@ -153,13 +149,12 @@ test.describe("Local-first journeys", () => {
     await composer.getByRole("button", { name: "Cancel" }).click();
     await expect(composer).toBeHidden();
 
-    const storedContainsDraft = await page.evaluate(
-      (storageKey: string, title: string) => {
+    const storedContainsDraft = await page.evaluate<boolean, { storageKey: string; title: string }>(
+      ({ storageKey, title }) => {
         const raw = window.localStorage.getItem(storageKey);
         return typeof raw === "string" && raw.includes(title);
       },
-      plannerStorageKey,
-      draftTitle,
+      { storageKey: plannerStorageKey, title: draftTitle },
     );
 
     expect(storedContainsDraft).toBe(false);

@@ -1,5 +1,3 @@
-// @ts-nocheck
-/// <reference types="@playwright/test" />
 import { expect, test } from "./playwright";
 
 test.describe("Reviews preview", () => {
