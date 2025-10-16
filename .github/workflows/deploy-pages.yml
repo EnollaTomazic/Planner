@@ -35,10 +35,10 @@ jobs:
       BASE_PATH: ${{ endsWith(github.event.repository.name, '.github.io') && '' || github.event.repository.name }} # Configure base path for repo-hosted pages
       NEXT_PUBLIC_BASE_PATH: ${{ endsWith(github.event.repository.name, '.github.io') && '' || format('/{0}', github.event.repository.name) }} # Mirror base path on the client for routing
       # Select the branch to receive published artifacts
-      PUBLISH_BRANCH: ${{ vars.GH_PAGES_BRANCH || vars.GITHUB_PAGES_BRANCH || (endsWith(github.event.repository.name, '.github.io') && github.event.repository.default_branch) || '' }}
+      PUBLISH_BRANCH: ${{ vars.GH_PAGES_BRANCH || vars['GITHUB_PAGES_BRANCH'] || (endsWith(github.event.repository.name, '.github.io') && github.event.repository.default_branch) || '' }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
