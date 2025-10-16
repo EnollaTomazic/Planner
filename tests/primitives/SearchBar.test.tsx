@@ -73,7 +73,9 @@ describe('SearchBar', () => {
     );
     const field = getByRole("searchbox").parentElement as HTMLElement;
     expect(field.dataset.customHeight).toBe("true");
-    expect(field.style.getPropertyValue("--field-custom-height")).toBe("52px");
+    const customHeight = field.style.getPropertyValue("--field-custom-height");
+    expect(customHeight.trim().endsWith("px")).toBe(true);
+    expect(Number.parseFloat(customHeight)).toBe(52);
   });
 
   it('renders an associated label when provided', () => {

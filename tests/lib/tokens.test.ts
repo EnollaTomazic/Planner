@@ -1,6 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+import tokens from "../../tokens/tokens.js";
+
 import { readNumberToken } from "@/lib/tokens";
+
+const pxToNumber = (value: string): number => Number.parseFloat(value);
 
 describe("readNumberToken", () => {
   const originalGetComputedStyle = global.getComputedStyle;
@@ -8,17 +12,22 @@ describe("readNumberToken", () => {
 
   beforeEach(() => {
     properties.clear();
-    properties.set("--direct", "12px");
+    properties.set("--direct", tokens.spacing3);
     properties.set("--alias", "var(--direct)");
     properties.set("--duration", "var(--duration-base)");
     properties.set("--duration-base", "220ms");
     properties.set("--length", "var(--length-source)");
-    properties.set("--length-source", "64px");
+    properties.set("--length-source", tokens.spacing8);
     properties.set("--calc", "calc(var(--length) * 3.5)");
     properties.set("--nested-calc", "calc(var(--length) + calc(var(--small) * 2))");
-    properties.set("--small", "12px");
-    properties.set("--with-fallback", "var(--missing, 18px)");
-    properties.set("--calc-fallback", "calc(var(--missing-length, 10px) * 2)");
+    properties.set("--small", tokens.spacing3);
+    properties.set("--spacing-3", tokens.spacing3);
+    properties.set("--spacing-5", tokens.spacing5);
+    properties.set("--with-fallback", "var(--missing, var(--spacing-5))");
+    properties.set(
+      "--calc-fallback",
+      "calc(var(--missing-length, var(--spacing-3)) * 2)",
+    );
 
     global.getComputedStyle = vi.fn(() => ({
       getPropertyValue: (name: string) => properties.get(name) ?? "",
@@ -30,7 +39,7 @@ describe("readNumberToken", () => {
   });
 
   it("parses direct numeric tokens", () => {
-    expect(readNumberToken("--direct", 0)).toBe(12);
+    expect(readNumberToken("--direct", 0)).toBe(pxToNumber(tokens.spacing3));
   });
 
   it("resolves chained var references", () => {
@@ -38,15 +47,20 @@ describe("readNumberToken", () => {
   });
 
   it("evaluates calc expressions with variable references", () => {
-    expect(readNumberToken("--calc", 0)).toBeCloseTo(224);
+    const base = pxToNumber(tokens.spacing8);
+    expect(readNumberToken("--calc", 0)).toBeCloseTo(base * 3.5);
   });
 
   it("uses fallback values when references are missing", () => {
-    expect(readNumberToken("--with-fallback", 0)).toBe(18);
+    expect(readNumberToken("--with-fallback", 0)).toBe(pxToNumber(tokens.spacing5));
   });
 
   it("handles nested calc expressions and fallbacks", () => {
-    expect(readNumberToken("--calc-fallback", 0)).toBe(20);
-    expect(readNumberToken("--nested-calc", 0)).toBeCloseTo(88);
+    expect(readNumberToken("--calc-fallback", 0)).toBe(
+      pxToNumber(tokens.spacing3) * 2,
+    );
+    const length = pxToNumber(tokens.spacing8);
+    const small = pxToNumber(tokens.spacing3);
+    expect(readNumberToken("--nested-calc", 0)).toBeCloseTo(length + small * 2);
   });
 });

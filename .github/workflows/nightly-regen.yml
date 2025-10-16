@@ -1,0 +1,22 @@
+name: Nightly UI Regeneration
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  nightly-regen:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+
+      - name: Set up Node.js
+        uses: ./.github/actions/setup-node-project
+        with:
+          node-version: '22.12.0'
+
+      - name: Regenerate UI and gallery usage artifacts
+        run: pnpm run regen-ui && pnpm run build-gallery-usage

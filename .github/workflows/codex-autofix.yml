@@ -7,9 +7,6 @@ on:
     types:
       - completed
 
-env:
-  HAS_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY != '' }}
-
 permissions:
   contents: write
   pull-requests: write
@@ -20,13 +17,12 @@ jobs:
   autofix:
     if: >-
       github.event.workflow_run.conclusion == 'failure' &&
-      github.event.workflow_run.head_repository.fork != true &&
-      env.HAS_OPENAI_API_KEY == 'true'
+      github.event.workflow_run.head_repository.fork != true
     name: Run Codex autofix
     runs-on: ubuntu-latest
 
     env:
-      HAS_OPENAI_API_KEY: ${{ env.HAS_OPENAI_API_KEY }}
+      HAS_OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY != '' }}
       TARGET_WORKFLOW: ${{ github.event.workflow_run.name }} # Record the failing workflow name for logging and prompts
       TARGET_RUN_ID: ${{ github.event.workflow_run.id }} # Reference the failed run when downloading logs
       TARGET_RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }} # Track retries so prompts mention the correct attempt
@@ -35,13 +31,28 @@ jobs:
       TARGET_HTML_URL: ${{ github.event.workflow_run.html_url }} # Link back to the failed run in generated summaries
 
     steps:
+      - name: Determine Codex availability
+        id: codex
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${HAS_OPENAI_API_KEY}" = 'true' ]; then
+            echo "enabled=true" >>"$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "enabled=false" >>"$GITHUB_OUTPUT"
+          echo "OpenAI API key is not configured; skipping Codex autofix run." >&2
+
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        if: steps.codex.outputs.enabled == 'true'
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
           ref: ${{ env.TARGET_HEAD_SHA }}
           fetch-depth: 0
 
       - name: Setup Node project
+        if: steps.codex.outputs.enabled == 'true'
         uses: ./.github/actions/setup-node-project
         with:
           skip-checkout: 'true'
@@ -51,9 +62,11 @@ jobs:
           node-version-file: .nvmrc
 
       - name: Install Codex CLI
+        if: steps.codex.outputs.enabled == 'true'
         run: npm install -g @openai/codex@latest
 
       - name: Export OpenAI credentials
+        if: steps.codex.outputs.enabled == 'true'
         run: |
           set -euo pipefail
           if [ -n "${OPENAI_API_KEY}" ]; then
@@ -76,6 +89,7 @@ jobs:
 
       - name: Download CI workflow logs
         id: download_logs
+        if: steps.codex.outputs.enabled == 'true'
         uses: actions/github-script@v8
         with:
           github-token: ${{ github.token }}
@@ -94,6 +108,7 @@ jobs:
             core.setOutput('zip-path', logsPath);
 
       - name: Extract workflow logs
+        if: steps.codex.outputs.enabled == 'true'
         run: |
           set -euo pipefail
           mkdir -p codex-logs/raw
@@ -101,6 +116,7 @@ jobs:
 
       - name: Capture failure context
         id: collect_logs
+        if: steps.codex.outputs.enabled == 'true'
         run: |
           set -euo pipefail
           SUMMARY="codex-logs/ci-failure.log"
@@ -114,6 +130,7 @@ jobs:
           echo "log-path=codex-logs/ci-failure-tail.log" >>"$GITHUB_OUTPUT"
 
       - name: Write Codex prompt
+        if: steps.codex.outputs.enabled == 'true'
         run: |
           cat <<'PROMPT' > codex-autofix-prompt.md
           You are assisting with an automated CI repair workflow.
@@ -130,8 +147,15 @@ jobs:
           After applying the fix, summarize the root cause and the changes you made so they can be included in the pull request body.
           PROMPT
 
+      - name: Init Codex
+        if: steps.codex.outputs.enabled == 'true'
+        run: codex login || codex init
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
       - name: Run Codex
         id: run_codex
+        if: steps.codex.outputs.enabled == 'true'
         uses: openai/codex-action@v1
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
@@ -139,12 +163,14 @@ jobs:
           output-file: codex-autofix-output.md
 
       - name: Configure Git author
+        if: steps.codex.outputs.enabled == 'true'
         run: |
           git config user.name "planner-codex-bot"
           git config user.email "planner-codex-bot@users.noreply.github.com"
 
       - name: Detect Codex changes
         id: detect_changes
+        if: steps.codex.outputs.enabled == 'true'
         run: |
           if [ -z "$(git status --porcelain)" ]; then
             echo "changed=false" >>"$GITHUB_OUTPUT"
@@ -153,25 +179,25 @@ jobs:
           fi
 
       - name: Create fix branch
-        if: steps.detect_changes.outputs.changed == 'true'
+        if: steps.codex.outputs.enabled == 'true' && steps.detect_changes.outputs.changed == 'true'
         run: |
           git checkout -b codex/autofix/${{ env.TARGET_RUN_ID }}
 
       - name: Commit Codex changes
-        if: steps.detect_changes.outputs.changed == 'true'
+        if: steps.codex.outputs.enabled == 'true' && steps.detect_changes.outputs.changed == 'true'
         run: |
           git add -A
           git commit -m "Codex autofix for run ${{ env.TARGET_RUN_ID }}"
 
       - name: Push fix branch
-        if: steps.detect_changes.outputs.changed == 'true'
+        if: steps.codex.outputs.enabled == 'true' && steps.detect_changes.outputs.changed == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Authenticate pushes back to the repository
         run: |
           git push --set-upstream origin codex/autofix/${{ env.TARGET_RUN_ID }}
 
       - name: Open pull request
-        if: steps.detect_changes.outputs.changed == 'true' && env.TARGET_HEAD_BRANCH != ''
+        if: steps.codex.outputs.enabled == 'true' && steps.detect_changes.outputs.changed == 'true' && env.TARGET_HEAD_BRANCH != ''
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -186,9 +212,13 @@ jobs:
             ${{ steps.run_codex.outputs['final-message'] || 'Codex did not return a summary.' }}
 
             > Logs reviewed: `codex-logs/ci-failure-tail.log`
-          head: codex/autofix/${{ env.TARGET_RUN_ID }}
+          branch: codex/autofix/${{ env.TARGET_RUN_ID }}
           base: ${{ env.TARGET_HEAD_BRANCH }}
 
       - name: No changes detected
-        if: steps.detect_changes.outputs.changed != 'true'
+        if: steps.codex.outputs.enabled == 'true' && steps.detect_changes.outputs.changed != 'true'
         run: echo "Codex did not make any changes."
+
+      - name: Codex disabled
+        if: steps.codex.outputs.enabled != 'true'
+        run: echo "Codex autofix skipped because OPENAI_API_KEY is not configured."

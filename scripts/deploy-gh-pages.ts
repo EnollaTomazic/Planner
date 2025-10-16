@@ -401,6 +401,7 @@ export function injectGitHubPagesPlaceholders(
   basePath: string,
   storageKey: string,
 ): void {
+  ensureOut404HasRedirectTemplate(outDir);
   const normalizedBasePath = normalizeBasePath(basePath);
   const replacements: Array<[string, RegExp]> = [
     [normalizedBasePath, /__BASE_PATH__/gu],
@@ -424,6 +425,37 @@ export function injectGitHubPagesPlaceholders(
     }
     fs.writeFileSync(target, updated);
   }
+}
+
+const GITHUB_PAGES_PLACEHOLDERS = [
+  "__BASE_PATH__",
+  "__GITHUB_PAGES_REDIRECT_STORAGE_KEY__",
+] as const;
+
+function ensureOut404HasRedirectTemplate(outDir: string): void {
+  const targetPath = path.join(outDir, "404.html");
+  if (!fs.existsSync(targetPath)) {
+    return;
+  }
+
+  const existingContents = fs.readFileSync(targetPath, "utf8");
+  const hasAllPlaceholders = GITHUB_PAGES_PLACEHOLDERS.every((placeholder) =>
+    existingContents.includes(placeholder),
+  );
+
+  if (hasAllPlaceholders) {
+    return;
+  }
+
+  const templatePath = path.resolve("public", "404.html");
+  if (!fs.existsSync(templatePath)) {
+    throw new Error(
+      `Expected GitHub Pages 404 template at "${templatePath}", but it could not be found.`,
+    );
+  }
+
+  const templateContents = fs.readFileSync(templatePath, "utf8");
+  fs.writeFileSync(targetPath, templateContents);
 }
 
 export function main(): void {
