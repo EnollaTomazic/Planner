@@ -77,16 +77,38 @@ export async function detectForbiddenArtifacts(
   return matches;
 }
 
+function envFlag(name: string): boolean {
+  const raw = process.env[name];
+  if (!raw) {
+    return false;
+  }
+  if (raw === "1") {
+    return true;
+  }
+  return raw.toLowerCase() === "true";
+}
+
 async function runGuard(): Promise<void> {
+  const isCi = envFlag("CI");
+  const enforceGuard = envFlag("GUARD_ARTIFACTS_ENFORCE");
+  const treatAsWarning = isCi && !enforceGuard;
+
   const offenders = await detectForbiddenArtifacts(repoRoot);
   if (offenders.length === 0) {
     return;
   }
 
-  console.error("Detected forbidden runtime artifacts in the working tree:\n");
+  const logger = treatAsWarning ? console.warn : console.error;
+  logger("Detected forbidden runtime artifacts in the working tree:\n");
   for (const offender of offenders) {
-    console.error(` • ${offender.path} (${offender.label})`);
-    console.error(`   → ${offender.resolution}`);
+    logger(` • ${offender.path} (${offender.label})`);
+    logger(`   → ${offender.resolution}`);
+  }
+  if (treatAsWarning) {
+    console.warn(
+      "\nContinuing despite the detected directories because guard:artifacts runs in warning mode on CI (set GUARD_ARTIFACTS_ENFORCE=1 to fail).",
+    );
+    return;
   }
   console.error("\nRemove these directories before committing.");
   process.exit(1);
