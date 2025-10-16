@@ -5,6 +5,7 @@ import "./themes.css";
 import "@/env/validate-server-env";
 
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import {
   geistMonoVariable,
   geistSansClassName,
@@ -157,7 +158,9 @@ export default async function RootLayout({
                   </div>
                   <div className="flex min-h-screen flex-col">
                     <SiteChrome>
-                      <HashScrollEffect />
+                      <Suspense fallback={null}>
+                        <HashScrollEffect />
+                      </Suspense>
                       <CatCompanion />
                       <div
                         id="scroll-root"

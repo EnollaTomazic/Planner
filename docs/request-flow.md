@@ -1,18 +1,17 @@
 # Planner Request Flow
 
-This document traces how planner data moves from the client UI through the
-server and into persistent storage. The planner uses a server action backed by a
-Next.js API route for assistant requests, and browser `localStorage` serves as
+This document traces how planner data moves from the client UI through shared
+assistant logic and into persistent storage. The planner relies on a shared
+TypeScript helper for assistant requests, and browser `localStorage` serves as
 the persistence layer for planner content.
 
 ## High-level flow
 
 1. **User submits a planner request.** The floating planner button component
-   builds the prompt from the user's input and calls the `planWithAssistantAction`
-   server action while keeping track of concurrent requests.
-2. **API boundary validation.** The `/api/planner/assistant` route (and the
-   server action itself) parses the JSON body, normalizes the safe-mode state,
-   and routes the request to shared business logic.
+   builds the prompt from the user's input and calls the shared
+   `planWithAssistantAction` helper while keeping track of concurrent requests.
+2. **Assistant request validation.** The helper parses the request, normalizes
+   the safe-mode state, and routes the payload to shared business logic.
 3. **Planner assistant synthesis.** The `planWithAssistant` helper sanitizes the
    prompt, enforces token budgets, generates task/project suggestions, and
    packages the result with safety metadata.
@@ -32,21 +31,16 @@ The floating action button component (`PlannerFab`) debounces requests and calls
 records safe-mode state from the response.
 
 - Trims user input, bails if empty, and starts a React transition before calling
-the server action.【F:src/components/planner/PlannerFab.tsx†L383-L437】
+the assistant helper.【F:src/components/planner/PlannerFab.tsx†L383-L437】
 - Persists planner entries via helper functions that are triggered when the user
 saves their plan, eventually delegating to CRUD utilities for projects and
 tasks.【F:src/components/planner/PlannerFab.tsx†L240-L336】
 
-### 2. API boundary validation
+### 2. Assistant boundary validation
 
-The Next.js route accepts `POST` requests, handles JSON parsing errors, calls
-`planWithAssistantAction`, and maps domain errors to HTTP responses with a
-consistent `safeMode` payload.【F:src/app/api/planner/assistant/route.ts†L1-L95】
-
-`planWithAssistantAction` itself runs on the server. It resolves the safe-mode
-configuration, validates the request schema, translates domain errors into
-user-facing messages, and produces the success envelope consumed by both the
-API route and the client component.【F:src/app/planner/actions.ts†L85-L158】
+`planWithAssistantAction` resolves the safe-mode configuration, validates the
+request schema, translates domain errors into user-facing messages, and produces
+the success envelope consumed by the client component.【F:src/lib/assistant/plannerAssistantAction.ts†L1-L108】
 
 ### 3. Planner assistant synthesis
 
@@ -79,25 +73,18 @@ persistence layer.【F:src/lib/db.ts†L30-L110】【F:src/lib/db.ts†L232-L288
 ```mermaid
 sequenceDiagram
     participant UI as PlannerFab (client)
-    participant API as /api/planner/assistant
     participant Action as planWithAssistantAction
     participant Domain as planWithAssistant
     participant Store as Planner store (usePlannerActions)
     participant DB as localStorage (usePersistentState)
 
     UI->>Action: planWithAssistantAction({ prompt, focusDate })
-    note over UI,Action: Next.js server actions turn this call into an RPC
+    note over UI,Action: Shared helper validates input & safe mode
     Action->>Domain: Validate & generate plan
     Domain-->>Action: PlannerAssistantPlan
     Action-->>UI: { ok, plan, safeMode }
     UI->>Store: createProject/createTask when saving
     Store->>DB: usePersistentState persists day records
 
-    alt External HTTP client
-      UI->>API: POST /api/planner/assistant
-      API->>Action: Forward payload for validation & planning
-      Action-->>API: { ok/err, body }
-      API-->>UI: HTTP JSON response
-    end
 ```
 

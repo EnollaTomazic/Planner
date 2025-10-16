@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   planWithAssistantAction,
   type PlannerAssistantActionInput,
-} from "@/app/planner/actions";
+} from "@/lib/assistant/plannerAssistantAction";
 
 const ORIGINAL_ENV = { ...process.env };
 

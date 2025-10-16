@@ -13,7 +13,7 @@ import { addDays, toISODate, fromISODate } from "@/lib/date";
 import type {
   PlannerAssistantActionInput,
   PlannerAssistantActionResult,
-} from "@/app/planner/actions";
+} from "@/lib/assistant/plannerAssistantAction";
 import type { PlannerAssistantPlan } from "@/lib/assistant/plannerAgent";
 
 const defaultAssistantActionResult: PlannerAssistantActionResult = {
@@ -37,7 +37,7 @@ const planWithAssistantAction = vi.hoisted(() =>
   >(() => Promise.resolve(defaultAssistantActionResult)),
 );
 
-vi.mock("@/app/planner/actions", () => ({
+vi.mock("@/lib/assistant/plannerAssistantAction", () => ({
   planWithAssistantAction,
 }));
 
