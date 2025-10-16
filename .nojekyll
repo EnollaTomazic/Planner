@@ -1,0 +1,3 @@
+# Prevent GitHub Pages from stripping Next.js assets.
+# Keeping this file in the public directory ensures `next export`
+# copies it to the static output so the `_next` folder remains available.
