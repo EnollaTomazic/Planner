@@ -21,7 +21,6 @@ import {
   summariseParse,
 } from "@/lib/scheduling";
 import type { PlannerAssistantPlan } from "@/lib/assistant/plannerAgent";
-import { planWithAssistantAction } from "@/lib/assistant/plannerAssistantAction";
 import { type PlannerAssistantSafeModeState } from "@/lib/assistant/safe-mode";
 import { fromISODate, toISODate } from "@/lib/date";
 import {
@@ -33,6 +32,11 @@ import {
 
 const FLOATING_BUTTON_POSITION =
   "fixed bottom-[var(--space-8)] right-[max(var(--space-3),calc((var(--viewport-width) - var(--shell-max,var(--shell-width))) / 2 + var(--space-3)))] z-50";
+
+const PLANNER_ASSISTANT_SUPPORTED = process.env.GITHUB_PAGES !== "true";
+
+const ASSISTANT_STATIC_EXPORT_MESSAGE =
+  "Planner assistant is unavailable in static exports.";
 
 type Mode = "task" | "project";
 
@@ -151,6 +155,7 @@ function PlannerCreationDialog({
 
 function useKeyboardShortcut(openSheet: VoidFunction) {
   React.useEffect(() => {
+    if (typeof window === "undefined") return;
     const handle = (event: KeyboardEvent) => {
       const key = event.key.toLowerCase();
       const mod = event.metaKey || event.ctrlKey;
@@ -209,6 +214,7 @@ export function PlannerFab() {
 
   React.useEffect(() => {
     if (!open) return;
+    if (typeof window === "undefined") return;
     const frame = window.requestAnimationFrame(() => {
       textareaRef.current?.focus({ preventScroll: true });
     });
@@ -387,6 +393,13 @@ export function PlannerFab() {
       return;
     }
 
+    if (!PLANNER_ASSISTANT_SUPPORTED) {
+      setAssistantPlan(null);
+      setAssistantError(ASSISTANT_STATIC_EXPORT_MESSAGE);
+      setAssistantSafeMode(null);
+      return;
+    }
+
     setAssistantPlan(null);
     setAssistantError(null);
 
@@ -395,6 +408,9 @@ export function PlannerFab() {
 
     startAssistantTransition(async () => {
       try {
+        const { planWithAssistantAction } = await import(
+          "@/lib/assistant/plannerAssistantAction"
+        );
         const result = await planWithAssistantAction({
           prompt: trimmed,
           focusDate: targetIso,
@@ -651,7 +667,7 @@ export function PlannerFab() {
                   variant="neo"
                   size="sm"
                   onClick={handleAskAssistant}
-                  disabled={assistantLoading}
+                  disabled={assistantLoading || !PLANNER_ASSISTANT_SUPPORTED}
                   className="flex items-center gap-[var(--space-2)] rounded-full"
                 >
                   {assistantLoading ? (
@@ -666,6 +682,11 @@ export function PlannerFab() {
                     </>
                   )}
                 </Button>
+                {!PLANNER_ASSISTANT_SUPPORTED && (
+                  <p className="text-caption text-muted-foreground" role="note">
+                    {ASSISTANT_STATIC_EXPORT_MESSAGE}
+                  </p>
+                )}
               </div>
               <p
                 id={aiDisclosureId}
