@@ -87,6 +87,17 @@ jobs:
           OPENAI_PROJECT: ${{ secrets.OPENAI_PROJECT }} # Pass project context if the account uses project scoping
           OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }} # Allow custom API base URL for enterprise routing
 
+      - name: Ensure Codex server info cache exists
+        if: steps.codex.outputs.enabled == 'true'
+        run: |
+          set -euo pipefail
+          server_info_dir="${HOME}/.config/openai"
+          server_info_file="${server_info_dir}/server_info.json"
+          mkdir -p "$server_info_dir"
+          if [ ! -f "$server_info_file" ]; then
+            echo '{}' >"$server_info_file"
+          fi
+
       - name: Download CI workflow logs
         id: download_logs
         if: steps.codex.outputs.enabled == 'true'
