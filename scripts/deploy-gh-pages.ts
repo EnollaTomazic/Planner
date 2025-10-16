@@ -9,6 +9,9 @@ import { GITHUB_PAGES_REDIRECT_STORAGE_KEY } from "../src/lib/github-pages";
 import { normalizeBasePath } from "../lib/base-path.js";
 
 const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
+const PRODUCTION_BASE_PATH_SLUG = "Planner";
+const PRODUCTION_NEXT_PUBLIC_BASE_PATH =
+  normalizeBasePath(PRODUCTION_BASE_PATH_SLUG);
 
 function shouldPublishSite(env: NodeJS.ProcessEnv): boolean {
   const mode = env.DEPLOY_ARTIFACT_ONLY?.trim().toLowerCase();
@@ -42,6 +45,14 @@ function isCiEnvironment(env: NodeJS.ProcessEnv): boolean {
 
   const normalized = value.toLowerCase();
   return normalized !== "false" && normalized !== "0";
+}
+
+function isProductionEnvironment(value: string | undefined): boolean {
+  if (!value) {
+    return false;
+  }
+
+  return value.trim().toLowerCase() === "production";
 }
 
 function detectDefaultBranch(): string | undefined {
@@ -459,6 +470,16 @@ function ensureOut404HasRedirectTemplate(outDir: string): void {
 }
 
 export function main(): void {
+  if (isProductionEnvironment(process.env.NODE_ENV)) {
+    if (!sanitizeSlug(process.env.BASE_PATH)) {
+      process.env.BASE_PATH = PRODUCTION_BASE_PATH_SLUG;
+    }
+
+    if (!normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH)) {
+      process.env.NEXT_PUBLIC_BASE_PATH = PRODUCTION_NEXT_PUBLIC_BASE_PATH;
+    }
+  }
+
   const requestedPublish = shouldPublishSite(process.env);
   const publish =
     requestedPublish && canPublishWithGit(process.env);
