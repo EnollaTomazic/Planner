@@ -2,6 +2,7 @@ import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 
 type MockedClientEnv = {
   NEXT_PUBLIC_BASE_PATH?: string;
+  NEXT_PUBLIC_GITHUB_PAGES?: string;
   NEXT_PUBLIC_DEPTH_THEME?: string;
   NEXT_PUBLIC_ENABLE_METRICS?: string;
   NEXT_PUBLIC_FEATURE_GLITCH_LANDING?: string;

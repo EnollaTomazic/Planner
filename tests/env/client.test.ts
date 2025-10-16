@@ -170,6 +170,7 @@ describe("loadClientEnv", () => {
         "NEXT_PUBLIC_ENABLE_METRICS": "auto",
         "NEXT_PUBLIC_FEATURE_GLITCH_LANDING": undefined,
         "NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS": "true",
+        "NEXT_PUBLIC_GITHUB_PAGES": undefined,
         "NEXT_PUBLIC_METRICS_ENDPOINT": undefined,
         "NEXT_PUBLIC_ORGANIC_DEPTH": "false",
         "NEXT_PUBLIC_SAFE_MODE": "true",

@@ -33,7 +33,8 @@ import {
 const FLOATING_BUTTON_POSITION =
   "fixed bottom-[var(--space-8)] right-[max(var(--space-3),calc((var(--viewport-width) - var(--shell-max,var(--shell-width))) / 2 + var(--space-3)))] z-50";
 
-const PLANNER_ASSISTANT_SUPPORTED = process.env.GITHUB_PAGES !== "true";
+const PLANNER_ASSISTANT_SUPPORTED =
+  process.env.NEXT_PUBLIC_GITHUB_PAGES !== "true";
 
 const ASSISTANT_STATIC_EXPORT_MESSAGE =
   "Planner assistant is unavailable in static exports.";
