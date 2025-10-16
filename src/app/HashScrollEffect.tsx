@@ -13,6 +13,11 @@ export default function HashScrollEffect(): null {
     () => (searchParams ? searchParams.toString() : ''),
     [searchParams],
   );
+  const routeKey = useMemo(() => {
+    const basePath = pathname ?? '/';
+
+    return searchString ? `${basePath}?${searchString}` : basePath;
+  }, [pathname, searchString]);
   const scrollPositionsRef = useRef(new Map<string, number>());
   const activeRouteKeyRef = useRef<string | null>(null);
 
@@ -68,21 +73,18 @@ export default function HashScrollEffect(): null {
       scrollPositionsRef.current.set(previousKey, container.scrollTop);
     }
 
-    const basePathname = pathname ?? '/';
-    const nextKey = searchString ? `${basePathname}?${searchString}` : basePathname;
-
-    activeRouteKeyRef.current = nextKey;
+    activeRouteKeyRef.current = routeKey;
 
     if (typeof window !== 'undefined' && window.location.hash) {
       return;
     }
 
-    const savedPosition = scrollPositionsRef.current.get(nextKey) ?? 0;
+    const savedPosition = scrollPositionsRef.current.get(routeKey) ?? 0;
 
     if (container.scrollTop !== savedPosition) {
       container.scrollTo({ top: savedPosition });
     }
-  }, [pathname, searchString, container]);
+  }, [routeKey, container]);
 
   useEffect(() => {
     if (typeof window === 'undefined' || !window.location.hash || !container) {
@@ -99,7 +101,7 @@ export default function HashScrollEffect(): null {
     return () => {
       window.clearTimeout(timeout);
     };
-  }, [pathname, searchString, container]);
+  }, [routeKey, container]);
 
   return null;
 }
