@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   actions: write
   pages: write
 
@@ -32,6 +32,7 @@ jobs:
     env:
       NEXT_TELEMETRY_DISABLED: '1' # Disable Next.js telemetry to keep CI logs clean
       GITHUB_PAGES: 'true' # Signal the app to generate assets suitable for GitHub Pages
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Expose token for build tooling that needs authenticated API access
       BASE_PATH: ${{ endsWith(github.event.repository.name, '.github.io') && '' || github.event.repository.name }} # Configure base path for repo-hosted pages
       NEXT_PUBLIC_BASE_PATH: ${{ endsWith(github.event.repository.name, '.github.io') && '' || format('/{0}', github.event.repository.name) }} # Mirror base path on the client for routing
       # Select the branch to receive published artifacts
