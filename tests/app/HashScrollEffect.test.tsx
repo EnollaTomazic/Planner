@@ -1,162 +1,105 @@
 import * as React from "react";
+import HashScrollEffect from "@/app/HashScrollEffect";
 import { act, render, waitFor } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+} from "vitest";
 
-let pathname = "/planner";
-let searchParamsString = "";
-
-const scrollToHashMock = vi.hoisted(() => vi.fn());
+let mockedPathname = "/first";
+let mockedSearchParams: URLSearchParams | null = null;
 
 vi.mock("next/navigation", () => ({
-  usePathname: () => pathname,
-  useSearchParams: () => new URLSearchParams(searchParamsString),
+  usePathname: () => mockedPathname,
+  useSearchParams: () => mockedSearchParams,
 }));
 
-vi.mock("@/lib/scrollToHash", () => ({
-  __esModule: true,
-  default: scrollToHashMock,
-}));
+const createScrollToImplementation = (target: HTMLElement) =>
+  ((options?: ScrollToOptions | number, y?: number) => {
+    if (typeof options === "number") {
+      target.scrollTop = options;
+      return;
+    }
 
-import HashScrollEffect from "@/app/HashScrollEffect";
+    if (typeof y === "number") {
+      target.scrollTop = y;
+      return;
+    }
 
-async function flushEffects() {
-  await act(async () => {
-    await new Promise((resolve) => setTimeout(resolve, 0));
-  });
-}
+    if (typeof options?.top === "number") {
+      target.scrollTop = options.top;
+    }
+  }) as typeof HTMLElement.prototype.scrollTo;
 
 describe("HashScrollEffect", () => {
   let scrollRoot: HTMLDivElement;
-  let scrollToSpy: ReturnType<typeof vi.fn>;
+  let originalScrollRestoration: string | undefined;
 
   beforeEach(() => {
-    pathname = "/planner";
-    searchParamsString = "";
-    window.location.hash = "";
-    scrollToHashMock.mockReset();
-    scrollToHashMock.mockReturnValue(true);
+    mockedPathname = "/first";
+    mockedSearchParams = null;
+    originalScrollRestoration = window.history.scrollRestoration;
+
+    Object.defineProperty(window.history, "scrollRestoration", {
+      configurable: true,
+      writable: true,
+      value: "auto",
+    });
 
     scrollRoot = document.createElement("div");
     scrollRoot.id = "scroll-root";
-
-    Object.defineProperty(scrollRoot, "scrollTop", {
-      configurable: true,
-      value: 0,
-      writable: true,
-    });
-
-    Object.defineProperty(scrollRoot, "scrollLeft", {
-      configurable: true,
-      value: 0,
-      writable: true,
-    });
-
-    scrollToSpy = vi.fn<
-      (options?: ScrollToOptions | number, y?: number) => void
-    >(function (this: HTMLDivElement, options?: ScrollToOptions | number, y?: number) {
-      if (typeof options === "number") {
-        this.scrollTop = typeof y === "number" ? y : options;
-        return;
-      }
-
-      if (options && typeof options.top === "number") {
-        this.scrollTop = options.top;
-      }
-    });
-
-    Object.defineProperty(scrollRoot, "scrollTo", {
-      configurable: true,
-      value: scrollToSpy,
-      writable: true,
-    });
-
+    scrollRoot.style.height = "400px";
+    scrollRoot.style.overflow = "auto";
+    scrollRoot.scrollTop = 0;
+    scrollRoot.scrollTo = createScrollToImplementation(scrollRoot);
     document.body.appendChild(scrollRoot);
 
-    if (typeof window.requestAnimationFrame !== "function") {
-      window.requestAnimationFrame = ((callback: FrameRequestCallback) =>
-        window.setTimeout(callback, 0)) as typeof window.requestAnimationFrame;
-    }
-
-    if (typeof window.cancelAnimationFrame !== "function") {
-      window.cancelAnimationFrame = ((handle: number) =>
-        window.clearTimeout(handle)) as typeof window.cancelAnimationFrame;
-    }
+    window.location.hash = "";
   });
 
   afterEach(() => {
     scrollRoot.remove();
+
+    if (originalScrollRestoration === undefined) {
+      Reflect.deleteProperty(window.history, "scrollRestoration");
+    } else {
+      window.history.scrollRestoration = originalScrollRestoration;
+    }
   });
 
-  it("restores scroll positions keyed by pathname and search params", async () => {
-    searchParamsString = new URLSearchParams({ view: "list" }).toString();
-
+  it("restores the previous scroll position when navigating back", async () => {
     const { rerender } = render(<HashScrollEffect />);
-    await flushEffects();
 
-    scrollRoot.scrollTop = 120;
-    scrollRoot.dispatchEvent(new Event("scroll"));
+    await waitFor(() => {
+      expect(window.history.scrollRestoration).toBe("manual");
+    });
 
-    searchParamsString = new URLSearchParams({ view: "board" }).toString();
+    act(() => {
+      scrollRoot.scrollTop = 180;
+      scrollRoot.dispatchEvent(new Event("scroll"));
+    });
+
+    mockedPathname = "/second";
     rerender(<HashScrollEffect />);
-    await flushEffects();
 
     await waitFor(() => {
       expect(scrollRoot.scrollTop).toBe(0);
     });
 
-    scrollRoot.scrollTop = 260;
-    scrollRoot.dispatchEvent(new Event("scroll"));
-
-    searchParamsString = new URLSearchParams({ view: "list" }).toString();
-    rerender(<HashScrollEffect />);
-    await flushEffects();
-
-    await waitFor(() => {
-      expect(scrollRoot.scrollTop).toBe(120);
-    });
-  });
-
-  it("skips restoration when navigating with a hash and prefers smooth anchor scrolling", async () => {
-    searchParamsString = new URLSearchParams({ view: "board" }).toString();
-
-    const { rerender } = render(<HashScrollEffect />);
-    await flushEffects();
-
-    scrollRoot.scrollTop = 200;
-    scrollRoot.dispatchEvent(new Event("scroll"));
-
-    searchParamsString = new URLSearchParams({ view: "list" }).toString();
-    rerender(<HashScrollEffect />);
-    await flushEffects();
-
-    await waitFor(() => {
-      expect(scrollRoot.scrollTop).toBe(0);
+    act(() => {
+      scrollRoot.scrollTop = 40;
+      scrollRoot.dispatchEvent(new Event("scroll"));
     });
 
-    scrollRoot.scrollTop = 40;
-    scrollRoot.dispatchEvent(new Event("scroll"));
-
-    scrollToSpy.mockClear();
-    scrollToHashMock.mockClear();
-    window.location.hash = "#target";
-
-    searchParamsString = new URLSearchParams({ view: "board" }).toString();
+    mockedPathname = "/first";
     rerender(<HashScrollEffect />);
-    await flushEffects();
-
-    expect(scrollRoot.scrollTop).toBe(40);
-    expect(scrollToSpy).not.toHaveBeenCalled();
 
     await waitFor(() => {
-      expect(scrollToHashMock).toHaveBeenCalled();
-    });
-
-    const lastCall = scrollToHashMock.mock.calls.at(-1);
-
-    expect(lastCall?.[0]).toBe("#target");
-    expect(lastCall?.[1]).toMatchObject({
-      behavior: "smooth",
-      container: scrollRoot,
+      expect(scrollRoot.scrollTop).toBe(180);
     });
   });
 });
