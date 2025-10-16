@@ -20,7 +20,6 @@ vi.mock("@/components/ui/AnimationToggle", () => ({
 }));
 
 import { SiteChrome } from "@/components/chrome/SiteChrome";
-import { BottomNav } from "@/components/chrome/BottomNav";
 import { NAV_ITEMS, PRIMARY_NAV_LABEL } from "@/config/nav";
 
 describe("SiteChrome", () => {
@@ -117,8 +116,14 @@ describe("SiteChrome", () => {
   });
 });
 
+async function loadBottomNav() {
+  const module = await import("@/components/chrome/BottomNav");
+  return module.BottomNav;
+}
+
 describe("BottomNav", () => {
-  it("marks disabled and syncing items for accessibility", () => {
+  it("marks disabled and syncing items for accessibility", async () => {
+    const BottomNav = await loadBottomNav();
     const reviewsNavItem = NAV_ITEMS.find((item) => item.label === "Reviews");
     const plannerNavItem = NAV_ITEMS.find((item) => item.label === "Planner");
     const teamNavItem = NAV_ITEMS.find((item) => item.label === "Team");
@@ -147,5 +152,40 @@ describe("BottomNav", () => {
     const disabledItem = within(bottomNav).getByRole("button", { name: /Team/ });
     expect(disabledItem).toHaveAttribute("aria-disabled", "true");
     expect(disabledItem).toHaveAttribute("tabindex", "-1");
+  });
+
+  it("prefixes navigation hrefs with the configured base path", async () => {
+    const utils = await import("@/lib/utils");
+    const withBasePathSpy = vi
+      .spyOn(utils, "withBasePath")
+      .mockImplementation((path: string) => `/beta${path}`);
+
+    try {
+      const BottomNav = await loadBottomNav();
+      const plannerNavItem = NAV_ITEMS.find(
+        (item) => item.label === "Planner",
+      );
+
+      if (!plannerNavItem) {
+        throw new Error("Expected planner nav item to be defined");
+      }
+
+      render(
+        <BottomNav
+          items={[
+            {
+              ...plannerNavItem,
+              href: "/planner",
+            },
+          ]}
+        />,
+      );
+
+      const plannerLink = screen.getByRole("button", { name: /Planner/ });
+      expect(plannerLink).toHaveAttribute("href", "/beta/planner");
+      expect(withBasePathSpy).toHaveBeenCalledWith("/planner");
+    } finally {
+      withBasePathSpy.mockRestore();
+    }
   });
 });
