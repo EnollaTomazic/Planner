@@ -1,4 +1,3 @@
-// @ts-nocheck
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "./playwright";
 import type { Page } from "./playwright";
@@ -7,7 +6,21 @@ import { BG_CLASSES, VARIANTS } from "@/lib/theme";
 
 const TEAM_ROUTE = "/team";
 
-async function gotoTeam(page: Page) {
+type CardTokenAudit = {
+  className: string;
+  hasBaseShadow: boolean;
+  hasHoverShadow: boolean;
+  hasSpectrum: boolean;
+  hasHaloOpacity: boolean;
+  hasOverlayOpacityToken: boolean;
+};
+
+type ThemeEvaluationArgs = {
+  variantId: string;
+  backgrounds: string[];
+};
+
+async function gotoTeam(page: Page): Promise<void> {
   await page.goto(TEAM_ROUTE);
   await page.waitForLoadState("networkidle");
   await page.waitForSelector("[data-scope=\"team\"] .glitch-card");
@@ -17,7 +30,7 @@ test.describe("Team glitch components acceptance", () => {
   test("@tokens glitch cards expose CSS variable tokens", async ({ page }) => {
     await gotoTeam(page);
 
-    const cardTokenAudits = await page.$$eval(
+    const cardTokenAudits = await page.$$eval<HTMLElement, CardTokenAudit[]>(
       "[data-scope=\"team\"] .glitch-card",
       (elements) =>
         elements.map((element) => {
@@ -52,7 +65,7 @@ test.describe("Team glitch components acceptance", () => {
       expect(/shadow-\[[^\]]*(?:px|rem)/.test(audit.className)).toBe(false);
     }
 
-    const railTokens = await page.$$eval(
+    const railTokens = await page.$$eval<HTMLElement, string[]>(
       "[data-scope=\"team\"] .glitch-rail",
       (elements) =>
         elements.map((element) =>
@@ -75,7 +88,7 @@ test.describe("Team glitch components acceptance", () => {
 
     for (const variant of VARIANTS) {
       await page.evaluate(
-        ({ variantId, backgrounds: bg }: { variantId: string; backgrounds: string[] }) => {
+        ({ variantId, backgrounds: bg }: ThemeEvaluationArgs) => {
           const { classList } = document.documentElement;
           const removable: string[] = [];
           classList.forEach((value) => {
@@ -110,7 +123,7 @@ test.describe("Team glitch components acceptance", () => {
     const card = page.locator("[data-scope=\"team\"] .glitch-card").first();
     await card.hover();
 
-    const animationName = await card.evaluate((node) =>
+    const animationName = await card.evaluate<string>((node) =>
       getComputedStyle(node, "::before").animationName,
     );
     expect(animationName).not.toBe("none");
@@ -124,7 +137,7 @@ test.describe("Team glitch components acceptance", () => {
       const card = page.locator("[data-scope=\"team\"] .glitch-card").first();
       await card.hover();
 
-      const animationName = await card.evaluate((node) =>
+      const animationName = await card.evaluate<string>((node) =>
         getComputedStyle(node, "::before").animationName,
       );
       expect(animationName === "none" || animationName.length === 0).toBe(true);
@@ -151,7 +164,7 @@ test.describe("Team glitch components acceptance", () => {
       await page.setViewportSize(viewport);
       await gotoTeam(page);
 
-      const hasOverflow = await page.evaluate(
+      const hasOverflow = await page.evaluate<boolean>(
         () =>
           document.scrollingElement !== null &&
           document.scrollingElement.scrollWidth >

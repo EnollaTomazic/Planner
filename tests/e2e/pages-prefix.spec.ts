@@ -1,16 +1,6 @@
-// @ts-nocheck
-/// <reference types="@playwright/test" />
+import type { Response } from "@playwright/test";
+
 import { test } from "./playwright";
-
-type ResponseLike = {
-  url(): string;
-  status(): number;
-};
-
-type ResponseListeningPage = {
-  on(event: "response", listener: (response: ResponseLike) => void): void;
-  off(event: "response", listener: (response: ResponseLike) => void): void;
-};
 
 test.describe("GitHub Pages base path", () => {
   test("serves Next.js chunks and static assets without 404s", async ({ page }) => {
@@ -19,9 +9,7 @@ test.describe("GitHub Pages base path", () => {
     const nextAssetStatuses: Array<{ url: string; status: number }> = [];
     const staticAssetStatuses: Array<{ url: string; status: number }> = [];
 
-    const playwrightPage = page as unknown as any;
-    const pageWithEvents = page as unknown as ResponseListeningPage;
-    const handleResponse = (response: ResponseLike) => {
+    const handleResponse = (response: Response): void => {
       const url = response.url();
       if (url.includes("/_next/")) {
         nextAssetStatuses.push({ url, status: response.status() });
@@ -30,12 +18,12 @@ test.describe("GitHub Pages base path", () => {
       }
     };
 
-    pageWithEvents.on("response", handleResponse);
+    page.on("response", handleResponse);
 
-    const response = await playwrightPage.goto(targetPath);
-    await playwrightPage.waitForLoadState("networkidle");
+    const response = await page.goto(targetPath);
+    await page.waitForLoadState("networkidle");
 
-    pageWithEvents.off("response", handleResponse);
+    page.off("response", handleResponse);
 
     if (!response) {
       throw new Error(`Navigation to ${targetPath} failed`);
@@ -60,7 +48,7 @@ test.describe("GitHub Pages base path", () => {
       }
     }
 
-    const basePathValue = await playwrightPage.evaluate(() => {
+    const basePathValue = await page.evaluate<string | null>(() => {
       const marker = document.querySelector('[data-testid="base-path-value"]');
       return marker ? marker.textContent : null;
     });
