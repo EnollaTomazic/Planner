@@ -100,11 +100,36 @@ describe("github-pages bootstrap helpers", () => {
 
     expect(
       planGitHubPagesRestoration({
+        basePath: "/planner",
+        currentPath: "/planner/index.html",
+        storedLocation: "/planner/current/tasks",
+      }),
+    ).toBe("/planner/tasks");
+
+    expect(
+      planGitHubPagesRestoration({
+        basePath: "/planner",
+        currentPath: "/planner/index.html",
+        storedLocation:
+          "/planner/0123456789abcdef0123456789abcdef01234567/tasks",
+      }),
+    ).toBe("/planner/tasks");
+
+    expect(
+      planGitHubPagesRestoration({
         basePath: "",
         currentPath: "/index.html",
         storedLocation: "/current",
       }),
     ).toBe("/");
+
+    expect(
+      planGitHubPagesRestoration({
+        basePath: "/planner",
+        currentPath: "/planner/index.html",
+        storedLocation: "/current/tasks",
+      }),
+    ).toBe("/planner/tasks");
   });
 
   it("exposes the storage key literal", () => {
