@@ -18,6 +18,7 @@ const optionalNonEmptyString = z
 export const clientEnvSchema = z
   .object({
     NEXT_PUBLIC_BASE_PATH: z.string().optional(),
+    NEXT_PUBLIC_GITHUB_PAGES: z.string().optional(),
     NEXT_PUBLIC_DEPTH_THEME: z.string().optional(),
     NEXT_PUBLIC_ENABLE_METRICS: z.string().optional(),
     NEXT_PUBLIC_METRICS_ENDPOINT: z.string().optional(),

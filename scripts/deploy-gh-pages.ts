@@ -507,6 +507,7 @@ export function main(): void {
     GITHUB_PAGES: "true",
     BASE_PATH: rawBasePath,
     NEXT_PUBLIC_BASE_PATH: normalizedBasePath,
+    NEXT_PUBLIC_GITHUB_PAGES: "true",
     SAFE_MODE: process.env.SAFE_MODE ?? "false",
     NEXT_PUBLIC_SAFE_MODE: process.env.NEXT_PUBLIC_SAFE_MODE ?? "false",
   };
