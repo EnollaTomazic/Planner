@@ -1,5 +1,3 @@
-// @ts-nocheck
-/// <reference types="@playwright/test" />
 import { test, expect } from "./playwright";
 import AxeBuilder from "@axe-core/playwright";
 
@@ -79,7 +77,7 @@ test.describe("GitHub Pages deployment", () => {
     const plannerUrl = toUrl("planner/");
     await page.goto(plannerUrl, { waitUntil: "networkidle" });
 
-    const cls = await page.evaluate(() => {
+    const cls = await page.evaluate<number>(() => {
       const entries = performance.getEntriesByType("layout-shift");
       let total = 0;
       for (const entry of entries) {
