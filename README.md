@@ -35,7 +35,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Cleaning runtime artifacts
 
-If `pnpm run check` or `pnpm run guard:artifacts` detect lingering `node-compile-cache` or `tsx-*` directories, run `pnpm run clean:artifacts` to remove them before retrying. The command deletes the caches created by `tsx` so the guard passes on the next run.
+If `pnpm run check` or `pnpm run guard:artifacts` detect lingering `node-compile-cache` or `tsx-*` directories, run `pnpm run clean:artifacts` to remove them before retrying. The guard now only warns in CI to avoid failing unrelated jobs, but local runs still exit with an error so caches get cleaned before you commit. The command deletes the caches created by `tsx` so the guard passes on the next run.
 
 ### Resetting GitHub Actions caches
 
