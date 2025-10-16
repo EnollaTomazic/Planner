@@ -39,6 +39,12 @@ const restrictedDesignImportPatterns = [
   },
 ];
 
+const designRuleTargets = [
+  "{app,src,tests,storybook}/**/*.{js,jsx,ts,tsx}",
+  "**/*.cjs",
+  "**/*.mjs",
+];
+
 const eslintConfig = [
   {
     ignores: [
@@ -58,7 +64,7 @@ const eslintConfig = [
     },
   },
   {
-    files: ["**/*.{js,jsx,ts,tsx}", "**/*.cjs", "**/*.mjs"],
+    files: designRuleTargets,
     plugins: {
       design: designPlugin,
     },

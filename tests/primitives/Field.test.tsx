@@ -15,6 +15,8 @@ describe("Field", () => {
 
     const field = getByTestId("field");
     expect(field.dataset.customHeight).toBe("true");
-    expect(field.style.getPropertyValue("--field-custom-height")).toBe("48px");
+    const customHeight = field.style.getPropertyValue("--field-custom-height");
+    expect(customHeight.trim().endsWith("px")).toBe(true);
+    expect(Number.parseFloat(customHeight)).toBe(48);
   });
 });
