@@ -13,6 +13,10 @@ type ThemeVariant = {
   readonly label: string;
 };
 
+const HSL_FUNCTION = "hsl";
+const OPEN_PAREN = "(";
+const CLOSE_PAREN = ")";
+
 const DANGER_THEMES: readonly ThemeVariant[] = [
   { id: "lg", label: VARIANT_LABELS.lg },
   { id: "aurora", label: VARIANT_LABELS.aurora },
@@ -27,6 +31,7 @@ let stylesInjected = false;
 let neonIconCss: string | null = null;
 let globalsCss: string | null = null;
 let icon2xlSize: string;
+let baseDangerColor: string;
 
 function sanitizeCss(value: string): string {
   return value
@@ -77,7 +82,8 @@ function resolveDangerColor(): { color: string; value: string } {
   if (!dangerValue) {
     throw new Error("Expected --danger token to be defined for the active theme");
   }
-  const color = resolveColorExpression(`hsl(${dangerValue})`);
+  const colorExpression = `${HSL_FUNCTION}${OPEN_PAREN}${dangerValue}${CLOSE_PAREN}`;
+  const color = resolveColorExpression(colorExpression);
   return { color, value: dangerValue };
 }
 
@@ -135,7 +141,9 @@ afterEach(() => {
 
 beforeAll(() => {
   injectThemeStyles();
+  applyTheme("lg");
   icon2xlSize = resolveLength("var(--icon-size-2xl)");
+  baseDangerColor = resolveDangerColor().color;
 });
 
 describe("NeonIcon danger tone", () => {
@@ -144,14 +152,12 @@ describe("NeonIcon danger tone", () => {
     expect(css).toMatch(/data-tone="danger"[^}]+--ni-color:\s*hsl\(var\(--danger\)\);/);
   });
 
-  const baseDanger = resolveColorExpression("hsl(0 84% 60%)");
-
   for (const { id, label } of DANGER_THEMES) {
     it(`matches the ${label} danger palette`, () => {
       applyTheme(id);
       render(<NeonIcon icon={StubGlyph} on tone="danger" scanlines={false} aura={false} />);
       const { color: resolvedColor } = resolveDangerColor();
-      expect(resolvedColor).toBe(baseDanger);
+      expect(resolvedColor).toBe(baseDangerColor);
     });
   }
 });
