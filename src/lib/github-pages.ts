@@ -63,7 +63,12 @@ function normalizeGitHubPagesDeploymentAlias(
     return `${root}${suffix}`;
   }
 
-  return target;
+  const normalizedRoot = root.replace(/\/$/u, "");
+  const restPath = rest.join("/");
+  const base = normalizedRoot.length > 0 ? normalizedRoot : "";
+  const normalizedTarget = `${base}/${restPath}`;
+
+  return `${normalizedTarget.startsWith("/") ? normalizedTarget : `/${normalizedTarget}`}${suffix}`;
 }
 
 export function normalizePlaceholder(
