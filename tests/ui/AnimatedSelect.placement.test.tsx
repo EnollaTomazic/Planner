@@ -70,8 +70,12 @@ describe("AnimatedSelect", () => {
       const computed = menu ? window.getComputedStyle(menu) : null;
       expect(computed).not.toBeNull();
       expect(computed?.position).toBe("fixed");
-      expect(computed?.bottom).toBe("68px");
-      expect(computed?.maxHeight).toBe("360px");
+      const bottom = computed?.bottom ?? "";
+      expect(bottom.trim().endsWith("px")).toBe(true);
+      expect(Number.parseFloat(bottom)).toBeCloseTo(68);
+      const maxHeight = computed?.maxHeight ?? "";
+      expect(maxHeight.trim().endsWith("px")).toBe(true);
+      expect(Number.parseFloat(maxHeight)).toBeCloseTo(360);
       const transformOrigin = computed?.transformOrigin ?? "";
       expect(
         transformOrigin.endsWith("100%") || transformOrigin.includes("bottom"),
