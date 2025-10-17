@@ -48,6 +48,7 @@ jobs:
         if: steps.codex.outputs.enabled == 'true'
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
+          repository: ${{ github.event.workflow_run.head_repository.full_name || github.repository }}
           ref: ${{ env.TARGET_HEAD_SHA }}
           fetch-depth: 0
 
