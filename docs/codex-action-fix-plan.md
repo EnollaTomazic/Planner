@@ -26,7 +26,8 @@ Restore the Codex action so that it can create or locate the required server inf
    - Observe whether the server info file is created and identify discrepancies with the hosted runner.
 
 5. **Implement Fix**  
-   - Adjust the workflow or repository configuration so the server info file is produced before the `read-server-info` step runs (for example, by adding a setup step or correcting action inputs).  
+   - Adjust the workflow or repository configuration so the server info file is produced before the `read-server-info` step runs (for example, by adding a setup step or correcting action inputs).
+   - Confirm that required secrets such as `OPENAI_API_KEY` are configured in repository settings so the action no longer skips early.
    - If necessary, patch the action usage to point to the correct server info path or version.
 
 6. **Validate in CI**  
@@ -39,5 +40,5 @@ Restore the Codex action so that it can create or locate the required server inf
 
 ## Deliverables
 - Updated workflow configuration (if needed).
-- Successful GitHub Action run confirming the fix.
+- Successful GitHub Action run confirming the fix and showing the Codex step executes instead of reporting missing secrets.
 - Documentation describing the resolution.
