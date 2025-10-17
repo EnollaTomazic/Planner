@@ -20,6 +20,20 @@ Each workflow wires directly into the shared composite action at `.github/action
 - Playwright installs cache to `~/.cache/ms-playwright` automatically when the browsers install step runs. Derive keys from the Playwright version and `pnpm-lock.yaml` hash to avoid stale binaries.
 - Add new caches with explicit `actions/cache` steps in the relevant job or by extending the `setup-node-project` composite action so the configuration lives with the tasks that consume it.
 
+## Codex autofix secret configuration
+
+Codex now relies on the repository-level `OPENAI_API_KEY` secret so the action can authenticate when CI fails. To verify the
+integration:
+
+1. Visit **Settings → Secrets and variables → Actions** in the GitHub UI and confirm that `OPENAI_API_KEY` is present under
+   **Repository secrets**.
+2. Re-run a recent **Codex Autofix** workflow (or trigger a new failure) and open the `codex-autofix` job.
+3. Ensure the log omits the `Codex disabled` step and that early steps report "Codex autofix skipped" **only** when the secret
+   is intentionally removed.
+
+Document any additional credentials (such as `OPENAI_ORG_ID` or `OPENAI_PROJECT`) alongside the primary key so future updates
+to the workflow retain full access.
+
 ## Local-first E2E opt-in
 
 - End-to-end specs that exercise Planner, Reviews, and Team builder persistence run automatically in CI (because `CI` is set). When running Playwright locally, opt in by exporting `PLAYWRIGHT_ALLOW_LOCAL_FIRST=1` so those flows can mutate the sandboxed localStorage state without touching your personal Planner data. Without the flag the storage-heavy specs are skipped.
