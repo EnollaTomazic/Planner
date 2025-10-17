@@ -77,7 +77,12 @@ const WeekPickerShellBase = React.forwardRef<HTMLDivElement, WeekPickerShellProp
         {hasTopRow ? (
           <div className="week-picker-shell__top flex w-full flex-wrap items-center chip-gap-x chip-gap-y-tight">
             {controls.length > 0 ? (
-              <div className="week-picker-shell__controls flex flex-wrap items-center chip-gap-x-tight chip-gap-y-tight">
+              <div
+                className={cn(
+                  "week-picker-shell__controls flex flex-wrap items-center chip-gap-x-tight chip-gap-y-tight",
+                  "w-full justify-start lg:w-auto",
+                )}
+              >
                 {controls.map((slot) => {
                   const key = slot.key ?? slot.props.slotId;
                   return (
@@ -87,7 +92,12 @@ const WeekPickerShellBase = React.forwardRef<HTMLDivElement, WeekPickerShellProp
               </div>
             ) : null}
             {totals.length > 0 ? (
-              <div className="week-picker-shell__totals ml-auto flex flex-wrap items-center justify-end chip-gap-x chip-gap-y-tight">
+              <div
+                className={cn(
+                  "week-picker-shell__totals flex flex-wrap items-center chip-gap-x chip-gap-y-tight",
+                  "w-full justify-start lg:ml-auto lg:w-auto lg:justify-end",
+                )}
+              >
                 {totals.map((slot) => {
                   const key = slot.key ?? slot.props.slotId;
                   return (

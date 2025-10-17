@@ -172,18 +172,18 @@
     width: 100%;
     max-width: var(--shell-max, var(--shell-width));
     margin-inline: auto;
-    padding-inline: var(--space-6);
+    padding-inline: var(--layout-gutter-sm, var(--space-4));
   }
 
   @media (min-width: 48rem) {
     .page-shell {
-      padding-inline: var(--space-7);
+      padding-inline: var(--layout-gutter-md, var(--space-5));
     }
   }
 
   @media (min-width: 64rem) {
     .page-shell {
-      padding-inline: var(--space-8);
+      padding-inline: var(--layout-gutter-lg, var(--space-6));
     }
   }
 
