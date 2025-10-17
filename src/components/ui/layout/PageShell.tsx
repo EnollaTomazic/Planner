@@ -28,7 +28,14 @@ export type PageShellProps<T extends PageShellElement = "div"> =
  * Use the `grid` prop to opt into the standard 12-column layout inside the shell.
  */
 export const layoutGridClassName =
-  "[--grid-gutter:var(--space-4)] grid grid-cols-1 gap-[var(--grid-gutter)] md:[--grid-gutter:var(--space-5)]";
+  [
+    "[--grid-gutter:var(--layout-gutter-sm,var(--space-4))]",
+    "grid",
+    "grid-cols-1",
+    "gap-[var(--grid-gutter)]",
+    "md:[--grid-gutter:var(--layout-gutter-md,var(--space-5))]",
+    "lg:[--grid-gutter:var(--layout-gutter-lg,var(--space-6))]",
+  ].join(" ");
 
 export function PageShell<T extends PageShellElement = "div">({
   as,
