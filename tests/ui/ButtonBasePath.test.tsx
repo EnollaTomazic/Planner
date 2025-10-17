@@ -18,7 +18,7 @@ describe("ButtonBasePath", () => {
     const { getByRole } = render(
       <Button href="/planner">Planner</Button>,
     );
-    expect(getByRole("link")).toHaveAttribute("href", "/beta/planner");
+    expect(getByRole("link")).toHaveAttribute("href", "/beta/planner/");
   });
 
   it("prefixes the configured base path for relative href without scheme", async () => {
@@ -26,7 +26,7 @@ describe("ButtonBasePath", () => {
     vi.resetModules();
     const { Button } = await import("@/components/ui/primitives/Button");
     const { getByRole } = render(<Button href="planner">Planner</Button>);
-    expect(getByRole("link")).toHaveAttribute("href", "/beta/planner");
+    expect(getByRole("link")).toHaveAttribute("href", "/beta/planner/");
   });
 
   it("prefixes when the base path shares the planner segment", async () => {
@@ -34,7 +34,7 @@ describe("ButtonBasePath", () => {
     vi.resetModules();
     const { Button } = await import("@/components/ui/primitives/Button");
     const { getByRole } = render(<Button href="/planner">Planner</Button>);
-    expect(getByRole("link")).toHaveAttribute("href", "/planner");
+    expect(getByRole("link")).toHaveAttribute("href", "/planner/");
   });
 
   it("preserves hash and query-only href values", async () => {
@@ -101,14 +101,14 @@ describe("QuickActions base path integration", () => {
 
     expect(
       screen.getByRole("link", { name: "Planner Today" }),
-    ).toHaveAttribute("href", "/beta/planner");
+    ).toHaveAttribute("href", "/beta/planner/");
     expect(screen.getByRole("link", { name: "New Goal" })).toHaveAttribute(
       "href",
-      "/beta/goals?tab=goals&intent=create-goal#goal-form",
+      "/beta/goals/?tab=goals&intent=create-goal#goal-form",
     );
     expect(screen.getByRole("link", { name: "New Review" })).toHaveAttribute(
       "href",
-      "/beta/reviews?intent=create-review",
+      "/beta/reviews/?intent=create-review",
     );
   });
 });

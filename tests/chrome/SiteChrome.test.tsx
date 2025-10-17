@@ -158,7 +158,15 @@ describe("BottomNav", () => {
     const utils = await import("@/lib/utils");
     const withBasePathSpy = vi
       .spyOn(utils, "withBasePath")
-      .mockImplementation((path: string) => `/beta${path}`);
+      .mockImplementation((path: string) => {
+        const needsSlash =
+          path.length > 0 &&
+          !path.endsWith("/") &&
+          !path.includes("?") &&
+          !path.includes("#");
+
+        return `/beta${path}${needsSlash ? "/" : ""}`;
+      });
 
     try {
       const BottomNav = await loadBottomNav();
@@ -182,7 +190,7 @@ describe("BottomNav", () => {
       );
 
       const plannerLink = screen.getByRole("button", { name: /Planner/ });
-      expect(plannerLink).toHaveAttribute("href", "/beta/planner");
+      expect(plannerLink).toHaveAttribute("href", "/beta/planner/");
       expect(withBasePathSpy).toHaveBeenCalledWith("/planner");
     } finally {
       withBasePathSpy.mockRestore();

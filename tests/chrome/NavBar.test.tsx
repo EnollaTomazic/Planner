@@ -36,14 +36,22 @@ describe("NavBar", () => {
     const utils = await import("@/lib/utils");
     const withBasePathSpy = vi
       .spyOn(utils, "withBasePath")
-      .mockImplementation((path: string) => `/base${path}`);
+      .mockImplementation((path: string) => {
+        const needsSlash =
+          path.length > 0 &&
+          !path.endsWith("/") &&
+          !path.includes("?") &&
+          !path.includes("#");
+
+        return `/base${path}${needsSlash ? "/" : ""}`;
+      });
 
     try {
       const NavBar = await loadNavBar();
       render(<NavBar />);
 
       const reviewsLink = screen.getByRole("link", { name: "Reviews" });
-      expect(reviewsLink).toHaveAttribute("href", "/base/reviews");
+      expect(reviewsLink).toHaveAttribute("href", "/base/reviews/");
       expect(withBasePathSpy).toHaveBeenCalledWith("/reviews");
     } finally {
       withBasePathSpy.mockRestore();
@@ -57,7 +65,7 @@ describe("NavBar", () => {
     render(<NavBar />);
 
     const reviewsLink = screen.getByRole("link", { name: "Reviews" });
-    expect(reviewsLink).toHaveAttribute("href", "/beta/reviews");
+    expect(reviewsLink).toHaveAttribute("href", "/beta/reviews/");
   });
 
   it("prefixes query string navigation items with the base path", async () => {
@@ -74,7 +82,7 @@ describe("NavBar", () => {
     );
 
     const demoLink = screen.getByRole("link", { name: "Demo" });
-    expect(demoLink).toHaveAttribute("href", "/beta?demo=true");
+    expect(demoLink).toHaveAttribute("href", "/beta/?demo=true");
   });
 
   it("exposes a labelled primary navigation landmark", async () => {
