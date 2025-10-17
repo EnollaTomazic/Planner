@@ -39,8 +39,10 @@ export function decodePrompts(value: unknown): Prompt[] | null {
   return result;
 }
 
+const EMPTY_PROMPT_LIST: Prompt[] = [];
+
 export function usePromptLibrary(storageKey: string) {
-  const [prompts, setPrompts] = usePersistentState<Prompt[]>(storageKey, [], {
+  const [prompts, setPrompts] = usePersistentState<Prompt[]>(storageKey, EMPTY_PROMPT_LIST, {
     decode: decodePrompts,
   });
   const [query, setQuery] = React.useState("");

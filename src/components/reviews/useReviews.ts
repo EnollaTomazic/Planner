@@ -12,6 +12,7 @@ import {
 } from "@/lib/types";
 
 const REVIEWS_STORAGE_KEY = "reviews.v1" as const;
+const EMPTY_REVIEW_LIST: Review[] = [];
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -148,7 +149,7 @@ export function decodeReviews(value: unknown): Review[] | null {
 export function useReviews() {
   const [reviews, setReviews] = usePersistentState<Review[]>(
     REVIEWS_STORAGE_KEY,
-    [],
+    EMPTY_REVIEW_LIST,
     { decode: decodeReviews },
   );
   const [isHydrated, setIsHydrated] = React.useState(false);

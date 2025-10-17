@@ -218,13 +218,13 @@ function Inner() {
                 </label>
               </div>
               <div className={heroActions}>
-                <Button size="sm" variant="ghost" tone="accent">
+                <Button size="sm" variant="quiet" tone="accent">
                   Retry suggestions
                 </Button>
                 <Button size="sm" variant="default" tone="accent">
                   Edit draft
                 </Button>
-                <Button size="sm" variant="ghost">
+                <Button size="sm" variant="quiet">
                   Cancel
                 </Button>
               </div>

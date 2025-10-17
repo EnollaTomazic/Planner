@@ -88,13 +88,13 @@ export function TeamPromptsCard() {
                       <p className={styles.summary}>{suggestion.summary}</p>
                     </div>
                     <footer className={styles.actions}>
-                      <Button size="sm" variant="ghost" tone="accent">
+                      <Button size="sm" variant="quiet" tone="accent">
                         Retry
                       </Button>
                       <Button size="sm" variant="default" tone="accent">
                         Edit
                       </Button>
-                      <Button size="sm" variant="ghost">
+                      <Button size="sm" variant="quiet">
                         Dismiss
                       </Button>
                     </footer>
@@ -122,7 +122,7 @@ export function TeamPromptsCard() {
                       <Button size="sm" variant="default" tone="accent">
                         Retry
                       </Button>
-                      <Button size="sm" variant="ghost">
+                      <Button size="sm" variant="quiet">
                         Cancel
                       </Button>
                     </footer>

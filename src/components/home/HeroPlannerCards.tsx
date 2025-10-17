@@ -110,13 +110,13 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
               </p>
             </div>
             <div className={styles.aiActions}>
-              <Button size="sm" variant="ghost" tone="accent">
+              <Button size="sm" variant="quiet" tone="accent">
                 Retry
               </Button>
               <Button size="sm" variant="default" tone="accent">
                 Edit draft
               </Button>
-              <Button size="sm" variant="ghost">
+              <Button size="sm" variant="quiet">
                 Cancel
               </Button>
             </div>
