@@ -45,11 +45,11 @@ describe("Home page", () => {
         expect(match?.getAttribute("href")).toBe(href);
       };
 
-      expectLink("Goals", "/goals");
-      expectLink("Planner", "/planner");
-      expectLink("Reviews", "/reviews");
-      expectLink("Team", "/team");
-      expectLink("Prompts", "/prompts");
+      expectLink("Goals", "/goals/");
+      expectLink("Planner", "/planner/");
+      expectLink("Reviews", "/reviews/");
+      expectLink("Team", "/team/");
+      expectLink("Prompts", "/prompts/");
     },
   );
 

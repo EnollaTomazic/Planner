@@ -18,7 +18,15 @@ describe("MobileNavDrawer", () => {
     const utils = await import("@/lib/utils");
     const withBasePathSpy = vi
       .spyOn(utils, "withBasePath")
-      .mockImplementation((path: string) => `/base${path}`);
+      .mockImplementation((path: string) => {
+        const needsSlash =
+          path.length > 0 &&
+          !path.endsWith("/") &&
+          !path.includes("?") &&
+          !path.includes("#");
+
+        return `/base${path}${needsSlash ? "/" : ""}`;
+      });
 
     try {
       const { MobileNavDrawer } = await import(
@@ -32,7 +40,7 @@ describe("MobileNavDrawer", () => {
       expect(navigation).toBeInTheDocument();
 
       const reviewsLink = await screen.findByRole("link", { name: "Reviews" });
-      expect(reviewsLink).toHaveAttribute("href", "/base/reviews");
+      expect(reviewsLink).toHaveAttribute("href", "/base/reviews/");
       expect(withBasePathSpy).toHaveBeenCalledWith("/reviews");
     } finally {
       withBasePathSpy.mockRestore();

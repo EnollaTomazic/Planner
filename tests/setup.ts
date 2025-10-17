@@ -68,10 +68,47 @@ vi.mock("react", async () => {
     useId,
   } as ReactModule & { default: ReactModule };
 
+  ;(globalThis as { React?: ReactModule }).React = patched;
+
   return {
     ...patched,
     default: patched,
   } satisfies ReactModule & { default: ReactModule };
+});
+
+vi.mock("next/link", async () => {
+  const ReactModule = await vi.importActual<typeof import("react")>("react");
+  const { formatUrl } = await vi.importActual<
+    typeof import("next/dist/shared/lib/router/utils/format-url")
+  >("next/dist/shared/lib/router/utils/format-url");
+
+  type LinkProps = {
+    href: Parameters<typeof formatUrl>[0] | string;
+    children?: ReactModule.ReactNode;
+    [key: string]: unknown;
+  };
+
+  const Link = ReactModule.forwardRef<HTMLAnchorElement, LinkProps>(
+    ({ href, children, ...props }, ref) => {
+      const resolvedHref =
+        typeof href === "string"
+          ? href
+          : formatUrl(href as Parameters<typeof formatUrl>[0]);
+
+      return ReactModule.createElement(
+        "a",
+        { ...props, href: resolvedHref, ref },
+        children,
+      );
+    },
+  );
+
+  Link.displayName = "MockedNextLink";
+
+  return {
+    __esModule: true,
+    default: Link,
+  };
 });
 
 const originalConsoleError = console.error;
