@@ -67,9 +67,10 @@ export function buildPreviewRouteUrl(route: GalleryPreviewRoute) {
 
   const query = params.toString();
   const suffix = suffixParts.length > 0 ? `__${suffixParts.join("__")}` : "";
+  const baseUrl = `/preview/${route.slug}/`;
 
   return {
-    url: query ? `/preview/${route.slug}?${query}` : `/preview/${route.slug}`,
+    url: query ? `${baseUrl}?${query}` : baseUrl,
     suffix,
   };
 }
