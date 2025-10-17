@@ -5,7 +5,7 @@ import { test } from "./playwright";
 test.describe("GitHub Pages base path", () => {
   test("serves Next.js chunks and static assets without 404s", async ({ page }) => {
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-    const targetPath = `${basePath || ""}/preview/pages-check`;
+    const targetPath = `${basePath || ""}/preview/pages-check/`;
     const nextAssetStatuses: Array<{ url: string; status: number }> = [];
     const staticAssetStatuses: Array<{ url: string; status: number }> = [];
 

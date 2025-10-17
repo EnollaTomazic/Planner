@@ -83,7 +83,7 @@ test.describe("Gallery previews", () => {
   test("@visual theme matrix renders across themes", async ({ page }) => {
     const previewPage = page as unknown as PreviewTestPage;
 
-    await previewPage.goto("/preview/theme-matrix");
+    await previewPage.goto("/preview/theme-matrix/");
     await previewPage.waitForLoadState("networkidle");
 
     const firstGroupSelector =
@@ -116,7 +116,7 @@ test.describe("Gallery previews", () => {
   test("@visual AI state matrix renders across themes", async ({ page }) => {
     const previewPage = page as unknown as PreviewTestPage;
 
-    await previewPage.goto("/preview/ai-states");
+    await previewPage.goto("/preview/ai-states/");
     await previewPage.waitForLoadState("networkidle");
 
     const firstGroupSelector = "[data-ai-state-group]:nth-of-type(1)";
