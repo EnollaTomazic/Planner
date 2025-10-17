@@ -63,7 +63,7 @@ export function QuickActionGrid({
   buttonClassName,
   buttonSize = "md",
   buttonTone = "primary",
-  buttonVariant = "secondary",
+  buttonVariant = "neo",
   hoverLift = false,
 }: QuickActionGridProps) {
   return (

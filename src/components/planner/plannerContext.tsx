@@ -214,6 +214,10 @@ const PlannerRemindersContext = React.createContext<
   RemindersContextValue | null
 >(null);
 
+const EMPTY_DAY_RECORD_MAP: Record<ISODate, DayRecord> = {};
+const EMPTY_SELECTION_MAP: SelectionMap = {};
+const EMPTY_GOAL_LIST: Goal[] = [];
+
 function PlannerProviderInner({
   children,
 }: {
@@ -221,7 +225,7 @@ function PlannerProviderInner({
 }) {
   const [rawDays, setRawDays] = usePersistentState<Record<ISODate, DayRecord>>(
     "planner:days",
-    {},
+    EMPTY_DAY_RECORD_MAP,
     { decode: decodePlannerDays },
   );
   const [focus, setFocus] = usePersistentState<ISODate>(
@@ -231,16 +235,20 @@ function PlannerProviderInner({
   );
   const [selectedState, setSelectedState] = usePersistentState<SelectionMap>(
     "planner:selected",
-    {},
+    EMPTY_SELECTION_MAP,
   );
   const [viewMode, setViewMode] = usePersistentState<PlannerViewMode>(
     "planner:view-mode",
     "day",
   );
   const [today, setToday] = React.useState<ISODate>(FOCUS_PLACEHOLDER);
-  const [goalList, setGoalList] = usePersistentState<Goal[]>("goals.v2", [], {
-    decode: decodeGoals,
-  });
+  const [goalList, setGoalList] = usePersistentState<Goal[]>(
+    "goals.v2",
+    EMPTY_GOAL_LIST,
+    {
+      decode: decodeGoals,
+    },
+  );
   const [goalErr, setGoalErr] = React.useState<string | null>(null);
   const [lastDeletedGoal, setLastDeletedGoal] = React.useState<Goal | null>(
     null,
