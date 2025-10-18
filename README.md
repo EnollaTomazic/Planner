@@ -16,6 +16,8 @@ pnpm dev
 ## Getting Started
 
 > **Prerequisite:** Install [Node.js](https://nodejs.org) >=22.12 and <23 (the active Node 22 LTS range) along with pnpm 10.18.2 to match the repository engines. Other releases may still run, but expect reduced support and additional warnings.
+>
+> The project ships an [.nvmrc](.nvmrc) file pinned to Node 22.12.0 so that `nvm use` or compatible version managers select the supported runtime automatically during development and CI.
 
 ### Installation
 
