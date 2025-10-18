@@ -731,6 +731,7 @@ html.theme-aurora {
   --primary-foreground: 0 0% 100%;
   --primary-soft: 152 100% 24%;
   --accent: 274 78% 64%;
+  --accent-contrast: 274 80% 84%;
   --accent-2: 152 96% 56%;
   --accent-foreground: 0 0% 100%;
   --accent-soft: 274 78% 22%;
@@ -760,6 +761,7 @@ html.theme-aurora {
   --glitch-fringe: 8deg;
   --glitch-static-opacity: 0.1;
   --lav-deep: 276 88% 68%;
+  --icon-fg: 152 96% 72%;
   --success: 148 72% 48%;
   --success-foreground: 0 0% 100%;
   --success-glow: 148 72% 38% / 0.6;
@@ -821,6 +823,7 @@ html.theme-citrus {
   --primary-foreground: 0 0% 100%;
   --primary-soft: 28 95% 24%;
   --accent: 26 92% 44%;
+  --accent-contrast: 26 92% 70%;
   --accent-2: 168 72% 32%;
   --accent-foreground: 0 0% 100%;
   --accent-soft: 26 92% 18%;
@@ -850,6 +853,7 @@ html.theme-citrus {
   --glitch-fringe: 7deg;
   --glitch-static-opacity: 0.09;
   --lav-deep: 28 90% 56%;
+  --icon-fg: 28 96% 74%;
   --success: 150 68% 46%;
   --success-foreground: 0 0% 100%;
   --success-glow: 150 68% 36% / 0.6;
@@ -892,6 +896,7 @@ html.theme-noir {
   --primary-foreground: 0 0% 100%;
   --primary-soft: 356 86% 24%;
   --accent: 184 86% 35%;
+  --accent-contrast: 184 90% 70%;
   --accent-2: 32 92% 38%;
   --accent-foreground: 0 0% 100%;
   --accent-soft: 184 86% 14%;
@@ -927,6 +932,7 @@ html.theme-noir {
   --glitch-noise-secondary: hsl(var(--accent) / 0.22);
   --glitch-noise-contrast: hsl(var(--foreground) / 0.14);
   --lav-deep: 356 80% 62%;
+  --icon-fg: 356 92% 72%;
   --success: 136 56% 52%;
   --success-foreground: 0 0% 100%;
   --success-glow: 136 56% 42% / 0.6;
@@ -977,6 +983,7 @@ html.theme-ocean {
   --primary-foreground: 0 0% 100%;
   --primary-soft: 194 88% 18%;
   --accent: 204 92% 32%;
+  --accent-contrast: 204 92% 68%;
   --accent-2: 230 78% 36%;
   --accent-foreground: 0 0% 100%;
   --accent-soft: 204 92% 14%;
@@ -1006,6 +1013,7 @@ html.theme-ocean {
   --glitch-fringe: 7deg;
   --glitch-static-opacity: 0.1;
   --lav-deep: 254 78% 68%;
+  --icon-fg: 194 90% 72%;
   --success: 158 72% 48%;
   --success-foreground: 0 0% 100%;
   --success-glow: 158 72% 38% / 0.6;
@@ -1049,6 +1057,7 @@ html.theme-kitten {
   --primary-foreground: 0 0% 100%;
   --primary-soft: 336 90% 24%;
   --accent: 340 86% 36%;
+  --accent-contrast: 340 88% 74%;
   --accent-2: 194 90% 40%;
   --accent-foreground: 0 0% 100%;
   --accent-soft: 340 86% 14%;
@@ -1078,6 +1087,7 @@ html.theme-kitten {
   --glitch-fringe: 6deg;
   --glitch-static-opacity: 0.085;
   --lav-deep: 336 84% 64%;
+  --icon-fg: 336 92% 72%;
   --success: 152 62% 48%;
   --success-foreground: 0 0% 100%;
   --success-glow: 152 62% 38% / 0.6;
@@ -1122,6 +1132,7 @@ html.theme-hardstuck {
   --primary-foreground: 0 0% 8%;
   --primary-soft: 120 100% 26%;
   --accent: 120 92% 58%;
+  --accent-contrast: 120 92% 78%;
   --accent-2: 120 76% 22%;
   --accent-2-foreground: 120 32% 94%;
   --accent-foreground: 0 0% 8%;
@@ -1212,6 +1223,7 @@ html.theme-retro {
   --primary-foreground: 0 0% 8%;
   --primary-soft: 304 100% 24%;
   --accent: 304 100% 68%;
+  --accent-contrast: 304 100% 85%;
   --accent-2: 188.7 89.6% 69.8%;
   --accent-3: 257.5 85.7% 72.5%;
   --accent-foreground: 0 0% 6%;
@@ -1238,6 +1250,7 @@ html.theme-retro {
   --glitch-intensity: 0.46;
   --glitch-static-opacity: 0.2;
   --lav-deep: 257.5 85.7% 72.5%;
+  --icon-fg: 304 100% 80%;
   --success: 158 72% 48%;
   --success-foreground: 0 0% 100%;
   --success-glow: 158 72% 38% / 0.6;
