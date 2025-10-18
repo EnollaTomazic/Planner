@@ -1,6 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --space-0: 0px;
+  --space-0-5: 2px;
+  --space-0_5: 2px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 68px;
+  --space-10: 72px;
+  --space-11: 76px;
+  --space-12: 80px;
+  --space-16: 128px;
+  --icon-size-xs: 14px;
+  --icon-size-sm: 16px;
+  --icon-size-md: 18px;
+  --icon-size-lg: 24px;
+  --icon-size-xl: 32px;
+  --icon-size-2xl: 76px;
+}
 @layer base {
   :root {
     --shell-max: var(--shell-width);
@@ -73,12 +98,28 @@
       "Liberation Mono", "Courier New", monospace;
     --font-sans: var(--font-geist-sans, var(--font-sans-fallback));
     --font-mono: var(--font-geist-mono, var(--font-mono-fallback));
-    --icon-size-xs: calc(var(--space-4) - var(--spacing-0-5));
-    --icon-size-sm: var(--space-4);
-    --icon-size-md: calc(var(--space-5) - var(--space-1) - var(--spacing-0-5));
-    --icon-size-lg: var(--space-5);
-    --icon-size-xl: var(--space-6);
-    --icon-size-2xl: var(--space-11);
+    --icon-size-xs: 14px;
+    --icon-size-sm: 16px;
+    --icon-size-md: 18px;
+    --icon-size-lg: 24px;
+    --icon-size-xl: 32px;
+    --icon-size-2xl: 76px;
+    --space-0: 0px;
+    --space-0-5: 2px;
+    --space-0_5: 2px;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+    --space-8: 64px;
+    --space-9: 68px;
+    --space-10: 72px;
+    --space-11: 76px;
+    --space-12: 80px;
+    --space-16: 128px;
     --viewport-width: 100vw;
     --viewport-height: 100vh;
     --viewport-height: 100dvh;

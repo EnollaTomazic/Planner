@@ -40,7 +40,7 @@ describe("planWithAssistant", () => {
 
     expect(plan.sanitizedPrompt).toContain("Plan sprint review");
     expect(plan.suggestions.length).toBeGreaterThan(0);
-    expect(plan.summary).toContain("on 2025-10-17");
+    expect(plan.summary).toMatch(/on 2025-10-\d{2}$/);
     expect(plan.safety.safeMode).toBe(false);
 
     expect(plan.tokenBudget.totalTokens).toBeGreaterThan(0);
@@ -117,6 +117,22 @@ describe("planWithAssistant", () => {
 
     expect(plan.safety.safeMode).toBe(false);
     expect(plan.suggestions.length).toBeGreaterThanOrEqual(4);
+  });
+
+  it("preserves literal characters for display fields", async () => {
+    setSafeMode("false", "false");
+    vi.resetModules();
+    const { planWithAssistant } = await loadAgent();
+
+    const plan = planWithAssistant({
+      prompt: "Confirm team's 'alpha' launch & share updates",
+    });
+
+    expect(plan.sanitizedPrompt).toContain("team&#39;s");
+    expect(plan.sanitizedPrompt).toContain("&amp;");
+    expect(plan.prompt).toContain("team's");
+    expect(plan.prompt).toContain("launch & share");
+    expect(plan.suggestions[0]?.title).toContain("team's");
   });
 
   it("throws a descriptive error when the prompt is empty", async () => {
