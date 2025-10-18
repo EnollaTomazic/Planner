@@ -338,86 +338,68 @@ export function buildStaticSite(
   runner(pnpmExecutable, ["run", "build"], env);
 }
 
-function createTemporarySlugDirectoryPath(outDir: string, slug: string): string {
-  let attempt = 0;
-  while (true) {
-    const suffix = attempt === 0 ? "" : `-${attempt}`;
-    const candidate = path.join(outDir, `${slug}.tmp${suffix}`);
-    if (!fs.existsSync(candidate)) {
-      return candidate;
-    }
-    attempt += 1;
-  }
+const ROOT_PRESERVE_ENTRIES = new Set(["404.html", ".nojekyll", "CNAME"]);
+
+function createRootRedirectHtml(slug: string): string {
+  const normalizedSlug = slug.replace(/^\/+|\/+$/gu, "");
+  const targetPath = normalizedSlug.length > 0 ? `/${normalizedSlug}/` : "/";
+
+  return [
+    "<!DOCTYPE html>",
+    '<html lang="en">',
+    "  <head>",
+    "    <meta charSet=\"utf-8\" />",
+    "    <meta http-equiv=\"refresh\" content=\"0; url='" + targetPath + "'\" />",
+    "    <link rel=\"canonical\" href=\"" + targetPath + "\" />",
+    "    <title>Redirecting…</title>",
+    "  </head>",
+    "  <body>",
+    "    <p>Redirecting to <a href=\"" + targetPath + "\">" + targetPath + "</a>…</p>",
+    "  </body>",
+    "</html>",
+  ].join("\n");
 }
 
 export function flattenBasePathDirectory(outDir: string, slug: string): void {
-  if (!slug) {
+  const normalizedSlug = slug.replace(/^\/+|\/+$/gu, "");
+  if (!normalizedSlug) {
     return;
   }
 
-  const nestedDir = path.join(outDir, slug);
-  if (!fs.existsSync(nestedDir) || !fs.statSync(nestedDir).isDirectory()) {
-    return;
+  const slugDir = path.join(outDir, normalizedSlug);
+  fs.mkdirSync(slugDir, { recursive: true });
+
+  const entries = fs.readdirSync(outDir);
+  for (const entry of entries) {
+    if (entry === normalizedSlug) {
+      continue;
+    }
+
+    if (ROOT_PRESERVE_ENTRIES.has(entry)) {
+      continue;
+    }
+
+    const sourcePath = path.join(outDir, entry);
+    const targetPath = path.join(slugDir, entry);
+
+    fs.renameSync(sourcePath, targetPath);
   }
 
-  const temporaryDir = createTemporarySlugDirectoryPath(outDir, slug);
-  fs.renameSync(nestedDir, temporaryDir);
-
-  const moveEntry = (sourcePath: string, targetPath: string, originalSource: string): void => {
-    if (!fs.existsSync(targetPath)) {
-      fs.renameSync(sourcePath, targetPath);
-      return;
-    }
-
-    const sourceStat = fs.statSync(sourcePath);
-    const targetStat = fs.statSync(targetPath);
-    const sourceIsDirectory = sourceStat.isDirectory();
-    const targetIsDirectory = targetStat.isDirectory();
-
-    if (sourceIsDirectory && targetIsDirectory) {
-      for (const entry of fs.readdirSync(sourcePath)) {
-        moveEntry(
-          path.join(sourcePath, entry),
-          path.join(targetPath, entry),
-          path.join(originalSource, entry),
-        );
-      }
-      fs.rmSync(sourcePath, { recursive: true, force: true });
-      return;
-    }
-
-    if (!sourceIsDirectory && !targetIsDirectory) {
-      if (sourceStat.size !== targetStat.size) {
-        throw new Error(
-          `Cannot move "${originalSource}" to "${targetPath}" because the destination already exists with different content.`,
-        );
-      }
-
-      const sourceBuffer = fs.readFileSync(sourcePath);
-      const targetBuffer = fs.readFileSync(targetPath);
-      if (!sourceBuffer.equals(targetBuffer)) {
-        throw new Error(
-          `Cannot move "${originalSource}" to "${targetPath}" because the destination already exists with different content.`,
-        );
-      }
-
-      fs.rmSync(sourcePath);
-      return;
-    }
-
+  const slugIndexPath = path.join(slugDir, "index.html");
+  if (!fs.existsSync(slugIndexPath)) {
     throw new Error(
-      `Cannot move "${originalSource}" to "${targetPath}" because the destination has a different type.`,
+      `Expected index.html at "${slugIndexPath}" after reorganizing static export for base path "${normalizedSlug}".`,
     );
-  };
-
-  for (const entry of fs.readdirSync(temporaryDir)) {
-    const temporarySourcePath = path.join(temporaryDir, entry);
-    const originalSourcePath = path.join(nestedDir, entry);
-    const targetPath = path.join(outDir, entry);
-    moveEntry(temporarySourcePath, targetPath, originalSourcePath);
   }
 
-  fs.rmSync(temporaryDir, { recursive: true, force: true });
+  const redirectHtml = createRootRedirectHtml(normalizedSlug);
+  fs.writeFileSync(path.join(outDir, "index.html"), redirectHtml);
+
+  const root404Path = path.join(outDir, "404.html");
+  if (fs.existsSync(root404Path)) {
+    const slug404Path = path.join(slugDir, "404.html");
+    fs.copyFileSync(root404Path, slug404Path);
+  }
 }
 
 function ensureNoJekyll(outDir: string): void {
@@ -434,8 +416,14 @@ export function injectGitHubPagesPlaceholders(
   outDir: string,
   basePath: string,
   storageKey: string,
+  slug?: string,
 ): void {
-  ensureOut404HasRedirectTemplate(outDir);
+  const root404Path = path.join(outDir, "404.html");
+  ensureRedirectTemplate(root404Path);
+  if (slug) {
+    const slug404Path = path.join(outDir, slug, "404.html");
+    ensureRedirectTemplate(slug404Path);
+  }
   const normalizedBasePath = normalizeBasePath(basePath);
   const replacements: Array<[string, RegExp]> = [
     [normalizedBasePath, /__BASE_PATH__/gu],
@@ -443,9 +431,15 @@ export function injectGitHubPagesPlaceholders(
   ];
 
   const targets = [
-    path.join(outDir, "404.html"),
+    root404Path,
     path.join(outDir, "scripts", "github-pages-bootstrap.js"),
   ];
+
+  if (slug) {
+    const slugDir = path.join(outDir, slug);
+    targets.push(path.join(slugDir, "404.html"));
+    targets.push(path.join(slugDir, "scripts", "github-pages-bootstrap.js"));
+  }
 
   for (const target of targets) {
     if (!fs.existsSync(target)) {
@@ -466,8 +460,7 @@ const GITHUB_PAGES_PLACEHOLDERS = [
   "__GITHUB_PAGES_REDIRECT_STORAGE_KEY__",
 ] as const;
 
-function ensureOut404HasRedirectTemplate(outDir: string): void {
-  const targetPath = path.join(outDir, "404.html");
+function ensureRedirectTemplate(targetPath: string): void {
   if (!fs.existsSync(targetPath)) {
     return;
   }
@@ -537,6 +530,7 @@ export function main(): void {
     outDir,
     normalizedBasePath,
     GITHUB_PAGES_REDIRECT_STORAGE_KEY,
+    shouldUseBasePath ? slug : undefined,
   );
   ensureNoJekyll(outDir);
 

@@ -113,46 +113,39 @@ describe("flattenBasePathDirectory", () => {
     tempRoot = undefined;
   });
 
-  it("merges nested contents while preserving existing duplicates", () => {
+  it("nests static assets under the repository slug and creates a redirect index", () => {
     const outDirParent = fs.mkdtempSync(path.join(os.tmpdir(), "planner-deploy-out-"));
     tempRoot = outDirParent;
     const outDir = path.join(outDirParent, "out");
     const slug = "planner";
-    const nestedDir = path.join(outDir, slug);
 
-    fs.mkdirSync(path.join(outDir, "assets"), { recursive: true });
-    fs.mkdirSync(path.join(nestedDir, "assets"), { recursive: true });
-
-    fs.writeFileSync(path.join(outDir, "assets", "existing.txt"), "existing");
-    fs.writeFileSync(path.join(outDir, "404.html"), "fallback");
-
-    fs.writeFileSync(path.join(nestedDir, "assets", "new.txt"), "new");
-    fs.writeFileSync(path.join(nestedDir, "404.html"), "fallback");
-    fs.writeFileSync(path.join(nestedDir, "index.html"), "<html></html>");
+    fs.mkdirSync(outDir, { recursive: true });
+    fs.writeFileSync(path.join(outDir, "index.html"), "<html>root</html>");
+    fs.writeFileSync(path.join(outDir, "404.html"), "<html>404</html>");
+    fs.writeFileSync(path.join(outDir, ".nojekyll"), "");
+    fs.mkdirSync(path.join(outDir, "scripts"), { recursive: true });
+    fs.writeFileSync(
+      path.join(outDir, "scripts", "github-pages-bootstrap.js"),
+      "console.log('bootstrap');",
+    );
+    fs.mkdirSync(path.join(outDir, "_next", "static"), { recursive: true });
+    fs.writeFileSync(path.join(outDir, "_next", "static", "chunk.js"), "chunk");
 
     flattenBasePathDirectory(outDir, slug);
 
-    expect(fs.existsSync(path.join(outDir, slug))).toBe(false);
-    expect(fs.readFileSync(path.join(outDir, "index.html"), "utf8")).toBe("<html></html>");
-    expect(fs.readFileSync(path.join(outDir, "assets", "existing.txt"), "utf8")).toBe("existing");
-    expect(fs.readFileSync(path.join(outDir, "assets", "new.txt"), "utf8")).toBe("new");
-    expect(fs.readFileSync(path.join(outDir, "404.html"), "utf8")).toBe("fallback");
-  });
-
-  it("throws when duplicate files differ", () => {
-    const outDirParent = fs.mkdtempSync(path.join(os.tmpdir(), "planner-deploy-out-"));
-    tempRoot = outDirParent;
-    const outDir = path.join(outDirParent, "out");
-    const slug = "planner";
-    const nestedDir = path.join(outDir, slug);
-
-    fs.mkdirSync(nestedDir, { recursive: true });
-    fs.writeFileSync(path.join(outDir, "index.html"), "root");
-    fs.writeFileSync(path.join(nestedDir, "index.html"), "nested");
-
-    expect(() => flattenBasePathDirectory(outDir, slug)).toThrow(
-      /destination already exists with different content/,
+    const slugDir = path.join(outDir, slug);
+    expect(fs.existsSync(slugDir)).toBe(true);
+    expect(fs.readFileSync(path.join(slugDir, "index.html"), "utf8")).toBe("<html>root</html>");
+    expect(fs.existsSync(path.join(slugDir, "_next", "static", "chunk.js"))).toBe(true);
+    expect(fs.existsSync(path.join(slugDir, "scripts", "github-pages-bootstrap.js"))).toBe(
+      true,
     );
+    expect(fs.readFileSync(path.join(outDir, "index.html"), "utf8")).toContain(
+      "url='/planner/'",
+    );
+    expect(fs.readFileSync(path.join(outDir, "404.html"), "utf8")).toBe("<html>404</html>");
+    expect(fs.existsSync(path.join(outDir, ".nojekyll"))).toBe(true);
+    expect(fs.readFileSync(path.join(slugDir, "404.html"), "utf8")).toBe("<html>404</html>");
   });
 });
 
@@ -171,6 +164,9 @@ describe("injectGitHubPagesPlaceholders", () => {
     tempRoot = outDir;
     const scriptDir = path.join(outDir, "scripts");
     fs.mkdirSync(scriptDir, { recursive: true });
+    const slugDir = path.join(outDir, "planner");
+    const slugScriptDir = path.join(slugDir, "scripts");
+    fs.mkdirSync(slugScriptDir, { recursive: true });
     fs.writeFileSync(
       path.join(outDir, "404.html"),
       "<a href=\"__BASE_PATH__/index.html\">" +
@@ -182,11 +178,22 @@ describe("injectGitHubPagesPlaceholders", () => {
       "const key = \"__GITHUB_PAGES_REDIRECT_STORAGE_KEY__\"; const base = \"__BASE_PATH__\";",
       "utf8",
     );
+    fs.writeFileSync(
+      path.join(slugDir, "404.html"),
+      "<a href=\"__BASE_PATH__/index.html\"></a>",
+      "utf8",
+    );
+    fs.writeFileSync(
+      path.join(slugScriptDir, "github-pages-bootstrap.js"),
+      "const base = \"__BASE_PATH__\";",
+      "utf8",
+    );
 
     injectGitHubPagesPlaceholders(
       outDir,
       " planner ",
       GITHUB_PAGES_REDIRECT_STORAGE_KEY,
+      "planner",
     );
 
     expect(fs.readFileSync(path.join(outDir, "404.html"), "utf8")).toBe(
@@ -197,6 +204,11 @@ describe("injectGitHubPagesPlaceholders", () => {
     ).toBe(
       `const key = "${GITHUB_PAGES_REDIRECT_STORAGE_KEY}"; const base = "/planner";`,
     );
+    const slugHtml = fs.readFileSync(path.join(slugDir, "404.html"), "utf8");
+    expect(slugHtml).toContain('<a id="pages-redirect-link" href="/planner/index.html"');
+    expect(
+      fs.readFileSync(path.join(slugScriptDir, "github-pages-bootstrap.js"), "utf8"),
+    ).toBe("const base = \"/planner\";");
   });
 
   it("restores the redirect template when the generated 404.html omits placeholders", () => {
@@ -204,6 +216,9 @@ describe("injectGitHubPagesPlaceholders", () => {
     tempRoot = outDir;
     const scriptDir = path.join(outDir, "scripts");
     fs.mkdirSync(scriptDir, { recursive: true });
+    const slugDir = path.join(outDir, "planner");
+    const slugScriptDir = path.join(slugDir, "scripts");
+    fs.mkdirSync(slugScriptDir, { recursive: true });
     fs.writeFileSync(
       path.join(outDir, "404.html"),
       "<html><body><h1>Custom 404</h1></body></html>",
@@ -214,11 +229,22 @@ describe("injectGitHubPagesPlaceholders", () => {
       "const key = '__GITHUB_PAGES_REDIRECT_STORAGE_KEY__';",
       "utf8",
     );
+    fs.writeFileSync(
+      path.join(slugDir, "404.html"),
+      "<html><body><h1>Custom 404</h1></body></html>",
+      "utf8",
+    );
+    fs.writeFileSync(
+      path.join(slugScriptDir, "github-pages-bootstrap.js"),
+      "const key = '__GITHUB_PAGES_REDIRECT_STORAGE_KEY__';",
+      "utf8",
+    );
 
     injectGitHubPagesPlaceholders(
       outDir,
       " planner ",
       GITHUB_PAGES_REDIRECT_STORAGE_KEY,
+      "planner",
     );
 
     const html = fs.readFileSync(path.join(outDir, "404.html"), "utf8");
@@ -232,6 +258,11 @@ describe("injectGitHubPagesPlaceholders", () => {
     }
     expect(
       fs.readFileSync(path.join(scriptDir, "github-pages-bootstrap.js"), "utf8"),
+    ).toContain(`const key = '${GITHUB_PAGES_REDIRECT_STORAGE_KEY}';`);
+    const slugHtml = fs.readFileSync(path.join(slugDir, "404.html"), "utf8");
+    expect(slugHtml).toContain('<a id="pages-redirect-link" href="/planner/index.html"');
+    expect(
+      fs.readFileSync(path.join(slugScriptDir, "github-pages-bootstrap.js"), "utf8"),
     ).toContain(`const key = '${GITHUB_PAGES_REDIRECT_STORAGE_KEY}';`);
   });
 });
