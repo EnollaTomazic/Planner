@@ -471,13 +471,8 @@ function ensureOut404HasRedirectTemplate(outDir: string): void {
 
 export function main(): void {
   if (isProductionEnvironment(process.env.NODE_ENV)) {
-    if (!sanitizeSlug(process.env.BASE_PATH)) {
-      process.env.BASE_PATH = PRODUCTION_BASE_PATH_SLUG;
-    }
-
-    if (!normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH)) {
-      process.env.NEXT_PUBLIC_BASE_PATH = PRODUCTION_NEXT_PUBLIC_BASE_PATH;
-    }
+    process.env.BASE_PATH = PRODUCTION_BASE_PATH_SLUG;
+    process.env.NEXT_PUBLIC_BASE_PATH = PRODUCTION_NEXT_PUBLIC_BASE_PATH;
   }
 
   const requestedPublish = shouldPublishSite(process.env);
