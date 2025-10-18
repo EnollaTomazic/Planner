@@ -6,6 +6,7 @@ import type { SpawnSyncReturns } from "node:child_process";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
+  applyProductionBasePathDefaults,
   buildStaticSite,
   detectRepositorySlug,
   flattenBasePathDirectory,
@@ -15,6 +16,55 @@ import {
   resolvePublishBranch,
 } from "../../scripts/deploy-gh-pages";
 import { GITHUB_PAGES_REDIRECT_STORAGE_KEY } from "@/lib/github-pages";
+
+describe("applyProductionBasePathDefaults", () => {
+  it("defaults base path values when running in production", () => {
+    const env: NodeJS.ProcessEnv = {
+      NODE_ENV: "production",
+    };
+
+    applyProductionBasePathDefaults(env);
+
+    expect(env.BASE_PATH).toBe("Planner");
+    expect(env.NEXT_PUBLIC_BASE_PATH).toBe("/Planner");
+  });
+
+  it("preserves custom base path configuration", () => {
+    const env: NodeJS.ProcessEnv = {
+      NODE_ENV: "production",
+      BASE_PATH: "custom-slug",
+      NEXT_PUBLIC_BASE_PATH: "/custom-slug",
+    };
+
+    applyProductionBasePathDefaults(env);
+
+    expect(env.BASE_PATH).toBe("custom-slug");
+    expect(env.NEXT_PUBLIC_BASE_PATH).toBe("/custom-slug");
+  });
+
+  it("normalizes a missing public base path when a custom slug is provided", () => {
+    const env: NodeJS.ProcessEnv = {
+      NODE_ENV: "production",
+      BASE_PATH: "/custom-slug/",
+    };
+
+    applyProductionBasePathDefaults(env);
+
+    expect(env.BASE_PATH).toBe("/custom-slug/");
+    expect(env.NEXT_PUBLIC_BASE_PATH).toBe("/custom-slug");
+  });
+
+  it("leaves environment variables untouched outside production", () => {
+    const env: NodeJS.ProcessEnv = {
+      NODE_ENV: "development",
+    };
+
+    applyProductionBasePathDefaults(env);
+
+    expect(env.BASE_PATH).toBeUndefined();
+    expect(env.NEXT_PUBLIC_BASE_PATH).toBeUndefined();
+  });
+});
 
 describe("buildStaticSite", () => {
   it("runs pnpm build so the prebuild lifecycle executes on fresh clones", () => {
