@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const SAFE_MODE_FALLBACK = "true";
 
-const createSafeModeSchema = (envVar: string, audience: string) =>
+const createSafeModeSchema = (envVar: string) =>
   z
     .string()
     .trim()
@@ -24,10 +24,7 @@ export const clientEnvSchema = z
     NEXT_PUBLIC_METRICS_ENDPOINT: z.string().optional(),
     NEXT_PUBLIC_FEATURE_SVG_NUMERIC_FILTERS: z.string().optional(),
     NEXT_PUBLIC_ORGANIC_DEPTH: z.string().optional(),
-    NEXT_PUBLIC_SAFE_MODE: createSafeModeSchema(
-      "NEXT_PUBLIC_SAFE_MODE",
-      "client",
-    ),
+    NEXT_PUBLIC_SAFE_MODE: createSafeModeSchema("NEXT_PUBLIC_SAFE_MODE"),
     NEXT_PUBLIC_SENTRY_DSN: optionalNonEmptyString,
     NEXT_PUBLIC_SENTRY_ENVIRONMENT: optionalNonEmptyString,
     NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: optionalNonEmptyString,
@@ -54,7 +51,7 @@ export const serverEnvSchema = z
     GITHUB_PAGES: z.string().optional(),
     NEXT_PHASE: z.string().optional(),
     NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
-    SAFE_MODE: createSafeModeSchema("SAFE_MODE", "server"),
+    SAFE_MODE: createSafeModeSchema("SAFE_MODE"),
     SENTRY_DSN: optionalNonEmptyString,
     SENTRY_ENVIRONMENT: optionalNonEmptyString,
     SENTRY_TRACES_SAMPLE_RATE: optionalNonEmptyString,

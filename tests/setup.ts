@@ -113,7 +113,7 @@ vi.mock("next/link", async () => {
 
 const originalConsoleError = console.error;
 vi.spyOn(console, "error").mockImplementation((...args) => {
-  const [format, value, attr, ...rest] = args;
+  const [format, value, attr] = args;
   const isStyledJsxWarning =
     typeof format === "string" &&
     format.includes("Received `%s` for a non-boolean attribute `%s`.") &&
