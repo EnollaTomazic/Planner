@@ -6,7 +6,7 @@ import { pathToFileURL } from "node:url";
 import process from "node:process";
 
 import { GITHUB_PAGES_REDIRECT_STORAGE_KEY } from "../src/lib/github-pages";
-import { collectPathSegments, normalizeBasePath } from "../lib/base-path.js";
+import { normalizeBasePath } from "../lib/base-path.js";
 
 const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
 const PRODUCTION_BASE_PATH_SLUG = "Planner";
@@ -60,6 +60,7 @@ export function applyProductionBasePathDefaults(env: NodeJS.ProcessEnv): void {
     return;
   }
 
+  const basePathProvided = env.BASE_PATH !== undefined;
   const sanitizedBasePath = sanitizeSlug(env.BASE_PATH);
   const basePathSlug = sanitizedBasePath ?? PRODUCTION_BASE_PATH_SLUG;
   const normalizedBasePath =
@@ -67,12 +68,12 @@ export function applyProductionBasePathDefaults(env: NodeJS.ProcessEnv): void {
       ? normalizeBasePath(sanitizedBasePath)
       : PRODUCTION_NEXT_PUBLIC_BASE_PATH;
 
-  if (!sanitizedBasePath) {
+  if (!basePathProvided) {
     env.BASE_PATH = basePathSlug;
   }
 
-  const hasNextPublicSegments = collectPathSegments(env.NEXT_PUBLIC_BASE_PATH).length > 0;
-  if (!hasNextPublicSegments) {
+  const nextPublicBasePathProvided = env.NEXT_PUBLIC_BASE_PATH !== undefined;
+  if (!nextPublicBasePathProvided) {
     env.NEXT_PUBLIC_BASE_PATH = normalizedBasePath;
   }
 }

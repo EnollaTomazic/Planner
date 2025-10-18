@@ -54,6 +54,19 @@ describe("applyProductionBasePathDefaults", () => {
     expect(env.NEXT_PUBLIC_BASE_PATH).toBe("/custom-slug");
   });
 
+  it("preserves intentionally blank base path overrides", () => {
+    const env: NodeJS.ProcessEnv = {
+      NODE_ENV: "production",
+      BASE_PATH: "",
+      NEXT_PUBLIC_BASE_PATH: "/",
+    };
+
+    applyProductionBasePathDefaults(env);
+
+    expect(env.BASE_PATH).toBe("");
+    expect(env.NEXT_PUBLIC_BASE_PATH).toBe("/");
+  });
+
   it("leaves environment variables untouched outside production", () => {
     const env: NodeJS.ProcessEnv = {
       NODE_ENV: "development",
