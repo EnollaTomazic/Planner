@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom/vitest";
 import { afterEach, vi } from "vitest";
 import { cleanup } from "@testing-library/react";
+import type { ReactNode } from "react";
 
 if (typeof process !== "undefined") {
   if (process.env.NEXT_PUBLIC_SAFE_MODE === undefined) {
@@ -84,9 +85,8 @@ vi.mock("next/link", async () => {
 
   type LinkProps = {
     href: Parameters<typeof formatUrl>[0] | string;
-    children?: ReactModule.ReactNode;
-    [key: string]: unknown;
-  };
+    children?: ReactNode;
+  } & Record<string, unknown>;
 
   const Link = ReactModule.forwardRef<HTMLAnchorElement, LinkProps>(
     ({ href, children, ...props }, ref) => {
@@ -98,7 +98,7 @@ vi.mock("next/link", async () => {
       return ReactModule.createElement(
         "a",
         { ...props, href: resolvedHref, ref },
-        children,
+        children as ReactNode,
       );
     },
   );
