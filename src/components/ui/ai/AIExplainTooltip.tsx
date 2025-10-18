@@ -46,7 +46,11 @@ const AIExplainTooltip = React.forwardRef<HTMLDivElement, AIExplainTooltipProps>
     },
     ref,
   ) => {
-    const id = React.useId();
+    const reactId = React.useId();
+    const tooltipId = React.useMemo(() => {
+      const sanitizedId = reactId.replace(/[^a-zA-Z0-9]+/g, "");
+      return `:${sanitizedId}:`;
+    }, [reactId]);
     const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen ?? false);
     const isControlled = open !== undefined;
     const isOpen = isControlled ? open : uncontrolledOpen;
@@ -126,8 +130,8 @@ const AIExplainTooltip = React.forwardRef<HTMLDivElement, AIExplainTooltipProps>
           variant="quiet"
           tone={resolvedTone}
           aria-expanded={isOpen}
-          aria-controls={id}
-          aria-describedby={isOpen ? id : undefined}
+          aria-controls={tooltipId}
+          aria-describedby={isOpen ? tooltipId : undefined}
           onClick={(event: React.MouseEvent<TriggerElement>) => {
             const clickHandler =
               onTriggerClick as ((event: React.MouseEvent<TriggerElement>) => void) | undefined;
@@ -183,7 +187,7 @@ const AIExplainTooltip = React.forwardRef<HTMLDivElement, AIExplainTooltipProps>
           <span>{triggerLabel}</span>
         </Button>
         <div
-          id={id}
+          id={tooltipId}
           role="tooltip"
           data-state={isOpen ? "open" : "closed"}
           aria-hidden={isOpen ? undefined : "true"}
