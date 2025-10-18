@@ -3,8 +3,6 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { THEME_STORAGE_KEY } from "@/lib/theme";
-import { createStorageKey } from "@/lib/storage-key";
-
 describe("theme bootstrap storage key", () => {
   it("matches the storage key literal in the bootstrap script", () => {
     const scriptPath = path.join(

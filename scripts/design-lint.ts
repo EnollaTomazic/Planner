@@ -124,7 +124,6 @@ const createViolation = (
 
 const addLocalCssVar = (
   node: ts.Node,
-  sourceFile: ts.SourceFile,
   localTokens: Set<string>,
 ): void => {
   if (!ts.isPropertyAssignment(node)) {
@@ -363,7 +362,7 @@ async function lintFile(
   const localTokens = new Set<string>();
 
   const collectLocalTokens = (node: ts.Node): void => {
-    addLocalCssVar(node, sourceFile, localTokens);
+    addLocalCssVar(node, localTokens);
     if (ts.isStringLiteralLike(node) && node.text) {
       BRACKET_DEFINITION_PATTERN.lastIndex = 0;
       let match: RegExpExecArray | null;

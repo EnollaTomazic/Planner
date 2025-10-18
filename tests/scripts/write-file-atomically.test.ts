@@ -34,12 +34,12 @@ describe("writeFileAtomically", () => {
     const originalRename = fs.rename.bind(fs);
     const renameSpy = vi
       .spyOn(fs, "rename")
-      .mockImplementationOnce(async (oldPath, newPath) => {
+      .mockImplementationOnce(async () => {
         const error = new Error("exists") as NodeJS.ErrnoException;
         error.code = "EEXIST";
         throw error;
       })
-      .mockImplementation((oldPath, newPath) => originalRename(oldPath, newPath));
+      .mockImplementation((...args) => originalRename(...args));
 
     await writeFileAtomically(target, "updated", { encoding: "utf8", maxRetries: 3 });
 

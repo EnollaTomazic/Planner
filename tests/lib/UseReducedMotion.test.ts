@@ -65,7 +65,7 @@ function setupMatchMedia(matches: boolean): MatchMediaController {
     dispatchEvent: vi.fn(),
   } satisfies Record<string, unknown>;
 
-  const matchMediaMock = vi.fn((query: string) =>
+  const matchMediaMock = vi.fn<(query: string) => MediaQueryList>(() =>
     mediaQueryListObject as unknown as MediaQueryList
   );
   window.matchMedia = matchMediaMock as unknown as typeof window.matchMedia;
