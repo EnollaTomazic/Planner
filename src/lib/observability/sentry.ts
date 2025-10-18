@@ -23,7 +23,8 @@ const rawSampleRate =
   "";
 
 const isTestEnv = process.env.NODE_ENV === "test";
-const sentryEnabled = Boolean(rawDsn) && !isTestEnv;
+const sentryEnabled =
+  process.env.NODE_ENV === "production" && Boolean(rawDsn) && !isTestEnv;
 
 let hasInitialized = false;
 let initializationPromise: Promise<SentryModule | null> | null = null;
@@ -43,50 +44,53 @@ function parseSampleRate(value: string): number | undefined {
 
 const tracesSampleRate = parseSampleRate(rawSampleRate) ?? (process.env.NODE_ENV === "production" ? 0.1 : 1);
 
-async function loadSentry(): Promise<SentryModule | null> {
-  if (!sentryEnabled) {
-    return null;
-  }
-
-  if (cachedSentry) {
-    return cachedSentry;
-  }
-
-  if (!initializationPromise) {
-    initializationPromise = import("@sentry/nextjs")
-      .then((sentry) => {
-        cachedSentry = sentry;
-        if (!hasInitialized) {
-          try {
-            sentry.init({
-              dsn: rawDsn,
-              environment: rawEnvironment,
-              enabled: sentryEnabled,
-              tracesSampleRate,
-              replaysSessionSampleRate: 0,
-              replaysOnErrorSampleRate: 0,
-              profilesSampleRate: 0,
-            });
-            hasInitialized = true;
-          } catch (error) {
-            sentryLog.error("Failed to initialize Sentry", error);
-            return null;
-          }
+const loadSentry: () => Promise<SentryModule | null> =
+  process.env.NODE_ENV === "production"
+    ? async () => {
+        if (!sentryEnabled) {
+          return null;
         }
-        return cachedSentry;
-      })
-      .catch((error: unknown) => {
-        sentryLog.error("Failed to load Sentry runtime", error);
-        cachedSentry = null;
-        return null;
-      })
-      .finally(() => {
-        initializationPromise = null;
-      });
-  }
 
-  return initializationPromise;
-}
+        if (cachedSentry) {
+          return cachedSentry;
+        }
+
+        if (!initializationPromise) {
+          initializationPromise = import("@sentry/nextjs")
+            .then((sentry) => {
+              cachedSentry = sentry;
+              if (!hasInitialized) {
+                try {
+                  sentry.init({
+                    dsn: rawDsn,
+                    environment: rawEnvironment,
+                    enabled: sentryEnabled,
+                    tracesSampleRate,
+                    replaysSessionSampleRate: 0,
+                    replaysOnErrorSampleRate: 0,
+                    profilesSampleRate: 0,
+                  });
+                  hasInitialized = true;
+                } catch (error) {
+                  sentryLog.error("Failed to initialize Sentry", error);
+                  return null;
+                }
+              }
+              return cachedSentry;
+            })
+            .catch((error: unknown) => {
+              sentryLog.error("Failed to load Sentry runtime", error);
+              cachedSentry = null;
+              return null;
+            })
+            .finally(() => {
+              initializationPromise = null;
+            });
+        }
+
+        return initializationPromise;
+      }
+    : async () => null;
 
 export type ObservabilityCaptureContext = Parameters<SentryModule["captureException"]>[1];
 
