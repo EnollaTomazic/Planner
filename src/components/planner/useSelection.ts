@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useSelection as usePlannerSelection, useDays } from "./plannerContext";
+import { useSelection as usePlannerSelection, useDays } from "./PlannerProvider";
 import type { DayTask, ISODate, Selection } from "./plannerTypes";
 
 const EMPTY_TASK_MAP: Record<string, DayTask> = {};

@@ -25,7 +25,7 @@ import { useOptionalTheme } from "@/lib/theme-context";
 import { cn } from "@/lib/utils";
 import styles from "./PlannerPage.module.css";
 import { useFocusDate, useWeek } from "./useFocusDate";
-import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
+import { PlannerProvider, usePlanner, type PlannerViewMode } from "./PlannerProvider";
 import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
 import { WeekPicker } from "./WeekPicker";
 import { CalendarDays } from "lucide-react";

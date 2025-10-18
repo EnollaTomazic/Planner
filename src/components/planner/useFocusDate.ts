@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { addDays, toISODate, weekRangeFromISO } from "@/lib/date";
-import { usePlanner } from "./plannerContext";
+import { usePlanner } from "./PlannerProvider";
 import type { ISODate } from "./plannerTypes";
 
 /**

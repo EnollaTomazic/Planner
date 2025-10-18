@@ -7,8 +7,8 @@ export { addProject, addTask, addTaskImage, removeProject, removeTask, removeTas
 export { DayRow } from "./DayRow";
 export { EmptyRow } from "./EmptyRow";
 export { FocusPanel } from "./FocusPanel";
-export { PlannerProvider, useDays, useFocus, usePlanner, usePlannerReminders, useSelection } from "./plannerContext";
-export type { PlannerViewMode } from "./plannerContext";
+export { PlannerProvider, useDays, useFocus, usePlanner, usePlannerReminders, useSelection } from "./PlannerProvider";
+export type { PlannerViewMode } from "./PlannerProvider";
 export { makeCrud, setFocus, setNotes } from "./plannerCrud";
 export type { UpsertDay } from "./plannerCrud";
 export { PlannerFab } from "./PlannerFab";

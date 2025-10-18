@@ -40,7 +40,7 @@ const ENFORCE = process.env.REGEN_ENFORCE !== "0" && !process.env.CI;
 const isCiExplicitTrue = process.env.CI === "true";
 
 const usageInputPatterns = [
-  "src/app/**/*.{ts,tsx}",
+  "app/**/*.{ts,tsx}",
   "src/components/**/*.gallery.{ts,tsx}",
 ];
 
@@ -48,7 +48,7 @@ const themeInputFiles = [
   path.join(__dirname, "generate-themes.ts"),
   path.join(__dirname, "themes.ts"),
   path.join(__dirname, "themes-static.css"),
-  path.join(rootDir, "src/app/themes.css"),
+  path.join(rootDir, "app/themes.css"),
 ];
 
 const tokenInputFiles = Array.from(
@@ -56,7 +56,7 @@ const tokenInputFiles = Array.from(
     ...themeInputFiles,
     path.join(__dirname, "generate-tokens.ts"),
     path.join(rootDir, "src/lib/tokens.ts"),
-    path.join(rootDir, "src/app/globals.css"),
+    path.join(rootDir, "app/globals.css"),
   ]),
 );
 

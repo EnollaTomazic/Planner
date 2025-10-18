@@ -2,13 +2,13 @@
 
 ## Local storage state managed by `PlannerProvider`
 
-`PlannerProvider` wraps planner screens and wires planner data into React context hooks. It keeps planner state in sync with `localStorage` through `usePersistentState`, which hydrates client-side after mount and writes changes with a debounced queue. All storage keys are namespaced via `createStorageKey` (e.g. allowing multi-tenant prefixes) and fall back to legacy prefixes when present. 【F:src/components/planner/plannerContext.tsx†L199-L218】【F:src/lib/db.ts†L333-L436】
+`PlannerProvider` wraps planner screens and wires planner data into React context hooks. It keeps planner state in sync with `localStorage` through `usePersistentState`, which hydrates client-side after mount and writes changes with a debounced queue. All storage keys are namespaced via `createStorageKey` (e.g. allowing multi-tenant prefixes) and fall back to legacy prefixes when present. 【F:src/components/planner/PlannerProvider.tsx†L199-L218】【F:src/lib/db.ts†L333-L436】
 
 The provider persists three primary concerns:
 
-- **Daily planner records** – `usePersistentState<Record<ISODate, DayRecord>>("planner:days", ...)` stores all projects, tasks, per-day metadata, and derived lookups. Custom decoders rebuild task indexes and counts when hydrating. 【F:src/components/planner/plannerContext.tsx†L199-L241】【F:src/components/planner/plannerSerialization.ts†L31-L88】
-- **Focused day** – `usePersistentState<ISODate>("planner:focus", ...)` remembers which date the UI should emphasize. A placeholder is replaced with `todayISO()` on first load to avoid stale focus. 【F:src/components/planner/plannerContext.tsx†L203-L236】【F:src/components/planner/plannerContext.tsx†L243-L263】
-- **Goals** – `usePersistentState<Goal[]>("goals.v2", ...)` tracks the current goal list, undo stack, and cap validation. Decoder upgrades allow backward-compatible hydration from older goal schemas. 【F:src/components/planner/plannerContext.tsx†L214-L308】
+- **Daily planner records** – `usePersistentState<Record<ISODate, DayRecord>>("planner:days", ...)` stores all projects, tasks, per-day metadata, and derived lookups. Custom decoders rebuild task indexes and counts when hydrating. 【F:src/components/planner/PlannerProvider.tsx†L199-L241】【F:src/components/planner/plannerSerialization.ts†L31-L88】
+- **Focused day** – `usePersistentState<ISODate>("planner:focus", ...)` remembers which date the UI should emphasize. A placeholder is replaced with `todayISO()` on first load to avoid stale focus. 【F:src/components/planner/PlannerProvider.tsx†L203-L236】【F:src/components/planner/PlannerProvider.tsx†L243-L263】
+- **Goals** – `usePersistentState<Goal[]>("goals.v2", ...)` tracks the current goal list, undo stack, and cap validation. Decoder upgrades allow backward-compatible hydration from older goal schemas. 【F:src/components/planner/PlannerProvider.tsx†L214-L308】
 
 ### Legacy key migration
 

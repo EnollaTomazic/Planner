@@ -1,5 +1,17 @@
 "use client";
 
-import ReviewsErrorBoundary from "../../src/app/reviews/error";
+import { RouteErrorContent, type RouteErrorBoundaryProps } from "../error";
 
-export default ReviewsErrorBoundary;
+const TITLE = "Reviews hit a bump";
+const DESCRIPTION =
+  "We couldn't open your review vault. Give it another try to resume editing.";
+
+export default function ReviewsErrorBoundary(props: RouteErrorBoundaryProps) {
+  return (
+    <RouteErrorContent
+      {...props}
+      title={TITLE}
+      description={DESCRIPTION}
+    />
+  );
+}

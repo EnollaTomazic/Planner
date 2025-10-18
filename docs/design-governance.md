@@ -5,7 +5,7 @@ This guide codifies how we keep the Planner design system consistent across impl
 ## Token enforcement
 
 - **Cause**: Visual drift appears when contributors bypass our semantic tokens for ad-hoc values. **Impact**: Themes desynchronize and accessibility regressions slip into production.
-- Treat `tokens/tokens.css` and `src/app/themes.css` as the single source of truth. New design decisions must land in tokens first, then be consumed through semantic utilities like `bg-surface`, `text-foreground`, or the control radius variables.
+- Treat `tokens/tokens.css` and `app/themes.css` as the single source of truth. New design decisions must land in tokens first, then be consumed through semantic utilities like `bg-surface`, `text-foreground`, or the control radius variables.
 - Extend the existing `tokens` build step so CI can validate that every Tailwind class or inline style references a semantic token. The `scripts` folder already houses utilities for build-time checks; add a `lint:tokens` script that walks component source files, inspects class strings, and flags raw hex values or hard-coded spacing.
 - Wire the bespoke ESLint rule `design/no-raw-design-values` into the flat config so `pnpm run lint:design` enforces token usage in `app/` and `src/`. The rule guards raw hex colors and pixel values while explicitly permitting responsive image `sizes` strings, media-query labels, and other viewport metadata. Inline format guards (e.g., `value.startsWith("rgb(")`) can use local `eslint-disable` comments when documenting third-party syntax.
 - Require a design review checklist item for every PR that touches styles. Reviewers confirm that token deltas include a corresponding entry in `COLOR_MAPPINGS.md` when new hues ship and that component code consumes the semantic alias instead of the raw value.
@@ -20,7 +20,7 @@ This guide codifies how we keep the Planner design system consistent across impl
 ## Component gallery accountability
 
 - **Cause**: Without canonical examples, teams implement components from memory, diverging from the approved patterns. **Impact**: Accessibility affordances (roles, focus management) and token usage degrade across surfaces.
-- Treat `src/components/gallery` as the authoritative showcase. Every component or primitive change must ship with a corresponding gallery entry, variant metadata, and usage guidance. The `/components` route renders this gallery (`src/app/components/page.tsx`), so additions surface immediately in the public catalog.
+- Treat `src/components/gallery` as the authoritative showcase. Every component or primitive change must ship with a corresponding gallery entry, variant metadata, and usage guidance. The `/components` route renders this gallery (`app/components/page.tsx`), so additions surface immediately in the public catalog.
 - Document required states (default, hover, focus-visible, disabled) and content density for each gallery example. Use the gallery metadata to prove that tokens like `text-accent-foreground` and `shadow-dropdown` render correctly across themes.
 - Back the gallery with snapshot tests (via Storybook stories or the existing runtime manifest) so CI fails if a refactor strips required landmarks, aria labels, or token hooks. When regressions arise, the gallery doubles as the reproduction harness for debugging.
 

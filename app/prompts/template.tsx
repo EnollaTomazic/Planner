@@ -1,1 +1,9 @@
-export { default } from "../../src/app/prompts/template";
+import type { ReactNode } from "react";
+
+export default function PromptsTemplate({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return children;
+}

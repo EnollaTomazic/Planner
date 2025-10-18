@@ -48,7 +48,7 @@ function injectThemeStyles() {
   const currentDir = path.dirname(currentFile);
   const rootDir = path.resolve(currentDir, "../..");
   const tokensCss = fs.readFileSync(path.join(rootDir, "tokens/tokens.css"), "utf8");
-  const themesCssRaw = fs.readFileSync(path.join(rootDir, "src/app/themes.css"), "utf8");
+  const themesCssRaw = fs.readFileSync(path.join(rootDir, "app/themes.css"), "utf8");
   const globalsCssRaw = loadGlobalsCss();
   const themesCss = sanitizeCss(themesCssRaw);
   const normalizedGlobalsCss = sanitizeCss(globalsCssRaw);
@@ -108,7 +108,7 @@ function loadGlobalsCss(): string {
   const currentFile = fileURLToPath(import.meta.url);
   const currentDir = path.dirname(currentFile);
   const rootDir = path.resolve(currentDir, "../..");
-  globalsCss = fs.readFileSync(path.join(rootDir, "src/app/globals.css"), "utf8");
+  globalsCss = fs.readFileSync(path.join(rootDir, "app/globals.css"), "utf8");
   return globalsCss;
 }
 

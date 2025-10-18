@@ -23,7 +23,7 @@ pnpm run check-prompts
 
 `check-prompts` scans every prompt source file to confirm that components in `src/components/ui` and `src/components/prompts` are referenced somewhere in the gallery demos.
 
-After running the scripts, add a demo of the new component to `src/app/prompts/page.tsx` so it appears in the prompts gallery.
+After running the scripts, add a demo of the new component to `app/prompts/page.tsx` so it appears in the prompts gallery.
 
 `pnpm run build` runs the regeneration step automatically, but running it manually keeps the index and prompts page current during development.
 

@@ -1,4 +1,4 @@
-// src/app/AppErrorBoundary.tsx
+// app/AppErrorBoundary.tsx
 "use client";
 
 import * as React from "react";

@@ -39,7 +39,7 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 
 ## Tokens
 
-- Color, radius, shadows and transitions are defined as CSS variables in `tailwind.config.ts` and `src/app/themes.css`.
+- Color, radius, shadows and transitions are defined as CSS variables in `tailwind.config.ts` and `app/themes.css`.
 - Use semantic classes like `bg-background`, `text-foreground` and `ring` instead of hard-coded values.
 - Gradient utilities such as `bg-panel-tilt-strong`, `before:bg-gradient-drip-overlay-compact`, and `after:bg-glitch-overlay` map directly to the tokenized backgrounds documented in [`docs/tokens.md`](tokens.md); prefer them over ad-hoc `linear-gradient(...)` strings so themes can tune overlays without component changes.
 - Pair high-chroma fills with the semantic text tokens: `text-warning-foreground` for alert banners, `text-success-foreground` for celebratory fills (including the success glow), `text-on-accent` for accent gradients, `text-accent-foreground` / `text-accent-2-foreground` for accent rails, and `text-danger-foreground` for destructive actions. This ensures the `color-contrast()` fallbacks in `themes.css` stay effective.
@@ -49,18 +49,18 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 
 ### Effects tokens
 
-- `--edge-iris` – iridescent conic gradient for edges and focus rings. Defined in the dark base and re-colored for the Aurora theme ([themes.css](../src/app/themes.css#L69-L76), [Aurora override](../src/app/themes.css#L171-L178)).
-- `--seg-active-grad` – linear gradient for active segments such as tabs; the Aurora theme swaps in its green-purple spectrum ([themes.css](../src/app/themes.css#L77-L82), [Aurora override](../src/app/themes.css#L179-L184)).
-- `--neon` and `--neon-soft` – default glow color for buttons and accents. `--neon-soft` blends the tone for subtle backgrounds and upgrades via `color-mix` when supported ([themes.css](../src/app/themes.css#L48-L49), [color-mix](../src/app/themes.css#L92)).
-- `--card-hairline` – low-contrast border used on cards; gains an accent tint when `color-mix` is available ([themes.css](../src/app/themes.css#L55), [color-mix](../src/app/themes.css#L93-L97)).
-- `--shadow` – drop shadow for elevated surfaces; Aurora supplies a lighter variant ([themes.css](../src/app/themes.css#L83), [Aurora override](../src/app/themes.css#L185)).
+- `--edge-iris` – iridescent conic gradient for edges and focus rings. Defined in the dark base and re-colored for the Aurora theme ([themes.css](../app/themes.css#L69-L76), [Aurora override](../app/themes.css#L171-L178)).
+- `--seg-active-grad` – linear gradient for active segments such as tabs; the Aurora theme swaps in its green-purple spectrum ([themes.css](../app/themes.css#L77-L82), [Aurora override](../app/themes.css#L179-L184)).
+- `--neon` and `--neon-soft` – default glow color for buttons and accents. `--neon-soft` blends the tone for subtle backgrounds and upgrades via `color-mix` when supported ([themes.css](../app/themes.css#L48-L49), [color-mix](../app/themes.css#L92)).
+- `--card-hairline` – low-contrast border used on cards; gains an accent tint when `color-mix` is available ([themes.css](../app/themes.css#L55), [color-mix](../app/themes.css#L93-L97)).
+- `--shadow` – drop shadow for elevated surfaces; Aurora supplies a lighter variant ([themes.css](../app/themes.css#L83), [Aurora override](../app/themes.css#L185)).
 - `--shadow-dropdown` – menu and popover elevation token shared by Tailwind's `shadow-dropdown` utility ([tokens.css](../tokens/tokens.css)).
-- `--shadow-neon` – layered neon text glow built from spacing tokens ([themes.css](../src/app/themes.css#L13-L16)).
+- `--shadow-neon` – layered neon text glow built from spacing tokens ([themes.css](../app/themes.css#L13-L16)).
 - `--aurora-g-light` / `--aurora-p-light` – static fallbacks for the aurora gradients when `color-mix` is unavailable. Use them with the `aurora` classes instead of blending alphas manually so the palette remains consistent across browsers.
-- `--shadow-inner-sm` / `--shadow-inner-md` / `--shadow-outer-lg` – inset and deep outer shadows that align with the neumorphic depth model. Use the small inner layer for pressed controls, the medium inner layer for sunken panels, and the large outer layer for wide surfaces. Hardstuck and Noir clamp the alpha mix to retain readable foreground contrast across the darker palettes ([themes.css](../src/app/themes.css#L784-L789), [Noir override](../src/app/themes.css#L620-L625)).
-- `--glow-primary` – chroma glow tied to `--primary`; upgrades via `color-mix` for richer bloom while honoring each theme's accessibility baseline ([themes.css](../src/app/themes.css#L244-L245), [Hardstuck mix](../src/app/themes.css#L449-L455)).
-- `--blob-surface-1` / `--blob-surface-2` / `--blob-surface-3` / `--blob-surface-shadow` – organic surface stops for hero blobs and vignette backgrounds. Default values borrow from the neutral surfaces and receive theme-specific blends in the color-mix block so Hardstuck and Noir lighten their fills without sacrificing depth ([themes.css](../src/app/themes.css#L246-L248), [color-mix overrides](../src/app/themes.css#L433-L470)).
-- `--glitch-noise-primary` / `--glitch-noise-secondary` / `--glitch-noise-contrast` – scoped noise overlays for glitch treatments. The base palette keys off accent, ring, and foreground tokens while Hardstuck/Noir swap in greener and ruby-tinted alphas for accessible luminance ([themes.css](../src/app/themes.css#L249-L253), [Hardstuck noise tuning](../src/app/themes.css#L793-L796)).
+- `--shadow-inner-sm` / `--shadow-inner-md` / `--shadow-outer-lg` – inset and deep outer shadows that align with the neumorphic depth model. Use the small inner layer for pressed controls, the medium inner layer for sunken panels, and the large outer layer for wide surfaces. Hardstuck and Noir clamp the alpha mix to retain readable foreground contrast across the darker palettes ([themes.css](../app/themes.css#L784-L789), [Noir override](../app/themes.css#L620-L625)).
+- `--glow-primary` – chroma glow tied to `--primary`; upgrades via `color-mix` for richer bloom while honoring each theme's accessibility baseline ([themes.css](../app/themes.css#L244-L245), [Hardstuck mix](../app/themes.css#L449-L455)).
+- `--blob-surface-1` / `--blob-surface-2` / `--blob-surface-3` / `--blob-surface-shadow` – organic surface stops for hero blobs and vignette backgrounds. Default values borrow from the neutral surfaces and receive theme-specific blends in the color-mix block so Hardstuck and Noir lighten their fills without sacrificing depth ([themes.css](../app/themes.css#L246-L248), [color-mix overrides](../app/themes.css#L433-L470)).
+- `--glitch-noise-primary` / `--glitch-noise-secondary` / `--glitch-noise-contrast` – scoped noise overlays for glitch treatments. The base palette keys off accent, ring, and foreground tokens while Hardstuck/Noir swap in greener and ruby-tinted alphas for accessible luminance ([themes.css](../app/themes.css#L249-L253), [Hardstuck noise tuning](../app/themes.css#L793-L796)).
 
 ## Layout and spacing
 
@@ -68,7 +68,7 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 - Spacing tokens: `1`=4px, `2`=8px, `3`=12px, `4`=16px, `5`=24px, `6`=32px, `7`=48px, `8`=64px.
 - Wrap page-level content with `.page-shell` or the `<PageShell />` component to get the shared container rhythm: `space-6` on
   small screens, `space-7` at `md`, and `space-8` at `lg`. Add vertical padding per view instead of redefining horizontal
-  gutters. The shell's maximum width is governed by `--shell-width`, with `--shell-max` available for per-page overrides ([tokens.css](../tokens/tokens.css), [globals.css](../src/app/globals.css)).
+  gutters. The shell's maximum width is governed by `--shell-width`, with `--shell-max` available for per-page overrides ([tokens.css](../tokens/tokens.css), [globals.css](../app/globals.css)).
 - When pairing a hero header with body content, place the hero inside a `<PageShell as="header">` before the `<PageShell as="main">`. The main shell automatically exposes `id="main-content"` so the "Skip to main content" link lands after the header frame.
 
 ## Typography
@@ -89,7 +89,7 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 
 ## Global styles
 
-- `src/app/globals.css` resets layout, sets typography and applies focus and selection styles.
+- `app/globals.css` resets layout, sets typography and applies focus and selection styles.
 - Respect the `no-animations` class for reduced motion users. Avoid forcing animations when it is present.
 
 ## Icons

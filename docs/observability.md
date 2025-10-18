@@ -11,7 +11,7 @@ Planner ships a lightweight web vitals pipeline so we can correlate UI regressio
 
 ## API ingestion
 
-- `/api/metrics` is implemented with a Next.js Route Handler in [`src/app/api/metrics/route.ts`](../src/app/api/metrics/route.ts). The handler shares its core validation and logging logic with the standalone Node entry point via `createMetricsProcessor` so both environments stay aligned.
+- `/api/metrics` is implemented with a Next.js Route Handler in [`app/api/metrics/route.ts`](../app/api/metrics/route.ts). The handler shares its core validation and logging logic with the standalone Node entry point via `createMetricsProcessor` so both environments stay aligned.
 - A reusable Node-compatible handler remains available at [`server/metrics-handler.ts`](../server/metrics-handler.ts) for self-hosted collectors or edge runtimes that require the lower-level API.
 - The processor applies an in-memory sliding window rate limiter (`consumeRateLimit`) that allows 24 payloads per minute per client identifier before returning `429 Too Many Requests` with a `Retry-After` header. Oversized bodies (over 50 KB) are rejected with `413 Payload Too Large` before parsing.
 - Responses are non-cacheable (`Cache-Control: no-store`) and return HTTP 200 for accepted payloads. Invalid JSON or schema violations produce HTTP 400 with warn-level log entries so suspicious traffic can be triaged quickly.

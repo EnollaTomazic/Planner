@@ -27,8 +27,8 @@ const rootDir = path.resolve(__dirname, "..");
 
 const TOKEN_SOURCE_FILES = [
   path.join(rootDir, "tokens/tokens.css"),
-  path.join(rootDir, "src/app/themes.css"),
-  path.join(rootDir, "src/app/globals.css"),
+  path.join(rootDir, "app/themes.css"),
+  path.join(rootDir, "app/globals.css"),
 ];
 
 const CLASS_UTILITY_IDENTIFIERS = new Set(["cn", "clsx"]);

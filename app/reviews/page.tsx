@@ -1,2 +1,14 @@
-export { metadata, dynamic } from "../../src/app/reviews/page";
-export { default } from "../../src/app/reviews/page";
+// app/reviews/page.tsx
+import type { Metadata } from "next";
+import { ReviewPage } from "@/components/reviews";
+
+export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Reviews",
+  description: "Browse community reviews",
+};
+
+export default function ReviewsRoute() {
+  return <ReviewPage />;
+}

@@ -18,7 +18,7 @@ const __dirname = path.dirname(__filename);
 
 const uiDir = path.resolve(__dirname, "../src/components/ui");
 const promptsDir = path.resolve(__dirname, "../src/components/prompts");
-const appPromptsDir = path.resolve(__dirname, "../src/app/prompts");
+const appPromptsDir = path.resolve(__dirname, "../app/prompts");
 const ignoredComponents = new Set(["Split"]);
 
 type ProgressHandle = {
@@ -131,7 +131,7 @@ async function verifyDemos(components: string[]): Promise<void> {
         ...missing,
         "",
         "Add demos in src/components/prompts/PromptsDemos.tsx or reference",
-        "them from src/app/prompts to satisfy verification.",
+        "them from app/prompts to satisfy verification.",
         "Run `pnpm run check-prompts` to preview missing references without",
         "failing CI.",
       ].join("\n"),

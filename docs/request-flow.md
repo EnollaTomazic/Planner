@@ -62,7 +62,7 @@ path.【F:src/components/planner/usePlannerStore.ts†L120-L163】
 
 `PlannerProvider` seeds the store by reading from `localStorage` using the
 `usePersistentState` hook, which loads from storage after hydration, syncs across
-tabs, and writes every state change back to the same key.【F:src/components/planner/plannerContext.tsx†L215-L259】【F:src/lib/db.ts†L300-L402】
+tabs, and writes every state change back to the same key.【F:src/components/planner/PlannerProvider.tsx†L215-L259】【F:src/lib/db.ts†L300-L402】
 
 This hook relies on `createStorageKey` and queued writes to ensure that updates
 are serialized safely into `localStorage`, giving the planner a browser-native
