@@ -1,1 +1,9 @@
-export { default } from "../../src/app/goals/template";
+import type { ReactNode } from "react";
+
+export default function GoalsTemplate({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return children;
+}

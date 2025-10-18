@@ -1,6 +1,6 @@
 /* src/components/planner/style.css
    Lavender-Glitch — Planner-specific styles only.
-   Depends on tokens/utilities in src/app/globals.css.
+   Depends on tokens/utilities in app/globals.css.
    Avoids redefining global shells/rails/pills.
 */
 /* ============ Page header tweaks ============ */

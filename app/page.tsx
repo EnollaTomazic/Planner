@@ -1,11 +1,11 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
-import HomePlannerIsland from '@/app/home/HomePlannerIsland'
+import HomePlannerIsland from './home/HomePlannerIsland'
 import {
   HeroPlannerCardsFallbackContent,
   HomeHeroSectionFallbackContent,
-} from '@/app/home/fallback-content'
-import styles from '@/app/page-client.module.css'
+} from './home/fallback-content'
+import styles from './page-client.module.css'
 import { glitchLandingEnabled } from '@/lib/features'
 
 export const dynamic = 'force-static'

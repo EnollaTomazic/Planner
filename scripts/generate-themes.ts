@@ -11,7 +11,7 @@ import type { Declaration, Root, Rule } from "postcss";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, "..");
-const outputPath = path.join(projectRoot, "src/app/themes.css");
+const outputPath = path.join(projectRoot, "app/themes.css");
 const staticPath = path.join(__dirname, "themes-static.css");
 
 const HEADER = [

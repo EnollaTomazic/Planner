@@ -1,1 +1,9 @@
-export { default } from "../../src/app/team/template";
+import type { ReactNode } from "react";
+
+export default function TeamTemplate({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return children;
+}

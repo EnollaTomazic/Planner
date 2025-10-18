@@ -156,7 +156,7 @@ describe("Button", () => {
   });
 
   it("defines button glitch overlay tokens in theme bundle", () => {
-    const themeCss = fs.readFileSync("src/app/themes.css", "utf8");
+    const themeCss = fs.readFileSync("app/themes.css", "utf8");
 
     expect(themeCss).toContain("--glitch-overlay-button-opacity:");
     expect(themeCss).toContain("--glitch-overlay-button-opacity-reduced:");

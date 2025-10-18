@@ -182,7 +182,7 @@ function ReviewDetailSummaryPreview({ review }: { review: Review }) {
   );
 }
 
-function ReviewStatesPreview() {
+function ReviewsPreviewMatrixClient() {
   const previewRenderer = React.useMemo(() => {
     const Renderer = () => <ReviewsStateMatrix />;
     Renderer.displayName = "ReviewsStateMatrixRenderer";
@@ -312,4 +312,4 @@ function ReviewsStateMatrix() {
   );
 }
 
-export default ReviewStatesPreview;
+export default ReviewsPreviewMatrixClient;

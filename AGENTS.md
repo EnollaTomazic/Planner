@@ -28,7 +28,7 @@ This document defines expectations for the entire repository. Check for nested `
 - Format code with single quotes, omit semicolons, and keep trailing commas where valid with 2-space indentation.
 - Organize imports by grouping external dependencies before local modules.
 - Follow the tokens-only design system: introduce visual changes through the design tokens in `/tokens` (and synced assets in `docs/design-system.md`) instead of ad-hoc values.
-- Reuse primitives documented in `docs/design-system.md`, and add new UI primitives to `src/app/prompts/page.tsx` so the gallery stays comprehensive.
+- Reuse primitives documented in `docs/design-system.md`, and add new UI primitives to `app/prompts/page.tsx` so the gallery stays comprehensive.
 
 ## Maintenance Tips
 - Regenerate the UI component barrel with `pnpm run regen-ui` after adding, removing, or renaming components (it runs automatically during install, dev, and build).

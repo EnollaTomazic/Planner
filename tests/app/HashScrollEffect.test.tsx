@@ -1,5 +1,5 @@
 import * as React from "react";
-import HashScrollEffect from "@/app/HashScrollEffect";
+import HashScrollEffect from "@app/HashScrollEffect";
 import { act, render, waitFor } from "@testing-library/react";
 import {
   describe,

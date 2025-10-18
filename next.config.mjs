@@ -109,6 +109,7 @@ let nextConfig = {
     }
 
     config.resolve.alias["@"] = path.resolve(__dirname, "src");
+    config.resolve.alias["@app"] = path.resolve(__dirname, "app");
     config.resolve.alias["@env"] = path.resolve(__dirname, "env");
     return config;
   },

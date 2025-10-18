@@ -14,6 +14,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
+      "@app": ["app"],
+      "@app/*": ["app/*"],
       "@env": ["env/index.ts"],
       "@env/*": ["env/*"],
       "@storybook/react": ["types/storybook__react"],

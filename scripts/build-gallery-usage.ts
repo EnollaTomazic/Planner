@@ -54,7 +54,7 @@ const { BG_CLASSES, VARIANTS } = themeModule;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
-const appDir = path.join(rootDir, "src/app");
+const appDir = path.join(rootDir, "app");
 const cacheDir = path.join(__dirname, ".cache");
 const manifestFile = path.join(cacheDir, "build-gallery-usage.json");
 const galleryDir = path.join(rootDir, "src/components/gallery");
@@ -67,7 +67,7 @@ const manifestEntrypointOutput = path.join(
 const tsconfigPath = path.join(rootDir, "tsconfig.build.json");
 
 const TRACKED_PATTERNS = [
-  "src/app/**/*.{ts,tsx}",
+  "app/**/*.{ts,tsx}",
   "src/components/**/*.gallery.{ts,tsx}",
 ];
 

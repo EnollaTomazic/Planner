@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import type { GalleryPreviewRoute } from "@/components/gallery";
 import { describe, expect, it, vi } from "vitest";
-import { PreviewContent, PreviewUnavailable } from "@/app/preview/[slug]/page";
+import { PreviewContent, PreviewUnavailable } from "@app/preview/[slug]/page";
 
 (globalThis as { React?: typeof React }).React = React;
 

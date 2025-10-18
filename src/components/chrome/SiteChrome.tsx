@@ -1,6 +1,6 @@
 "use client";
 
-import "@/app/globals.css";
+import "@app/globals.css";
 import * as React from "react";
 import { NavBar } from "@/components/chrome/NavBar";
 import { MobileNavDrawer } from "@/components/chrome/MobileNavDrawer";
