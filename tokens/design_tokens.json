@@ -160,6 +160,27 @@
     "ringSize2": {
       "value": "var(--spacing-1)"
     },
+    "iconSize": {
+      "value": "var(--icon-size-md)"
+    },
+    "iconSizeXs": {
+      "value": "14px"
+    },
+    "iconSizeSm": {
+      "value": "16px"
+    },
+    "iconSizeMd": {
+      "value": "18px"
+    },
+    "iconSizeLg": {
+      "value": "24px"
+    },
+    "iconSizeXl": {
+      "value": "32px"
+    },
+    "iconSize_2xl": {
+      "value": "76px"
+    },
     "iconStroke100": {
       "value": "var(--spacing-0-5)"
     },
