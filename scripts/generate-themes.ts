@@ -5,11 +5,7 @@ import { fileURLToPath } from "node:url";
 import postcss from "postcss";
 import postcssImport from "postcss-import";
 import { rootVariables, themes } from "./themes.ts";
-import type {
-  ThemeDefinition,
-  TokenValue,
-  VariableDefinition,
-} from "./themes.ts";
+import type { ThemeDefinition, VariableDefinition } from "./themes.ts";
 import type { Declaration, Root, Rule } from "postcss";
 
 const __filename = fileURLToPath(import.meta.url);

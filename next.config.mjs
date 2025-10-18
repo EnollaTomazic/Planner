@@ -77,7 +77,6 @@ const withBundleAnalyzer = bundleAnalyzer({
 /** @type {import("next").NextConfig} */
 let nextConfig = {
   reactStrictMode: true,
-  output: "export",
   trailingSlash: true,
   basePath,
   assetPrefix,
@@ -98,22 +97,6 @@ let nextConfig = {
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
   },
-  headers: async () => {
-    if (isExportStatic) {
-      return [];
-    }
-
-    const securityHeaders = createSecurityHeaders(securityPolicyOptions).map(
-      (header) => ({ ...header }),
-    );
-
-    return [
-      {
-        source: "/:path*",
-        headers: securityHeaders,
-      },
-    ];
-  },
   webpack: (config, context) => {
     const webpackRef = context?.webpack;
 
@@ -125,15 +108,30 @@ let nextConfig = {
       webpackRef.WebpackError = webpackRef.webpack.WebpackError;
     }
 
-    if (context?.dev) {
-      config.devtool = "source-map";
-    }
-
     config.resolve.alias["@"] = path.resolve(__dirname, "src");
     config.resolve.alias["@env"] = path.resolve(__dirname, "env");
     return config;
   },
 };
+
+if (!isExportStatic) {
+  nextConfig.headers = async () => {
+    const securityHeaders = createSecurityHeaders(securityPolicyOptions).map(
+      (header) => ({ ...header }),
+    );
+
+    return [
+      {
+        source: "/:path*",
+        headers: securityHeaders,
+      },
+    ];
+  };
+}
+
+if (isExportStatic) {
+  nextConfig.output = "export";
+}
 
 nextConfig = withBundleAnalyzer(nextConfig);
 

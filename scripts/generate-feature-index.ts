@@ -184,7 +184,7 @@ function analyzeExports(file: string, content: string): ParsedExports {
   };
 }
 
-async function buildExport(file: string, baseDir: string): Promise<ExportInfo> {
+async function buildExport(file: string): Promise<ExportInfo> {
   const content = await fs.readFile(file, "utf8");
   const exports = analyzeExports(file, content);
 
@@ -233,7 +233,7 @@ async function generate(
       !Array.isArray(info.valueExports) ||
       !Array.isArray(info.typeExports)
     ) {
-      const built = await buildExport(file, dir);
+      const built = await buildExport(file);
       info = { mtimeMs: stat.mtimeMs, ...built };
     }
     bar.increment();

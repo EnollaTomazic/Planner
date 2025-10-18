@@ -179,12 +179,6 @@ function analyzeExports(file: string, content: string): ExportInfo {
 }
 
 async function buildExport(file: string): Promise<ExportInfo> {
-  const rel =
-    "./" +
-    path
-      .relative(uiDir, file)
-      .replace(/\\/g, "/")
-      .replace(/\.(tsx|ts)$/, "");
   const content = await fs.readFile(file, "utf8");
   const exports = analyzeExports(file, content);
 
