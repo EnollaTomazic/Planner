@@ -141,7 +141,7 @@ describe("flattenBasePathDirectory", () => {
       true,
     );
     expect(fs.readFileSync(path.join(outDir, "index.html"), "utf8")).toContain(
-      "url='/planner/'",
+      "url='./planner/'",
     );
     expect(fs.readFileSync(path.join(outDir, "404.html"), "utf8")).toBe("<html>404</html>");
     expect(fs.existsSync(path.join(outDir, ".nojekyll"))).toBe(true);
