@@ -36,7 +36,7 @@
     "e2e": "tsx scripts/run-e2e.ts",
     "e2e:ci": "cross-env PLAYWRIGHT_INSTALL=false pnpm run e2e",
     "sb:build": "cross-env STORYBOOK_BUILD=1 pnpm exec storybook build --config-dir storybook --output-dir storybook-static",
-    "lint:design": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --cache --cache-location .eslintcache --no-warn-ignored \"{app,src}/**/*.{js,jsx,ts,tsx}\"",
+    "lint:design": "cross-env ESLINT_USE_FLAT_CONFIG=true pnpm exec eslint --cache --cache-location .eslintcache-design --no-warn-ignored \"{app,src}/**/*.{js,jsx,ts,tsx}\"",
     "design-lint": "pnpm run lint:design",
     "guard:artifacts": "cross-env TSX_COMPILE_CACHE=0 tsx scripts/guard-artifacts.ts",
     "clean:artifacts": "cross-env TSX_COMPILE_CACHE=0 tsx scripts/clean-artifacts.ts",
