@@ -1,15 +1,19 @@
-import path from "path";
-import { defineConfig } from "vitest/config";
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { defineConfig } from 'vitest/config'
 
-const isCI = Boolean(process.env.CI);
-const pool = isCI ? "forks" : "threads";
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+const isCI = Boolean(process.env.CI)
+const pool = isCI ? 'forks' : 'threads'
 
 export default defineConfig({
   test: {
-    environment: "jsdom",
-    setupFiles: "./tests/setup.ts",
-    include: ["tests/**/*.test.{ts,tsx}", "tests/**/*.spec.{ts,tsx}"],
-    exclude: ["**/node_modules/**", "**/dist/**"],
+    environment: 'jsdom',
+    setupFiles: './tests/setup.ts',
+    include: ['tests/**/*.test.{ts,tsx}', 'tests/**/*.spec.{ts,tsx}'],
+    exclude: ['**/node_modules/**', '**/dist/**'],
     testTimeout: 20000,
     teardownTimeout: 10000,
     hookTimeout: 10000,
@@ -27,26 +31,26 @@ export default defineConfig({
       },
     },
     sequence: {
-      hooks: "list",
+      hooks: 'list',
     },
     coverage: {
-      provider: "istanbul",
+      provider: 'istanbul',
       include: [
-        "src/ai/**/*.{ts,tsx}",
-        "src/hooks/**/*.{ts,tsx}",
-        "src/lib/**/*.{ts,tsx}",
-        "src/utils/**/*.{ts,tsx}",
+        'src/ai/**/*.{ts,tsx}',
+        'src/hooks/**/*.{ts,tsx}',
+        'src/lib/**/*.{ts,tsx}',
+        'src/utils/**/*.{ts,tsx}',
       ],
       exclude: [
-        "src/components/gallery/generated-manifest.ts",
-        "src/components/gallery/generated-manifest.g.ts",
+        'src/components/gallery/generated-manifest.ts',
+        'src/components/gallery/generated-manifest.g.ts',
       ],
     },
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
-      "@env": path.resolve(__dirname, "env"),
+      '@': resolve(__dirname, 'src'),
+      '@env': resolve(__dirname, 'env'),
     },
   },
-});
+})
