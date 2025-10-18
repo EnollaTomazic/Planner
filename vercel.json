@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
-  "frameworkVersion": "15.5.3",
+  "frameworkVersion": "15.5.4",
   "installCommand": "pnpm install --frozen-lockfile --prefer-offline --no-fund",
   "buildCommand": "pnpm run check && pnpm run build",
   "devCommand": "pnpm run dev"
