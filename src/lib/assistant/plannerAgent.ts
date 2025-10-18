@@ -239,19 +239,21 @@ function deduplicateSuggestions(
 export function planWithAssistant(
   options: PlannerAssistantOptions,
 ): PlannerAssistantPlan {
-  const sanitizedPrompt = sanitizePrompt(options.prompt);
-  if (!sanitizedPrompt) {
+  const displayPrompt = sanitizePrompt(options.prompt, { allowMarkup: true });
+  if (!displayPrompt) {
     throw new PlannerAssistantError(
       "empty_prompt",
       "The planner assistant requires a non-empty prompt.",
     );
   }
 
+  const sanitizedPrompt = sanitizePrompt(options.prompt);
+
   const safety = applyModelSafety();
   const safeModeEnabled =
     safety.safeMode && isSafeModeFlagEnabled(process.env.SAFE_MODE);
 
-  const messages = createMessages(sanitizedPrompt);
+  const messages = createMessages(displayPrompt);
   const budget = enforceTokenBudget(messages, {
     maxTokens: options.maxTokens ?? DEFAULT_MAX_TOKENS,
     reservedForResponse: options.reservedForResponse ?? DEFAULT_RESPONSE_RESERVE,
