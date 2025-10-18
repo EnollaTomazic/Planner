@@ -6,7 +6,7 @@ import { pathToFileURL } from "node:url";
 import process from "node:process";
 
 import { GITHUB_PAGES_REDIRECT_STORAGE_KEY } from "../src/lib/github-pages";
-import { normalizeBasePath } from "../lib/base-path.js";
+import { collectPathSegments, normalizeBasePath } from "../lib/base-path.js";
 
 const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
 const PRODUCTION_BASE_PATH_SLUG = "Planner";
@@ -53,6 +53,28 @@ function isProductionEnvironment(value: string | undefined): boolean {
   }
 
   return value.trim().toLowerCase() === "production";
+}
+
+export function applyProductionBasePathDefaults(env: NodeJS.ProcessEnv): void {
+  if (!isProductionEnvironment(env.NODE_ENV)) {
+    return;
+  }
+
+  const sanitizedBasePath = sanitizeSlug(env.BASE_PATH);
+  const basePathSlug = sanitizedBasePath ?? PRODUCTION_BASE_PATH_SLUG;
+  const normalizedBasePath =
+    sanitizedBasePath !== undefined
+      ? normalizeBasePath(sanitizedBasePath)
+      : PRODUCTION_NEXT_PUBLIC_BASE_PATH;
+
+  if (!sanitizedBasePath) {
+    env.BASE_PATH = basePathSlug;
+  }
+
+  const hasNextPublicSegments = collectPathSegments(env.NEXT_PUBLIC_BASE_PATH).length > 0;
+  if (!hasNextPublicSegments) {
+    env.NEXT_PUBLIC_BASE_PATH = normalizedBasePath;
+  }
 }
 
 function detectDefaultBranch(): string | undefined {
@@ -470,10 +492,7 @@ function ensureOut404HasRedirectTemplate(outDir: string): void {
 }
 
 export function main(): void {
-  if (isProductionEnvironment(process.env.NODE_ENV)) {
-    process.env.BASE_PATH = PRODUCTION_BASE_PATH_SLUG;
-    process.env.NEXT_PUBLIC_BASE_PATH = PRODUCTION_NEXT_PUBLIC_BASE_PATH;
-  }
+  applyProductionBasePathDefaults(process.env);
 
   const requestedPublish = shouldPublishSite(process.env);
   const publish =
