@@ -21,12 +21,27 @@ const { GITHUB_PAGES, SKIP_PREVIEW_STATIC } = readServerEnv();
 
 const SKIP_PREVIEW_RENDER =
   GITHUB_PAGES === "true" || SKIP_PREVIEW_STATIC === "true";
+const STATIC_PREVIEW_ROUTES_ENABLED = !SKIP_PREVIEW_RENDER;
 
 export const dynamic = "force-static";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return getGalleryPreviewRoutes().map((route) => ({ slug: route.slug }));
+  const previewRoutes = getGalleryPreviewRoutes();
+
+  if (!STATIC_PREVIEW_ROUTES_ENABLED) {
+    const canonicalRouteByEntry = new Map<string, string>();
+
+    for (const route of previewRoutes) {
+      if (!canonicalRouteByEntry.has(route.entryId)) {
+        canonicalRouteByEntry.set(route.entryId, route.slug);
+      }
+    }
+
+    return Array.from(canonicalRouteByEntry.values()).map((slug) => ({ slug }));
+  }
+
+  return previewRoutes.map((route) => ({ slug: route.slug }));
 }
 
 interface PreviewPageParams {

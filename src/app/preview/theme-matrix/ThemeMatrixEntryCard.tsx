@@ -9,6 +9,7 @@ import {
 } from "@/components/ui";
 import { VARIANTS, type Variant } from "@/lib/theme";
 import { cn, withBasePath } from "@/lib/utils";
+import { readServerEnv } from "@env";
 
 import type { ThemeMatrixEntry, ThemeMatrixVariantPreview } from "./types";
 
@@ -32,6 +33,10 @@ const PREVIEW_HEIGHT_VARIABLE =
   "[--theme-matrix-preview-min-h:calc(var(--space-8) * 5 + var(--space-4))]";
 const PREVIEW_MIN_HEIGHT_CLASS =
   "min-h-[var(--theme-matrix-preview-min-h)]";
+
+const { GITHUB_PAGES, SKIP_PREVIEW_STATIC } = readServerEnv();
+const PREVIEW_EMBEDS_SUPPORTED =
+  GITHUB_PAGES !== "true" && SKIP_PREVIEW_STATIC !== "true";
 
 function getBackgroundLabel(background: number): string {
   return BACKGROUND_LABELS[background] ?? `Background ${background}`;
@@ -96,9 +101,11 @@ function ThemeMatrixPreviewFrame({
 function ThemeMatrixMissingPreview({
   variantLabel,
   backgroundLabel,
+  message,
 }: {
   readonly variantLabel: string;
   readonly backgroundLabel: string;
+  readonly message?: string;
 }) {
   return (
     <div
@@ -109,7 +116,7 @@ function ThemeMatrixMissingPreview({
       )}
     >
       <p className="max-w-[30ch]">
-        Missing preview for the {variantLabel} theme ({backgroundLabel}).
+        {message ?? `Missing preview for the ${variantLabel} theme (${backgroundLabel}).`}
       </p>
     </div>
   );
@@ -129,10 +136,14 @@ function ThemeMatrixVariantGridCell({
   readonly background: number;
 }) {
   const backgroundLabel = getBackgroundLabel(background);
+  const previewAvailable = PREVIEW_EMBEDS_SUPPORTED && preview !== null;
+  const fallbackMessage = PREVIEW_EMBEDS_SUPPORTED
+    ? undefined
+    : "Preview embeds are disabled in the static export. Clone the repository to explore this theme locally.";
 
   return (
     <div className="space-y-[var(--space-3)]" role="gridcell">
-      {preview ? (
+      {previewAvailable && preview ? (
         <ThemeMatrixPreviewFrame
           entryName={entryName}
           stateName={stateName}
@@ -143,6 +154,7 @@ function ThemeMatrixVariantGridCell({
         <ThemeMatrixMissingPreview
           variantLabel={variantLabel}
           backgroundLabel={backgroundLabel}
+          message={fallbackMessage}
         />
       )}
     </div>
