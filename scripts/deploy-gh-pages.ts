@@ -342,7 +342,7 @@ const ROOT_PRESERVE_ENTRIES = new Set(["404.html", ".nojekyll", "CNAME"]);
 
 function createRootRedirectHtml(slug: string): string {
   const normalizedSlug = slug.replace(/^\/+|\/+$/gu, "");
-  const targetPath = normalizedSlug.length > 0 ? `/${normalizedSlug}/` : "/";
+  const targetPath = normalizedSlug.length > 0 ? `./${normalizedSlug}/` : "./";
 
   return [
     "<!DOCTYPE html>",
