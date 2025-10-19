@@ -25,6 +25,16 @@ export type FieldNamingResult = {
   name: string;
 };
 
+function normalizeGeneratedId(id: string): string {
+  if (typeof id !== "string" || id.length === 0) {
+    return id;
+  }
+
+  const replacedColons = id.replace(/:/g, "_");
+
+  return replacedColons.replace(/([a-zA-Z])(\d)/g, "$1_$2");
+}
+
 export default function useFieldNaming(
   options: FieldNamingOptions = {},
 ): FieldNamingResult {
@@ -36,7 +46,7 @@ export default function useFieldNaming(
     slugifyFallback = false,
   } = options;
 
-  const generatedId = React.useId();
+  const generatedId = normalizeGeneratedId(React.useId());
   const finalId = id ?? generatedId;
 
   const fromAria = slugify(ariaLabel);
