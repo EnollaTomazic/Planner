@@ -5,16 +5,13 @@ import * as React from "react";
 import { PageShell } from "@/components/ui";
 import { Tabs, TabList, TabPanel, type TabListItem } from "@/components/ui/primitives/Tabs";
 import { usePersistentState } from "@/lib/db";
+import { ChatPromptsTab } from "./ChatPromptsTab";
 import { PromptsHeader } from "./PromptsHeader";
 import type { Persona, PromptWithTitle } from "./types";
 import { useChatPrompts } from "./useChatPrompts";
 import { useCodexPrompts } from "./useCodexPrompts";
 import { useNotes } from "./useNotes";
 import { usePersonas } from "./usePersonas";
-
-const ChatPromptsTab = React.lazy(async () => ({
-  default: (await import("./ChatPromptsTab")).ChatPromptsTab,
-}));
 
 const CodexPromptsTab = React.lazy(async () => ({
   default: (await import("./CodexPromptsTab")).CodexPromptsTab,
@@ -156,16 +153,14 @@ export function PromptsPage() {
           />
 
           <TabPanel value="chat" className="pb-[var(--space-8)]">
-            <React.Suspense fallback={<TabFallback>Loading ChatGPT workspace…</TabFallback>}>
-              <ChatTabPanel
-                prompts={chatFiltered}
-                query={chatQuery}
-                personas={personas}
-                savePrompt={saveChatPrompt}
-                saveRef={chatSaveRef}
-                onCanSaveChange={setChatCanSave}
-              />
-            </React.Suspense>
+            <ChatTabPanel
+              prompts={chatFiltered}
+              query={chatQuery}
+              personas={personas}
+              savePrompt={saveChatPrompt}
+              saveRef={chatSaveRef}
+              onCanSaveChange={setChatCanSave}
+            />
           </TabPanel>
 
           <TabPanel value="codex" className="pb-[var(--space-8)]">
