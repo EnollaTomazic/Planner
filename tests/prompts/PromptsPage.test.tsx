@@ -35,6 +35,10 @@ describe("PromptsPage", () => {
     const textArea = screen.getByLabelText("Prompt");
     const saveButton = screen.getByRole("button", { name: "Save" });
 
+    const titleLabel = document.querySelector(`label[for="${titleInput.id}"]`);
+    expect(titleLabel).not.toBeNull();
+    expect(titleLabel?.textContent).toBe("Title");
+
     fireEvent.change(titleInput, { target: { value: "First" } });
     fireEvent.change(textArea, { target: { value: "one" } });
     fireEvent.click(saveButton);
