@@ -3,9 +3,18 @@
 import * as React from "react";
 import { uid, usePersistentState } from "@/lib/db";
 
-export type Domain = "Life" | "League" | "Learn";
+const DOMAIN_VALUES = ["Life", "League", "Learn"] as const;
+export type Domain = (typeof DOMAIN_VALUES)[number];
 export type Source = "MLA" | "BLA" | "BrokenByConcept" | "Custom";
-export type Group = "quick" | "pregame" | "laning" | "trading" | "tempo" | "review";
+const GROUP_VALUES = [
+  "quick",
+  "pregame",
+  "laning",
+  "trading",
+  "tempo",
+  "review",
+] as const;
+export type Group = (typeof GROUP_VALUES)[number];
 
 export type Reminder = {
   id: string;
@@ -147,6 +156,32 @@ const SOURCE_TABS = SOURCE_FILTERS.map((s) => ({
 
 const normalizeTitle = (value: string) => value.trim().toLowerCase();
 
+function isDomain(value: unknown): value is Domain {
+  return typeof value === "string" && DOMAIN_VALUES.includes(value as Domain);
+}
+
+function isGroup(value: unknown): value is Group {
+  return typeof value === "string" && GROUP_VALUES.includes(value as Group);
+}
+
+function isSourceFilter(value: unknown): value is SourceFilter {
+  return (
+    typeof value === "string" && SOURCE_FILTERS.includes(value as SourceFilter)
+  );
+}
+
+function useSanitizedPersistence<T>(
+  sanitizedRef: React.MutableRefObject<boolean>,
+  state: T,
+  setState: React.Dispatch<React.SetStateAction<T>>,
+): void {
+  React.useEffect(() => {
+    if (!sanitizedRef.current) return;
+    sanitizedRef.current = false;
+    setState(state);
+  }, [state, setState, sanitizedRef]);
+}
+
 function makeUniqueTitle(base: string, reminders: Reminder[]) {
   let suffix = 2;
   let candidate = `${base} (${suffix})`;
@@ -217,18 +252,45 @@ function useRemindersState(): RemindersContextValue {
   const [items, setItems] = usePersistentState<Reminder[]>(STORE_KEY, SEEDS);
   const [query, setQuery] = React.useState("");
   const [onlyPinned, setOnlyPinned] = React.useState(false);
+  const domainSanitizedRef = React.useRef(false);
+  const groupSanitizedRef = React.useRef(false);
+  const sourceSanitizedRef = React.useRef(false);
+  const decodeDomain = React.useCallback((value: unknown): Domain | null => {
+    if (isDomain(value)) return value;
+    domainSanitizedRef.current = true;
+    return null;
+  }, []);
   const [domain, setDomain] = usePersistentState<Domain>(
     "goals.reminders.domain.v2",
     "League",
+    { decode: decodeDomain },
   );
+  const decodeGroup = React.useCallback((value: unknown): Group | null => {
+    if (isGroup(value)) return value;
+    groupSanitizedRef.current = true;
+    return null;
+  }, []);
   const [group, setGroup] = usePersistentState<Group>(
     "goals.reminders.group.v1",
     "quick",
+    { decode: decodeGroup },
+  );
+  const decodeSourceFilter = React.useCallback(
+    (value: unknown): SourceFilter | null => {
+      if (isSourceFilter(value)) return value;
+      sourceSanitizedRef.current = true;
+      return null;
+    },
+    [],
   );
   const [source, setSource] = usePersistentState<SourceFilter>(
     "goals.reminders.source.v1",
     "all",
+    { decode: decodeSourceFilter },
   );
+  useSanitizedPersistence(domainSanitizedRef, domain, setDomain);
+  useSanitizedPersistence(groupSanitizedRef, group, setGroup);
+  useSanitizedPersistence(sourceSanitizedRef, source, setSource);
   const [quickAdd, setQuickAdd] = React.useState("");
   const [quickAddError, setQuickAddErrorState] = React.useState<string | null>(null);
   const [showFilters, setShowFilters] = React.useState(false);
