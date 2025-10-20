@@ -183,6 +183,9 @@ export function PlannerFab() {
   const [mode, setMode] = React.useState<Mode>("task");
   const [inputValue, setInputValue] = React.useState("");
   const [selectedProjectId, setSelectedProjectId] = React.useState<string>("");
+  const [selectedProjectIso, setSelectedProjectIso] = React.useState<ISODate | null>(
+    null,
+  );
   const [error, setError] = React.useState<string | null>(null);
   const [assistantPlan, setAssistantPlan] = React.useState<PlannerAssistantPlan | null>(null);
   const [assistantError, setAssistantError] = React.useState<string | null>(null);
@@ -209,9 +212,38 @@ export function PlannerFab() {
     [parsed.event.startDate, focus],
   );
 
+  const activeIso = React.useMemo<ISODate>(
+    () =>
+      parsed.event.startDate
+        ? parsed.event.startDate
+        : selectedProjectIso ?? (open ? targetIso : focus),
+    [focus, open, parsed.event.startDate, selectedProjectIso, targetIso],
+  );
+
   const targetDay = getDay(targetIso);
   const projects = targetDay.projects;
   const focusProjects = getDay(focus).projects;
+  const activeProjects =
+    activeIso === targetIso
+      ? projects
+      : activeIso === focus
+        ? focusProjects
+        : getDay(activeIso).projects;
+
+  const updateSelectedProject = React.useCallback(
+    (projectId: string, iso: ISODate | null) => {
+      setSelectedProjectId(projectId);
+      setSelectedProjectIso(projectId ? iso : null);
+    },
+    [],
+  );
+
+  const handleProjectSelect = React.useCallback(
+    (projectId: string) => {
+      updateSelectedProject(projectId, projectId ? activeIso : null);
+    },
+    [activeIso, updateSelectedProject],
+  );
 
   React.useEffect(() => {
     if (!open) return;
@@ -237,13 +269,35 @@ export function PlannerFab() {
 
   React.useEffect(() => {
     if (mode !== "task") return;
-    if (projects.some((project) => project.id === selectedProjectId)) return;
-    if (focusProjects.some((project) => project.id === selectedProjectId)) return;
-    const fallback = projects[0]?.id ?? focusProjects[0]?.id ?? "";
-    if (fallback !== selectedProjectId) {
-      setSelectedProjectId(fallback);
+
+    const hasSelectedProject = selectedProjectId
+      ? activeProjects.some((project) => project.id === selectedProjectId)
+      : false;
+
+    if (hasSelectedProject) return;
+
+    if (activeProjects.length > 0) {
+      const fallbackProjectId = activeProjects[0]?.id ?? "";
+      if (fallbackProjectId === selectedProjectId) return;
+      updateSelectedProject(fallbackProjectId, fallbackProjectId ? activeIso : null);
+      return;
     }
-  }, [focusProjects, mode, projects, selectedProjectId]);
+
+    if (activeIso !== focus) {
+      const fallbackFocusProjectId = focusProjects[0]?.id ?? "";
+      if (fallbackFocusProjectId && fallbackFocusProjectId !== selectedProjectId) {
+        updateSelectedProject(fallbackFocusProjectId, focus);
+      }
+    }
+  }, [
+    activeIso,
+    activeProjects,
+    focus,
+    focusProjects,
+    mode,
+    selectedProjectId,
+    updateSelectedProject,
+  ]);
 
   React.useEffect(() => {
     if (inputValue.trim()) {
@@ -295,7 +349,8 @@ export function PlannerFab() {
         setError("Describe what you want to plan");
         return;
       }
-      const iso = isoOverride ?? parsed.event.startDate ?? focus;
+      const iso =
+        isoOverride ?? parsed.event.startDate ?? selectedProjectIso ?? focus;
       if (!iso) {
         setError("Unable to determine a target date");
         return;
@@ -332,8 +387,8 @@ export function PlannerFab() {
         setError("Create a project for this day first");
         return;
       }
-      if (projectId !== selectedProjectId) {
-        setSelectedProjectId(projectId);
+      if (projectId !== selectedProjectId || iso !== selectedProjectIso) {
+        updateSelectedProject(projectId, iso);
       }
       const createdTaskId = createTask({ iso, projectId, title: trimmed });
       if (!createdTaskId) {
@@ -363,6 +418,8 @@ export function PlannerFab() {
       parsed.event.title,
       parsed.intent,
       selectedProjectId,
+      selectedProjectIso,
+      updateSelectedProject,
       upsertDay,
     ],
   );
@@ -453,11 +510,11 @@ export function PlannerFab() {
 
   const projectItems = React.useMemo(
     () =>
-      projects.map((project) => ({
+      activeProjects.map((project) => ({
         value: project.id,
         label: project.name,
       })),
-    [projects],
+    [activeProjects],
   );
 
   const hasRecurringSuggestions =
@@ -543,13 +600,13 @@ export function PlannerFab() {
           {mode === "task" && (
             <div className="space-y-[var(--space-3)]">
               <Label htmlFor={`${titleId}-project`} className="text-label font-medium text-muted-foreground">
-                Select a project for {toISODate(targetIso)}
+                Select a project for {toISODate(activeIso)}
               </Label>
               <Select
                 id={`${titleId}-project`}
                 items={projectItems}
                 value={selectedProjectId}
-                onChange={setSelectedProjectId}
+                onChange={handleProjectSelect}
                 placeholder={projectItems.length ? undefined : "No projects available"}
                 disabled={!projectItems.length}
                 size="md"
