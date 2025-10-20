@@ -192,16 +192,17 @@ const AIExplainTooltip = React.forwardRef<HTMLDivElement, AIExplainTooltipProps>
           data-state={isOpen ? "open" : "closed"}
           aria-hidden={isOpen ? undefined : "true"}
           className={cn(
-            "pointer-events-none absolute z-10 mt-[var(--space-2)] min-w-[min(22rem,calc(100vw-2rem))] rounded-card border p-[var(--space-3)] text-left shadow-[var(--shadow-outline-subtle)] transition-opacity duration-200 ease-out",
+            "pointer-events-none absolute z-10 mt-[var(--space-2)] min-w-[min(22rem,calc(100vw-2rem))] rounded-card border p-[var(--space-3)] text-left shadow-[var(--shadow-outline-subtle)] opacity-0 -translate-y-[var(--space-1)] transition-[opacity,transform] duration-motion-sm ease-out motion-reduce:transition-none motion-reduce:transform-none data-[state=open]:opacity-100 data-[state=open]:translate-y-0",
             toneBackground[tone],
             alignClassNames[alignment],
-            isOpen ? "opacity-100" : "opacity-0",
           )}
         >
-          <p className="text-label font-medium leading-snug">{explanation}</p>
-          {shortcutHint ? (
-            <p className="pt-[var(--space-1-5)] text-caption opacity-80">{shortcutHint}</p>
-          ) : null}
+          <div className="flex flex-col gap-[var(--space-1-5)]">
+            <p className="text-label font-medium leading-snug">{explanation}</p>
+            {shortcutHint ? (
+              <p className="text-caption opacity-80">{shortcutHint}</p>
+            ) : null}
+          </div>
         </div>
       </div>
     );

@@ -100,5 +100,19 @@
 }
 
 .statusText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
   font: inherit;
+  text-align: left;
+}
+
+.statusLabel {
+  color: hsl(var(--foreground));
+  font-weight: 600;
+}
+
+.statusSupplemental {
+  color: inherit;
 }
