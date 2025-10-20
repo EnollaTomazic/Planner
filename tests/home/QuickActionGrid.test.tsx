@@ -82,4 +82,28 @@ describe("QuickActionGrid", () => {
     expect(hashLink).toBeInstanceOf(HTMLAnchorElement);
     expect(hashLink).toHaveAttribute("href", "#hash-action");
   });
+
+  it("supports direct button actions when asChild is false", () => {
+    const handleClick = vi.fn();
+    render(
+      <QuickActionGrid
+        actions={[
+          {
+            id: "direct-action",
+            asChild: false,
+            label: "Trigger sync",
+            buttonProps: {
+              onClick: handleClick,
+              type: "button",
+            },
+          },
+        ]}
+      />,
+    );
+
+    const actionButton = screen.getByRole("button", { name: "Trigger sync" });
+    fireEvent.click(actionButton);
+
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
 });
