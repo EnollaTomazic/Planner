@@ -55,8 +55,11 @@ import { useReminders, type Domain } from "./reminders/useReminders";
 /* ---------- Types & constants ---------- */
 type Tab = "goals" | "reminders" | "timer";
 
-const isTabValue = (value: string | null): value is Tab =>
+const isTabValue = (value: unknown): value is Tab =>
   value === "goals" || value === "reminders" || value === "timer";
+
+const isFilterKey = (value: unknown): value is FilterKey =>
+  value === "All" || value === "Active" || value === "Done";
 
 const TABS: HeaderTab<Tab>[] = [
   {
@@ -124,11 +127,16 @@ export function GoalsPage() {
 
 function GoalsPageContent() {
   const searchParams = useSearchParams();
-  const [tab, setTab] = usePersistentState<Tab>("goals.tab.v2", "goals");
+  const [tab, setTab] = usePersistentState<Tab>("goals.tab.v2", "goals", {
+    decode: (value) => (isTabValue(value) ? value : null),
+  });
 
   const [filter, setFilter] = usePersistentState<FilterKey>(
     "goals.filter.v1",
     "All",
+    {
+      decode: (value) => (isFilterKey(value) ? value : null),
+    },
   );
   const [shouldFocusGoalForm, setShouldFocusGoalForm] = React.useState(false);
   const [intentApplied, setIntentApplied] = React.useState(false);
@@ -213,16 +221,44 @@ function GoalsPageContent() {
 
   const tabParam = searchParams?.get("tab") ?? null;
   React.useEffect(() => {
-    if (!isTabValue(tabParam)) {
+    if (tabParam === null) return;
+
+    if (isTabValue(tabParam)) {
+      if (tabParam !== tab) {
+        setTab(tabParam);
+      }
       return;
     }
-    if (tabParam !== tab) {
-      setTab(tabParam);
+
+    if (tab !== "goals") {
+      setTab("goals");
     }
   }, [tabParam, tab, setTab]);
 
+  const filterParam = searchParams?.get("filter") ?? null;
+  React.useEffect(() => {
+    if (filterParam === null) return;
+
+    if (isFilterKey(filterParam)) {
+      if (filterParam !== filter) {
+        setFilter(filterParam);
+      }
+      return;
+    }
+
+    if (filter !== "All") {
+      setFilter("All");
+    }
+  }, [filterParam, filter, setFilter]);
+
   const handleTabChange = React.useCallback(
-    (v: string) => setTab(v as Tab),
+    (value: string) => {
+      if (isTabValue(value)) {
+        setTab(value);
+        return;
+      }
+      setTab("goals");
+    },
     [setTab],
   );
 
