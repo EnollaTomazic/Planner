@@ -71,6 +71,12 @@ export function DashboardList<T>({
 }: DashboardListProps<T>): React.ReactElement {
   const hasItems = items.length > 0;
   const missingKeyWarnedRef = React.useRef(false);
+  const ctaHref =
+    cta != null
+      ? withBasePath(cta.href, {
+          trailingSlash: false,
+        })
+      : undefined;
 
   return (
     <ul
@@ -120,9 +126,9 @@ export function DashboardList<T>({
                 <CircleSlash aria-hidden className={EMPTY_ICON_SIZE} />
                 {empty}
               </span>
-              {cta ? (
+              {cta && ctaHref ? (
                 <Link
-                  href={withBasePath(cta.href, { trailingSlash: false })}
+                  href={ctaHref}
                   className="inline-flex items-center text-label font-medium text-accent-3 underline underline-offset-4 transition-colors hover:text-on-accent active:text-on-accent active:bg-interaction-accent-tintActive focus-visible:outline-none focus-visible:ring-[var(--ring-size-1)] focus-visible:ring-offset-0 ring-[var(--theme-ring)] motion-reduce:transition-none"
                 >
                   {cta.label}
