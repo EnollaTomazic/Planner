@@ -97,7 +97,7 @@ describe("GoalsCard", () => {
     render(<GoalsCard />);
 
     const manageGoalsLink = screen.getByRole("link", { name: "Manage Goals" });
-    expect(manageGoalsLink).toHaveAttribute("href", "/goals/");
+    expect(manageGoalsLink).toHaveAttribute("href", "/goals");
 
     const completedProgress = screen.getByRole("progressbar", {
       name: "Wrap onboarding complete",
@@ -160,7 +160,7 @@ describe("GoalsCard", () => {
 
     expect(screen.getByText("No active goals")).toBeInTheDocument();
     const manageGoalsLink = screen.getByRole("link", { name: "Manage Goals" });
-    expect(manageGoalsLink).toHaveAttribute("href", "/goals/");
+    expect(manageGoalsLink).toHaveAttribute("href", "/goals");
   });
 });
 
