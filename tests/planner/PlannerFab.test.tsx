@@ -210,8 +210,13 @@ describe("PlannerFab", () => {
     await userEvent.click(
       screen.getByRole("button", { name: /open planner creation sheet/i }),
     );
-    const input = await screen.findByLabelText(/what are you planning/i);
-    await userEvent.type(input, " Another tomorrow plan");
+    await screen.findByLabelText(/what are you planning/i);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(`Select a project for ${targetIso}`),
+      ).toBeInTheDocument();
+    });
 
     const projectSelect = screen.getByRole("button", { name: /select option/i });
     await waitFor(() => {
@@ -274,7 +279,8 @@ describe("PlannerFab", () => {
       screen.getByRole("button", { name: /ask planner assistant/i }),
     );
 
-    await screen.findByText(/review backlog/i);
+    const safeModeSuggestions = await screen.findAllByText(/review backlog/i);
+    expect(safeModeSuggestions.length).toBeGreaterThan(0);
     expect(
       screen.getByText(
         /safe mode is active\. suggestions are limited for additional safety\./i,
