@@ -11,19 +11,25 @@
       <p>This route falls back to the Planner single-page app.</p>
       <p>
         If the redirect does not start automatically,
-        <a id="pages-redirect-link" href="Planner/index.html">return to Planner</a>.
+        <a id="pages-redirect-link" href="/Planner/index.html">return to Planner</a>.
       </p>
     </main>
     <script>
       (function () {
         var BASE_PLACEHOLDER_SENTINEL = "__" + "BASE_PATH__";
-        var basePlaceholder = "Planner";
+        var basePlaceholder = "/Planner";
         var basePath = basePlaceholder;
         if (!basePath || basePath === BASE_PLACEHOLDER_SENTINEL) {
           basePath = "";
         } else {
           var trimmedBasePath = basePath.trim();
-          basePath = trimmedBasePath === "" ? "" : trimmedBasePath.replace(/^\/+|\/+$/g, "");
+          basePath = trimmedBasePath === "" ? "" : trimmedBasePath;
+        }
+        if (basePath && basePath !== "/") {
+          basePath = "/" + basePath.replace(/^\/+|\/+$/g, "");
+        }
+        if (basePath === "/") {
+          basePath = "";
         }
         var storagePlaceholder = "noxis-planner:v1:gh-pages:redirect";
         var defaultStorageKey = "noxis-planner:v1:gh-pages:redirect";
@@ -34,7 +40,7 @@
           storageKey = storageKey.trim() || defaultStorageKey;
         }
 
-        var target = (basePath ? basePath + "/" : "") + "index.html";
+        var target = (basePath || "") + "/index.html";
         var search = window.location.search || "";
         var hash = window.location.hash || "";
         var originalLocation = window.location.pathname + search + hash;
