@@ -8,9 +8,9 @@ import { IsometricRoom } from "./IsometricRoom";
 import { PlannerOverview } from "./home-landing/PlannerOverview";
 import type { PlannerOverviewProps } from "./home-landing";
 import { QuickActions } from "./QuickActions";
-import { ReviewsCard } from "./ReviewsCard";
 import { TeamPromptsCard } from "./TeamPromptsCard";
 import { TodayCard } from "./TodayCard";
+import { DashboardList } from "./DashboardList";
 import { Button } from "@/components/ui";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import type { Variant } from "@/lib/theme";
@@ -34,11 +34,10 @@ export interface HeroPlannerCardsProps {
 const HeroPlannerCards = React.memo(function HeroPlannerCards({
   variant,
   plannerOverviewProps,
-  highlights: _highlights,
+  highlights,
   className,
 }: HeroPlannerCardsProps) {
   const { activity } = plannerOverviewProps;
-  void _highlights;
 
   const activityColumnClass = activity.hasData || activity.loading
     ? "col-span-full md:col-span-6 lg:col-span-4"
@@ -90,7 +89,22 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
           </div>
           <div className={styles.section}>
             <p className={styles.sectionHeading}>Highlights</p>
-            <ReviewsCard />
+            <DashboardList
+              items={highlights}
+              getKey={(highlight) => highlight.id}
+              className={styles.highlightList}
+              itemClassName={styles.highlightListItem}
+              empty="No highlights"
+              renderItem={(highlight) => (
+                <article className={styles.highlightEntry}>
+                  <header className={styles.highlightHeader}>
+                    <p className={styles.highlightTitle}>{highlight.title}</p>
+                    <p className={styles.highlightSchedule}>{highlight.schedule}</p>
+                  </header>
+                  <p className={styles.highlightSummary}>{highlight.summary}</p>
+                </article>
+              )}
+            />
           </div>
           <div className={cn(styles.section, activityColumnClass)}>
             <p className={styles.sectionHeading}>Activity trace</p>
