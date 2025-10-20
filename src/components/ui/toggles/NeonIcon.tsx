@@ -37,6 +37,15 @@ const TONE_SET = new Set<NeonIconTone>([
   "info",
 ]);
 
+const ICON_SIZE_VARS: Record<NeonIconSize, string> = {
+  xs: "var(--icon-size-xs)",
+  sm: "var(--icon-size-sm)",
+  md: "var(--icon-size-md)",
+  lg: "var(--icon-size-lg)",
+  xl: "var(--icon-size-xl)",
+  "2xl": "var(--icon-size-2xl)",
+};
+
 const toTone = (tone?: NeonIconTone, colorVar?: string): NeonIconTone => {
   if (tone && TONE_SET.has(tone)) return tone;
   if (colorVar) {
@@ -92,6 +101,7 @@ export function NeonIcon({
       data-phase={phase}
       data-size={size}
       data-tone={toneAttr}
+      style={{ width: ICON_SIZE_VARS[size], height: ICON_SIZE_VARS[size] }}
       aria-hidden
       title={title}
     >

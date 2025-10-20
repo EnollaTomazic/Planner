@@ -1,5 +1,5 @@
 import * as React from "react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
@@ -102,6 +102,29 @@ describe("accessibility helpers", () => {
 
     rerender(<FieldProbe ariaInvalid={undefined} />);
     expect(screen.getByTestId("invalid-flag")).toHaveTextContent("false");
+  });
+
+  it("normalizes generated ids that contain colon delimiters", () => {
+    const useIdSpy = vi.spyOn(React, "useId").mockReturnValue(":r12:");
+
+    function GeneratedIdProbe() {
+      const { id, name } = useFieldIds(
+        "Username",
+        undefined,
+        undefined,
+        { ariaLabelStrategy: "custom-id" },
+      );
+      return <input data-testid="probe" id={id} name={name} aria-label="Username" />;
+    }
+
+    try {
+      const { getByTestId } = render(<GeneratedIdProbe />);
+      const field = getByTestId("probe") as HTMLInputElement;
+      expect(field.id).toBe("_r_12_");
+      expect(field.name).toBe("_r_12_");
+    } finally {
+      useIdSpy.mockRestore();
+    }
   });
 });
 

@@ -33,17 +33,38 @@ const isExternalHref = (href: string): boolean => {
 
 type QuickActionHref = LinkProps["href"];
 
-type QuickActionDefinition = {
+type QuickActionButtonProps = Omit<
+  Extract<ButtonProps, { asChild?: false; href?: undefined }>,
+  "tone" | "size" | "variant" | "className" | "children" | "asChild"
+>;
+
+type QuickActionButtonDefinition = {
+  id?: string;
+  tone?: ButtonProps["tone"];
+  asChild: false;
+  className?: string;
+  size?: ButtonProps["size"];
+  variant?: ButtonProps["variant"];
+  label?: React.ReactNode;
+  content?: React.ReactNode;
+  buttonProps?: QuickActionButtonProps;
+};
+
+type QuickActionLinkDefinition = {
   id?: string;
   href: QuickActionHref;
   label: React.ReactNode;
   tone?: ButtonProps["tone"];
-  asChild?: boolean;
+  asChild?: true;
   className?: string;
   size?: ButtonProps["size"];
   variant?: ButtonProps["variant"];
   linkProps?: Omit<React.ComponentProps<typeof Link>, "href" | "children">;
 };
+
+type QuickActionDefinition =
+  | QuickActionButtonDefinition
+  | QuickActionLinkDefinition;
 
 type QuickActionGridProps = {
   actions: QuickActionDefinition[];
@@ -71,23 +92,24 @@ export function QuickActionGrid({
       {actions.map((action, index) => {
         const {
           id,
-          href,
-          label,
           tone,
           asChild,
           className: actionClassName,
           size,
           variant,
-          linkProps,
         } = action;
-        void asChild;
+        const isAsChild = asChild !== false;
+        const href = "href" in action ? action.href : undefined;
+        const label = "label" in action ? action.label : undefined;
         const hrefIsString = typeof href === "string";
         const trimmedHref = hrefIsString ? href.trim() : "";
         const key =
           id ??
           (hrefIsString
             ? trimmedHref || `${index}`
-            : JSON.stringify(href)) ??
+            : href !== undefined
+              ? JSON.stringify(href)
+              : undefined) ??
           `${index}`;
         const resolvedTone = tone ?? buttonTone;
         const resolvedSize = size ?? buttonSize;
@@ -98,33 +120,6 @@ export function QuickActionGrid({
           buttonClassName,
           actionClassName,
         );
-        const isHash = hrefIsString && trimmedHref.startsWith("#");
-        const isExternal = hrefIsString && isExternalHref(trimmedHref);
-        const shouldPrefixBasePathForAnchor =
-          hrefIsString &&
-          trimmedHref.length > 0 &&
-          !isHash &&
-          !isExternal;
-        const anchorHref = shouldPrefixBasePathForAnchor
-          ? withBasePath(trimmedHref)
-          : hrefIsString && trimmedHref.length > 0
-            ? trimmedHref
-            : "#";
-        const linkHref: QuickActionHref = hrefIsString
-          ? withBasePath(trimmedHref)
-          : typeof href === "object" &&
-              href !== null &&
-              "pathname" in href &&
-              typeof href.pathname === "string"
-            ? { ...href, pathname: withBasePath(href.pathname) }
-            : href;
-        const {
-          className: _omitClassName,
-          target,
-          rel,
-          ...restLinkProps
-        } = linkProps ?? {};
-        void _omitClassName;
         const commonButtonProps = {
           tone: resolvedTone,
           size: resolvedSize,
@@ -134,34 +129,73 @@ export function QuickActionGrid({
           ButtonProps,
           "tone" | "size" | "variant" | "className"
         >;
-        const resolvedRel =
-          target === "_blank" && typeof rel === "undefined"
-            ? "noopener noreferrer"
-            : rel;
+        if (isAsChild && href !== undefined) {
+          const linkProps = "linkProps" in action ? action.linkProps : undefined;
+          const isHash = hrefIsString && trimmedHref.startsWith("#");
+          const isExternal = hrefIsString && isExternalHref(trimmedHref);
+          const shouldPrefixBasePathForAnchor =
+            hrefIsString &&
+            trimmedHref.length > 0 &&
+            !isHash &&
+            !isExternal;
+          const anchorHref = shouldPrefixBasePathForAnchor
+            ? withBasePath(trimmedHref)
+            : hrefIsString && trimmedHref.length > 0
+              ? trimmedHref
+              : "#";
+          const linkHref: QuickActionHref = hrefIsString
+            ? withBasePath(trimmedHref)
+            : typeof href === "object" &&
+                href !== null &&
+                "pathname" in href &&
+                typeof href.pathname === "string"
+              ? { ...href, pathname: withBasePath(href.pathname) }
+              : href;
+          const {
+            className: _omitClassName,
+            target,
+            rel,
+            ...restLinkProps
+          } = linkProps ?? {};
+          void _omitClassName;
+          const resolvedRel =
+            target === "_blank" && typeof rel === "undefined"
+              ? "noopener noreferrer"
+              : rel;
 
-        const childNode = isExternal || isHash ? (
-          <a
-            href={anchorHref}
-            target={target}
-            rel={resolvedRel}
-            {...(restLinkProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
-          >
-            {label}
-          </a>
-        ) : (
-          <Link
-            href={linkHref}
-            target={target}
-            rel={resolvedRel}
-            {...restLinkProps}
-          >
-            {label}
-          </Link>
-        );
+          const childNode = isExternal || isHash ? (
+            <a
+              href={anchorHref}
+              target={target}
+              rel={resolvedRel}
+              {...(restLinkProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+            >
+              {label}
+            </a>
+          ) : (
+            <Link
+              href={linkHref}
+              target={target}
+              rel={resolvedRel}
+              {...restLinkProps}
+            >
+              {label}
+            </Link>
+          );
+
+          return (
+            <Button key={key} {...commonButtonProps} asChild>
+              {childNode}
+            </Button>
+          );
+        }
+
+        const buttonAction = action as QuickActionButtonDefinition;
+        const { content, buttonProps } = buttonAction;
 
         return (
-          <Button key={key} {...commonButtonProps} asChild>
-            {childNode}
+          <Button key={key} {...commonButtonProps} {...buttonProps}>
+            {content ?? label}
           </Button>
         );
       })}
