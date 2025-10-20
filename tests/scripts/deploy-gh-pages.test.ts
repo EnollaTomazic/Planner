@@ -14,6 +14,7 @@ import {
   isUserOrOrgGitHubPagesRepository,
   parseGitHubRepository,
   resolvePublishBranch,
+  shouldRelocateBasePathDirectory,
 } from "../../scripts/deploy-gh-pages";
 import { GITHUB_PAGES_REDIRECT_STORAGE_KEY } from "@/lib/github-pages";
 
@@ -264,6 +265,44 @@ describe("injectGitHubPagesPlaceholders", () => {
     expect(
       fs.readFileSync(path.join(slugScriptDir, "github-pages-bootstrap.js"), "utf8"),
     ).toContain(`const key = '${GITHUB_PAGES_REDIRECT_STORAGE_KEY}';`);
+  });
+});
+
+describe("shouldRelocateBasePathDirectory", () => {
+  it("returns false when no base path is configured", () => {
+    expect(
+      shouldRelocateBasePathDirectory({
+        hasBasePath: false,
+        nestBasePathEnv: undefined,
+      }),
+    ).toBe(false);
+  });
+
+  it("returns false when relocation is not explicitly requested", () => {
+    expect(
+      shouldRelocateBasePathDirectory({
+        hasBasePath: true,
+        nestBasePathEnv: undefined,
+      }),
+    ).toBe(false);
+  });
+
+  it("returns false when relocation is disabled", () => {
+    expect(
+      shouldRelocateBasePathDirectory({
+        hasBasePath: true,
+        nestBasePathEnv: "false",
+      }),
+    ).toBe(false);
+  });
+
+  it("returns true when relocation is explicitly enabled", () => {
+    expect(
+      shouldRelocateBasePathDirectory({
+        hasBasePath: true,
+        nestBasePathEnv: "true",
+      }),
+    ).toBe(true);
   });
 });
 
