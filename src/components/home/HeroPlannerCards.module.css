@@ -77,6 +77,53 @@
   gap: var(--space-4);
 }
 
+.highlightList {
+  margin-top: var(--space-2);
+}
+
+.highlightList :global(li:first-child) {
+  padding-block-start: 0;
+}
+
+.highlightList :global(li:last-child) {
+  padding-block-end: 0;
+}
+
+.highlightListItem {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.highlightEntry {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.highlightHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.highlightTitle {
+  font-size: var(--font-title-sm);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: hsl(var(--foreground));
+}
+
+.highlightSchedule {
+  font-size: var(--font-label);
+  color: hsl(var(--muted-foreground));
+}
+
+.highlightSummary {
+  font-size: var(--font-small);
+  color: hsl(var(--muted-foreground));
+}
+
 @media (min-width: 48rem) {
   .widgetRow {
     grid-template-columns: repeat(12, minmax(0, 1fr));
