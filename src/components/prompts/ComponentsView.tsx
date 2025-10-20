@@ -124,8 +124,8 @@ export function ThemeMatrix({
   const [activeVariant, setActiveVariant] = React.useState<Variant>(
     baseTheme.variant,
   );
-  const headingId = React.useId();
-  const controlLabelId = React.useId();
+  const headingId = `${entryId}-themes-heading`;
+  const controlLabelId = `${entryId}-themes-control-label`;
   const buttonRefs = React.useRef(new Map<Variant, HTMLButtonElement>());
 
   const registerButton = React.useCallback(
@@ -344,12 +344,14 @@ function SectionHeading({
 }
 
 function PropsTable({
+  entryId,
   props,
 }: {
+  entryId: string;
   props: NonNullable<GallerySerializableEntry["props"]>;
 }) {
-  const headingId = React.useId();
-  const panelId = React.useId();
+  const headingId = `${entryId}-props-heading`;
+  const panelId = `${entryId}-props-panel`;
   const firstCellRef = React.useRef<HTMLTableCellElement>(null);
   const shouldCollapseByDefault =
     props.length > PROPS_DISCLOSURE_COLLAPSE_THRESHOLD;
@@ -455,8 +457,14 @@ function PropsTable({
   );
 }
 
-function VariantsMatrix({ axes }: { axes: readonly GalleryAxis[] }) {
-  const headingId = React.useId();
+function VariantsMatrix({
+  entryId,
+  axes,
+}: {
+  entryId: string;
+  axes: readonly GalleryAxis[];
+}) {
+  const headingId = `${entryId}-variants-heading`;
 
   if (axes.length === 0) {
     return null;
@@ -506,6 +514,7 @@ function VariantsMatrix({ axes }: { axes: readonly GalleryAxis[] }) {
 }
 
 interface IssuesSectionProps {
+  readonly entryId: string;
   readonly issues: readonly ComponentIssue[];
   readonly panelId: string;
   readonly badgeId: string;
@@ -514,13 +523,14 @@ interface IssuesSectionProps {
 }
 
 function IssuesSection({
+  entryId,
   issues,
   panelId,
   badgeId,
   expanded,
   onToggle,
 }: IssuesSectionProps) {
-  const headingId = React.useId();
+  const headingId = `${entryId}-issues-heading`;
   const issueCount = issues.length;
   const hasIssues = issueCount > 0;
   const labelledBy = `${headingId} ${badgeId}`;
@@ -638,8 +648,14 @@ function IssueCard({ issue }: IssueCardProps) {
 
 type UsageNotes = NonNullable<GallerySerializableEntry["usage"]>;
 
-function UsageSection({ notes }: { notes: UsageNotes }) {
-  const headingId = React.useId();
+function UsageSection({
+  entryId,
+  notes,
+}: {
+  entryId: string;
+  notes: UsageNotes;
+}) {
+  const headingId = `${entryId}-usage-heading`;
 
   if (notes.length === 0) {
     return null;
@@ -743,11 +759,13 @@ function SurfaceGroup({
 }
 
 function UsedOnSection({
+  entryId,
   surfaces,
 }: {
+  entryId: string;
   surfaces: readonly GalleryRelatedSurface[] | undefined;
 }) {
-  const headingId = React.useId();
+  const headingId = `${entryId}-used-on-heading`;
 
   const relatedSurfaces = React.useMemo(
     () => surfaces ?? [],
@@ -820,6 +838,7 @@ function UsedOnSection({
 }
 
 interface StatesSectionProps {
+  entryId: string;
   states: readonly GallerySerializableStateDefinition[];
   stateAxes: readonly GalleryAxis[];
   activeSnippet: string | null;
@@ -827,12 +846,13 @@ interface StatesSectionProps {
 }
 
 function StatesSection({
+  entryId,
   states,
   stateAxes,
   activeSnippet,
   onToggleState,
 }: StatesSectionProps) {
-  const headingId = React.useId();
+  const headingId = `${entryId}-states-heading`;
 
   if (states.length === 0 && stateAxes.length === 0) {
     return null;
@@ -877,6 +897,7 @@ function StatesSection({
             const key = `state:${state.id}`;
             return (
               <StatePreviewCard
+                entryId={entryId}
                 key={state.id}
                 state={state}
                 expanded={activeSnippet === key}
@@ -891,19 +912,21 @@ function StatesSection({
 }
 
 function StatePreviewCard({
+  entryId,
   state,
   expanded,
   onToggle,
 }: {
+  entryId: string;
   state: GallerySerializableStateDefinition;
   expanded: boolean;
   onToggle: () => void;
 }) {
-  const headingId = React.useId();
+  const headingId = `${entryId}-state-${state.id}`;
   const descriptionId = state.description
     ? `${headingId}-description`
     : undefined;
-  const codeId = React.useId();
+  const codeId = `${entryId}-state-${state.id}-code`;
 
   const previewRenderer = React.useMemo(
     () => getGalleryPreview(state.preview.id),
@@ -1105,6 +1128,7 @@ export function ComponentsView({
         ) : null}
       </header>
       <IssuesSection
+        entryId={entry.id}
         issues={issues}
         panelId={issuePanelId}
         badgeId={issueBadgeId}
@@ -1123,17 +1147,20 @@ export function ComponentsView({
         </pre>
       ) : null}
       {entry.props && entry.props.length > 0 ? (
-        <PropsTable props={entry.props} />
+        <PropsTable entryId={entry.id} props={entry.props} />
       ) : null}
-      {variantAxes.length > 0 ? <VariantsMatrix axes={variantAxes} /> : null}
+      {variantAxes.length > 0 ? (
+        <VariantsMatrix entryId={entry.id} axes={variantAxes} />
+      ) : null}
       <StatesSection
+        entryId={entry.id}
         states={states}
         stateAxes={stateAxes}
         activeSnippet={openSnippet}
         onToggleState={handleToggleStateCode}
       />
-      <UsedOnSection surfaces={entry.related?.surfaces} />
-      <UsageSection notes={usage} />
+      <UsedOnSection entryId={entry.id} surfaces={entry.related?.surfaces} />
+      <UsageSection entryId={entry.id} notes={usage} />
     </article>
   );
 }
