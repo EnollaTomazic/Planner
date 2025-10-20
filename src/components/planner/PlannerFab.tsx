@@ -372,8 +372,9 @@ export function PlannerFab() {
         ? selectedProjectId
         : dayProjects[0]?.id ?? "";
       if (!projectId && selectedProjectId) {
-        const focusProjects = getDay(focus).projects;
-        const sourceProject = focusProjects.find(
+        const sourceIso = selectedProjectIso ?? focus;
+        const sourceProjects = sourceIso ? getDay(sourceIso).projects : [];
+        const sourceProject = sourceProjects.find(
           (project) => project.id === selectedProjectId,
         );
         if (sourceProject) {
