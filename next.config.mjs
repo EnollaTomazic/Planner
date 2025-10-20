@@ -29,8 +29,6 @@ const normalizeBasePath = (rawValue) => {
 const resolvedBasePath =
   normalizeBasePath(process.env.BASE_PATH) ||
   normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH);
-const basePath = resolvedBasePath || (isProd ? "/Planner" : "");
-const assetPrefix = basePath ? `${basePath}/` : "";
 
 const normalizeOptionalBoolean = (value) => {
   if (value === undefined) {
@@ -49,6 +47,13 @@ const normalizeOptionalBoolean = (value) => {
 
   return undefined;
 };
+
+const defaultGitHubPagesBasePath = "/Planner";
+
+const isGitHubPages = normalizeOptionalBoolean(process.env.GITHUB_PAGES) ?? false;
+
+const basePath = resolvedBasePath || (isGitHubPages ? defaultGitHubPagesBasePath : "");
+const assetPrefix = basePath ? `${basePath}/` : "";
 
 const explicitExportStatic = normalizeOptionalBoolean(process.env.EXPORT_STATIC);
 const isExportStatic = explicitExportStatic ?? isProd;
