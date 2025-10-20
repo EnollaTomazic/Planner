@@ -8,7 +8,12 @@ import {
   type GalleryPreviewRoute,
 } from "@/components/gallery";
 import { PageShell } from "@/components/ui";
-import { VARIANT_LABELS, type Variant, type Background } from "@/lib/theme";
+import {
+  VARIANTS,
+  VARIANT_LABELS,
+  type Variant,
+  type Background,
+} from "@/lib/theme";
 
 import { ThemeMatrixEntryCard } from "./ThemeMatrixEntryCard";
 import type {
@@ -46,11 +51,26 @@ interface ThemeMatrixGroupBuilder {
   variants: Map<Variant, ThemeMatrixVariantBuilder>;
 }
 
+const VARIANT_ORDER = new Map<Variant, number>(
+  VARIANTS.map(({ id }, index) => [id, index] as const),
+);
+
 const toThemeMatrixGroup = (
   builder: ThemeMatrixGroupBuilder,
 ): ThemeMatrixGroup => {
   const variants: ThemeMatrixVariantGroup[] = [];
-  for (const variantBuilder of builder.variants.values()) {
+  const sortedVariantBuilders = Array.from(builder.variants.values()).sort(
+    (a, b) => {
+      const aOrder = VARIANT_ORDER.get(a.variant) ?? Number.MAX_SAFE_INTEGER;
+      const bOrder = VARIANT_ORDER.get(b.variant) ?? Number.MAX_SAFE_INTEGER;
+      if (aOrder !== bOrder) {
+        return aOrder - bOrder;
+      }
+      return a.variantLabel.localeCompare(b.variantLabel);
+    },
+  );
+
+  for (const variantBuilder of sortedVariantBuilders) {
     const previews = Array.from(variantBuilder.previews.values()).sort(
       (a, b) => {
         if (a.background !== b.background) {
@@ -179,14 +199,46 @@ for (const section of gallerySections) {
       seen.add(group.key);
     }
 
+    const remainingGroups: ThemeMatrixGroupBuilder[] = [];
+
     for (const group of previewGroupsByKey.values()) {
       if (group.entryId !== entry.id || seen.has(group.key)) {
         continue;
       }
 
-      groups.push(toThemeMatrixGroup(group));
+      remainingGroups.push(group);
       seen.add(group.key);
     }
+
+    remainingGroups
+      .sort((a, b) => {
+        const aState = a.stateName ?? "";
+        const bState = b.stateName ?? "";
+        if (aState && bState) {
+          const stateComparison = aState.localeCompare(bState);
+          if (stateComparison !== 0) {
+            return stateComparison;
+          }
+        } else if (aState || bState) {
+          return aState ? -1 : 1;
+        }
+
+        const aAxis = a.axisSummary ?? "";
+        const bAxis = b.axisSummary ?? "";
+        if (aAxis && bAxis) {
+          const axisComparison = aAxis.localeCompare(bAxis);
+          if (axisComparison !== 0) {
+            return axisComparison;
+          }
+        } else if (aAxis || bAxis) {
+          return aAxis ? -1 : 1;
+        }
+
+        return a.key.localeCompare(b.key);
+      })
+      .forEach((group) => {
+        groups.push(toThemeMatrixGroup(group));
+      });
 
     if (groups.length === 0) {
       continue;
