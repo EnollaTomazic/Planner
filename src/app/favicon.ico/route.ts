@@ -4,6 +4,7 @@ import {
 } from "@/lib/planner-icon"
 
 export const dynamic = "force-static"
+export const runtime = "edge"
 
 export function GET() {
   const response = createPlannerIconResponse()
