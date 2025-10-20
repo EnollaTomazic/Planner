@@ -270,33 +270,68 @@ export function PlannerFab() {
   React.useEffect(() => {
     if (mode !== "task") return;
 
-    const hasSelectedProject = selectedProjectId
-      ? activeProjects.some((project) => project.id === selectedProjectId)
-      : false;
+    const activeProject = selectedProjectId
+      ? activeProjects.find((project) => project.id === selectedProjectId)
+      : null;
 
-    if (hasSelectedProject) return;
-
-    if (activeProjects.length > 0) {
-      const fallbackProjectId = activeProjects[0]?.id ?? "";
-      if (fallbackProjectId === selectedProjectId) return;
-      updateSelectedProject(fallbackProjectId, fallbackProjectId ? activeIso : null);
+    if (activeProject) {
+      if (selectedProjectIso !== activeIso) {
+        updateSelectedProject(selectedProjectId, activeIso);
+      }
       return;
     }
 
-    if (activeIso !== focus) {
-      const fallbackFocusProjectId = focusProjects[0]?.id ?? "";
-      if (fallbackFocusProjectId && fallbackFocusProjectId !== selectedProjectId) {
-        updateSelectedProject(fallbackFocusProjectId, focus);
+    if (activeProjects.length > 0) {
+      const fallbackProjectId = activeProjects[0]?.id ?? "";
+      if (fallbackProjectId !== selectedProjectId) {
+        updateSelectedProject(fallbackProjectId, fallbackProjectId ? activeIso : null);
       }
+      return;
+    }
+
+    if (selectedProjectId) {
+      const sourceIso = selectedProjectIso ?? focus;
+      if (sourceIso !== activeIso) {
+        const sourceProjects = getDay(sourceIso).projects;
+        const sourceProject = sourceProjects.find(
+          (project) => project.id === selectedProjectId,
+        );
+
+        if (sourceProject) {
+          const currentProjects = getDay(activeIso).projects;
+          const matchingProject = currentProjects.find(
+            (project) => project.name === sourceProject.name,
+          );
+
+          if (matchingProject) {
+            if (matchingProject.id !== selectedProjectId) {
+              updateSelectedProject(matchingProject.id, activeIso);
+            }
+            return;
+          }
+
+          const clonedId = makeCrud(activeIso, upsertDay).addProject(
+            sourceProject.name,
+          );
+          if (clonedId) {
+            updateSelectedProject(clonedId, activeIso);
+            return;
+          }
+        }
+      }
+
+      updateSelectedProject("", null);
     }
   }, [
     activeIso,
     activeProjects,
     focus,
-    focusProjects,
+    getDay,
     mode,
     selectedProjectId,
+    selectedProjectIso,
     updateSelectedProject,
+    upsertDay,
   ]);
 
   React.useEffect(() => {

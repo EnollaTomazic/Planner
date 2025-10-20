@@ -90,16 +90,20 @@ exports[`AIConfidenceHint > formats scores and level metadata 1`] = `
 
 exports[`AIExplainTooltip > toggles open state via click 1`] = `
 <div
-  class="pointer-events-none absolute z-10 mt-[var(--space-2)] min-w-[min(22rem,calc(100vw-2rem))] rounded-card border p-[var(--space-3)] text-left shadow-[var(--shadow-outline-subtle)] transition-opacity duration-200 ease-out bg-[hsl(var(--accent-soft))] border-[hsl(var(--accent)/0.4)] text-[hsl(var(--accent-foreground))] left-0 opacity-100"
+  class="pointer-events-none absolute z-10 mt-[var(--space-2)] min-w-[min(22rem,calc(100vw-2rem))] rounded-card border p-[var(--space-3)] text-left shadow-[var(--shadow-outline-subtle)] opacity-0 -translate-y-[var(--space-1)] transition-[opacity,transform] duration-motion-sm ease-out motion-reduce:transition-none motion-reduce:transform-none data-[state=open]:opacity-100 data-[state=open]:translate-y-0 bg-[hsl(var(--accent-soft))] border-[hsl(var(--accent)/0.4)] text-[hsl(var(--accent-foreground))] left-0"
   data-state="open"
   id=":r0:"
   role="tooltip"
 >
-  <p
-    class="text-label font-medium leading-snug"
+  <div
+    class="flex flex-col gap-[var(--space-1-5)]"
   >
-    Confidence blends retrieval coverage, grounding matches, and the assistant's self-check heuristics.
-  </p>
+    <p
+      class="text-label font-medium leading-snug"
+    >
+      Confidence blends retrieval coverage, grounding matches, and the assistant's self-check heuristics.
+    </p>
+  </div>
 </div>
 `;
 

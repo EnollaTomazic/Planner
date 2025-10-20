@@ -12,10 +12,12 @@ type HomeSplashProps = {
 };
 
 const LOGO_SRC = withBasePath("/planner-logo.svg");
+const STATUS_LABEL = "Planner is loading";
 const STATUS_MESSAGE = "Preparing your planner…";
 
 export function HomeSplash({ active, onExited }: HomeSplashProps) {
   const statusHeadingId = React.useId();
+  const statusMessageId = React.useId();
   const exitNotifiedRef = React.useRef(false);
   const statusRef = React.useRef<HTMLDivElement | null>(null);
   const previousFocusRef = React.useRef<HTMLElement | null>(null);
@@ -100,6 +102,7 @@ export function HomeSplash({ active, onExited }: HomeSplashProps) {
       data-state={active ? "active" : "inactive"}
       role={active ? "status" : undefined}
       aria-live={active ? "polite" : undefined}
+      aria-labelledby={active ? statusHeadingId : undefined}
       aria-hidden={active ? undefined : true}
       data-home-splash=""
       onTransitionEnd={handleTransitionEnd}
@@ -107,9 +110,6 @@ export function HomeSplash({ active, onExited }: HomeSplashProps) {
       <PageShell className={styles.shell} aria-labelledby={statusHeadingId}>
         <SectionCard aria-labelledby={statusHeadingId}>
           <SectionCard.Body className={styles.cardBody}>
-            <span className="sr-only" id={statusHeadingId}>
-              Planner is loading
-            </span>
             <span className={styles.logoFrame} aria-hidden="true">
               <span className={cn("glitch", styles.logoMotion)}>
                 <Image
@@ -129,11 +129,23 @@ export function HomeSplash({ active, onExited }: HomeSplashProps) {
               ref={statusRef}
               className={cn(styles.status, "text-label")}
               aria-live="polite"
+              aria-labelledby={statusHeadingId}
+              aria-describedby={statusMessageId}
               tabIndex={-1}
               data-home-splash-status=""
             >
               <Spinner size="lg" tone="accent" />
-              <span className={styles.statusText}>{STATUS_MESSAGE}</span>
+              <span className={styles.statusText}>
+                <span className={styles.statusLabel} id={statusHeadingId}>
+                  {STATUS_LABEL}
+                </span>
+                <span
+                  className={styles.statusSupplemental}
+                  id={statusMessageId}
+                >
+                  {STATUS_MESSAGE}
+                </span>
+              </span>
             </div>
           </SectionCard.Body>
         </SectionCard>
