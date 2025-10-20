@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
 import { Input, Textarea, Label } from "@/components/ui";
+import { useFieldIds } from "@/lib/useFieldIds";
 import { Check as CheckIcon } from "lucide-react";
 
 interface PromptsComposePanelProps {
@@ -17,18 +17,20 @@ export function PromptsComposePanel({
   text,
   onTextChange,
 }: PromptsComposePanelProps) {
-  const titleId = React.useId();
-  const textId = React.useId();
+  const titleField = useFieldIds();
+  const textField = useFieldIds();
+  const titleHelpId = `${titleField.id}-help`;
   return (
     <div className="space-y-[var(--space-3)]">
       <div>
-        <Label htmlFor={titleId}>Title</Label>
+        <Label htmlFor={titleField.id}>Title</Label>
         <Input
-          id={titleId}
+          id={titleField.id}
+          name={titleField.name}
           placeholder="Title"
           value={title}
           onChange={(e) => onTitleChange(e.target.value)}
-          aria-describedby={`${titleId}-help`}
+          aria-describedby={titleHelpId}
         >
           <CheckIcon
             aria-hidden="true"
@@ -36,16 +38,17 @@ export function PromptsComposePanel({
           />
         </Input>
         <p
-          id={`${titleId}-help`}
+          id={titleHelpId}
           className="mt-[var(--space-1)] text-label text-muted-foreground"
         >
           Add a short title
         </p>
       </div>
       <div>
-        <Label htmlFor={textId}>Prompt</Label>
+        <Label htmlFor={textField.id}>Prompt</Label>
         <Textarea
-          id={textId}
+          id={textField.id}
+          name={textField.name}
           placeholder="Write your prompt or snippet…"
           value={text}
           onChange={(e) => onTextChange(e.target.value)}
