@@ -37,9 +37,12 @@ export const createContentSecurityPolicy = (options) => {
   const allowVercelFeedback = options?.allowVercelFeedback === true;
 
   const scriptSrc = ["'self'", "'unsafe-inline'"];
-  if (process.env.NODE_ENV !== "production") {
-    scriptSrc.push("'unsafe-eval'");
-  }
+  const evalRelaxations = ["'unsafe-eval'", "'wasm-unsafe-eval'"];
+  // Next.js bootstraps the client runtime with `new Function` (and a WASM fallback)
+  // even in production static exports. Without these allowances the bundle fails
+  // hydration when served behind our CSP, so we intentionally keep them enabled
+  // for the exported site as well.
+  scriptSrc.push(...evalRelaxations);
   const styleSrcBase = ["'self'", "'unsafe-inline'"];
   const styleSrc = [...styleSrcBase];
   const styleSrcElem = [...styleSrcBase];
