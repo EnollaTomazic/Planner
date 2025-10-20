@@ -17,6 +17,7 @@ const STATUS_MESSAGE = "Preparing your planner…";
 
 export function HomeSplash({ active, onExited }: HomeSplashProps) {
   const statusHeadingId = React.useId();
+  const statusMessageId = React.useId();
   const exitNotifiedRef = React.useRef(false);
   const statusRef = React.useRef<HTMLDivElement | null>(null);
   const previousFocusRef = React.useRef<HTMLElement | null>(null);
@@ -128,6 +129,8 @@ export function HomeSplash({ active, onExited }: HomeSplashProps) {
               ref={statusRef}
               className={cn(styles.status, "text-label")}
               aria-live="polite"
+              aria-labelledby={statusHeadingId}
+              aria-describedby={statusMessageId}
               tabIndex={-1}
               data-home-splash-status=""
             >
@@ -136,7 +139,10 @@ export function HomeSplash({ active, onExited }: HomeSplashProps) {
                 <span className={styles.statusLabel} id={statusHeadingId}>
                   {STATUS_LABEL}
                 </span>
-                <span aria-hidden className={styles.statusSupplemental}>
+                <span
+                  className={styles.statusSupplemental}
+                  id={statusMessageId}
+                >
                   {STATUS_MESSAGE}
                 </span>
               </span>

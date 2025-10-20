@@ -9,6 +9,7 @@ import {
 } from "@testing-library/react";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
 import { GoalsPage } from "@/components/goals";
+import { createStorageKey } from "@/lib/db";
 
 // Clean up DOM after each test
 afterEach(cleanup);
@@ -198,5 +199,27 @@ describe("GoalsPage", () => {
     const undoButton = screen.getByRole("button", { name: "Undo delete goal" });
     fireEvent.click(undoButton);
     expect(await screen.findByText("Goal 4")).toBeInTheDocument();
+  });
+
+  it("resets persisted tab and filter when storage contains invalid values", async () => {
+    const tabKey = createStorageKey("goals.tab.v2");
+    const filterKey = createStorageKey("goals.filter.v1");
+    window.localStorage.setItem(tabKey, JSON.stringify("invalid"));
+    window.localStorage.setItem(filterKey, JSON.stringify("weird"));
+
+    render(<GoalsPage />);
+
+    await waitFor(() =>
+      expect(
+        screen.getByRole("tab", { name: "Goals" }),
+      ).toHaveAttribute("aria-selected", "true"),
+    );
+
+    const filterTablist = screen.getByRole("tablist", { name: "Filter goals" });
+    await waitFor(() =>
+      expect(
+        within(filterTablist).getByRole("tab", { name: "All" }),
+      ).toHaveAttribute("aria-selected", "true"),
+    );
   });
 });
