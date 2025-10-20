@@ -152,6 +152,51 @@ export function resolvePublishBranch(
   return fromGit ?? "gh-pages";
 }
 
+type RelocateBasePathOptions = {
+  readonly hasBasePath: boolean;
+  readonly nestBasePathEnv?: string;
+};
+
+const TRUTHY_BOOLEAN_ENV_VALUES = new Set(["1", "true", "yes", "on"]);
+const FALSY_BOOLEAN_ENV_VALUES = new Set(["0", "false", "no", "off"]);
+
+const normalizeOptionalBoolean = (
+  rawValue: string | undefined,
+): boolean | undefined => {
+  if (rawValue === undefined) {
+    return undefined;
+  }
+
+  const normalized = rawValue.trim().toLowerCase();
+
+  if (TRUTHY_BOOLEAN_ENV_VALUES.has(normalized)) {
+    return true;
+  }
+
+  if (FALSY_BOOLEAN_ENV_VALUES.has(normalized)) {
+    return false;
+  }
+
+  return undefined;
+};
+
+export function shouldRelocateBasePathDirectory({
+  hasBasePath,
+  nestBasePathEnv,
+}: RelocateBasePathOptions): boolean {
+  if (!hasBasePath) {
+    return false;
+  }
+
+  const normalized = normalizeOptionalBoolean(nestBasePathEnv);
+
+  if (normalized === undefined) {
+    return false;
+  }
+
+  return normalized;
+}
+
 function createGhPagesArgs(
   env: NodeJS.ProcessEnv,
   options: PublishBranchOptions,
@@ -523,14 +568,19 @@ export function main(): void {
   buildStaticSite(pnpmCommand, buildEnv);
 
   const outDir = path.resolve("out");
-  if (shouldUseBasePath) {
+  const hasBasePath = normalizedBasePath !== "" && normalizedBasePath !== "/";
+  const shouldRelocateBasePath = shouldRelocateBasePathDirectory({
+    hasBasePath,
+    nestBasePathEnv: process.env.GITHUB_PAGES_NEST_BASE_PATH,
+  });
+  if (shouldRelocateBasePath) {
     flattenBasePathDirectory(outDir, slug);
   }
   injectGitHubPagesPlaceholders(
     outDir,
     normalizedBasePath,
     GITHUB_PAGES_REDIRECT_STORAGE_KEY,
-    shouldUseBasePath ? slug : undefined,
+    shouldRelocateBasePath ? slug : undefined,
   );
   ensureNoJekyll(outDir);
 
