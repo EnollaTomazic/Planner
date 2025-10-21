@@ -64,6 +64,10 @@ const manifestEntrypointOutput = path.join(
   galleryDir,
   "generated-manifest.g.ts",
 );
+const manifestRuntimeOutput = path.join(
+  galleryDir,
+  "generated-manifest.runtime.json",
+);
 const tsconfigPath = path.join(rootDir, "tsconfig.build.json");
 
 const TRACKED_PATTERNS = [
@@ -993,6 +997,46 @@ async function buildGalleryManifest(
   ].join("\n");
 
   await writeFileAtomically(manifestEntrypointOutput, `${entrypointSource}\n`);
+
+  const sanitizedPayload = sanitizeJsonLiteral(payload);
+  if (!isRecord(sanitizedPayload)) {
+    throw new Error("Failed to sanitize gallery payload for runtime manifest");
+  }
+
+  const sanitizedRoutes = sanitizeJsonLiteral(previewRoutes);
+  if (
+    !Array.isArray(sanitizedRoutes) ||
+    sanitizedRoutes.some((route) => !isRecord(route))
+  ) {
+    throw new Error(
+      "Failed to sanitize gallery preview routes for runtime manifest",
+    );
+  }
+
+  const runtimeManifest = {
+    galleryPayload: sanitizedPayload,
+    galleryPreviewRoutes: sanitizedRoutes,
+    galleryPreviewModules: Object.fromEntries(
+      modules.map((module) => [
+        module.importPath,
+        {
+          previewIds: [...module.previewIds],
+        },
+      ]),
+    ),
+  } satisfies {
+    readonly galleryPayload: Record<string, unknown>;
+    readonly galleryPreviewRoutes: readonly Record<string, unknown>[];
+    readonly galleryPreviewModules: Record<
+      string,
+      { readonly previewIds: readonly string[] }
+    >;
+  };
+
+  await writeFileAtomically(
+    manifestRuntimeOutput,
+    `${JSON.stringify(runtimeManifest, null, 2)}\n`,
+  );
 }
 
 async function main(): Promise<void> {
