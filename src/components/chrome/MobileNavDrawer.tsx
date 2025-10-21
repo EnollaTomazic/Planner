@@ -68,7 +68,7 @@ export function MobileNavDrawer({
           <ul className="flex flex-col gap-[var(--space-1)]">
             {items.map(({ href, label, mobileIcon: Icon }) => {
               const active = isActive(href);
-              const targetHref = withBasePath(href);
+              const targetHref = withBasePath(href, { skipForNextLink: true });
 
               return (
                 <li key={href}>

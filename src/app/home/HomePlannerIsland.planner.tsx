@@ -252,7 +252,7 @@ function HomePageBody({
           tactile
           className="whitespace-nowrap"
         >
-          <Link href={withBasePath("/planner")}>Plan Week</Link>
+          <Link href={withBasePath("/planner", { skipForNextLink: true })}>Plan Week</Link>
         </Button>
       </>
     ),
@@ -491,7 +491,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
                     {item.value}
                   </p>
                   <Link
-                    href={withBasePath(item.href)}
+                    href={withBasePath(item.href, { skipForNextLink: true })}
                     className="text-label font-medium text-primary transition-colors hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   >
                     {item.cta}

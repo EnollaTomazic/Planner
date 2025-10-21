@@ -80,7 +80,7 @@ export function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
 
           const targetHref = isAbsoluteLink
             ? normalizedHref
-            : withBasePath(normalizedHref);
+            : withBasePath(normalizedHref, { skipForNextLink: true });
 
           return (
             <li key={href} className="relative">

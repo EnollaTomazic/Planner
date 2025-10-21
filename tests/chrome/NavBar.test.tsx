@@ -32,18 +32,19 @@ async function loadNavBar() {
 }
 
 describe("NavBar", () => {
-  it("prefixes navigation links with the resolved base path", async () => {
+  it("normalizes navigation links for Next.js base path handling", async () => {
     const utils = await import("@/lib/utils");
     const withBasePathSpy = vi
       .spyOn(utils, "withBasePath")
-      .mockImplementation((path: string) => {
+      .mockImplementation((path: string, options?: { skipForNextLink?: boolean }) => {
+        expect(options?.skipForNextLink).toBe(true);
         const needsSlash =
           path.length > 0 &&
           !path.endsWith("/") &&
           !path.includes("?") &&
           !path.includes("#");
 
-        return `/base${path}${needsSlash ? "/" : ""}`;
+        return needsSlash ? `${path}/` : path;
       });
 
     try {
@@ -51,24 +52,26 @@ describe("NavBar", () => {
       render(<NavBar />);
 
       const reviewsLink = screen.getByRole("link", { name: "Reviews" });
-      expect(reviewsLink).toHaveAttribute("href", "/base/reviews/");
-      expect(withBasePathSpy).toHaveBeenCalledWith("/reviews");
+      expect(reviewsLink).toHaveAttribute("href", "/reviews/");
+      expect(withBasePathSpy).toHaveBeenCalledWith("/reviews", {
+        skipForNextLink: true,
+      });
     } finally {
       withBasePathSpy.mockRestore();
     }
   });
 
-  it("renders navigation hrefs that include NEXT_PUBLIC_BASE_PATH", async () => {
+  it("renders normalized navigation hrefs when NEXT_PUBLIC_BASE_PATH is set", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/beta";
 
     const NavBar = await loadNavBar();
     render(<NavBar />);
 
     const reviewsLink = screen.getByRole("link", { name: "Reviews" });
-    expect(reviewsLink).toHaveAttribute("href", "/beta/reviews/");
+    expect(reviewsLink).toHaveAttribute("href", "/reviews/");
   });
 
-  it("prefixes query string navigation items with the base path", async () => {
+  it("normalizes query string navigation items", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/beta";
 
     const NavBar = await loadNavBar();
@@ -82,7 +85,7 @@ describe("NavBar", () => {
     );
 
     const demoLink = screen.getByRole("link", { name: "Demo" });
-    expect(demoLink).toHaveAttribute("href", "/beta/?demo=true");
+    expect(demoLink).toHaveAttribute("href", "/?demo=true");
   });
 
   it("exposes a labelled primary navigation landmark", async () => {

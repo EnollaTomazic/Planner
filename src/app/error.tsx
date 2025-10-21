@@ -32,7 +32,7 @@ export function RouteErrorContent({
   description,
   retryLabel = "Try again",
   homeLabel = "Go to dashboard",
-  homeHref = withBasePath("/"),
+  homeHref = "/",
 }: RouteErrorContentProps) {
   const errorId = useMemo(() => {
     if (error?.digest) return error.digest;
@@ -101,7 +101,9 @@ export function RouteErrorContent({
             {retryLabel}
           </Button>
           <Button asChild variant="quiet">
-            <Link href={withBasePath(homeHref)}>{homeLabel}</Link>
+            <Link href={withBasePath(homeHref, { skipForNextLink: true })}>
+              {homeLabel}
+            </Link>
           </Button>
           <Button
             type="button"
