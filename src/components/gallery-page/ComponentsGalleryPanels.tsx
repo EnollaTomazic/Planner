@@ -75,7 +75,7 @@ export function ComponentsGalleryPanels({
           aria-describedby={countDescriptionId}
         >
           <header className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
-            <h2 className="text-ui font-semibold tracking-[-0.01em] text-muted-foreground">
+            <h2 className="text-[var(--font-title)] font-semibold tracking-[-0.01em] text-muted-foreground">
               {sectionLabel} specs
             </h2>
             <Badge
@@ -114,7 +114,7 @@ export function ComponentsGalleryPanels({
                     <header className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
                       <h3
                         id={headingId}
-                        className="text-ui font-semibold tracking-[-0.01em] text-muted-foreground"
+                        className="text-base font-semibold tracking-[-0.01em] text-muted-foreground"
                       >
                         {group.label}
                       </h3>
@@ -124,7 +124,7 @@ export function ComponentsGalleryPanels({
                     </header>
                     {showEmpty ? (
                       <Card>
-                        <CardContent className="text-ui text-muted-foreground">
+                        <CardContent className="text-base text-muted-foreground">
                           {emptyCopy}
                         </CardContent>
                       </Card>
@@ -140,7 +140,7 @@ export function ComponentsGalleryPanels({
               })
             ) : (
               <Card>
-                <CardContent className="text-ui text-muted-foreground">
+                <CardContent className="text-base text-muted-foreground">
                   No {fallbackSectionLabel.toLowerCase()} specs available.
                 </CardContent>
               </Card>
