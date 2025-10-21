@@ -13,6 +13,7 @@ import {
 } from "./fonts";
 import tokens from "../../tokens/tokens.js";
 import { resolveTokenColor } from "@/lib/color";
+import { FooterYear } from "@/components/chrome/FooterYear";
 import { SiteChrome } from "@/components/chrome/SiteChrome";
 import { CatCompanion, DecorLayer, PageShell, SkipLink } from "@/components/ui";
 import { getBasePath, withBasePath } from "@/lib/utils";
@@ -83,7 +84,7 @@ export default async function RootLayout({
   const depthThemeDataAttribute = depthThemeState ? "enabled" : "legacy";
   const organicDepthDataAttribute = organicDepthState ? "organic" : "legacy";
   const glitchLandingDataAttribute = glitchLandingState ? "enabled" : "legacy";
-  const year = new Date().getFullYear();
+  const buildYear = new Date().getUTCFullYear();
   const basePath = getBasePath();
   const noiseAssetPath = withBasePath("/noise.svg");
   const glitchAssetPath = withBasePath("/glitch-gif.gif");
@@ -178,7 +179,10 @@ export default async function RootLayout({
                               <p className="text-ui font-medium text-foreground">
                                 Planner keeps local-first goals organized so every ritual stays actionable.
                               </p>
-                              <p>© {year} Planner Labs. All rights reserved.</p>
+                              <p>
+                                © <FooterYear buildYear={buildYear} /> Planner Labs. All
+                                rights reserved.
+                              </p>
                             </PageShell>
                           </footer>
                         </div>
