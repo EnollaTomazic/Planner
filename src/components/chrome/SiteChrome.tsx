@@ -52,7 +52,7 @@ export function SiteChrome({ children }: SiteChromeProps) {
           />
 
           <Link
-            href={withBasePath("/")}
+            href={withBasePath("/", { skipForNextLink: true })}
             aria-label="Home"
             className="col-span-full flex items-center gap-[var(--space-2)] md:col-span-3"
           >

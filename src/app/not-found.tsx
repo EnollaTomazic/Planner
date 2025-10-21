@@ -33,7 +33,7 @@ export default function NotFound() {
           heading: "This page does not exist",
           actions: (
             <Button asChild>
-              <Link href={withBasePath("/")}>Go home</Link>
+              <Link href={withBasePath("/", { skipForNextLink: true })}>Go home</Link>
             </Button>
           ),
           children: (

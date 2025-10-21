@@ -64,6 +64,23 @@ describe("WithBasePath", () => {
     expect(withBasePath("planner")).toBe("/planner/");
   });
 
+  it("returns normalized paths without prefixing when skipForNextLink is true", async () => {
+    process.env.NEXT_PUBLIC_BASE_PATH = "/Planner";
+    vi.resetModules();
+
+    const { withBasePath } = await importBasePathUtils();
+
+    expect(withBasePath("/planner", { skipForNextLink: true })).toBe(
+      "/planner/",
+    );
+    expect(withBasePath("planner", { skipForNextLink: true })).toBe(
+      "/planner/",
+    );
+    expect(withBasePath("/Planner/planner", { skipForNextLink: true })).toBe(
+      "/Planner/planner/",
+    );
+  });
+
   it("allows opting out of trailing slash behaviour", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/planner";
     vi.resetModules();

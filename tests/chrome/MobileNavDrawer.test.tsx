@@ -14,18 +14,19 @@ vi.mock("next/navigation", () => ({ usePathname: () => "/reviews" }));
 import { PRIMARY_NAV_LABEL } from "@/config/nav";
 
 describe("MobileNavDrawer", () => {
-  it("prefixes navigation links with the resolved base path", async () => {
+  it("normalizes navigation links for Next.js base path handling", async () => {
     const utils = await import("@/lib/utils");
     const withBasePathSpy = vi
       .spyOn(utils, "withBasePath")
-      .mockImplementation((path: string) => {
+      .mockImplementation((path: string, options?: { skipForNextLink?: boolean }) => {
+        expect(options?.skipForNextLink).toBe(true);
         const needsSlash =
           path.length > 0 &&
           !path.endsWith("/") &&
           !path.includes("?") &&
           !path.includes("#");
 
-        return `/base${path}${needsSlash ? "/" : ""}`;
+        return needsSlash ? `${path}/` : path;
       });
 
     try {
@@ -40,8 +41,10 @@ describe("MobileNavDrawer", () => {
       expect(navigation).toBeInTheDocument();
 
       const reviewsLink = await screen.findByRole("link", { name: "Reviews" });
-      expect(reviewsLink).toHaveAttribute("href", "/base/reviews/");
-      expect(withBasePathSpy).toHaveBeenCalledWith("/reviews");
+      expect(reviewsLink).toHaveAttribute("href", "/reviews/");
+      expect(withBasePathSpy).toHaveBeenCalledWith("/reviews", {
+        skipForNextLink: true,
+      });
     } finally {
       withBasePathSpy.mockRestore();
     }

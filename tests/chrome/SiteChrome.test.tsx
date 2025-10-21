@@ -36,7 +36,9 @@ describe("SiteChrome", () => {
       const link = screen.getByRole("link", { name: "Home" });
       expect(link).toBeInTheDocument();
       expect(link).toHaveAttribute("href", "/");
-      expect(withBasePathSpy).toHaveBeenCalledWith("/");
+      expect(withBasePathSpy).toHaveBeenCalledWith("/", {
+        skipForNextLink: true,
+      });
     } finally {
       withBasePathSpy.mockRestore();
     }
@@ -154,18 +156,19 @@ describe("BottomNav", () => {
     expect(disabledItem).toHaveAttribute("tabindex", "-1");
   });
 
-  it("prefixes navigation hrefs with the configured base path", async () => {
+  it("normalizes navigation hrefs for Next.js base path handling", async () => {
     const utils = await import("@/lib/utils");
     const withBasePathSpy = vi
       .spyOn(utils, "withBasePath")
-      .mockImplementation((path: string) => {
+      .mockImplementation((path: string, options?: { skipForNextLink?: boolean }) => {
+        expect(options?.skipForNextLink).toBe(true);
         const needsSlash =
           path.length > 0 &&
           !path.endsWith("/") &&
           !path.includes("?") &&
           !path.includes("#");
 
-        return `/beta${path}${needsSlash ? "/" : ""}`;
+        return needsSlash ? `${path}/` : path;
       });
 
     try {
@@ -190,8 +193,10 @@ describe("BottomNav", () => {
       );
 
       const plannerLink = screen.getByRole("button", { name: /Planner/ });
-      expect(plannerLink).toHaveAttribute("href", "/beta/planner/");
-      expect(withBasePathSpy).toHaveBeenCalledWith("/planner");
+      expect(plannerLink).toHaveAttribute("href", "/planner/");
+      expect(withBasePathSpy).toHaveBeenCalledWith("/planner", {
+        skipForNextLink: true,
+      });
     } finally {
       withBasePathSpy.mockRestore();
     }

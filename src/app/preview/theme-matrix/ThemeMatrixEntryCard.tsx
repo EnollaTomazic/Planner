@@ -53,7 +53,9 @@ function ThemeMatrixPreviewFrame({
   readonly variantLabel: string;
   readonly preview: ThemeMatrixVariantPreview;
 }) {
-  const url = withBasePath(`/preview/${preview.slug}`);
+  const previewPath = `/preview/${preview.slug}`;
+  const previewUrl = withBasePath(previewPath);
+  const linkHref = withBasePath(previewPath, { skipForNextLink: true });
   const backgroundLabel = getBackgroundLabel(preview.background);
   const titleParts = [entryName];
   if (stateName) {
@@ -75,7 +77,7 @@ function ThemeMatrixPreviewFrame({
         )}
       >
         <iframe
-          src={url}
+          src={previewUrl}
           title={titleParts.join(" · ")}
           loading="lazy"
           className="h-full w-full border-0"
@@ -85,7 +87,7 @@ function ThemeMatrixPreviewFrame({
       <figcaption className="flex items-center justify-between gap-[var(--space-2)] text-caption text-muted-foreground">
         <span>{backgroundLabel}</span>
         <Link
-          href={url}
+          href={linkHref}
           prefetch={false}
           target="_blank"
           rel="noreferrer"

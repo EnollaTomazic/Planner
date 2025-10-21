@@ -39,7 +39,9 @@ describe("SegmentedButton", () => {
       </SegmentedButton>,
     );
 
-    expect(withBasePathSpy).toHaveBeenCalledWith("/docs");
+    expect(withBasePathSpy).toHaveBeenCalledWith("/docs", {
+      skipForNextLink: false,
+    });
 
     const anchor = getByRole("link", { name: "Docs" });
     const resolvedHref = withBasePathSpy.mock.results.at(-1)?.value;
