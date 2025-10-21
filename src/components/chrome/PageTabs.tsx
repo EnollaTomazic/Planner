@@ -181,7 +181,7 @@ export function PageTabs({
       );
 
       if (item.href) {
-        const targetHref = withBasePath(item.href);
+        const targetHref = withBasePath(item.href, { skipForNextLink: true });
 
         return (
           <Link

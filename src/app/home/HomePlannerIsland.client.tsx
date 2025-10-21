@@ -34,7 +34,7 @@ function HomePlannerIslandFallback() {
         tactile
         className="whitespace-nowrap"
       >
-        <Link href={withBasePath("/planner")}>Plan Week</Link>
+        <Link href={withBasePath("/planner", { skipForNextLink: true })}>Plan Week</Link>
       </Button>
     </>
   )
