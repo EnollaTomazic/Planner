@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 import { BlobContainer } from "./BlobContainer";
 import styles from "./SegmentedButton.module.css";
@@ -55,6 +55,8 @@ const SegmentedButton = React.forwardRef<
   const isDisabled = disabled || loading;
   const isButton = Comp === "button";
   const isLink = !isButton && (Comp === "a" || href !== undefined);
+  const shouldPrefixHref = isLink && typeof href === "string";
+  const resolvedHref = shouldPrefixHref ? withBasePath(href) : href;
   const handleClick = React.useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
       if (isDisabled) {
@@ -82,7 +84,7 @@ const SegmentedButton = React.forwardRef<
       aria-current={isLink ? (resolvedSelected ? "page" : undefined) : undefined}
       {...typeProp}
       {...restProps}
-      href={isLink && !isDisabled ? href : undefined}
+      href={isLink && !isDisabled ? resolvedHref : undefined}
       aria-disabled={isLink && isDisabled ? true : undefined}
       tabIndex={isLink && isDisabled ? -1 : tabIndex}
       onClick={shouldHandleClick ? handleClick : undefined}
