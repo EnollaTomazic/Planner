@@ -561,8 +561,9 @@ export function main(): void {
     BASE_PATH: rawBasePath,
     NEXT_PUBLIC_BASE_PATH: normalizedBasePath,
     NEXT_PUBLIC_GITHUB_PAGES: "true",
-    SAFE_MODE: process.env.SAFE_MODE ?? "false",
-    NEXT_PUBLIC_SAFE_MODE: process.env.NEXT_PUBLIC_SAFE_MODE ?? "false",
+    // Enforce safe mode for static exports unless the caller explicitly opts out.
+    SAFE_MODE: process.env.SAFE_MODE ?? "true",
+    NEXT_PUBLIC_SAFE_MODE: process.env.NEXT_PUBLIC_SAFE_MODE ?? "true",
   };
 
   buildStaticSite(pnpmCommand, buildEnv);

@@ -56,7 +56,10 @@ const SegmentedButton = React.forwardRef<
   const isButton = Comp === "button";
   const isLink = !isButton && (Comp === "a" || href !== undefined);
   const shouldPrefixHref = isLink && typeof href === "string";
-  const resolvedHref = shouldPrefixHref ? withBasePath(href) : href;
+  const shouldSkipBasePath = shouldPrefixHref && typeof Comp !== "string";
+  const resolvedHref = shouldPrefixHref
+    ? withBasePath(href, { skipForNextLink: shouldSkipBasePath })
+    : href;
   const handleClick = React.useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
       if (isDisabled) {

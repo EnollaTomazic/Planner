@@ -75,6 +75,7 @@ export function DashboardList<T>({
     cta != null
       ? withBasePath(cta.href, {
           trailingSlash: false,
+          skipForNextLink: true,
         })
       : undefined;
 

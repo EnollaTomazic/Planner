@@ -42,7 +42,7 @@ export function DashboardCard({
       )}
       {cta && (
         <Button asChild variant="default" size="md" className="self-start">
-          <Link href={withBasePath(cta.href)}>
+          <Link href={withBasePath(cta.href, { skipForNextLink: true })}>
             {cta.label}
           </Link>
         </Button>

@@ -83,7 +83,7 @@ export function BottomNav({
             const isBusyState = derivedState === "syncing";
             const ariaDisabled = isDisabledState || disabled;
             const ariaBusy = isBusyState || busy;
-            const targetHref = withBasePath(href);
+            const targetHref = withBasePath(href, { skipForNextLink: true });
 
             return (
               <li key={href}>
