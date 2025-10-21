@@ -28,6 +28,10 @@ function renderThemeSync() {
   }, { wrapper: Wrapper });
 }
 
+function syncLocationToPathname() {
+  window.history.replaceState(null, "", pathname);
+}
+
 describe("useThemeQuerySync", () => {
   beforeEach(() => {
     document.documentElement.className = "";
@@ -36,6 +40,7 @@ describe("useThemeQuerySync", () => {
     replaceSpy.mockClear();
     resetLocalStorage();
     window.location.hash = "";
+    syncLocationToPathname();
   });
 
   it("applies valid theme and background query params", async () => {
@@ -126,6 +131,61 @@ describe("useThemeQuerySync", () => {
 
     await waitFor(() => {
       expect(replaceSpy).toHaveBeenCalledWith("/planner?theme=ocean&bg=1#section-42", {
+        scroll: false,
+      });
+    });
+  });
+
+  it("avoids clobbering navigation when the router and location disagree", async () => {
+    searchParamsString = new URLSearchParams({ theme: "lg", bg: "0" }).toString();
+
+    const { result } = renderThemeSync();
+
+    await waitFor(() => {
+      const [theme] = result.current;
+      expect(theme.variant).toBe("lg");
+      expect(theme.bg).toBe(0);
+    });
+
+    act(() => {
+      const [, setTheme] = result.current;
+      setTheme((prev) => ({ ...prev, variant: "ocean", bg: 1 }));
+    });
+
+    await waitFor(() => {
+      expect(replaceSpy).toHaveBeenCalledWith("/planner?theme=ocean&bg=1", {
+        scroll: false,
+      });
+    });
+
+    replaceSpy.mockClear();
+
+    window.history.replaceState(null, "", "/reviews");
+
+    act(() => {
+      const [, setTheme] = result.current;
+      setTheme((prev) => ({ ...prev, variant: "aurora", bg: 2 }));
+    });
+
+    await waitFor(() => {
+      const [theme] = result.current;
+      expect(theme.variant).toBe("aurora");
+      expect(theme.bg).toBe(2);
+    });
+
+    expect(replaceSpy).not.toHaveBeenCalled();
+
+    pathname = "/reviews";
+    searchParamsString = "";
+    syncLocationToPathname();
+
+    act(() => {
+      const [, setTheme] = result.current;
+      setTheme((prev) => ({ ...prev, variant: "dawn", bg: 1 }));
+    });
+
+    await waitFor(() => {
+      expect(replaceSpy).toHaveBeenCalledWith("/reviews?theme=dawn&bg=1", {
         scroll: false,
       });
     });
