@@ -22,6 +22,27 @@
   isolation: isolate;
 }
 
+.root::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    hsl(var(--accent) / 0.08) 0 var(--spacing-0-25),
+    transparent var(--spacing-0-25) var(--spacing-0-75)
+  );
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+  transition: opacity 200ms ease;
+  z-index: 2;
+}
+
+.root:hover::after {
+  opacity: 0.28;
+}
+
 .backdrop {
   position: absolute;
   inset: -1px;
