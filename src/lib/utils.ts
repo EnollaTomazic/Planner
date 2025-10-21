@@ -175,6 +175,7 @@ function applyTrailingSlash(path: string): string {
 
 type WithBasePathOptions = {
   readonly trailingSlash?: boolean
+  readonly skipForNextLink?: boolean
 }
 
 export function withBasePath(path: string, options?: WithBasePathOptions): string {
@@ -182,7 +183,12 @@ export function withBasePath(path: string, options?: WithBasePathOptions): strin
     return path
   }
   const trimmedPath = path.trim()
+  const skipForNextLink = options?.skipForNextLink === true
+
   if (!trimmedPath) {
+    if (skipForNextLink) {
+      return options?.trailingSlash === false ? '/' : '/'
+    }
     const basePath = getBasePath()
     if (options?.trailingSlash === false) {
       return basePath || '/'
@@ -197,7 +203,7 @@ export function withBasePath(path: string, options?: WithBasePathOptions): strin
     ? trimmedPath
     : `/${trimmedPath}`
 
-  const basePath = getBasePath()
+  const basePath = skipForNextLink ? '' : getBasePath()
 
   let resultPath = normalizedPath
 
