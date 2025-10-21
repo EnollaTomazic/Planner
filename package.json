@@ -75,7 +75,6 @@
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@commitlint/cz-commitlint": "^20.1.0",
-    "@next/bundle-analyzer": "^15.5.4",
     "@next/eslint-plugin-next": "^15.5.5",
     "@playwright/test": "^1.56.1",
     "@storybook/react": "^9.1.10",
@@ -111,7 +110,8 @@
     "ts-morph": "^27.0.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.2",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "webpack-bundle-analyzer": "^4.10.1"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,md}": "prettier --config prettier.config.cjs --write",
