@@ -9,6 +9,19 @@ import {
   type Variant,
   type Background,
 } from "@/lib/theme";
+import { withoutBasePath } from "@/lib/utils";
+
+const normalizePathForComparison = (path: string): string => {
+  if (!path) {
+    return "/";
+  }
+
+  const trimmed = path.endsWith("/") && path !== "/"
+    ? path.replace(/\/+$/, "")
+    : path;
+
+  return trimmed.length > 0 ? trimmed : "/";
+};
 
 export function useThemeQuerySync(): void {
   const router = useRouter();
@@ -49,13 +62,51 @@ export function useThemeQuerySync(): void {
     if (currentTheme === theme.variant && currentBg === String(theme.bg)) {
       return;
     }
-    const nextParams = new URLSearchParams(params);
-    nextParams.set("theme", theme.variant);
-    nextParams.set("bg", String(theme.bg));
-    const queryString = nextParams.toString();
-    const hashFragment =
-      typeof window !== "undefined" ? window.location.hash ?? "" : "";
-    const nextUrl = queryString ? `${pathname}?${queryString}` : pathname;
-    router.replace(`${nextUrl}${hashFragment}`, { scroll: false });
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const activePath = normalizePathForComparison(
+      withoutBasePath(pathname || "/"),
+    );
+    const locationPath = normalizePathForComparison(
+      withoutBasePath(window.location.pathname || "/"),
+    );
+
+    if (locationPath !== activePath) {
+      return;
+    }
+
+    let timeout: number | null = null;
+
+    timeout = window.setTimeout(() => {
+      const currentPath = normalizePathForComparison(
+        withoutBasePath(window.location.pathname || "/"),
+      );
+
+      if (currentPath !== activePath) {
+        return;
+      }
+
+      const nextParams = new URLSearchParams(params);
+      nextParams.set("theme", theme.variant);
+      nextParams.set("bg", String(theme.bg));
+
+      const queryString = nextParams.toString();
+      const hashFragment = window.location.hash ?? "";
+      const basePathAwarePath = window.location.pathname || "/";
+      const nextUrl = queryString
+        ? `${basePathAwarePath}?${queryString}`
+        : basePathAwarePath;
+
+      router.replace(`${nextUrl}${hashFragment}`, { scroll: false });
+    }, 50);
+
+    return () => {
+      if (timeout !== null) {
+        window.clearTimeout(timeout);
+      }
+    };
   }, [theme, router, pathname, params]);
 }
