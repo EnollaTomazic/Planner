@@ -39,6 +39,23 @@ describe("parsePlannerPhrase", () => {
     expect(result.event.startDate).toBe("2024-06-02");
     expect(result.recurrence).toBeNull();
   });
+
+  it("parses weekly recurrence when the phrase ends after the weekday", () => {
+    const result = parsePlannerPhrase("every monday", { now: BASE_DATE });
+    expect(result.recurrence).toEqual({
+      frequency: "weekly",
+      interval: 1,
+      weekdays: [1],
+    });
+  });
+
+  it("parses daily recurrence when the phrase ends after the interval", () => {
+    const result = parsePlannerPhrase("each day", { now: BASE_DATE });
+    expect(result.recurrence).toEqual({
+      frequency: "daily",
+      interval: 1,
+    });
+  });
 });
 
 describe("buildRecurringOccurrences", () => {
