@@ -1,80 +1,122 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import vm from 'node:vm'
-import ts from 'typescript'
 
-import { ManifestSchema, type Manifest } from '@/components/gallery/manifest.schema'
+import type { GalleryModuleExport } from '@/components/gallery/manifest.schema'
+import {
+  ManifestSchema,
+  type Manifest,
+} from '@/components/gallery/manifest.schema'
 
-const MANIFEST_PATH = path.resolve(
+const MANIFEST_RUNTIME_PATH = path.resolve(
   process.cwd(),
-  'src/components/gallery/generated-manifest.ts',
+  'src/components/gallery/generated-manifest.runtime.json',
 )
 
 const GALLERY_USAGE_COMMAND = 'pnpm run build-gallery-usage'
 
-const RAW_JSON_ERROR_MESSAGE =
-  `Gallery manifest payload appears to contain raw JSON. Run \`${GALLERY_USAGE_COMMAND}\` to regenerate src/components/gallery/generated-manifest.ts.`
+const RUNTIME_MANIFEST_ERROR_MESSAGE =
+  `Failed to load generated gallery manifest runtime payload. Run \`${GALLERY_USAGE_COMMAND}\` to regenerate src/components/gallery/generated-manifest.runtime.json.`
 
-const leadingCommentPattern = /^(?:\uFEFF)?\s*(?:\/\/[^\n]*\n|\/\*[\s\S]*?\*\/\s*)*/u
+interface RuntimePreviewModuleManifest {
+  readonly previewIds: unknown
+}
 
-type GeneratedManifest = Manifest
+interface RuntimeManifestFile {
+  readonly galleryPayload?: unknown
+  readonly galleryPreviewRoutes?: unknown
+  readonly galleryPreviewModules?: Record<string, RuntimePreviewModuleManifest>
+}
 
-export function loadGeneratedManifest(): Manifest {
-  const source = fs.readFileSync(MANIFEST_PATH, 'utf-8')
-  const sanitized = source.replace(leadingCommentPattern, '').trimStart()
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value)
+
+const isStringArray = (value: unknown): value is readonly string[] =>
+  Array.isArray(value) && value.every((item) => typeof item === 'string')
+
+const createStubLoader = () =>
+  async (): Promise<GalleryModuleExport> =>
+    ({ default: [] } as unknown as GalleryModuleExport)
+
+let cachedManifest: Manifest | null = null
+
+function readRuntimeManifest(): RuntimeManifestFile {
+  let contents: string
 
   try {
-    JSON.parse(sanitized) as GeneratedManifest
-    throw new Error(RAW_JSON_ERROR_MESSAGE)
+    contents = fs.readFileSync(MANIFEST_RUNTIME_PATH, 'utf-8')
   } catch (error) {
-    if (!(error instanceof SyntaxError)) {
-      throw error
-    }
+    throw new Error(RUNTIME_MANIFEST_ERROR_MESSAGE)
   }
 
-  const transpiled = ts.transpileModule(source, {
-    compilerOptions: {
-      module: ts.ModuleKind.CommonJS,
-      target: ts.ScriptTarget.ES2020,
-    },
-    fileName: MANIFEST_PATH,
-    reportDiagnostics: true,
+  try {
+    const parsed = JSON.parse(contents)
+    if (!isRecord(parsed)) {
+      throw new Error('Runtime manifest is not an object')
+    }
+
+    return parsed as RuntimeManifestFile
+  } catch (error) {
+    throw new Error(RUNTIME_MANIFEST_ERROR_MESSAGE)
+  }
+}
+
+function buildPreviewModuleManifests(
+  rawModules: RuntimeManifestFile['galleryPreviewModules'],
+): Manifest['galleryPreviewModules'] {
+  if (!isRecord(rawModules)) {
+    throw new Error(RUNTIME_MANIFEST_ERROR_MESSAGE)
+  }
+
+  const stubLoader = createStubLoader()
+  const entries = Object.entries(rawModules).map(([importPath, value]) => {
+    if (!isRecord(value)) {
+      throw new Error(RUNTIME_MANIFEST_ERROR_MESSAGE)
+    }
+
+    const { previewIds } = value
+    if (!isStringArray(previewIds)) {
+      throw new Error(RUNTIME_MANIFEST_ERROR_MESSAGE)
+    }
+
+    return [
+      importPath,
+      {
+        loader: stubLoader,
+        previewIds: Object.freeze([...previewIds]),
+      },
+    ] as const
   })
 
-  const diagnostics = transpiled.diagnostics ?? []
-  if (diagnostics.length > 0) {
-    const message = diagnostics
-      .map((diagnostic) =>
-        ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n'),
-      )
-      .join('\n')
+  return Object.freeze(Object.fromEntries(entries)) as Manifest['galleryPreviewModules']
+}
 
-    throw new Error(`Failed to transpile gallery manifest payload: ${message}`)
+function parseRuntimeManifest(raw: RuntimeManifestFile): Manifest {
+  const manifestCandidate = {
+    galleryPayload: raw.galleryPayload,
+    galleryPreviewRoutes: raw.galleryPreviewRoutes,
+    galleryPreviewModules: buildPreviewModuleManifests(
+      raw.galleryPreviewModules,
+    ),
   }
 
-  const exportsValue: Record<string, unknown> = {}
-  const moduleValue: { exports: Record<string, unknown> } = {
-    exports: exportsValue,
+  return ManifestSchema.parse(manifestCandidate)
+}
+
+export function loadGeneratedManifest(): Manifest {
+  if (cachedManifest) {
+    return cachedManifest
   }
 
-  try {
-    vm.runInNewContext(transpiled.outputText, { exports: exportsValue, module: moduleValue }, {
-      filename: MANIFEST_PATH,
-    })
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error)
-    throw new Error(`Failed to evaluate gallery manifest payload: ${message}`)
-  }
+  const runtimeManifest = readRuntimeManifest()
+  const manifest = parseRuntimeManifest(runtimeManifest)
+  cachedManifest = manifest
+  return manifest
+}
 
-  const candidate = {
-    galleryPayload: moduleValue.exports.galleryPayload,
-    galleryPreviewRoutes: moduleValue.exports.galleryPreviewRoutes,
-    galleryPreviewModules: moduleValue.exports.galleryPreviewModules,
-  }
-
-  return ManifestSchema.parse(candidate)
+export function resetGeneratedManifestCache(): void {
+  cachedManifest = null
 }
 
 export const generatedManifest = loadGeneratedManifest()
 
-export const rawJsonManifestErrorMessage = RAW_JSON_ERROR_MESSAGE
+export const rawJsonManifestErrorMessage = RUNTIME_MANIFEST_ERROR_MESSAGE

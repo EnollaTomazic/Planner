@@ -7,10 +7,12 @@ import { ManifestSchema } from '@/components/gallery/manifest.schema'
 import {
   loadGeneratedManifest,
   rawJsonManifestErrorMessage,
+  resetGeneratedManifestCache,
 } from './loadGeneratedManifest'
 
 describe('loadGeneratedManifest helper', () => {
   afterEach(() => {
+    resetGeneratedManifestCache()
     vi.restoreAllMocks()
   })
 
@@ -22,16 +24,31 @@ describe('loadGeneratedManifest helper', () => {
     expect(manifest.galleryPayload.sections.length).toBeGreaterThan(0)
   })
 
-  it('throws a descriptive error when the manifest contains raw JSON', () => {
+  it('reuses the cached manifest instance within the same worker', () => {
     const manifestPath = path.resolve(
       process.cwd(),
-      'src/components/gallery/generated-manifest.ts',
+      'src/components/gallery/generated-manifest.runtime.json',
+    )
+    const readSpy = vi.spyOn(fs, 'readFileSync')
+
+    const first = loadGeneratedManifest()
+    const second = loadGeneratedManifest()
+
+    expect(first).toBe(second)
+    expect(readSpy).toHaveBeenCalledTimes(1)
+    expect(readSpy).toHaveBeenCalledWith(manifestPath, 'utf-8')
+  })
+
+  it('throws a descriptive error when the runtime manifest is invalid', () => {
+    const manifestPath = path.resolve(
+      process.cwd(),
+      'src/components/gallery/generated-manifest.runtime.json',
     )
     const originalReadFileSync = fs.readFileSync
 
     vi.spyOn(fs, 'readFileSync').mockImplementation((file, options) => {
       if (typeof file === 'string' && path.resolve(file) === manifestPath) {
-        return '{"galleryPayload":{},"galleryPreviewRoutes":[],"galleryPreviewModules":{}}'
+        return 'not json'
       }
 
       return originalReadFileSync.call(
