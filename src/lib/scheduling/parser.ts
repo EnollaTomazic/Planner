@@ -403,7 +403,7 @@ export function parsePlannerPhrase(
     addSpan(spans, weekendMatch.index, weekendMatch[0]?.length ?? 0);
   }
 
-  const everyMatch = lower.match(/\b(?:every|each)\s+([^,.]+)(?=[$\s,.])/);
+  const everyMatch = lower.match(/\b(?:every|each)\s+([^,.]+)(?=$|\s|[,.;])/);
   if (everyMatch?.index !== undefined && everyMatch[1]) {
     const descriptor = everyMatch[1].trim();
     const weekdays = normaliseWeekdays(descriptor);
