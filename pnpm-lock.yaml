@@ -60,9 +60,6 @@ importers:
       '@commitlint/cz-commitlint':
         specifier: ^20.1.0
         version: 20.1.0(@types/node@24.9.0)(commitizen@4.3.1(@types/node@24.9.0)(typescript@5.9.3))(inquirer@8.2.5)(typescript@5.9.3)
-      '@next/bundle-analyzer':
-        specifier: ^15.5.4
-        version: 15.5.4
       '@next/eslint-plugin-next':
         specifier: ^15.5.5
         version: 15.5.5
@@ -171,6 +168,9 @@ importers:
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@24.9.0)(jiti@2.6.1)(jsdom@27.0.1(postcss@8.5.6))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+      webpack-bundle-analyzer:
+        specifier: ^4.10.1
+        version: 4.10.1
 
 packages:
 
@@ -979,9 +979,6 @@ packages:
 
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
-
-  '@next/bundle-analyzer@15.5.4':
-    resolution: {integrity: sha512-wMtpIjEHi+B/wC34ZbEcacGIPgQTwTFjjp0+F742s9TxC6QwT0MwB/O0QEgalMe8s3SH/K09DO0gmTvUSJrLRA==}
 
   '@next/env@15.5.4':
     resolution: {integrity: sha512-27SQhYp5QryzIT5uO8hq99C69eLQ7qkzkDPsk3N+GuS2XgOgoYEeOav7Pf8Tn4drECOVDsDg8oj+/DVy8qQL2A==}
@@ -5812,13 +5809,6 @@ snapshots:
       '@emnapi/runtime': 1.5.0
       '@tybys/wasm-util': 0.10.1
     optional: true
-
-  '@next/bundle-analyzer@15.5.4':
-    dependencies:
-      webpack-bundle-analyzer: 4.10.1
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
 
   '@next/env@15.5.4': {}
 
