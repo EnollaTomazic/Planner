@@ -37,9 +37,14 @@ const geistMonoCore = localFont({
 })
 
 const geistMonoExtras = localFont({
-  variable: '--font-geist-mono',
   display: 'swap',
   preload: false,
+  declarations: [
+    {
+      prop: 'font-family',
+      value: geistMonoCore.style.fontFamily,
+    },
+  ],
   src: [
     {
       path: '../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Regular.woff2',
@@ -56,4 +61,5 @@ const geistMonoExtras = localFont({
 
 export const geistSansClassName = geistSans.className
 export const geistSansVariable = geistSans.variable
-export const geistMonoVariable = `${geistMonoCore.variable} ${geistMonoExtras.variable}`
+export const geistMonoVariable = geistMonoCore.variable
+export const geistMonoExtrasClassName = geistMonoExtras.className
