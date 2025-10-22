@@ -7,7 +7,7 @@ import "@/env/validate-server-env";
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 import {
-  geistMonoExtrasClassName,
+  geistMonoClassName,
   geistMonoVariable,
   geistSansClassName,
   geistSansVariable,
@@ -142,7 +142,7 @@ export default async function RootLayout({
         {/* Preload mono extras without affecting the base body font */}
         <span
           aria-hidden="true"
-          className={geistMonoExtrasClassName}
+          className={geistMonoClassName}
           style={{
             position: "absolute",
             width: 0,
