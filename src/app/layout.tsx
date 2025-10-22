@@ -131,11 +131,25 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${geistSansVariable} ${geistMonoVariable} ${geistMonoExtrasClassName} ${geistSansClassName} min-h-screen bg-background text-foreground${glitchLandingState ? " glitch-root" : ""}`}
+        className={`${geistSansVariable} ${geistMonoVariable} ${geistSansClassName} min-h-screen bg-background text-foreground${glitchLandingState ? " glitch-root" : ""}`}
         data-depth-theme={depthThemeDataAttribute}
         data-organic-depth={organicDepthDataAttribute}
         data-glitch-landing={glitchLandingDataAttribute}
       >
+        <span
+          aria-hidden="true"
+          className={geistMonoExtrasClassName}
+          style={{
+            position: "absolute",
+            width: 0,
+            height: 0,
+            overflow: "hidden",
+            clip: "rect(0 0 0 0)",
+            whiteSpace: "nowrap",
+          }}
+        >
+          .
+        </span>
         <SkipLink targetId="main-content" />
         <noscript>
           <div
