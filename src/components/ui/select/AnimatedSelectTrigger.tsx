@@ -65,8 +65,8 @@ export function AnimatedSelectTrigger({
   );
 
   const containerCls = cn(
-    "group inline-flex rounded-[var(--control-radius)] border border-border-subtle shadow-elev-1 transition-shadow duration-motion-sm ease-out motion-reduce:transition-none",
-    "hover:shadow-elev-2 focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-surface focus-within:shadow-elev-2",
+    "group inline-flex rounded-[var(--control-radius)] border border-border-subtle shadow-neo-soft transition-shadow duration-motion-sm ease-out motion-reduce:transition-none",
+    "hover:shadow-neo focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-surface focus-within:shadow-neo",
     containerClassName,
   );
 

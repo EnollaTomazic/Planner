@@ -12,10 +12,10 @@ export type CardProps = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 const depthShadowClasses: Record<CardDepth, string> = {
-  base: "shadow-elev-0",
+  base: "shadow-neo-soft",
   raised:
-    "shadow-elev-1 hover:shadow-elev-2 focus-visible:shadow-elev-2 focus-within:shadow-elev-2",
-  sunken: "shadow-inner-md",
+    "shadow-neo hover:shadow-neo-strong focus-visible:shadow-neo-strong focus-within:shadow-neo-strong",
+  sunken: "shadow-neo-inset",
 };
 
 const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
