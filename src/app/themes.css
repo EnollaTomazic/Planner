@@ -2044,7 +2044,7 @@ html.bg-intense body::after {
   content: "";
   position: absolute;
   inset: -1px;
-  padding: var(--spacing-0-25);
+  padding: 1px;
   border-radius: inherit;
   pointer-events: none;
   background: conic-gradient(
