@@ -411,12 +411,12 @@ export function PageHeaderDemo() {
         PageHeader now routes shared sub-tabs, search, and quick actions into
         the frame’s action grid so controls align with the 12-column layout
         while the inner hero stays calm, single-framed, and flush. It forwards
-        <code className="ml-[var(--space-1)] rounded bg-[hsl(var(--card)/0.6)] px-[var(--spacing-0-75)] py-[var(--spacing-0-5)] font-mono text-label text-foreground/80">
+        <code className="ml-[var(--space-1)] rounded-[var(--radius-md)] bg-[hsl(var(--card)/0.6)] px-[var(--spacing-0-75)] py-[var(--spacing-0-5)] font-mono text-label text-foreground/80">
           {"hero.padding = \"none\""}
         </code>{" "}
         so the content hugs the frame. Want the Hero divider row instead? Pass
         {" "}
-        <code className="ml-[var(--space-1)] rounded bg-[hsl(var(--card)/0.6)] px-[var(--spacing-0-75)] py-[var(--spacing-0-5)] font-mono text-label text-foreground/80">
+        <code className="ml-[var(--space-1)] rounded-[var(--radius-md)] bg-[hsl(var(--card)/0.6)] px-[var(--spacing-0-75)] py-[var(--spacing-0-5)] font-mono text-label text-foreground/80">
           {"frameProps={{ slots: null }}"}
         </code>{" "}
         to hand control back to Hero while keeping tone overrides intact.

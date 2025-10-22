@@ -227,7 +227,7 @@ function RadioIconGroupGalleryPreview() {
             <label className="flex items-center gap-[var(--space-1)]">
               <span className="text-label text-foreground">Tone</span>
               <select
-                className="rounded-[var(--radius-sm)] border border-card-hairline-60 bg-surface px-[var(--space-2)] py-[var(--space-1)] text-label"
+                className="rounded-[var(--radius-md)] border border-card-hairline-60 bg-surface px-[var(--space-2)] py-[var(--space-1)] text-label"
                 value={tone}
                 onChange={(event) => setTone(event.target.value as RadioIconGroupTone)}
               >
@@ -241,7 +241,7 @@ function RadioIconGroupGalleryPreview() {
             <label className="flex items-center gap-[var(--space-1)]">
               <span className="text-label text-foreground">Size</span>
               <select
-                className="rounded-[var(--radius-sm)] border border-card-hairline-60 bg-surface px-[var(--space-2)] py-[var(--space-1)] text-label"
+                className="rounded-[var(--radius-md)] border border-card-hairline-60 bg-surface px-[var(--space-2)] py-[var(--space-1)] text-label"
                 value={size}
                 onChange={(event) => setSize(event.target.value as RadioIconGroupSize)}
               >
@@ -255,7 +255,7 @@ function RadioIconGroupGalleryPreview() {
             <button
               type="button"
               onClick={() => setValue(null)}
-              className="inline-flex items-center gap-[var(--space-1)] rounded-[var(--radius-sm)] border border-card-hairline-60 bg-surface px-[var(--space-2)] py-[var(--space-1)] text-label text-muted-foreground transition-colors hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--theme-ring,var(--focus))] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-2)]"
+              className="inline-flex items-center gap-[var(--space-1)] rounded-[var(--radius-md)] border border-card-hairline-60 bg-surface px-[var(--space-2)] py-[var(--space-1)] text-label text-muted-foreground transition-colors hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--theme-ring,var(--focus))] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-2)]"
             >
               Clear selection
             </button>

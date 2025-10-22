@@ -20,8 +20,8 @@ export function HomeHeroSectionFallbackContent({
         <div className="h-4 w-1/2 animate-pulse rounded-md bg-muted/20" aria-hidden />
       </div>
       <div className="space-y-[var(--space-2)]">
-        <div className="h-20 w-full animate-pulse rounded-xl bg-muted/10" aria-hidden />
-        <div className="h-20 w-full animate-pulse rounded-xl bg-muted/10" aria-hidden />
+        <div className="h-20 w-full animate-pulse rounded-[var(--radius-xl)] bg-muted/10" aria-hidden />
+        <div className="h-20 w-full animate-pulse rounded-[var(--radius-xl)] bg-muted/10" aria-hidden />
       </div>
       {actions ? (
         <div

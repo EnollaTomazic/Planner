@@ -90,7 +90,7 @@ function renderShowCode(
       disabled={disabled}
       data-state={expanded ? "expanded" : undefined}
       className={cn(
-        "inline-flex items-center gap-[var(--space-1)] rounded-[var(--radius-sm)] px-[var(--space-2)] py-[var(--space-1)]",
+        "inline-flex items-center gap-[var(--space-1)] rounded-[var(--radius-md)] px-[var(--space-2)] py-[var(--space-1)]",
         "text-label font-medium text-accent-3 underline underline-offset-[var(--space-1)]",
         "transition-colors focus-visible:outline-none focus-visible:ring-[var(--ring-size-1)]",
         "focus-visible:ring-offset-0 ring-[var(--theme-ring)]",

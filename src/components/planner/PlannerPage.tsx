@@ -116,7 +116,7 @@ function PlannerViewFallback({ mode }: PlannerViewFallbackProps) {
     <div
       role="status"
       aria-live="polite"
-      className="flex min-h-[12rem] flex-col items-center justify-center gap-[var(--space-2)] rounded-lg border border-dashed border-border/60 bg-muted/20 p-[var(--space-6)] text-center text-muted-foreground"
+      className="flex min-h-[12rem] flex-col items-center justify-center gap-[var(--space-2)] rounded-[var(--radius-xl)] border border-dashed border-border/60 bg-muted/20 p-[var(--space-6)] text-center text-muted-foreground"
     >
       <span className="text-label font-medium tracking-[0.08em] uppercase">
         {copy.title}

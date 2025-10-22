@@ -81,6 +81,8 @@ describe("Card", () => {
 
     expect(source).toContain("data-depth");
     expect(source).toContain("depthShadowClasses");
-    expect(source).toContain("shadow-elev-1");
+    expect(source).toContain("shadow-neo-soft");
+    expect(source).toContain("shadow-neo-inset");
+    expect(source).toContain("shadow-neo-strong");
   });
 });
