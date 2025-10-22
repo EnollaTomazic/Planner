@@ -19,7 +19,7 @@ import { PlannerProvider } from "@/components/planner"
 import { useTheme, useUiFeatureFlags } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
 import type { Variant } from "@/lib/theme"
-import { withBasePath } from "@/lib/utils"
+import { cn, withBasePath } from "@/lib/utils"
 import {
   HeroPlannerCardsFallbackContent,
   HomeHeroSectionFallbackContent,
@@ -130,6 +130,11 @@ const weeklyHighlights = [
   },
 ] as const satisfies readonly HeroPlannerHighlight[]
 
+const homeBackdropClassName =
+  'relative isolate overflow-hidden bg-blob-primary bg-no-repeat after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:bg-gradient-blob-primary after:opacity-40 after:content-[""]'
+const sectionCardOverlayClassName =
+  'relative overflow-hidden before:pointer-events-none before:absolute before:inset-[-20%] before:-z-10 before:bg-gradient-blob-primary before:opacity-25 before:content-[""]'
+
 function HomePageContent({
   heroHeadingId,
   overviewHeadingId,
@@ -197,7 +202,7 @@ function HomePagePlannerContent({
   }, [isSplashVisible])
 
   return (
-    <div className={styles.root}>
+    <div className={cn(styles.root, homeBackdropClassName)}>
       {glitchLandingEnabled && isSplashMounted ? (
         <HomeSplash active={isSplashVisible} onExited={handleSplashExit} />
       ) : null}
@@ -310,7 +315,7 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
       >
         <SectionCard
           aria-labelledby={heroHeadingId}
-          className="col-span-full"
+          className={cn('col-span-full', sectionCardOverlayClassName)}
         >
           <SectionCard.Body className="md:p-[var(--space-6)]">
             <HeroSectionFallbackContext.Provider
@@ -337,7 +342,7 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
       >
         <SectionCard
           aria-labelledby={overviewHeadingId}
-          className="col-span-full"
+          className={cn('col-span-full', sectionCardOverlayClassName)}
         >
           <SectionCard.Header
             id={overviewHeadingId}
@@ -428,7 +433,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
       >
         <SectionCard
           aria-labelledby={heroHeadingId}
-          className="col-span-full"
+          className={cn('col-span-full', sectionCardOverlayClassName)}
         >
           <SectionCard.Header
             id={heroHeadingId}
@@ -465,7 +470,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
       >
         <SectionCard
           aria-labelledby={overviewHeadingId}
-          className="col-span-full"
+          className={cn('col-span-full', sectionCardOverlayClassName)}
         >
           <SectionCard.Header
             id={overviewHeadingId}
