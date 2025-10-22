@@ -40,6 +40,10 @@
 }
 
 .defaultTab[data-variant="default"] {
+  position: relative;
+  isolation: isolate;
+  --chromatic-shift: 0px;
+  --chromatic-opacity: 0;
   background-color: color-mix(
     in oklab,
     hsl(var(--card)) 96%,
@@ -64,6 +68,28 @@
       var(--ease-out, ease-out);
 }
 
+.defaultTab[data-variant="default"]::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--hairline-w, 1px) * -1);
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: var(--shadow-control-hover), var(--shadow-neon-soft);
+  filter: drop-shadow(
+      calc(var(--chromatic-shift) * -1) 0
+        hsl(var(--primary) / var(--chromatic-opacity))
+    )
+    drop-shadow(
+      var(--chromatic-shift) 0 hsl(var(--danger) / var(--chromatic-opacity))
+    );
+  transform: translate3d(0, 0, 0);
+  transition:
+    opacity var(--motion-duration-sm, var(--dur-quick, 220ms)) var(--ease-out, ease-out),
+    filter var(--motion-duration-sm, var(--dur-quick, 220ms)) var(--ease-out, ease-out),
+    transform var(--motion-duration-sm, var(--dur-quick, 220ms)) var(--ease-out, ease-out);
+}
+
 .defaultTab[data-variant="default"][data-active="true"] {
   background-color: var(--seg-active-base);
   background-image: var(--seg-active-grad);
@@ -81,6 +107,8 @@
     0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.22),
     var(--shadow-outline-subtle);
   color: hsl(var(--foreground));
+  --chromatic-shift: var(--spacing-0-25);
+  --chromatic-opacity: 0.55;
 }
 
 .defaultTab[data-variant="default"]:active:not([data-disabled="true"]):not([data-loading="true"]):not(:disabled),
@@ -90,6 +118,8 @@
     inset 0 calc(1 * var(--hairline-w)) 0 color-mix(in oklab, hsl(var(--highlight)) 62%, transparent 38%),
     inset 0 0 0 var(--hairline-w) hsl(var(--ring) / 0.4),
     0 var(--space-2) var(--space-4) hsl(var(--shadow-color) / 0.24);
+  --chromatic-shift: var(--spacing-0-25);
+  --chromatic-opacity: 0.55;
 }
 
 .defaultTab[data-variant="default"][data-loading="true"],
@@ -102,6 +132,15 @@
   );
   color: hsl(var(--muted-foreground));
   box-shadow: var(--shadow-outline-faint);
+  --chromatic-shift: 0px;
+  --chromatic-opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .defaultTab[data-variant="default"]::after {
+    transition: opacity var(--motion-duration-sm, var(--dur-quick, 220ms))
+      var(--ease-out, ease-out);
+  }
 }
 
 .neoTablist[data-variant="neo"] {
