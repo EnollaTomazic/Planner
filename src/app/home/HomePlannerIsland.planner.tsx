@@ -501,7 +501,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
             </div>
             <div className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-2">
               <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-focus-heading">
-                <div className="flex w-full flex-col items-start justify-between gap-[var(--space-2)] sm:flex-row sm:items-center">
+                <div className="flex w-full flex-col items-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between">
                   <h3 id="legacy-focus-heading" className="text-body font-semibold text-foreground">
                     {focus.label}
                   </h3>
@@ -529,7 +529,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
                 ) : null}
               </section>
               <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-goals-heading">
-                <div className="flex w-full flex-col items-start justify-between gap-[var(--space-2)] sm:flex-row sm:items-center">
+                <div className="flex w-full flex-col items-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between">
                   <h3 id="legacy-goals-heading" className="text-body font-semibold text-foreground">
                     {goals.label ?? "Goals"}
                   </h3>
@@ -565,7 +565,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
               </section>
             </div>
             <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-calendar-heading">
-              <div className="flex w-full flex-col items-start justify-between gap-[var(--space-2)] sm:flex-row sm:items-center">
+              <div className="flex w-full flex-col items-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between">
                 <h3 id="legacy-calendar-heading" className="text-body font-semibold text-foreground">
                   {calendar.label}
                 </h3>
