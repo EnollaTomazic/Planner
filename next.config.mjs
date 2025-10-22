@@ -97,6 +97,7 @@ let nextConfig = {
   },
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
+    NEXT_PUBLIC_SAFE_MODE: process.env.NEXT_PUBLIC_SAFE_MODE ?? "true",
   },
   webpack: (config, context) => {
     const webpackRef = context?.webpack;
