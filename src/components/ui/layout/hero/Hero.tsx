@@ -245,7 +245,7 @@ function Hero<Key extends string = string>({
           <HeroImage
             state={illustrationState}
             alt={heroIllustrationAlt}
-            className="z-[1]"
+            className="z-0 after:pointer-events-none after:absolute after:inset-0 after:z-[1] after:content-[''] after:bg-glitch-overlay after:opacity-30 after:mix-blend-soft-light"
           />
         ) : null}
         <div className={cn(classes.bar, barClassName)}>
@@ -271,7 +271,12 @@ function Hero<Key extends string = string>({
             {children ? <div className={cn(bodyClassName)}>{children}</div> : null}
             {searchProps || actions ? (
               <div
-                className={cn("relative", classes.divider)}
+                className={cn(
+                  "relative",
+                  classes.divider,
+                  frame &&
+                    "before:pointer-events-none before:absolute before:inset-0 before:z-[1] before:rounded-[inherit] before:content-[''] before:bg-glitch-overlay before:opacity-30 before:mix-blend-soft-light",
+                )}
                 data-divider-tint={dividerTint}
               >
                 <span aria-hidden className={classes.dividerLine} />
