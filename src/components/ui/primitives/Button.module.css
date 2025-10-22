@@ -1,4 +1,35 @@
-.root {}
+.root {
+  position: relative;
+}
+
+.root::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--hairline-w, 1px) * -1);
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: var(--shadow-control-hover);
+  transition: opacity var(--motion-duration-sm) var(--ease-out);
+}
+
+.root:where(:not(:disabled):not([disabled]):not([aria-disabled="true"])):is(
+    :hover,
+    :focus-visible,
+    :focus-within
+  )::after,
+.root[aria-pressed="true"]::after,
+.root[data-state="on"]::after,
+.root[data-selected="true"]::after {
+  opacity: 1;
+}
+
+.root[data-loading="true"]::after,
+.root:disabled::after,
+.root[disabled]::after,
+.root[aria-disabled="true"]::after {
+  opacity: 0;
+}
 
 .organicControl {
   border-radius: calc(var(--control-radius) * 1.04)

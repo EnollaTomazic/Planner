@@ -1,6 +1,31 @@
 .root {
   --field-h: var(--control-h-md);
   --bg: var(--surface);
+  position: relative;
+}
+
+.root::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--hairline-w, 1px) * -1);
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: var(--shadow-control-hover);
+  transition: opacity var(--motion-duration-sm) var(--ease-out);
+}
+
+.root:where(
+    :not([data-disabled="true"]):not([aria-disabled="true"])
+  ):is(:hover, :focus-visible, :focus-within)::after,
+.root[data-field-state="readonly"]:focus-within::after,
+.root[data-field-state="loading"]:focus-within::after {
+  opacity: 1;
+}
+
+.root[data-disabled="true"]::after,
+.root[aria-disabled="true"]::after {
+  opacity: 0;
 }
 
 .root[data-field-height="sm"] {
