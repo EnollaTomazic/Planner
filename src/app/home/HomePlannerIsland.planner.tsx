@@ -449,7 +449,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
             <div
               role="group"
               aria-label="Planner actions"
-              className="flex flex-wrap items-center gap-[var(--space-3)]"
+              className="flex w-full flex-col gap-[var(--space-3)] sm:w-auto sm:flex-row sm:items-center sm:justify-end"
             >
               {heroActions}
             </div>
@@ -479,7 +479,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
             aria-busy={hydrating}
             aria-live={hydrating ? "polite" : undefined}
           >
-            <div className="grid gap-[var(--space-3)] md:grid-cols-3" role="list">
+            <div className="grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2 md:grid-cols-3" role="list">
               {summary.items.map((item) => (
                 <article
                   key={item.key}
@@ -499,9 +499,9 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
                 </article>
               ))}
             </div>
-            <div className="grid gap-[var(--space-4)] md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-2">
               <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-focus-heading">
-                <div className="flex items-center justify-between gap-[var(--space-2)]">
+                <div className="flex w-full flex-col items-start justify-between gap-[var(--space-2)] sm:flex-row sm:items-center">
                   <h3 id="legacy-focus-heading" className="text-body font-semibold text-foreground">
                     {focus.label}
                   </h3>
@@ -529,7 +529,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
                 ) : null}
               </section>
               <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-goals-heading">
-                <div className="flex items-center justify-between gap-[var(--space-2)]">
+                <div className="flex w-full flex-col items-start justify-between gap-[var(--space-2)] sm:flex-row sm:items-center">
                   <h3 id="legacy-goals-heading" className="text-body font-semibold text-foreground">
                     {goals.label ?? "Goals"}
                   </h3>
@@ -565,7 +565,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
               </section>
             </div>
             <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-calendar-heading">
-              <div className="flex items-center justify-between gap-[var(--space-2)]">
+              <div className="flex w-full flex-col items-start justify-between gap-[var(--space-2)] sm:flex-row sm:items-center">
                 <h3 id="legacy-calendar-heading" className="text-body font-semibold text-foreground">
                   {calendar.label}
                 </h3>
