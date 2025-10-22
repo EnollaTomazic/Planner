@@ -7,7 +7,7 @@ import "@/env/validate-server-env";
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 import {
-  geistMonoExtrasClassName,
+  geistMonoClassName,
   geistMonoVariable,
   geistSansClassName,
   geistSansVariable,
@@ -97,6 +97,9 @@ export default async function RootLayout({
     `  --asset-glitch-gif-url: url("${glitchAssetPath}");`,
     "}",
   ].join("\n");
+  const bodyClassName = `${geistSansVariable} ${geistMonoVariable} ${geistSansClassName} min-h-screen bg-background text-foreground${
+    glitchLandingState ? " glitch-root" : ""
+  }`;
 
   return (
     // Default SSR state: LG (dark). The no-flash script will tweak immediately.
@@ -131,14 +134,15 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${geistSansVariable} ${geistMonoVariable} ${geistSansClassName} min-h-screen bg-background text-foreground${glitchLandingState ? " glitch-root" : ""}`}
+        className={bodyClassName}
         data-depth-theme={depthThemeDataAttribute}
         data-organic-depth={organicDepthDataAttribute}
         data-glitch-landing={glitchLandingDataAttribute}
       >
+        {/* Preload mono extras without affecting the base body font */}
         <span
           aria-hidden="true"
-          className={geistMonoExtrasClassName}
+          className={geistMonoClassName}
           style={{
             position: "absolute",
             width: 0,
