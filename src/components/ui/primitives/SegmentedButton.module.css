@@ -23,6 +23,7 @@
     var(--seg-active-base) 12%
   );
   --chromatic-shift: 0px;
+  --chromatic-blur: 0px;
   --chromatic-opacity: 0;
   position: relative;
   isolation: isolate;
@@ -67,11 +68,12 @@
   opacity: 0;
   box-shadow: var(--shadow-control-hover), var(--shadow-neon-soft);
   filter: drop-shadow(
-      calc(var(--chromatic-shift) * -1) 0
+      calc(var(--chromatic-shift) * -1) 0 var(--chromatic-blur)
         hsl(var(--primary) / var(--chromatic-opacity))
     )
     drop-shadow(
-      var(--chromatic-shift) 0 hsl(var(--danger) / var(--chromatic-opacity))
+      var(--chromatic-shift) 0 var(--chromatic-blur)
+        hsl(var(--danger) / var(--chromatic-opacity))
     );
   transform: translate3d(0, 0, 0);
   transition:
@@ -89,6 +91,7 @@
 .root[aria-pressed="true"]::after {
   opacity: 1;
   --chromatic-shift: var(--spacing-0-25);
+  --chromatic-blur: var(--spacing-0-5);
   --chromatic-opacity: 0.55;
 }
 
@@ -98,6 +101,7 @@
 .root[data-loading="true"]::after {
   opacity: 0;
   --chromatic-shift: 0px;
+  --chromatic-blur: 0px;
   --chromatic-opacity: 0;
 }
 
