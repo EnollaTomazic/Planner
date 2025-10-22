@@ -276,20 +276,33 @@ export function Reminders() {
         {/* Panel body now holds Quick Add + neon quote + cards grid */}
         <SectionCard.Body className="grid gap-[var(--space-3)]">
           {/* Quick Add row (in the SAME panel as cards) */}
-          <div className="sm:p-[var(--space-4)] flex items-center gap-[var(--space-4)]">
-            <Input
-              aria-label="Quick add"
-              placeholder={`Quick add to ${group === "all" ? "Pre-Game" : group.charAt(0).toUpperCase() + group.slice(1)}…`}
-              name="quick-reminder"
-              value={quickAdd}
-              onChange={(e) => setQuickAdd(e.currentTarget.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addQuick(); } }}
-              className="flex-1"
-            />
-            <IconButton title="Add quick" aria-label="Add quick" onClick={addQuick} size="md" variant="default">
-              <Plus />
-            </IconButton>
-            <p className="text-label sm:text-ui font-medium tracking-[0.02em] italic text-muted-foreground">
+          <div
+            className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-between sm:gap-[var(--space-4)] sm:p-[var(--space-4)]"
+          >
+            <div className="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)] sm:flex-1">
+              <Input
+                aria-label="Quick add"
+                placeholder={`Quick add to ${group === "all" ? "Pre-Game" : group.charAt(0).toUpperCase() + group.slice(1)}…`}
+                name="quick-reminder"
+                value={quickAdd}
+                onChange={(e) => setQuickAdd(e.currentTarget.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addQuick(); } }}
+                className="w-full sm:flex-1"
+              />
+              <IconButton
+                title="Add quick"
+                aria-label="Add quick"
+                onClick={addQuick}
+                size="md"
+                variant="default"
+                className="sm:flex-none"
+              >
+                <Plus />
+              </IconButton>
+            </div>
+            <p
+              className="text-balance text-label font-medium tracking-[0.02em] italic text-muted-foreground sm:text-ui sm:flex-1"
+            >
               Stop procrastinating, do it now if you have time
             </p>
           </div>
