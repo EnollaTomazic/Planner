@@ -1,4 +1,5 @@
 .root {
+  --segmented-height: var(--segmented-control-height, var(--control-h-md));
   --segmented-depth-sm: var(--neo-depth-sm);
   --segmented-depth-md: var(--neo-depth-md);
   --segmented-depth-lg: var(--neo-depth-lg);
@@ -27,6 +28,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
+  min-height: var(--segmented-height);
   border-radius: calc(var(--control-radius) * 1.04)
       calc(var(--control-radius) * 0.96)
       calc(var(--control-radius) * 1.08)

@@ -21,9 +21,9 @@ import styles from "./CheckCircle.module.css";
 
 type Size = "sm" | "md" | "lg";
 const SIZE: Record<Size, string> = {
-  sm: "h-[var(--space-6)] w-[var(--space-6)] [&_svg]:size-[var(--space-4)]",
-  md: "h-[var(--space-8)] w-[var(--space-8)] [&_svg]:size-[var(--space-5)]",
-  lg: "h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[var(--space-6)]",
+  sm: "h-[var(--control-h-sm)] w-[var(--control-h-sm)] [&_svg]:size-[calc(var(--control-h-sm)/2)]",
+  md: "h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[calc(var(--control-h-md)/2)]",
+  lg: "h-[var(--control-h-lg)] w-[var(--control-h-lg)] [&_svg]:size-[calc(var(--control-h-lg)/2)]",
 };
 
 export function CheckCircle({
