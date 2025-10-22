@@ -58,6 +58,30 @@ describe("loadClientEnv", () => {
     `);
   });
 
+  it("does not warn when NEXT_PUBLIC_SAFE_MODE is defined", () => {
+    const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
+
+    process.env.NEXT_PUBLIC_SAFE_MODE = "false";
+
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    try {
+      const env = readClientEnv();
+
+      expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
+      expect(warn).not.toHaveBeenCalled();
+    } finally {
+      resetClientEnvCache();
+      warn.mockRestore();
+
+      if (typeof originalNextPublicSafeMode === "string") {
+        process.env.NEXT_PUBLIC_SAFE_MODE = originalNextPublicSafeMode;
+      } else {
+        delete process.env.NEXT_PUBLIC_SAFE_MODE;
+      }
+    }
+  });
+
   it("falls back to safe mode defaults when NEXT_PUBLIC_SAFE_MODE is missing at runtime", () => {
     const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
     const originalSafeMode = process.env.SAFE_MODE;
