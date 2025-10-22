@@ -25,7 +25,7 @@ const TOKEN_GRID_CLASSNAME =
   "grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2 sm:gap-[var(--space-4)] xl:grid-cols-3";
 
 const TOKEN_CARD_CLASSNAME =
-  "flex h-full cursor-pointer flex-col gap-[var(--space-3)] rounded-card r-card-md border border-[var(--card-hairline)] bg-panel/60 p-[var(--space-3)] transition-colors focus-visible:outline-none focus-visible:ring-[var(--ring-size-2)] focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[selected=true]:border-[hsl(var(--accent))] data-[selected=true]:shadow-elev-2 md:p-[var(--space-4)]";
+  "flex h-full cursor-pointer flex-col gap-[var(--space-3)] rounded-card r-card-md border border-[var(--card-hairline)] bg-panel/60 p-[var(--space-3)] shadow-neo-soft transition-colors focus-visible:outline-none focus-visible:ring-[var(--ring-size-2)] focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[selected=true]:border-[hsl(var(--accent))] data-[selected=true]:shadow-neo md:p-[var(--space-4)]";
 
 const CATEGORY_DESCRIPTIONS: Partial<Record<DesignTokenGroup["id"], string>> = {
   color: "Swatches, overlays, gradients, and semantic colors shared across Planner.",
