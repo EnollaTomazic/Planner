@@ -7,6 +7,7 @@ import "@/env/validate-server-env";
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 import {
+  geistMonoExtrasClassName,
   geistMonoVariable,
   geistSansClassName,
   geistSansVariable,
@@ -130,7 +131,7 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${geistSansClassName} ${geistSansVariable} ${geistMonoVariable} min-h-screen bg-background text-foreground${glitchLandingState ? " glitch-root" : ""}`}
+        className={`${geistSansVariable} ${geistMonoVariable} ${geistMonoExtrasClassName} ${geistSansClassName} min-h-screen bg-background text-foreground${glitchLandingState ? " glitch-root" : ""}`}
         data-depth-theme={depthThemeDataAttribute}
         data-organic-depth={organicDepthDataAttribute}
         data-glitch-landing={glitchLandingDataAttribute}
