@@ -22,6 +22,8 @@
     hsl(var(--card)) 88%,
     var(--seg-active-base) 12%
   );
+  --chromatic-shift: 0px;
+  --chromatic-opacity: 0;
   position: relative;
   isolation: isolate;
   display: inline-flex;
@@ -63,8 +65,19 @@
   border-radius: inherit;
   pointer-events: none;
   opacity: 0;
-  box-shadow: var(--shadow-control-hover);
-  transition: opacity var(--motion-duration-sm) var(--ease-out);
+  box-shadow: var(--shadow-control-hover), var(--shadow-neon-soft);
+  filter: drop-shadow(
+      calc(var(--chromatic-shift) * -1) 0
+        hsl(var(--primary) / var(--chromatic-opacity))
+    )
+    drop-shadow(
+      var(--chromatic-shift) 0 hsl(var(--danger) / var(--chromatic-opacity))
+    );
+  transform: translate3d(0, 0, 0);
+  transition:
+    opacity var(--motion-duration-sm) var(--ease-out),
+    filter var(--motion-duration-sm) var(--ease-out),
+    transform var(--motion-duration-sm) var(--ease-out);
 }
 
 .root:where(
@@ -75,6 +88,8 @@
 .root[aria-current="page"]::after,
 .root[aria-pressed="true"]::after {
   opacity: 1;
+  --chromatic-shift: var(--spacing-0-25);
+  --chromatic-opacity: 0.55;
 }
 
 .root:disabled::after,
@@ -82,6 +97,14 @@
 .root[aria-disabled="true"]::after,
 .root[data-loading="true"]::after {
   opacity: 0;
+  --chromatic-shift: 0px;
+  --chromatic-opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root::after {
+    transition: opacity var(--motion-duration-sm) var(--ease-out);
+  }
 }
 
 .root[data-depth="raised"] {
