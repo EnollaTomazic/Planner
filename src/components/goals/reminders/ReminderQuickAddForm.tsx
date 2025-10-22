@@ -62,28 +62,31 @@ export function ReminderQuickAddForm() {
     <>
       <form
         onSubmit={handleSubmit}
-        className="rounded-card flex items-center gap-[var(--space-2)] sm:gap-[var(--space-6)] glitch"
+        className="glitch rounded-card flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-between sm:gap-[var(--space-4)]"
       >
-        <Input
-          ref={inputRef}
-          id={inputId}
-          aria-label="Quick add reminder"
-          placeholder={`Quick add to ${groupLabel}…`}
-          value={quickAdd}
-          onChange={handleChange}
-          aria-describedby={errorId}
-          className="flex-1"
-        />
-        <IconButton
-          title="Add quick"
-          aria-label="Add quick"
-          type="submit"
-          size="md"
-          variant="default"
-        >
-          <Plus aria-hidden />
-        </IconButton>
-        <div className={`${neonToneClass} hidden sm:block`}>
+        <div className="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)] sm:flex-1">
+          <Input
+            ref={inputRef}
+            id={inputId}
+            aria-label="Quick add reminder"
+            placeholder={`Quick add to ${groupLabel}…`}
+            value={quickAdd}
+            onChange={handleChange}
+            aria-describedby={errorId}
+            className="w-full sm:flex-1"
+          />
+          <IconButton
+            title="Add quick"
+            aria-label="Add quick"
+            type="submit"
+            size="md"
+            variant="default"
+            className="sm:flex-none"
+          >
+            <Plus aria-hidden />
+          </IconButton>
+        </div>
+        <div className={`${neonToneClass} hidden sm:flex sm:flex-1 sm:justify-end`}>
           <p
             className={`${styles.neonNote} neon-glow text-label font-medium tracking-[0.02em] italic`}
           >
