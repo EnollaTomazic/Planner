@@ -151,7 +151,7 @@ export function TabPanel<Key extends string = string>({
       tabIndex={isActive ? 0 : -1}
       data-state={isActive ? "active" : "inactive"}
       className={cn(
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-control-hover)]",
         className,
       )}
       {...rest}

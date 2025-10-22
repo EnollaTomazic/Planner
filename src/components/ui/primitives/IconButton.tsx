@@ -133,7 +133,7 @@ const secondarySurfaceTokens: Record<Tone, string> = {
 
 const primaryVariantBase = (tone: Tone): string =>
   cn(
-    "border transition-[box-shadow,background-color,color] shadow-glow-sm hover:shadow-btn-primary-hover active:shadow-btn-primary-active",
+    "border transition-[box-shadow,background-color,color] shadow-[var(--shadow-control)] hover:shadow-[var(--shadow-control-hover)] active:shadow-[var(--shadow-control)]",
     toneInteractionTokens[tone],
     primaryShadowVars[tone],
   );
@@ -141,7 +141,7 @@ const primaryVariantBase = (tone: Tone): string =>
 const baseVariantBase: Record<Exclude<IconButtonVariant, "glitch">, (tone: Tone) => string> = {
   quiet: (tone) =>
     cn(
-      "border transition-[box-shadow,background-color,color]",
+      "border transition-[box-shadow,background-color,color] shadow-[var(--shadow-control)] hover:shadow-[var(--shadow-control-hover)] active:shadow-[var(--shadow-control)]",
       toneTintTokens[tone],
     ),
   default: primaryVariantBase,
@@ -310,7 +310,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           shouldGlitch && "glitch-wrapper",
           shouldGlitch && styles.glitch,
           shouldGlitch && "group/glitch isolate overflow-hidden",
-          "inline-flex items-center justify-center select-none rounded-full transition-colors duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
+          "inline-flex items-center justify-center select-none rounded-full transition-colors duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-control-hover)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
           "data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none]",
           "[--neu-radius:var(--radius-full)]",
           variantClass,

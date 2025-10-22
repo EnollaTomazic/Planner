@@ -127,7 +127,7 @@ export function AnimatedSelectList({
                       active
                         ? "bg-primary/14 text-primary-foreground [--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)]"
                         : undefined,
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-control-hover)] data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
                       item.className,
                     )}
                     data-loading={item.loading}

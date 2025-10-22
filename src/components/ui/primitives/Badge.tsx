@@ -168,7 +168,7 @@ export function Badge<T extends React.ElementType = "span">(
           cn(
             styles.interactive,
             toneInteraction[tone],
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)]",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-control-hover)]",
             "data-[disabled=true]:cursor-default",
             !isButtonElement && "data-[disabled=true]:pointer-events-none",
           ),

@@ -3,9 +3,9 @@
   --segmented-depth-sm: var(--neo-depth-sm);
   --segmented-depth-md: var(--neo-depth-md);
   --segmented-depth-lg: var(--neo-depth-lg);
-  --segmented-shadow-rest: var(--depth-shadow-outer);
-  --segmented-shadow-hover: var(--depth-shadow-soft);
-  --segmented-shadow-active: var(--depth-shadow-outer-strong);
+  --segmented-shadow-rest: var(--shadow-control);
+  --segmented-shadow-hover: var(--shadow-control-hover);
+  --segmented-shadow-active: var(--shadow-control);
   --segmented-ring-size: var(--ring-size-1);
   --segmented-ring-stroke: var(--ring-stroke-s);
   --segmented-ring-offset: hsl(var(--card));

@@ -33,10 +33,10 @@ const BUTTON_STATES: readonly ButtonStateSpec[] = [
     id: "focus",
     name: "Focus",
     className:
-      "ring-2 ring-ring ring-offset-2 ring-offset-background shadow-[var(--shadow-glow-md)] outline-none",
+      "ring-2 ring-ring ring-offset-2 ring-offset-background shadow-[var(--shadow-control-hover)] outline-none",
     props: { children: "Focus" },
     code:
-      "<Button className=\"ring-2 ring-ring ring-offset-2 ring-offset-background shadow-[var(--shadow-glow-md)] outline-none\">Focus</Button>",
+      "<Button className=\"ring-2 ring-ring ring-offset-2 ring-offset-background shadow-[var(--shadow-control-hover)] outline-none\">Focus</Button>",
   },
   {
     id: "active",

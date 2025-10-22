@@ -380,7 +380,7 @@ export default function PreviewContentClient({ route }: PreviewContentClientProp
                       aria-hidden
                     />
                     <div
-                      className="pointer-events-none absolute top-1/2 size-[var(--space-5)] -translate-y-1/2 -translate-x-1/2 rounded-full border border-card-hairline-60 bg-card/90 shadow-[var(--shadow-control)] transition-[left] duration-motion-sm ease-out motion-reduce:transition-none group-focus-visible/slider:ring-2 group-focus-visible/slider:ring-ring group-focus-visible/slider:ring-offset-2 group-focus-visible/slider:ring-offset-background group-focus-visible/slider:shadow-[var(--shadow-glow-md)]"
+                      className="pointer-events-none absolute top-1/2 size-[var(--space-5)] -translate-y-1/2 -translate-x-1/2 rounded-full border border-card-hairline-60 bg-card/90 shadow-[var(--shadow-control)] transition-[left] duration-motion-sm ease-out motion-reduce:transition-none group-focus-visible/slider:ring-2 group-focus-visible/slider:ring-ring group-focus-visible/slider:ring-offset-2 group-focus-visible/slider:ring-offset-background group-focus-visible/slider:shadow-[var(--shadow-control-hover)]"
                       style={{ left: `${containerProgress}%` }}
                       aria-hidden
                     />

@@ -32,10 +32,10 @@ const INPUT_STATES: readonly InputStateSpec[] = [
     id: "focus",
     name: "Focus",
     className:
-      "ring-2 ring-ring ring-offset-2 ring-offset-background shadow-[var(--shadow-glow-md)] outline-none",
+      "ring-2 ring-ring ring-offset-2 ring-offset-background shadow-[var(--shadow-control-hover)] outline-none",
     props: { placeholder: "Focus" },
     code:
-      "<Input className=\"ring-2 ring-ring ring-offset-2 ring-offset-background shadow-[var(--shadow-glow-md)] outline-none\" placeholder=\"Focus\" />",
+      "<Input className=\"ring-2 ring-ring ring-offset-2 ring-offset-background shadow-[var(--shadow-control-hover)] outline-none\" placeholder=\"Focus\" />",
   },
   {
     id: "active",

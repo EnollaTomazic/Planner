@@ -25,6 +25,7 @@ const FIELD_ROOT_BASE = cn(
   "rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground",
   "[--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))]",
   "transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none",
+  "shadow-[var(--shadow-control)] hover:shadow-[var(--shadow-control-hover)] focus-within:shadow-[var(--shadow-control-hover)]",
   "focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))]",
   "hover:bg-[--hover] active:bg-[--active]",
   "data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40",

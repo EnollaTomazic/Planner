@@ -106,9 +106,9 @@ describe("IconButton", () => {
     );
     const classes = getByRole("button").className;
     expect(classes).toContain("border");
-    expect(classes).toContain("shadow-glow-sm");
-    expect(classes).toContain("hover:shadow-btn-primary-hover");
-    expect(classes).toContain("active:shadow-btn-primary-active");
+    expect(classes).toContain("shadow-[var(--shadow-control)]");
+    expect(classes).toContain("hover:shadow-[var(--shadow-control-hover)]");
+    expect(classes).toContain("active:shadow-[var(--shadow-control)]");
     expect(classes).toContain(
       "border-[hsl(var(--accent)/0.35)] [--neu-surface:hsl(var(--accent)/0.12)]",
     );

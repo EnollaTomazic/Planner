@@ -246,7 +246,7 @@ const baseVariants: Record<Exclude<ButtonVariant, "glitch">, VariantConfig> = {
     className: cn(
       tactile
         ? "shadow-inner-md hover:shadow-inner-lg active:shadow-inner-lg"
-        : "shadow-glow-md hover:shadow-btn-primary-hover active:shadow-btn-primary-active",
+        : "shadow-[var(--shadow-control)] hover:shadow-[var(--shadow-control-hover)] active:shadow-[var(--shadow-control)]",
       tactile
         ? "active:translate-y-0"
         : "active:translate-y-[var(--spacing-0-25)]",
@@ -283,7 +283,8 @@ const baseVariants: Record<Exclude<ButtonVariant, "glitch">, VariantConfig> = {
         },
   }),
   quiet: () => ({
-    className: "",
+    className:
+      "shadow-[var(--shadow-control)] hover:shadow-[var(--shadow-control-hover)] active:shadow-[var(--shadow-control)]",
     whileTap: { scale: 0.97 },
   }),
 };
@@ -334,7 +335,7 @@ export const Button = React.forwardRef<
     styles.root,
     organicDepth && styles.organicControl,
     shouldGlitch && "group/glitch isolate overflow-hidden",
-    "relative inline-flex items-center justify-center rounded-card r-card-md border font-medium tracking-[0.02em] transition-all duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
+    "relative inline-flex items-center justify-center rounded-card r-card-md border font-medium tracking-[0.02em] transition-all duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-control-hover)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading",
     "data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none]",
     "data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none",
     "[--neu-radius:var(--radius-card)]",
