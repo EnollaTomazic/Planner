@@ -274,8 +274,8 @@ function RemTileBase({ reminder, onChange, onDelete }: RemTileProps) {
               ))}
             </div>
 
-            <div className="flex gap-[var(--space-2)]">
-              <Button size="sm" onClick={save}>
+            <div className="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-2)]">
+              <Button size="sm" onClick={save} className="w-full sm:w-auto">
                 Save
               </Button>
               <Button
@@ -287,6 +287,7 @@ function RemTileBase({ reminder, onChange, onDelete }: RemTileProps) {
                   setBody(reminder.body ?? "");
                   setTagsText(reminder.tags.join(", "));
                 }}
+                className="w-full sm:w-auto"
               >
                 Cancel
               </Button>
