@@ -1,4 +1,59 @@
-.root {}
+.root {
+  position: relative;
+  isolation: isolate;
+  --chromatic-shift: 0px;
+  --chromatic-opacity: 0;
+}
+
+.root::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--hairline-w, 1px) * -1);
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: var(--shadow-control-hover), var(--shadow-neon-soft);
+  filter: drop-shadow(
+      calc(var(--chromatic-shift) * -1) 0
+        hsl(var(--primary) / var(--chromatic-opacity))
+    )
+    drop-shadow(
+      var(--chromatic-shift) 0 hsl(var(--danger) / var(--chromatic-opacity))
+    );
+  transform: translate3d(0, 0, 0);
+  transition:
+    opacity var(--motion-duration-sm) var(--ease-out),
+    filter var(--motion-duration-sm) var(--ease-out),
+    transform var(--motion-duration-sm) var(--ease-out);
+}
+
+.root:where(:not(:disabled):not([disabled]):not([aria-disabled="true"])):is(
+    :hover,
+    :focus-visible,
+    :focus-within
+  )::after,
+.root[aria-pressed="true"]::after,
+.root[data-state="on"]::after,
+.root[data-selected="true"]::after {
+  opacity: 1;
+  --chromatic-shift: var(--spacing-0-25);
+  --chromatic-opacity: 0.55;
+}
+
+.root[data-loading="true"]::after,
+.root:disabled::after,
+.root[disabled]::after,
+.root[aria-disabled="true"]::after {
+  opacity: 0;
+  --chromatic-shift: 0px;
+  --chromatic-opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root::after {
+    transition: opacity var(--motion-duration-sm) var(--ease-out);
+  }
+}
 
 .glitch {
   position: relative;
