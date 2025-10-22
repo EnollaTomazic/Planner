@@ -1,14 +1,25 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ZodError } from "zod";
 
-import { loadClientEnv, readClientEnv, resetClientEnvCache } from "@env";
+type EnvModule = typeof import("@env");
+
+let envModule: EnvModule | undefined;
+
+async function importEnvModule(): Promise<EnvModule> {
+  envModule = await import("@env");
+  return envModule;
+}
+
+afterEach(() => {
+  envModule?.resetClientEnvCache();
+  vi.resetModules();
+  envModule = undefined;
+});
 
 describe("loadClientEnv", () => {
-  afterEach(() => {
-    resetClientEnvCache();
-  });
+  it("defaults NEXT_PUBLIC_SAFE_MODE to 'true' when missing", async () => {
+    const { loadClientEnv } = await importEnvModule();
 
-  it("defaults NEXT_PUBLIC_SAFE_MODE to 'true' when missing", () => {
     const env = loadClientEnv({
       NEXT_PUBLIC_BASE_PATH: "/planner",
     } as unknown as NodeJS.ProcessEnv);
@@ -16,7 +27,9 @@ describe("loadClientEnv", () => {
     expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("true");
   });
 
-  it("throws when NEXT_PUBLIC_SENTRY_ENVIRONMENT is provided without a DSN", () => {
+  it("throws when NEXT_PUBLIC_SENTRY_ENVIRONMENT is provided without a DSN", async () => {
+    const { loadClientEnv } = await importEnvModule();
+
     const attempt = () =>
       loadClientEnv({
         NEXT_PUBLIC_SAFE_MODE: "false",
@@ -37,7 +50,9 @@ describe("loadClientEnv", () => {
     `);
   });
 
-  it("throws when NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE is provided without a DSN", () => {
+  it("throws when NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE is provided without a DSN", async () => {
+    const { loadClientEnv } = await importEnvModule();
+
     const attempt = () =>
       loadClientEnv({
         NEXT_PUBLIC_SAFE_MODE: "false",
@@ -58,10 +73,12 @@ describe("loadClientEnv", () => {
     `);
   });
 
-  it("does not warn when NEXT_PUBLIC_SAFE_MODE is defined", () => {
+  it("does not warn when NEXT_PUBLIC_SAFE_MODE is defined", async () => {
     const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
 
     process.env.NEXT_PUBLIC_SAFE_MODE = "false";
+
+    const { readClientEnv } = await importEnvModule();
 
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
 
@@ -71,7 +88,6 @@ describe("loadClientEnv", () => {
       expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("false");
       expect(warn).not.toHaveBeenCalled();
     } finally {
-      resetClientEnvCache();
       warn.mockRestore();
 
       if (typeof originalNextPublicSafeMode === "string") {
@@ -82,9 +98,13 @@ describe("loadClientEnv", () => {
     }
   });
 
-  it("falls back to safe mode defaults when NEXT_PUBLIC_SAFE_MODE is missing at runtime", () => {
+  it("hydrates NEXT_PUBLIC_SAFE_MODE from the build-time default when missing at runtime", async () => {
     const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
     const originalSafeMode = process.env.SAFE_MODE;
+
+    process.env.NEXT_PUBLIC_SAFE_MODE = "true";
+
+    const { readClientEnv } = await importEnvModule();
 
     delete process.env.NEXT_PUBLIC_SAFE_MODE;
     delete process.env.SAFE_MODE;
@@ -97,12 +117,10 @@ describe("loadClientEnv", () => {
       expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("true");
       expect(process.env.NEXT_PUBLIC_SAFE_MODE).toBe("true");
       expect(process.env.SAFE_MODE).toBe("true");
-      expect(warn).toHaveBeenCalledWith(
-        expect.stringContaining("NEXT_PUBLIC_SAFE_MODE was missing"),
-      );
+      expect(warn).not.toHaveBeenCalled();
     } finally {
-      resetClientEnvCache();
       warn.mockRestore();
+
       if (typeof originalNextPublicSafeMode === "string") {
         process.env.NEXT_PUBLIC_SAFE_MODE = originalNextPublicSafeMode;
       } else {
@@ -117,7 +135,52 @@ describe("loadClientEnv", () => {
     }
   });
 
-  it("does not crash when GitHub Pages runtime omits process", () => {
+  it("falls back to safe mode defaults when compile-time and runtime values are missing", async () => {
+    const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
+    const originalSafeMode = process.env.SAFE_MODE;
+
+    delete process.env.NEXT_PUBLIC_SAFE_MODE;
+    delete process.env.SAFE_MODE;
+
+    const { readClientEnv } = await importEnvModule();
+
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    try {
+      const env = readClientEnv();
+
+      expect(env.NEXT_PUBLIC_SAFE_MODE).toBe("true");
+      expect(process.env.NEXT_PUBLIC_SAFE_MODE).toBe("true");
+      expect(process.env.SAFE_MODE).toBe("true");
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining("NEXT_PUBLIC_SAFE_MODE was missing"),
+      );
+    } finally {
+      warn.mockRestore();
+
+      if (typeof originalNextPublicSafeMode === "string") {
+        process.env.NEXT_PUBLIC_SAFE_MODE = originalNextPublicSafeMode;
+      } else {
+        delete process.env.NEXT_PUBLIC_SAFE_MODE;
+      }
+
+      if (typeof originalSafeMode === "string") {
+        process.env.SAFE_MODE = originalSafeMode;
+      } else {
+        delete process.env.SAFE_MODE;
+      }
+    }
+  });
+
+  it("does not crash when GitHub Pages runtime omits process", async () => {
+    const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
+    const originalSafeMode = process.env.SAFE_MODE;
+
+    delete process.env.NEXT_PUBLIC_SAFE_MODE;
+    delete process.env.SAFE_MODE;
+
+    const { readClientEnv } = await importEnvModule();
+
     vi.stubGlobal("process", undefined as unknown as NodeJS.Process);
 
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
@@ -132,19 +195,32 @@ describe("loadClientEnv", () => {
         expect.stringContaining("NEXT_PUBLIC_SAFE_MODE was missing"),
       );
     } finally {
-      resetClientEnvCache();
       warn.mockRestore();
       error.mockRestore();
       vi.unstubAllGlobals();
+
+      if (typeof originalNextPublicSafeMode === "string") {
+        process.env.NEXT_PUBLIC_SAFE_MODE = originalNextPublicSafeMode;
+      } else {
+        delete process.env.NEXT_PUBLIC_SAFE_MODE;
+      }
+
+      if (typeof originalSafeMode === "string") {
+        process.env.SAFE_MODE = originalSafeMode;
+      } else {
+        delete process.env.SAFE_MODE;
+      }
     }
   });
 
-  it("surfaces validation errors when NEXT_PUBLIC_SAFE_MODE is blank", () => {
+  it("surfaces validation errors when NEXT_PUBLIC_SAFE_MODE is blank", async () => {
     const originalNextPublicSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
     const originalSafeMode = process.env.SAFE_MODE;
 
     process.env.NEXT_PUBLIC_SAFE_MODE = "  ";
     delete process.env.SAFE_MODE;
+
+    const { readClientEnv } = await importEnvModule();
 
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
     const error = vi.spyOn(console, "error").mockImplementation(() => {});
@@ -155,7 +231,6 @@ describe("loadClientEnv", () => {
       expect(error).toHaveBeenCalled();
       expect(process.env.SAFE_MODE).toBeUndefined();
     } finally {
-      resetClientEnvCache();
       warn.mockRestore();
       error.mockRestore();
 
@@ -173,7 +248,9 @@ describe("loadClientEnv", () => {
     }
   });
 
-  it("matches the happy-path snapshot", () => {
+  it("matches the happy-path snapshot", async () => {
+    const { loadClientEnv } = await importEnvModule();
+
     const env = loadClientEnv({
       NEXT_PUBLIC_BASE_PATH: "/planner",
       NEXT_PUBLIC_DEPTH_THEME: "true",
