@@ -1,5 +1,7 @@
 import { SAFE_MODE_FALLBACK } from "./schema";
 
+const inlineSafeMode = process.env.NEXT_PUBLIC_SAFE_MODE;
+
 export function resolveProcessEnv(
   source?: NodeJS.ProcessEnv,
 ): NodeJS.ProcessEnv {
@@ -21,6 +23,8 @@ export function ensureClientSafeMode(
     return source;
   }
 
+  const resolvedSafeMode = inlineSafeMode ?? SAFE_MODE_FALLBACK;
+
   const setProcessEnvValue = (key: keyof NodeJS.ProcessEnv, value: string) => {
     if (typeof process === "undefined") {
       return;
@@ -31,22 +35,28 @@ export function ensureClientSafeMode(
 
   const nextEnv: NodeJS.ProcessEnv = {
     ...source,
-    NEXT_PUBLIC_SAFE_MODE: SAFE_MODE_FALLBACK,
+    NEXT_PUBLIC_SAFE_MODE: resolvedSafeMode,
   };
 
-  if (!source.SAFE_MODE || !source.SAFE_MODE.trim()) {
-    nextEnv.SAFE_MODE = SAFE_MODE_FALLBACK;
+  const shouldMirrorSafeMode = !source.SAFE_MODE || !source.SAFE_MODE.trim();
+
+  if (shouldMirrorSafeMode) {
+    nextEnv.SAFE_MODE = resolvedSafeMode;
   }
 
   if (typeof process !== "undefined" && source === process.env) {
-    setProcessEnvValue("NEXT_PUBLIC_SAFE_MODE", SAFE_MODE_FALLBACK);
+    setProcessEnvValue("NEXT_PUBLIC_SAFE_MODE", resolvedSafeMode);
 
-    if (!process.env.SAFE_MODE || !process.env.SAFE_MODE.trim()) {
-      setProcessEnvValue("SAFE_MODE", SAFE_MODE_FALLBACK);
+    if (shouldMirrorSafeMode) {
+      setProcessEnvValue("SAFE_MODE", resolvedSafeMode);
     }
   }
 
-  if (typeof console !== "undefined" && typeof console.warn === "function") {
+  if (
+    inlineSafeMode === undefined &&
+    typeof console !== "undefined" &&
+    typeof console.warn === "function"
+  ) {
     console.warn(
       '[env] NEXT_PUBLIC_SAFE_MODE was missing; defaulting to "true" so the runtime keeps stricter guardrails.',
     );
