@@ -245,8 +245,8 @@ const baseVariants: Record<Exclude<ButtonVariant, "glitch">, VariantConfig> = {
   default: ({ tone, tactile }) => ({
     className: cn(
       tactile
-        ? "shadow-inner-md hover:shadow-inner-lg active:shadow-inner-lg"
-        : "shadow-glow-md hover:shadow-btn-primary-hover active:shadow-btn-primary-active",
+        ? "shadow-neo-inset hover:shadow-neo-inset active:shadow-neo-inset"
+        : "shadow-neo-soft hover:shadow-neo active:shadow-neo-inset",
       tactile
         ? "active:translate-y-0"
         : "active:translate-y-[var(--spacing-0-25)]",
@@ -268,8 +268,8 @@ const baseVariants: Record<Exclude<ButtonVariant, "glitch">, VariantConfig> = {
     className: cn(
       "[--neu-surface:hsl(var(--panel)/0.8)]",
       tactile
-        ? "shadow-inner-md hover:shadow-inner-lg active:shadow-inner-lg"
-        : "shadow-control hover:shadow-control-hover active:shadow-inner-md",
+        ? "shadow-neo-inset hover:shadow-neo-inset active:shadow-neo-inset"
+        : "shadow-neo-soft hover:shadow-neo active:shadow-neo-inset",
       tactile && "active:translate-y-0",
     ),
     whileHover: tactile
