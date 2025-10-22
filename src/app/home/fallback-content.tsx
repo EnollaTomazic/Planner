@@ -27,7 +27,7 @@ export function HomeHeroSectionFallbackContent({
         <div
           role="group"
           aria-label="Home hero actions"
-          className="flex flex-wrap items-center gap-[var(--space-3)]"
+          className="flex w-full flex-col gap-[var(--space-3)] sm:w-auto sm:flex-row sm:items-center"
         >
           {actions}
         </div>
@@ -59,7 +59,7 @@ export function HeroPlannerCardsFallbackContent({
 
   return (
     <section className={rootClassName} aria-busy>
-      <div className="grid gap-[var(--space-3)] md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2 md:grid-cols-3">
         {keys.map((key) => (
           <div
             key={key}
@@ -68,7 +68,7 @@ export function HeroPlannerCardsFallbackContent({
           />
         ))}
       </div>
-      <div className="grid gap-[var(--space-3)] md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2">
         <div className="h-40 animate-pulse rounded-[var(--radius-lg)] border border-border/60 bg-muted/10" aria-hidden />
         <div className="h-40 animate-pulse rounded-[var(--radius-lg)] border border-border/60 bg-muted/10" aria-hidden />
       </div>
