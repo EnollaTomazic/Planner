@@ -74,7 +74,7 @@ function enforceNodeVersion() {
   console.error(
     `[node-version] Detected Node.js ${actualRaw}. Update to ${hint} as specified in .nvmrc before continuing.`,
   )
-  process.exitCode = 1
+  process.exit(1)
 }
 
 if (!ciValues.has(rawCi)) {
