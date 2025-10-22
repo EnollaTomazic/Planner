@@ -304,7 +304,96 @@ export const rootVariables: VariableDefinition[] = [
   { name: "pillar-comms-shadow", value: "300 80% 36% / 0.35" },
 ];
 
-export const themes: ThemeDefinition[] = [
+const CARD_BACKGROUND_MIN_LIGHTNESS_DELTA = 6;
+const HSL_TOKEN_PATTERN =
+  /^(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)%\s+(-?\d+(?:\.\d+)?)%$/;
+
+interface HslComponents {
+  hue: string;
+  saturation: string;
+  lightness: string;
+}
+
+function parseHslComponents(value: string): HslComponents | null {
+  const match = value.trim().match(HSL_TOKEN_PATTERN);
+  if (!match) {
+    return null;
+  }
+  const [, hue, saturation, lightness] = match;
+  return { hue, saturation, lightness };
+}
+
+function formatLightness(value: number): string {
+  return Number.parseFloat(value.toFixed(2)).toString().replace(/\.0+$/, "");
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
+}
+
+function enforceCardContrast(theme: ThemeDefinition): ThemeDefinition {
+  const backgroundVariable = theme.variables.find(
+    (variable) => variable.name === "background",
+  );
+  const cardVariable = theme.variables.find(
+    (variable) => variable.name === "card",
+  );
+
+  if (
+    !backgroundVariable ||
+    !cardVariable ||
+    typeof backgroundVariable.value !== "string" ||
+    typeof cardVariable.value !== "string"
+  ) {
+    return theme;
+  }
+
+  const backgroundComponents = parseHslComponents(backgroundVariable.value);
+  const cardComponents = parseHslComponents(cardVariable.value);
+
+  if (!backgroundComponents || !cardComponents) {
+    return theme;
+  }
+
+  const backgroundLightness = Number.parseFloat(
+    backgroundComponents.lightness,
+  );
+  const cardLightness = Number.parseFloat(cardComponents.lightness);
+
+  if (Number.isNaN(backgroundLightness) || Number.isNaN(cardLightness)) {
+    return theme;
+  }
+
+  const isDarkTheme = backgroundLightness < 50;
+  const desiredLightness = isDarkTheme
+    ? Math.max(
+        cardLightness,
+        backgroundLightness + CARD_BACKGROUND_MIN_LIGHTNESS_DELTA,
+      )
+    : Math.min(
+        cardLightness,
+        backgroundLightness - CARD_BACKGROUND_MIN_LIGHTNESS_DELTA,
+      );
+
+  if (Math.abs(desiredLightness - cardLightness) < 0.01) {
+    return theme;
+  }
+
+  const adjustedLightness = clamp(desiredLightness, 0, 100);
+  const formattedLightness = formatLightness(adjustedLightness);
+  const updatedCardValue = `${cardComponents.hue} ${cardComponents.saturation}% ${formattedLightness}%`;
+
+  const variables = theme.variables.map((variable) => {
+    if (variable !== cardVariable) {
+      return variable;
+    }
+    return { ...variable, value: updatedCardValue };
+  });
+
+  return { ...theme, variables };
+}
+
+const rawThemes: ThemeDefinition[] = [
   {
     id: "aurora",
     label: "Aurora",
@@ -1100,3 +1189,5 @@ export const themes: ThemeDefinition[] = [
     ],
   },
 ];
+
+export const themes: ThemeDefinition[] = rawThemes.map(enforceCardContrast);
