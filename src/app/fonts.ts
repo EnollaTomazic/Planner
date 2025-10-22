@@ -42,7 +42,7 @@ const geistMonoExtras = localFont({
   declarations: [
     {
       prop: 'font-family',
-      value: geistMonoCore.style.fontFamily,
+      value: 'var(--font-geist-mono)',
     },
   ],
   src: [
@@ -61,5 +61,15 @@ const geistMonoExtras = localFont({
 
 export const geistSansClassName = geistSans.className
 export const geistSansVariable = geistSans.variable
-export const geistMonoVariable = geistMonoCore.variable
+const extractVariableClass = (value: string, className: string) =>
+  value
+    .split(/\s+/)
+    .filter(Boolean)
+    .filter((token) => token !== className)
+    .join(' ')
+
+export const geistMonoVariable = extractVariableClass(
+  geistMonoCore.variable,
+  geistMonoCore.className,
+)
 export const geistMonoExtrasClassName = geistMonoExtras.className
