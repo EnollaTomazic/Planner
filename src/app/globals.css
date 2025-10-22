@@ -2506,6 +2506,11 @@ textarea:-webkit-autofill {
 
 /* CTA variant */
 .btn-cta {
+  position: relative;
+  isolation: isolate;
+  --chromatic-shift: 0px;
+  --chromatic-blur: 0px;
+  --chromatic-opacity: 0;
   background-color: var(--seg-active-base);
   background-image: var(--seg-active-grad);
   background-repeat: no-repeat;
@@ -2517,6 +2522,29 @@ textarea:-webkit-autofill {
   );
   box-shadow: var(--card-elev-3);
 }
+
+.btn-cta::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--hairline-w, 1px) * -1);
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: var(--shadow-control-hover), var(--shadow-neon-soft);
+  filter: drop-shadow(
+      calc(var(--chromatic-shift) * -1) 0 var(--chromatic-blur)
+        hsl(var(--primary) / var(--chromatic-opacity))
+    )
+    drop-shadow(
+      var(--chromatic-shift) 0 var(--chromatic-blur)
+        hsl(var(--danger) / var(--chromatic-opacity))
+    );
+  transform: translate3d(0, 0, 0);
+  transition:
+    opacity var(--motion-duration-sm) var(--ease-out),
+    filter var(--motion-duration-sm) var(--ease-out),
+    transform var(--motion-duration-sm) var(--ease-out);
+}
 .btn-cta.is-active,
 .btn-cta[aria-current="page"],
 .btn-cta:hover {
@@ -2525,6 +2553,38 @@ textarea:-webkit-autofill {
   background-repeat: no-repeat;
   color: hsl(var(--primary-foreground));
   box-shadow: var(--shadow-nav-active), var(--shadow-outer-xl);
+  --chromatic-shift: var(--spacing-0-25);
+  --chromatic-blur: var(--spacing-0-5);
+  --chromatic-opacity: 0.55;
+}
+
+.btn-cta:focus-visible {
+  outline: none;
+  --chromatic-shift: var(--spacing-0-25);
+  --chromatic-blur: var(--spacing-0-5);
+  --chromatic-opacity: 0.55;
+}
+
+.btn-cta:disabled,
+.btn-cta[aria-disabled="true"] {
+  --chromatic-shift: 0px;
+  --chromatic-blur: 0px;
+  --chromatic-opacity: 0;
+}
+
+.btn-cta:is(.is-active, [aria-current="page"], :hover, :focus-visible)::after {
+  opacity: 1;
+}
+
+.btn-cta:disabled::after,
+.btn-cta[aria-disabled="true"]::after {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-cta::after {
+    transition: opacity var(--motion-duration-sm) var(--ease-out);
+  }
 }
 /* ---------- Icon styling ---------- */
 .lucide {
