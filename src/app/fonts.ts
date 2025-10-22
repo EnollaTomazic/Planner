@@ -61,5 +61,5 @@ const geistMonoExtras = localFont({
 
 export const geistSansClassName = geistSans.className
 export const geistSansVariable = geistSans.variable
-export const geistMonoVariable = geistMonoCore.variable
+export const geistMonoVariable = `${geistMonoCore.variable} ${geistMonoExtras.className}`
 export const geistMonoExtrasClassName = geistMonoExtras.className
