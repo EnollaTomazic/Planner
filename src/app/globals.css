@@ -235,6 +235,22 @@
     z-index: 0;
   }
 
+  .page-backdrop::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: var(--z-decor, 0);
+    background-image: var(
+      --glitch-noise-image,
+      var(--asset-noise-url, var(--asset-noise-url-default))
+    );
+    background-size: 160px 160px;
+    background-repeat: repeat;
+    opacity: calc(var(--glitch-noise-level, 0.18) * 0.6);
+    mix-blend-mode: soft-light;
+  }
+
   .page-backdrop > .page-shell {
     position: relative;
     height: 100%;

@@ -27,18 +27,24 @@
 }
 
 .glitchScanlines:focus-visible::after {
-  opacity: 0.35;
+  --crt-flicker-base: 0.4;
+  opacity: var(--crt-flicker-base);
   filter: drop-shadow(0 0 var(--space-4) var(--focus, hsl(var(--ring))));
+  animation:
+    crt-scan 2.4s linear infinite,
+    crt-flicker 500ms steps(3, end) 2;
 }
 
 .glitchScanlines:active::after,
 .glitchScanlines[aria-pressed="true"]::after,
 .glitchScanlines[data-selected="true"]::after {
-  opacity: 0.45;
+  --crt-flicker-base: 0.5;
+  opacity: var(--crt-flicker-base);
   filter: drop-shadow(0 0 var(--space-4) var(--active, hsl(var(--glow))));
   animation:
     crt-scan 1s linear infinite,
-    crt-jitter 200ms steps(2, end) infinite;
+    crt-jitter 200ms steps(2, end) infinite,
+    crt-flicker 220ms steps(3, end) infinite;
 }
 
 .glitchScanlines:disabled::after,
@@ -74,13 +80,21 @@
 }
 
 .glitchScanlines:focus-visible::before {
-  opacity: 0.35;
+  --crt-flicker-base: 0.35;
+  opacity: var(--crt-flicker-base);
+  animation:
+    crt-glow 2.4s ease-in-out infinite alternate,
+    crt-flicker 500ms steps(3, end) 2;
 }
 
 .glitchScanlines:active::before,
 .glitchScanlines[aria-pressed="true"]::before,
 .glitchScanlines[data-selected="true"]::before {
-  opacity: 0.45;
+  --crt-flicker-base: 0.45;
+  opacity: var(--crt-flicker-base);
+  animation:
+    crt-glow 1.6s ease-in-out infinite alternate,
+    crt-flicker 220ms steps(3, end) infinite;
 }
 
 .glitchScanlines:disabled::before,
@@ -107,6 +121,19 @@
   }
 }
 
+@keyframes crt-flicker {
+  0%,
+  100% {
+    opacity: var(--crt-flicker-base);
+  }
+  45% {
+    opacity: calc(var(--crt-flicker-base) * 0.7);
+  }
+  55% {
+    opacity: calc(var(--crt-flicker-base) * 1.08);
+  }
+}
+
 @keyframes crt-jitter {
   0%,
   100% {
@@ -123,6 +150,8 @@
   .glitchScanlines[aria-pressed="true"]::after,
   .glitchScanlines[data-selected="true"]::after,
   .glitchScanlines:hover::before,
+  .glitchScanlines:focus-visible::after,
+  .glitchScanlines:focus-visible::before,
   .glitchScanlines:active::before,
   .glitchScanlines[aria-pressed="true"]::before,
   .glitchScanlines[data-selected="true"]::before {
