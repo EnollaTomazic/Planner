@@ -140,7 +140,7 @@
   --radius-full: 9999px;
   --background: 247 34% 6%;
   --foreground: 258 26% 97%;
-  --card: 249 30% 9%;
+  --card: 249 30% 12%;
   --card-foreground: var(--foreground);
   --panel: var(--card);
   --border: 253 28% 24%;
@@ -727,7 +727,7 @@ html.theme-aurora {
   --background: 284 78% 5%;
   --foreground: 268 32% 97%;
   --text: var(--foreground);
-  --card: 282 70% 8%;
+  --card: 282 70% 11%;
   --panel: var(--card);
   --border: 280 58% 20%;
   --line: var(--border);
@@ -819,7 +819,7 @@ html.theme-citrus {
   --background: 210 16% 7%;
   --foreground: 32 42% 96%;
   --text: var(--foreground);
-  --card: 212 20% 11%;
+  --card: 212 20% 13%;
   --panel: var(--card);
   --border: 212 22% 26%;
   --line: var(--border);
@@ -892,7 +892,7 @@ html.theme-noir {
   --background: 352 68% 4%;
   --foreground: 0 0% 94%;
   --text: var(--foreground);
-  --card: 352 62% 8%;
+  --card: 352 62% 10%;
   --panel: var(--card);
   --border: 352 44% 24%;
   --line: var(--border);
@@ -979,7 +979,7 @@ html.theme-ocean {
   --background: 216 48% 8%;
   --foreground: 204 22% 96%;
   --text: var(--foreground);
-  --card: 218 34% 12%;
+  --card: 218 34% 14%;
   --panel: var(--card);
   --border: 218 26% 24%;
   --line: var(--border);
@@ -1053,7 +1053,7 @@ html.theme-kitten {
   --background: 334 92% 3%;
   --foreground: 332 28% 97%;
   --text: var(--foreground);
-  --card: 334 86% 7%;
+  --card: 334 86% 9%;
   --panel: var(--card);
   --border: 334 70% 22%;
   --line: var(--border);
@@ -1128,7 +1128,7 @@ html.theme-hardstuck {
   --background: 120 58% 3%;
   --foreground: 120 60% 72%;
   --text: var(--foreground);
-  --card: 120 52% 6%;
+  --card: 120 52% 9%;
   --panel: var(--card);
   --border: 120 42% 22%;
   --line: var(--border);
@@ -1219,7 +1219,7 @@ html.theme-retro {
   --background: 258 78% 4%;
   --foreground: 196 28% 96%;
   --text: var(--foreground);
-  --card: 260 68% 8%;
+  --card: 260 68% 10%;
   --panel: var(--card);
   --border: 260 56% 22%;
   --line: var(--border);
