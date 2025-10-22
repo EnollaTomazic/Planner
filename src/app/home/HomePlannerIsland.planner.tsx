@@ -19,7 +19,7 @@ import { PlannerProvider } from "@/components/planner"
 import { useTheme, useUiFeatureFlags } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
 import type { Variant } from "@/lib/theme"
-import { withBasePath } from "@/lib/utils"
+import { cn, withBasePath } from "@/lib/utils"
 import {
   HeroPlannerCardsFallbackContent,
   HomeHeroSectionFallbackContent,
@@ -130,6 +130,11 @@ const weeklyHighlights = [
   },
 ] as const satisfies readonly HeroPlannerHighlight[]
 
+const homeBackdropClassName =
+  'relative isolate overflow-hidden bg-blob-primary bg-no-repeat after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:bg-gradient-blob-primary after:opacity-40 after:content-[""]'
+const sectionCardOverlayClassName =
+  'relative overflow-hidden before:pointer-events-none before:absolute before:inset-[-20%] before:-z-10 before:bg-gradient-blob-primary before:opacity-25 before:content-[""]'
+
 function HomePageContent({
   heroHeadingId,
   overviewHeadingId,
@@ -197,7 +202,7 @@ function HomePagePlannerContent({
   }, [isSplashVisible])
 
   return (
-    <div className={styles.root}>
+    <div className={cn(styles.root, homeBackdropClassName)}>
       {glitchLandingEnabled && isSplashMounted ? (
         <HomeSplash active={isSplashVisible} onExited={handleSplashExit} />
       ) : null}
@@ -310,7 +315,7 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
       >
         <SectionCard
           aria-labelledby={heroHeadingId}
-          className="col-span-full"
+          className={cn('col-span-full', sectionCardOverlayClassName)}
         >
           <SectionCard.Body className="md:p-[var(--space-6)]">
             <HeroSectionFallbackContext.Provider
@@ -337,7 +342,7 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
       >
         <SectionCard
           aria-labelledby={overviewHeadingId}
-          className="col-span-full"
+          className={cn('col-span-full', sectionCardOverlayClassName)}
         >
           <SectionCard.Header
             id={overviewHeadingId}
@@ -428,7 +433,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
       >
         <SectionCard
           aria-labelledby={heroHeadingId}
-          className="col-span-full"
+          className={cn('col-span-full', sectionCardOverlayClassName)}
         >
           <SectionCard.Header
             id={heroHeadingId}
@@ -465,7 +470,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
       >
         <SectionCard
           aria-labelledby={overviewHeadingId}
-          className="col-span-full"
+          className={cn('col-span-full', sectionCardOverlayClassName)}
         >
           <SectionCard.Header
             id={overviewHeadingId}
@@ -501,7 +506,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
             </div>
             <div className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-2">
               <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-focus-heading">
-                <div className="flex w-full flex-col items-start justify-between gap-[var(--space-2)] sm:flex-row sm:items-center">
+                <div className="flex w-full flex-col items-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between">
                   <h3 id="legacy-focus-heading" className="text-body font-semibold text-foreground">
                     {focus.label}
                   </h3>
@@ -529,7 +534,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
                 ) : null}
               </section>
               <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-goals-heading">
-                <div className="flex w-full flex-col items-start justify-between gap-[var(--space-2)] sm:flex-row sm:items-center">
+                <div className="flex w-full flex-col items-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between">
                   <h3 id="legacy-goals-heading" className="text-body font-semibold text-foreground">
                     {goals.label ?? "Goals"}
                   </h3>
@@ -565,7 +570,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
               </section>
             </div>
             <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-calendar-heading">
-              <div className="flex w-full flex-col items-start justify-between gap-[var(--space-2)] sm:flex-row sm:items-center">
+              <div className="flex w-full flex-col items-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between">
                 <h3 id="legacy-calendar-heading" className="text-body font-semibold text-foreground">
                   {calendar.label}
                 </h3>
