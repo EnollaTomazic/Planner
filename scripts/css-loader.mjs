@@ -36,6 +36,9 @@ export async function load(url, context, defaultLoad) {
       shortCircuit: true,
     };
   }
+  if (url.endsWith("/node_modules/next/image")) {
+    return defaultLoad(`${url}.js`, context, defaultLoad);
+  }
   if (url === runtimeUrl) {
     return {
       format: "module",
