@@ -29,9 +29,11 @@ import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerCont
 import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
 import { WeekPicker } from "./WeekPicker";
 import { CalendarDays } from "lucide-react";
-import { formatWeekRangeLabel } from "@/lib/date";
+import { formatWeekDay, formatWeekRangeLabel } from "@/lib/date";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 import { PlannerIslandBoundary } from "./PlannerIslandBoundary";
+import { useWeekData } from "./useWeekData";
+import useBasePath from "@/lib/useBasePath";
 
 const {
   heroRow,
@@ -50,6 +52,12 @@ const {
   heroFeedback,
   heroActions,
   heroPortrait,
+  quickLinksRow,
+  quickLinksList,
+  quickLinkItem,
+  quickLinkChip,
+  quickLinkLabel,
+  quickLinkMeta,
 } = styles;
 
 const LazyDayView = React.lazy(async () => ({
@@ -135,12 +143,14 @@ function PlannerViewFallback({ mode }: PlannerViewFallbackProps) {
 function Inner() {
   const { iso, today } = useFocusDate();
   const { viewMode, setViewMode } = usePlanner();
-  const { start, end } = useWeek(iso);
+  const { start, end, days } = useWeek(iso);
   const hydrating = today === FOCUS_PLACEHOLDER;
   const themeContext = useOptionalTheme();
   const themeVariant = themeContext?.[0].variant ?? "aurora";
   const prefersReducedMotion = usePrefersReducedMotion();
   const [planningEnergy, setPlanningEnergy] = React.useState(72);
+  const { per, weekDone, weekTotal } = useWeekData(days ?? []);
+  const { withBasePath } = useBasePath();
   const weekAnnouncement = React.useMemo(
     () => (hydrating ? "Week preview loading…" : formatWeekRangeLabel(start, end)),
     [end, hydrating, start],
@@ -164,6 +174,73 @@ function Inner() {
     }
     return "demon-leading";
   }, [themeVariant]);
+
+  type QuickLink = {
+    id: string;
+    label: string;
+    description?: string;
+    href: string;
+  };
+
+  const quickLinks = React.useMemo<QuickLink[]>(() => {
+    if (!per.length) {
+      return [];
+    }
+    const plannerRoot = withBasePath("/planner/");
+    const completionPct = weekTotal > 0 ? Math.round((weekDone / weekTotal) * 100) : 0;
+    const catchUpTarget = per.find((day) => day.total > day.done) ?? per[0];
+    const leadingDay = per.reduce((winner, candidate) => {
+      if (!winner) return candidate;
+      const winnerRate = winner.total ? winner.done / winner.total : 0;
+      const candidateRate = candidate.total ? candidate.done / candidate.total : 0;
+      if (candidateRate === winnerRate) {
+        return candidate.done > winner.done ? candidate : winner;
+      }
+      return candidateRate > winnerRate ? candidate : winner;
+    }, per[0]);
+
+    const items: QuickLink[] = [
+      {
+        id: "progress",
+        label: `${completionPct}% synced`,
+        description:
+          weekTotal > 0
+            ? `${weekDone} of ${weekTotal} tasks locked`
+            : "Draft your first tasks",
+        href: `${plannerRoot}#planner-view-week-panel`,
+      },
+    ];
+
+    if (catchUpTarget) {
+      items.push({
+        id: "focus",
+        label: `Focus ${formatWeekDay(catchUpTarget.iso)}`,
+        description: `${catchUpTarget.done}/${catchUpTarget.total} tasks cleared`,
+        href: `${plannerRoot}#planner-view-day-panel`,
+      });
+    }
+
+    if (leadingDay) {
+      items.push({
+        id: `streak-${leadingDay.iso}`,
+        label: `${formatWeekDay(leadingDay.iso)} streak`,
+        description:
+          leadingDay.done > 0
+            ? `${leadingDay.done} tasks complete`
+            : "Kick off the streak",
+        href: `${plannerRoot}#planner-view-month-panel`,
+      });
+    }
+
+    items.push({
+      id: "agenda",
+      label: "Review agenda",
+      description: "See reminders and open loops",
+      href: `${plannerRoot}#planner-view-agenda-panel`,
+    });
+
+    return items;
+  }, [per, weekDone, weekTotal, withBasePath]);
 
   return (
     <>
@@ -232,6 +309,22 @@ function Inner() {
                   Cancel
                 </Button>
               </div>
+              {quickLinks.length ? (
+                <nav aria-label="Planner quick suggestions" className={quickLinksRow}>
+                  <ul className={quickLinksList} role="list">
+                    {quickLinks.map((link) => (
+                      <li key={link.id} className={quickLinkItem}>
+                        <a className={quickLinkChip} href={link.href}>
+                          <span className={quickLinkLabel}>{link.label}</span>
+                          {link.description ? (
+                            <span className={quickLinkMeta}>{link.description}</span>
+                          ) : null}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              ) : null}
             </div>
             <div className={heroPortrait}>
               <PortraitFrame pose={heroPose} transparentBackground />
