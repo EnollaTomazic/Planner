@@ -99,7 +99,7 @@ export function MonthView() {
                     >
                       <div
                         className={cn(
-                          "rounded-card border border-border/40 bg-card/70 p-[var(--space-2)] shadow-xs",
+                          "rounded-card border border-border/40 bg-card/70 card-neo-soft p-[var(--space-2)] shadow-neo",
                           "flex flex-col gap-[var(--space-2)]",
                           inMonth ? "text-foreground" : "text-muted-foreground/70",
                         )}
