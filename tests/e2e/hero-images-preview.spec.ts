@@ -2,7 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import type { AxeResults } from "axe-core";
 
 import { test } from "./playwright";
-import { HERO_ILLUSTRATION_STATES } from "@/data/heroImages";
+import { HERO_ILLUSTRATION_STATES } from "@/data/heroIllustrationStates";
 import { VARIANTS } from "@/lib/theme";
 
 import { waitForThemeHydration } from "./utils/theme";
