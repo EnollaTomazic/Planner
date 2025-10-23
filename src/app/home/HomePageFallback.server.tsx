@@ -1,17 +1,13 @@
-'use client'
-
-import { useUiFeatureFlags } from '@/lib/theme-context'
+import { glitchLandingEnabled } from '@/lib/features'
 import {
   HomePageFallbackContent,
   type HomePageFallbackProps,
 } from './HomePageFallbackContent'
 
-export default function HomePageFallback({
+export default function HomePageFallbackServer({
   heroHeadingId,
   overviewHeadingId,
 }: HomePageFallbackProps) {
-  const { glitchLandingEnabled } = useUiFeatureFlags()
-
   return (
     <HomePageFallbackContent
       glitchLandingEnabled={glitchLandingEnabled}

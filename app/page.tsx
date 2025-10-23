@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import HomePageContent from '@/app/home/HomePageContent.client'
-import HomePageFallback from '@/app/home/HomePageFallback.client'
+import HomePageFallback from '@/app/home/HomePageFallback.server'
 
 export const dynamic = 'force-static'
 
