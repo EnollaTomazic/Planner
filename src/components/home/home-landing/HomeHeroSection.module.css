@@ -1,7 +1,6 @@
 .root {
   position: relative;
   border-radius: calc(var(--radius-2xl) * 1.1);
-  padding: clamp(var(--space-5), 4vw, var(--space-7));
   background:
     radial-gradient(
       140% 120% at -20% 10%,
@@ -21,8 +20,6 @@
   overflow: hidden;
   isolation: isolate;
   width: 100%;
-  max-width: var(--shell-max, var(--shell-width));
-  margin-inline: auto;
 }
 
 .root::after {
@@ -61,15 +58,12 @@
 
 .grid {
   position: relative;
-  display: grid;
-  gap: clamp(var(--space-5), 3vw, var(--space-7));
-  grid-template-columns: repeat(1, minmax(0, 1fr));
   z-index: 1;
+  --grid-gutter: var(--space-5);
 }
 
 @media (min-width: 64rem) {
   .grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
     align-items: stretch;
   }
   .contentColumn {
@@ -83,7 +77,7 @@
 .contentColumn {
   display: flex;
   flex-direction: column;
-  gap: clamp(var(--space-4), 2.2vw, var(--space-5));
+  gap: var(--space-4);
   min-width: 0;
 }
 
@@ -187,7 +181,7 @@
   position: relative;
   display: grid;
   gap: var(--space-4);
-  padding: clamp(var(--space-4), 3vw, var(--space-6));
+  padding: var(--space-5);
   border-radius: calc(var(--radius-2xl) * 0.95);
   background: hsl(var(--surface-2) / 0.85);
   border: var(--hairline-w) solid hsl(var(--card-hairline) / 0.5);

@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Home, Sparkles } from "lucide-react";
 import ProgressRingIcon from "@/icons/ProgressRingIcon";
+import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { cn } from "@/lib/utils";
 import { type PoseVariant, PortraitFrame } from "../PortraitFrame";
@@ -108,7 +109,7 @@ const HomeHeroSection = React.memo(function HomeHeroSection({
   return (
     <section className={styles.root} aria-labelledby={headingId}>
       <div className={styles.backdrop} aria-hidden />
-      <div className={styles.grid}>
+      <div className={cn(layoutGridClassName, "lg:grid-cols-12", styles.grid)}>
         <div className={styles.contentColumn}>
           <div className={styles.eyebrowRow}>
             <Home aria-hidden className="size-[var(--icon-size-lg)]" />
