@@ -1,17 +1,18 @@
 import { expect, test, type Page } from "./playwright";
 
-import { getGalleryPreviewRoutes, type GalleryPreviewRoute } from "@/components/gallery";
+import type { GalleryPreviewRoute } from "@/components/gallery/registry";
 import { VARIANTS } from "@/lib/theme";
 
 import { buildPreviewRouteUrl, createThemedUrl } from "./utils/previewRoutes";
 import { waitForThemeHydration, type ThemeHydrationPage } from "./utils/theme";
+import { getManifestPreviewRoutes } from "./utils/galleryManifest";
 
 type PreviewSection = "home" | "planner";
 
 const HOME_ENTRY_IDS = new Set(["hero-planner-cards", "quick-action-grid"]);
 const PLANNER_ENTRY_IDS = new Set(["calendar", "week-picker", "bottom-nav"]);
 
-const BASE_PREVIEW_ROUTES = getGalleryPreviewRoutes();
+const BASE_PREVIEW_ROUTES = getManifestPreviewRoutes();
 
 type PreviewTestPage = Page & ThemeHydrationPage;
 

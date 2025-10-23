@@ -1,8 +1,9 @@
+import type { GalleryPreviewRoute } from "@/components/gallery/registry";
+
 import {
-  getGalleryPreviewAxisParams,
-  getGalleryPreviewRoutes,
-  type GalleryPreviewRoute,
-} from "@/components/gallery";
+  getManifestPreviewAxisParams,
+  getManifestPreviewRoutes,
+} from "./galleryManifest";
 
 export const NAV_BACKDROP_ENTRY_ID = "nav-backdrop";
 
@@ -25,7 +26,7 @@ const NAV_BACKDROP_BACKGROUNDS: GalleryPreviewRoute["themeBackground"][] = [
 export function getDepthPreviewRoutes(): GalleryPreviewRoute[] {
   const seen = new Set<string>();
 
-  return getGalleryPreviewRoutes().filter((route) => {
+  return getManifestPreviewRoutes().filter((route) => {
     if (!DEPTH_PREVIEW_ENTRIES.has(route.entryId)) {
       return false;
     }
@@ -55,7 +56,7 @@ export function buildPreviewRouteUrl(route: GalleryPreviewRoute) {
   const params = new URLSearchParams();
   const suffixParts: string[] = [];
 
-  for (const axis of getGalleryPreviewAxisParams(route.entryId, route.stateId)) {
+  for (const axis of getManifestPreviewAxisParams(route.entryId, route.stateId)) {
     const option = axis.options[0];
     if (!option) {
       continue;

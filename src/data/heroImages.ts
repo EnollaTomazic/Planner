@@ -1,16 +1,13 @@
 import type { ImageProps } from "next/image";
 import { VARIANT_LABELS, type Variant } from "@/lib/theme";
+import {
+  HERO_ILLUSTRATION_STATES,
+  type HeroIllustrationState,
+} from "./heroIllustrationStates";
 import baseIllustration from "../../public/BEST_ONE_EVAH.png";
 
-export const HERO_ILLUSTRATION_STATES = [
-  "idle",
-  "hover",
-  "focus",
-  "alternate",
-] as const;
-
-export type HeroIllustrationState =
-  (typeof HERO_ILLUSTRATION_STATES)[number];
+export { HERO_ILLUSTRATION_STATES };
+export type { HeroIllustrationState };
 
 export interface HeroIllustrationAsset {
   readonly src: ImageProps["src"];
