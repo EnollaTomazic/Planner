@@ -23,12 +23,15 @@ function getFallbackProps(): HomePlannerIslandPlannerProps {
     latestPlannerProps ?? {
       heroHeadingId: "home-hero-fallback",
       overviewHeadingId: "home-overview-fallback",
+      glitchLandingEnabled: true,
     }
   )
 }
 
 function HomePlannerIslandFallback() {
-  const { heroHeadingId, overviewHeadingId } = getFallbackProps()
+  const { heroHeadingId, overviewHeadingId, glitchLandingEnabled } =
+    getFallbackProps()
+  const dataState = glitchLandingEnabled ? "splash" : "ready"
   const heroActions = (
     <>
       <ThemeToggle className="shrink-0" />
@@ -49,7 +52,7 @@ function HomePlannerIslandFallback() {
       <section
         tabIndex={-1}
         className={styles.content}
-        data-state="ready"
+        data-state={dataState}
         data-home-content=""
       >
         <PageShell
