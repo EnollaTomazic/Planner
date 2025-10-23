@@ -9,8 +9,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "pnpm run prebuild && tsx scripts/run-next.ts dev -p 3000",
-    "profile": "pnpm run prebuild && cross-env REACT_PROFILER=1 tsx scripts/run-next.ts dev -p 3000 --profiling",
+    "dev": "pnpm run prebuild && tsx scripts/run-next.ts dev",
+    "profile": "pnpm run prebuild && cross-env REACT_PROFILER=1 tsx scripts/run-next.ts dev --profiling",
     "prebuild": "tsx scripts/regen-if-needed.ts",
     "regen-ui": "tsx scripts/generate-ui-index.ts",
     "build-gallery": "pnpm run build-gallery-usage",

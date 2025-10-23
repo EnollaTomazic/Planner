@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { createRequire } from "node:module";
 import process from "node:process";
 import { once } from "node:events";
 import { setTimeout as delay } from "node:timers/promises";
@@ -6,6 +7,23 @@ import { setTimeout as delay } from "node:timers/promises";
 const host = process.env.PLAYWRIGHT_HOST ?? "127.0.0.1";
 const port = Number.parseInt(process.env.PLAYWRIGHT_PORT ?? "3080", 10);
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://${host}:${port}`;
+const loaderModule = new URL("./register-loaders.mjs", import.meta.url).href;
+const loaderImport = `--import ${loaderModule}`;
+const require = createRequire(import.meta.url);
+const playwrightCli = require.resolve("@playwright/test/cli");
+
+function createPlaywrightEnv(overrides: NodeJS.ProcessEnv = {}) {
+  const env = { ...process.env, ...overrides };
+  const existing = env.NODE_OPTIONS ?? "";
+
+  if (!existing.includes(loaderImport)) {
+    env.NODE_OPTIONS = existing
+      ? `${existing} ${loaderImport}`
+      : loaderImport;
+  }
+
+  return env;
+}
 
 async function waitForServer(url: string, attempts = 30, interval = 500) {
   for (let index = 0; index < attempts; index += 1) {
@@ -47,15 +65,18 @@ async function run() {
   await waitForServer(`${baseURL}/`);
 
   const result = await once(
-    spawn("pnpm", ["exec", "playwright", "test"], {
-      env: {
-        ...process.env,
-        PLAYWRIGHT_BASE_URL: baseURL,
-        PLAYWRIGHT_HOST: host,
-        PLAYWRIGHT_PORT: String(port),
+    spawn(
+      process.execPath,
+      ["--import", loaderModule, playwrightCli, "test"],
+      {
+        env: createPlaywrightEnv({
+          PLAYWRIGHT_BASE_URL: baseURL,
+          PLAYWRIGHT_HOST: host,
+          PLAYWRIGHT_PORT: String(port),
+        }),
+        stdio: "inherit",
       },
-      stdio: "inherit",
-    }),
+    ),
     "exit",
   );
 
