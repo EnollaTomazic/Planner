@@ -1,3 +1,5 @@
+'use client'
+
 import type { HomePageFallbackContentProps } from './HomePageFallbackContent.view'
 import { HomePageFallbackContentView } from './HomePageFallbackContent.view'
 
