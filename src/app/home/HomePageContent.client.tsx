@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import HomePlannerIslandClient from './HomePlannerIsland.client'
-import { HomePageFallbackContent } from './HomePageFallbackContent'
+import { HomePageFallbackContent } from './HomePageFallbackContent.client'
 import { useUiFeatureFlags } from '@/lib/theme-context'
 
 type HomePageContentProps = {

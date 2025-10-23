@@ -12,7 +12,7 @@ const loaderImport = `--import ${loaderModule}`;
 const require = createRequire(import.meta.url);
 const playwrightCli = require.resolve("@playwright/test/cli");
 
-function createPlaywrightEnv(overrides: NodeJS.ProcessEnv = {}) {
+function createPlaywrightEnv(overrides: Partial<NodeJS.ProcessEnv> = {}) {
   const env = { ...process.env, ...overrides };
   const existing = env.NODE_OPTIONS ?? "";
 

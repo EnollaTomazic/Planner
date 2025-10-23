@@ -4,7 +4,7 @@ import { useUiFeatureFlags } from '@/lib/theme-context'
 import {
   HomePageFallbackContent,
   type HomePageFallbackProps,
-} from './HomePageFallbackContent'
+} from './HomePageFallbackContent.client'
 
 export default function HomePageFallback({
   heroHeadingId,
