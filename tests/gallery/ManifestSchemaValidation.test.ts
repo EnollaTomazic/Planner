@@ -1,14 +1,21 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from 'vitest'
 
-import { manifest } from "@/components/gallery/generated-manifest.g";
-import { ManifestSchema } from "@/components/gallery/manifest.schema";
+import {
+  loadGeneratedManifest,
+  resetGeneratedManifestCache,
+} from 'tests/helpers/loadGeneratedManifest'
+import { ManifestSchema } from '@/components/gallery/manifest.schema'
 
-describe("gallery manifest", () => {
-  it("matches the manifest schema", () => {
-    const result = ManifestSchema.safeParse(manifest);
+describe('gallery manifest', () => {
+  beforeEach(() => {
+    resetGeneratedManifestCache()
+  })
+
+  it('matches the manifest schema', () => {
+    const result = ManifestSchema.safeParse(loadGeneratedManifest())
     if (!result.success) {
-      console.error(result.error.format());
+      console.error(result.error.format())
     }
-    expect(result.success).toBe(true);
-  });
-});
+    expect(result.success).toBe(true)
+  })
+})
