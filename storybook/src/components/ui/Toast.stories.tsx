@@ -39,7 +39,7 @@ export const AutoDismiss: Story = {
     }, [args.duration, args.children, args.closable, args.showProgress]);
 
     return (
-      <div className="space-y-3">
+      <div className="space-y-[var(--space-3)]">
         <Button size="sm" onClick={() => setOpen(true)}>
           Show toast
         </Button>

@@ -42,9 +42,9 @@ function ColorTokens() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-[var(--space-4)]">
       <button
-        className="rounded border px-2 py-1 text-xs"
+        className="rounded border px-[var(--space-2)] py-[var(--space-1)] text-xs"
         onClick={() => setMode(mode === "dark" ? "light" : "dark")}
       >
         {mode === "dark" ? "Light" : "Dark"} preview
@@ -53,11 +53,11 @@ function ColorTokens() {
         ref={containerRef}
         className={
           mode === "dark"
-            ? "bg-background text-foreground p-4"
-            : "bg-background text-foreground p-4"
+            ? "bg-background text-foreground p-[var(--space-4)]"
+            : "bg-background text-foreground p-[var(--space-4)]"
         }
       >
-        <ul className="space-y-2">
+        <ul className="space-y-[var(--space-2)]">
           {entries.map((name) => (
             <TokenRow
               key={name}
@@ -110,10 +110,10 @@ function TokenRow({
   const pass = ratio >= 4.5;
 
   return (
-    <li className="flex items-center gap-3 text-xs">
+    <li className="flex items-center gap-[var(--space-3)] text-xs">
       <div
         ref={swatchRef}
-        className="h-5 w-5 rounded border"
+        className="size-[var(--space-5)] rounded border"
         style={{ backgroundColor: `hsl(var(--${name}))` }}
       />
       <span className="flex-1 font-mono">{name}</span>
@@ -121,7 +121,7 @@ function TokenRow({
       <button
         onClick={() => onCopy(name)}
         aria-label="Copy token"
-        className="p-1"
+        className="p-[var(--space-1)]"
       >
         <Copy size={14} />
       </button>
