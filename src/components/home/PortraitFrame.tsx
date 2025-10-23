@@ -15,6 +15,10 @@ export interface PortraitFrameProps {
    * When true, the inner surface keeps the rim treatment but exposes a transparent backdrop.
    */
   transparentBackground?: boolean;
+  /**
+   * Adds an animated pulse ring around the portrait. Intended to highlight reactive stats nearby.
+   */
+  pulse?: boolean;
   className?: string;
 }
 
@@ -89,6 +93,7 @@ const poseConfigs: Record<PoseVariant, PoseConfig> = {
 export function PortraitFrame({
   pose = "duo",
   transparentBackground = false,
+  pulse = false,
   className,
 }: PortraitFrameProps) {
   const config = poseConfigs[pose];
@@ -122,6 +127,7 @@ export function PortraitFrame({
         </>
       }
     >
+      {pulse ? <span aria-hidden className={styles.pulseRing} /> : null}
       <span aria-hidden className={styles.rimLighting} />
       <div
         aria-hidden

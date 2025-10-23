@@ -45,6 +45,40 @@
   opacity: 0.6;
 }
 
+.pulseRing {
+  position: absolute;
+  inset: calc(var(--space-2) * -0.8);
+  border-radius: inherit;
+  pointer-events: none;
+  border: calc(var(--hairline-w) * 2) solid hsl(var(--accent) / 0.6);
+  box-shadow:
+    0 0 calc(var(--space-3)) hsl(var(--accent-2) / 0.45),
+    0 0 calc(var(--space-5)) hsl(var(--highlight) / 0.28);
+  opacity: 0;
+  animation: portrait-pulse 3.4s ease-out infinite;
+}
+
+@keyframes portrait-pulse {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.08);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulseRing {
+    animation: none;
+    opacity: 0.35;
+  }
+}
+
 .character {
   position: absolute;
   bottom: calc(var(--space-1) * -0.3);

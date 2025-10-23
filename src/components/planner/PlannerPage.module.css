@@ -44,6 +44,11 @@
   .heroPortrait {
     grid-column: span 5;
     justify-self: end;
+    align-content: center;
+    justify-items: end;
+  }
+  .heroStatChip {
+    justify-self: end;
   }
 }
 
@@ -83,8 +88,20 @@
 
 .heroPortrait {
   display: grid;
+  gap: var(--space-3);
   justify-items: center;
-  align-items: center;
+  align-content: start;
+}
+
+.heroStatChip {
+  justify-self: center;
+  max-width: min(100%, 20rem);
+}
+
+@media (max-width: 48rem) {
+  .heroStatChip {
+    width: 100%;
+  }
 }
 
 .heroDial {

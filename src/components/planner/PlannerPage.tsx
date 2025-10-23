@@ -32,6 +32,8 @@ import { CalendarDays } from "lucide-react";
 import { formatWeekRangeLabel } from "@/lib/date";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 import { PlannerIslandBoundary } from "./PlannerIslandBoundary";
+import { PlannerStatChip } from "./PlannerStatChip";
+import { useWeekData } from "./useWeekData";
 
 const {
   heroRow,
@@ -50,6 +52,7 @@ const {
   heroFeedback,
   heroActions,
   heroPortrait,
+  heroStatChip,
 } = styles;
 
 const LazyDayView = React.lazy(async () => ({
@@ -131,18 +134,62 @@ function PlannerViewFallback({ mode }: PlannerViewFallbackProps) {
 function Inner() {
   const { iso, today } = useFocusDate();
   const { viewMode, setViewMode } = usePlanner();
-  const { start, end } = useWeek(iso);
+  const { start, end, days: weekDays } = useWeek(iso);
   const hydrating = today === FOCUS_PLACEHOLDER;
   const themeContext = useOptionalTheme();
   const themeVariant = themeContext?.[0].variant ?? "aurora";
   const prefersReducedMotion = usePrefersReducedMotion();
   const [planningEnergy, setPlanningEnergy] = React.useState(72);
+  const { weekDone, weekTotal, per: weekStats } = useWeekData(weekDays);
   const weekAnnouncement = React.useMemo(
     () => (hydrating ? "Week preview loading…" : formatWeekRangeLabel(start, end)),
     [end, hydrating, start],
   );
   const labelId = React.useId();
   const sliderId = React.useId();
+  const statChip = React.useMemo(() => {
+    const label = "Today's completion";
+
+    if (hydrating || today === FOCUS_PLACEHOLDER) {
+      return {
+        label,
+        value: "…",
+        assistive: "Loading today's completion status.",
+        pulse: false,
+      } as const;
+    }
+
+    const todayEntry = weekStats.find((entry) => entry.iso === today);
+    const weekSummary =
+      weekTotal > 0
+        ? ` Week progress ${weekDone} of ${weekTotal} tasks done.`
+        : "";
+
+    if (!todayEntry) {
+      return {
+        label,
+        value: "—",
+        assistive: `Today's completion not available yet.${weekSummary}`.trim(),
+        pulse: false,
+      } as const;
+    }
+
+    const { done, total } = todayEntry;
+    const value = total > 0 ? `${done}/${total}` : `${done}`;
+    const baseAssistive =
+      total > 0
+        ? `${done} of ${total} tasks completed today.`
+        : done === 0
+          ? "No tasks scheduled for today."
+          : `${done} tasks completed today.`;
+
+    return {
+      label,
+      value,
+      assistive: `${baseAssistive}${weekSummary}`.trim(),
+      pulse: done > 0 || total > 0 || weekTotal > 0,
+    } as const;
+  }, [hydrating, today, weekDone, weekStats, weekTotal]);
   const handleViewModeChange = React.useCallback(
     (value: string) => {
       if (value === viewMode) return;
@@ -230,7 +277,17 @@ function Inner() {
               </div>
             </div>
             <div className={heroPortrait}>
-              <PortraitFrame pose={heroPose} transparentBackground />
+              <PlannerStatChip
+                label={statChip.label}
+                value={statChip.value}
+                assistiveText={statChip.assistive}
+                className={heroStatChip}
+              />
+              <PortraitFrame
+                pose={heroPose}
+                transparentBackground
+                pulse={statChip.pulse}
+              />
             </div>
           </div>
         </div>

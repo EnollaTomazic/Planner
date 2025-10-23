@@ -1,0 +1,85 @@
+.chip {
+  --planner-chip-surface-rest: var(--chip-surface-rest, hsl(var(--card) / 0.72));
+  --planner-chip-surface-hover: var(--chip-surface-hover, hsl(var(--card) / 0.82));
+  --planner-chip-border-rest: var(--chip-border-rest, hsl(var(--card-hairline)));
+  --planner-chip-border-hover: var(--chip-border-hover, hsl(var(--accent-3) / 0.55));
+  --planner-chip-border-active: var(--chip-border-active, var(--focus-outline, hsl(var(--ring))));
+  --planner-chip-shadow: var(--elev-chip-rest, 0 12px 32px hsl(var(--shadow-color) / 0.24));
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: clamp(var(--space-1), 1vw, var(--space-2));
+  padding-block: clamp(var(--space-1), 0.75vw, var(--space-1-5));
+  padding-inline: clamp(var(--space-2), 2vw, var(--space-3));
+  border-radius: var(--radius-pill, var(--radius-full));
+  background: var(--planner-chip-surface-rest);
+  border: var(--hairline-w) solid var(--planner-chip-border-rest);
+  box-shadow: var(--planner-chip-shadow);
+  color: hsl(var(--foreground));
+  text-decoration: none;
+  transition:
+    box-shadow var(--motion-duration-sm) var(--ease-out),
+    background var(--motion-duration-sm) var(--ease-out),
+    border-color var(--motion-duration-sm) var(--ease-out),
+    transform var(--motion-duration-sm) var(--ease-out);
+  min-height: clamp(2.25rem, 6vw, 2.75rem);
+  outline: none;
+}
+
+.chip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--accent-2) / 0.16),
+    transparent 65%
+  );
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.chip:hover {
+  background: var(--planner-chip-surface-hover);
+  border-color: var(--planner-chip-border-hover);
+  box-shadow: var(--elev-chip-hover, var(--planner-chip-shadow));
+}
+
+.chip:focus-visible {
+  border-color: var(--planner-chip-border-active);
+  box-shadow:
+    0 0 0 var(--ring-size-2) hsl(var(--focus-outline, var(--ring)) / 0.2),
+    var(--planner-chip-shadow);
+}
+
+.chip:active {
+  transform: translateY(1px);
+  box-shadow: var(--elev-chip-active, var(--planner-chip-shadow));
+}
+
+.label {
+  font-size: var(--font-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+.value {
+  font-size: clamp(1.125rem, 3.2vw, 1.4rem);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: hsl(var(--foreground));
+}
+
+.helper {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
