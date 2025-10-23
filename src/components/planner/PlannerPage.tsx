@@ -34,7 +34,7 @@ import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 import { PlannerIslandBoundary } from "./PlannerIslandBoundary";
 
 const {
-  heroPanel,
+  heroRow,
   heroContent,
   heroText,
   heroEyebrow,
@@ -163,8 +163,8 @@ function Inner() {
 
   return (
     <>
-      <PageShell as="header" grid className="py-[var(--space-6)]">
-        <section className={heroPanel} aria-labelledby="planner-hero-heading">
+      <PageShell as="header" grid className="py-[var(--space-7)]">
+        <div className={cn("col-span-full", heroRow)} aria-labelledby="planner-hero-heading">
           <div className={heroContent}>
             <div className={cn(heroText, "col-span-full")}>
               <span className={heroEyebrow}>Planner autopilot</span>
@@ -233,7 +233,7 @@ function Inner() {
               <PortraitFrame pose={heroPose} transparentBackground />
             </div>
           </div>
-        </section>
+        </div>
         {/* Week header (range, nav, totals, day chips) */}
         <PageHeader
           containerClassName="col-span-full"
