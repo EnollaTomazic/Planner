@@ -86,11 +86,6 @@
   }
 }
 
-.tabs-hud {
-  background: transparent;
-  box-shadow: none;
-}
-
 .hero2-divider-glow {
   filter: blur(var(--hero-divider-blur, calc(var(--spacing-1) * 1.5)));
 }
