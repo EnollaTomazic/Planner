@@ -24,7 +24,7 @@ const ringSizes: RingSize[] = ["xs", "s", "m"];
 
 export const TokenSizes: Story = {
   render: () => (
-    <div className="flex items-center gap-6">
+    <div className="flex items-center gap-[var(--space-6)]">
       {ringSizes.map((ringSize) => (
         <div
           key={ringSize}

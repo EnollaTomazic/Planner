@@ -25,15 +25,15 @@ const ringSizes: RingSize[] = ["s", "m", "l"];
 
 export const MultipleRings: Story = {
   render: () => (
-    <div className="flex flex-col gap-8">
-      <div className="flex items-center gap-6">
+    <div className="flex flex-col gap-[var(--space-8)]">
+      <div className="flex items-center gap-[var(--space-6)]">
         {progressValues.map((pct) => (
           <div key={pct} className="size-[var(--ring-diameter-l)]">
             <TimerRingIcon pct={pct} size="l" />
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-[var(--space-6)]">
         {ringSizes.map((ringSize) => (
           <div
             key={ringSize}
