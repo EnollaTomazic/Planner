@@ -1,0 +1,86 @@
+.root {
+  --segmented-control-height: var(--control-h-md);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.primaryRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.searchShell {
+  position: relative;
+  flex: 1 1 calc(var(--space-8) * 6);
+  min-width: calc(var(--space-8) * 3.5);
+}
+
+.searchInput {
+  width: 100%;
+  box-shadow: var(--shadow-depth-soft);
+}
+
+.searchIcon {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: var(--space-4);
+  transform: translateY(-50%);
+  color: hsl(var(--muted-foreground));
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.groupRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 1 1 auto;
+}
+
+.tabBar {
+  flex: 1 1 auto;
+}
+
+.tabList {
+  width: 100%;
+}
+
+.tabList :global(button[data-variant]) {
+  transition-property: background-color, box-shadow, color, transform;
+  transition-duration: var(--motion-duration-md);
+  transition-timing-function: var(--ease-out);
+}
+
+.tabList :global(button[data-active="true"]) {
+  transform: translateY(calc(var(--spacing-0-5) * -1));
+  box-shadow: var(--shadow-depth-soft);
+}
+
+.toggle {
+  min-height: var(--control-h-md);
+  box-shadow: var(--shadow-depth-soft);
+}
+
+.secondaryRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.secondaryTabs {
+  flex: 1 1 auto;
+}
+
+.pinButton {
+  min-height: var(--control-h-md);
+  box-shadow: var(--shadow-depth-soft);
+}
+
+@media (max-width: 47.99rem) {
+  .groupRow {
+    width: 100%;
+  }
+}

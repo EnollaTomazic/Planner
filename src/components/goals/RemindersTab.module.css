@@ -1,0 +1,45 @@
+.card {
+  --segmented-control-height: var(--control-h-md);
+  --glitch-overlay-card-opacity: 0.18;
+}
+
+.header {
+  padding: var(--space-6) var(--space-6) var(--space-5);
+  display: flex;
+  justify-content: center;
+}
+
+.hero {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  text-align: center;
+  max-width: 100%;
+}
+
+.heroCopy {
+  display: grid;
+  gap: var(--space-2);
+  padding-inline: var(--space-2);
+}
+
+.body {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.controls {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .header {
+    padding-block: var(--space-6);
+    padding-inline: var(--space-8);
+  }
+
+  .controls {
+    gap: var(--space-5);
+  }
+}
