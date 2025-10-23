@@ -3,7 +3,7 @@ import localFont from 'next/font/local'
 const geistSans = localFont({
   variable: '--font-geist-sans',
   display: 'swap',
-  preload: true,
+  preload: false,
   src: [
     {
       path: '../../node_modules/geist/dist/fonts/geist-sans/Geist-Regular.woff2',
@@ -26,7 +26,7 @@ const geistSans = localFont({
 const geistMono = localFont({
   variable: '--font-geist-mono',
   display: 'swap',
-  preload: true,
+  preload: false,
   src: [
     {
       path: '../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Regular.woff2',
