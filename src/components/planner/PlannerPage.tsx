@@ -113,16 +113,20 @@ function PlannerViewFallback({ mode }: PlannerViewFallbackProps) {
   const copy = VIEW_FALLBACK_CONTENT[mode];
 
   return (
-    <div
-      role="status"
-      aria-live="polite"
-      className="flex min-h-[12rem] flex-col items-center justify-center gap-[var(--space-2)] rounded-[var(--radius-xl)] border border-dashed border-border/60 bg-muted/20 p-[var(--space-6)] text-center text-muted-foreground"
-    >
-      <span className="text-label font-medium tracking-[0.08em] uppercase">
-        {copy.title}
-      </span>
-      <p className="max-w-prose text-subtle">{copy.description}</p>
-    </div>
+    <PageShell grid className="py-[var(--space-6)]">
+      <div className="col-span-full">
+        <div
+          role="status"
+          aria-live="polite"
+          className="flex min-h-[12rem] flex-col items-center justify-center gap-[var(--space-2)] rounded-card border border-dashed border-border/60 bg-muted/20 p-[var(--space-6)] text-center text-muted-foreground shadow-neo shadow-neo-soft"
+        >
+          <span className="text-label font-medium tracking-[0.08em] uppercase">
+            {copy.title}
+          </span>
+          <p className="max-w-prose text-subtle">{copy.description}</p>
+        </div>
+      </div>
+    </PageShell>
   );
 }
 
