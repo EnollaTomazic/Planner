@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import HomePlannerIslandClient from './HomePlannerIsland.client'
-import { HomePageFallbackContent } from './HomePageFallback.client'
+import { HomePageFallbackContent } from './HomePageFallbackContent'
 import { useUiFeatureFlags } from '@/lib/theme-context'
 
 type HomePageContentProps = {
@@ -38,7 +38,6 @@ export default function HomePageContent({
 
   return (
     <HomePlannerIslandClient
-      glitchLandingEnabled={glitchLandingEnabled}
       heroHeadingId={heroHeadingId}
       overviewHeadingId={overviewHeadingId}
     />
