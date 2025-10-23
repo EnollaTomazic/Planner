@@ -109,11 +109,22 @@ const HomePlannerIslandPlanner = dynamic<HomePlannerIslandPlannerProps>(
   },
 )
 
-export type HomePlannerIslandClientProps = HomePlannerIslandPlannerProps
+export interface HomePlannerIslandClientProps
+  extends Omit<HomePlannerIslandPlannerProps, "glitchLandingEnabled"> {
+  glitchLandingEnabled?: boolean
+}
 
 export default function HomePlannerIslandClient(
-  props: HomePlannerIslandClientProps,
+  { glitchLandingEnabled: _glitchLandingEnabled, ...plannerProps }: HomePlannerIslandClientProps,
 ) {
-  latestPlannerProps = props
-  return <HomePlannerIslandPlanner {...props} />
+  const nextPlannerProps: HomePlannerIslandPlannerProps = {
+    ...plannerProps,
+    glitchLandingEnabled:
+      _glitchLandingEnabled ??
+      latestPlannerProps?.glitchLandingEnabled ??
+      true,
+  }
+
+  latestPlannerProps = nextPlannerProps
+  return <HomePlannerIslandPlanner {...nextPlannerProps} />
 }
