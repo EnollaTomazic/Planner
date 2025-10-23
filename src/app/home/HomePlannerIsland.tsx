@@ -1,4 +1,5 @@
 import HomePlannerIslandClient from './HomePlannerIsland.client'
+import { glitchLandingEnabled } from '@/lib/features'
 
 type HomePlannerIslandProps = {
   heroHeadingId: string
@@ -13,6 +14,7 @@ export default function HomePlannerIsland({
     <HomePlannerIslandClient
       heroHeadingId={heroHeadingId}
       overviewHeadingId={overviewHeadingId}
+      glitchLandingEnabled={glitchLandingEnabled}
     />
   )
 }

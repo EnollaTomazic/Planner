@@ -16,7 +16,7 @@ import type {
 import type { HomeHeroSectionProps } from "@/components/home/home-landing/types"
 import { PageShell, Button, ThemeToggle, SectionCard } from "@/components/ui"
 import { PlannerProvider } from "@/components/planner"
-import { useTheme, useUiFeatureFlags } from "@/lib/theme-context"
+import { useTheme } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
 import type { Variant } from "@/lib/theme"
 import { cn, withBasePath } from "@/lib/utils"
@@ -65,6 +65,7 @@ const HeroPlannerCardsFallbackContext =
 export type HomePlannerIslandPlannerProps = {
   heroHeadingId: string
   overviewHeadingId: string
+  glitchLandingEnabled: boolean
 }
 
 function HomeHeroSectionFallback() {
@@ -138,9 +139,9 @@ const sectionCardOverlayClassName =
 function HomePageContent({
   heroHeadingId,
   overviewHeadingId,
+  glitchLandingEnabled,
 }: HomePlannerIslandPlannerProps) {
   const [theme] = useTheme()
-  const { glitchLandingEnabled } = useUiFeatureFlags()
   useThemeQuerySync()
 
   return (
@@ -373,11 +374,13 @@ GlitchLandingLayout.displayName = "GlitchLandingLayout"
 export default function HomePlannerIslandPlanner({
   heroHeadingId,
   overviewHeadingId,
+  glitchLandingEnabled,
 }: HomePlannerIslandPlannerProps) {
   return (
     <HomePageContent
       heroHeadingId={heroHeadingId}
       overviewHeadingId={overviewHeadingId}
+      glitchLandingEnabled={glitchLandingEnabled}
     />
   )
 }
