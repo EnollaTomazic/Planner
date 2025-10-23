@@ -1,0 +1,82 @@
+.card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    transform var(--motion-duration-md) var(--ease-out),
+    box-shadow var(--motion-duration-md) var(--ease-out);
+  box-shadow: var(--shadow-depth-soft);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--hairline-w) * -1);
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--accent) / 0.18),
+    hsl(var(--primary) / 0.18)
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity var(--motion-duration-sm) var(--motion-ease-glitch);
+  pointer-events: none;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent calc(var(--spacing-0-5) * 2),
+      hsl(var(--ring) / 0.12) calc(var(--spacing-0-5) * 2),
+      hsl(var(--accent) / 0.12) calc(var(--spacing-0-5) * 2 + var(--spacing-0-25))
+    );
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: reminder-scanline var(--motion-duration-lg) linear infinite;
+}
+
+.card:where(:hover, :focus-within) {
+  transform: translateY(calc(var(--spacing-0-5) * -1));
+  box-shadow: var(--shadow-depth-soft), var(--shadow-glow-sm);
+}
+
+.card:where(:hover, :focus-within)::before,
+.card:where(:hover, :focus-within)::after {
+  opacity: 0.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: box-shadow var(--motion-duration-sm) var(--ease-out);
+  }
+
+  .card::after {
+    animation: none;
+  }
+}
+
+@keyframes reminder-scanline {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.24;
+  }
+  45% {
+    opacity: 0.3;
+  }
+  55% {
+    transform: translateY(calc(var(--spacing-0-25) * -1));
+    opacity: 0.32;
+  }
+  70% {
+    opacity: 0.28;
+  }
+}

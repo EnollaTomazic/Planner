@@ -6,10 +6,40 @@
   --neon: var(--accent);
 }
 
+.form {
+  --segmented-control-height: var(--control-h-md);
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-4);
+}
+
+.fields {
+  display: grid;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.noteWrap {
+  display: flex;
+  justify-content: center;
+}
+
 .neonNote {
-  margin-top: calc(var(--space-1) * -1.5);
-  padding-left: calc(var(--space-1) / 2);
   animation: neon-flicker 4s infinite;
+}
+
+@media (min-width: 40rem) {
+  .form {
+    gap: var(--space-5);
+  }
+
+  .fields {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .noteWrap {
+    justify-content: flex-end;
+  }
 }
 
 @keyframes neon-flicker {

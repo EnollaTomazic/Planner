@@ -8,9 +8,10 @@ import { Input } from "@/components/ui/primitives/Input";
 import { SegmentedButton } from "@/components/ui/primitives/SegmentedButton";
 import { Textarea } from "@/components/ui/primitives/Textarea";
 import useAutoFocus from "@/lib/useAutoFocus";
-import { capitalize } from "@/lib/utils";
+import { capitalize, cn } from "@/lib/utils";
 import { Pencil, Trash2, Pin, PinOff } from "lucide-react";
 import { useReminders, Reminder, Group, Source, Domain } from "./useReminders";
+import styles from "./ReminderList.module.css";
 
 export function ReminderList() {
   const { filtered, updateReminder, removeReminder } = useReminders();
@@ -119,7 +120,12 @@ function RemTileBase({ reminder, onChange, onDelete }: RemTileProps) {
   }, [reminder.title]);
 
   return (
-    <article className="group relative rounded-card border border-card-hairline-60 bg-surface card-pad transition-colors hover:bg-surface-2 focus-within:bg-surface-2">
+    <article
+      className={cn(
+        "group relative rounded-card r-card-lg border border-card-hairline-60 bg-surface card-pad transition-colors focus-within:bg-surface-2",
+        styles.card,
+      )}
+    >
       <div className="flex items-center justify-between gap-[var(--space-2)]">
         <div className="flex-1 min-w-0">
           {editing ? (
