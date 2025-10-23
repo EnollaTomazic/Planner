@@ -4,6 +4,7 @@ import * as React from "react";
 import { Input } from "@/components/ui/primitives/Input";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useReminders } from "./useReminders";
 import styles from "./ReminderQuickAddForm.module.css";
 
@@ -62,9 +63,12 @@ export function ReminderQuickAddForm() {
     <>
       <form
         onSubmit={handleSubmit}
-        className="glitch rounded-card flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-between sm:gap-[var(--space-4)]"
+        className={cn(
+          "card-neo-soft rounded-card r-card-lg border border-card-hairline-60 bg-surface shadow-depth-soft",
+          styles.form,
+        )}
       >
-        <div className="flex flex-col gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)] sm:flex-1">
+        <div className={cn(styles.fields)}>
           <Input
             ref={inputRef}
             id={inputId}
@@ -73,24 +77,23 @@ export function ReminderQuickAddForm() {
             value={quickAdd}
             onChange={handleChange}
             aria-describedby={errorId}
-            className="w-full sm:flex-1"
+            height="md"
+            className="w-full shadow-depth-soft"
           />
           <IconButton
             title="Add quick"
             aria-label="Add quick"
             type="submit"
             size="md"
-            variant="default"
-            className="sm:flex-none"
+            variant="neo"
+            className="shadow-depth-soft"
           >
             <Plus aria-hidden />
           </IconButton>
         </div>
-        <div className={`${neonToneClass} hidden sm:flex sm:flex-1 sm:justify-end`}>
-          <p
-            className={`${styles.neonNote} neon-glow text-label font-medium tracking-[0.02em] italic`}
-          >
-            Stop procrastinating, do it now if you have time
+        <div className={cn(neonToneClass, styles.noteWrap)}>
+          <p className={`${styles.neonNote} neon-glow text-label font-medium tracking-[0.02em] italic`}>
+            Drop a precise cue and clear it once the habit sticks.
           </p>
         </div>
       </form>

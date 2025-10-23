@@ -3,7 +3,11 @@
 import * as React from "react";
 import { TabBar } from "@/components/ui/layout/TabBar";
 import { SegmentedButton } from "@/components/ui/primitives/SegmentedButton";
-import { SlidersHorizontal, Pin, PinOff } from "lucide-react";
+import { Input } from "@/components/ui/primitives/Input";
+import { cn } from "@/lib/utils";
+import { SlidersHorizontal, Pin, PinOff, Search } from "lucide-react";
+
+import styles from "./ReminderFilters.module.css";
 import { useReminders, Group, SourceFilter } from "./useReminders";
 
 export function ReminderFilters() {
@@ -19,43 +23,73 @@ export function ReminderFilters() {
     setSource,
     onlyPinned,
     togglePinned,
+    query,
+    setQuery,
   } = useReminders();
 
-  return (
-    <>
-      {showGroups && (
-        <TabBar
-          items={groupTabs}
-          value={group}
-          onValueChange={(key) => setGroup(key as Group)}
-          ariaLabel="Reminder group"
-          size="md"
-          align="between"
-          className="overflow-x-auto"
-          linkPanels={false}
-          right={
-            <SegmentedButton
-              className="inline-flex items-center gap-[var(--space-1)]"
-              onClick={toggleFilters}
-              aria-expanded={showFilters}
-              title="Filters"
-              selected={showFilters}
-            >
-              <SlidersHorizontal className="icon-sm" aria-hidden />
-              Filters
-            </SegmentedButton>
-          }
-        />
-      )}
+  const handleSearchChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setQuery(event.currentTarget.value);
+    },
+    [setQuery],
+  );
 
-      {showFilters && (
-        <div className="flex flex-wrap items-center gap-[var(--space-4)] pl-[var(--space-1)]">
+  return (
+    <div className={styles.root}>
+      <div className={styles.primaryRow}>
+        <div className={styles.searchShell}>
+          <Search aria-hidden className={styles.searchIcon} />
+          <Input
+            aria-label="Search reminders"
+            placeholder="Search reminders"
+            value={query}
+            onChange={handleSearchChange}
+            indent
+            height="md"
+            className={cn("shadow-depth-soft", styles.searchInput)}
+          />
+        </div>
+
+        <div className={styles.groupRow}>
+          {showGroups ? (
+            <TabBar
+              items={groupTabs}
+              value={group}
+              onValueChange={(key) => setGroup(key as Group)}
+              ariaLabel="Reminder group"
+              size="md"
+              align="start"
+              className={styles.tabBar}
+              tablistClassName={styles.tabList}
+              variant="neo"
+              linkPanels={false}
+            />
+          ) : null}
+
+          <SegmentedButton
+            className={cn("inline-flex items-center gap-[var(--space-2)]", styles.toggle)}
+            onClick={toggleFilters}
+            aria-expanded={showFilters}
+            title="Filters"
+            selected={showFilters}
+          >
+            <SlidersHorizontal className="icon-sm" aria-hidden />
+            Filters
+          </SegmentedButton>
+        </div>
+      </div>
+
+      {showFilters ? (
+        <div className={styles.secondaryRow}>
           <TabBar
             items={sourceTabs}
             value={source}
             onValueChange={(key) => setSource(key as SourceFilter)}
             ariaLabel="Reminder source filter"
-            size="sm"
+            size="md"
+            variant="neo"
+            className={styles.secondaryTabs}
+            tablistClassName={styles.tabList}
             linkPanels={false}
           />
           <SegmentedButton
@@ -63,13 +97,14 @@ export function ReminderFilters() {
             aria-pressed={onlyPinned}
             title="Pinned only"
             selected={onlyPinned}
+            className={cn("inline-flex items-center gap-[var(--space-2)]", styles.pinButton)}
           >
-            {onlyPinned ? <PinOff className="mr-[var(--space-1)]" /> : <Pin className="mr-[var(--space-1)]" />}
+            {onlyPinned ? <PinOff className="icon-sm" /> : <Pin className="icon-sm" />}
             {onlyPinned ? "Pinned only" : "Any pin"}
           </SegmentedButton>
         </div>
-      )}
-    </>
+      ) : null}
+    </div>
   );
 }
 

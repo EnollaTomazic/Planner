@@ -144,14 +144,14 @@ export function QuickActionGrid({
               ? trimmedHref
               : "#";
           const linkHref: QuickActionHref = hrefIsString
-            ? withBasePath(trimmedHref, { skipForNextLink: true })
+            ? withBasePath(trimmedHref)
             : typeof href === "object" &&
                 href !== null &&
                 "pathname" in href &&
                 typeof href.pathname === "string"
               ? {
                   ...href,
-                  pathname: withBasePath(href.pathname, { skipForNextLink: true }),
+                  pathname: withBasePath(href.pathname),
                 }
               : href;
           const {
