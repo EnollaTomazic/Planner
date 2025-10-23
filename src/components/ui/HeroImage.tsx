@@ -1,6 +1,7 @@
 "use client";
 
-import Image, { type ImageProps } from "next/image";
+import NextImage from "next/image.js";
+import type { ImageProps } from "next/image";
 
 import {
   DEFAULT_HERO_STATE,
@@ -33,7 +34,7 @@ export function HeroImage({
   const ariaHidden = normalizedAlt.length === 0;
 
   return (
-    <Image
+    <NextImage
       {...rest}
       src={asset.src}
       alt={finalAlt}
