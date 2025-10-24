@@ -9,6 +9,7 @@
 import { useEffect, useMemo } from "react";
 
 import { GlitchProgress, TOKEN_WIDTH_CLASS } from "@/components/ui";
+import { SectionCard } from "@/components/ui/layout/SectionCard";
 import { cn } from "@/lib/utils";
 
 import type { ISODate } from "./plannerTypes";
@@ -95,7 +96,10 @@ export function TodayHero({ iso }: Props) {
   });
 
   return (
-    <section className="bg-hero-soft rounded-card r-card-lg card-pad-lg anim-in">
+    <SectionCard
+      variant="plain"
+      className="bg-hero-soft card-pad-lg anim-in rounded-[var(--radius-lg)]"
+    >
       <TodayHeroHeader viewIso={viewIso} isToday={isToday} onChange={setIso} />
 
       <GlitchProgress
@@ -153,6 +157,6 @@ export function TodayHero({ iso }: Props) {
         onTaskRenameCancel={taskState.cancelTaskRename}
         onToggleShowAllTasks={taskState.toggleShowAllTasks}
       />
-    </section>
+    </SectionCard>
   );
 }

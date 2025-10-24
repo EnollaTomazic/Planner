@@ -109,7 +109,7 @@ export function WeekSummary({
               "ws-tile group",
               variant === "inline"
                 ? "p-[var(--space-2)] rounded-card r-card-lg"
-                : "p-[var(--space-3)] rounded-card r-card-lg",
+                : "p-[var(--space-3)]",
               today && "ws-tile--today",
               empty && "ws-tile--empty",
             )}

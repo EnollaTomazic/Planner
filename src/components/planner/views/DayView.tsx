@@ -95,7 +95,7 @@ export function DayView() {
 
           <aside
             aria-label="Day notes"
-            className="col-span-full space-y-[var(--space-6)] lg:col-span-4 lg:sticky lg:top-[var(--header-stack)]"
+            className="col-span-full lg:col-span-4 lg:sticky lg:top-[var(--header-stack)]"
           >
             <PlannerIslandBoundary
               name="planner:day-view:notes"
