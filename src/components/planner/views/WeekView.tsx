@@ -33,7 +33,7 @@ export function WeekView() {
       </header>
 
       <div className="col-span-full grid gap-[var(--space-4)] lg:grid-cols-12">
-        <div className="lg:col-span-8 space-y-[var(--space-4)]">
+        <div className="lg:col-span-8">
           <PlannerIslandBoundary
             name="planner:week-view:summary"
             title="Week summary unavailable"
@@ -45,7 +45,7 @@ export function WeekView() {
         </div>
         <aside
           aria-label="Week notes"
-          className="lg:col-span-4 space-y-[var(--space-4)]"
+          className="lg:col-span-4"
         >
           <PlannerIslandBoundary
             name="planner:week-view:notes"
