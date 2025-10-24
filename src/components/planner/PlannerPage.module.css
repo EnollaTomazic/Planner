@@ -39,6 +39,10 @@
   .heroPortrait {
     grid-column: span 5;
     justify-self: end;
+    justify-items: end;
+  }
+  .heroPortraitChip {
+    justify-self: end;
   }
 }
 
@@ -80,6 +84,11 @@
   display: grid;
   justify-items: center;
   align-items: center;
+  gap: var(--space-3);
+}
+
+.heroPortraitChip {
+  width: min(100%, 18rem);
 }
 
 .heroDial {
