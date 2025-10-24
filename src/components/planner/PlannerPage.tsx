@@ -37,7 +37,8 @@ import useBasePath from "@/lib/useBasePath";
 import { PlannerStatChip } from "./PlannerStatChip";
 
 const {
-  heroRow,
+  heroRow: heroPanel,
+  heroNoise,
   heroContent,
   heroText,
   heroEyebrow,
@@ -266,13 +267,23 @@ function Inner() {
   return (
     <>
       <PageShell as="header" grid className="py-[var(--space-7)]">
-        <div
+        <section
           className={cn(
+            heroPanel,
             "col-span-full rounded-card r-card-lg border border-card-hairline-60 shadow-neo-strong shadow-depth-outer-strong",
-            heroRow,
           )}
           aria-labelledby="planner-hero-heading"
         >
+          <div
+            aria-hidden="true"
+            className={cn(
+              heroNoise,
+              "bg-glitch-noise bg-cover mix-blend-screen",
+              prefersReducedMotion
+                ? "motion-reduce:animate-none"
+                : "motion-safe:animate-glitch-noise",
+            )}
+          />
           <div className={heroContent}>
             <div className={cn(heroText, "col-span-full")}>
               <span className={heroEyebrow}>Planner autopilot</span>
@@ -375,7 +386,7 @@ function Inner() {
               />
             </div>
           </div>
-        </div>
+        </section>
         {/* Week header (range, nav, totals, day chips) */}
         <PageHeader
           containerClassName="col-span-full"
