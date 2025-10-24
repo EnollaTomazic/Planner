@@ -18,7 +18,7 @@ const COMPONENT_ISSUES: Record<string, readonly ComponentIssue[]> = {
       summary:
         "SegmentedButton still accepts the legacy `isActive` prop. Drop the alias once consuming surfaces migrate to `selected` to keep the API tight.",
       severity: "medium",
-      status: "open",
+      status: "resolved",
     },
   ],
   header: [
