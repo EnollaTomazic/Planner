@@ -180,6 +180,8 @@ function Inner() {
     label: string;
     description?: string;
     href: string;
+    panelId: string;
+    viewMode: PlannerViewMode;
   };
 
   const quickLinks = React.useMemo<QuickLink[]>(() => {
@@ -187,6 +189,17 @@ function Inner() {
       return [];
     }
     const plannerRoot = withBasePath("/planner/");
+    const createLink = (
+      link: Omit<QuickLink, "href" | "panelId">,
+    ): QuickLink => {
+      const panelId = `${VIEW_TAB_ID_BASE}-${link.viewMode}-panel`;
+      const hash = `#${panelId}`;
+      return {
+        ...link,
+        panelId,
+        href: `${plannerRoot}${hash}`,
+      };
+    };
     const completionPct = weekTotal > 0 ? Math.round((weekDone / weekTotal) * 100) : 0;
     const catchUpTarget = per.find((day) => day.total > day.done) ?? per[0];
     const leadingDay = per.reduce((winner, candidate) => {
@@ -200,47 +213,100 @@ function Inner() {
     }, per[0]);
 
     const items: QuickLink[] = [
-      {
+      createLink({
         id: "progress",
         label: `${completionPct}% synced`,
         description:
           weekTotal > 0
             ? `${weekDone} of ${weekTotal} tasks locked`
             : "Draft your first tasks",
-        href: `${plannerRoot}#planner-view-week-panel`,
-      },
+        viewMode: "week",
+      }),
     ];
 
     if (catchUpTarget) {
-      items.push({
-        id: "focus",
-        label: `Focus ${formatWeekDay(catchUpTarget.iso)}`,
-        description: `${catchUpTarget.done}/${catchUpTarget.total} tasks cleared`,
-        href: `${plannerRoot}#planner-view-day-panel`,
-      });
+      items.push(
+        createLink({
+          id: "focus",
+          label: `Focus ${formatWeekDay(catchUpTarget.iso)}`,
+          description: `${catchUpTarget.done}/${catchUpTarget.total} tasks cleared`,
+          viewMode: "day",
+        }),
+      );
     }
 
     if (leadingDay) {
-      items.push({
-        id: `streak-${leadingDay.iso}`,
-        label: `${formatWeekDay(leadingDay.iso)} streak`,
-        description:
-          leadingDay.done > 0
-            ? `${leadingDay.done} tasks complete`
-            : "Kick off the streak",
-        href: `${plannerRoot}#planner-view-month-panel`,
-      });
+      items.push(
+        createLink({
+          id: `streak-${leadingDay.iso}`,
+          label: `${formatWeekDay(leadingDay.iso)} streak`,
+          description:
+            leadingDay.done > 0
+              ? `${leadingDay.done} tasks complete`
+              : "Kick off the streak",
+          viewMode: "month",
+        }),
+      );
     }
 
-    items.push({
-      id: "agenda",
-      label: "Review agenda",
-      description: "See reminders and open loops",
-      href: `${plannerRoot}#planner-view-agenda-panel`,
-    });
+    items.push(
+      createLink({
+        id: "agenda",
+        label: "Review agenda",
+        description: "See reminders and open loops",
+        viewMode: "agenda",
+      }),
+    );
 
     return items;
   }, [per, weekDone, weekTotal, withBasePath]);
+
+  const handleQuickLinkActivate = React.useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>, link: QuickLink) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.shiftKey
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+
+      if (link.viewMode !== viewMode) {
+        setViewMode(link.viewMode);
+      }
+
+      if (typeof window === "undefined") {
+        return;
+      }
+
+      const syncPanel = () => {
+        const panel = document.getElementById(link.panelId);
+        if (!panel) return;
+
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (panel instanceof HTMLElement) {
+          panel.focus({ preventScroll: true });
+        }
+      };
+
+      const updateHashAndScroll = () => {
+        const { pathname, search } = window.location;
+        const hash = `#${link.panelId}`;
+        window.history.replaceState(null, "", `${pathname}${search}${hash}`);
+        syncPanel();
+      };
+
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(updateHashAndScroll);
+      });
+    },
+    [setViewMode, viewMode],
+  );
 
   return (
     <>
@@ -314,7 +380,11 @@ function Inner() {
                   <ul className={quickLinksList} role="list">
                     {quickLinks.map((link) => (
                       <li key={link.id} className={quickLinkItem}>
-                        <a className={quickLinkChip} href={link.href}>
+                        <a
+                          className={quickLinkChip}
+                          href={link.href}
+                          onClick={(event) => handleQuickLinkActivate(event, link)}
+                        >
                           <span className={quickLinkLabel}>{link.label}</span>
                           {link.description ? (
                             <span className={quickLinkMeta}>{link.description}</span>
