@@ -242,3 +242,49 @@
     transition: none;
   }
 }
+
+.pulseRing {
+  position: absolute;
+  inset: calc(var(--portrait-rim) * -2.2);
+  border-radius: inherit;
+  border: calc(var(--hairline-w) * 1.5) solid hsl(var(--accent) / 0.35);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(1);
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 var(--space-4) hsl(var(--accent) / 0.25));
+}
+
+.pulseRingActive {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pulseRingActive {
+    animation: portrait-pulse 3s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulseRingActive {
+    opacity: 0.75;
+  }
+}
+
+@keyframes portrait-pulse {
+  0% {
+    opacity: 0.85;
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 hsl(var(--accent) / 0.28);
+  }
+  55% {
+    opacity: 0;
+    transform: scale(1.18);
+    box-shadow: 0 0 0 var(--space-6) hsl(var(--accent) / 0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.24);
+    box-shadow: 0 0 0 var(--space-6) hsl(var(--accent) / 0);
+  }
+}

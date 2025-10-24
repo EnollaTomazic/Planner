@@ -15,6 +15,10 @@ export interface PortraitFrameProps {
    * When true, the inner surface keeps the rim treatment but exposes a transparent backdrop.
    */
   transparentBackground?: boolean;
+  /**
+   * When true, renders an accent pulse outside the rim to highlight planner activity.
+   */
+  pulse?: boolean;
   className?: string;
 }
 
@@ -89,6 +93,7 @@ const poseConfigs: Record<PoseVariant, PoseConfig> = {
 export function PortraitFrame({
   pose = "duo",
   transparentBackground = false,
+  pulse = false,
   className,
 }: PortraitFrameProps) {
   const config = poseConfigs[pose];
@@ -108,6 +113,14 @@ export function PortraitFrame({
         "flex h-full w-full items-center justify-center",
         transparentBackground && styles.innerTransparent,
       )}
+      after={
+        pulse ? (
+          <span
+            aria-hidden
+            className={cn(styles.pulseRing, styles.pulseRingActive)}
+          />
+        ) : null
+      }
       before={
         <>
           <span id={figureId} className="sr-only">

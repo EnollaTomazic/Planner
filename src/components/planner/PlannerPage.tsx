@@ -34,6 +34,7 @@ import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 import { PlannerIslandBoundary } from "./PlannerIslandBoundary";
 import { useWeekData } from "./useWeekData";
 import useBasePath from "@/lib/useBasePath";
+import { PlannerStatChip } from "./PlannerStatChip";
 
 const {
   heroRow,
@@ -52,6 +53,7 @@ const {
   heroFeedback,
   heroActions,
   heroPortrait,
+  heroPortraitChip,
   quickLinksRow,
   quickLinksList,
   quickLinkItem,
@@ -155,6 +157,25 @@ function Inner() {
     () => (hydrating ? "Week preview loading…" : formatWeekRangeLabel(start, end)),
     [end, hydrating, start],
   );
+  const todayStat = React.useMemo(() => {
+    if (hydrating || !per.length) {
+      return null;
+    }
+    const entry = per.find((day) => day.iso === today);
+    if (!entry) {
+      return null;
+    }
+    if (entry.total === 0) {
+      return {
+        value: "0",
+        ariaLabel: "No tasks scheduled for today",
+      } as const;
+    }
+    return {
+      value: `${entry.done}/${entry.total}`,
+      ariaLabel: `${entry.done} of ${entry.total} tasks complete today`,
+    } as const;
+  }, [hydrating, per, today]);
   const labelId = React.useId();
   const sliderId = React.useId();
   const handleViewModeChange = React.useCallback(
@@ -327,7 +348,19 @@ function Inner() {
               ) : null}
             </div>
             <div className={heroPortrait}>
-              <PortraitFrame pose={heroPose} transparentBackground />
+              {todayStat ? (
+                <PlannerStatChip
+                  label="Tasks today"
+                  value={todayStat.value}
+                  ariaLabel={todayStat.ariaLabel}
+                  className={heroPortraitChip}
+                />
+              ) : null}
+              <PortraitFrame
+                pose={heroPose}
+                transparentBackground
+                pulse={Boolean(todayStat)}
+              />
             </div>
           </div>
         </div>
