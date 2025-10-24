@@ -1,3 +1,4 @@
+
 .heroRow {
   position: relative;
   padding: clamp(var(--space-5), 4vw, var(--space-7));
@@ -10,6 +11,15 @@
   isolation: isolate;
 }
 
+.heroNoise {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--glitch-noise-level, 0.18);
+  z-index: 1;
+}
+
 .heroRow::after {
   content: "";
   position: absolute;
@@ -19,6 +29,7 @@
   background: linear-gradient(180deg, transparent, hsl(var(--surface) / 0.3));
   mix-blend-mode: screen;
   opacity: 0.6;
+  z-index: 0;
 }
 
 .heroContent {
