@@ -81,7 +81,9 @@ export function AgendaView() {
               <article
                 aria-labelledby={`${entry.iso}-heading`}
                 className={cn(
-                  "rounded-card border border-border/40 bg-card/80 p-[var(--space-4)] shadow-sm",
+                  "rounded-card r-card-lg border border-card-hairline bg-card card-neo-soft",
+                  "p-[var(--space-4)] shadow-neo-soft transition-shadow duration-motion-sm ease-out motion-reduce:transition-none",
+                  "hover:shadow-neo focus-visible:shadow-neo active:shadow-neo-inset",
                   "flex flex-col gap-[var(--space-3)]",
                   entry.isToday && "ring-1 ring-ring/60",
                 )}
