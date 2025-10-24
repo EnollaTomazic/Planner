@@ -27,7 +27,7 @@ test.describe("Accessibility", () => {
     const previewPage = page as unknown as PreviewTestPage;
 
     await previewPage.goto("/");
-    await previewPage.waitForLoadState("networkidle");
+    await previewPage.waitForLoadState("domcontentloaded");
 
     const results = await new AxeBuilder({ page: previewPage as unknown as Page }).analyze();
 
@@ -44,7 +44,7 @@ test.describe("Accessibility", () => {
     const previewPage = page as unknown as PreviewTestPage;
 
     await previewPage.goto("/preview/theme-matrix");
-    await previewPage.waitForLoadState("networkidle");
+    await previewPage.waitForLoadState("domcontentloaded");
 
     await previewPage.waitForSelector("[data-theme-matrix-group]");
     await previewPage.waitForFunction(
@@ -60,7 +60,7 @@ test.describe("Accessibility", () => {
     const previewPage = page as unknown as PreviewTestPage;
 
     await previewPage.goto("/preview/ai-states");
-    await previewPage.waitForLoadState("networkidle");
+    await previewPage.waitForLoadState("domcontentloaded");
 
     await previewPage.waitForSelector("[data-ai-state-matrix]");
     await previewPage.waitForFunction(
@@ -84,7 +84,7 @@ test.describe("Accessibility", () => {
       );
 
       await previewPage.goto(themedUrl);
-      await previewPage.waitForLoadState("networkidle");
+      await previewPage.waitForLoadState("domcontentloaded");
       await previewPage.waitForSelector('[data-preview-ready="loaded"]');
       await waitForThemeHydration(previewPage, route.themeVariant, route.themeBackground);
       await previewPage.waitForFunction(
@@ -112,7 +112,7 @@ test.describe("Accessibility", () => {
     const themedUrl = createThemedUrl(url, variantId, background);
 
     await previewPage.goto(themedUrl);
-    await previewPage.waitForLoadState("networkidle");
+    await previewPage.waitForLoadState("domcontentloaded");
     await previewPage.waitForSelector('[data-preview-ready="loaded"]');
     await waitForThemeHydration(previewPage, variantId, background);
     await previewPage.waitForFunction(

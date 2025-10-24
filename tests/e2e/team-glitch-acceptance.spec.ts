@@ -22,7 +22,7 @@ type ThemeEvaluationArgs = {
 
 async function gotoTeam(page: Page): Promise<void> {
   await page.goto(TEAM_ROUTE);
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
   await page.waitForSelector("[data-scope=\"team\"] .glitch-card");
 }
 

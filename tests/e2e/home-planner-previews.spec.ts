@@ -66,7 +66,7 @@ async function visitPreview(
   const themedUrl = createThemedUrl(url, variantId, route.themeBackground);
 
   await page.goto(themedUrl);
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
   await page.waitForSelector('[data-preview-ready="loaded"]');
   await waitForThemeHydration(page, variantId, route.themeBackground);
   await page.waitForFunction(
