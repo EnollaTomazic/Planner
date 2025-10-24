@@ -266,7 +266,13 @@ function Inner() {
   return (
     <>
       <PageShell as="header" grid className="py-[var(--space-7)]">
-        <div className={cn("col-span-full", heroRow)} aria-labelledby="planner-hero-heading">
+        <div
+          className={cn(
+            "col-span-full rounded-card r-card-lg border border-card-hairline-60 shadow-neo-strong shadow-depth-outer-strong",
+            heroRow,
+          )}
+          aria-labelledby="planner-hero-heading"
+        >
           <div className={heroContent}>
             <div className={cn(heroText, "col-span-full")}>
               <span className={heroEyebrow}>Planner autopilot</span>
@@ -335,7 +341,13 @@ function Inner() {
                   <ul className={quickLinksList} role="list">
                     {quickLinks.map((link) => (
                       <li key={link.id} className={quickLinkItem}>
-                        <a className={quickLinkChip} href={link.href}>
+                        <a
+                          className={cn(
+                            quickLinkChip,
+                            "rounded-card r-card-md border border-card-hairline-60 shadow-depth-soft",
+                          )}
+                          href={link.href}
+                        >
                           <span className={quickLinkLabel}>{link.label}</span>
                           {link.description ? (
                             <span className={quickLinkMeta}>{link.description}</span>
