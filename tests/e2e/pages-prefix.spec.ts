@@ -21,7 +21,7 @@ test.describe("GitHub Pages base path", () => {
     page.on("response", handleResponse);
 
     const response = await page.goto(targetPath);
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     page.off("response", handleResponse);
 

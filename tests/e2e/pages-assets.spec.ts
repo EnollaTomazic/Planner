@@ -39,7 +39,7 @@ test.describe("Pages assets", () => {
     pageWithNetworkEvents.on("response", onResponse);
 
     await page.goto(`${basePath || "/"}`);
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     pageWithNetworkEvents.off("response", onResponse);
 
