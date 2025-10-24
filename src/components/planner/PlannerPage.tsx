@@ -38,6 +38,7 @@ import { PlannerStatChip } from "./PlannerStatChip";
 
 const {
   heroRow: heroPanel,
+  heroNoise,
   heroContent,
   heroText,
   heroEyebrow,
@@ -273,6 +274,16 @@ function Inner() {
           )}
           aria-labelledby="planner-hero-heading"
         >
+          <div
+            aria-hidden="true"
+            className={cn(
+              heroNoise,
+              "bg-glitch-noise bg-cover mix-blend-screen",
+              prefersReducedMotion
+                ? "motion-reduce:animate-none"
+                : "motion-safe:animate-glitch-noise",
+            )}
+          />
           <div className={heroContent}>
             <div className={cn(heroText, "col-span-full")}>
               <span className={heroEyebrow}>Planner autopilot</span>
