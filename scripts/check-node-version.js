@@ -1,4 +1,26 @@
 import { readFileSync } from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const moduleDir = path.dirname(fileURLToPath(import.meta.url))
+const repoDir = path.resolve(moduleDir, '..')
+
+function readNvmrc() {
+  const candidates = new Set([
+    path.join(repoDir, '.nvmrc'),
+    path.resolve(process.cwd(), '.nvmrc'),
+  ])
+
+  for (const candidate of candidates) {
+    try {
+      return readFileSync(candidate, 'utf8')
+    } catch (error) {
+      // Ignore read errors so other candidates can be checked.
+    }
+  }
+
+  return ''
+}
 
 const rawCi = String(process.env.CI ?? '').trim().toLowerCase()
 const ciValues = new Set(['1', 'true', 'yes'])
@@ -29,10 +51,9 @@ function satisfiesMinimumVersion(actual, expected) {
 }
 
 function enforceNodeVersion() {
-  let expectedRaw = ''
-  try {
-    expectedRaw = readFileSync(new URL('../.nvmrc', import.meta.url), 'utf8')
-  } catch (error) {
+  const expectedRaw = readNvmrc()
+
+  if (!expectedRaw) {
     console.warn(
       'Unable to read .nvmrc when checking the active Node.js version. Ensure you\'re using the repository\'s required release.',
     )
