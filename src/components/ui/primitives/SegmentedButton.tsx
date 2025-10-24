@@ -12,8 +12,6 @@ export type SegmentedButtonDepth = "flat" | "raised" | "sunken";
 export type SegmentedButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   as?: React.ElementType;
   selected?: boolean;
-  /** @deprecated Use `selected` instead. */
-  isActive?: boolean;
   href?: string;
   loading?: boolean;
   glitch?: boolean;
@@ -28,7 +26,6 @@ const SegmentedButton = React.forwardRef<
     {
       as: Comp = "button",
       selected,
-      isActive,
       className,
       type,
       loading,
@@ -43,7 +40,7 @@ const SegmentedButton = React.forwardRef<
     },
     ref,
   ) => {
-  const resolvedSelected = selected ?? isActive ?? false;
+  const resolvedSelected = selected ?? false;
   const cls = cn(
     styles.root,
     glitch && styles.glitch,
