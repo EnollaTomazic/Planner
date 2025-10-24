@@ -41,7 +41,7 @@ export interface HeroProps<Key extends string = string>
   /** Whether to include glitchy frame and background layers. */
   frame?: boolean;
 
-  /** Level of glitch treatment for frame overlays (defaults to subtle). */
+  /** Level of glitch treatment for frame overlays (defaults to `default`). */
   glitch?: "default" | "subtle" | "off";
 
   /** Divider tint for neon line. */
@@ -95,7 +95,7 @@ function Hero<Key extends string = string>({
   actions,
   tone = "heroic",
   frame = true,
-  glitch = "subtle",
+  glitch = "default",
   sticky = true,
   topClassName = "top-[var(--space-8)]",
   barClassName,
