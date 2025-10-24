@@ -24,7 +24,7 @@ test.describe("Hero illustrations preview", () => {
         const url = buildPreviewUrl(variant.id, state);
 
         await playwrightPage.goto(url);
-        await playwrightPage.waitForLoadState("networkidle");
+        await playwrightPage.waitForLoadState("domcontentloaded");
         await waitForThemeHydration(playwrightPage, variant.id, 0);
 
         const htmlClassName = await playwrightPage.evaluate(

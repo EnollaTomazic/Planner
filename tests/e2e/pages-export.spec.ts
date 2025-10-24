@@ -23,7 +23,7 @@ test.describe("Static export", () => {
     pageWithNetworkEvents.on("response", captureResponse);
 
     await page.goto(`${basePath || ""}/`);
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     pageWithNetworkEvents.off("response", captureResponse);
 

@@ -3,7 +3,7 @@ import { expect, test } from "./playwright";
 test.describe("Reviews preview", () => {
   test("exposes loading, error, and empty review states", async ({ page }) => {
     await page.goto("/preview/reviews/");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await page.waitForSelector("[data-theme-matrix-entry]");
 
     await expect(

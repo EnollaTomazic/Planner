@@ -50,7 +50,7 @@ if (!focusRoutes.length) {
 async function visitPreview(page: Page, route: GalleryPreviewRoute) {
   const { url } = buildPreviewRouteUrl(route);
   await page.goto(url);
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
   await page.waitForSelector(PREVIEW_READY_SELECTOR);
   await waitForThemeHydration(page, route.themeVariant, route.themeBackground);
   await page.waitForFunction(

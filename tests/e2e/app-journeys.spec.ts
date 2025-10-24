@@ -53,7 +53,7 @@ test.describe("Local-first journeys", () => {
 
   test("Planner FAB adds a task that persists across reloads", async ({ page }) => {
     await page.goto("/planner");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     const projectName = `Project ${Date.now()}`;
     const taskTitle = `Task ${Date.now()}`;
@@ -83,7 +83,7 @@ test.describe("Local-first journeys", () => {
       { storageKey: plannerStorageKey, title: taskTitle },
     );
 
-    await page.reload({ waitUntil: "networkidle" });
+    await page.reload({ waitUntil: "domcontentloaded" });
     await expect(page.getByRole("radio", { name: projectName })).toBeVisible();
     await page.getByRole("radio", { name: projectName }).click();
     await expect(page.getByRole("checkbox", { name: `Toggle ${taskTitle} done` })).toBeVisible();
@@ -91,7 +91,7 @@ test.describe("Local-first journeys", () => {
 
   test("Reviews empty state CTA seeds the first review", async ({ page }) => {
     await page.goto("/reviews");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     const createButton = page.getByRole("button", { name: "Create review" });
     await expect(createButton).toBeVisible();
@@ -106,7 +106,7 @@ test.describe("Local-first journeys", () => {
 
   test("Team builder saves lane assignments", async ({ page }) => {
     await page.goto("/team?tab=builder");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     const builderTab = page.getByRole("tab", { name: "Builder" });
     await builderTab.click();
@@ -129,14 +129,14 @@ test.describe("Local-first journeys", () => {
     );
 
     await page.goto("/team?tab=builder");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
     await expect(page.locator("#allies-top")).toHaveValue(allyValue);
     await expect(page.locator("#enemies-top")).toHaveValue(enemyValue);
   });
 
   test("Planner AI composer cancel discards drafts", async ({ page }) => {
     await page.goto("/planner");
-    await page.waitForLoadState("networkidle");
+    await page.waitForLoadState("domcontentloaded");
 
     const draftTitle = "Daily standup tomorrow at 9am";
 

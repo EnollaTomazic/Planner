@@ -47,7 +47,7 @@ test.describe("GitHub Pages deployment", () => {
 
   test("Planner page loads with heading and week picker", async ({ page }) => {
     const plannerUrl = toUrl("planner/");
-    await page.goto(plannerUrl, { waitUntil: "networkidle" });
+    await page.goto(plannerUrl, { waitUntil: "domcontentloaded" });
 
     await expect(
       page.getByRole("heading", { name: "Planner for Today", exact: true }),
@@ -59,7 +59,7 @@ test.describe("GitHub Pages deployment", () => {
   });
 
   test("Theme toggle cycles through every theme", async ({ page }) => {
-    await page.goto(PAGES_BASE_URL!, { waitUntil: "networkidle" });
+    await page.goto(PAGES_BASE_URL!, { waitUntil: "domcontentloaded" });
 
     const html = page.locator("html");
     const themeTrigger = page.getByRole("button", { name: "Theme" });
@@ -75,7 +75,7 @@ test.describe("GitHub Pages deployment", () => {
 
   test("Initial render has no cumulative layout shift", async ({ page }) => {
     const plannerUrl = toUrl("planner/");
-    await page.goto(plannerUrl, { waitUntil: "networkidle" });
+    await page.goto(plannerUrl, { waitUntil: "domcontentloaded" });
 
     const cls = await page.evaluate<number>(() => {
       const entries = performance.getEntriesByType("layout-shift");
@@ -97,7 +97,7 @@ test.describe("GitHub Pages deployment", () => {
 
   test("Deployed planner passes axe without critical violations", async ({ page }) => {
     const plannerUrl = toUrl("planner/");
-    await page.goto(plannerUrl, { waitUntil: "networkidle" });
+    await page.goto(plannerUrl, { waitUntil: "domcontentloaded" });
 
     const results = await new AxeBuilder({ page }).analyze();
     const criticalViolations = results.violations.filter(

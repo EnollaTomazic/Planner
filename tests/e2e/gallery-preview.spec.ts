@@ -26,7 +26,7 @@ async function visitPreview(
   const themedUrl = createThemedUrl(url, variantId, background);
 
   await page.goto(themedUrl);
-  await page.waitForLoadState("networkidle");
+  await page.waitForLoadState("domcontentloaded");
   await page.waitForSelector('[data-preview-ready="loaded"]');
   await waitForThemeHydration(page, variantId, background);
   await page.waitForFunction(
@@ -43,7 +43,7 @@ test.describe("Gallery previews", () => {
     for (const route of previewRoutes) {
       const { url, suffix } = buildPreviewRouteUrl(route);
       await previewPage.goto(url);
-      await previewPage.waitForLoadState("networkidle");
+      await previewPage.waitForLoadState("domcontentloaded");
       await previewPage.waitForSelector('[data-preview-ready="loaded"]');
       await waitForThemeHydration(previewPage, route.themeVariant, route.themeBackground);
       await previewPage.waitForFunction(
@@ -84,7 +84,7 @@ test.describe("Gallery previews", () => {
     const previewPage = page as unknown as PreviewTestPage;
 
     await previewPage.goto("/preview/theme-matrix/");
-    await previewPage.waitForLoadState("networkidle");
+    await previewPage.waitForLoadState("domcontentloaded");
 
     const firstGroupSelector =
       "[data-theme-matrix-entry]:nth-of-type(1) [data-theme-matrix-group]";
@@ -117,7 +117,7 @@ test.describe("Gallery previews", () => {
     const previewPage = page as unknown as PreviewTestPage;
 
     await previewPage.goto("/preview/ai-states/");
-    await previewPage.waitForLoadState("networkidle");
+    await previewPage.waitForLoadState("domcontentloaded");
 
     const firstGroupSelector = "[data-ai-state-group]:nth-of-type(1)";
     await previewPage.waitForSelector(firstGroupSelector);
