@@ -247,12 +247,24 @@
   position: absolute;
   inset: calc(var(--portrait-rim) * -2.2);
   border-radius: inherit;
-  border: calc(var(--hairline-w) * 1.5) solid hsl(var(--accent) / 0.35);
+  border: calc(var(--hairline-w) * 1.5)
+    solid color-mix(
+      in oklab,
+      var(--portrait-pulse-color, hsl(var(--accent))) 65%,
+      transparent
+    );
   pointer-events: none;
   opacity: 0;
   transform: scale(1);
   mix-blend-mode: screen;
-  filter: drop-shadow(0 0 var(--space-4) hsl(var(--accent) / 0.25));
+  filter: drop-shadow(
+    0 0 var(--space-4)
+      color-mix(
+        in oklab,
+        var(--portrait-pulse-color, hsl(var(--accent))) 35%,
+        transparent
+      )
+  );
 }
 
 .pulseRingActive {
@@ -275,16 +287,23 @@
   0% {
     opacity: 0.85;
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 hsl(var(--accent) / 0.28);
+    box-shadow: 0 0 0 0
+      color-mix(
+        in oklab,
+        var(--portrait-pulse-color, hsl(var(--accent))) 38%,
+        transparent
+      );
   }
   55% {
     opacity: 0;
     transform: scale(1.18);
-    box-shadow: 0 0 0 var(--space-6) hsl(var(--accent) / 0);
+    box-shadow: 0 0 0 var(--space-6)
+      color-mix(in oklab, var(--portrait-pulse-color, hsl(var(--accent))) 0%, transparent);
   }
   100% {
     opacity: 0;
     transform: scale(1.24);
-    box-shadow: 0 0 0 var(--space-6) hsl(var(--accent) / 0);
+    box-shadow: 0 0 0 var(--space-6)
+      color-mix(in oklab, var(--portrait-pulse-color, hsl(var(--accent))) 0%, transparent);
   }
 }
