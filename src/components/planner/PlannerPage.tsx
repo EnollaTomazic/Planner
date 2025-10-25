@@ -269,8 +269,9 @@ function Inner() {
       <PageShell as="header" grid className="py-[var(--space-7)]">
         <section
           className={cn(
+            "col-span-full md:col-span-12",
             heroPanel,
-            "col-span-full rounded-card r-card-lg border border-card-hairline-60 shadow-neo-strong shadow-depth-outer-strong",
+            "rounded-card r-card-lg border border-card-hairline-60 shadow-neo-strong shadow-depth-outer-strong",
           )}
           aria-labelledby="planner-hero-heading"
         >
