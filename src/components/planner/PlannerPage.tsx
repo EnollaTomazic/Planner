@@ -35,6 +35,7 @@ import { PlannerIslandBoundary } from "./PlannerIslandBoundary";
 import { useWeekData } from "./useWeekData";
 import useBasePath from "@/lib/useBasePath";
 import { PlannerStatChip } from "./PlannerStatChip";
+import { useDay } from "./useDay";
 
 const {
   heroRow: heroPanel,
@@ -54,7 +55,10 @@ const {
   heroFeedback,
   heroActions,
   heroPortrait,
+  heroPortraitChipStack,
   heroPortraitChip,
+  heroPortraitChipReminder,
+  heroPortraitFrame,
   quickLinksRow,
   quickLinksList,
   quickLinkItem,
@@ -147,6 +151,7 @@ function Inner() {
   const { iso, today } = useFocusDate();
   const { viewMode, setViewMode } = usePlanner();
   const { start, end, days } = useWeek(iso);
+  const { tasks } = useDay(iso);
   const hydrating = today === FOCUS_PLACEHOLDER;
   const themeContext = useOptionalTheme();
   const themeVariant = themeContext?.[0].variant ?? "aurora";
@@ -177,6 +182,23 @@ function Inner() {
       ariaLabel: `${entry.done} of ${entry.total} tasks complete today`,
     } as const;
   }, [hydrating, per, today]);
+  const reminderStat = React.useMemo(() => {
+    if (hydrating) {
+      return null;
+    }
+    const enabledCount = tasks.reduce(
+      (count, task) => (task.reminder?.enabled ? count + 1 : count),
+      0,
+    );
+    return {
+      value: enabledCount.toLocaleString(),
+      count: enabledCount,
+      ariaLabel:
+        enabledCount === 1
+          ? "1 task has a reminder enabled for today"
+          : `${enabledCount} tasks have reminders enabled for today`,
+    } as const;
+  }, [hydrating, tasks]);
   const labelId = React.useId();
   const sliderId = React.useId();
   const handleViewModeChange = React.useCallback(
@@ -372,18 +394,31 @@ function Inner() {
               ) : null}
             </div>
             <div className={heroPortrait}>
-              {todayStat ? (
-                <PlannerStatChip
-                  label="Tasks today"
-                  value={todayStat.value}
-                  ariaLabel={todayStat.ariaLabel}
-                  className={heroPortraitChip}
-                />
+              {todayStat || reminderStat ? (
+                <div className={heroPortraitChipStack}>
+                  {todayStat ? (
+                    <PlannerStatChip
+                      label="Tasks today"
+                      value={todayStat.value}
+                      ariaLabel={todayStat.ariaLabel}
+                      className={heroPortraitChip}
+                    />
+                  ) : null}
+                  {reminderStat ? (
+                    <PlannerStatChip
+                      label="Nudges today"
+                      value={reminderStat.value}
+                      ariaLabel={reminderStat.ariaLabel}
+                      className={cn(heroPortraitChip, heroPortraitChipReminder)}
+                    />
+                  ) : null}
+                </div>
               ) : null}
               <PortraitFrame
                 pose={heroPose}
                 transparentBackground
-                pulse={Boolean(todayStat)}
+                pulse={(reminderStat?.count ?? 0) > 0}
+                className={heroPortraitFrame}
               />
             </div>
           </div>
