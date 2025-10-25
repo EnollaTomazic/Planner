@@ -569,6 +569,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 data-phase="off"
                 data-size="xl"
                 data-tone="primary"
+                style="width: var(--icon-size-xl); height: var(--icon-size-xl);"
               >
                 <svg
                   aria-hidden="true"
@@ -1112,6 +1113,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 data-phase="steady-on"
                 data-size="xl"
                 data-tone="accent"
+                style="width: var(--icon-size-xl); height: var(--icon-size-xl);"
               >
                 <svg
                   aria-hidden="true"
@@ -1213,6 +1215,7 @@ exports[`ReviewEditor > renders default state 1`] = `
                 data-phase="off"
                 data-size="xl"
                 data-tone="ring"
+                style="width: var(--icon-size-xl); height: var(--icon-size-xl);"
               >
                 <svg
                   aria-hidden="true"
