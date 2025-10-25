@@ -1,46 +1,16 @@
 .root {
   position: relative;
-  border-radius: calc(var(--radius-2xl) * 1.1);
+  border-radius: 16px;
+  padding: clamp(var(--space-5), 6vw, var(--space-7));
   background:
-    radial-gradient(
-      140% 120% at -20% 10%,
-      hsl(var(--accent-2) / 0.22),
-      transparent 65%
-    ),
-    radial-gradient(
-      130% 110% at 110% 0%,
-      hsl(var(--accent) / 0.18),
-      transparent 72%
-    ),
-    linear-gradient(160deg, hsl(var(--surface-2) / 0.92), hsl(var(--card) / 0.88));
+    radial-gradient(120% 140% at 0% 0%, rgba(164, 96, 235, 0.22), transparent 70%),
+    radial-gradient(110% 150% at 110% 10%, rgba(98, 63, 173, 0.25), transparent 75%),
+    linear-gradient(135deg, rgba(40, 21, 76, 0.95), rgba(31, 17, 55, 0.95) 60%, rgba(47, 28, 90, 0.98));
   box-shadow:
-    inset 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--card-hairline) / 0.5),
-    0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.35),
-    0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.28);
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 22px 60px rgba(8, 4, 25, 0.55);
   overflow: hidden;
   isolation: isolate;
-  width: 100%;
-}
-
-.root::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    to bottom,
-    hsl(var(--accent) / 0.08) 0 var(--spacing-0-25),
-    transparent var(--spacing-0-25) var(--spacing-0-75)
-  );
-  opacity: 0.12;
-  mix-blend-mode: overlay;
-  transition: opacity 200ms ease;
-  z-index: 2;
-}
-
-.root:hover::after {
-  opacity: 0.28;
 }
 
 .backdrop {
@@ -48,63 +18,48 @@
   inset: -1px;
   border-radius: inherit;
   background:
-    radial-gradient(120% 160% at 0% 0%, hsl(var(--accent-2) / 0.32), transparent 68%),
-    radial-gradient(110% 130% at 100% 10%, hsl(var(--accent-3, var(--accent-2)) / 0.28), transparent 72%),
-    linear-gradient(180deg, transparent, hsl(var(--surface) / 0.35));
+    radial-gradient(120% 160% at 10% 10%, rgba(164, 96, 235, 0.14), transparent 70%),
+    radial-gradient(140% 160% at 100% 0%, rgba(119, 82, 201, 0.18), transparent 72%),
+    linear-gradient(180deg, transparent 25%, rgba(255, 255, 255, 0.04));
   mix-blend-mode: screen;
   pointer-events: none;
-  opacity: 0.65;
+  opacity: 0.85;
+  z-index: 0;
 }
 
 .grid {
   position: relative;
   z-index: 1;
-  --grid-gutter: var(--space-5);
+  display: grid;
+  gap: clamp(var(--space-5), 4vw, var(--space-8));
 }
 
 @media (min-width: 64rem) {
   .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
     align-items: stretch;
   }
-  .contentColumn {
-    grid-column: span 6;
+  .copyColumn {
+    grid-column: span 7;
   }
-  .portraitColumn {
-    grid-column: span 6;
+  .focusColumn {
+    grid-column: span 5;
   }
 }
 
-.contentColumn {
+.copyColumn {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-5);
   min-width: 0;
 }
 
-.eyebrowRow {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  color: hsl(var(--muted-foreground));
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+.eyebrow {
   font-size: var(--font-label);
-}
-
-.eyebrowLabel {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
   font-weight: 600;
-}
-
-.eyebrowStatus {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-full);
-  background: hsl(var(--state-warning-surface, var(--warning) / 0.2));
-  color: hsl(var(--warning-foreground));
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .headlineBlock {
@@ -113,56 +68,58 @@
 }
 
 .heading {
-  font-size: clamp(2.2rem, 4vw, 2.8rem);
-  letter-spacing: -0.01em;
+  font-size: clamp(2.6rem, 5vw, 3.2rem);
   font-weight: 700;
+  letter-spacing: -0.015em;
   color: hsl(var(--foreground));
   text-wrap: balance;
 }
 
 .subtitle {
   font-size: var(--font-body);
-  color: hsl(var(--muted-foreground));
-  max-width: 48ch;
+  color: rgba(235, 229, 255, 0.76);
+  max-width: 52ch;
 }
 
-.hudFrame {
+.metricBoard {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-4);
   padding: var(--space-4);
-  border-radius: calc(var(--radius-xl) * 1.1);
-  background:
-    linear-gradient(140deg, hsl(var(--state-success-surface) / 0.45), transparent),
-    hsl(var(--surface) / 0.72);
-  border: var(--hairline-w) solid hsl(var(--state-success-border) / 0.65);
+  border-radius: 16px;
+  background: rgba(31, 17, 55, 0.82);
   box-shadow:
-    inset 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--card-hairline) / 0.4),
-    inset 0 calc(var(--spacing-1) * -0.35) calc(var(--spacing-3) / 1.5)
-      hsl(var(--shadow-color) / 0.22);
+    0 16px 40px rgba(10, 6, 30, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-.hudMetric {
+@media (min-width: 48rem) {
+  .metricBoard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.metric {
   display: grid;
-  gap: var(--space-1);
+  gap: var(--space-2);
 }
 
-.hudMetricLabel {
+.metricLabel {
   font-size: var(--font-label);
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: hsl(var(--muted-foreground));
+  color: rgba(240, 235, 255, 0.8);
 }
 
-.hudMetricValue {
+.metricValue {
   font-size: var(--font-title);
   font-weight: 600;
-  letter-spacing: -0.01em;
   color: hsl(var(--foreground));
+  letter-spacing: -0.01em;
 }
 
-.hudMetricHint {
-  font-size: var(--font-label);
-  color: hsl(var(--muted-foreground));
+.metricHint {
+  font-size: var(--font-small);
+  color: rgba(225, 219, 255, 0.72);
 }
 
 .actions {
@@ -171,213 +128,65 @@
   gap: var(--space-3);
 }
 
-.portraitColumn {
+.focusColumn {
   display: flex;
-  align-items: stretch;
   justify-content: center;
-}
-
-.portraitCard {
-  position: relative;
-  display: grid;
-  gap: var(--space-4);
-  padding: var(--space-5);
-  border-radius: calc(var(--radius-2xl) * 0.95);
-  background: hsl(var(--surface-2) / 0.85);
-  border: var(--hairline-w) solid hsl(var(--card-hairline) / 0.5);
-  box-shadow:
-    inset 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--card-hairline) / 0.55),
-    0 var(--spacing-3) var(--spacing-5) hsl(var(--shadow-color) / 0.32),
-    0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.26);
-  overflow: hidden;
-}
-
-.portraitCard::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(120% 120% at 12% -10%, hsl(var(--accent) / 0.26), transparent 68%);
-  mix-blend-mode: screen;
-  opacity: 0.55;
-  pointer-events: none;
-}
-
-.tone-light {
-  --portrait-aura: hsl(var(--accent-2) / 0.28);
-}
-
-.tone-dark {
-  --portrait-aura: hsl(var(--lav-deep) / 0.32);
-}
-
-.portraitFrame {
-  width: min(320px, 100%);
-  margin: 0 auto;
-}
-
-.portraitMeta {
-  position: relative;
-  display: grid;
-  gap: var(--space-3);
-  padding: var(--space-3);
-  border-radius: calc(var(--radius-xl) * 0.9);
-  background: linear-gradient(165deg, hsl(var(--surface) / 0.9), hsl(var(--surface-2) / 0.82));
-  border: var(--hairline-w) solid hsl(var(--card-hairline) / 0.5);
-  box-shadow:
-    inset 0 0 0 calc(var(--hairline-w) * 1.5) hsl(var(--card-hairline) / 0.4),
-    inset 0 calc(var(--spacing-1) * -0.45) calc(var(--spacing-3) / 1.8)
-      hsl(var(--shadow-color) / 0.28);
-}
-
-.metaHeader {
-  display: grid;
-  gap: var(--space-1);
-}
-
-.metaLabel {
-  font-size: var(--font-label);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: hsl(var(--muted-foreground));
-}
-
-.metaDescription {
-  font-size: var(--font-ui);
-  color: hsl(var(--muted-foreground));
-  text-wrap: balance;
-}
-
-.metaFooter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-
-.metaPill {
-  display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-full);
-  border: var(--hairline-w) solid hsl(var(--state-success-border) / 0.6);
-  background: hsl(var(--state-success-surface));
-  color: hsl(var(--success-foreground));
-  font-size: var(--font-label);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
-.dial {
+.focusCard {
   display: grid;
+  place-items: center;
   gap: var(--space-3);
+  padding: clamp(var(--space-5), 4vw, var(--space-6));
+  border-radius: 20px;
+  background:
+    radial-gradient(120% 120% at 50% 0%, rgba(164, 96, 235, 0.2), transparent 70%),
+    rgba(31, 17, 55, 0.88);
+  box-shadow:
+    0 18px 46px rgba(8, 5, 26, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  text-align: center;
+  min-width: min(360px, 100%);
 }
 
-.dialRing {
+.focusRing {
   position: relative;
   display: grid;
   place-items: center;
   width: min(220px, 60vw);
   aspect-ratio: 1 / 1;
-  margin-inline: auto;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 50%, hsl(var(--state-success-surface) / 0.6), transparent 70%),
-    hsl(var(--surface-2) / 0.9);
-  border: var(--hairline-w) solid hsl(var(--state-success-border));
+  border-radius: 999px;
+  background: radial-gradient(120% 120% at 50% 50%, rgba(164, 96, 235, 0.18), rgba(31, 17, 55, 0.9));
   box-shadow:
-    0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.28),
-    inset 0 calc(var(--spacing-1) * -0.35) calc(var(--spacing-3) / 2.4)
-      hsl(var(--shadow-color) / 0.28);
-  color: hsl(var(--accent));
+    inset 0 18px 34px rgba(12, 6, 35, 0.65),
+    0 10px 26px rgba(12, 7, 32, 0.55);
 }
 
-.dialRingReduced {
-  isolation: isolate;
+.focusRing :global(svg) {
+  width: 72%;
+  height: 72%;
+  filter: drop-shadow(0 8px 16px rgba(164, 96, 235, 0.32));
 }
 
-.dialRingReduced .motion-safe\:animate-pulse {
-  animation: none !important;
-}
-
-.dialValue {
+.focusValue {
   position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-size: clamp(1.75rem, 3.5vw, 2.2rem);
-  font-weight: 700;
+  font-size: clamp(2.2rem, 4vw, 2.8rem);
+  font-weight: 600;
   color: hsl(var(--foreground));
-  text-shadow: 0 0 var(--space-2) hsl(var(--accent) / 0.4);
+  letter-spacing: -0.02em;
 }
 
-.dialCaption {
-  position: absolute;
-  bottom: 14%;
-  font-size: var(--font-label);
-  letter-spacing: 0.24em;
+.focusLabel {
+  font-size: var(--font-title-sm);
+  font-weight: 600;
+  color: rgba(240, 235, 255, 0.86);
   text-transform: uppercase;
-  color: hsl(var(--muted-foreground));
+  letter-spacing: 0.18em;
 }
 
-.dialLabel {
-  display: grid;
-  gap: var(--space-2);
-}
-
-.dialSlider {
-  appearance: none;
-  width: 100%;
-  height: var(--spacing-2);
-  border-radius: var(--radius-full);
-  background: linear-gradient(90deg, hsl(var(--accent-2)), hsl(var(--accent)));
-  outline: none;
-  position: relative;
-  box-shadow: inset 0 0 0 calc(var(--hairline-w) * 1.5) hsl(var(--card-hairline) / 0.5);
-}
-
-.dialSlider::-webkit-slider-thumb {
-  appearance: none;
-  width: var(--space-4);
-  height: var(--space-4);
-  border-radius: 50%;
-  background: hsl(var(--background));
-  border: var(--hairline-w) solid hsl(var(--accent));
-  box-shadow:
-    0 0 var(--space-2) hsl(var(--accent) / 0.55),
-    0 0 0 calc(var(--hairline-w) * 2) hsl(var(--accent) / 0.45);
-  cursor: pointer;
-  transition: transform var(--motion-duration-sm) var(--ease-out);
-}
-
-.dialSlider::-moz-range-thumb {
-  width: var(--space-4);
-  height: var(--space-4);
-  border-radius: 50%;
-  background: hsl(var(--background));
-  border: var(--hairline-w) solid hsl(var(--accent));
-  box-shadow:
-    0 0 var(--space-2) hsl(var(--accent) / 0.55),
-    0 0 0 calc(var(--hairline-w) * 2) hsl(var(--accent) / 0.45);
-  cursor: pointer;
-  transition: transform var(--motion-duration-sm) var(--ease-out);
-}
-
-.dialSlider:focus-visible::-webkit-slider-thumb,
-.dialSlider:focus-visible::-moz-range-thumb,
-.dialSlider:hover::-webkit-slider-thumb,
-.dialSlider:hover::-moz-range-thumb {
-  transform: scale(1.05);
-}
-
-.dialFeedback {
-  font-size: var(--font-label);
-  color: hsl(var(--muted-foreground));
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .dialSlider::-webkit-slider-thumb,
-  .dialSlider::-moz-range-thumb {
-    transition: none;
-  }
+.focusHint {
+  font-size: var(--font-small);
+  color: rgba(215, 208, 244, 0.72);
+  max-width: 28ch;
 }

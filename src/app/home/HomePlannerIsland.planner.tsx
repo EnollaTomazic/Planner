@@ -14,7 +14,7 @@ import type {
   PlannerOverviewProps,
 } from "@/components/home"
 import type { HomeHeroSectionProps } from "@/components/home/home-landing/types"
-import { PageShell, Button, ThemeToggle, SectionCard } from "@/components/ui"
+import { PageShell, Button, SectionCard } from "@/components/ui"
 import { PlannerProvider } from "@/components/planner"
 import { useTheme } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
@@ -249,18 +249,16 @@ function HomePageBody({
   const { hydrated } = plannerOverviewProps
   const heroActions = React.useMemo<React.ReactNode>(
     () => (
-      <>
-        <ThemeToggle className="shrink-0" />
-        <Button
-          asChild
-          variant="default"
-          size="md"
-          tactile
-          className="whitespace-nowrap"
-        >
-          <Link href={withBasePath("/planner", { skipForNextLink: true })}>Plan Week</Link>
-        </Button>
-      </>
+      <Button
+        asChild
+        variant="default"
+        size="md"
+        tactile
+        tone="accent"
+        className="whitespace-nowrap shadow-depth-soft"
+      >
+        <Link href={withBasePath("/planner", { skipForNextLink: true })}>Plan week</Link>
+      </Button>
     ),
     [],
   )
