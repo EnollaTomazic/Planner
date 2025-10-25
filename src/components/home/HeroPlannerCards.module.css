@@ -1,13 +1,11 @@
-:root {
+.root {
   --glitch-surface: #1f1137;
   --glitch-surface-soft: rgba(31, 17, 55, 0.86);
   --glitch-highlight: hsl(var(--accent) / 0.35);
   --glitch-shadow: rgba(5, 3, 17, 0.65);
   --glitch-inner: rgba(10, 6, 24, 0.88);
   --glitch-accent: hsl(var(--accent));
-}
 
-.root {
   margin-top: clamp(var(--space-6), 6vh, var(--space-8));
   border-radius: 18px;
   padding: clamp(var(--space-4), 4vw, var(--space-6));
