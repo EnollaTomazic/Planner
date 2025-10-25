@@ -17,6 +17,8 @@ export { PlannerListPanel } from "./PlannerListPanel";
 export { PlannerPage } from "./PlannerPage";
 export { buildTaskLookups, computeDayCounts, decodePlannerDays, decodePlannerFocus, DEFAULT_MAX_DAY_AGE_DAYS, ensureDay, FOCUS_PLACEHOLDER, HYDRATION_TODAY, pruneOldDays, sanitizeDayRecord, sanitizeTaskReminder, taskRemindersEqual, todayISO } from "./plannerSerialization";
 export type { PruneOldDaysOptions, PruneOldDaysReport } from "./plannerSerialization";
+export { PlannerStatChip } from "./PlannerStatChip";
+export type { PlannerStatChipProps } from "./PlannerStatChip";
 export type { DayRecord, DayTask, ISODate, Project, Selection, TaskReminder } from "./plannerTypes";
 export { ProjectList } from "./ProjectList";
 export { scheduleSavingReset } from "./scheduleSavingReset";
