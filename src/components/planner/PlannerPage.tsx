@@ -438,6 +438,7 @@ function Inner() {
           hero={{
             sticky: false,
             heading: "Week controls",
+            className: "planner-header__hero",
             children: (
               <>
                 <PlannerIslandBoundary
