@@ -352,23 +352,22 @@ export function ReviewsPage({
             aria-label="Review list"
             className="md:col-span-2 lg:col-span-4"
           >
-            <ReviewList
-              reviews={listReviews}
-              selectedId={selectedId}
-              loading={isLoading}
-              error={errorMessage}
-              onRetry={isErrored ? onRetry : null}
-              onSelect={
-                allowInteractions
-                  ? (id) => {
-                      setDetailMode("summary");
-                      onSelect(id);
-                    }
-                  : undefined
-              }
-              onCreate={allowInteractions ? commitCreateReview : undefined}
-              className="h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
-              header={
+              <ReviewList
+                reviews={listReviews}
+                selectedId={selectedId}
+                loading={isLoading}
+                error={errorMessage}
+                onRetry={isErrored ? onRetry : null}
+                onSelect={
+                  allowInteractions
+                    ? (id) => {
+                        setDetailMode("summary");
+                        onSelect(id);
+                      }
+                    : undefined
+                }
+                className="h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
+                header={
                 allowInteractions && filteredCount > 0
                   ? `${filteredCount} shown`
                   : undefined
@@ -460,18 +459,11 @@ export function ReviewsPage({
                 </span>
                 <div className="space-y-[var(--space-1)]">
                   <p className="text-card-foreground">You&rsquo;re ready to capture your first review.</p>
-                  <p>Log a match recap to unlock summaries, tagging, and focus tracking.</p>
+                  <p>
+                    Log a match recap to unlock summaries, tagging, and focus tracking.
+                    Use the New Review button above to begin.
+                  </p>
                 </div>
-                <Button
-                  type="button"
-                  variant="default"
-                  size="md"
-                  className={cn("btn-glitch")}
-                  onClick={commitCreateReview}
-                >
-                  <Plus />
-                  <span>New Review</span>
-                </Button>
               </ReviewPanel>
             ) : !active ? (
               <ReviewPanel
