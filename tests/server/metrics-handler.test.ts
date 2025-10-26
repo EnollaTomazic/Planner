@@ -183,6 +183,27 @@ describe("server metrics handler", () => {
     );
   });
 
+  it("rejects unsupported content types", async () => {
+    const payload = createValidPayload();
+    const request = createRequest({
+      body: JSON.stringify(payload),
+      headers: {
+        "content-type": "text/plain",
+        "x-request-id": "test-request-id",
+        "x-user-id": "user-123",
+      },
+    });
+    const recorder = createResponse();
+
+    await handler(request, recorder.response);
+
+    expect(recorder.getStatusCode()).toBe(415);
+    expect(JSON.parse(recorder.getBody())).toEqual({ error: "unsupported_media_type" });
+    expect(recorder.getHeader("server-timing")).toMatch(/^app;dur=/);
+    expect(recorder.getHeader("cache-control")).toBe("no-store");
+    expect(captureSpy).not.toHaveBeenCalled();
+  });
+
   it("rejects unsupported methods", async () => {
     const request = createRequest({ method: "GET" });
     const recorder = createResponse();

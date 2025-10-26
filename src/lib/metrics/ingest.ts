@@ -242,6 +242,20 @@ export function createMetricsProcessor(
     const context = buildRequestContext(clientId, headers)
     const requestLog = metricsLog.child('request', context)
 
+    const contentType = headers['content-type']?.toLowerCase()
+
+    if (!contentType || !contentType.includes('application/json')) {
+      requestLog.warn('Unsupported content type for metrics submission', {
+        contentType,
+      })
+
+      return {
+        status: 415,
+        body: { error: 'unsupported_media_type' },
+        headers: { 'Cache-Control': 'no-store' },
+      }
+    }
+
     const rate = rateLimiter.consume(clientId, RATE_LIMIT_CONFIG)
 
     if (rate.limited) {
