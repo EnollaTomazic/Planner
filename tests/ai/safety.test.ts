@@ -483,6 +483,40 @@ describe("retryWithJitter", () => {
 
     await expect(promise).rejects.toThrow(/cancel/);
   });
+
+  it("falls back to the base delay when jitter removes the wait", async () => {
+    const randomSpy = vi.spyOn(Math, "random").mockReturnValue(0);
+    try {
+      const attempts: number[] = [];
+      const delays: number[] = [];
+      const promise = retryWithJitter(
+        async ({ attempt }) => {
+          attempts.push(attempt);
+          if (attempt < 3) {
+            throw new Error("nope");
+          }
+          return "ok" as const;
+        },
+        {
+          initialDelayMs: 100,
+          jitterRatio: 1,
+          maxAttempts: 3,
+          onRetry: ({ delayMs }) => {
+            delays.push(delayMs);
+          },
+        },
+      );
+
+      await vi.advanceTimersByTimeAsync(100);
+      await vi.advanceTimersByTimeAsync(200);
+
+      await expect(promise).resolves.toBe("ok");
+      expect(delays).toEqual([100, 200]);
+      expect(attempts).toEqual([1, 2, 3]);
+    } finally {
+      randomSpy.mockRestore();
+    }
+  });
 });
 
 describe("streaming abort helpers", () => {

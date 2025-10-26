@@ -646,15 +646,25 @@ export async function retryWithJitter<T>(
 ): Promise<T> {
   const {
     maxAttempts = DEFAULT_MAX_ATTEMPTS,
-    initialDelayMs = DEFAULT_INITIAL_DELAY_MS,
-    maxDelayMs = DEFAULT_MAX_DELAY_MS,
-    jitterRatio = DEFAULT_JITTER_RATIO,
+    initialDelayMs: rawInitialDelayMs = DEFAULT_INITIAL_DELAY_MS,
+    maxDelayMs: rawMaxDelayMs = DEFAULT_MAX_DELAY_MS,
+    jitterRatio: rawJitterRatio = DEFAULT_JITTER_RATIO,
     signal,
     onRetry,
   } = options;
 
+  const safeInitialDelayMs = Number.isFinite(rawInitialDelayMs)
+    ? Math.max(rawInitialDelayMs, 0)
+    : DEFAULT_INITIAL_DELAY_MS;
+  const safeMaxDelayMs = Number.isFinite(rawMaxDelayMs)
+    ? Math.max(rawMaxDelayMs, 0)
+    : DEFAULT_MAX_DELAY_MS;
+  const safeJitterRatio = Number.isFinite(rawJitterRatio)
+    ? Math.max(rawJitterRatio, 0)
+    : DEFAULT_JITTER_RATIO;
+
   let attempt = 0;
-  let delayMs = initialDelayMs;
+  let delayMs = Math.min(safeInitialDelayMs, safeMaxDelayMs);
   const retryController = new AbortController();
   const unlinkAbortSignals = signal
     ? linkAbortSignals(retryController, signal)
@@ -673,11 +683,27 @@ export async function retryWithJitter<T>(
         if (attempt >= maxAttempts) {
           throw error;
         }
-        const jitter = 1 + (Math.random() * 2 - 1) * jitterRatio;
-        const nextDelay = Math.min(maxDelayMs, delayMs * jitter);
+        const baseDelay = delayMs > 0 ? delayMs : Math.min(safeInitialDelayMs, safeMaxDelayMs);
+        const jitter = 1 + (Math.random() * 2 - 1) * safeJitterRatio;
+        const jitteredDelay = Number.isFinite(baseDelay * jitter)
+          ? baseDelay * jitter
+          : baseDelay;
+        let nextDelay = Math.min(safeMaxDelayMs, jitteredDelay);
+
+        if (!Number.isFinite(nextDelay)) {
+          nextDelay = baseDelay;
+        }
+
+        if (nextDelay <= 0 && baseDelay > 0) {
+          nextDelay = Math.min(baseDelay, safeMaxDelayMs);
+        }
+
+        nextDelay = Math.max(nextDelay, 0);
+
         onRetry?.({ attempt, delayMs: nextDelay, error });
         await sleep(nextDelay, linkedSignal);
-        delayMs = Math.min(maxDelayMs, nextDelay * 2);
+        const nextBase = Math.max(baseDelay * 2, nextDelay * 2);
+        delayMs = Math.min(safeMaxDelayMs, nextBase);
       }
     }
   } finally {

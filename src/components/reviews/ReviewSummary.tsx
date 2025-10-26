@@ -26,18 +26,27 @@ export function ReviewSummary({ review, onEdit, className }: Props) {
   const role: Role | undefined = review.role as Role | undefined;
   const result: "Win" | "Loss" | undefined = review.result;
   const score = Number.isFinite(review.score) ? Number(review.score) : 5;
+  const normalizedScore = Math.max(0, Math.min(10, Math.round(score)));
   const focusOn = Boolean(review.focusOn);
   const focus = Number.isFinite(review.focus) ? Number(review.focus) : 5;
+  const normalizedFocus = Math.max(0, Math.min(10, Math.round(focus)));
   const markers: ReviewMarker[] = Array.isArray(review.markers) ? review.markers : [];
   const laneTitle = review.lane ?? review.title ?? "";
 
-  const msgIndex = pickIndex(String(review.id ?? "seed") + score, 5);
-  const pool = SCORE_POOLS[score];
-  const msg = pool[msgIndex];
-  const { Icon: ScoreIcon, cls: scoreIconCls } = scoreIcon(score);
+  const scorePool = SCORE_POOLS[normalizedScore] ?? SCORE_POOLS[5];
+  const msgIndex = pickIndex(
+    String(review.id ?? "seed") + normalizedScore,
+    scorePool.length,
+  );
+  const msg = scorePool[msgIndex % scorePool.length];
+  const { Icon: ScoreIcon, cls: scoreIconCls } = scoreIcon(normalizedScore);
 
-  const focusMsgIndex = pickIndex(String(review.id ?? "seed-focus") + focus, 10);
-  const focusMsg = (FOCUS_POOLS[focus] ?? FOCUS_POOLS[5])[focusMsgIndex % 10];
+  const focusPool = FOCUS_POOLS[normalizedFocus] ?? FOCUS_POOLS[5];
+  const focusMsgIndex = pickIndex(
+    String(review.id ?? "seed-focus") + normalizedFocus,
+    focusPool.length,
+  );
+  const focusMsg = focusPool[focusMsgIndex % focusPool.length];
 
   return (
     <SectionCard
