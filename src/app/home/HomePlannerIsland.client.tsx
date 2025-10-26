@@ -12,9 +12,8 @@ import styles from "../page-client.module.css"
 import type { HomePlannerIslandPlannerProps } from "./HomePlannerIsland.planner"
 
 const homeBackdropClassName =
-  'relative isolate overflow-hidden bg-blob-primary bg-no-repeat after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:bg-gradient-blob-primary after:opacity-40 after:content-[""]'
-const sectionCardOverlayClassName =
-  'relative overflow-hidden before:pointer-events-none before:absolute before:inset-[-20%] before:-z-10 before:bg-gradient-blob-primary before:opacity-25 before:content-[""]'
+  'relative isolate bg-[color-mix(in_oklab,hsl(var(--surface))_88%,hsl(var(--surface-2)))]'
+const sectionCardOverlayClassName = 'relative'
 
 let latestPlannerProps: HomePlannerIslandPlannerProps | null = null
 
