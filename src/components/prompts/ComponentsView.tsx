@@ -47,26 +47,22 @@ interface ShowCodeButtonProps {
 
 const containerClassName = cn(
   "group/component-view relative isolate flex flex-col gap-[var(--space-6)] overflow-hidden",
-  "rounded-card r-card-lg",
-  "rounded-[var(--radius-card)] border border-card-hairline-75",
-  "bg-panel-tilt-strong",
-  "px-[var(--space-6)] py-[var(--space-5)]",
-  "shadow-depth-outer",
-  "focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--card))]",
-  "before:pointer-events-none before:absolute before:-inset-px before:-z-10 before:rounded-[inherit]",
-  "before:bg-gradient-drip-overlay-compact",
-  "before:opacity-75 before:mix-blend-screen motion-reduce:before:opacity-55",
-  "after:pointer-events-none after:absolute after:-inset-px after:-z-10 after:rounded-[inherit]",
-  "after:bg-glitch-overlay",
-  "after:opacity-65 after:mix-blend-soft-light motion-reduce:after:opacity-45",
+  "rounded-card r-card-lg border border-card-hairline-80",
+  "bg-[hsl(var(--surface-3)/0.9)] px-[var(--space-6)] py-[var(--space-5)]",
+  "shadow-depth-outer transition-[transform,box-shadow] duration-motion-md ease-out",
+  "hover:-translate-y-[var(--spacing-0-25)] hover:shadow-depth-soft",
+  "focus-within:-translate-y-[var(--spacing-0-25)] focus-within:shadow-depth-soft",
+  "focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--surface-3)/0.9)]",
+  "before:pointer-events-none before:absolute before:inset-x-[var(--space-5)] before:top-0 before:h-[var(--spacing-0-5)] before:rounded-full before:bg-[var(--gradient-glitch-rail)] before:opacity-90",
+  "after:pointer-events-none after:absolute after:inset-0 after:bg-glitch-overlay after:opacity-20 after:mix-blend-soft-light",
+  "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-within:translate-y-0",
 );
 
 const frameClassName = cn(
-  "relative rounded-card r-card-md bg-[hsl(var(--background)/0.94)] p-[var(--space-4)]",
+  "relative isolate rounded-card r-card-md border border-card-hairline-60 bg-[hsl(var(--surface-1)/0.92)] p-[var(--space-4)]",
   "shadow-[var(--shadow-inset-hairline)]",
-  "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:p-[var(--spacing-0-25)] before:bg-[var(--edge-iris)] before:opacity-35 before:[mask:linear-gradient(hsl(var(--foreground))_0_0)_content-box,linear-gradient(hsl(var(--foreground))_0_0)] before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]",
-  "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--spacing-0-5)] after:rounded-[inherit] after:bg-hero-topline after:opacity-70 after:mix-blend-screen",
-  "group-focus-within/component-view:before:opacity-55",
+  "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-glitch-overlay before:opacity-20 before:mix-blend-soft-light",
+  "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--spacing-0-5)] after:rounded-[inherit] after:bg-[var(--gradient-glitch-rail)] after:opacity-80",
 );
 
 function ThemePreviewSurface({
@@ -865,7 +861,7 @@ function StatesSection({
     >
       <SectionHeading id={headingId}>States</SectionHeading>
       {stateAxes.length > 0 ? (
-        <div className="rounded-card r-card-md border border-card-hairline-60 bg-surface-2/60 p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
+        <div className="rounded-card border border-card-hairline-60 bg-[hsl(var(--surface-2)/0.65)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
           <div className="grid gap-[var(--space-3)] md:grid-cols-2">
             {stateAxes.map((axis) => (
               <div key={axis.id} className="space-y-[var(--space-2)]">
@@ -892,26 +888,30 @@ function StatesSection({
         </div>
       ) : null}
       {states.length > 0 ? (
-        <div className="grid gap-[var(--space-4)] md:grid-cols-2">
-          {states.map((state) => {
-            const key = `state:${state.id}`;
-            return (
-              <StatePreviewCard
-                entryId={entryId}
-                key={state.id}
-                state={state}
-                expanded={activeSnippet === key}
-                onToggle={() => onToggleState(state.id)}
-              />
-            );
-          })}
+        <div className="overflow-hidden rounded-card border border-card-hairline-60 bg-[hsl(var(--surface-2)/0.65)] shadow-[var(--shadow-inset-hairline)]">
+          <table className="w-full border-collapse text-left">
+            <tbody>
+              {states.map((state) => {
+                const key = `state:${state.id}`;
+                return (
+                  <StateTableRow
+                    key={state.id}
+                    entryId={entryId}
+                    state={state}
+                    expanded={activeSnippet === key}
+                    onToggle={() => onToggleState(state.id)}
+                  />
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       ) : null}
     </section>
   );
 }
 
-function StatePreviewCard({
+function StateTableRow({
   entryId,
   state,
   expanded,
@@ -947,19 +947,16 @@ function StatePreviewCard({
   }, [previewRenderer]);
 
   return (
-    <article
-      className="flex flex-col gap-[var(--space-3)] rounded-card r-card-lg border border-card-hairline-60 bg-panel-tilt-muted p-[var(--space-4)] shadow-depth-outer"
-      aria-labelledby={headingId}
-      aria-describedby={descriptionId}
-    >
-      <header className="flex items-start justify-between gap-[var(--space-3)]">
+    <tr className="border-t border-card-hairline-60 first:border-t-0">
+      <th
+        scope="row"
+        id={headingId}
+        className="w-[28%] min-w-[12rem] align-top px-[var(--space-5)] py-[var(--space-4)] text-left"
+      >
         <div className="space-y-[var(--space-1)]">
-          <h4
-            id={headingId}
-            className="text-ui font-semibold tracking-[-0.01em] text-foreground"
-          >
+          <p className="text-ui font-semibold tracking-[-0.01em] text-foreground">
             {state.name}
-          </h4>
+          </p>
           {state.description ? (
             <p
               id={descriptionId}
@@ -969,26 +966,32 @@ function StatePreviewCard({
             </p>
           ) : null}
         </div>
-        {state.code ? (
-          <ShowCodeButton
-            controls={codeId}
-            expanded={expanded}
-            onToggle={onToggle}
-          />
-        ) : null}
-      </header>
-      <div className={frameClassName}>{previewNode}</div>
-      {state.code ? (
-        <pre
-          id={codeId}
-          hidden={!expanded}
-          aria-hidden={expanded ? undefined : true}
-          className="rounded-card r-card-md bg-muted/80 p-[var(--space-4)] text-label shadow-[var(--shadow-inset-hairline)]"
-        >
-          <code>{state.code}</code>
-        </pre>
-      ) : null}
-    </article>
+      </th>
+      <td className="align-top px-[var(--space-5)] py-[var(--space-4)]">
+        <div className="space-y-[var(--space-3)]">
+          <div className={frameClassName}>{previewNode}</div>
+          {state.code ? (
+            <div className="space-y-[var(--space-2)]">
+              <div className="flex justify-end">
+                <ShowCodeButton
+                  controls={codeId}
+                  expanded={expanded}
+                  onToggle={onToggle}
+                />
+              </div>
+              <pre
+                id={codeId}
+                hidden={!expanded}
+                aria-hidden={expanded ? undefined : true}
+                className="rounded-card r-card-md border border-card-hairline-60 bg-[hsl(var(--surface-1)/0.9)] p-[var(--space-4)] text-label shadow-[var(--shadow-inset-hairline)]"
+              >
+                <code>{state.code}</code>
+              </pre>
+            </div>
+          ) : null}
+        </div>
+      </td>
+    </tr>
   );
 }
 
@@ -1141,7 +1144,7 @@ export function ComponentsView({
           id={componentCodeId}
           hidden={openSnippet !== "component"}
           aria-hidden={openSnippet === "component" ? undefined : true}
-          className="rounded-card r-card-md bg-muted/80 p-[var(--space-4)] text-label shadow-[var(--shadow-inset-hairline)]"
+          className="rounded-card r-card-md border border-card-hairline-60 bg-[hsl(var(--surface-1)/0.9)] p-[var(--space-4)] text-label shadow-[var(--shadow-inset-hairline)]"
         >
           <code>{entry.code}</code>
         </pre>

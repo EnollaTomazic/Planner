@@ -26,6 +26,7 @@ interface ComponentsGalleryPanelsProps {
   readonly componentsPanelRef: React.Ref<HTMLDivElement>;
   readonly tokensPanelRef: React.Ref<HTMLDivElement>;
   readonly tokenGroups: readonly DesignTokenGroup[];
+  readonly tokensPanelLabelledBy: string;
 }
 
 function formatCategoryHeadingId(key: string, index: number): string {
@@ -51,9 +52,9 @@ export function ComponentsGalleryPanels({
   componentsPanelRef,
   tokensPanelRef,
   tokenGroups,
+  tokensPanelLabelledBy,
 }: ComponentsGalleryPanelsProps) {
   const isTokensView = view === "tokens";
-  const tokensTabId = `${COMPONENTS_VIEW_TAB_ID_BASE}-tokens-tab`;
 
   const hasCategoryGroups = categoryGroups.length > 0;
   const fallbackSectionLabel = sectionLabel || "gallery";
@@ -151,7 +152,7 @@ export function ComponentsGalleryPanels({
       <div
         id={`${COMPONENTS_VIEW_TAB_ID_BASE}-tokens-panel`}
         role="tabpanel"
-        aria-labelledby={tokensTabId}
+        aria-labelledby={tokensPanelLabelledBy}
         tabIndex={isTokensView ? 0 : -1}
         ref={tokensPanelRef}
         hidden={!isTokensView}

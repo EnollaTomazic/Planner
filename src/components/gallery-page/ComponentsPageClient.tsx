@@ -1,52 +1,64 @@
 "use client";
 
 import * as React from "react";
-import { PanelsTopLeft } from "lucide-react";
+import {
+  LayoutPanelLeft,
+  Palette,
+  Shapes,
+  Workflow,
+  type LucideIcon,
+} from "lucide-react";
 
 import type { DesignTokenGroup, GalleryNavigationData } from "@/components/gallery/types";
-import { PageHeader, PageShell } from "@/components/ui";
+import { PageShell, SearchBar, TabBar } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 import { ComponentsGalleryPanels } from "./ComponentsGalleryPanels";
 import {
-  COMPONENTS_PANEL_ID,
   COMPONENTS_SECTION_TAB_ID_BASE,
-  COMPONENTS_VIEW_TAB_ID_BASE,
+  type ComponentsView,
   useComponentsGalleryState,
 } from "./useComponentsGalleryState";
 
-const NEO_TABLIST_SHARED_CLASSES = [
+const SECTION_TABLIST_CLASSES = [
   "data-[variant=neo]:rounded-card",
   "data-[variant=neo]:r-card-lg",
-  "data-[variant=neo]:gap-[var(--space-2)]",
+  "data-[variant=neo]:border data-[variant=neo]:border-card-hairline-60",
   "data-[variant=neo]:px-[var(--space-2)]",
   "data-[variant=neo]:py-[var(--space-2)]",
-  "data-[variant=neo]:[--neo-tablist-bg:linear-gradient(135deg,hsl(var(--card)/0.9),hsl(var(--panel)/0.74))]",
-  "data-[variant=neo]:[--neo-tab-bg:linear-gradient(135deg,hsl(var(--card)/0.96),hsl(var(--panel)/0.82))]",
   "data-[variant=neo]:shadow-depth-outer",
+  "data-[variant=neo]:[--neo-tablist-bg:hsl(var(--surface-3)/0.82)]",
+  "data-[variant=neo]:[--neo-tab-bg:hsl(var(--surface-1)/0.96)]",
+  "data-[variant=neo]:[--neo-tablist-shadow:var(--shadow-depth-outer-soft)]",
   "data-[variant=neo]:hover:shadow-depth-soft",
-  "data-[variant=neo]:[&_[data-active=true]]:relative",
-  "data-[variant=neo]:[&_[data-active=true]::after]:content-['']",
-  "data-[variant=neo]:[&_[data-active=true]::after]:pointer-events-none",
-  "data-[variant=neo]:[&_[data-active=true]::after]:absolute",
-  "data-[variant=neo]:[&_[data-active=true]::after]:left-[var(--space-3)]",
-  "data-[variant=neo]:[&_[data-active=true]::after]:right-[var(--space-3)]",
-  "data-[variant=neo]:[&_[data-active=true]::after]:-bottom-[var(--space-2)]",
-  "data-[variant=neo]:[&_[data-active=true]::after]:h-[var(--hairline-w)]",
-  "data-[variant=neo]:[&_[data-active=true]::after]:rounded-full",
-  "data-[variant=neo]:[&_[data-active=true]::after]:underline-gradient",
 ].join(" ");
 
-const HEADER_FRAME_CLASSNAME = [
-  "shadow-depth-outer",
-  "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit]",
-  "before:bg-[radial-gradient(120%_82%_at_12%_-20%,hsl(var(--accent)/0.3),transparent_65%),radial-gradient(110%_78%_at_88%_-12%,hsl(var(--ring)/0.28),transparent_70%)]",
-  "before:opacity-80 before:mix-blend-screen",
-  "after:pointer-events-none after:absolute after:inset-0 after:-z-20 after:rounded-[inherit]",
-  "after:bg-[linear-gradient(135deg,hsl(var(--card)/0.9),hsl(var(--panel)/0.78)),radial-gradient(120%_140%_at_50%_120%,hsl(var(--accent-2)/0.2),transparent_75%)]",
-  "after:opacity-70 after:mix-blend-soft-light",
-  "motion-reduce:before:opacity-60 motion-reduce:after:opacity-50",
-].join(" ");
+const CATEGORY_META = {
+  primitives: {
+    icon: Shapes,
+    description: "Core interface primitives and triggers.",
+  },
+  patterns: {
+    icon: Workflow,
+    description: "Reusable flows and guidance surfaces.",
+  },
+  layouts: {
+    icon: LayoutPanelLeft,
+    description: "Multi-column scaffolds and responsive frames.",
+  },
+  tokens: {
+    icon: Palette,
+    description: "Color, typography, and elevation tokens.",
+  },
+} satisfies Record<ComponentsView, { icon: LucideIcon; description: string }>;
+
+interface CategoryCardDefinition {
+  id: ComponentsView;
+  label: string;
+  href: string;
+  icon: LucideIcon;
+  description: string;
+}
 
 interface ComponentsPageClientProps {
   readonly navigation: GalleryNavigationData;
@@ -62,7 +74,6 @@ export function ComponentsPageClient({
     section,
     query,
     setQuery,
-    heroCopy,
     heroTabs,
     viewTabs,
     inPageNavigation,
@@ -73,12 +84,93 @@ export function ComponentsPageClient({
     sectionLabel,
     countLabel,
     countDescriptionId,
-    componentsPanelLabelledBy,
-    handleViewChange,
-    handleSectionChange,
     componentsPanelRef,
     tokensPanelRef,
+    handleViewChange,
+    handleSectionChange,
   } = useComponentsGalleryState({ navigation });
+
+  const categoryCards = React.useMemo<readonly CategoryCardDefinition[]>(() => {
+    const tokensLabel =
+      viewTabs.find((tab) => tab.key === "tokens")?.label ?? "Tokens";
+
+    const groups = inPageNavigation.map((item) => {
+      const meta = CATEGORY_META[item.id];
+      return {
+        id: item.id,
+        label: item.label,
+        href: item.href,
+        icon: meta.icon,
+        description: meta.description,
+      } satisfies CategoryCardDefinition;
+    });
+
+    return [
+      ...groups,
+      {
+        id: "tokens",
+        label: tokensLabel,
+        href: "#components-tokens",
+        icon: CATEGORY_META.tokens.icon,
+        description: CATEGORY_META.tokens.description,
+      },
+    ];
+  }, [inPageNavigation, viewTabs]);
+
+  const categoryLabelIds = React.useMemo(
+    () =>
+      new Map<ComponentsView, string>(
+        categoryCards.map((card) => [card.id, `components-category-${card.id}`]),
+      ),
+    [categoryCards],
+  );
+
+  const activePanelLabelledBy = React.useMemo(() => {
+    const ids = ["components-header"];
+    const categoryId = categoryLabelIds.get(view);
+    if (categoryId) {
+      ids.push(categoryId);
+    }
+    if (showSectionTabs) {
+      ids.push(`${COMPONENTS_SECTION_TAB_ID_BASE}-${section}-tab`);
+    }
+    return ids.join(" ");
+  }, [categoryLabelIds, section, showSectionTabs, view]);
+
+  const tokensPanelLabelledBy = React.useMemo(() => {
+    const ids = ["components-header"];
+    const categoryId = categoryLabelIds.get("tokens");
+    if (categoryId) {
+      ids.push(categoryId);
+    }
+    return ids.join(" ");
+  }, [categoryLabelIds]);
+
+  const handleCategoryActivate = React.useCallback(
+    (card: CategoryCardDefinition) => {
+      if (view !== card.id) {
+        handleViewChange(card.id);
+      }
+      if (typeof window === "undefined") {
+        return;
+      }
+      const targetHash = card.href.startsWith("#")
+        ? card.href.slice(1)
+        : card.href;
+      if (!targetHash) {
+        return;
+      }
+      const hashValue = `#${targetHash}`;
+      window.history.replaceState(null, "", hashValue);
+      window.requestAnimationFrame(() => {
+        const element = document.getElementById(targetHash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    },
+    [handleViewChange, view],
+  );
 
   return (
     <>
@@ -86,176 +178,104 @@ export function ComponentsPageClient({
         as="header"
         className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
       >
-        <PageHeader
-          containerClassName="relative isolate col-span-full"
-          header={{
-            id: "components-header",
-            heading: "Component Gallery",
-            subtitle: "Browse Planner UI building blocks by category.",
-            sticky: false,
-            nav:
-              inPageNavigation.length > 0
-                ? (
-                    <nav aria-label="Component categories">
-                      <ul className="flex flex-wrap items-center gap-[var(--space-2)]">
-                        {inPageNavigation.map((item) => {
-                          const isActive = view === item.id;
-                          return (
-                            <li key={item.id}>
-                              <a
-                                href={item.href}
-                                className={cn(
-                                  "text-label font-medium transition-colors",
-                                  "text-muted-foreground hover:text-foreground focus-visible:text-foreground",
-                                  isActive && "text-foreground",
-                                )}
-                                aria-current={isActive ? "page" : undefined}
-                                onClick={(event) => {
-                                  event.preventDefault();
-                                  if (view !== item.id) {
-                                    handleViewChange(item.id);
-                                  }
-                                  const targetHash = item.href.startsWith("#")
-                                    ? item.href.slice(1)
-                                    : item.href;
-                                  if (targetHash && typeof window !== "undefined") {
-                                    window.location.hash = targetHash;
-                                  }
-                                }}
-                              >
-                                {item.label}
-                              </a>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </nav>
-                  )
-                : undefined,
-            tabs: {
-              items: viewTabs,
-              value: view,
-              onChange: handleViewChange,
-              ariaLabel: "Component gallery view",
-              idBase: COMPONENTS_VIEW_TAB_ID_BASE,
-              linkPanels: true,
-              variant: "neo",
-              tablistClassName: cn(NEO_TABLIST_SHARED_CLASSES, "w-full md:w-auto"),
-            },
-          }}
-          frameProps={{
-            className: HEADER_FRAME_CLASSNAME,
-          }}
-          hero={{
-            frame: true,
-            sticky: false,
-            eyebrow: heroCopy.eyebrow,
-            heading: heroCopy.heading,
-            subtitle: heroCopy.subtitle,
-            icon: (
-              <span className="[&_svg]:size-[var(--space-6)]">
-                <PanelsTopLeft aria-hidden />
-              </span>
-            ),
-            barClassName:
-              "isolate overflow-hidden rounded-card r-card-lg before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:bg-[radial-gradient(118%_82%_at_15%_-18%,hsl(var(--accent)/0.34),transparent_65%),radial-gradient(112%_78%_at_85%_-12%,hsl(var(--ring)/0.3),transparent_70%)] before:opacity-80 before:mix-blend-screen after:pointer-events-none after:absolute after:inset-0 after:-z-20 after:bg-[linear-gradient(135deg,hsl(var(--card)/0.9),hsl(var(--panel)/0.78)),repeating-linear-gradient(0deg,hsl(var(--ring)/0.12)_0_hsl(var(--ring)/0.12)_var(--hairline-w),transparent_var(--hairline-w),transparent_var(--space-2))] after:opacity-70 after:mix-blend-soft-light motion-reduce:after:opacity-50",
-            subTabs: showSectionTabs
-              ? {
-                  ariaLabel: "Component section",
-                  items: heroTabs,
-                  value: section,
-                  onChange: handleSectionChange,
-                  idBase: COMPONENTS_SECTION_TAB_ID_BASE,
-                  linkPanels: true,
-                  size: "sm",
-                  variant: "default",
-                  showBaseline: true,
-                  tablistClassName: cn(
-                    "max-w-full shadow-depth-inner rounded-card r-card-lg",
-                    "w-full md:w-auto",
-                  ),
-                  className: "max-w-full w-full md:w-auto",
-                  renderItem: ({ item, props, ref, disabled }) => {
-                    const {
-                      className: baseClassName,
-                      onClick,
-                      "aria-label": ariaLabelProp,
-                      "aria-labelledby": ariaLabelledByProp,
-                      "aria-controls": ariaControlsProp,
-                      title: titleProp,
-                      ...restProps
-                    } = props;
-                    const handleClick: React.MouseEventHandler<HTMLElement> = (
-                      event,
-                    ) => {
-                      onClick?.(event);
-                      handleSectionChange(item.key);
-                    };
-                    const labelText =
-                      typeof item.label === "string" ? item.label : undefined;
-                    const computedTitle = titleProp ?? labelText;
-                    const computedAriaLabel =
-                      ariaLabelProp ??
-                      (labelText && !ariaLabelledByProp ? labelText : undefined);
-                    const computedAriaControls =
-                      ariaControlsProp != null ? COMPONENTS_PANEL_ID : undefined;
-
-                    return (
-                      <button
-                        type="button"
-                        {...restProps}
-                        ref={ref as React.Ref<HTMLButtonElement>}
-                        className={cn(
-                          baseClassName,
-                          "text-label font-normal text-muted-foreground transition-colors",
-                          "data-[active=true]:text-foreground data-[active=true]:font-medium",
-                          disabled && "pointer-events-none",
-                        )}
-                        onClick={(event) => {
-                          if (disabled) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                            return;
-                          }
-                          handleClick(event);
-                        }}
-                        disabled={disabled}
-                        aria-labelledby={ariaLabelledByProp}
-                        aria-controls={computedAriaControls}
-                        aria-label={computedAriaLabel}
-                        title={computedTitle}
-                      >
-                        <span className="truncate">{item.label}</span>
-                      </button>
-                    );
-                  },
-                }
-              : undefined,
-            search:
-              showSectionTabs
-                ? {
-                    id: "components-search",
-                    value: query,
-                    onValueChange: setQuery,
-                    debounceMs: 300,
-                    round: true,
-                    variant: "neo",
-                    label: searchLabel,
-                    placeholder: searchPlaceholder,
-                    fieldClassName: cn(
-                      "bg-[linear-gradient(135deg,hsl(var(--card)/0.95),hsl(var(--panel)/0.82))]",
-                      "!shadow-depth-soft",
-                      "hover:!shadow-depth-soft",
-                      "active:!shadow-depth-soft",
-                      "focus-within:!shadow-depth-soft",
-                      "focus-within:[--tw-ring-offset-width:var(--space-1)]",
-                      "focus-within:[--tw-ring-offset-color:hsl(var(--panel)/0.82)]",
-                      "motion-reduce:transition-none motion-reduce:hover:!shadow-depth-soft motion-reduce:active:!shadow-depth-soft motion-reduce:focus-within:!shadow-depth-soft",
-                    ),
-                  }
-                : undefined,
-          }}
-        />
+        <div className="space-y-[var(--space-6)]">
+          <div className="space-y-[var(--space-2)]">
+            <h1
+              id="components-header"
+              className="text-title font-semibold tracking-[-0.01em] text-foreground"
+            >
+              Component Gallery
+            </h1>
+            <p className="text-ui text-muted-foreground">
+              UI building blocks by category.
+            </p>
+          </div>
+          <ul
+            className="grid gap-[var(--space-3)] sm:grid-cols-2 xl:grid-cols-4"
+            role="list"
+          >
+            {categoryCards.map((card) => {
+              const Icon = card.icon;
+              const isActive = view === card.id;
+              const cardId = categoryLabelIds.get(card.id);
+              return (
+                <li key={card.id}>
+                  <button
+                    type="button"
+                    id={cardId}
+                    onClick={() => handleCategoryActivate(card)}
+                    aria-pressed={isActive ? "true" : undefined}
+                    className={cn(
+                      "group relative flex h-full flex-col gap-[var(--space-3)] overflow-hidden text-left",
+                      "rounded-card border border-card-hairline-70 bg-[hsl(var(--surface-3)/0.82)]",
+                      "px-[var(--space-5)] py-[var(--space-4)]",
+                      "shadow-depth-outer transition-[transform,box-shadow] duration-motion-sm ease-out",
+                      "hover:-translate-y-[var(--spacing-0-25)] hover:shadow-depth-soft",
+                      "focus-visible:-translate-y-[var(--spacing-0-25)] focus-visible:shadow-depth-soft",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-3)/0.82)]",
+                      "data-[active=true]:shadow-depth-soft",
+                    )}
+                    data-active={isActive ? "true" : undefined}
+                  >
+                    <span
+                      aria-hidden
+                      className="glitch-rail pointer-events-none absolute inset-x-[var(--space-4)] top-0 h-[var(--spacing-0-5)] opacity-80"
+                    />
+                    <span className="inline-flex h-[var(--space-10)] w-[var(--space-10)] items-center justify-center rounded-full border border-card-hairline-60 bg-[hsl(var(--surface-1)/0.92)] text-foreground shadow-depth-soft">
+                      <Icon className="size-[var(--space-5)]" aria-hidden />
+                    </span>
+                    <span className="space-y-[var(--space-1)]">
+                      <span className="text-ui font-semibold text-foreground">
+                        {card.label}
+                      </span>
+                      <span className="text-label text-muted-foreground">
+                        {card.description}
+                      </span>
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+          <div className="flex flex-col gap-[var(--space-3)] lg:flex-row lg:items-start lg:justify-between">
+            {showSectionTabs ? (
+              <TabBar
+                className="w-full lg:max-w-3xl"
+                items={heroTabs}
+                value={section}
+                onValueChange={handleSectionChange}
+                ariaLabel="Component section"
+                idBase={COMPONENTS_SECTION_TAB_ID_BASE}
+                linkPanels
+                size="sm"
+                variant="neo"
+                tablistClassName={cn(SECTION_TABLIST_CLASSES, "w-full")}
+              />
+            ) : null}
+            <div
+              className={cn(
+                "w-full",
+                showSectionTabs ? "lg:max-w-sm" : "lg:max-w-md",
+              )}
+            >
+              <SearchBar
+                id="components-search"
+                value={query}
+                onValueChange={setQuery}
+                debounceMs={300}
+                label={searchLabel}
+                placeholder={searchPlaceholder}
+                variant="neo"
+                fieldClassName={cn(
+                  "bg-[hsl(var(--surface-3)/0.82)]",
+                  "border border-card-hairline-60",
+                  "shadow-depth-soft",
+                  "focus-within:shadow-depth-soft",
+                )}
+              />
+            </div>
+          </div>
+        </div>
       </PageShell>
 
       <PageShell
@@ -272,10 +292,11 @@ export function ComponentsPageClient({
           sectionLabel={sectionLabel}
           countLabel={countLabel}
           countDescriptionId={countDescriptionId}
-          componentsPanelLabelledBy={componentsPanelLabelledBy}
+          componentsPanelLabelledBy={activePanelLabelledBy}
           componentsPanelRef={componentsPanelRef}
           tokensPanelRef={tokensPanelRef}
           tokenGroups={tokenGroups}
+          tokensPanelLabelledBy={tokensPanelLabelledBy}
         />
       </PageShell>
     </>
