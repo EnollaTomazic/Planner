@@ -12,9 +12,9 @@ import styles from "../page-client.module.css"
 import type { HomePlannerIslandPlannerProps } from "./HomePlannerIsland.planner"
 
 const homeBackdropClassName =
-  'relative isolate overflow-hidden bg-blob-primary bg-no-repeat after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:bg-gradient-blob-primary after:opacity-40 after:content-[""]'
+  'relative isolate overflow-hidden bg-[radial-gradient(140%_120%_at_50%_-8%,hsl(var(--surface)/0.16),transparent_72%)] after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:bg-[linear-gradient(180deg,hsl(var(--background)/0.9),hsl(var(--background)/0.7))] after:opacity-100 after:content-[""]'
 const sectionCardOverlayClassName =
-  'relative overflow-hidden before:pointer-events-none before:absolute before:inset-[-20%] before:-z-10 before:bg-gradient-blob-primary before:opacity-25 before:content-[""]'
+  'relative overflow-hidden border border-card-hairline/40 bg-[linear-gradient(180deg,hsl(var(--card)/0.78),hsl(var(--card)/0.6))] backdrop-blur-xl shadow-depth-soft'
 
 let latestPlannerProps: HomePlannerIslandPlannerProps | null = null
 
