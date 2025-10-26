@@ -11,6 +11,8 @@ type CachedSearch = {
     title: string;
     tags: string[];
     tagsLength: number;
+    pillars: string[];
+    pillarsLength: number;
     opponent?: string;
     lane?: string;
     side?: string;
@@ -50,8 +52,10 @@ describe("reviewSearch", () => {
     expect(cached?.raw).toContain("Vision Drill");
     expect(cached?.raw).toContain("Macro Spacing");
     expect(cached?.raw).toContain("Ahri");
+    expect(cached?.raw).toContain("Tempo");
     expect(cached?.meta.title).toBe("Vision Drill");
     expect(cached?.meta.tagsLength).toBe(2);
+    expect(cached?.meta.pillarsLength).toBe(1);
 
     const secondBlob = getSearchBlob(review);
     expect(secondBlob).toBe(firstBlob);
@@ -107,11 +111,19 @@ describe("reviewSearch", () => {
     expect(updatedCache?.meta.notes).toBe("Control vision before objectives.");
 
     review.tags.push("Tempo");
-    const expandedBlob = getSearchBlob(review);
-    expect(expandedBlob).toContain("tempo");
-    const expandedCache = readCache(review);
-    expect(expandedCache).not.toBe(updatedCache);
-    expect(expandedCache?.meta.tagsLength).toBe(3);
-    expect(expandedCache?.meta.tags).toBe(review.tags);
+    const tagsExpandedBlob = getSearchBlob(review);
+    expect(tagsExpandedBlob).toContain("tempo");
+    const tagsExpandedCache = readCache(review);
+    expect(tagsExpandedCache).not.toBe(updatedCache);
+    expect(tagsExpandedCache?.meta.tagsLength).toBe(3);
+    expect(tagsExpandedCache?.meta.tags).toBe(review.tags);
+
+    review.pillars.push("Vision");
+    const pillarsExpandedBlob = getSearchBlob(review);
+    expect(pillarsExpandedBlob).toContain("vision");
+    const pillarsExpandedCache = readCache(review);
+    expect(pillarsExpandedCache).not.toBe(tagsExpandedCache);
+    expect(pillarsExpandedCache?.meta.pillarsLength).toBe(2);
+    expect(pillarsExpandedCache?.meta.pillars).toBe(review.pillars);
   });
 });

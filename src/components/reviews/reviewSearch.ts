@@ -7,6 +7,7 @@ type SearchCacheMetadata =
     Review,
     | "title"
     | "tags"
+    | "pillars"
     | "opponent"
     | "lane"
     | "side"
@@ -16,6 +17,7 @@ type SearchCacheMetadata =
     | "notes"
   > & {
     tagsLength: number;
+    pillarsLength: number;
   };
 
 type SearchCache = {
@@ -33,6 +35,8 @@ function collectSearchParts(review: Review): string[] {
   if (review.title) parts.push(review.title);
   if (Array.isArray(review.tags) && review.tags.length)
     parts.push(review.tags.join(" "));
+  if (Array.isArray(review.pillars) && review.pillars.length)
+    parts.push(review.pillars.join(" "));
   if (review.opponent) parts.push(review.opponent);
   if (review.lane) parts.push(review.lane);
   if (review.side) parts.push(review.side);
@@ -61,6 +65,8 @@ function captureMetadata(review: Review): SearchCacheMetadata {
     title: review.title,
     tags: review.tags,
     tagsLength: review.tags.length,
+    pillars: review.pillars,
+    pillarsLength: review.pillars.length,
     opponent: review.opponent,
     lane: review.lane,
     side: review.side,
@@ -79,6 +85,8 @@ function isCacheFresh(
     metadata.title === review.title &&
     metadata.tags === review.tags &&
     metadata.tagsLength === review.tags.length &&
+    metadata.pillars === review.pillars &&
+    metadata.pillarsLength === review.pillars.length &&
     metadata.opponent === review.opponent &&
     metadata.lane === review.lane &&
     metadata.side === review.side &&
