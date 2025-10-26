@@ -631,7 +631,7 @@ function IssueCard({ issue }: IssueCardProps) {
           <a
             href={issue.link}
             target="_blank"
-            rel="noreferrer"
+            rel="noreferrer noopener"
             className="text-label font-medium text-accent-foreground underline-offset-4 transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--card))]"
           >
             View discussion
