@@ -1,18 +1,13 @@
 .root {
-  --glitch-surface: #1f1137;
-  --glitch-surface-soft: rgba(31, 17, 55, 0.86);
-  --glitch-highlight: hsl(var(--accent) / 0.35);
-  --glitch-shadow: rgba(5, 3, 17, 0.65);
-  --glitch-inner: rgba(10, 6, 24, 0.88);
-  --glitch-accent: hsl(var(--accent));
-
+  --panel-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--surface-2)) 12%);
+  --panel-surface-soft: color-mix(in oklab, hsl(var(--panel-surface)) 82%, hsl(var(--surface)) 18%);
+  --panel-border: hsl(var(--border) / 0.45);
   margin-top: clamp(var(--space-6), 6vh, var(--space-8));
-  border-radius: 18px;
-  padding: clamp(var(--space-4), 4vw, var(--space-6));
-  background: var(--glitch-surface);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 24px 64px rgba(7, 4, 20, 0.55);
+  border-radius: var(--radius-2xl);
+  padding: clamp(var(--space-6), 4vw, var(--space-7));
+  background: var(--panel-surface);
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 var(--space-2) var(--space-6) hsl(var(--surface) / 0.32);
   overflow: hidden;
   isolation: isolate;
 }
@@ -20,13 +15,13 @@
 .shell {
   position: relative;
   z-index: 1;
-  row-gap: clamp(var(--space-4), 3vw, var(--space-6));
+  row-gap: var(--space-5);
 }
 
 .widgetRow {
   position: relative;
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 
 @media (min-width: 48rem) {
@@ -41,25 +36,24 @@
 
 .section {
   position: relative;
-  padding: clamp(var(--space-4), 2.5vw, var(--space-5));
-  border-radius: 16px;
-  background: var(--glitch-surface-soft);
-  box-shadow:
-    0 18px 38px var(--glitch-shadow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  padding: clamp(var(--space-5), 3vw, var(--space-6));
+  border-radius: var(--radius-xl);
+  background: var(--panel-surface-soft);
+  border: 1px solid hsl(var(--border) / 0.35);
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.28);
 }
 
 .sectionHeading {
   font-size: var(--font-label);
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(240, 235, 255, 0.82);
-  margin-bottom: var(--space-3);
+  color: hsl(var(--muted-foreground));
+  margin-bottom: var(--space-2);
 }
 
 .overviewRow {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-6);
 }
 
 @media (min-width: 64rem) {
@@ -71,25 +65,24 @@
 .overviewCard {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  padding: clamp(var(--space-4), 2.5vw, var(--space-5));
-  border-radius: 16px;
-  background: var(--glitch-surface-soft);
-  box-shadow:
-    0 20px 44px var(--glitch-shadow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  gap: var(--space-5);
+  padding: clamp(var(--space-5), 3vw, var(--space-6));
+  border-radius: var(--radius-xl);
+  background: var(--panel-surface-soft);
+  border: 1px solid hsl(var(--border) / 0.35);
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.28);
 }
 
 .overviewHeader {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-4);
 }
 
 .cardLabel {
   font-size: var(--font-label);
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(235, 229, 255, 0.82);
+  color: hsl(var(--muted-foreground));
 }
 
 .cardTitle {
@@ -101,12 +94,12 @@
 
 .cardHint {
   font-size: var(--font-small);
-  color: rgba(220, 214, 246, 0.78);
+  color: hsl(var(--muted-foreground));
 }
 
 .metricList {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 .metricItem {
@@ -115,36 +108,31 @@
 
 .metricLink {
   display: grid;
-  gap: var(--space-1);
-  padding: var(--space-3);
-  border-radius: 14px;
-  background: rgba(28, 15, 49, 0.82);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    inset 0 -6px 18px rgba(8, 4, 22, 0.6);
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  background: color-mix(in oklab, hsl(var(--panel-surface)) 90%, hsl(var(--surface)) 10%);
+  border: 1px solid hsl(var(--border) / 0.35);
   text-decoration: none;
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .metricLink:hover,
 .metricLink:focus-visible {
-  transform: translateY(-2px);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    inset 0 -10px 22px rgba(12, 8, 28, 0.7),
-    0 12px 24px rgba(8, 4, 22, 0.45);
+  transform: translateY(calc(var(--space-2) * -0.5));
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.32);
 }
 
 .metricLink:focus-visible {
-  outline: 2px solid hsl(var(--accent) / 0.65);
+  outline: 2px solid hsl(var(--accent) / 0.55);
   outline-offset: 2px;
 }
 
 .metricLabel {
   font-size: var(--font-label);
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(235, 229, 255, 0.84);
+  color: hsl(var(--muted-foreground));
 }
 
 .metricValue {
@@ -156,7 +144,7 @@
 
 .metricCta {
   font-size: var(--font-small);
-  color: rgba(220, 214, 246, 0.74);
+  color: hsl(var(--muted-foreground));
 }
 
 .cardActions {
@@ -165,51 +153,44 @@
 }
 
 .primaryButton {
-  background-color: var(--glitch-accent) !important;
-  color: #fff !important;
-  box-shadow: 0 18px 40px var(--glitch-highlight) !important;
+  box-shadow: var(--shadow-depth-soft) !important;
 }
 
-.primaryButton:hover {
-  background-color: hsl(var(--accent) / 0.92) !important;
-}
-
+.primaryButton:hover,
 .primaryButton:focus-visible {
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2), 0 18px 40px var(--glitch-highlight) !important;
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.32) !important;
 }
 
 .progressBlock {
   position: relative;
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3);
-  border-radius: 14px;
-  background: rgba(28, 15, 49, 0.82);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    inset 0 -8px 20px rgba(8, 4, 22, 0.65);
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  background: color-mix(in oklab, hsl(var(--panel-surface)) 88%, hsl(var(--surface)) 12%);
+  border: 1px solid hsl(var(--border) / 0.35);
 }
 
 .progressBlock :global(.progress-fill) {
-  background: var(--glitch-accent);
+  background: hsl(var(--accent));
 }
 
 .progressValue {
   font-size: var(--font-title-sm);
   font-weight: 600;
-  color: rgba(240, 235, 255, 0.88);
+  color: hsl(var(--foreground));
   min-width: 3ch;
 }
 
 .goalList {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 .goalItem {
   display: grid;
-  gap: var(--space-1);
+  gap: var(--space-2);
 }
 
 .goalTitle {
@@ -220,36 +201,36 @@
 
 .goalDetail {
   font-size: var(--font-small);
-  color: rgba(220, 214, 246, 0.76);
+  color: hsl(var(--muted-foreground));
 }
 
 .emptyGoal {
   font-size: var(--font-small);
-  color: rgba(220, 214, 246, 0.74);
+  color: hsl(var(--muted-foreground));
 }
 
 .calendarStrip {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 .calendarMeta {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: var(--space-2);
 }
 
 .calendarSummary {
   font-size: var(--font-small);
-  color: rgba(215, 210, 245, 0.78);
+  color: hsl(var(--muted-foreground));
 }
 
 .calendarDays {
   display: grid;
   grid-auto-flow: column;
-  gap: var(--space-2);
+  gap: var(--space-4);
   overflow-x: auto;
-  padding-bottom: var(--space-1);
+  padding-bottom: var(--space-2);
 }
 
 .calendarDays li {
@@ -258,50 +239,44 @@
 
 .calendarDay {
   display: grid;
-  gap: var(--space-1);
-  padding: var(--space-2) var(--space-3);
-  border-radius: 14px;
-  border: 1px solid hsl(var(--accent) / 0.24);
-  background: rgba(19, 10, 38, 0.94);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    inset 0 -6px 14px rgba(6, 3, 16, 0.72);
-  min-width: 88px;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-xl);
+  border: 1px solid hsl(var(--border) / 0.35);
+  background: color-mix(in oklab, hsl(var(--panel-surface)) 84%, hsl(var(--surface)) 16%);
+  min-width: 96px;
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .calendarDay:hover:not(.calendarDayDisabled),
 .calendarDay:focus-visible:not(.calendarDayDisabled) {
-  transform: translateY(-2px);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    inset 0 -8px 18px rgba(8, 4, 22, 0.72),
-    0 10px 20px rgba(8, 4, 22, 0.45);
+  transform: translateY(calc(var(--space-2) * -0.5));
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.32);
 }
 
 .calendarDay:focus-visible {
-  outline: 2px solid hsl(var(--accent) / 0.6);
+  outline: 2px solid hsl(var(--accent) / 0.5);
   outline-offset: 2px;
 }
 
 .calendarDayToday {
-  border-color: hsl(var(--accent) / 0.6);
+  border-color: hsl(var(--accent) / 0.5);
 }
 
 .calendarDaySelected {
-  background: hsl(var(--accent) / 0.28);
+  background: color-mix(in oklab, hsl(var(--accent) / 0.25), hsl(var(--panel-surface)) 70%);
 }
 
 .calendarDayDisabled {
-  opacity: 0.4;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
 .calendarDayLabel {
   font-size: var(--font-label);
   text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: rgba(235, 229, 255, 0.78);
+  letter-spacing: 0.14em;
+  color: hsl(var(--muted-foreground));
 }
 
 .calendarDayNumber {
@@ -312,12 +287,12 @@
 
 .calendarDayCount {
   font-size: var(--font-small);
-  color: rgba(212, 206, 242, 0.76);
+  color: hsl(var(--muted-foreground));
 }
 
 .miniGrid {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-6);
 }
 
 @media (min-width: 64rem) {
@@ -330,7 +305,7 @@
 }
 
 .highlightList {
-  margin-top: var(--space-2);
+  margin-top: var(--space-4);
 }
 
 .highlightList :global(li:first-child) {
@@ -343,12 +318,12 @@
 
 .highlightListItem {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-4);
 }
 
 .highlightEntry {
   display: grid;
-  gap: var(--space-1);
+  gap: var(--space-2);
 }
 
 .highlightHeader {
@@ -367,60 +342,59 @@
 
 .highlightSchedule {
   font-size: var(--font-small);
-  color: rgba(220, 214, 246, 0.76);
+  color: hsl(var(--muted-foreground));
 }
 
 .highlightSummary {
   font-size: var(--font-small);
-  color: rgba(220, 214, 246, 0.76);
+  color: hsl(var(--muted-foreground));
 }
 
 .tabPanelCard {
-  padding: clamp(var(--space-4), 2.5vw, var(--space-5));
-  border-radius: 16px;
-  background: var(--glitch-surface-soft);
-  box-shadow:
-    0 18px 38px var(--glitch-shadow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: clamp(var(--space-5), 3vw, var(--space-6));
+  border-radius: var(--radius-xl);
+  background: var(--panel-surface-soft);
+  border: 1px solid hsl(var(--border) / 0.35);
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.28);
 }
 
 .tabHeader {
   display: inline-flex;
-  gap: var(--space-2);
-  padding-bottom: var(--space-3);
-  border-bottom: 1px solid hsl(var(--accent) / 0.22);
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid hsl(var(--border) / 0.35);
 }
 
 .tabButton {
   position: relative;
   padding: var(--space-2) var(--space-4);
-  border-radius: 999px;
-  background: rgba(31, 17, 55, 0.72);
-  color: rgba(235, 229, 255, 0.8);
+  border-radius: var(--radius-full);
+  background: color-mix(in oklab, hsl(var(--panel-surface)) 86%, hsl(var(--surface)) 14%);
+  color: hsl(var(--muted-foreground));
   font-size: var(--font-label);
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
 .tabButton:hover,
 .tabButton:focus-visible {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(8, 4, 22, 0.45);
+  transform: translateY(calc(var(--space-2) * -0.5));
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.32);
 }
 
 .tabButton:focus-visible {
-  outline: 2px solid hsl(var(--accent) / 0.6);
+  outline: 2px solid hsl(var(--accent) / 0.5);
   outline-offset: 2px;
 }
 
 .tabButtonActive {
-  background: hsl(var(--accent) / 0.35);
-  color: #fff;
+  background: hsl(var(--accent) / 0.25);
+  color: hsl(var(--foreground));
 }
 
 .tabPanels {
-  margin-top: var(--space-4);
+  margin-top: var(--space-5);
 }
 
 .tabPanel {
@@ -433,37 +407,36 @@
 
 .calendarPanel {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 .aiPanel {
   position: relative;
   display: grid;
-  gap: var(--space-3);
-  padding: clamp(var(--space-4), 2.2vw, var(--space-5));
-  border-radius: 16px;
-  background: var(--glitch-surface-soft);
-  box-shadow:
-    0 18px 38px var(--glitch-shadow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  gap: var(--space-4);
+  padding: clamp(var(--space-5), 3vw, var(--space-6));
+  border-radius: var(--radius-xl);
+  background: var(--panel-surface-soft);
+  border: 1px solid hsl(var(--border) / 0.35);
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.28);
 }
 
 .aiHeader {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-4);
 }
 
 .aiChip {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-1) var(--space-2);
-  border-radius: 999px;
-  background: hsl(var(--accent) / 0.2);
-  border: 1px solid hsl(var(--accent) / 0.4);
-  color: rgba(235, 229, 255, 0.85);
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  background: hsl(var(--accent) / 0.18);
+  border: 1px solid hsl(var(--accent) / 0.35);
+  color: hsl(var(--accent-foreground));
   font-size: var(--font-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -471,26 +444,27 @@
 
 .aiCopy {
   font-size: var(--font-body);
-  color: rgba(230, 224, 250, 0.84);
+  color: hsl(var(--muted-foreground));
 }
 
 .aiActions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  gap: var(--space-4);
 }
 
 .secondaryButton {
-  background: rgba(31, 17, 55, 0.74) !important;
-  color: rgba(235, 229, 255, 0.86) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+  background: color-mix(in oklab, hsl(var(--panel-surface)) 86%, hsl(var(--surface)) 14%) !important;
+  color: hsl(var(--foreground)) !important;
+  box-shadow: none !important;
 }
 
-.secondaryButton:hover {
-  background: rgba(45, 27, 78, 0.82) !important;
+.secondaryButton:hover,
+.secondaryButton:focus-visible {
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.28) !important;
 }
 
 .aiHint {
   font-size: var(--font-small);
-  color: rgba(215, 208, 244, 0.72);
+  color: hsl(var(--muted-foreground));
 }
