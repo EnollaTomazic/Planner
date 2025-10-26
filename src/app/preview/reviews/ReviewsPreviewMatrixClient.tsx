@@ -221,7 +221,6 @@ function ReviewsStateMatrix() {
               reviews={[]}
               selectedId={null}
               loading
-              onCreate={noop}
               onSelect={noop}
             />
           </figure>
@@ -234,7 +233,6 @@ function ReviewsStateMatrix() {
               selectedId={null}
               error="Network request failed"
               onRetry={noop}
-              onCreate={noop}
               onSelect={noop}
             />
           </figure>
@@ -245,7 +243,6 @@ function ReviewsStateMatrix() {
             <ReviewList
               reviews={[]}
               selectedId={null}
-              onCreate={noop}
               onSelect={noop}
             />
           </figure>
@@ -256,7 +253,6 @@ function ReviewsStateMatrix() {
             <ReviewList
               reviews={demoReviews}
               selectedId={demoReviews[0]!.id}
-              onCreate={noop}
               onSelect={noop}
             />
           </figure>
