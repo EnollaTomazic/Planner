@@ -8,10 +8,22 @@ import {
 const missingBrowsers = detectMissingBrowsers();
 const skipReason = buildMissingBrowserMessage(missingBrowsers);
 
-if (skipReason) {
-  base.skip(true, skipReason);
-}
+type TestFixtures = {
+  skipIfBrowsersMissing: void;
+};
 
-export const test = base;
+export const test = base.extend<TestFixtures>({
+  skipIfBrowsersMissing: [
+    async ({}, use, testInfo) => {
+      if (skipReason) {
+        testInfo.skip(skipReason);
+        return;
+      }
+
+      await use();
+    },
+    { auto: true },
+  ],
+});
 export { expect };
 export type { Page } from "@playwright/test";
