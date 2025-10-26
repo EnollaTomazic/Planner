@@ -10,9 +10,11 @@ export interface PageHeaderProps {
 // TODO: Replace hard-coded accent choices with Planner theme tokens once surfaced by the design system registry.
 const accentColorMap: Record<NonNullable<PageHeaderProps['accent']>, string> = {
   glitch: 'hsl(var(--accent))',
-  aurora: 'color-mix(in oklab, hsl(var(--accent-2)) 78%, hsl(var(--accent-3)) 22%)',
+  aurora:
+    'color-mix(in oklab, hsl(var(--accent-2)) 78%, hsl(var(--accent-3, var(--accent3))) 22%)',
   kitten: 'color-mix(in oklab, hsl(var(--accent)) 48%, hsl(var(--lav-deep)) 52%)',
-  oceanic: 'color-mix(in oklab, hsl(var(--accent-2)) 60%, hsl(var(--accent-3)) 40%)',
+  oceanic:
+    'color-mix(in oklab, hsl(var(--accent-2)) 60%, hsl(var(--accent-3, var(--accent3))) 40%)',
   citrus: 'hsl(var(--warning))',
   noir: 'color-mix(in oklab, hsl(var(--foreground)) 68%, hsl(var(--surface-2)) 32%)',
   hardstuck: 'color-mix(in oklab, hsl(var(--accent)) 55%, hsl(var(--warning)) 45%)',
