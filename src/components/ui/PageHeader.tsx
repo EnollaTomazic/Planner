@@ -10,11 +10,11 @@ export interface PageHeaderProps {
 // TODO: Replace hard-coded accent choices with Planner theme tokens once surfaced by the design system registry.
 const accentColorMap: Record<NonNullable<PageHeaderProps['accent']>, string> = {
   glitch: 'hsl(var(--accent))',
-  aurora: 'color-mix(in oklab, hsl(var(--accent-2)) 78%, hsl(var(--accent3)) 22%)',
+  aurora: 'color-mix(in oklab, hsl(var(--accent-2)) 78%, hsl(var(--accent-3)) 22%)',
   kitten: 'color-mix(in oklab, hsl(var(--accent)) 48%, hsl(var(--lav-deep)) 52%)',
-  oceanic: 'color-mix(in oklab, hsl(var(--accent-2)) 60%, hsl(var(--accent3)) 40%)',
+  oceanic: 'color-mix(in oklab, hsl(var(--accent-2)) 60%, hsl(var(--accent-3)) 40%)',
   citrus: 'hsl(var(--warning))',
-  noir: 'color-mix(in oklab, hsl(var(--foreground)) 68%, hsl(var(--surface2)) 32%)',
+  noir: 'color-mix(in oklab, hsl(var(--foreground)) 68%, hsl(var(--surface-2)) 32%)',
   hardstuck: 'color-mix(in oklab, hsl(var(--accent)) 55%, hsl(var(--warning)) 45%)',
 }
 
@@ -33,7 +33,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
 
   const accentVariables: React.CSSProperties = {
     '--page-header-accent': accentColor,
-    '--page-header-subtle-text': 'color-mix(in oklab, hsl(var(--foreground)) 72%, hsl(var(--surface2)) 28%)',
+    '--page-header-subtle-text': 'color-mix(in oklab, hsl(var(--foreground)) 72%, hsl(var(--surface-2)) 28%)',
     '--page-header-aura': 'color-mix(in oklab, var(--page-header-accent) 35%, transparent)',
     '--page-header-aura-soft': 'color-mix(in oklab, var(--page-header-accent) 22%, transparent)',
     '--page-header-aura-dim': 'color-mix(in oklab, var(--page-header-accent) 18%, transparent)',
