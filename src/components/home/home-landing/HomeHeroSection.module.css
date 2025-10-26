@@ -64,7 +64,12 @@
   font-weight: 700;
   letter-spacing: -0.015em;
   color: hsl(var(--foreground));
-  text-wrap: balance;
+}
+
+@supports (text-wrap: balance) {
+  .heading {
+    text-wrap: balance;
+  }
 }
 
 .subtitle {
