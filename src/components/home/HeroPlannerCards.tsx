@@ -40,7 +40,9 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
 }: HeroPlannerCardsProps) {
   const { summary, goals, calendar, activity } = plannerOverviewProps;
   const { days, onSelectDay } = calendar;
-  const [activeTab, setActiveTab] = React.useState<"activity" | "prompts" | "calendar">("activity");
+  type InsightTabKey = "activity" | "prompts" | "calendar";
+
+  const [activeTab, setActiveTab] = React.useState<InsightTabKey>("activity");
   const tabBaseId = React.useId();
 
   const summaryItems = React.useMemo(() => {
@@ -64,6 +66,71 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
       onSelectDay(iso);
     },
     [onSelectDay],
+  );
+
+  const insightTabs = React.useMemo(
+    () =>
+      [
+        {
+          key: "activity" as const,
+          label: "Activity",
+          render: () => <ActivityCard {...activity} />,
+        },
+        {
+          key: "prompts" as const,
+          label: "Prompts",
+          render: () => <TeamPromptsCard />,
+        },
+        {
+          key: "calendar" as const,
+          label: "Calendar",
+          render: () => (
+            <div className={styles.calendarPanel}>
+              <p className={styles.cardLabel}>{calendar.label}</p>
+              <p className={styles.calendarSummary}>{calendarSummary}</p>
+              <ul className={styles.calendarDays} role="list">
+                {days.map((day) => {
+                  const blockInteraction = day.disabled || day.loading;
+                  return (
+                    <li key={day.iso}>
+                      <button
+                        type="button"
+                        aria-pressed={day.selected}
+                        aria-current={day.today ? "date" : undefined}
+                        aria-disabled={blockInteraction || undefined}
+                        aria-busy={day.loading || undefined}
+                        disabled={day.disabled}
+                        data-loading={day.loading ? "true" : undefined}
+                        onClick={() => {
+                          if (blockInteraction) return;
+                          handleSelectDay(day.iso);
+                        }}
+                        className={cn(
+                          styles.calendarDay,
+                          day.today && styles.calendarDayToday,
+                          day.selected && styles.calendarDaySelected,
+                          day.disabled && styles.calendarDayDisabled,
+                        )}
+                      >
+                        <span className={styles.calendarDayLabel}>{day.weekday}</span>
+                        <span className={styles.calendarDayNumber}>{day.dayNumber}</span>
+                        <span className={styles.calendarDayCount}>
+                          {day.done}/{day.total}
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ),
+        },
+      ] satisfies readonly {
+        key: InsightTabKey;
+        label: string;
+        render: () => React.ReactNode;
+      }[],
+    [activity, calendar.label, calendarSummary, days, handleSelectDay],
   );
 
   return (
@@ -235,95 +302,44 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
         </div>
         <div className={cn("col-span-full", styles.tabPanelCard)}>
           <div className={styles.tabHeader} role="tablist" aria-label="Planner insights">
-            {["activity", "prompts", "calendar"].map((key) => {
-              const tabKey = key as "activity" | "prompts" | "calendar";
-              const tabId = `${tabBaseId}-tab-${tabKey}`;
-              const panelId = `${tabBaseId}-panel-${tabKey}`;
+            {insightTabs.map((tab) => {
+              const tabId = `${tabBaseId}-tab-${tab.key}`;
+              const panelId = `${tabBaseId}-panel-${tab.key}`;
+              const isActive = activeTab === tab.key;
               return (
                 <button
-                  key={tabKey}
+                  key={tab.key}
                   id={tabId}
                   type="button"
                   role="tab"
-                  aria-selected={activeTab === tabKey}
+                  aria-selected={isActive}
                   aria-controls={panelId}
-                  className={cn(styles.tabButton, activeTab === tabKey && styles.tabButtonActive)}
-                  onClick={() => setActiveTab(tabKey)}
+                  className={cn(styles.tabButton, isActive && styles.tabButtonActive)}
+                  onClick={() => setActiveTab(tab.key)}
                 >
-                  {tabKey === "activity"
-                    ? "Activity"
-                    : tabKey === "prompts"
-                      ? "Prompts"
-                      : "Calendar"}
+                  {tab.label}
                 </button>
               );
             })}
           </div>
           <div className={styles.tabPanels}>
-            <div
-              id={`${tabBaseId}-panel-activity`}
-              role="tabpanel"
-              aria-labelledby={`${tabBaseId}-tab-activity`}
-              hidden={activeTab !== "activity"}
-              className={styles.tabPanel}
-            >
-              <ActivityCard {...activity} />
-            </div>
-            <div
-              id={`${tabBaseId}-panel-prompts`}
-              role="tabpanel"
-              aria-labelledby={`${tabBaseId}-tab-prompts`}
-              hidden={activeTab !== "prompts"}
-              className={styles.tabPanel}
-            >
-              <TeamPromptsCard />
-            </div>
-            <div
-              id={`${tabBaseId}-panel-calendar`}
-              role="tabpanel"
-              aria-labelledby={`${tabBaseId}-tab-calendar`}
-              hidden={activeTab !== "calendar"}
-              className={styles.tabPanel}
-            >
-              <div className={styles.calendarPanel}>
-                <p className={styles.cardLabel}>{calendar.label}</p>
-                <p className={styles.calendarSummary}>{calendarSummary}</p>
-                <ul className={styles.calendarDays} role="list">
-                  {days.map((day) => {
-                    const blockInteraction = day.disabled || day.loading;
-                    return (
-                      <li key={day.iso}>
-                        <button
-                          type="button"
-                          aria-pressed={day.selected}
-                          aria-current={day.today ? "date" : undefined}
-                          aria-disabled={blockInteraction || undefined}
-                          aria-busy={day.loading || undefined}
-                          disabled={day.disabled}
-                          data-loading={day.loading ? "true" : undefined}
-                          onClick={() => {
-                            if (blockInteraction) return;
-                            handleSelectDay(day.iso);
-                          }}
-                          className={cn(
-                            styles.calendarDay,
-                            day.today && styles.calendarDayToday,
-                            day.selected && styles.calendarDaySelected,
-                            day.disabled && styles.calendarDayDisabled,
-                          )}
-                        >
-                          <span className={styles.calendarDayLabel}>{day.weekday}</span>
-                          <span className={styles.calendarDayNumber}>{day.dayNumber}</span>
-                          <span className={styles.calendarDayCount}>
-                            {day.done}/{day.total}
-                          </span>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </div>
+            {insightTabs.map((tab) => {
+              const panelId = `${tabBaseId}-panel-${tab.key}`;
+              const tabId = `${tabBaseId}-tab-${tab.key}`;
+              const isActive = activeTab === tab.key;
+              return (
+                <div
+                  key={tab.key}
+                  id={panelId}
+                  role="tabpanel"
+                  aria-labelledby={tabId}
+                  hidden={!isActive}
+                  className={styles.tabPanel}
+                >
+                  {isActive ? tab.render() : null}
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="col-span-full">
