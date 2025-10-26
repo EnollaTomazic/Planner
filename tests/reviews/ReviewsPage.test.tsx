@@ -148,10 +148,8 @@ describe("ReviewsPage", () => {
       screen.getByText("You’re ready to capture your first review."),
     ).toBeInTheDocument();
     const buttons = screen.getAllByRole("button", { name: "New Review" });
-    expect(buttons.length).toBeGreaterThanOrEqual(1);
-    buttons.forEach((button) => {
-      expect(button).toBeEnabled();
-    });
+    expect(buttons).toHaveLength(1);
+    expect(buttons[0]).toBeEnabled();
   });
 
   it("filters reviews by search query", async () => {

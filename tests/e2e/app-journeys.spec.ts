@@ -93,9 +93,9 @@ test.describe("Local-first journeys", () => {
     await page.goto("/reviews");
     await page.waitForLoadState("domcontentloaded");
 
-    const createButton = page.getByRole("button", { name: "Create review" });
-    await expect(createButton).toBeVisible();
-    await createButton.click();
+    const newReviewButton = page.getByRole("button", { name: "New Review" });
+    await expect(newReviewButton).toBeVisible();
+    await newReviewButton.click();
 
     await expect(page.getByRole("button", { name: "Open review: Untitled Review" })).toBeVisible();
     await page.waitForFunction(

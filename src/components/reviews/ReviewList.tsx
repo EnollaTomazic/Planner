@@ -42,7 +42,6 @@ export type ReviewListProps = {
   reviews: Review[];
   selectedId: string | null;
   onSelect?: (id: string) => void;
-  onCreate?: () => void;
   className?: string;
   header?: React.ReactNode;
   hoverRing?: boolean;
@@ -55,7 +54,6 @@ export function ReviewList({
   reviews,
   selectedId,
   onSelect,
-  onCreate,
   className,
   header,
   hoverRing = false,
@@ -334,17 +332,11 @@ export function ReviewList({
           </span>
           <div className="space-y-[var(--space-1)]">
             <p className="text-card-foreground">You haven&rsquo;t captured any reviews yet.</p>
-            <p>Start a match recap to unlock filtering, tagging, and summaries.</p>
+            <p>
+              Start a match recap to unlock filtering, tagging, and summaries. Use the
+              New Review button above to get started.
+            </p>
           </div>
-          <Button
-            type="button"
-            variant="default"
-            size="md"
-            onClick={onCreate}
-            className={cn("btn-glitch")}
-          >
-            Create review
-          </Button>
         </div>
       </section>
     );
