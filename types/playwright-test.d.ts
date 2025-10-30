@@ -173,6 +173,7 @@ declare module "playwright/test" {
     describe: TestDescribe;
     skip(condition: boolean, description?: string): void;
     only(name: string, fn: (fixtures: TestFixtures) => Promise<void>): void;
+    extend<TFixtures>(fixtures: Record<string, unknown>): TestFunction;
   }
 
   export const test: TestFunction;
