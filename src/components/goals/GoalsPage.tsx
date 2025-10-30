@@ -43,7 +43,6 @@ import { GoalList } from "./GoalList";
 import { GOALS_STICKY_TOP_CLASS } from "./constants";
 
 import { usePersistentState } from "@/lib/db";
-import type { Pillar } from "@/lib/types";
 import { useGoals, ACTIVE_CAP } from "./useGoals";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
@@ -165,7 +164,6 @@ function GoalsPageContent() {
   const [title, setTitle] = React.useState("");
   const [metric, setMetric] = React.useState("");
   const [notes, setNotes] = React.useState("");
-  const [pillar, setPillar] = React.useState<Pillar | "">("");
 
   const formRef = React.useRef<HTMLDivElement | null>(null);
   const titleInputRef = React.useRef<GoalFormHandle>(null);
@@ -195,7 +193,6 @@ function GoalsPageContent() {
     setTitle("");
     setMetric("");
     setNotes("");
-    setPillar("");
   }, []);
 
   const handleOpenNuke = React.useCallback(() => {
@@ -207,12 +204,12 @@ function GoalsPageContent() {
   }, []);
 
   const handleAddGoal = React.useCallback(() => {
-    const ok = addGoal({ title, metric, notes, pillar });
+    const ok = addGoal({ title, metric, notes, pillar: "" });
     if (ok) {
       resetForm();
       titleInputRef.current?.focus({ preventScroll: true });
     }
-  }, [addGoal, title, metric, notes, pillar, resetForm]);
+  }, [addGoal, title, metric, notes, resetForm]);
 
   const startGoalCreation = React.useCallback(() => {
     setTab("goals");
