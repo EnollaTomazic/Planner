@@ -143,6 +143,10 @@ declare module "playwright/test" {
     <T>(value: T): ValueAssertions
   }
 
+  interface TestInfo {
+    skip(reason?: string): void;
+  }
+
   interface PlaywrightProjectConfig {
     name?: string;
     use?: Record<string, unknown>;
@@ -178,7 +182,7 @@ declare module "playwright/test" {
 
   export const test: TestFunction;
   export const expect: TestExpect;
-  export type { PlaywrightTestConfig, Page };
+  export type { PlaywrightTestConfig, Page, TestInfo };
 }
 
 declare module "@playwright/test" {
