@@ -653,6 +653,18 @@ html.bg-intense body::after {
   opacity: var(--gradient-noise-opacity, 0.1);
 }
 
+.bg-glitch-noise-primary {
+  background-image:
+    radial-gradient(circle at 18% 22%, var(--glitch-noise-primary) 0%, transparent 62%),
+    radial-gradient(circle at 82% 12%, var(--glitch-noise-secondary) 0%, transparent 58%),
+    radial-gradient(circle at 48% 86%, var(--glitch-noise-contrast) 0%, transparent 70%),
+    var(--glitch-noise-image, var(--asset-noise-url, var(--asset-noise-url-default)));
+  background-size: 200% 200%, 220% 220%, 240% 240%, cover;
+  background-position: 18% 22%, 82% 12%, 48% 86%, center;
+  background-repeat: no-repeat;
+  background-blend-mode: screen, screen, soft-light, normal;
+}
+
 /* ---------- Components ---------- */
 
 @layer components {
@@ -707,9 +719,10 @@ html.bg-intense body::after {
   .card-neo-soft,
   .card-soft {
     --_r: var(--radius-card);
-    --glitch-overlay-opacity: 0.38;
+    --glitch-overlay-opacity: 0.32;
+    --card-shadow-neon: var(--shadow-neon);
     border-radius: var(--_r);
-    border: 0;
+    border: var(--hairline-w) solid hsl(var(--card-hairline) / 0.55);
     background-clip: padding-box;
     position: relative;
     isolation: isolate;
@@ -720,33 +733,57 @@ html.bg-intense body::after {
       border-color var(--motion-duration-sm) var(--ease-out),
       background var(--motion-duration-sm) var(--ease-out);
     will-change: transform, box-shadow;
+    overflow: hidden;
+    box-shadow:
+      var(--shadow-outer-lg),
+      var(--card-shadow-neon),
+      var(--shadow-inner-sm);
   }
   .card-neo {
-    background: hsl(var(--card) / 0.75);
-    box-shadow:
-      0 0 0 var(--hairline-w) hsl(var(--card-hairline)) inset,
-      0 calc(var(--space-6) - var(--spacing-0-5))
-        calc(var(--space-8) - var(--space-1)) hsl(var(--shadow-base) / 0.35);
+    background: linear-gradient(
+      160deg,
+      hsl(var(--card) / 0.96),
+      hsl(var(--card) / 0.72)
+    );
+    border-color: hsl(var(--card-hairline) / 0.45);
   }
   .card-neo-soft {
     background: linear-gradient(
-      180deg,
-      hsl(var(--card) / 0.75),
-      hsl(var(--card) / 0.55)
+      160deg,
+      hsl(var(--card) / 0.94),
+      hsl(var(--card) / 0.64)
     );
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
-    border: var(--hairline-w) solid hsl(var(--card-hairline));
-    box-shadow: var(--depth-shadow-soft);
+    border-color: hsl(var(--card-hairline) / 0.5);
   }
   .card-soft {
+    --card-shadow-neon: var(--shadow-outline-subtle);
     background: linear-gradient(
-      180deg,
-      hsl(var(--card)),
-      hsl(var(--bg))
+      160deg,
+      hsl(var(--card) / 0.92),
+      hsl(var(--surface) / 0.82)
     );
-    border: var(--hairline-w) solid hsl(var(--card-hairline));
-    box-shadow: var(--shadow-outline-subtle);
+    border-color: hsl(var(--card-hairline) / 0.6);
+  }
+  @supports (color: color-mix(in oklab, white 50%, black)) {
+    .card-neo,
+    .card-neo-soft {
+      background:
+        linear-gradient(
+          160deg,
+          color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--surface)) 12%),
+          color-mix(in oklab, hsl(var(--card)) 70%, hsl(var(--surface-2)) 30%)
+        );
+    }
+    .card-soft {
+      background:
+        linear-gradient(
+          160deg,
+          color-mix(in oklab, hsl(var(--card)) 84%, hsl(var(--surface)) 16%),
+          color-mix(in oklab, hsl(var(--surface)) 76%, hsl(var(--surface-2)) 24%)
+        );
+    }
   }
   .card-neo::before,
   .card-neo-soft::before {
@@ -755,7 +792,14 @@ html.bg-intense body::after {
     inset: -1px;
     padding: var(--spacing-0-25);
     border-radius: calc(var(--_r) + var(--spacing-0-25));
-    background: var(--edge-iris);
+    background:
+      linear-gradient(
+        140deg,
+        color-mix(in oklab, var(--neon-soft) 62%, transparent) 0%,
+        color-mix(in oklab, var(--glitch-noise-primary) 48%, transparent) 45%,
+        color-mix(in oklab, var(--glitch-noise-secondary) 40%, transparent) 70%,
+        transparent 80%
+      );
     mask:
       linear-gradient(hsl(var(--foreground)) 0 0) content-box,
       linear-gradient(hsl(var(--foreground)) 0 0);
@@ -772,9 +816,34 @@ html.bg-intense body::after {
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
-    background: var(--card-overlay-scanlines);
+    background-image:
+      radial-gradient(circle at 18% 22%, var(--glitch-noise-primary) 0%, transparent 60%),
+      radial-gradient(circle at 82% 12%, var(--glitch-noise-secondary) 0%, transparent 58%),
+      radial-gradient(circle at 48% 86%, var(--glitch-noise-contrast) 0%, transparent 68%),
+      var(--card-overlay-scanlines),
+      var(--glitch-noise-image, var(--asset-noise-url, var(--asset-noise-url-default)));
+    background-size: 200% 200%, 220% 220%, 240% 240%, cover, cover;
+    background-position: 18% 22%, 82% 12%, 48% 86%, center, center;
+    background-repeat: no-repeat;
     mix-blend-mode: soft-light;
-    opacity: 0;
+    opacity: 0.4;
+    transition: opacity var(--motion-duration-sm) var(--ease-out);
+  }
+  .card-soft::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle at 24% 20%, var(--glitch-noise-primary) 0%, transparent 62%),
+      radial-gradient(circle at 78% 16%, var(--glitch-noise-secondary) 0%, transparent 58%),
+      var(--glitch-noise-image, var(--asset-noise-url, var(--asset-noise-url-default)));
+    background-size: 220% 220%, 240% 240%, cover;
+    background-position: 24% 20%, 78% 16%, center;
+    background-repeat: no-repeat;
+    mix-blend-mode: soft-light;
+    opacity: 0.32;
     transition: opacity var(--motion-duration-sm) var(--ease-out);
   }
 
@@ -788,46 +857,50 @@ html.bg-intense body::after {
     opacity: var(--neo-card-overlay-opacity, var(--surface-overlay-strong));
   }
   /* HOVER: no translate */
-  .card-neo:hover {
-    box-shadow: 0 calc(var(--space-5) - var(--spacing-0-5)) var(--space-7)
-      hsl(var(--shadow-color) / 0.25);
-  }
+  .card-neo:hover,
   .card-neo-soft:hover {
-    box-shadow: var(--depth-shadow-soft);
+    --card-shadow-neon: var(--shadow-neon-soft);
+  }
+  .card-soft:hover {
+    --card-shadow-neon: var(--shadow-neon);
   }
   .card-neo:hover::before,
   .card-neo-soft:hover::before {
-    opacity: 0.6;
+    opacity: 0.62;
   }
   .card-neo:hover::after,
   .card-neo-soft:hover::after {
     opacity: 0.55;
   }
-  .card-neo[data-active="true"] {
-    box-shadow:
-      0 0 0 var(--hairline-w) hsl(var(--ring)) inset,
-      0 0 0 var(--spacing-0-5) hsl(var(--ring) / 0.22),
-      0 calc(var(--space-5) + var(--spacing-0-5))
-        calc(var(--space-8) - var(--space-1)) hsl(var(--shadow-color) / 0.28);
+  .card-soft:hover::after {
+    opacity: 0.44;
   }
+  .card-neo[data-active="true"],
   .card-neo-soft[data-active="true"] {
+    --card-shadow-neon: var(--shadow-neon-strong);
     box-shadow:
       0 0 0 var(--hairline-w) hsl(var(--ring)) inset,
-      0 0 0 var(--spacing-0-5) hsl(var(--ring) / 0.22),
-      var(--depth-shadow-soft);
+      0 0 0 var(--spacing-0-5) hsl(var(--ring) / 0.28),
+      var(--shadow-outer-lg),
+      var(--card-shadow-neon),
+      var(--shadow-inner-sm);
   }
-  .card-neo:focus-within {
-    outline: none;
-    box-shadow:
-      0 0 0 var(--spacing-0-75) hsl(var(--ring) / 0.35),
-      0 calc(var(--space-5) + var(--spacing-0-5))
-        calc(var(--space-8) - var(--space-1)) hsl(var(--shadow-color) / 0.28);
-  }
+  .card-neo:focus-within,
   .card-neo-soft:focus-within {
     outline: none;
+    --card-shadow-neon: var(--shadow-neon-soft);
     box-shadow:
-      0 0 0 var(--spacing-0-75) hsl(var(--ring) / 0.35),
-      var(--depth-shadow-soft);
+      0 0 0 var(--spacing-0-75) hsl(var(--focus) / 0.4),
+      var(--shadow-outer-lg),
+      var(--card-shadow-neon),
+      var(--shadow-inner-sm);
+  }
+  .card-soft:focus-within {
+    outline: none;
+    box-shadow:
+      0 0 0 var(--spacing-0-75) hsl(var(--focus) / 0.3),
+      var(--shadow-outer-lg),
+      var(--shadow-inner-sm);
   }
 
   /* Buttons */

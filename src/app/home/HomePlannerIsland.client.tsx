@@ -12,7 +12,7 @@ import styles from "../page-client.module.css"
 import type { HomePlannerIslandPlannerProps } from "./HomePlannerIsland.planner"
 
 const homeBackdropClassName =
-  'relative isolate bg-[color-mix(in_oklab,hsl(var(--surface))_88%,hsl(var(--surface-2)))]'
+  'relative isolate overflow-hidden bg-[color-mix(in_oklab,hsl(var(--surface))_88%,hsl(var(--surface-2)))] shadow-inner-sm bg-glitch-noise-primary'
 const sectionCardOverlayClassName = 'relative'
 
 let latestPlannerProps: HomePlannerIslandPlannerProps | null = null

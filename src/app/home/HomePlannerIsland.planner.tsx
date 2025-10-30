@@ -132,7 +132,7 @@ const weeklyHighlights = [
 ] as const satisfies readonly HeroPlannerHighlight[]
 
 const homeBackdropClassName =
-  'relative isolate bg-[color-mix(in_oklab,hsl(var(--surface))_88%,hsl(var(--surface-2)))]'
+  'relative isolate overflow-hidden bg-[color-mix(in_oklab,hsl(var(--surface))_88%,hsl(var(--surface-2)))] shadow-inner-sm bg-glitch-noise-primary'
 const sectionCardOverlayClassName = 'relative'
 
 function HomePageContent({
