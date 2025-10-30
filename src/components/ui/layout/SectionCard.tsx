@@ -43,12 +43,11 @@ const SectionCardRoot = React.forwardRef<HTMLElement, RootProps>(
         <section
           ref={ref}
           className={cn(
-            variant === "glitch" ? undefined : "shadow-depth-outer-strong",
-            "rounded-card r-card-lg text-card-foreground",
+            "overflow-hidden rounded-card r-card-lg text-card-foreground",
             variant === "neo"
-              ? "card-neo-soft"
+              ? "card-neo-soft bg-glitch-noise-primary"
               : variant === "plain"
-                ? "card-soft"
+                ? "card-soft bg-glitch-noise-primary"
                 : "glitch-card",
             className,
           )}
