@@ -134,21 +134,21 @@
   --radius-xl: 16px;
   --radius2xl: 24px;
   --radius-full: 9999px;
-  --background: 247 34% 6%;
-  --foreground: 258 26% 97%;
-  --card: 249 30% 12%;
+  --background: 247 32% 9%;
+  --foreground: 258 24% 92%;
+  --card: 249 28% 15%;
   --card-foreground: var(--foreground);
   --panel: var(--card);
-  --border: 253 28% 24%;
+  --border: 253 26% 28%;
   --line: var(--border);
-  --input: 249 28% 12%;
+  --input: 249 26% 15%;
   --ring: 262 88% 66%;
   --theme-ring: hsl(var(--ring));
   --primary: 262 88% 60%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 88% 20%;
   --accent: 294 90% 42%;
-  --accent2: 190 88% 32%;
+  --accent2: 190 86% 38%;
   --accent3: 200 88% 34%;
   --accent-foreground: 0 0% 100%;
   --accent-contrast: 294 92% 72%;
@@ -159,13 +159,13 @@
   --warning: 43 96% 56%;
   --warning-soft: var(--warning) / 0.1;
   --warning-soft-strong: var(--warning) / 0.2;
-  --muted: 248 24% 15%;
-  --muted-foreground: 248 18% 74%;
+  --muted: 248 22% 19%;
+  --muted-foreground: 248 16% 68%;
   --fg-muted: var(--muted-foreground);
-  --surface: 248 26% 11%;
-  --surface2: 248 26% 16%;
-  --surface-vhs: 210 24% 7%;
-  --surface-streak: 240 18% 13%;
+  --surface: 248 24% 13%;
+  --surface2: 248 24% 18%;
+  --surface-vhs: 210 22% 10%;
+  --surface-streak: 240 16% 16%;
   --shadow-color: 263 78% 56%;
   --noir-background: 352 68% 4%;
   --noir-foreground: 0 0% 94%;
@@ -192,7 +192,7 @@
   --neon: var(--glow);
   --neon-soft: hsl(var(--neon));
   --focus: var(--theme-ring);
-  --card-hairline: hsl(var(--border));
+  --card-hairline: color-mix(in oklab, hsl(var(--border)) 78%, hsl(var(--foreground)) 22%);
   --hairline-w: 1px;
   --control-px: var(--spacing-3);
   --review-result-win-gradient: linear-gradient(
@@ -205,7 +205,7 @@
     hsl(var(--danger) / 0.24),
     hsl(var(--primary) / 0.2)
   );
-  --shadow: 0 10px 30px hsl(250 38% 2% / 0.32);
+  --shadow: 0 12px 34px hsl(258 42% 6% / 0.32);
   --shadow-dropdown: 0 12px 40px hsl(var(--shadow-color) / 0.55);
   --shadow-neo-sm: calc(var(--spacing-1)) calc(var(--spacing-1)) calc(var(--spacing-2))
       hsl(var(--panel) / 0.72),
@@ -245,9 +245,9 @@
     var(--shadow-outline-subtle);
   --glow-strong: var(--ring) / 0.55;
   --glow-soft: var(--accent) / 0.25;
-  --shadow-neon: 0 0 var(--space-1) hsl(var(--neon) / 0.55),
-    0 0 calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),
-    0 0 calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2);
+  --shadow-neon: 0 0 var(--space-1) hsl(var(--neon) / 0.6),
+    0 0 calc(var(--space-3)) hsl(var(--neon) / 0.4),
+    0 0 calc(var(--space-5)) hsl(var(--neon) / 0.22);
   --btn-primary-hover-shadow: 0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)
     calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25);
   --btn-primary-active-shadow: inset 0 0 0 calc(var(--space-1) / 4)
