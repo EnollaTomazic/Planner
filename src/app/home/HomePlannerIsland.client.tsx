@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic"
 import Link from "next/link"
-import { Button, PageShell, SectionCard, ThemeToggle } from "@/components/ui"
+import { Button, PageShell, SectionCard } from "@/components/ui"
 import { cn, withBasePath } from "@/lib/utils"
 import {
   HeroPlannerCardsFallbackContent,
@@ -32,18 +32,15 @@ function HomePlannerIslandFallback() {
     getFallbackProps()
   const dataState = glitchLandingEnabled ? "splash" : "ready"
   const heroActions = (
-    <>
-      <ThemeToggle className="shrink-0" />
-      <Button
-        asChild
-        variant="default"
-        size="md"
-        tactile
-        className="whitespace-nowrap"
-      >
-        <Link href={withBasePath("/planner", { skipForNextLink: true })}>Plan Week</Link>
-      </Button>
-    </>
+    <Button
+      asChild
+      variant="default"
+      size="md"
+      tactile
+      className="whitespace-nowrap"
+    >
+      <Link href={withBasePath("/planner", { skipForNextLink: true })}>Plan Week</Link>
+    </Button>
   )
 
   return (
