@@ -5,6 +5,8 @@
 // `"h s% l%"` token convention to hex colors while leaving derived tokens
 // (those referencing other variables or calculations) untouched.
 
+import { convert } from "@asamuzakjp/css-color";
+
 const HSL_TOKEN_PATTERN =
   /^(-?\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)%\s+(\d+(?:\.\d+)?)%$/;
 
@@ -44,6 +46,11 @@ export function tokenToHexColor(token: string): string {
   const match = value.match(HSL_TOKEN_PATTERN);
   if (!match) {
     return value;
+  }
+
+  const cssHex = convert.colorToHex(`hsl(${value})`);
+  if (cssHex) {
+    return cssHex;
   }
 
   const hue = ((parseFloat(match[1]) % 360) + 360) % 360;

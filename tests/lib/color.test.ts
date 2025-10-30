@@ -32,8 +32,8 @@ const resolveHslTokenToHex = (token: string): string => {
 
 describe("color token helpers", () => {
   it("converts raw HSL tokens to hex", () => {
-    expect(tokenToHexColor("247 34% 6%")).toBe(resolveHslTokenToHex("247 34% 6%"));
-    expect(tokenToHexColor("258 26% 97%")).toBe(resolveHslTokenToHex("258 26% 97%"));
+    expect(tokenToHexColor("247 32% 9%")).toBe(resolveHslTokenToHex("247 32% 9%"));
+    expect(tokenToHexColor("258 24% 92%")).toBe(resolveHslTokenToHex("258 24% 92%"));
     expect(tokenToHexColor("250 96% 78%")).toBe(resolveHslTokenToHex("250 96% 78%"));
   });
 
@@ -46,8 +46,8 @@ describe("color token helpers", () => {
   it("resolves mixed token inputs", () => {
     const whiteHex = toHex([255, 255, 255]);
     expect(resolveTokenColor(whiteHex)).toBe(whiteHex);
-    const backgroundHex = resolveHslTokenToHex("247 34% 6%");
-    expect(resolveTokenColor("247 34% 6%"))
+    const backgroundHex = resolveHslTokenToHex("247 32% 9%");
+    expect(resolveTokenColor("247 32% 9%"))
       .toBe(backgroundHex);
   });
 });

@@ -57,7 +57,7 @@
   --shell-width: 1280px;
   --shell-max: var(--shell-width);
   --shadow-inset-contrast: inset 0 0 0 var(--hairline-w) var(--ring-contrast);
-  --shadow-inset-hairline: inset 0 0 0 var(--hairline-w) hsl(var(--card-hairline));
+  --shadow-inset-hairline: inset 0 0 0 var(--hairline-w) var(--card-hairline);
   --shadow-control-hover: 0 var(--spacing-1) var(--spacing-2) hsl(var(--shadow-color) / 0.3);
   --space1: var(--spacing-1);
   --space2: var(--spacing-2);
@@ -238,7 +238,11 @@
   --shadow-outline-subtle: 0 0 0 var(--hairline-w) hsl(var(--border) / 0.12);
   --shadow-outline-faint: 0 0 0 var(--hairline-w) hsl(var(--border) / 0.08);
   --shadow-badge: inset 0 var(--hairline-w) 0 hsl(var(--foreground) / 0.06),
-    0 0 0 var(--hairline-w) hsl(var(--card-hairline) / 0.35),
+    0 0 0 var(--hairline-w) color-mix(
+      in oklab,
+      var(--card-hairline) 35%,
+      transparent
+    ),
     0 var(--spacing-3) var(--spacing-4) hsl(var(--shadow-color) / 0.18);
   --shadow-glow-current: 0 0 var(--spacing-2) currentColor;
   --shadow-neon-soft: 0 0 var(--spacing-2) var(--neon),
@@ -2036,7 +2040,7 @@ html.bg-intense body::after {
   position: relative;
   border-radius: var(--radius-card, 1rem);
   background-clip: padding-box;
-  border: 1px solid hsl(var(--card-hairline));
+  border: 1px solid var(--card-hairline);
   isolation: isolate;
 }
 /* Outer chroma ring (masked to the border box) */
