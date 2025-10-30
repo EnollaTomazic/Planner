@@ -131,6 +131,27 @@ export const Empty: Story = {
   ),
 };
 
+export const FilteredEmpty: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Empty state when filters hide the available reviews. The component nudges users to clear filters to return to the full collection.",
+      },
+    },
+  },
+  args: {
+    reviews: [],
+    selectedId: null,
+    hasAnyReviews: true,
+  },
+  render: (args) => (
+    <StorySurface>
+      <ReviewList {...args} className={cn("w-full", args.className)} />
+    </StorySurface>
+  ),
+};
+
 function ReviewListSkeleton() {
   return (
     <Card className="space-y-[var(--space-3)] p-[var(--space-4)] shadow-[var(--shadow-outline-subtle)]">

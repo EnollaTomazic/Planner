@@ -69,4 +69,28 @@ describe("ReviewList", () => {
       ).not.toBeInTheDocument();
     });
   });
+
+  it("shows onboarding copy when no reviews exist", () => {
+    render(<ReviewList reviews={[]} selectedId={null} />);
+
+    expect(
+      screen.getByText("You haven’t captured any reviews yet."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Start a match recap to unlock filtering, tagging, and summaries. Use the New Review button above to get started.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("shows filtered empty message when reviews exist elsewhere", () => {
+    render(
+      <ReviewList reviews={[]} selectedId={null} hasAnyReviews />,
+    );
+
+    expect(
+      screen.getByText("No reviews match your search."),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Clear filters to see everything.")).toBeInTheDocument();
+  });
 });
