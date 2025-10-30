@@ -41,9 +41,12 @@ export const GoalForm = React.forwardRef<GoalFormHandle, GoalFormProps>(function
   ref
 ) {
   const titleRef = React.useRef<HTMLInputElement>(null);
-  const id = React.useId();
-  const helpId = `${id}-help`;
-  const errorId = `${id}-error`;
+  const baseId = React.useId();
+  const titleId = `${baseId}-title`;
+  const metricId = `${baseId}-metric`;
+  const notesId = `${baseId}-notes`;
+  const helpId = `${baseId}-help`;
+  const errorId = `${baseId}-error`;
   const describedBy = [helpId, err ? errorId : null].filter(Boolean).join(" ");
   const trimmedTitle = title.trim();
   const isAtCap = activeCount >= activeCap;
@@ -75,11 +78,11 @@ export const GoalForm = React.forwardRef<GoalFormHandle, GoalFormProps>(function
           }
         />
         <SectionCard.Body className="grid gap-[var(--space-6)]">
-          <Label htmlFor="goal-title" className="mb-0 grid gap-[var(--space-2)]">
+          <Label htmlFor={titleId} className="mb-0 grid gap-[var(--space-2)]">
             Title
             <Input
               ref={titleRef}
-              id="goal-title"
+              id={titleId}
               height="md"
               inputClassName="font-medium"
               value={title}
@@ -87,13 +90,14 @@ export const GoalForm = React.forwardRef<GoalFormHandle, GoalFormProps>(function
               required
               aria-required="true"
               aria-describedby={describedBy || undefined}
+              aria-invalid={err ? "true" : undefined}
             />
           </Label>
 
-          <Label htmlFor="goal-metric" className="mb-0 grid gap-[var(--space-2)]">
+          <Label htmlFor={metricId} className="mb-0 grid gap-[var(--space-2)]">
             Metric (optional)
             <Input
-              id="goal-metric"
+              id={metricId}
               height="md"
               inputClassName="font-medium tabular-nums"
               value={metric}
@@ -102,10 +106,10 @@ export const GoalForm = React.forwardRef<GoalFormHandle, GoalFormProps>(function
             />
           </Label>
 
-          <Label htmlFor="goal-notes" className="mb-0 grid gap-[var(--space-2)]">
+          <Label htmlFor={notesId} className="mb-0 grid gap-[var(--space-2)]">
             Notes (optional)
             <Textarea
-              id="goal-notes"
+              id={notesId}
               textareaClassName={cn(
                 GOAL_TEXTAREA_MIN_HEIGHT_CLASS,
                 "text-ui font-medium",

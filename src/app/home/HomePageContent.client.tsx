@@ -18,13 +18,20 @@ export default function HomePageContent({
   const [shouldRenderIsland, setShouldRenderIsland] = React.useState(false)
 
   React.useEffect(() => {
+    if (!glitchLandingEnabled) {
+      setShouldRenderIsland(true)
+      return
+    }
+
+    setShouldRenderIsland(false)
+
     const fallbackDelayMs = 400
     const timeout = window.setTimeout(() => {
       setShouldRenderIsland(true)
     }, fallbackDelayMs)
 
     return () => window.clearTimeout(timeout)
-  }, [])
+  }, [glitchLandingEnabled])
 
   if (!shouldRenderIsland) {
     return (
