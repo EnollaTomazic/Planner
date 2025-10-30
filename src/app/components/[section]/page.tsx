@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import {
   DEFAULT_COMPONENTS_VIEW,
@@ -6,8 +6,6 @@ import {
   resolveComponentsSlug,
 } from "@/components/gallery-page/slug";
 import { withBasePath } from "@/lib/utils";
-
-import { ComponentsSectionRedirect } from "./redirect-client";
 
 export { metadata } from "../page";
 
@@ -50,5 +48,5 @@ export default async function ComponentsSectionPage({
   const query = searchParams.toString();
   const target = withBasePath(query ? `/components?${query}` : "/components");
 
-  return <ComponentsSectionRedirect target={target} />;
+  redirect(target);
 }
