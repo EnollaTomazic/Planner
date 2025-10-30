@@ -48,6 +48,7 @@ export type ReviewListProps = {
   loading?: boolean;
   error?: Error | string | null;
   onRetry?: (() => void) | null;
+  hasAnyReviews?: boolean;
 };
 
 export function ReviewList({
@@ -60,6 +61,7 @@ export function ReviewList({
   loading = false,
   error = null,
   onRetry = null,
+  hasAnyReviews = false,
 }: ReviewListProps) {
   const count = reviews.length;
   const isLoading = Boolean(loading);
@@ -310,6 +312,47 @@ export function ReviewList({
   }
 
   if (count === 0) {
+    const emptyStateContent = hasAnyReviews ? (
+      <div className="flex flex-col items-center justify-center gap-[var(--space-3)] text-center text-ui text-muted-foreground">
+        <span
+          aria-hidden
+          data-text=""
+          className="glitch-anim inline-flex items-center justify-center rounded-full border border-border/40 bg-card/70 p-[var(--space-3)] text-muted-foreground motion-reduce:animate-none"
+        >
+          <BookOpen
+            aria-hidden
+            focusable="false"
+            className="size-[var(--space-6)]"
+          />
+        </span>
+        <div className="space-y-[var(--space-1)]">
+          <p className="text-card-foreground">No reviews match your search.</p>
+          <p>Clear filters to see everything.</p>
+        </div>
+      </div>
+    ) : (
+      <div className="flex flex-col items-center justify-center gap-[var(--space-3)] text-center text-ui text-muted-foreground">
+        <span
+          aria-hidden
+          data-text=""
+          className="glitch-anim inline-flex items-center justify-center rounded-full border border-border/40 bg-card/70 p-[var(--space-3)] text-muted-foreground motion-reduce:animate-none"
+        >
+          <BookOpen
+            aria-hidden
+            focusable="false"
+            className="size-[var(--space-6)]"
+          />
+        </span>
+        <div className="space-y-[var(--space-1)]">
+          <p className="text-card-foreground">You haven&rsquo;t captured any reviews yet.</p>
+          <p>
+            Start a match recap to unlock filtering, tagging, and summaries. Use the
+            New Review button above to get started.
+          </p>
+        </div>
+      </div>
+    );
+
     return (
       <section
         data-scope="reviews"
@@ -318,26 +361,7 @@ export function ReviewList({
         aria-live="polite"
       >
         {headerNode}
-        <div className="flex flex-col items-center justify-center gap-[var(--space-3)] text-center text-ui text-muted-foreground">
-          <span
-            aria-hidden
-            data-text=""
-            className="glitch-anim inline-flex items-center justify-center rounded-full border border-border/40 bg-card/70 p-[var(--space-3)] text-muted-foreground motion-reduce:animate-none"
-          >
-            <BookOpen
-              aria-hidden
-              focusable="false"
-              className="size-[var(--space-6)]"
-            />
-          </span>
-          <div className="space-y-[var(--space-1)]">
-            <p className="text-card-foreground">You haven&rsquo;t captured any reviews yet.</p>
-            <p>
-              Start a match recap to unlock filtering, tagging, and summaries. Use the
-              New Review button above to get started.
-            </p>
-          </div>
-        </div>
+        {emptyStateContent}
       </section>
     );
   }

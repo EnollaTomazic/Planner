@@ -368,12 +368,13 @@ export function ReviewsPage({
                 }
                 className="h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
                 header={
-                allowInteractions && filteredCount > 0
-                  ? `${filteredCount} shown`
-                  : undefined
-              }
-              hoverRing
-            />
+                  allowInteractions && filteredCount > 0
+                    ? `${filteredCount} shown`
+                    : undefined
+                }
+                hasAnyReviews={allowInteractions && totalCount > 0}
+                hoverRing
+              />
           </nav>
           <div className="md:col-span-4 lg:col-span-8">
             {isLoading ? (
