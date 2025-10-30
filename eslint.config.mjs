@@ -1,16 +1,46 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import nextConfig from "eslint-config-next";
+import prettierConfig from "eslint-config-prettier";
 import noRawDesignValuesRule from "./scripts/eslint-rules/no-raw-design-values.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+const sanitizePluginMap = (plugins) => {
+  if (!plugins) {
+    return plugins;
+  }
 
+  return Object.fromEntries(
+    Object.entries(plugins).map(([name, plugin]) => {
+      if (plugin && typeof plugin === "object" && "configs" in plugin) {
+        const { configs: _configs, ...rest } = plugin;
+        return [name, rest];
+      }
 
+      return [name, plugin];
+    })
+  );
+};
+
+const [nextCoreWebVitals, nextTypescript, nextIgnores] = nextConfig.map(
+  (config) => ({
+    ...config,
+    plugins: sanitizePluginMap(config.plugins),
+  })
+);
+
+const reactHooksRuleOverrides = Object.fromEntries(
+  Object.keys(nextCoreWebVitals.rules ?? {})
+    .filter(
+      (name) =>
+        name.startsWith("react-hooks/") &&
+        name !== "react-hooks/rules-of-hooks" &&
+        name !== "react-hooks/exhaustive-deps"
+    )
+    .map((name) => [name, "off"])
+);
 
 const designPlugin = {
   rules: {
@@ -51,13 +81,23 @@ const eslintConfig = [
       "src/components/gallery/generated-manifest.ts",
       "src/components/gallery/generated-manifest.g.ts",
       "storybook-static/**",
+      ...(nextIgnores?.ignores ?? []),
     ],
   },
-  ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
   {
-    files: ["**/*.{ts,tsx}"],
+    ...nextCoreWebVitals,
+    rules: {
+      ...nextCoreWebVitals.rules,
+      ...(prettierConfig.rules ?? {}),
+      ...reactHooksRuleOverrides,
+    },
+  },
+  {
+    ...nextTypescript,
     languageOptions: {
+      ...nextTypescript.languageOptions,
       parserOptions: {
+        ...nextTypescript.languageOptions?.parserOptions,
         project: ["./tsconfig.json", "./tsconfig.storybook.json"],
         tsconfigRootDir: __dirname,
       },

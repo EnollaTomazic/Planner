@@ -1419,34 +1419,22 @@
     }
   },
   "theme-toggle": {
-    "routes": [
-      "/"
-    ],
+    "routes": [],
     "states": {
       "hover": {
-        "routes": [
-          "/"
-        ]
+        "routes": []
       },
       "focus": {
-        "routes": [
-          "/"
-        ]
+        "routes": []
       },
       "active": {
-        "routes": [
-          "/"
-        ]
+        "routes": []
       },
       "disabled": {
-        "routes": [
-          "/"
-        ]
+        "routes": []
       },
       "loading": {
-        "routes": [
-          "/"
-        ]
+        "routes": []
       }
     }
   },

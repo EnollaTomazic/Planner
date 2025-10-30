@@ -1,4 +1,5 @@
 import { expect, test as base } from "@playwright/test";
+import type { TestInfo } from "@playwright/test";
 
 import {
   buildMissingBrowserMessage,
@@ -14,7 +15,11 @@ type TestFixtures = {
 
 export const test = base.extend<TestFixtures>({
   skipIfBrowsersMissing: [
-    async ({}, use, testInfo) => {
+    async (
+      _fixtures: Record<string, unknown>,
+      use: () => Promise<void>,
+      testInfo: TestInfo,
+    ) => {
       if (skipReason) {
         testInfo.skip(skipReason);
         return;
