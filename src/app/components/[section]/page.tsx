@@ -6,7 +6,6 @@ import {
   resolveComponentsSlug,
 } from "@/components/gallery-page/slug";
 import { withBasePath } from "@/lib/utils";
-
 import { ComponentsSectionRedirect } from "./redirect-client";
 
 export { metadata } from "../page";
