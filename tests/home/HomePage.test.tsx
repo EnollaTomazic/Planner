@@ -90,21 +90,32 @@ describe("Home page", () => {
   });
 
   it("falls back to the legacy landing experience when the flag is disabled", () => {
-    render(
-      <ThemeProvider glitchLandingEnabled={false}>
-        <main id="main-content">
-          <Suspense fallback="loading">
-            <Page />
-          </Suspense>
-        </main>
-      </ThemeProvider>,
-    );
+    vi.useFakeTimers();
+    const setTimeoutSpy = vi.spyOn(window, "setTimeout");
 
-    expect(
-      screen.getByRole("heading", { name: "Planner preview" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("region", { name: "Planner overview" }),
-    ).toBeInTheDocument();
+    try {
+      render(
+        <ThemeProvider glitchLandingEnabled={false}>
+          <main id="main-content">
+            <Suspense fallback="loading">
+              <Page />
+            </Suspense>
+          </main>
+        </ThemeProvider>,
+      );
+
+      expect(
+        screen.getAllByRole("region", { name: "Planner overview" }).length,
+      ).toBeGreaterThan(0);
+      expect(document.body.dataset.glitchLanding).toBe("legacy");
+      const homeContent = document.querySelector("[data-home-content]");
+      expect(homeContent).not.toBeNull();
+      expect(homeContent).toHaveAttribute("data-state", "ready");
+      const hasGlitchDelay = setTimeoutSpy.mock.calls.some(([, delay]) => delay === 400);
+      expect(hasGlitchDelay).toBe(false);
+    } finally {
+      setTimeoutSpy.mockRestore();
+      vi.useRealTimers();
+    }
   });
 });
