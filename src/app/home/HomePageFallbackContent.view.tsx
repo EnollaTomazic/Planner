@@ -116,16 +116,10 @@ function GlitchLandingFallback({
 
 function HeroActionSkeletons() {
   return (
-    <>
-      <div
-        className="h-10 w-10 animate-pulse rounded-full border border-border/70 bg-muted/20"
-        aria-hidden
-      />
-      <div
-        className="h-10 w-32 animate-pulse rounded-full bg-primary/20"
-        aria-hidden
-      />
-    </>
+    <div
+      className="h-10 w-32 animate-pulse rounded-full bg-primary/20"
+      aria-hidden
+    />
   )
 }
 
