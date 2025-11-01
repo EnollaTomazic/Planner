@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react'
 
+import { Skeleton } from '@/app/_loading'
 import { cn } from '@/lib/utils'
 import styles from '../page-client.module.css'
 
@@ -116,9 +117,9 @@ function GlitchLandingFallback({
 
 function HeroActionSkeletons() {
   return (
-    <div
-      className="h-10 w-32 animate-pulse rounded-full bg-primary/20"
-      aria-hidden
+    <Skeleton
+      radius="full"
+      className="h-[var(--control-h-md)] w-[calc(var(--space-8)*2)]"
     />
   )
 }
@@ -150,8 +151,14 @@ function LegacyHomeFallback({
             >
               <div className="flex flex-col gap-[var(--space-4)] md:flex-row md:items-center md:justify-between">
                 <div className="space-y-[var(--space-3)]">
-                  <div className="h-4 w-64 animate-pulse rounded-md bg-muted/30" aria-hidden />
-                  <div className="h-4 w-72 animate-pulse rounded-md bg-muted/20" aria-hidden />
+                  <Skeleton
+                    className="w-[min(100%,calc(var(--space-8)*4))]"
+                    radius="md"
+                  />
+                  <Skeleton
+                    className="h-[calc(var(--space-4)+var(--spacing-1))] w-[min(100%,calc(var(--space-8)*4.5))]"
+                    radius="md"
+                  />
                 </div>
                 <div
                   role="group"
@@ -195,17 +202,32 @@ function LegacyHomeFallback({
                     className="flex flex-col gap-[var(--space-2)] rounded-[var(--radius-lg)] border border-border bg-surface p-[var(--space-3)]"
                     role="listitem"
                   >
-                    <div className="h-4 w-28 animate-pulse rounded-md bg-muted/30" aria-hidden />
-                    <div className="h-6 w-32 animate-pulse rounded-md bg-muted/20" aria-hidden />
-                    <div className="h-4 w-24 animate-pulse rounded-md bg-muted/10" aria-hidden />
+                    <Skeleton
+                      className="w-[min(100%,calc(var(--space-8)*1.75))]"
+                      radius="md"
+                    />
+                    <Skeleton
+                      className="h-[var(--space-5)] w-[min(100%,calc(var(--space-8)*2))]"
+                      radius="md"
+                    />
+                    <Skeleton
+                      className="w-[min(100%,calc(var(--space-8)*1.5))]"
+                      radius="md"
+                    />
                   </article>
                 ))}
               </div>
               <div className="grid gap-[var(--space-4)] md:grid-cols-2">
                 <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-focus-heading">
                   <div className="flex items-center justify-between gap-[var(--space-2)]">
-                    <div className="h-5 w-28 animate-pulse rounded-md bg-muted/30" aria-hidden />
-                    <div className="h-4 w-20 animate-pulse rounded-md bg-muted/20" aria-hidden />
+                    <Skeleton
+                      className="h-[calc(var(--space-4)+var(--spacing-1))] w-[min(100%,calc(var(--space-8)*1.75))]"
+                      radius="md"
+                    />
+                    <Skeleton
+                      className="w-[min(100%,calc(var(--space-8)*1.25))]"
+                      radius="md"
+                    />
                   </div>
                   <ul className="grid gap-[var(--space-2)]" role="list">
                     {Array.from({ length: 3 }).map((_, index) => (
@@ -213,33 +235,63 @@ function LegacyHomeFallback({
                         key={`legacy-focus-${index}`}
                         className="flex flex-col gap-[var(--space-1)] rounded-[var(--radius-md)] border border-border/80 bg-card/70 px-[var(--space-3)] py-[var(--space-2)]"
                       >
-                        <div className="h-4 w-40 animate-pulse rounded-md bg-muted/20" aria-hidden />
-                        <div className="h-3 w-32 animate-pulse rounded-md bg-muted/10" aria-hidden />
+                        <Skeleton
+                          className="w-[min(100%,calc(var(--space-8)*2.5))]"
+                          radius="md"
+                        />
+                        <Skeleton
+                          className="h-[var(--spacing-3)] w-[min(100%,calc(var(--space-8)*2))]"
+                          radius="md"
+                        />
                       </li>
                     ))}
                   </ul>
-                  <div className="h-3 w-48 animate-pulse rounded-md bg-muted/10" aria-hidden />
+                  <Skeleton
+                    className="h-[var(--spacing-3)] w-[min(100%,calc(var(--space-8)*3))]"
+                    radius="md"
+                  />
                 </section>
                 <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-goals-heading">
                   <div className="flex items-center justify-between gap-[var(--space-2)]">
-                    <div className="h-5 w-24 animate-pulse rounded-md bg-muted/30" aria-hidden />
-                    <div className="h-4 w-20 animate-pulse rounded-md bg-muted/20" aria-hidden />
+                    <Skeleton
+                      className="h-[calc(var(--space-4)+var(--spacing-1))] w-[min(100%,calc(var(--space-8)*1.5))]"
+                      radius="md"
+                    />
+                    <Skeleton
+                      className="w-[min(100%,calc(var(--space-8)*1.25))]"
+                      radius="md"
+                    />
                   </div>
                   <div className="flex flex-col gap-[var(--space-2)] rounded-[var(--radius-md)] border border-border/80 bg-card/70 p-[var(--space-3)]">
                     {Array.from({ length: 2 }).map((_, index) => (
                       <div key={`legacy-goal-${index}`} className="space-y-[var(--space-1)]">
-                        <div className="h-4 w-40 animate-pulse rounded-md bg-muted/20" aria-hidden />
-                        <div className="h-3 w-32 animate-pulse rounded-md bg-muted/10" aria-hidden />
+                        <Skeleton
+                          className="w-[min(100%,calc(var(--space-8)*2.5))]"
+                          radius="md"
+                        />
+                        <Skeleton
+                          className="h-[var(--spacing-3)] w-[min(100%,calc(var(--space-8)*2))]"
+                          radius="md"
+                        />
                       </div>
                     ))}
-                    <div className="h-3 w-56 animate-pulse rounded-md bg-muted/10" aria-hidden />
+                    <Skeleton
+                      className="h-[var(--spacing-3)] w-[min(100%,calc(var(--space-8)*3.5))]"
+                      radius="md"
+                    />
                   </div>
                 </section>
               </div>
               <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-calendar-heading">
                 <div className="flex items-center justify-between gap-[var(--space-2)]">
-                  <div className="h-5 w-28 animate-pulse rounded-md bg-muted/30" aria-hidden />
-                  <div className="h-4 w-24 animate-pulse rounded-md bg-muted/20" aria-hidden />
+                  <Skeleton
+                    className="h-[calc(var(--space-4)+var(--spacing-1))] w-[min(100%,calc(var(--space-8)*1.75))]"
+                    radius="md"
+                  />
+                  <Skeleton
+                    className="w-[min(100%,calc(var(--space-8)*1.5))]"
+                    radius="md"
+                  />
                 </div>
                 <div className="flex flex-wrap gap-[var(--space-2)]">
                   {Array.from({ length: 7 }).map((_, index) => (
@@ -247,7 +299,10 @@ function LegacyHomeFallback({
                       key={`legacy-day-${index}`}
                       className="inline-flex min-w-[var(--space-8)] items-center justify-center rounded-full border border-border bg-card/60 px-[var(--space-2)] py-[var(--space-1)]"
                     >
-                      <span className="h-4 w-6 animate-pulse rounded-md bg-muted/20" aria-hidden />
+                      <span
+                        className="skeleton block h-[var(--space-4)] w-[var(--space-5)] rounded-[var(--radius-md)]"
+                        aria-hidden
+                      />
                     </span>
                   ))}
                 </div>
@@ -295,9 +350,18 @@ function HeroPlannerCardsFallbackContent() {
           key={`hero-planner-card-${index}`}
           className="flex flex-col gap-[var(--space-2)] rounded-[var(--radius-lg)] border border-border bg-card/70 p-[var(--space-3)]"
         >
-          <div className="h-4 w-28 animate-pulse rounded-md bg-muted/30" aria-hidden />
-          <div className="h-6 w-32 animate-pulse rounded-md bg-muted/20" aria-hidden />
-          <div className="h-4 w-24 animate-pulse rounded-md bg-muted/10" aria-hidden />
+          <Skeleton
+            className="w-[min(100%,calc(var(--space-8)*1.75))]"
+            radius="md"
+          />
+          <Skeleton
+            className="h-[var(--space-5)] w-[min(100%,calc(var(--space-8)*2))]"
+            radius="md"
+          />
+          <Skeleton
+            className="w-[min(100%,calc(var(--space-8)*1.5))]"
+            radius="md"
+          />
         </article>
       ))}
     </div>
