@@ -1,6 +1,7 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import nextConfig from "eslint-config-next";
+import nextCoreWebVitalsConfig from "eslint-config-next/core-web-vitals";
 import prettierConfig from "eslint-config-prettier";
 import noRawDesignValuesRule from "./scripts/eslint-rules/no-raw-design-values.mjs";
 
@@ -8,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const sanitizePluginMap = (plugins) => {
-  if (!plugins) {
+  if (!plugins || Array.isArray(plugins)) {
     return plugins;
   }
 
@@ -24,15 +25,21 @@ const sanitizePluginMap = (plugins) => {
   );
 };
 
-const [nextCoreWebVitals, nextTypescript, nextIgnores] = nextConfig.map(
-  (config) => ({
-    ...config,
-    plugins: sanitizePluginMap(config.plugins),
-  })
-);
+const sanitizeNextConfig = (config) => ({
+  ...config,
+  plugins: sanitizePluginMap(config.plugins),
+});
+
+const [nextBase, nextTypescript, nextIgnores] = nextConfig.map(sanitizeNextConfig);
+
+const coreWebVitalsRules =
+  nextCoreWebVitalsConfig.map(sanitizeNextConfig).at(-1)?.rules ?? {};
 
 const reactHooksRuleOverrides = Object.fromEntries(
-  Object.keys(nextCoreWebVitals.rules ?? {})
+  Object.keys({
+    ...(nextBase.rules ?? {}),
+    ...coreWebVitalsRules,
+  })
     .filter(
       (name) =>
         name.startsWith("react-hooks/") &&
@@ -85,9 +92,10 @@ const eslintConfig = [
     ],
   },
   {
-    ...nextCoreWebVitals,
+    ...nextBase,
     rules: {
-      ...nextCoreWebVitals.rules,
+      ...nextBase.rules,
+      ...coreWebVitalsRules,
       ...(prettierConfig.rules ?? {}),
       ...reactHooksRuleOverrides,
     },

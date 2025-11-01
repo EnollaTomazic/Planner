@@ -1,309 +1,225 @@
-.stage {
+.root {
+  --portrait-glow: clamp(var(--space-6), 12vw, var(--space-8));
+  --hero-illustration-opacity: 0.92;
+}
+
+.inner {
   position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  padding: calc(var(--space-2) * 1.1);
-  overflow: visible;
-  isolation: isolate;
-  background: radial-gradient(
-    circle at 50% 92%,
-    hsl(var(--accent-2) / 0.24),
-    hsl(var(--surface) / 0.86) 70%,
-    transparent 92%
-  );
+  background:
+    linear-gradient(160deg, hsl(var(--surface-2) / 0.96), hsl(var(--surface) / 0.86));
   box-shadow:
-    inset 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--card-hairline) / 0.4),
-    inset 0 calc(var(--spacing-1) * -1) calc(var(--spacing-3))
-      hsl(var(--shadow-color) / 0.3);
+    inset 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--card-hairline) / 0.45),
+    inset 0 calc(var(--space-1) * -0.6) calc(var(--space-3) / 1.6)
+      hsl(var(--shadow-color) / 0.3),
+    0 calc(var(--space-1) / 2) calc(var(--space-3)) hsl(var(--shadow-color) / 0.16);
 }
 
 .innerTransparent {
-  background: transparent;
-  box-shadow: none;
+  background: hsl(var(--surface) / 0.08);
+  box-shadow:
+    inset 0 0 0 calc(var(--hairline-w) * 1.4) hsl(var(--card-hairline) / 0.32),
+    0 calc(var(--space-1) / 2) calc(var(--space-3)) hsl(var(--shadow-color) / 0.12);
 }
 
-.stageTransparent {
-  background: transparent;
-  box-shadow: none;
+.rim {
+  background:
+    linear-gradient(145deg, hsl(var(--surface-2) / 0.82), hsl(var(--surface) / 0.98));
+  box-shadow:
+    0 calc(var(--space-1) / 2) calc(var(--space-3)) hsl(var(--shadow-color) / 0.24),
+    inset 0 0 0 calc(var(--hairline-w) * 2) hsl(var(--card-hairline) / 0.38);
+}
+
+.glow {
+  background: radial-gradient(
+    circle at 50% 20%,
+    hsl(var(--accent-2) / 0.8),
+    hsl(var(--accent) / 0.28) 60%,
+    transparent 100%
+  );
+  filter: blur(calc(var(--portrait-glow) / 1.8));
+  opacity: 0.85;
+}
+
+.portraitImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 36%;
+  border-radius: inherit;
+  filter: drop-shadow(0 calc(var(--space-1) / 2) calc(var(--space-3)) hsl(var(--shadow-color) / 0.45));
+}
+
+.imageAngel {
+  object-position: center 34%;
+  filter: drop-shadow(0 calc(var(--space-1)) calc(var(--space-4)) hsl(var(--accent-2) / 0.35));
+}
+
+.imageDemon {
+  object-position: center 30%;
+  filter: drop-shadow(0 calc(var(--space-1)) calc(var(--space-4)) hsl(var(--lav-deep) / 0.45));
+}
+
+.imageDuoBackToBack {
+  object-position: center 42%;
 }
 
 .rimLighting {
   position: absolute;
-  inset: calc(var(--space-1) * -0.4);
+  inset: calc(var(--space-1) * -0.3);
   border-radius: inherit;
   pointer-events: none;
-  mix-blend-mode: screen;
   background: radial-gradient(
-    circle at 50% 18%,
-    hsl(var(--highlight) / 0.5),
-    transparent 70%
-  );
-  opacity: 0.6;
+      circle at 36% 24%,
+      hsl(var(--highlight) / 0.45),
+      transparent 70%
+    ),
+    radial-gradient(circle at 70% 26%, hsl(var(--accent) / 0.4), transparent 72%);
+  mix-blend-mode: screen;
+  opacity: 0.55;
 }
 
-.character {
+.bloom {
   position: absolute;
-  bottom: calc(var(--space-1) * -0.3);
-  width: 58%;
-  aspect-ratio: 3 / 4;
-  transform-origin: center bottom;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  filter: drop-shadow(0 0 calc(var(--space-1)) hsl(var(--shadow-color) / 0.32));
-  transition: transform var(--motion-duration-md) var(--ease-out),
-    opacity var(--motion-duration-md) var(--ease-out),
-    filter var(--motion-duration-md) var(--ease-out);
-}
-
-.character::before,
-.character::after {
-  content: "";
-  position: absolute;
+  inset: calc(var(--space-3) * -1.2);
+  border-radius: inherit;
   pointer-events: none;
-}
-
-.characterBody {
-  position: absolute;
-  inset: 28% 16% 4% 16%;
-  border-radius: 46% 46% 56% 56% / 60% 60% 40% 40%;
-  background: linear-gradient(152deg, var(--portrait-body-start), var(--portrait-body-end));
-  box-shadow:
-    0 0 0 calc(var(--hairline-w) * 2) hsl(var(--card-hairline) / 0.55),
-    0 calc(var(--spacing-1) / 2) calc(var(--spacing-3) / 1.2)
-      hsl(var(--shadow-color) / 0.45);
-  opacity: 0.95;
-  z-index: 1;
-}
-
-.characterHead {
-  position: absolute;
-  top: 6%;
-  left: 50%;
-  translate: -50% 0;
-  width: 46%;
-  aspect-ratio: 1;
-  border-radius: 44% 44% 50% 50%;
-  background:
-    radial-gradient(circle at 50% 28%, var(--portrait-head-highlight), transparent 72%),
-    radial-gradient(circle at 50% 60%, var(--portrait-head-core), transparent 85%);
-  box-shadow:
-    0 0 0 calc(var(--hairline-w) * 1.6) hsl(var(--card-hairline) / 0.45),
-    var(--shadow-glow-sm);
-  z-index: 3;
-}
-
-.characterCollar {
-  position: absolute;
-  inset: auto 24% 16% 24%;
-  height: 18%;
-  border-radius: 50% / 90% 90% 30% 30%;
-  background: linear-gradient(160deg, var(--portrait-collar-start), var(--portrait-collar-end));
-  box-shadow: 0 0 0 calc(var(--hairline-w) * 1.2) hsl(var(--card-hairline) / 0.35);
-  z-index: 2;
-}
-
-.layerFront {
-  z-index: 2;
-}
-
-.layerRear {
-  z-index: 1;
-}
-
-.layerDimmed {
-  opacity: 0.84;
-  filter: saturate(0.82) drop-shadow(0 0 calc(var(--space-1)) hsl(var(--shadow-color) / 0.26));
-}
-
-.angel {
-  --portrait-body-start: hsl(var(--accent-2) / 0.95);
-  --portrait-body-end: hsl(var(--accent) / 0.55);
-  --portrait-head-core: hsl(var(--highlight) / 0.78);
-  --portrait-head-highlight: hsl(var(--accent-2) / 0.32);
-  --portrait-collar-start: hsl(var(--accent) / 0.52);
-  --portrait-collar-end: hsl(var(--accent-2) / 0.46);
-}
-
-.angelWings {
-  position: absolute;
-  inset: 12% -6% 22% -6%;
-  border-radius: 48% 48% 58% 58% / 70% 70% 46% 46%;
-  background:
-    radial-gradient(120% 120% at 0% 40%, hsl(var(--highlight) / 0.28), transparent 64%),
-    radial-gradient(120% 120% at 100% 40%, hsl(var(--highlight) / 0.28), transparent 64%),
-    radial-gradient(140% 110% at 50% 50%, hsl(var(--accent-2) / 0.32), transparent 72%);
-  opacity: 0.88;
-  filter: drop-shadow(0 0 calc(var(--space-2)) hsl(var(--glow-active)))
-    drop-shadow(0 calc(var(--spacing-1) / 2) calc(var(--spacing-3) / 1.4) hsl(var(--accent-2) / 0.25));
-  mix-blend-mode: screen;
-  z-index: 0;
-}
-
-.demon {
-  --portrait-body-start: hsl(var(--lav-deep) / 0.92);
-  --portrait-body-end: hsl(var(--accent) / 0.68);
-  --portrait-head-core: hsl(var(--accent) / 0.62);
-  --portrait-head-highlight: hsl(var(--lav-deep) / 0.32);
-  --portrait-collar-start: hsl(var(--accent) / 0.64);
-  --portrait-collar-end: hsl(var(--accent-2) / 0.52);
-}
-
-.demonHorns {
-  position: absolute;
-  top: 4%;
-  left: 50%;
-  translate: -50% 0;
-  width: 68%;
-  height: 32%;
-}
-
-.demonHorns::before,
-.demonHorns::after {
-  content: "";
-  position: absolute;
-  top: 4%;
-  width: 42%;
-  height: 92%;
-  border-radius: 70% 70% 0 40%;
-  background: linear-gradient(165deg, hsl(var(--lav-deep) / 0.9), hsl(var(--accent) / 0.7));
-  box-shadow: 0 0 0 calc(var(--hairline-w) * 1.2) hsl(var(--card-hairline) / 0.4);
-  filter: drop-shadow(0 calc(var(--spacing-1) / 2) calc(var(--spacing-3) / 1.8) hsl(var(--accent) / 0.45));
-  z-index: 2;
-}
-
-.demonHorns::before {
-  left: 0;
-  transform: rotate(-12deg);
-}
-
-.demonHorns::after {
-  right: 0;
-  transform: rotate(12deg);
-}
-
-.poseDuoAngel {
-  transform: translate(-26%, 6%) scale(0.94);
-}
-
-.poseDuoDemon {
-  transform: translate(26%, 10%) scale(1.02);
-}
-
-.poseAngelLeadingAngel {
-  transform: translate(-12%, 4%) scale(1.04);
-}
-
-.poseAngelLeadingDemon {
-  transform: translate(34%, 12%) scale(0.9);
-}
-
-.poseDemonLeadingAngel {
-  transform: translate(-34%, 10%) scale(0.9);
-}
-
-.poseDemonLeadingDemon {
-  transform: translate(12%, 6%) scale(1.05);
-}
-
-.poseBackToBackAngel {
-  transform: translate(-18%, 8%) scale(0.96) rotate(-6deg);
-}
-
-.poseBackToBackDemon {
-  transform: translate(18%, 12%) scale(0.98) rotate(6deg);
-}
-
-.stageBackToBack {
   background: radial-gradient(
-      circle at 36% 26%,
-      hsl(var(--accent-2) / 0.18),
-      transparent 72%
+    circle at 50% 40%,
+    hsl(var(--accent-2) / 0.45),
+    transparent 72%
+  );
+  opacity: 0.58;
+  filter: blur(calc(var(--space-4) / 1.4));
+}
+
+.bloomAngel {
+  background: radial-gradient(
+    circle at 46% 30%,
+    hsl(var(--accent-2) / 0.55),
+    hsl(var(--highlight) / 0.32) 40%,
+    transparent 80%
+  );
+}
+
+.bloomDemon {
+  background: radial-gradient(
+    circle at 52% 44%,
+    hsl(var(--lav-deep) / 0.6),
+    hsl(var(--accent) / 0.3) 55%,
+    transparent 84%
+  );
+}
+
+.bloomDuo {
+  background: radial-gradient(
+      circle at 36% 32%,
+      hsl(var(--accent-2) / 0.4),
+      transparent 75%
     ),
     radial-gradient(
-      circle at 64% 24%,
-      hsl(var(--lav-deep) / 0.2),
+      circle at 64% 42%,
+      hsl(var(--lav-deep) / 0.46),
       transparent 78%
-    ),
-    radial-gradient(
-      circle at 50% 92%,
-      hsl(var(--accent-2) / 0.2),
-      hsl(var(--surface) / 0.84) 72%,
-      transparent 92%
     );
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .character {
-    transition: none;
-  }
+.stage {
+  position: absolute;
+  inset: calc(var(--space-1) * 0.8);
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 50% 82%,
+      hsl(var(--surface-2) / 0.32),
+      transparent 72%
+    ),
+    radial-gradient(
+      circle at 40% 20%,
+      hsl(var(--accent-2) / 0.24),
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 64% 24%,
+      hsl(var(--accent) / 0.22),
+      transparent 74%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.72;
+}
+
+.stageTransparent {
+  opacity: 0.4;
+  mix-blend-mode: lighten;
+}
+
+.stageBackToBack {
+  background:
+    radial-gradient(
+      circle at 32% 26%,
+      hsl(var(--accent-2) / 0.2),
+      transparent 74%
+    ),
+    radial-gradient(
+      circle at 68% 34%,
+      hsl(var(--lav-deep) / 0.26),
+      transparent 76%
+    ),
+    radial-gradient(
+      circle at 50% 82%,
+      hsl(var(--surface-2) / 0.28),
+      transparent 72%
+    );
 }
 
 .pulseRing {
   position: absolute;
-  inset: calc(var(--portrait-rim) * -2.2);
+  inset: calc(var(--space-4) * -1.2);
   border-radius: inherit;
-  border: calc(var(--hairline-w) * 1.5)
-    solid color-mix(
-      in oklab,
-      var(--portrait-pulse-color, hsl(var(--accent))) 65%,
-      transparent
-    );
-  pointer-events: none;
-  opacity: 0;
-  transform: scale(1);
-  mix-blend-mode: screen;
-  filter: drop-shadow(
-    0 0 var(--space-4)
-      color-mix(
-        in oklab,
-        var(--portrait-pulse-color, hsl(var(--accent))) 35%,
-        transparent
-      )
+  background: radial-gradient(
+    circle at 50% 50%,
+    hsl(var(--accent) / 0.45),
+    transparent 70%
   );
+  opacity: 0;
+  transform: scale(0.94);
+  transition:
+    opacity var(--motion-duration-md) var(--ease-out),
+    transform var(--motion-duration-md) var(--ease-out);
+  z-index: -1;
 }
 
 .pulseRingActive {
-  opacity: 1;
+  opacity: 0.6;
+  transform: scale(1);
+  animation: pulseHalo 2.4s var(--ease-out) infinite;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .pulseRingActive {
-    animation: portrait-pulse 3s ease-in-out infinite;
+@keyframes pulseHalo {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.96);
+  }
+  40% {
+    opacity: 0.4;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.08);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pulseRingActive {
-    opacity: 0.75;
+  .pulseRing {
+    transition-duration: var(--motion-duration-sm);
   }
-}
 
-@keyframes portrait-pulse {
-  0% {
-    opacity: 0.85;
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0
-      color-mix(
-        in oklab,
-        var(--portrait-pulse-color, hsl(var(--accent))) 38%,
-        transparent
-      );
-  }
-  55% {
-    opacity: 0;
-    transform: scale(1.18);
-    box-shadow: 0 0 0 var(--space-6)
-      color-mix(in oklab, var(--portrait-pulse-color, hsl(var(--accent))) 0%, transparent);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.24);
-    box-shadow: 0 0 0 var(--space-6)
-      color-mix(in oklab, var(--portrait-pulse-color, hsl(var(--accent))) 0%, transparent);
+  .pulseRingActive {
+    animation: none;
+    opacity: 0.45;
   }
 }
