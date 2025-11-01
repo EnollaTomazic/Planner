@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { PageHeader } from "@/components/ui";
+import { Header } from "@/components/ui";
+import { HeroSearchBar } from "@/components/ui/layout/hero/HeroSearchBar";
 import { Badge } from "@/components/ui/primitives/Badge";
 
 const chips = ["hover", "focus", "active", "disabled", "loading"];
@@ -30,58 +31,47 @@ export function PromptsHeader({
   const searchId = `${id}-search`;
 
   return (
-    <PageHeader
-      containerClassName="relative isolate"
-      header={{
-        id,
-        heading: "Prompts",
-        sticky: false,
-        right: (
-          <span className="pill" aria-live="polite">
-            {count} saved
-          </span>
-        ),
-      }}
-      hero={{
-        sticky: false,
-        tone: "supportive",
-        topClassName: "top-[var(--header-stack)]",
-        heading: (
-          <span className="sr-only" id={`${id}-hero`}>
-            Prompt workspace controls
-          </span>
-        ),
-        children: (
-          <div className="hidden sm:flex flex-wrap items-center gap-[var(--space-2)]">
-            {chips.map((chip) => {
-              const isSelected = query === chip;
+    <Header
+      id={id}
+      heading="Prompts"
+      sticky={false}
+      className="relative isolate"
+      search={
+        <HeroSearchBar
+          id={searchId}
+          value={query}
+          onValueChange={onQueryChange}
+          debounceMs={300}
+          placeholder="Search prompts…"
+          aria-label="Search prompts"
+          variant="neo"
+          round
+        />
+      }
+      actions={
+        <span className="pill" aria-live="polite">
+          {count} saved
+        </span>
+      }
+    >
+      <div className="hidden flex-wrap items-center gap-[var(--space-2)] sm:flex">
+        {chips.map((chip) => {
+          const isSelected = query === chip;
 
-              return (
-                <Badge
-                  key={chip}
-                  interactive
-                  selected={isSelected}
-                  aria-pressed={isSelected}
-                  onClick={() => handleChip(chip)}
-                >
-                  {chip}
-                </Badge>
-              );
-            })}
-          </div>
-        ),
-        search: {
-          id: searchId,
-          value: query,
-          onValueChange: onQueryChange,
-          debounceMs: 300,
-          placeholder: "Search prompts…",
-          "aria-label": "Search prompts",
-          variant: "neo",
-          round: true,
-        },
-      }}
-    />
+          return (
+            <Badge
+              key={chip}
+              interactive
+              selected={isSelected}
+              aria-pressed={isSelected}
+              onClick={() => handleChip(chip)}
+            >
+              {chip}
+            </Badge>
+          );
+        })}
+      </div>
+    </Header>
   );
 }
 

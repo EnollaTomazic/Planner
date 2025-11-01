@@ -11,12 +11,16 @@
  */
 
 import * as React from "react";
+import Link from "next/link";
+import { NAV_ITEMS } from "@/config/nav";
+import { withBasePath } from "@/lib/utils";
 import { NeomorphicFrameStyles } from "./NeomorphicFrameStyles";
 import {
   HeaderTabs as HeaderTabsControl,
   type HeaderTabItem,
 } from "@/components/tabs/HeaderTabs";
 import { type TabBarProps, TabBar } from "./TabBar";
+import { ThemeToggle } from "@/components/ui/theme/ThemeToggle";
 import {
   resolveUIVariant,
   type DeprecatedUIVariant,
@@ -26,8 +30,130 @@ import {
 const HEADER_VARIANTS = ["default", "neo", "quiet"] as const satisfies readonly UIVariant[];
 type HeaderVariant = (typeof HEADER_VARIANTS)[number];
 
+const deriveNavKey = (href: string) => {
+  if (!href || href === "/") {
+    return "home";
+  }
+
+  return href
+    .replace(/^\//, "")
+    .replace(/\/+/g, "-")
+    .replace(/[^a-z0-9-]/gi, "-")
+    .toLowerCase();
+};
+
+export const PRIMARY_PAGE_NAV = NAV_ITEMS.map((item) => ({
+  key: deriveNavKey(item.href),
+  label: item.label,
+  href: item.href,
+})) satisfies ReadonlyArray<HeaderNavItem>;
+
+export type PrimaryPageNavKey = (typeof PRIMARY_PAGE_NAV)[number]["key"];
+
+export interface HeaderNavItem {
+  key: string;
+  label: React.ReactNode;
+  href?: string;
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => void;
+  active?: boolean;
+  icon?: React.ReactNode;
+}
+
+export interface HeaderActionsConfig {
+  leading?: React.ReactNode;
+  trailing?: React.ReactNode;
+}
+
 function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
+}
+
+function createTabsControl<Key extends string = string>(
+  tabs: HeaderTabsProps<Key> | undefined,
+  defaultLabel: string,
+  { defaultClassName }: { defaultClassName?: string } = {},
+) {
+  if (!tabs) {
+    return null;
+  }
+
+  const {
+    items: tabItems,
+    value: tabValue,
+    onChange: tabOnChange,
+    ariaLabel: tabAriaLabel,
+    ariaLabelledBy: tabAriaLabelledBy,
+    className: tabClassName,
+    size: tabSize,
+    align: tabAlign,
+    right: tabRight,
+    showBaseline: tabShowBaseline,
+    variant: tabVariant,
+    tablistClassName,
+    renderItem: tabRenderItem,
+    idBase: tabIdBase,
+    linkPanels: tabLinkPanels,
+    ...tabDomProps
+  } = tabs;
+
+  const sanitizedTabAriaLabel =
+    typeof tabAriaLabel === "string" && tabAriaLabel.trim().length > 0
+      ? tabAriaLabel.trim()
+      : undefined;
+  const sanitizedTabAriaLabelledBy =
+    typeof tabAriaLabelledBy === "string" && tabAriaLabelledBy.trim().length > 0
+      ? tabAriaLabelledBy.trim()
+      : undefined;
+  const sanitizedItems = tabItems.map(({ hint, ...item }) => {
+    void hint;
+    return item;
+  });
+
+  const mergedTabClassName = cx(
+    "w-auto max-w-full shrink-0",
+    defaultClassName,
+    tabClassName,
+  );
+  const hasTabBarSpecificProps =
+    tabVariant != null ||
+    (typeof tablistClassName === "string" && tablistClassName.trim().length > 0) ||
+    typeof tabRenderItem === "function";
+
+  if (hasTabBarSpecificProps) {
+    return (
+      <TabBar
+        items={sanitizedItems}
+        value={tabValue}
+        onValueChange={tabOnChange}
+        ariaLabel={sanitizedTabAriaLabel ?? defaultLabel}
+        ariaLabelledBy={sanitizedTabAriaLabelledBy}
+        idBase={tabIdBase}
+        linkPanels={tabLinkPanels}
+        className={mergedTabClassName}
+        size={tabSize}
+        align={tabAlign}
+        right={tabRight}
+        showBaseline={tabShowBaseline}
+        variant={tabVariant}
+        tablistClassName={tablistClassName}
+        renderItem={tabRenderItem}
+      />
+    );
+  }
+
+  return (
+    <HeaderTabsControl
+      items={sanitizedItems}
+      value={tabValue}
+      onChange={tabOnChange}
+      ariaLabel={sanitizedTabAriaLabel ?? defaultLabel}
+      ariaLabelledBy={sanitizedTabAriaLabelledBy}
+      idBase={tabIdBase}
+      linkPanels={tabLinkPanels}
+      className={mergedTabClassName}
+      {...tabDomProps}
+    />
+  );
 }
 
 export interface HeaderTab<Key extends string = string>
@@ -50,12 +176,19 @@ export interface HeaderProps<Key extends string = string>
   heading: React.ReactNode;
   subtitle?: React.ReactNode;
   icon?: React.ReactNode;
+  navItems?: HeaderNavItem[];
+  navItemsLabel?: string;
   /** Primary navigation rendered to the left of tabs. */
   nav?: React.ReactNode;
   /** Right slot for actions (renders alongside tabs). */
   right?: React.ReactNode;
+  /** Configurable actions cluster rendered next to tabs. */
+  actions?: React.ReactNode | HeaderActionsConfig;
   /** Utility controls rendered at the far right (e.g., theme toggle, profile). */
   utilities?: React.ReactNode;
+  showThemeToggle?: boolean;
+  search?: React.ReactNode;
+  subTabs?: HeaderTabsProps<Key>;
   children?: React.ReactNode;
   /** Still overridable, but true by default */
   sticky?: boolean;
@@ -88,9 +221,15 @@ export function Header<Key extends string = string>({
   heading,
   subtitle,
   icon,
+  navItems,
+  navItemsLabel,
   nav,
   right,
+  actions,
   utilities,
+  showThemeToggle = false,
+  search,
+  subTabs,
   children,
   sticky = true,
   topClassName = "top-[var(--header-stack)]", // sync with --header-stack token
@@ -124,87 +263,125 @@ export function Header<Key extends string = string>({
     ? "border-b border-card-hairline-60 bg-surface/80 backdrop-blur"
     : "";
 
-  let tabControl: React.ReactNode = null;
-  if (tabs) {
-    const {
-      items: tabItems,
-      value: tabValue,
-      onChange: tabOnChange,
-      ariaLabel: tabAriaLabel,
-      ariaLabelledBy: tabAriaLabelledBy,
-      className: tabClassName,
-      size: tabSize,
-      align: tabAlign,
-      right: tabRight,
-      showBaseline: tabShowBaseline,
-      variant: tabVariant,
-      tablistClassName,
-      renderItem: tabRenderItem,
-      idBase: tabIdBase,
-      linkPanels: tabLinkPanels,
-      ...tabDomProps
-    } = tabs;
-    const sanitizedTabAriaLabel =
-      typeof tabAriaLabel === "string" && tabAriaLabel.trim().length > 0
-        ? tabAriaLabel.trim()
-        : undefined;
-    const sanitizedTabAriaLabelledBy =
-      typeof tabAriaLabelledBy === "string" && tabAriaLabelledBy.trim().length > 0
-        ? tabAriaLabelledBy.trim()
-        : undefined;
-    const sanitizedItems = tabItems.map(({ hint, ...item }) => {
-      void hint;
-      return item;
-    });
+  const tabControl = createTabsControl(tabs, "Header tabs");
+  const subTabControl = createTabsControl(subTabs, "Header secondary tabs", {
+    defaultClassName: "w-full",
+  });
 
-    const mergedTabClassName = cx("w-auto max-w-full shrink-0", tabClassName);
-    const hasTabBarSpecificProps =
-      tabVariant != null ||
-      (typeof tablistClassName === "string" && tablistClassName.trim().length > 0) ||
-      typeof tabRenderItem === "function";
+  const navLabel =
+    typeof navItemsLabel === "string" && navItemsLabel.trim().length > 0
+      ? navItemsLabel.trim()
+      : "Primary navigation";
+  const navNode = React.useMemo(() => {
+    if (nav) {
+      return nav;
+    }
+    if (!navItems || navItems.length === 0) {
+      return null;
+    }
 
-    if (hasTabBarSpecificProps) {
-      tabControl = (
-        <TabBar
-          items={sanitizedItems}
-          value={tabValue}
-          onValueChange={tabOnChange}
-          ariaLabel={sanitizedTabAriaLabel ?? "Header tabs"}
-          ariaLabelledBy={sanitizedTabAriaLabelledBy}
-          idBase={tabIdBase}
-          linkPanels={tabLinkPanels}
-          className={mergedTabClassName}
-          size={tabSize}
-          align={tabAlign}
-          right={tabRight}
-          showBaseline={tabShowBaseline}
-          variant={tabVariant}
-          tablistClassName={tablistClassName}
-          renderItem={tabRenderItem}
-        />
-      );
-    } else {
-      tabControl = (
-        <HeaderTabsControl
-          items={sanitizedItems}
-          value={tabValue}
-          onChange={tabOnChange}
-          ariaLabel={sanitizedTabAriaLabel ?? "Header tabs"}
-          ariaLabelledBy={sanitizedTabAriaLabelledBy}
-          idBase={tabIdBase}
-          linkPanels={tabLinkPanels}
-          className={mergedTabClassName}
-          {...tabDomProps}
-        />
+    return (
+      <nav aria-label={navLabel} className="flex items-center gap-[var(--space-1)]">
+        {navItems.map((item) => {
+          const key = item.key;
+          const active = Boolean(item.active);
+          const content = (
+            <span className="flex items-center gap-[var(--space-1)]">
+              {item.icon ? (
+                <span aria-hidden className="inline-flex shrink-0 text-muted-foreground">
+                  {item.icon}
+                </span>
+              ) : null}
+              <span>{item.label}</span>
+            </span>
+          );
+
+          const className = cx(
+            "flex items-center gap-[var(--space-1)] rounded-full px-[var(--space-3)] py-[var(--space-1)] text-label font-medium transition-colors",
+            active
+              ? "bg-card/70 text-foreground shadow-sm"
+              : "text-muted-foreground hover:text-foreground focus-visible:text-foreground",
+          );
+
+          if (item.href) {
+            const href = withBasePath(item.href, { skipForNextLink: true });
+            return (
+              <Link
+                key={key}
+                href={href}
+                className={className}
+                aria-current={active ? "page" : undefined}
+              >
+                {content}
+              </Link>
+            );
+          }
+
+          return (
+            <button
+              key={key}
+              type="button"
+              onClick={item.onClick}
+              className={className}
+              data-state={active ? "active" : "inactive"}
+            >
+              {content}
+            </button>
+          );
+        })}
+      </nav>
+    );
+  }, [nav, navItems, navLabel]);
+
+  const resolvedActions = React.useMemo(() => {
+    if (actions !== undefined) {
+      if (
+        actions === null ||
+        React.isValidElement(actions) ||
+        typeof actions !== "object" ||
+        (!("leading" in actions) && !("trailing" in actions))
+      ) {
+        return actions as React.ReactNode;
+      }
+
+      const { leading, trailing } = actions as HeaderActionsConfig;
+      return (
+        <div className="flex items-center gap-[var(--space-2)]">
+          {leading}
+          {trailing}
+        </div>
       );
     }
-  }
+
+    return right;
+  }, [actions, right]);
+
+  const themeToggleNode = showThemeToggle ? (
+    <ThemeToggle className="shrink-0" ariaLabel="Theme" />
+  ) : null;
+
+  const utilitiesNode = React.useMemo(() => {
+    if (!utilities && !themeToggleNode) {
+      return null;
+    }
+
+    return (
+      <>
+        {utilities}
+        {themeToggleNode}
+      </>
+    );
+  }, [themeToggleNode, utilities]);
 
   const hasTabs = Boolean(tabControl);
-  const hasRight = right != null;
-  const hasUtilities = utilities != null;
-  const hasNav = nav != null;
-  const showRightStack = hasTabs || hasRight || hasUtilities;
+  const hasSubTabs = Boolean(subTabControl);
+  const hasActions = resolvedActions != null;
+  const hasUtilities = utilitiesNode != null;
+  const hasSearch = search != null;
+  const hasNav = navNode != null;
+  const showRightStack = hasTabs || hasActions || hasUtilities || hasSearch;
+  const hasChildren = children != null;
+  const shouldRenderBody = hasSubTabs || hasChildren;
 
   const stickyClasses = sticky ? cx("sticky", topClassName) : "";
 
@@ -307,7 +484,7 @@ export function Header<Key extends string = string>({
                 )}
                 data-slot="primary-nav"
               >
-                {nav}
+                {navNode}
               </div>
             ) : null}
           </div>
@@ -316,9 +493,14 @@ export function Header<Key extends string = string>({
           {showRightStack ? (
             <div className="ml-auto flex min-w-0 items-center gap-[var(--space-3)] self-start sm:gap-[var(--space-4)]">
               {hasTabs ? tabControl : null}
-              {hasRight ? (
+              {hasSearch ? (
+                <div className="flex min-w-0 items-center gap-[var(--space-2)]">
+                  {search}
+                </div>
+              ) : null}
+              {hasActions ? (
                 <div className="flex shrink-0 items-center gap-[var(--space-2)]">
-                  {right}
+                  {resolvedActions}
                 </div>
               ) : null}
               {hasUtilities ? (
@@ -329,7 +511,7 @@ export function Header<Key extends string = string>({
                   )}
                   data-slot="utilities"
                 >
-                  {utilities}
+                  {utilitiesNode}
                 </div>
               ) : null}
             </div>
@@ -337,16 +519,19 @@ export function Header<Key extends string = string>({
         </div>
 
         {/* Body under the bar */}
-        {children ? (
+        {shouldRenderBody ? (
           <div
             className={cx(
-              "relative",
+              "relative flex flex-col gap-[var(--space-3)]",
               shouldRenderNeomorphicFrameStyles && "z-[2]",
               bodyPadding,
               bodyClassName,
             )}
           >
-            {children}
+            {hasSubTabs ? (
+              <div className="w-full overflow-x-auto">{subTabControl}</div>
+            ) : null}
+            {hasChildren ? children : null}
           </div>
         ) : null}
       </header>

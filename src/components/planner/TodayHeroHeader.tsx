@@ -4,6 +4,7 @@ import { useMemo, useRef, useCallback } from "react";
 import type { ChangeEvent } from "react";
 import { Calendar } from "lucide-react";
 
+import { Header } from "@/components/ui";
 import { toISODate } from "@/lib/date";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import type { ISODate } from "./plannerTypes";
@@ -46,33 +47,42 @@ export function TodayHeroHeader({
   const inputValue = viewIso || fallbackIso;
 
   return (
-    <div className="mb-[var(--space-4)] flex flex-col gap-[var(--space-2)] md:flex-row md:items-center md:justify-between">
-      <div className="flex items-center gap-[var(--space-3)]">
-        <h2 className="glitch text-title font-semibold tracking-[-0.01em]" data-text={title}>
-          {title}
-        </h2>
-      </div>
-
-      <div className="flex items-center gap-[var(--space-2)]">
-        <input
-          ref={dateRef}
-          type="date"
-          value={inputValue}
-          onChange={handleChange}
-          aria-label="Change focused date"
-          className="sr-only"
-        />
-        <IconButton
-          aria-label="Open calendar"
-          title={viewIso}
-          onClick={openPicker}
-          size="md"
-          variant="quiet"
-          iconSize="md"
+    <Header
+      heading={
+        <span
+          className="glitch text-title font-semibold tracking-[-0.01em]"
+          data-text={title}
         >
-          <Calendar />
-        </IconButton>
-      </div>
-    </div>
+          {title}
+        </span>
+      }
+      sticky={false}
+      compact
+      underline={false}
+      className="mb-[var(--space-4)]"
+      barClassName="gap-[var(--space-3)]"
+      actions={
+        <div className="flex items-center gap-[var(--space-2)]">
+          <input
+            ref={dateRef}
+            type="date"
+            value={inputValue}
+            onChange={handleChange}
+            aria-label="Change focused date"
+            className="sr-only"
+          />
+          <IconButton
+            aria-label="Open calendar"
+            title={viewIso}
+            onClick={openPicker}
+            size="md"
+            variant="quiet"
+            iconSize="md"
+          >
+            <Calendar />
+          </IconButton>
+        </div>
+      }
+    />
   );
 }
