@@ -13,8 +13,7 @@ import type {
   HeroPlannerHighlight,
   PlannerOverviewProps,
 } from "@/components/home"
-import type { HomeHeroSectionProps } from "@/components/home/home-landing/types"
-import { PageShell, Button, SectionCard } from "@/components/ui"
+import { PageShell, Button, SectionCard, PageHeader } from "@/components/ui"
 import { PlannerProvider } from "@/components/planner"
 import { useTheme } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
@@ -22,11 +21,11 @@ import type { Variant } from "@/lib/theme"
 import { cn, withBasePath } from "@/lib/utils"
 import {
   HeroPlannerCardsFallbackContent,
-  HomeHeroSectionFallbackContent,
   type HeroPlannerCardsFallbackContentProps,
-  type HomeHeroSectionFallbackContentProps,
 } from "./fallback-content"
 import styles from "../page-client.module.css"
+import { Home as HomeIcon } from "lucide-react"
+import ProgressRingIcon from "@/icons/ProgressRingIcon"
 
 type HomeSplashProps = {
   active: boolean
@@ -38,16 +37,6 @@ const HomeSplash = dynamic<HomeSplashProps>(
   { ssr: false },
 )
 
-const HomeHeroSection = dynamic(
-  () =>
-    import("@/components/home/home-landing/HomeHeroSection").then(
-      (mod) => mod.HomeHeroSection,
-    ),
-  {
-    loading: () => <HomeHeroSectionFallback />,
-  },
-) as React.ComponentType<HomeHeroSectionProps>
-
 const HeroPlannerCards = dynamic(
   () =>
     import("@/components/home/HeroPlannerCards").then((mod) => mod.HeroPlannerCards),
@@ -56,9 +45,6 @@ const HeroPlannerCards = dynamic(
   },
 ) as React.ComponentType<HeroPlannerCardsProps>
 
-const HeroSectionFallbackContext =
-  React.createContext<HomeHeroSectionFallbackContentProps | null>(null)
-
 const HeroPlannerCardsFallbackContext =
   React.createContext<HeroPlannerCardsFallbackContentProps | null>(null)
 
@@ -66,18 +52,6 @@ export type HomePlannerIslandPlannerProps = {
   heroHeadingId: string
   overviewHeadingId: string
   glitchLandingEnabled: boolean
-}
-
-function HomeHeroSectionFallback() {
-  const fallbackProps = React.useContext(HeroSectionFallbackContext)
-  const headingId = fallbackProps?.headingId ?? "home-hero-fallback"
-
-  return (
-    <HomeHeroSectionFallbackContent
-      headingId={headingId}
-      actions={fallbackProps?.actions}
-    />
-  )
 }
 
 function HeroPlannerCardsFallback() {
@@ -134,6 +108,58 @@ const weeklyHighlights = [
 const homeBackdropClassName =
   'relative isolate overflow-hidden bg-[color-mix(in_oklab,hsl(var(--surface))_88%,hsl(var(--surface-2)))] shadow-inner-sm bg-glitch-noise-primary'
 const sectionCardOverlayClassName = 'relative'
+
+const glitchHeroMetrics = [
+  {
+    id: "next-pulse",
+    label: "Next pulse",
+    value: "Retro sync · 3:00 PM",
+    hint: "Confidence steady at medium.",
+  },
+  {
+    id: "ambient-streak",
+    label: "Ambient streak",
+    value: "4 days",
+    hint: "Signals hold — keep logging highlights.",
+  },
+] as const
+
+function GlitchLandingHeroContent() {
+  return (
+    <div className="grid gap-[var(--space-4)] lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+      <div className="space-y-[var(--space-4)]">
+        <div className="grid gap-[var(--space-3)] sm:grid-cols-2">
+          {glitchHeroMetrics.map((metric) => (
+            <div
+              key={metric.id}
+              className="rounded-[var(--radius-xl)] border border-border/70 bg-surface/80 p-[var(--space-4)] shadow-depth-soft"
+            >
+              <p className="text-label font-semibold uppercase tracking-[0.02em] text-muted-foreground">
+                {metric.label}
+              </p>
+              <p className="text-title font-semibold text-foreground">
+                {metric.value}
+              </p>
+              <p className="text-label text-muted-foreground">{metric.hint}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col items-center gap-[var(--space-3)] rounded-[var(--radius-3xl)] border border-border/70 bg-surface/80 p-[var(--space-5)] text-center shadow-depth-soft">
+        <div className="relative flex items-center justify-center">
+          <ProgressRingIcon pct={68} size="l" />
+          <span className="absolute text-title-lg font-semibold text-primary">
+            68%
+          </span>
+        </div>
+        <p className="text-label font-semibold text-muted-foreground">Focus locked</p>
+        <p className="text-body text-muted-foreground">
+          Flow stabilized for the current sprint window.
+        </p>
+      </div>
+    </div>
+  )
+}
 
 function HomePageContent({
   heroHeadingId,
@@ -311,25 +337,27 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <SectionCard
-          aria-labelledby={heroHeadingId}
-          className={cn('col-span-full', sectionCardOverlayClassName)}
-        >
-          <SectionCard.Body className="md:p-[var(--space-6)]">
-            <HeroSectionFallbackContext.Provider
-              value={{
-                actions: heroActions,
-                headingId: heroHeadingId,
-              }}
-            >
-              <HomeHeroSection
-                variant={themeVariant}
-                actions={heroActions}
-                headingId={heroHeadingId}
-              />
-            </HeroSectionFallbackContext.Provider>
-          </SectionCard.Body>
-        </SectionCard>
+        <PageHeader
+          containerClassName="col-span-full"
+          header={{
+            id: heroHeadingId,
+            heading: "Home",
+            icon: <HomeIcon className="h-5 w-5" aria-hidden />,
+            sticky: false,
+            tabIndex: -1,
+          }}
+          hero={{
+            sticky: false,
+            frame: true,
+            glitch: "default",
+            eyebrow: "Glitch control brief",
+            heading: "Planner control hub",
+            subtitle:
+              "Keep the weekly plan calm and intentional with synced pulses and a grounded focus lock.",
+            actions: heroActions,
+            children: <GlitchLandingHeroContent />, 
+          }}
+        />
       </PageShell>
       <PageShell
         as="section"
@@ -431,35 +459,31 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <SectionCard
-          aria-labelledby={heroHeadingId}
-          className={cn('col-span-full', sectionCardOverlayClassName)}
-        >
-          <SectionCard.Header
-            id={heroHeadingId}
-            title="Planner preview"
-            titleAs="h1"
-            titleClassName="text-balance text-title-lg font-semibold tracking-[-0.01em]"
-            sticky={false}
-          />
-          <SectionCard.Body className="flex flex-col gap-[var(--space-4)] md:flex-row md:items-center md:justify-between">
-            <div className="space-y-[var(--space-3)]">
-              <p className="text-body text-muted-foreground">
-                Planner highlights your next focus day, surfaces weekly goals, and gives the team a quick win tracker.
-              </p>
-              <p className="text-body text-muted-foreground">
+        <PageHeader
+          containerClassName="col-span-full"
+          header={{
+            id: heroHeadingId,
+            heading: "Home",
+            icon: <HomeIcon className="h-5 w-5" aria-hidden />,
+            sticky: false,
+            tabIndex: -1,
+          }}
+          hero={{
+            sticky: false,
+            frame: false,
+            tone: "supportive",
+            heading: "Planner preview",
+            subtitle:
+              "Planner highlights your next focus day, surfaces weekly goals, and gives the team a quick win tracker.",
+            actions: heroActions,
+            bodyClassName: "space-y-[var(--space-3)] text-muted-foreground",
+            children: (
+              <p className="text-body">
                 Use the controls below to switch themes or open the full planner experience.
               </p>
-            </div>
-            <div
-              role="group"
-              aria-label="Planner actions"
-              className="flex w-full flex-col gap-[var(--space-3)] sm:w-auto sm:flex-row sm:items-center sm:justify-end"
-            >
-              {heroActions}
-            </div>
-          </SectionCard.Body>
-        </SectionCard>
+            ),
+          }}
+        />
       </PageShell>
       <PageShell
         as="section"
