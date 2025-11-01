@@ -13,7 +13,13 @@ import type {
   HeroPlannerHighlight,
   PlannerOverviewProps,
 } from "@/components/home"
-import { PageShell, Button, SectionCard, PageHeader } from "@/components/ui"
+import { PageShell, Button, SectionCard } from "@/components/ui"
+import {
+  Header,
+  PRIMARY_PAGE_NAV,
+  type HeaderNavItem,
+} from "@/components/ui/layout/Header"
+import { Hero } from "@/components/ui/layout/Hero"
 import { PlannerProvider } from "@/components/planner"
 import { useTheme } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
@@ -108,6 +114,11 @@ const weeklyHighlights = [
 const homeBackdropClassName =
   'relative isolate overflow-hidden bg-[color-mix(in_oklab,hsl(var(--surface))_88%,hsl(var(--surface-2)))] shadow-inner-sm bg-glitch-noise-primary'
 const sectionCardOverlayClassName = 'relative'
+
+const HOME_NAV_ITEMS = PRIMARY_PAGE_NAV.map((item) => ({
+  ...item,
+  active: item.key === "home",
+})) satisfies HeaderNavItem[]
 
 const glitchHeroMetrics = [
   {
@@ -337,27 +348,29 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <PageHeader
-          containerClassName="col-span-full"
-          header={{
-            id: heroHeadingId,
-            heading: "Home",
-            icon: <HomeIcon className="h-5 w-5" aria-hidden />,
-            sticky: false,
-            tabIndex: -1,
-          }}
-          hero={{
-            sticky: false,
-            frame: true,
-            glitch: "default",
-            eyebrow: "Glitch control brief",
-            heading: "Planner control hub",
-            subtitle:
-              "Keep the weekly plan calm and intentional with synced pulses and a grounded focus lock.",
-            actions: heroActions,
-            children: <GlitchLandingHeroContent />, 
-          }}
-        />
+        <Header
+          heading={<span id={heroHeadingId}>Home</span>}
+          subtitle="Planner control hub"
+          icon={<HomeIcon className="h-5 w-5" aria-hidden />}
+          navItems={HOME_NAV_ITEMS}
+          variant="neo"
+          underlineTone="brand"
+          showThemeToggle
+          sticky={false}
+          className="col-span-full"
+        >
+          <Hero
+            sticky={false}
+            frame
+            glitch="default"
+            eyebrow="Glitch control brief"
+            heading="Planner control hub"
+            subtitle="Keep the weekly plan calm and intentional with synced pulses and a grounded focus lock."
+            actions={heroActions}
+          >
+            <GlitchLandingHeroContent />
+          </Hero>
+        </Header>
       </PageShell>
       <PageShell
         as="section"
@@ -459,31 +472,31 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <PageHeader
-          containerClassName="col-span-full"
-          header={{
-            id: heroHeadingId,
-            heading: "Home",
-            icon: <HomeIcon className="h-5 w-5" aria-hidden />,
-            sticky: false,
-            tabIndex: -1,
-          }}
-          hero={{
-            sticky: false,
-            frame: false,
-            tone: "supportive",
-            heading: "Planner preview",
-            subtitle:
-              "Planner highlights your next focus day, surfaces weekly goals, and gives the team a quick win tracker.",
-            actions: heroActions,
-            bodyClassName: "space-y-[var(--space-3)] text-muted-foreground",
-            children: (
-              <p className="text-body">
-                Use the controls below to switch themes or open the full planner experience.
-              </p>
-            ),
-          }}
-        />
+        <Header
+          heading={<span id={heroHeadingId}>Home</span>}
+          subtitle="Planner preview"
+          icon={<HomeIcon className="h-5 w-5" aria-hidden />}
+          navItems={HOME_NAV_ITEMS}
+          variant="neo"
+          underlineTone="brand"
+          showThemeToggle
+          sticky={false}
+          className="col-span-full"
+        >
+          <Hero
+            sticky={false}
+            frame={false}
+            tone="supportive"
+            heading="Planner preview"
+            subtitle="Planner highlights your next focus day, surfaces weekly goals, and gives the team a quick win tracker."
+            actions={heroActions}
+            bodyClassName="space-y-[var(--space-3)] text-muted-foreground"
+          >
+            <p className="text-body">
+              Use the controls below to switch themes or open the full planner experience.
+            </p>
+          </Hero>
+        </Header>
       </PageShell>
       <PageShell
         as="section"

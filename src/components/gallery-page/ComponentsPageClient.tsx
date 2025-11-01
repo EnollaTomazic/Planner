@@ -11,6 +11,11 @@ import {
 
 import type { DesignTokenGroup, GalleryNavigationData } from "@/components/gallery/types";
 import { PageShell, SearchBar, TabBar } from "@/components/ui";
+import {
+  Header,
+  PRIMARY_PAGE_NAV,
+  type HeaderNavItem,
+} from "@/components/ui/layout/Header";
 import { cn } from "@/lib/utils";
 
 import { ComponentsGalleryPanels } from "./ComponentsGalleryPanels";
@@ -146,6 +151,15 @@ export function ComponentsPageClient({
     return ids.join(" ");
   }, [categoryLabelIds]);
 
+  const navItems = React.useMemo<HeaderNavItem[]>(
+    () =>
+      PRIMARY_PAGE_NAV.map((item) => ({
+        ...item,
+        active: item.key === "components",
+      })),
+    [],
+  );
+
   const handleCategoryActivate = React.useCallback(
     (card: CategoryCardDefinition) => {
       if (view !== card.id) {
@@ -174,22 +188,18 @@ export function ComponentsPageClient({
 
   return (
     <>
-      <PageShell
-        as="header"
+      <Header
+        heading={<span id="components-header">Component Gallery</span>}
+        subtitle="UI building blocks by category."
+        icon={<Shapes className="opacity-80" />}
+        navItems={navItems}
+        variant="neo"
+        underlineTone="brand"
+        showThemeToggle
+        sticky={false}
         className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
       >
         <div className="space-y-[var(--space-6)]">
-          <div className="space-y-[var(--space-2)]">
-            <h1
-              id="components-header"
-              className="text-title font-semibold tracking-[-0.01em] text-foreground"
-            >
-              Component Gallery
-            </h1>
-            <p className="text-ui text-muted-foreground">
-              UI building blocks by category.
-            </p>
-          </div>
           <ul
             className="grid gap-[var(--space-3)] sm:grid-cols-2 xl:grid-cols-4"
             role="list"
@@ -276,7 +286,7 @@ export function ComponentsPageClient({
             </div>
           </div>
         </div>
-      </PageShell>
+      </Header>
 
       <PageShell
         as="section"

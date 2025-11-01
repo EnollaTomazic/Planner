@@ -1,7 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Header } from "@/components/ui";
+import {
+  Header,
+  PRIMARY_PAGE_NAV,
+  type HeaderNavItem,
+} from "@/components/ui/layout/Header";
 import { HeroSearchBar } from "@/components/ui/layout/hero/HeroSearchBar";
 import { Badge } from "@/components/ui/primitives/Badge";
 
@@ -20,6 +24,14 @@ export function PromptsHeader({
   query,
   onQueryChange,
 }: PromptsHeaderProps) {
+  const navItems = React.useMemo<HeaderNavItem[]>(
+    () =>
+      PRIMARY_PAGE_NAV.map((item) => ({
+        ...item,
+        active: item.key === "prompts",
+      })),
+    [],
+  );
   const handleChip = React.useCallback(
     (chip: string) => {
       const nextQuery = query === chip ? "" : chip;
@@ -34,6 +46,11 @@ export function PromptsHeader({
     <Header
       id={id}
       heading="Prompts"
+      subtitle="Capture, remix, and reuse saved prompts."
+      navItems={navItems}
+      variant="neo"
+      underlineTone="brand"
+      showThemeToggle
       sticky={false}
       className="relative isolate"
       search={

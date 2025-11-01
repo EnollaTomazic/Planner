@@ -23,8 +23,13 @@ import {
   Clipboard,
   Plus,
 } from "lucide-react";
-import { type HeaderTab } from "@/components/ui/layout/Header";
-import type { HeroProps } from "@/components/ui/layout/Hero";
+import {
+  Header,
+  PRIMARY_PAGE_NAV,
+  type HeaderNavItem,
+  type HeaderTab,
+} from "@/components/ui/layout/Header";
+import { Hero, type HeroProps } from "@/components/ui/layout/Hero";
 import {
   type BuilderHandle,
   type LaneKey,
@@ -36,7 +41,7 @@ import { MyComps } from "./MyComps";
 import { usePersistentState } from "@/lib/db";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Button } from "@/components/ui/primitives/Button";
-import { PageHeader, PageShell, Badge } from "@/components/ui";
+import { PageShell, Badge } from "@/components/ui";
 import type { BadgeProps } from "@/components/ui";
 import type { ClearSpeed } from "./data";
 
@@ -520,6 +525,25 @@ export function TeamCompPage() {
     toggleEditing,
   ]);
 
+  const navItems = React.useMemo<HeaderNavItem[]>(
+    () =>
+      PRIMARY_PAGE_NAV.map((item) => ({
+        ...item,
+        active: item.key === "team",
+      })),
+    [],
+  );
+
+  const headerTabs = React.useMemo(
+    () => ({
+      items: TABS,
+      value: tab,
+      onChange: (next: Tab) => setTab(next),
+      ariaLabel: "Team comps mode",
+    }),
+    [tab, setTab, TABS],
+  );
+
   return (
     <PageShell
       as="section"
@@ -528,25 +552,21 @@ export function TeamCompPage() {
       contentClassName="gap-y-[var(--space-6)]"
       aria-labelledby="teamcomp-header"
     >
-      <PageHeader
-        containerClassName="col-span-full"
-        header={{
-          id: "teamcomp-header",
-          eyebrow: "Comps",
-          heading: "Team Comps Today",
-          subtitle: "Readable. Fast. On brand.",
-          icon: <Users2 className="opacity-80" />,
-          tabs: {
-            items: TABS,
-            value: tab,
-            onChange: (next: Tab) => setTab(next),
-            ariaLabel: "Team comps mode",
-          },
-          underline: true,
-          sticky: true,
-        }}
-        hero={hero}
-      />
+      <div className="col-span-full">
+        <Header
+          id="teamcomp-header"
+          heading="Team Comps Today"
+          subtitle="Readable. Fast. On brand."
+          icon={<Users2 className="opacity-80" />}
+          navItems={navItems}
+          variant="neo"
+          underlineTone="brand"
+          showThemeToggle
+          tabs={headerTabs}
+        >
+          <Hero {...hero} />
+        </Header>
+      </div>
 
       <section className="col-span-full grid gap-[var(--space-4)] md:grid-cols-12">
         {TABS.map((t) => {

@@ -24,9 +24,15 @@ import {
   Plus,
 } from "lucide-react";
 
-import { type HeaderTab } from "@/components/ui/layout/Header";
+import {
+  Header,
+  PRIMARY_PAGE_NAV,
+  type HeaderNavItem,
+  type HeaderTab,
+  type HeaderTabsProps,
+} from "@/components/ui/layout/Header";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
-import { Snackbar, PageHeader, PageShell, Modal } from "@/components/ui";
+import { Snackbar, PageShell, Modal, HeroSearchBar } from "@/components/ui";
 import { PlannerProvider } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
 import {
@@ -60,7 +66,7 @@ const isTabValue = (value: unknown): value is Tab =>
 const isFilterKey = (value: unknown): value is FilterKey =>
   value === "All" || value === "Active" || value === "Done";
 
-const TABS: HeaderTab<Tab>[] = [
+const TABS: HeaderTab<Tab | Domain>[] = [
   {
     key: "goals",
     label: "Goals",
@@ -387,10 +393,6 @@ function GoalsPageContent() {
   const heroHeadingId = HERO_HEADING_IDS[tab];
   const heroSubtitleId = HERO_SUBTITLE_IDS[tab];
 
-  const heroHeading = (
-    <span id={heroHeadingId}>{HERO_HEADINGS[tab]}</span>
-  );
-
   const heroEyebrow = tab === "reminders" ? domain : "Guide";
 
   let heroSubtitle: React.ReactNode;
@@ -443,39 +445,41 @@ function GoalsPageContent() {
   const heroAriaDescribedby =
     heroSubtitle != null ? heroSubtitleId : undefined;
 
-  const heroDividerTint =
-    tab === "reminders" ? (domain === "Life" ? "life" : "primary") : undefined;
-
-  const reminderHeroSubTabs = React.useMemo(() => {
+  const reminderHeroSubTabs = React.useMemo<
+    HeaderTabsProps<Domain> | undefined
+  >(() => {
     if (tab !== "reminders") return undefined;
     return {
       items: DOMAIN_ITEMS,
       value: domain,
       onChange: handleDomainChange,
-      align: "end" as const,
-      size: "md" as const,
+      align: "end",
+      size: "md",
       ariaLabel: "Reminder domain",
       showBaseline: true,
-    };
+    } satisfies HeaderTabsProps<Domain>;
   }, [tab, domain, handleDomainChange]);
 
-  const reminderHeroSearch = React.useMemo(() => {
+  const reminderSearchNode = React.useMemo(() => {
     if (tab !== "reminders") return undefined;
-    return {
-      value: query,
-      onValueChange: handleReminderSearchChange,
-      placeholder: "Search title, text, tags…",
-      debounceMs: 300,
-      "aria-label": "Search reminders",
-      right: (
-        <div className="flex items-center gap-[var(--space-2)]">
-          <span className="text-label font-medium tracking-[0.02em] opacity-75">
-            {reminderCount}
-          </span>
-          <Search className="icon-sm opacity-80" />
-        </div>
-      ),
-    };
+    return (
+      <HeroSearchBar
+        value={query}
+        onValueChange={handleReminderSearchChange}
+        placeholder="Search title, text, tags…"
+        debounceMs={300}
+        aria-label="Search reminders"
+        round
+        right={
+          <div className="flex items-center gap-[var(--space-2)]">
+            <span className="text-label font-medium tracking-[0.02em] opacity-75">
+              {reminderCount}
+            </span>
+            <Search className="icon-sm opacity-80" />
+          </div>
+        }
+      />
+    );
   }, [tab, query, handleReminderSearchChange, reminderCount]);
 
   const reminderHeroActions = React.useMemo(() => {
@@ -493,44 +497,65 @@ function GoalsPageContent() {
     );
   }, [tab, handleAddReminder]);
 
+  const navItems = React.useMemo<HeaderNavItem[]>(
+    () =>
+      PRIMARY_PAGE_NAV.map((item) => ({
+        ...item,
+        active: item.key === "goals",
+      })),
+    [],
+  );
+
+  const headerTabs = React.useMemo<HeaderTabsProps<Tab | Domain>>(
+    () => ({
+      items: TABS,
+      value: tab,
+      onChange: handleTabChange,
+      ariaLabel: "Goals header mode",
+      idBase: GOALS_TABS_ID_BASE,
+    }),
+    [tab, handleTabChange],
+  );
+
   return (
     <>
-      <PageShell as="header" className="py-[var(--space-6)]">
-        <PageHeader
-          header={{
-            id: "goals-header",
-            eyebrow: "Goals",
-            heading: "Today’s Goals",
-            subtitle: summary,
-            icon: <Flag className="opacity-80" />,
-            sticky: false,
-            barClassName:
-              "flex-col items-start justify-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between sm:gap-[var(--space-4)]",
-            tabs: {
-              items: TABS,
-              value: tab,
-              onChange: handleTabChange,
-              ariaLabel: "Goals header mode",
-              idBase: GOALS_TABS_ID_BASE,
-            },
-          }}
-          hero={{
-            id: HERO_REGION_ID,
-            role: "region",
-            eyebrow: heroEyebrow,
-            heading: heroHeading,
-            subtitle: heroSubtitle,
-            sticky: false,
-            topClassName: GOALS_STICKY_TOP_CLASS,
-            dividerTint: heroDividerTint,
-            "aria-labelledby": heroHeadingId,
-            "aria-describedby": heroAriaDescribedby,
-          }}
-          subTabs={reminderHeroSubTabs}
-          search={reminderHeroSearch}
-          actions={reminderHeroActions}
-        />
-      </PageShell>
+      <Header<Tab | Domain>
+        id="goals-header"
+        heading="Today’s Goals"
+        subtitle={summary}
+        icon={<Flag className="opacity-80" />}
+        navItems={navItems}
+        variant="neo"
+        underlineTone="brand"
+        showThemeToggle
+        sticky={false}
+        tabs={headerTabs}
+        subTabs={reminderHeroSubTabs as HeaderTabsProps<Tab | Domain> | undefined}
+        search={reminderSearchNode}
+        actions={reminderHeroActions}
+        className="py-[var(--space-6)]"
+      >
+        <section
+          id={HERO_REGION_ID}
+          role="region"
+          aria-labelledby={heroHeadingId}
+          aria-describedby={heroAriaDescribedby}
+          className="space-y-[var(--space-3)]"
+        >
+          <div className="space-y-[var(--space-1)]">
+            <span className="text-label font-medium tracking-[0.08em] uppercase text-muted-foreground">
+              {heroEyebrow}
+            </span>
+            <h2
+              id={heroHeadingId}
+              className="text-title font-semibold tracking-[-0.01em] text-foreground"
+            >
+              {HERO_HEADINGS[tab]}
+            </h2>
+          </div>
+          <div>{heroSubtitle}</div>
+        </section>
+      </Header>
 
       <PageShell
         as="section"

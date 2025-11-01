@@ -751,7 +751,15 @@
     "states": {}
   },
   "header": {
-    "routes": [],
+    "routes": [
+      "/",
+      "/components",
+      "/goals",
+      "/planner",
+      "/prompts",
+      "/reviews",
+      "/team"
+    ],
     "states": {}
   },
   "neomorphic-hero-frame": {
@@ -769,24 +777,16 @@
     }
   },
   "page-header-demo": {
-    "routes": [
-      "/"
-    ],
+    "routes": [],
     "states": {
       "page-header-search-focus": {
-        "routes": [
-          "/"
-        ]
+        "routes": []
       },
       "page-header-search-loading": {
-        "routes": [
-          "/"
-        ]
+        "routes": []
       },
       "page-header-search-disabled": {
-        "routes": [
-          "/"
-        ]
+        "routes": []
       }
     }
   },

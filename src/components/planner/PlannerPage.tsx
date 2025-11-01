@@ -11,13 +11,13 @@ import "./style.css";
  */
 
 import * as React from "react";
+import { Button, PageShell } from "@/components/ui";
 import {
-  Button,
-  GlitchSegmentedButton,
-  GlitchSegmentedGroup,
-  PageHeader,
-  PageShell,
-} from "@/components/ui";
+  Header,
+  PRIMARY_PAGE_NAV,
+  type HeaderNavItem,
+  type HeaderTabsProps,
+} from "@/components/ui/layout/Header";
 import { PortraitFrame } from "@/components/home/PortraitFrame";
 import ProgressRingIcon from "@/icons/ProgressRingIcon";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
@@ -200,12 +200,11 @@ function Inner() {
           : `${enabledCount} tasks have reminders enabled for today`,
     } as const;
   }, [hydrating, tasks]);
-  const labelId = React.useId();
   const sliderId = React.useId();
   const handleViewModeChange = React.useCallback(
-    (value: string) => {
+    (value: PlannerViewMode) => {
       if (value === viewMode) return;
-      setViewMode(value as PlannerViewMode);
+      setViewMode(value);
     },
     [setViewMode, viewMode],
   );
@@ -283,9 +282,34 @@ function Inner() {
       description: "See reminders and open loops",
       href: `${plannerRoot}#planner-view-agenda-panel`,
     });
-
     return items;
   }, [per, weekDone, weekTotal, withBasePath]);
+
+  const navItems = React.useMemo<HeaderNavItem[]>(
+    () =>
+      PRIMARY_PAGE_NAV.map((item) => ({
+        ...item,
+        active: item.key === "planner",
+      })),
+    [],
+  );
+
+  const viewTabs = React.useMemo<HeaderTabsProps<PlannerViewMode>>(
+    () => ({
+      items: VIEW_MODE_OPTIONS.map((option) => ({
+        key: option.value,
+        label: option.label,
+        id: `${VIEW_TAB_ID_BASE}-${option.value}-tab`,
+        controls: `${VIEW_TAB_ID_BASE}-${option.value}-panel`,
+      })),
+      value: viewMode,
+      onChange: handleViewModeChange,
+      ariaLabel: "Planner view mode",
+      idBase: VIEW_TAB_ID_BASE,
+      linkPanels: true,
+    }),
+    [viewMode, handleViewModeChange],
+  );
 
   return (
     <>
@@ -428,66 +452,35 @@ function Inner() {
             </div>
           </div>
         </section>
-        {/* Week header (range, nav, totals, day chips) */}
-        <PageHeader
-          containerClassName="col-span-full"
-          header={{
-            id: "planner-header",
-            tabIndex: -1,
-            eyebrow: "Planner",
-            heading: "Planner for Today",
-            subtitle: "Plan your week",
-            icon: <CalendarDays className="opacity-80" />,
-            sticky: false,
-          }}
-          hero={{
-            sticky: false,
-            heading: "Week controls",
-            className: "planner-header__hero",
-            children: (
-              <>
-                <PlannerIslandBoundary
-                  name="planner:week-picker"
-                  title="Week controls unavailable"
-                  description="We hit an error loading the planner controls. Retry to restore the week picker."
-                  retryLabel="Retry controls"
-                >
-                  <WeekPicker />
-                </PlannerIslandBoundary>
-                <div aria-live="polite" className="sr-only">
-                  {weekAnnouncement}
-                </div>
-              </>
-            ),
-          }}
-        />
-        <div className="col-span-full mt-[var(--space-4)] flex flex-wrap items-center justify-between gap-[var(--space-2)]">
-          <span
-            id={labelId}
-            className="text-label font-medium text-muted-foreground"
+        <div className="col-span-full">
+          <Header
+            id="planner-header"
+            heading="Planner for Today"
+            subtitle="Plan your week"
+            icon={<CalendarDays className="opacity-80" />}
+            navItems={navItems}
+            variant="neo"
+            underlineTone="brand"
+            showThemeToggle
+            sticky={false}
+            tabs={viewTabs}
+            bodyClassName="space-y-[var(--space-3)]"
+            className="mt-[var(--space-4)]"
           >
-            View
-          </span>
-          <GlitchSegmentedGroup
-            value={viewMode}
-            onChange={handleViewModeChange}
-            ariaLabelledby={labelId}
-          >
-            {VIEW_MODE_OPTIONS.map((option) => {
-              const tabId = `${VIEW_TAB_ID_BASE}-${option.value}-tab`;
-              const panelId = `${VIEW_TAB_ID_BASE}-${option.value}-panel`;
-              return (
-                <GlitchSegmentedButton
-                  key={option.value}
-                  value={option.value}
-                  id={tabId}
-                  aria-controls={panelId}
-                >
-                  {option.label}
-                </GlitchSegmentedButton>
-              );
-            })}
-          </GlitchSegmentedGroup>
+            <div className="planner-header__hero">
+              <PlannerIslandBoundary
+                name="planner:week-picker"
+                title="Week controls unavailable"
+                description="We hit an error loading the planner controls. Retry to restore the week picker."
+                retryLabel="Retry controls"
+              >
+                <WeekPicker />
+              </PlannerIslandBoundary>
+              <div aria-live="polite" className="sr-only">
+                {weekAnnouncement}
+              </div>
+            </div>
+          </Header>
         </div>
       </PageShell>
 
