@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
-import { PageShell, SectionCard, Spinner } from "@/components/ui";
-import { cn, withBasePath } from "@/lib/utils";
+import { PageShell, Spinner } from "@/components/ui";
+import { Hero } from "@/components/ui/layout/hero/Hero";
+import { cn } from "@/lib/utils";
+import { HomeSplashIllustration } from "./HomeSplashIllustration";
 import styles from "./HomeSplash.module.css";
 
 type HomeSplashProps = {
@@ -11,7 +12,6 @@ type HomeSplashProps = {
   onExited?: () => void;
 };
 
-const LOGO_SRC = withBasePath("/planner-logo.svg");
 const STATUS_LABEL = "Planner is loading";
 const STATUS_MESSAGE = "Preparing your planner…";
 
@@ -108,47 +108,41 @@ export function HomeSplash({ active, onExited }: HomeSplashProps) {
       onTransitionEnd={handleTransitionEnd}
     >
       <PageShell className={styles.shell} aria-labelledby={statusHeadingId}>
-        <SectionCard aria-labelledby={statusHeadingId}>
-          <SectionCard.Body className={styles.cardBody}>
-            <span className={styles.logoFrame} aria-hidden="true">
-              <span className={cn("glitch", styles.logoMotion)}>
-                <Image
-                  src={LOGO_SRC}
-                  alt="Planner logo"
-                  fill
-                  priority
-                  sizes="(max-width: 640px) 160px, 192px"
-                  className={styles.logoImage}
-                />
+        <Hero
+          heading="Plan your day"
+          subtitle="Track goals and review games."
+          tone="supportive"
+          frame={false}
+          sticky={false}
+          padding="none"
+          className={cn(
+            "relative isolate w-full overflow-hidden rounded-card r-card-lg bg-panel-tilt-strong px-[var(--space-6)] py-[var(--space-6)] text-foreground shadow-depth-inner md:px-[var(--space-7)] md:py-[var(--space-7)]",
+          )}
+          barClassName={styles.heroBar}
+          bodyClassName={styles.heroBody}
+          data-home-splash-hero=""
+        >
+          <HomeSplashIllustration aria-hidden />
+          <div
+            ref={statusRef}
+            className={cn(styles.status, "text-label")}
+            aria-live="polite"
+            aria-labelledby={statusHeadingId}
+            aria-describedby={statusMessageId}
+            tabIndex={-1}
+            data-home-splash-status=""
+          >
+            <Spinner size="lg" tone="accent" />
+            <span className={styles.statusText}>
+              <span className={styles.statusLabel} id={statusHeadingId}>
+                {STATUS_LABEL}
+              </span>
+              <span className={styles.statusSupplemental} id={statusMessageId}>
+                {STATUS_MESSAGE}
               </span>
             </span>
-            <p className={cn("text-body text-muted-foreground", styles.tagline)}>
-              Plan your day, track goals, and review games.
-            </p>
-            <div
-              ref={statusRef}
-              className={cn(styles.status, "text-label")}
-              aria-live="polite"
-              aria-labelledby={statusHeadingId}
-              aria-describedby={statusMessageId}
-              tabIndex={-1}
-              data-home-splash-status=""
-            >
-              <Spinner size="lg" tone="accent" />
-              <span className={styles.statusText}>
-                <span className={styles.statusLabel} id={statusHeadingId}>
-                  {STATUS_LABEL}
-                </span>
-                <span
-                  className={styles.statusSupplemental}
-                  id={statusMessageId}
-                >
-                  {STATUS_MESSAGE}
-                </span>
-              </span>
-            </div>
-          </SectionCard.Body>
-        </SectionCard>
+          </div>
+        </Hero>
       </PageShell>
     </div>
   );
