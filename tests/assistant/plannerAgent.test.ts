@@ -12,11 +12,14 @@ async function loadAgent() {
 }
 
 beforeEach(async () => {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date("2025-10-15T12:00:00Z"));
   const metrics = await import("@/lib/metrics/llmTokens");
   metrics.resetLlmTokenUsage();
 });
 
 afterEach(async () => {
+  vi.useRealTimers();
   vi.resetModules();
   Object.assign(process.env, ORIGINAL_ENV);
   const metrics = await import("@/lib/metrics/llmTokens");

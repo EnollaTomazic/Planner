@@ -9,12 +9,14 @@ describe("PromptsComposePanel", () => {
   it("renders fields and handles changes", () => {
     const handleTitle = vi.fn();
     const handleText = vi.fn();
+    const handleSave = vi.fn();
     const { container } = render(
       <PromptsComposePanel
         title="Title"
         onTitleChange={handleTitle}
         text="Text"
         onTextChange={handleText}
+        onSave={handleSave}
       />,
     );
 
@@ -24,14 +26,46 @@ describe("PromptsComposePanel", () => {
     expect(textarea).toHaveValue("Text");
     const help = screen.getByText("Add a short title");
     expect(titleInput).toHaveAttribute("aria-describedby", help.id);
-    expect(
-      screen.queryByRole("button", { name: "Confirm" }),
-    ).not.toBeInTheDocument();
+    const saveButton = screen.getByRole("button", { name: "Save" });
+    expect(saveButton).toBeEnabled();
     expect(container.querySelector("svg[aria-hidden='true']")).toBeInTheDocument();
 
     fireEvent.change(titleInput, { target: { value: "New" } });
     expect(handleTitle).toHaveBeenCalledWith("New");
     fireEvent.change(textarea, { target: { value: "Body" } });
     expect(handleText).toHaveBeenCalledWith("Body");
+
+    fireEvent.click(saveButton);
+    expect(handleSave).toHaveBeenCalled();
+  });
+
+  it("disables save button when fields are empty", () => {
+    render(
+      <PromptsComposePanel
+        title=""
+        onTitleChange={() => {}}
+        text=""
+        onTextChange={() => {}}
+        onSave={() => {}}
+      />,
+    );
+
+    const saveButton = screen.getByRole("button", { name: "Save" });
+    expect(saveButton).toBeDisabled();
+  });
+
+  it("requires trimmed values before enabling save", () => {
+    render(
+      <PromptsComposePanel
+        title="   "
+        onTitleChange={() => {}}
+        text="  content  "
+        onTextChange={() => {}}
+        onSave={() => {}}
+      />,
+    );
+
+    const saveButton = screen.getByRole("button", { name: "Save" });
+    expect(saveButton).toBeDisabled();
   });
 });

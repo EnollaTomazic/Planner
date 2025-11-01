@@ -53,8 +53,6 @@ export function PromptsPanel({ data }: PromptsPanelProps) {
                   count={0}
                   query=""
                   onQueryChange={() => {}}
-                  onSave={() => {}}
-                  disabled
                 />
               </SectionCard.Header>
               <SectionCard.Body />
@@ -71,6 +69,7 @@ export function PromptsPanel({ data }: PromptsPanelProps) {
                 onTitleChange={() => {}}
                 text=""
                 onTextChange={() => {}}
+                onSave={() => {}}
               />
             </div>
           ),

@@ -9,17 +9,14 @@ afterEach(() => {
 });
 
 describe("PromptsHeader", () => {
-  it("renders count, search input, and disabled save button", () => {
+  it("renders count and search input", () => {
     const handleQuery = vi.fn();
-    const handleSave = vi.fn();
     vi.useFakeTimers();
     render(
       <PromptsHeader
         count={2}
         query="hello"
         onQueryChange={handleQuery}
-        onSave={handleSave}
-        disabled
       />,
     );
 
@@ -29,28 +26,9 @@ describe("PromptsHeader", () => {
       "Search prompts…",
     ) as HTMLInputElement;
     expect(search.value).toBe("hello");
-    const save = screen.getByRole("button", { name: "Save" });
-    expect(save).toBeDisabled();
-
     fireEvent.change(search, { target: { value: "changed" } });
     vi.advanceTimersByTime(300);
     expect(handleQuery).toHaveBeenCalledWith("changed");
-  });
-
-  it("calls onSave when save button clicked", () => {
-    const handleSave = vi.fn();
-    render(
-      <PromptsHeader
-        count={0}
-        query=""
-        onQueryChange={() => {}}
-        onSave={handleSave}
-        disabled={false}
-      />,
-    );
-    const save = screen.getByRole("button", { name: "Save" });
-    fireEvent.click(save);
-    expect(handleSave).toHaveBeenCalled();
   });
 
   it("clears debounce timer on unmount", () => {
@@ -61,8 +39,6 @@ describe("PromptsHeader", () => {
         count={0}
         query=""
         onQueryChange={handleQuery}
-        onSave={() => {}}
-        disabled={false}
       />,
     );
     const search = screen.getByPlaceholderText("Search prompts…");

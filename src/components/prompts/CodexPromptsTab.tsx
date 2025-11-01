@@ -11,6 +11,7 @@ interface CodexPromptsTabProps {
   text: string;
   onTitleChange: (value: string) => void;
   onTextChange: (value: string) => void;
+  onSave: () => void;
   prompts: PromptWithTitle[];
   query: string;
 }
@@ -22,6 +23,7 @@ export function CodexPromptsTab({
   onTextChange,
   prompts,
   query,
+  onSave,
 }: CodexPromptsTabProps) {
   const composeHeadingId = React.useId();
   const libraryHeadingId = React.useId();
@@ -46,6 +48,7 @@ export function CodexPromptsTab({
           onTitleChange={onTitleChange}
           text={text}
           onTextChange={onTextChange}
+          onSave={onSave}
         />
       </section>
 
