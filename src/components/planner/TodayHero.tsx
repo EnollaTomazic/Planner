@@ -6,14 +6,22 @@
  * - Animated progress bar for the selected project's tasks.
  */
 
-import { useEffect, useMemo } from "react";
+import {
+  type ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 
-import { GlitchProgress, TOKEN_WIDTH_CLASS } from "@/components/ui";
+import { GlitchProgress, Hero, TOKEN_WIDTH_CLASS } from "@/components/ui";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { toISODate } from "@/lib/date";
 import { cn } from "@/lib/utils";
+import { Calendar } from "lucide-react";
 
 import type { ISODate } from "./plannerTypes";
-import { TodayHeroHeader } from "./TodayHeroHeader";
 import { TodayHeroProjects } from "./TodayHeroProjects";
 import { TodayHeroTasks } from "./TodayHeroTasks";
 import { useDay } from "./useDay";
@@ -28,10 +36,31 @@ export function TodayHero({ iso }: Props) {
   const { iso: isoActive, setIso, today } = useFocusDate();
   const viewIso = iso ?? isoActive;
   const isToday = viewIso === today;
+  const fallbackIso = useMemo(() => toISODate(), []);
+  const dateRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (iso && iso !== isoActive) setIso(iso);
   }, [iso, isoActive, setIso]);
+
+  const openPicker = useCallback(() => {
+    const el = dateRef.current as (HTMLInputElement & { showPicker?: () => void }) | null;
+    if (el?.showPicker) {
+      el.showPicker();
+      return;
+    }
+    dateRef.current?.focus();
+  }, []);
+
+  const handleDateChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setIso(event.target.value as ISODate);
+    },
+    [setIso],
+  );
+
+  const heroTitle = isToday ? "Today" : viewIso;
+  const inputValue = viewIso || fallbackIso;
 
   const {
     projects,
@@ -74,6 +103,29 @@ export function TodayHero({ iso }: Props) {
     ? `Tasks completed for ${selectedProjectName}`
     : "Tasks completed";
 
+  const heroActions = (
+    <div className="flex items-center gap-[var(--space-2)]">
+      <input
+        ref={dateRef}
+        type="date"
+        value={inputValue}
+        onChange={handleDateChange}
+        aria-label="Change focused date"
+        className="sr-only"
+      />
+      <IconButton
+        aria-label="Open calendar"
+        title={viewIso}
+        onClick={openPicker}
+        size="md"
+        variant="quiet"
+        iconSize="md"
+      >
+        <Calendar />
+      </IconButton>
+    </div>
+  );
+
   const projectState = useTodayHeroProjects({
     iso: viewIso,
     projects,
@@ -100,7 +152,22 @@ export function TodayHero({ iso }: Props) {
       variant="plain"
       className="bg-hero-soft card-pad-lg anim-in rounded-[var(--radius-lg)]"
     >
-      <TodayHeroHeader viewIso={viewIso} isToday={isToday} onChange={setIso} />
+      <Hero
+        title={
+          <span
+            className="glitch text-title font-semibold tracking-[-0.01em]"
+            data-text={heroTitle}
+          >
+            {heroTitle}
+          </span>
+        }
+        actions={heroActions}
+        sticky={false}
+        frame={false}
+        padding="none"
+        className="mb-[var(--space-4)]"
+        barClassName="gap-[var(--space-3)]"
+      />
 
       <GlitchProgress
         current={done}

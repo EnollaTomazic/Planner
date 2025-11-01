@@ -351,11 +351,11 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
             frame: true,
             glitch: "default",
             eyebrow: "Glitch control brief",
-            heading: "Planner control hub",
+            title: "Planner control hub",
             subtitle:
               "Keep the weekly plan calm and intentional with synced pulses and a grounded focus lock.",
             actions: heroActions,
-            children: <GlitchLandingHeroContent />, 
+            children: <GlitchLandingHeroContent />,
           }}
         />
       </PageShell>
@@ -472,7 +472,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
             sticky: false,
             frame: false,
             tone: "supportive",
-            heading: "Planner preview",
+            title: "Planner preview",
             subtitle:
               "Planner highlights your next focus day, surfaces weekly goals, and gives the team a quick win tracker.",
             actions: heroActions,

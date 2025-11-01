@@ -407,7 +407,7 @@ export function WeekPicker() {
 
   return (
     <Hero
-      heading={heading}
+      title={heading}
       subtitle={accessibleRange}
       actions={topAction}
       rail

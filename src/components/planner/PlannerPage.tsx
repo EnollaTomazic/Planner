@@ -11,6 +11,7 @@ import "./style.css";
  */
 
 import * as React from "react";
+import Image from "next/image";
 import {
   Button,
   GlitchProgress,
@@ -449,8 +450,18 @@ function Inner() {
           }}
           hero={{
             sticky: false,
-            heading: "Week controls",
+            title: "Week controls",
             className: "planner-header__hero",
+            illustration: (
+              <Image
+                src="/images/noxi.svg"
+                alt="Noxi guiding weekly planning"
+                fill
+                sizes="(min-width: 1280px) 40vw, (min-width: 768px) 60vw, 100vw"
+                priority={false}
+                className="object-contain object-right md:object-center"
+              />
+            ),
             children: (
               <>
                 <PlannerIslandBoundary

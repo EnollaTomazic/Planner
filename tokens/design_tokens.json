@@ -722,13 +722,13 @@
       "value": "hsl(var(--shadow-color) / 0.4)"
     },
     "glitchNoisePrimary": {
-      "value": "hsl(var(--accent) / 0.25)"
+      "value": "hsl(var(--accent) / 0.055)"
     },
     "glitchNoiseSecondary": {
-      "value": "hsl(var(--ring) / 0.2)"
+      "value": "hsl(var(--ring) / 0.05)"
     },
     "glitchNoiseContrast": {
-      "value": "hsl(var(--foreground) / 0.12)"
+      "value": "hsl(var(--foreground) / 0.045)"
     },
     "elevationCard": {
       "value": "var(--shadow-outline-subtle)"

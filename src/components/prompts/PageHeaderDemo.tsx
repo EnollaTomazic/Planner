@@ -186,7 +186,7 @@ export function PageHeaderDemo() {
       <Hero
         as="header"
         eyebrow="Scouting Hub"
-        heading="Draft Intel"
+        title="Draft Intel"
         subtitle="Live scrim insights"
         sticky={false}
         topClassName="top-0"
@@ -196,7 +196,7 @@ export function PageHeaderDemo() {
           onChange: (key) => setActiveFilter(key as HeroFilter),
           ariaLabel: "Filter scouting intel",
         }}
-        search={{
+        searchBar={{
           id: "hero-demo-search",
           value: query,
           onValueChange: setQuery,
@@ -255,7 +255,7 @@ export function PageHeaderDemo() {
           <Hero
             as="section"
             eyebrow="Frame-ready hero"
-            heading="Flush supportive layout"
+            title="Flush supportive layout"
             subtitle="Let the outer frame handle breathing room."
             sticky={false}
             topClassName="top-0"
@@ -281,7 +281,7 @@ export function PageHeaderDemo() {
           onChange: (key) => setActiveFilter(key as HeroFilter),
           ariaLabel: "Filter planner highlights",
         }}
-        search={{
+        searchBar={{
           id: "page-header-demo-search",
           value: query,
           onValueChange: setQuery,
@@ -352,7 +352,7 @@ export function PageHeaderDemo() {
           onChange: (key) => setActiveFilter(key as HeroFilter),
           ariaLabel: "Filter spotlight content",
         }}
-        search={{
+        searchBar={{
           id: "page-header-elevated-search",
           value: query,
           onValueChange: setQuery,

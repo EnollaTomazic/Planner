@@ -356,9 +356,13 @@ export function Header<Key extends string = string>({
     return right;
   }, [actions, right]);
 
-  const themeToggleNode = showThemeToggle ? (
-    <ThemeToggle className="shrink-0" ariaLabel="Theme" />
-  ) : null;
+  const themeToggleNode = React.useMemo(
+    () =>
+      showThemeToggle ? (
+        <ThemeToggle className="shrink-0" ariaLabel="Theme" />
+      ) : null,
+    [showThemeToggle],
+  );
 
   const utilitiesNode = React.useMemo(() => {
     if (!utilities && !themeToggleNode) {
