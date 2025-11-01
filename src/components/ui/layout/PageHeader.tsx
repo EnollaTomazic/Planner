@@ -166,6 +166,8 @@ export interface PageHeaderBaseProps<
   /** Optional hero sub-tabs override */
   subTabs?: HeroProps<HeroKey>["subTabs"];
   /** Optional hero search override */
+  searchBar?: HeroProps<HeroKey>["searchBar"];
+  /** @deprecated Use `searchBar` instead. */
   search?: HeroProps<HeroKey>["search"];
   /** Optional hero actions override */
   actions?: HeroProps<HeroKey>["actions"];
@@ -199,6 +201,7 @@ const PageHeaderInner = <
     contentClassName,
     as,
     subTabs,
+    searchBar,
     search,
     actions,
     tabsInHero = false,
@@ -220,7 +223,8 @@ const PageHeaderInner = <
   const {
     sticky: heroSticky = false,
     subTabs: heroSubTabs,
-    search: heroSearch,
+    searchBar: heroSearchBar,
+    search: heroSearchLegacy,
     actions: heroActions,
     tone: heroTone,
     frame: heroFrame,
@@ -263,12 +267,30 @@ const PageHeaderInner = <
     [heroSubTabs, subTabs, forwardedHeaderSubTabs],
   );
 
+  const overrideSearch = React.useMemo(() => {
+    if (searchBar !== undefined) return searchBar;
+    if (search !== undefined) return search;
+    return undefined;
+  }, [searchBar, search]);
+
   const resolvedSearch = React.useMemo(() => {
-    const baseSearch = heroSearch === null ? null : heroSearch ?? search;
-    return baseSearch !== null && baseSearch !== undefined
-      ? { ...baseSearch, round: baseSearch.round ?? true }
-      : baseSearch;
-  }, [heroSearch, search]);
+    if (heroSearchBar === null) {
+      return null;
+    }
+
+    const candidate =
+      heroSearchBar ?? heroSearchLegacy ?? overrideSearch ?? undefined;
+
+    if (candidate === null) {
+      return null;
+    }
+
+    if (candidate === undefined) {
+      return undefined;
+    }
+
+    return { ...candidate, round: candidate.round ?? true };
+  }, [heroSearchBar, heroSearchLegacy, overrideSearch]);
 
   const resolvedActions = React.useMemo(
     () =>

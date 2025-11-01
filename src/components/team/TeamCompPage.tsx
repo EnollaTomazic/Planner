@@ -286,7 +286,7 @@ export function TeamCompPage() {
         sticky: true,
         topClassName: "top-[var(--header-stack)]",
         eyebrow: active?.label,
-        heading: "Comps",
+        title: "Comps",
         subtitle:
           subTab === "sheet"
             ? "Archetypes & tips"
@@ -294,12 +294,12 @@ export function TeamCompPage() {
         subTabs: {
           items: subTabs,
           value: subTab,
-          onChange: (next: SubTab) => setSubTab(next),
+          onChange: (next: string) => setSubTab(next as SubTab),
           ariaLabel: "Cheat sheet sections",
           showBaseline: true,
           idBase: subTabBaseId,
         },
-        search: {
+        searchBar: {
           value: query,
           onValueChange: setQuery,
           placeholder: "Search…",
@@ -308,7 +308,7 @@ export function TeamCompPage() {
           "aria-label":
             subTab === "sheet"
               ? "Search cheat sheet entries"
-              : "Search saved comps",
+            : "Search saved comps",
         },
         actions: (
           <Button
@@ -365,7 +365,7 @@ export function TeamCompPage() {
         sticky: true,
         topClassName: "top-[var(--header-stack)]",
         eyebrow: active?.label ?? "Comps",
-        heading: "Builder",
+        title: "Builder",
         subtitle,
         children: (
           <div className="flex flex-col gap-[var(--space-4)]">
@@ -448,9 +448,9 @@ export function TeamCompPage() {
       sticky: false,
       topClassName: "top-[var(--header-stack)]",
       rail: true,
-      heading: "Clear Speed Buckets",
+      title: "Clear Speed Buckets",
       dividerTint: "primary",
-      search: {
+      searchBar: {
         value: clearsQuery,
         onValueChange: setClearsQuery,
         placeholder: "Filter by champion, type, or note...",
@@ -539,7 +539,7 @@ export function TeamCompPage() {
           tabs: {
             items: TABS,
             value: tab,
-            onChange: (next: Tab) => setTab(next),
+            onChange: (next: string) => setTab(next as Tab),
             ariaLabel: "Team comps mode",
           },
           underline: true,

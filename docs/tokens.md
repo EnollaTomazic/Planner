@@ -279,9 +279,9 @@
 | blob-surface2 | hsl(var(--surface-2)) |
 | blob-surface3 | hsl(var(--card)) |
 | blob-surface-shadow | hsl(var(--shadow-color) / 0.4) |
-| glitch-noise-primary | hsl(var(--accent) / 0.25) |
-| glitch-noise-secondary | hsl(var(--ring) / 0.2) |
-| glitch-noise-contrast | hsl(var(--foreground) / 0.12) |
+| glitch-noise-primary | hsl(var(--accent) / 0.055) |
+| glitch-noise-secondary | hsl(var(--ring) / 0.05) |
+| glitch-noise-contrast | hsl(var(--foreground) / 0.045) |
 | elevation-card | var(--shadow-outline-subtle) |
 | elevation-card-pressed | var(--shadow-control) |
 | neo-depth-sm | var(--spacing-1) |

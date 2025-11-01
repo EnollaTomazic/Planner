@@ -1,7 +1,45 @@
 .divider {
-  --divider: var(--ring);
+  position: relative;
+  isolation: isolate;
+  --hero-divider-neon: hsl(var(--ring));
 }
 
 .divider[data-divider-tint="life"] {
-  --divider: var(--accent-3);
+  --hero-divider-neon: hsl(var(--accent-3));
+}
+
+.dividerLine {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 1px;
+  border-radius: var(--radius-card);
+  background-color: transparent !important;
+  background-image: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--hero-divider-neon) 70%, transparent) 0%,
+    color-mix(in oklab, var(--hero-divider-neon) 55%, transparent) 40%,
+    transparent 92%
+  );
+  box-shadow: 0 0 1.5rem color-mix(in oklab, var(--hero-divider-neon) 38%, transparent);
+}
+
+.dividerGlow {
+  background: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in oklab, var(--hero-divider-neon) 35%, transparent) 0%,
+    transparent 70%
+  );
+  opacity: 0.7;
+}
+
+@media (forced-colors: active) {
+  .dividerLine {
+    box-shadow: none;
+    background-image: none;
+  }
+
+  .dividerGlow {
+    display: none;
+  }
 }

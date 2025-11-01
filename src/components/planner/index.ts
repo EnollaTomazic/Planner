@@ -27,7 +27,6 @@ export { TaskList } from "./TaskList";
 export { TaskReminderSettings } from "./TaskReminderSettings";
 export { TaskRow } from "./TaskRow";
 export { TodayHero } from "./TodayHero";
-export { TodayHeroHeader } from "./TodayHeroHeader";
 export { TodayHeroProjects } from "./TodayHeroProjects";
 export type { TodayHeroProjectsProps } from "./TodayHeroProjects";
 export { TodayHeroTasks } from "./TodayHeroTasks";

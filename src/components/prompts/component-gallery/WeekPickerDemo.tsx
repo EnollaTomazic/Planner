@@ -183,7 +183,7 @@ export function WeekPickerDemo() {
 
   return (
     <Hero
-      heading={heading}
+      title={heading}
       subtitle={subtitle}
       actions={
         <Button
