@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { GlitchProgress } from "@/components/ui/primitives/GlitchProgress";
 import { cn } from "@/lib/utils";
 
 import styles from "./PlannerStatChip.module.css";
@@ -14,6 +15,8 @@ export interface PlannerStatChipProps {
    */
   ariaLabel?: string;
   className?: string;
+  current?: number;
+  total?: number;
 }
 
 export function PlannerStatChip({
@@ -21,9 +24,15 @@ export function PlannerStatChip({
   value,
   ariaLabel,
   className,
+  current,
+  total,
 }: PlannerStatChipProps) {
   const descriptionId = React.useId();
   const announcement = ariaLabel ?? `${value} ${label}`;
+  const hasProgress =
+    Number.isFinite(current) && Number.isFinite(total);
+  const progressCurrent = hasProgress ? Number(current) : 0;
+  const progressTotal = hasProgress ? Number(total) : 0;
 
   return (
     <div
@@ -46,6 +55,14 @@ export function PlannerStatChip({
       <span aria-hidden className={styles.label}>
         {label}
       </span>
+      {hasProgress ? (
+        <GlitchProgress
+          current={progressCurrent}
+          total={progressTotal}
+          aria-hidden="true"
+          className={styles.progressTrack}
+        />
+      ) : null}
     </div>
   );
 }

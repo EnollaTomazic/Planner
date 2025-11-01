@@ -14,13 +14,13 @@ import * as React from "react";
 import Image from "next/image";
 import {
   Button,
+  GlitchProgress,
   GlitchSegmentedButton,
   GlitchSegmentedGroup,
   PageHeader,
   PageShell,
 } from "@/components/ui";
 import { PortraitFrame } from "@/components/home/PortraitFrame";
-import ProgressRingIcon from "@/icons/ProgressRingIcon";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { useOptionalTheme } from "@/lib/theme-context";
 import { cn } from "@/lib/utils";
@@ -47,10 +47,10 @@ const {
   heroHeading,
   heroSubtitle,
   heroDial,
-  heroRing,
-  heroRingReduced,
-  heroRingValue,
-  heroRingCaption,
+  heroGauge,
+  heroGaugeTrack,
+  heroGaugeValue,
+  heroGaugeCaption,
   heroSliderLabel,
   heroSlider,
   heroFeedback,
@@ -177,11 +177,15 @@ function Inner() {
       return {
         value: "0",
         ariaLabel: "No tasks scheduled for today",
+        done: entry.done,
+        total: entry.total,
       } as const;
     }
     return {
       value: `${entry.done}/${entry.total}`,
       ariaLabel: `${entry.done} of ${entry.total} tasks complete today`,
+      done: entry.done,
+      total: entry.total,
     } as const;
   }, [hydrating, per, today]);
   const reminderStat = React.useMemo(() => {
@@ -320,16 +324,17 @@ function Inner() {
                 Every suggestion stays editable.
               </p>
               <div className={heroDial}>
-                <div
-                  className={cn(
-                    heroRing,
-                    prefersReducedMotion && heroRingReduced,
-                  )}
-                >
-                  <ProgressRingIcon pct={planningEnergy} size="l" />
-                  <span className={heroRingValue}>{planningEnergy}%</span>
-                </div>
-                <span className={heroRingCaption}>Focus calibration</span>
+                <GlitchProgress
+                  current={planningEnergy}
+                  total={100}
+                  showPercentage
+                  className={heroGauge}
+                  trackClassName={heroGaugeTrack}
+                  percentageClassName={heroGaugeValue}
+                  formatPercentage={(value) => `${value}%`}
+                  aria-label="Focus calibration"
+                />
+                <span className={heroGaugeCaption}>Focus calibration</span>
                 <label className={heroSliderLabel} htmlFor={sliderId}>
                   <span className="text-label font-medium tracking-[0.08em] uppercase">
                     Adjust energy
@@ -403,6 +408,8 @@ function Inner() {
                       label="Tasks today"
                       value={todayStat.value}
                       ariaLabel={todayStat.ariaLabel}
+                      current={todayStat.done}
+                      total={todayStat.total}
                       className={heroPortraitChip}
                     />
                   ) : null}
