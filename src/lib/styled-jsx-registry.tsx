@@ -18,10 +18,8 @@ interface StyledJsxModule {
 
 function loadStyledJsx(): StyledJsxModule {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports -- Bridge CommonJS entry for compatibility with older bundlers.
     return require("styled-jsx") as StyledJsxModule;
   } catch {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports -- Legacy fallback when the package exposes only the dist build.
     return require("styled-jsx/dist/index/index.js") as StyledJsxModule;
   }
 }
