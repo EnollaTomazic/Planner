@@ -2,7 +2,7 @@ import * as React from "react";
 import Image from "next/image";
 
 import { AvatarFrame } from "@/components/ui/primitives/AvatarFrame";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 import styles from "./PortraitFrame.module.css";
 
@@ -142,7 +142,7 @@ export function PortraitFrame({
       )}
       media={
         <Image
-          src={config.image.src}
+          src={withBasePath(config.image.src)}
           alt={config.image.alt}
           width={1024}
           height={1024}
