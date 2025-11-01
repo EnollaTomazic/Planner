@@ -3,7 +3,7 @@ import Link from "next/link";
 import { AlertCircle } from "lucide-react";
 import {
   Button,
-  PageHeader,
+  Header,
   PageShell,
 } from "@/components/ui";
 import { withBasePath } from "@/lib/utils";
@@ -23,26 +23,21 @@ export default function NotFound() {
       aria-labelledby={headerId}
       role="region"
     >
-      <PageHeader
-        header={{
-          id: headerId,
-          heading: "Page not found",
-          icon: <AlertCircle className="opacity-80" />,
-        }}
-        hero={{
-          heading: "This page does not exist",
-          actions: (
-            <Button asChild>
-              <Link href={withBasePath("/", { skipForNextLink: true })}>Go home</Link>
-            </Button>
-          ),
-          children: (
-            <p className="text-ui text-muted-foreground">
-              The page you are looking for does not exist.
-            </p>
-          ),
-        }}
-      />
+      <Header
+        id={headerId}
+        heading="Page not found"
+        icon={<AlertCircle className="opacity-80" />}
+        sticky={false}
+        actions={
+          <Button asChild>
+            <Link href={withBasePath("/", { skipForNextLink: true })}>Go home</Link>
+          </Button>
+        }
+      >
+        <p className="text-ui text-muted-foreground">
+          The page you are looking for does not exist.
+        </p>
+      </Header>
     </PageShell>
   );
 }

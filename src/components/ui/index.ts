@@ -35,8 +35,15 @@ export { Label } from "./Label";
 export type { LabelProps } from "./Label";
 export { DecorLayer } from "./layout/DecorLayer";
 export type { DecorLayerProps, DecorLayerVariant } from "./layout/DecorLayer";
-export { Header, HeaderTabs } from "./layout/Header";
-export type { HeaderProps, HeaderTab, HeaderTabsProps } from "./layout/Header";
+export { Header, HeaderTabs, PRIMARY_PAGE_NAV } from "./layout/Header";
+export type {
+  HeaderProps,
+  HeaderTab,
+  HeaderTabsProps,
+  HeaderNavItem,
+  HeaderActionsConfig,
+  PrimaryPageNavKey,
+} from "./layout/Header";
 export { Index } from "./layout/Hero";
 export { Hero } from "./layout/hero/Hero";
 export type { HeroProps } from "./layout/hero/Hero";
