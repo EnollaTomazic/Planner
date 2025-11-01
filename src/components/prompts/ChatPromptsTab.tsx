@@ -13,6 +13,7 @@ interface ChatPromptsTabProps {
   text: string;
   onTitleChange: (value: string) => void;
   onTextChange: (value: string) => void;
+  onSave: () => void;
   prompts: PromptWithTitle[];
   query: string;
   personas: Persona[];
@@ -26,6 +27,7 @@ export function ChatPromptsTab({
   prompts,
   query,
   personas,
+  onSave,
 }: ChatPromptsTabProps) {
   const composeHeadingId = React.useId();
   const personasHeadingId = React.useId();
@@ -50,6 +52,7 @@ export function ChatPromptsTab({
           onTitleChange={onTitleChange}
           text={text}
           onTextChange={onTextChange}
+          onSave={onSave}
         />
       </section>
 

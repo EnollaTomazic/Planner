@@ -573,73 +573,80 @@ function PromptsComposePanelStatePreview({ state }: { state: ComposeState }) {
   const fieldAccentShadow =
     state === "active" ? "shadow-[inset_0_var(--hairline-w)_0_hsl(var(--highlight)/0.08)]" : undefined;
 
+  const titleValue = isEmpty || isError ? "" : "Review after scrims";
+  const textValue = isEmpty
+    ? ""
+    : "Summarize three high-impact plays and next steps.";
+  const canSave = titleValue.trim().length > 0 && textValue.trim().length > 0 && !isDisabled;
+
   return (
-    <div className="space-y-[var(--space-3)]">
-      <div>
-        <Label htmlFor={titleId}>Title</Label>
-        <Input
-          ref={titleRef}
-          id={titleId}
-          placeholder="Title"
-          value={isEmpty || isError ? "" : "Review after scrims"}
-          readOnly
-          disabled={isDisabled}
-          aria-invalid={isError ? "true" : undefined}
-          aria-describedby={titleHelperId}
-          data-loading={isLoading}
-          className={cn(
-            state === "hover" && FIELD_HOVER_SHADOW,
-            fieldAccentShadow,
-          )}
-        >
-          <CheckIcon
-            aria-hidden="true"
-            className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 h-[var(--space-4)] w-[var(--space-4)]"
-          />
-        </Input>
-        <p
-          id={titleHelperId}
-          className={cn(
-            "mt-[var(--space-1)] text-label",
-            isError ? "text-danger" : "text-muted-foreground",
-          )}
-        >
-          {isError ? "Title is required before saving." : "Add a short title"}
-        </p>
-      </div>
-      <div>
-        <Label htmlFor={promptId}>Prompt</Label>
-        <Textarea
-          id={promptId}
-          placeholder="Write your prompt or snippet…"
-          value={
-            isEmpty
-              ? ""
-              : "Summarize three high-impact plays and next steps."
-          }
-          readOnly
-          disabled={isDisabled}
-          aria-invalid={isError ? "true" : undefined}
-          aria-describedby={
-            isEmpty ? promptHelperId : undefined
-          }
-          data-loading={isLoading}
-          resize="resize-y"
-          className={cn(
-            state === "hover" && FIELD_HOVER_SHADOW,
-            fieldAccentShadow,
-          )}
-        />
-        {isEmpty ? (
-          <p
-            id={promptHelperId}
-            className="mt-[var(--space-1)] text-label text-muted-foreground"
+    <Card className="shadow-inner-md">
+      <div className="space-y-[var(--space-3)] p-[var(--space-4)]">
+        <div>
+          <Label htmlFor={titleId}>Title</Label>
+          <Input
+            ref={titleRef}
+            id={titleId}
+            placeholder="Title"
+            value={titleValue}
+            readOnly
+            disabled={isDisabled}
+            aria-invalid={isError ? "true" : undefined}
+            aria-describedby={titleHelperId}
+            data-loading={isLoading}
+            className={cn(
+              state === "hover" && FIELD_HOVER_SHADOW,
+              fieldAccentShadow,
+            )}
           >
-            Describe the context or goal for this prompt.
+            <CheckIcon
+              aria-hidden="true"
+              className="absolute right-[var(--space-3)] top-1/2 -translate-y-1/2 h-[var(--space-4)] w-[var(--space-4)]"
+            />
+          </Input>
+          <p
+            id={titleHelperId}
+            className={cn(
+              "mt-[var(--space-1)] text-label",
+              isError ? "text-danger" : "text-muted-foreground",
+            )}
+          >
+            {isError ? "Title is required before saving." : "Add a short title"}
           </p>
-        ) : null}
+        </div>
+        <div>
+          <Label htmlFor={promptId}>Prompt</Label>
+          <Textarea
+            id={promptId}
+            placeholder="Write your prompt or snippet…"
+            value={textValue}
+            readOnly
+            disabled={isDisabled}
+            aria-invalid={isError ? "true" : undefined}
+            aria-describedby={isEmpty ? promptHelperId : undefined}
+            data-loading={isLoading}
+            resize="resize-y"
+            className={cn(
+              state === "hover" && FIELD_HOVER_SHADOW,
+              fieldAccentShadow,
+            )}
+          />
+          {isEmpty ? (
+            <p
+              id={promptHelperId}
+              className="mt-[var(--space-1)] text-label text-muted-foreground"
+            >
+              Describe the context or goal for this prompt.
+            </p>
+          ) : null}
+        </div>
       </div>
-    </div>
+      <div className="flex justify-end border-t border-border/60 bg-surface-low px-[var(--space-4)] py-[var(--space-3)]">
+        <Button type="button" disabled={!canSave}>
+          Save
+        </Button>
+      </div>
+    </Card>
   );
 }
 
@@ -1931,19 +1938,14 @@ function ToastDemo() {
 }
 
 function PromptsHeaderDemo() {
-  const [saved, setSaved] = React.useState(6);
+  const [saved] = React.useState(6);
   const [query, setQuery] = React.useState("focus");
-  const handleSave = React.useCallback(() => {
-    setSaved((prev) => prev + 1);
-  }, []);
 
   return (
     <PromptsHeader
       count={saved}
       query={query}
       onQueryChange={setQuery}
-      onSave={handleSave}
-      disabled={query.trim().length === 0}
     />
   );
 }
@@ -1960,6 +1962,7 @@ function PromptsComposePanelDemo() {
       onTitleChange={setTitle}
       text={text}
       onTextChange={setText}
+      onSave={() => {}}
     />
   );
 }
@@ -2020,6 +2023,7 @@ function ChatPromptsTabDemo() {
       prompts={demoPrompts}
       query={query}
       personas={demoPersonas}
+      onSave={() => {}}
     />
   );
 }
@@ -2039,6 +2043,7 @@ function CodexPromptsTabDemo() {
       onTextChange={setText}
       prompts={demoPrompts}
       query={query}
+      onSave={() => {}}
     />
   );
 }
@@ -2157,11 +2162,11 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
     {
       id: "prompts-header",
       name: "PromptsHeader",
-      description: "Prompts workspace header with search, chips, and save action.",
+      description: "Prompts workspace header with search and chip filters.",
       element: <PromptsHeaderDemo />,
       tags: ["prompts", "header", "search"],
       code: `function PromptsHeaderDemo() {
-  const [saved, setSaved] = React.useState(6);
+  const [saved] = React.useState(6);
   const [query, setQuery] = React.useState("focus");
 
   return (
@@ -2169,8 +2174,6 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       count={saved}
       query={query}
       onQueryChange={setQuery}
-      onSave={() => setSaved((prev) => prev + 1)}
-      disabled={query.trim().length === 0}
     />
   );
 }`,
@@ -2392,6 +2395,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       onTitleChange={setTitle}
       text={text}
       onTextChange={setText}
+      onSave={() => {}}
     />
   );
 }`,
@@ -2677,6 +2681,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       prompts={demoPrompts}
       query={query}
       personas={demoPersonas}
+      onSave={() => {}}
     />
   );
 }`,
@@ -2702,6 +2707,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       onTextChange={setText}
       prompts={demoPrompts}
       query={query}
+      onSave={() => {}}
     />
   );
 }`,

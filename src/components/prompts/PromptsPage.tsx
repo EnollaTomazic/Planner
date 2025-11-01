@@ -54,11 +54,6 @@ export function PromptsPage() {
     "chat",
   );
 
-  const chatSaveRef = React.useRef<(() => void) | null>(null);
-  const codexSaveRef = React.useRef<(() => void) | null>(null);
-  const [chatCanSave, setChatCanSave] = React.useState(false);
-  const [codexCanSave, setCodexCanSave] = React.useState(false);
-
   const tabItems = React.useMemo<TabListItem<PromptsTabKey>[]>(() => {
     return BASE_TAB_ITEMS.map<TabListItem<PromptsTabKey>>((item) => {
       if (item.key === "chat") {
@@ -100,26 +95,6 @@ export function PromptsPage() {
     [activeTab, setChatQuery, setCodexQuery],
   );
 
-  const handleSave = React.useCallback(() => {
-    if (activeTab === "chat") {
-      chatSaveRef.current?.();
-      return;
-    }
-    if (activeTab === "codex") {
-      codexSaveRef.current?.();
-    }
-  }, [activeTab]);
-
-  const saveDisabled = React.useMemo(() => {
-    if (activeTab === "chat") {
-      return !chatCanSave;
-    }
-    if (activeTab === "codex") {
-      return !codexCanSave;
-    }
-    return true;
-  }, [activeTab, chatCanSave, codexCanSave]);
-
   const activeCount = React.useMemo(() => {
     if (activeTab === "chat") return chatPrompts.length;
     if (activeTab === "codex") return codexPrompts.length;
@@ -134,8 +109,6 @@ export function PromptsPage() {
           count={activeCount}
           query={activeQuery}
           onQueryChange={handleQueryChange}
-          onSave={handleSave}
-          disabled={saveDisabled}
         />
       </PageShell>
 
@@ -158,8 +131,6 @@ export function PromptsPage() {
               query={chatQuery}
               personas={personas}
               savePrompt={saveChatPrompt}
-              saveRef={chatSaveRef}
-              onCanSaveChange={setChatCanSave}
             />
           </TabPanel>
 
@@ -169,8 +140,6 @@ export function PromptsPage() {
                 prompts={codexFiltered}
                 query={codexQuery}
                 savePrompt={saveCodexPrompt}
-                saveRef={codexSaveRef}
-                onCanSaveChange={setCodexCanSave}
               />
             </React.Suspense>
           </TabPanel>
@@ -191,8 +160,6 @@ interface ChatTabPanelProps {
   query: string;
   personas: Persona[];
   savePrompt: (title: string, text: string) => boolean;
-  saveRef: React.MutableRefObject<(() => void) | null>;
-  onCanSaveChange: (canSave: boolean) => void;
 }
 
 function ChatTabPanel({
@@ -200,25 +167,9 @@ function ChatTabPanel({
   query,
   personas,
   savePrompt,
-  saveRef,
-  onCanSaveChange,
 }: ChatTabPanelProps) {
   const [title, setTitle] = React.useState("");
   const [text, setText] = React.useState("");
-
-  const canSave = React.useMemo(() => {
-    return Boolean(title.trim() || text.trim());
-  }, [text, title]);
-
-  React.useEffect(() => {
-    onCanSaveChange(canSave);
-  }, [canSave, onCanSaveChange]);
-
-  React.useEffect(() => {
-    return () => {
-      onCanSaveChange(false);
-    };
-  }, [onCanSaveChange]);
 
   const handleSave = React.useCallback(() => {
     if (savePrompt(title, text)) {
@@ -226,15 +177,6 @@ function ChatTabPanel({
       setText("");
     }
   }, [savePrompt, text, title]);
-
-  React.useEffect(() => {
-    saveRef.current = handleSave;
-    return () => {
-      if (saveRef.current === handleSave) {
-        saveRef.current = null;
-      }
-    };
-  }, [handleSave, saveRef]);
 
   return (
     <ChatPromptsTab
@@ -245,6 +187,7 @@ function ChatTabPanel({
       prompts={prompts}
       query={query}
       personas={personas}
+      onSave={handleSave}
     />
   );
 }
@@ -253,33 +196,15 @@ interface CodexTabPanelProps {
   prompts: PromptWithTitle[];
   query: string;
   savePrompt: (title: string, text: string) => boolean;
-  saveRef: React.MutableRefObject<(() => void) | null>;
-  onCanSaveChange: (canSave: boolean) => void;
 }
 
 function CodexTabPanel({
   prompts,
   query,
   savePrompt,
-  saveRef,
-  onCanSaveChange,
 }: CodexTabPanelProps) {
   const [title, setTitle] = React.useState("");
   const [text, setText] = React.useState("");
-
-  const canSave = React.useMemo(() => {
-    return Boolean(title.trim() || text.trim());
-  }, [text, title]);
-
-  React.useEffect(() => {
-    onCanSaveChange(canSave);
-  }, [canSave, onCanSaveChange]);
-
-  React.useEffect(() => {
-    return () => {
-      onCanSaveChange(false);
-    };
-  }, [onCanSaveChange]);
 
   const handleSave = React.useCallback(() => {
     if (savePrompt(title, text)) {
@@ -287,15 +212,6 @@ function CodexTabPanel({
       setText("");
     }
   }, [savePrompt, text, title]);
-
-  React.useEffect(() => {
-    saveRef.current = handleSave;
-    return () => {
-      if (saveRef.current === handleSave) {
-        saveRef.current = null;
-      }
-    };
-  }, [handleSave, saveRef]);
 
   return (
     <CodexPromptsTab
@@ -305,6 +221,7 @@ function CodexTabPanel({
       onTextChange={setText}
       prompts={prompts}
       query={query}
+      onSave={handleSave}
     />
   );
 }
