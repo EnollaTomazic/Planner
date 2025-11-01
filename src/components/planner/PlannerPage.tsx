@@ -419,6 +419,7 @@ function Inner() {
                 transparentBackground
                 pulse={(reminderStat?.count ?? 0) > 0}
                 className={heroPortraitFrame}
+                priority
               />
             </div>
           </div>

@@ -142,8 +142,10 @@
 }
 
 .heroPortraitFrame {
-  width: min(22rem, 70vw);
+  width: min(25rem, 76vw);
   max-width: 100%;
+  --hero-illustration-blur: clamp(var(--space-6), 16vw, var(--space-8));
+  --hero-illustration-opacity: 0.92;
 }
 
 @media (max-width: 48rem) {
@@ -166,7 +168,7 @@
   }
 
   .heroPortraitFrame {
-    width: min(24rem, 22vw);
+    width: min(28rem, 24vw);
   }
 }
 
