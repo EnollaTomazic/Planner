@@ -1,6 +1,9 @@
 import * as React from "react";
+import Image from "next/image";
+
 import { AvatarFrame } from "@/components/ui/primitives/AvatarFrame";
 import { cn } from "@/lib/utils";
+
 import styles from "./PortraitFrame.module.css";
 
 export type PoseVariant =
@@ -20,16 +23,22 @@ export interface PortraitFrameProps {
    */
   pulse?: boolean;
   className?: string;
+  priority?: boolean;
 }
 
 type CharacterConfig = {
-  className: string;
   description: string;
 };
 
 type PoseConfig = {
   label: string;
   stageClassName?: string;
+  bloomClassName?: string;
+  image: {
+    src: string;
+    alt: string;
+    className?: string;
+  };
   angel: CharacterConfig;
   demon: CharacterConfig;
 };
@@ -37,39 +46,50 @@ type PoseConfig = {
 const poseConfigs: Record<PoseVariant, PoseConfig> = {
   duo: {
     label: "Angel and demon busts sharing a circular portrait frame",
+    image: {
+      src: "/portraits/agnes-noxi-duo.svg",
+      alt: "Agnes and Noxi posed together inside a circular portrait frame with opposing lighting.",
+    },
+    bloomClassName: styles.bloomDuo,
     angel: {
-      className: cn(styles.poseDuoAngel, styles.layerFront),
       description:
         "Luminous angel bust facing forward with wings framing the left edge of the frame.",
     },
     demon: {
-      className: cn(styles.poseDuoDemon, styles.layerRear),
       description:
         "Violet demon bust leaning inward with curved horns catching the rim lighting on the right.",
     },
   },
   "angel-leading": {
     label: "Angel steps forward while the demon softens into the rim light",
+    image: {
+      src: "/portraits/agnes-angel.svg",
+      alt: "Agnes in angel form leaning forward with wings glowing inside a soft neon frame.",
+      className: styles.imageAngel,
+    },
+    bloomClassName: styles.bloomAngel,
     angel: {
-      className: cn(styles.poseAngelLeadingAngel, styles.layerFront),
       description:
         "Angel bust leading the frame with wings swept wide and haloed highlights toward the viewer.",
     },
     demon: {
-      className: cn(styles.poseAngelLeadingDemon, styles.layerRear, styles.layerDimmed),
       description:
         "Demon bust recessed behind the angel, horns still outlined by the accent glow.",
     },
   },
   "demon-leading": {
     label: "Demon steps into focus while the angel supports from behind",
+    image: {
+      src: "/portraits/noxi-demon.svg",
+      alt: "Noxi in demon form stepping into the spotlight with neon magenta bloom.",
+      className: styles.imageDemon,
+    },
+    bloomClassName: styles.bloomDemon,
     angel: {
-      className: cn(styles.poseDemonLeadingAngel, styles.layerRear, styles.layerDimmed),
       description:
         "Angel bust easing back with wings diffused while keeping the left rim illuminated.",
     },
     demon: {
-      className: cn(styles.poseDemonLeadingDemon, styles.layerFront),
       description:
         "Demon bust leading the pose with forward-set horns and a saturated rim highlight.",
     },
@@ -77,13 +97,17 @@ const poseConfigs: Record<PoseVariant, PoseConfig> = {
   "back-to-back": {
     label: "Angel and demon posed back to back with crossed silhouettes",
     stageClassName: styles.stageBackToBack,
+    image: {
+      src: "/portraits/agnes-noxi-duo.svg",
+      alt: "Agnes and Noxi posed back to back with complimentary lighting inside a circular frame.",
+      className: styles.imageDuoBackToBack,
+    },
+    bloomClassName: styles.bloomDuo,
     angel: {
-      className: cn(styles.poseBackToBackAngel, styles.layerFront),
       description:
         "Angel bust glancing over the shoulder with wings fanning outward across the left rim.",
     },
     demon: {
-      className: cn(styles.poseBackToBackDemon, styles.layerFront),
       description:
         "Demon bust rotated outward with horns arcing above the right edge of the frame.",
     },
@@ -95,6 +119,7 @@ export function PortraitFrame({
   transparentBackground = false,
   pulse = false,
   className,
+  priority = false,
 }: PortraitFrameProps) {
   const config = poseConfigs[pose];
   const figureId = React.useId();
@@ -108,11 +133,23 @@ export function PortraitFrame({
       size="lg"
       role="img"
       aria-labelledby={`${figureId} ${angelId} ${demonId}`}
-      className={className}
+      className={cn(styles.root, className)}
+      rimClassName={styles.rim}
+      glowClassName={styles.glow}
       innerClassName={cn(
-        "flex h-full w-full items-center justify-center",
+        styles.inner,
         transparentBackground && styles.innerTransparent,
       )}
+      media={
+        <Image
+          src={config.image.src}
+          alt={config.image.alt}
+          width={1024}
+          height={1024}
+          className={cn(styles.portraitImage, config.image.className)}
+          priority={priority}
+        />
+      }
       after={
         pulse ? (
           <span
@@ -136,6 +173,10 @@ export function PortraitFrame({
       }
     >
       <span aria-hidden className={styles.rimLighting} />
+      <span
+        aria-hidden
+        className={cn(styles.bloom, config.bloomClassName)}
+      />
       <div
         aria-hidden
         className={cn(
@@ -143,20 +184,7 @@ export function PortraitFrame({
           config.stageClassName,
           transparentBackground && styles.stageTransparent,
         )}
-      >
-        <div className={cn(styles.character, styles.angel, config.angel.className)}>
-          <span aria-hidden className={styles.angelWings} />
-          <span aria-hidden className={styles.characterBody} />
-          <span aria-hidden className={styles.characterCollar} />
-          <span aria-hidden className={styles.characterHead} />
-        </div>
-        <div className={cn(styles.character, styles.demon, config.demon.className)}>
-          <span aria-hidden className={styles.demonHorns} />
-          <span aria-hidden className={styles.characterBody} />
-          <span aria-hidden className={styles.characterCollar} />
-          <span aria-hidden className={styles.characterHead} />
-        </div>
-      </div>
+      />
     </AvatarFrame>
   );
 }

@@ -1,0 +1,44 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Agnes and Noxi duo portrait</title>
+  <desc id="desc">Agnes and Noxi posed together inside a holographic frame, rendered with soft bloom and duo lighting.</desc>
+  <defs>
+    <radialGradient id="duo-bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0F1A35"/>
+      <stop offset="60%" stop-color="#070B14"/>
+      <stop offset="100%" stop-color="#030409"/>
+    </radialGradient>
+    <radialGradient id="duo-glow" cx="50%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#B0F2FF" stop-opacity="0.55"/>
+      <stop offset="45%" stop-color="#8A3DFF" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#0D1A3A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="agnes" x1="0%" y1="20%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E6F3FF"/>
+      <stop offset="100%" stop-color="#7A98FF"/>
+    </linearGradient>
+    <linearGradient id="noxi" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6F1CDF"/>
+      <stop offset="100%" stop-color="#FF7CE0"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#duo-bg)" rx="512"/>
+  <ellipse cx="512" cy="540" rx="420" ry="430" fill="url(#duo-glow)" opacity="0.85"/>
+  <g transform="translate(512 620)">
+    <g transform="translate(-120 0) scale(0.92)">
+      <ellipse cx="0" cy="-120" rx="150" ry="210" fill="url(#agnes)"/>
+      <ellipse cx="0" cy="-300" rx="100" ry="120" fill="#F6FAFF"/>
+      <ellipse cx="-30" cy="-310" rx="22" ry="32" fill="#4660B8" opacity="0.6"/>
+      <ellipse cx="36" cy="-310" rx="22" ry="32" fill="#4660B8" opacity="0.6"/>
+      <path d="M-90 -30 Q0 40 90 -30" fill="#E0E9FF" opacity="0.8"/>
+    </g>
+    <g transform="translate(120 0) scale(0.98)">
+      <ellipse cx="0" cy="-120" rx="150" ry="210" fill="url(#noxi)"/>
+      <ellipse cx="0" cy="-300" rx="100" ry="120" fill="#FDCAFF"/>
+      <ellipse cx="-34" cy="-310" rx="24" ry="32" fill="#5E1179" opacity="0.7"/>
+      <ellipse cx="34" cy="-310" rx="24" ry="32" fill="#5E1179" opacity="0.7"/>
+      <path d="M-100 -340 C-140 -430 -30 -470 -10 -380" stroke="#FBD1FF" stroke-width="24" stroke-linecap="round" fill="none"/>
+      <path d="M100 -340 C140 -430 30 -470 10 -380" stroke="#FBD1FF" stroke-width="24" stroke-linecap="round" fill="none"/>
+      <path d="M-90 -50 Q0 30 90 -50" fill="#9B1CCC" opacity="0.75"/>
+    </g>
+  </g>
+</svg>
