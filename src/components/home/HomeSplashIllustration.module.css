@@ -1,0 +1,82 @@
+.root {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--space-4);
+  width: min(100%, calc(var(--space-8) * 6.5));
+  padding-block: var(--space-3);
+}
+
+.backdrop {
+  position: absolute;
+  inset: calc(var(--space-4) * -0.4) 0;
+  z-index: 0;
+  border-radius: calc(var(--space-8) * 2);
+  background:
+    radial-gradient(circle at 50% 18%, hsl(var(--highlight) / 0.55), transparent 68%),
+    radial-gradient(circle at 28% 46%, hsl(var(--accent-2) / 0.4), transparent 70%),
+    radial-gradient(circle at 72% 52%, hsl(var(--lav-deep) / 0.42), transparent 74%);
+  filter: blur(calc(var(--space-3) * 0.8));
+  opacity: 0.9;
+}
+
+.portrait {
+  position: relative;
+  z-index: 1;
+  transform-origin: center bottom;
+}
+
+.angel {
+  transform: translateY(calc(var(--space-1) * 0.4)) rotate(-4deg) scale(0.94);
+}
+
+.demon {
+  transform: translateY(calc(var(--space-1) * 0.4)) rotate(4deg) scale(0.94);
+}
+
+.iconFrame {
+  position: relative;
+  z-index: 2;
+  --avatar-size-md: clamp(
+    calc(var(--space-7) + var(--space-1)),
+    calc(var(--space-7) + var(--space-1) + 4vw),
+    calc(var(--space-8) + var(--space-2))
+  );
+  filter: drop-shadow(0 calc(var(--space-1) / 2) calc(var(--space-4)) hsl(var(--shadow-color) / 0.32));
+}
+
+.iconInner {
+  background: linear-gradient(145deg, hsl(var(--surface-2) / 0.95), hsl(var(--surface) / 0.88));
+}
+
+.iconRim {
+  background: linear-gradient(140deg, hsl(var(--accent) / 0.9), hsl(var(--accent-2) / 0.85));
+}
+
+.iconGlow {
+  opacity: 0.85;
+  filter: blur(calc(var(--space-4) / 1.8));
+}
+
+@media (min-width: 48rem) {
+  .root {
+    gap: var(--space-5);
+    width: min(100%, calc(var(--space-8) * 7.5));
+  }
+
+  .angel {
+    transform: translateY(calc(var(--space-1) * 0.2)) rotate(-3deg) scale(0.96);
+  }
+
+  .demon {
+    transform: translateY(calc(var(--space-1) * 0.2)) rotate(3deg) scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .angel,
+  .demon {
+    transform: translateY(calc(var(--space-1) * 0.2)) scale(0.95);
+  }
+}
