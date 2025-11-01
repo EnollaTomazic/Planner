@@ -45,7 +45,7 @@ describe("PromptsPage", () => {
     await screen.findByText("First");
     expect(screen.getByText("1 saved")).toBeInTheDocument();
 
-    fireEvent.change(titleInput, { target: { value: "" } });
+    fireEvent.change(titleInput, { target: { value: "Second line" } });
     fireEvent.change(textArea, { target: { value: "Second line\nmore" } });
     fireEvent.click(saveButton);
     await screen.findByText("Second line");

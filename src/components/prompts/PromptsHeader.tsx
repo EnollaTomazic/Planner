@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Button, PageHeader } from "@/components/ui";
+import { PageHeader } from "@/components/ui";
 import { Badge } from "@/components/ui/primitives/Badge";
 
 const chips = ["hover", "focus", "active", "disabled", "loading"];
@@ -11,8 +11,6 @@ interface PromptsHeaderProps {
   count: number;
   query: string;
   onQueryChange: (value: string) => void;
-  onSave: () => void;
-  disabled: boolean;
 }
 
 export function PromptsHeader({
@@ -20,8 +18,6 @@ export function PromptsHeader({
   count,
   query,
   onQueryChange,
-  onSave,
-  disabled,
 }: PromptsHeaderProps) {
   const handleChip = React.useCallback(
     (chip: string) => {
@@ -84,11 +80,6 @@ export function PromptsHeader({
           variant: "neo",
           round: true,
         },
-        actions: (
-          <Button type="button" variant="default" onClick={onSave} disabled={disabled}>
-            Save
-          </Button>
-        ),
       }}
     />
   );
