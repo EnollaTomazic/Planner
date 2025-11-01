@@ -1,0 +1,37 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Agnes angel portrait</title>
+  <desc id="desc">A luminous 3D render inspired illustration of Agnes, the angelic planner companion, glowing inside a circular frame.</desc>
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#F6FBFF" stop-opacity="0.9"/>
+      <stop offset="55%" stop-color="#A0D8FF" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#5A83FF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DAE9FF"/>
+      <stop offset="100%" stop-color="#7B9CFF"/>
+    </linearGradient>
+    <linearGradient id="wing" x1="0%" y1="30%" x2="100%" y2="70%">
+      <stop offset="0%" stop-color="#F8FDFF" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#C5DEFF" stop-opacity="0.35"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#FDF5FF" stop-opacity="0.9"/>
+      <stop offset="65%" stop-color="#89B3FF" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#5D7BFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="0" y="0" width="1024" height="1024" fill="#0B1022" rx="512"/>
+  <ellipse cx="512" cy="540" rx="420" ry="430" fill="url(#glow)"/>
+  <ellipse cx="512" cy="355" rx="260" ry="120" fill="url(#halo)" opacity="0.8"/>
+  <g transform="translate(512 620)">
+    <path d="M-360 -10 C-290 -210 -120 -340 -30 -290 C-60 -170 -170 -90 -240 -20 Z" fill="url(#wing)" opacity="0.9"/>
+    <path d="M360 -10 C290 -210 120 -340 30 -290 C60 -170 170 -90 240 -20 Z" fill="url(#wing)" opacity="0.9"/>
+    <ellipse cx="0" cy="-120" rx="170" ry="220" fill="url(#body)"/>
+    <ellipse cx="0" cy="-320" rx="110" ry="130" fill="#F2F6FF"/>
+    <ellipse cx="-40" cy="-330" rx="26" ry="36" fill="#3849A8" opacity="0.7"/>
+    <ellipse cx="40" cy="-330" rx="26" ry="36" fill="#3849A8" opacity="0.7"/>
+    <path d="M-60 -250 Q0 -200 60 -250" stroke="#3B4BB8" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.4"/>
+    <path d="M-120 -30 Q0 60 120 -30" fill="#E6ECFF" opacity="0.75"/>
+  </g>
+</svg>

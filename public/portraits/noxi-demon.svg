@@ -1,0 +1,36 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Noxi demon portrait</title>
+  <desc id="desc">A stylised 3D render impression of Noxi in demon form, framed by neon violets and soft bloom.</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#2A0433"/>
+      <stop offset="60%" stop-color="#0F0514"/>
+      <stop offset="100%" stop-color="#020106"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0%" y1="10%" x2="100%" y2="90%">
+      <stop offset="0%" stop-color="#6D1BCE"/>
+      <stop offset="60%" stop-color="#B948FF"/>
+      <stop offset="100%" stop-color="#FF73D1"/>
+    </linearGradient>
+    <linearGradient id="horn" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE1FF" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#8A24FF"/>
+    </linearGradient>
+    <radialGradient id="bloom" cx="50%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#FF9CF8" stop-opacity="0.65"/>
+      <stop offset="50%" stop-color="#8A3DFF" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#39106B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#bg)" rx="512"/>
+  <ellipse cx="512" cy="540" rx="420" ry="430" fill="url(#bloom)" opacity="0.9"/>
+  <g transform="translate(512 620)">
+    <path d="M0 -360 C-120 -320 -160 -140 -160 30 C-160 200 160 200 160 30 C160 -140 120 -320 0 -360 Z" fill="url(#body)"/>
+    <ellipse cx="-60" cy="-260" rx="44" ry="60" fill="#1E0826" opacity="0.8"/>
+    <ellipse cx="60" cy="-260" rx="44" ry="60" fill="#1E0826" opacity="0.8"/>
+    <path d="M-120 -360 C-150 -460 -40 -520 -10 -420" stroke="url(#horn)" stroke-width="34" stroke-linecap="round" fill="none"/>
+    <path d="M120 -360 C150 -460 40 -520 10 -420" stroke="url(#horn)" stroke-width="34" stroke-linecap="round" fill="none"/>
+    <path d="M-120 -120 Q0 -40 120 -120" fill="#4E0E6D" opacity="0.75"/>
+    <path d="M-80 -190 Q0 -130 80 -190" stroke="#FF9CF8" stroke-width="10" stroke-linecap="round" opacity="0.5"/>
+  </g>
+</svg>
