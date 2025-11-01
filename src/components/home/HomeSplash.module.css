@@ -35,61 +35,26 @@
   width: min(100%, calc(var(--space-8) * 9));
 }
 
-.cardBody {
+.heroBar {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  text-align: center;
+}
+
+.heroBar > * {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.heroBody {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-5);
-  padding: var(--space-6);
   text-align: center;
-}
-
-@media (min-width: 48rem) {
-  .cardBody {
-    padding: var(--space-7);
-  }
-}
-
-.logoFrame {
-  position: relative;
-  width: calc(var(--space-8) * 2.5);
-  aspect-ratio: 1;
-  color: hsl(var(--accent));
-}
-
-@media (min-width: 40rem) {
-  .logoFrame {
-    width: calc(var(--space-8) * 3);
-  }
-}
-
-.logoMotion {
-  --glitch-x: calc(var(--hairline-w) * 1.5);
-  --glitch-y: calc(var(--hairline-w) * 1.2);
-  --glitch-speed: 2.6s;
-  --glitch-flicker: 3.8s;
-  position: absolute;
-  inset: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  animation:
-    glitch-shift var(--glitch-speed) infinite steps(2, end),
-    glitch-flicker var(--glitch-flicker) infinite steps(1, end);
-}
-
-.logoImage {
-  object-fit: contain;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .logoMotion {
-    animation: none;
-  }
-}
-
-.tagline {
-  max-width: 36ch;
 }
 
 .status {
