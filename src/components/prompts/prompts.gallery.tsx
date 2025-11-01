@@ -3816,18 +3816,18 @@ React.useEffect(() => {
       element: (
         <div className="space-y-[var(--space-4)]">
           <Hero
-            heading="Hero"
+            title="Hero"
             eyebrow="Eyebrow"
             subtitle="Subtitle"
             sticky={false}
-            search={{ value: "", onValueChange: () => {}, round: true }}
+            searchBar={{ value: "", onValueChange: () => {}, round: true }}
             actions={<Button size="sm">Action</Button>}
           >
             <div className="text-ui text-muted-foreground">Body content</div>
           </Hero>
           <NeomorphicHeroFrame variant="dense">
             <Hero
-              heading="Frame-ready hero"
+              title="Frame-ready hero"
               eyebrow="No padding"
               subtitle="Outer shell handles spacing"
               sticky={false}
@@ -3843,11 +3843,11 @@ React.useEffect(() => {
       ),
       tags: ["hero", "layout"],
       code: `<Hero
-  heading="Hero"
+  title="Hero"
   eyebrow="Eyebrow"
   subtitle="Subtitle"
   sticky={false}
-  search={{ value: "", onValueChange: () => {}, round: true }}
+  searchBar={{ value: "", onValueChange: () => {}, round: true }}
   actions={<Button size="sm">Action</Button>}
 >
   <div className="text-ui text-muted-foreground">Body content</div>
@@ -3855,7 +3855,7 @@ React.useEffect(() => {
 
 <NeomorphicHeroFrame variant="dense">
   <Hero
-    heading="Frame-ready hero"
+    title="Frame-ready hero"
     eyebrow="No padding"
     subtitle="Outer shell handles spacing"
     sticky={false}

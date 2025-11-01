@@ -151,7 +151,7 @@ export default function HeroImagesPreviewClient({
         </p>
         <Hero
           data-testid="hero-preview"
-          heading={`${currentVariantLabel} planner hero`}
+          title={`${currentVariantLabel} planner hero`}
           eyebrow="Gallery hero preview"
           subtitle={currentStateDescription}
           sticky={false}

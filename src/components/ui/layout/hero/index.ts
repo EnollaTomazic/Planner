@@ -2,10 +2,8 @@
 
 export { Hero } from "./Hero";
 export { Hero as Index } from "./Hero";
-export type { HeroProps } from "./Hero";
+export type { HeroProps, HeroTabsProps, HeroTab } from "./Hero";
 export * from "./Hero";
-export { HeroTabs } from "./HeroTabs";
-export type { HeroTabsProps, HeroTab } from "./HeroTabs";
 export { HeroSearchBar } from "./HeroSearchBar";
 export type { HeroSearchBarProps } from "./HeroSearchBar";
 export { HeroGlitchStyles } from "./HeroGlitchStyles";

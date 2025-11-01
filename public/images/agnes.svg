@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-labelledby="title desc">
+  <title id="title">Placeholder illustration of angel Agnes</title>
+  <desc id="desc">A soft luminous figure representing the angelic character Agnes.</desc>
+  <defs>
+    <linearGradient id="agnesGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9cf6ff" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#f9fbff" stop-opacity="0.95" />
+    </linearGradient>
+    <radialGradient id="agnesAura" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="60%" stop-color="#c6f4ff" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#03214a" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="320" height="240" fill="#041028" rx="24" />
+  <circle cx="160" cy="120" r="108" fill="url(#agnesAura)" />
+  <g fill="none" stroke="url(#agnesGlow)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M88 92c26-32 64-48 104-20 30 22 42 68 18 100-28 36-86 44-128 8" />
+    <path d="M104 178c30-8 48-30 54-60 4-20-2-38-16-44-16-6-34 6-40 28-8 28 10 52 30 56" />
+  </g>
+  <g fill="#ffffff" opacity="0.85">
+    <ellipse cx="126" cy="110" rx="10" ry="12" />
+    <ellipse cx="194" cy="110" rx="9" ry="11" />
+  </g>
+  <path
+    d="M150 156c10 10 28 14 42 6 10-6 18-18 18-30 0-12-6-22-18-26"
+    fill="none"
+    stroke="#effbff"
+    stroke-width="5"
+    stroke-linecap="round"
+  />
+  <path
+    d="M64 132c16-28 34-44 52-44 10 0 22 4 30 12"
+    fill="none"
+    stroke="#99f0ff"
+    stroke-width="6"
+    stroke-linecap="round"
+    opacity="0.65"
+  />
+  <path
+    d="M256 132c-16-28-34-44-52-44-10 0-22 4-30 12"
+    fill="none"
+    stroke="#e7fbff"
+    stroke-width="6"
+    stroke-linecap="round"
+    opacity="0.65"
+  />
+</svg>

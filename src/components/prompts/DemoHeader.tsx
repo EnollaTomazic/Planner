@@ -37,7 +37,7 @@ export function DemoHeader({
         sticky={false}
         icon={<Star className="opacity-80" />}
       />
-      <Hero heading="Hero" sticky={false} topClassName="top-0" />
+      <Hero title="Hero" sticky={false} topClassName="top-0" />
       <Banner title="Banner" actions={<Button size="sm">Action</Button>} />
       <div className="flex justify-center">
         <GoalsProgress total={5} pct={60} />

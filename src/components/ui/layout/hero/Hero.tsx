@@ -3,9 +3,11 @@
 
 import * as React from "react";
 import {
+  TabBar,
   type TabBarA11yProps,
   type TabBarProps,
-  type TabItem, TabBar } from "../TabBar";
+  type TabItem,
+} from "../TabBar";
 import type { HeaderTabsProps } from "@/components/ui/layout/Header";
 import { cn } from "@/lib/utils";
 import { NeomorphicFrameStyles } from "../NeomorphicFrameStyles";
@@ -13,16 +15,41 @@ import { HeroGlitchStyles } from "./HeroGlitchStyles";
 import { HeroImage, type HeroImageProps } from "./HeroImage";
 import { HeroSearchBar, type HeroSearchBarProps } from "./HeroSearchBar";
 import { useHeroStyles } from "./useHeroStyles";
+import styles from "./Hero.module.css";
 
 type HeroElement = Extract<
   keyof React.JSX.IntrinsicElements,
   "header" | "section" | "article" | "aside" | "div" | "main" | "nav"
 >;
 
+export type HeroTab<K extends string = string> = TabItem<K> & { hint?: string };
+
+export type HeroTabsProps<K extends string = string> = TabBarA11yProps & {
+  items: Array<HeroTab<K>>;
+  value: K;
+  onChange: (key: K) => void;
+  className?: string;
+  align?: TabBarProps["align"];
+  size?: TabBarProps["size"];
+  right?: React.ReactNode;
+  showBaseline?: boolean;
+  variant?: TabBarProps["variant"];
+  linkPanels?: boolean;
+  idBase?: string;
+};
+
+type HeroSearchConfig = (HeroSearchBarProps & { round?: boolean }) | null;
+
+type HeroTabsLike<Key extends string> =
+  | (HeroTabsProps<Key> & { legacy?: false })
+  | (HeaderTabsProps<Key> & { legacy?: true });
+
 export interface HeroProps<Key extends string = string>
   extends Omit<React.HTMLAttributes<HTMLElement>, "title"> {
   eyebrow?: React.ReactNode;
-  heading: React.ReactNode;
+  title?: React.ReactNode;
+  /** @deprecated Use `title` instead. */
+  heading?: React.ReactNode;
   subtitle?: React.ReactNode;
   icon?: React.ReactNode;
   children?: React.ReactNode;
@@ -33,61 +60,122 @@ export interface HeroProps<Key extends string = string>
   bodyClassName?: string;
   /** Visual treatment for the label cluster bar. */
   barVariant?: "flat" | "raised";
-  /** @deprecated Decorative rails were removed. */
-  rail?: boolean;
   /** Typography profile for the heading/subtitle. */
   tone?: "heroic" | "supportive";
-
   /** Whether to include glitchy frame and background layers. */
   frame?: boolean;
-
   /** Level of glitch treatment for frame overlays (defaults to `default`). */
   glitch?: "default" | "subtle" | "off";
-
   /** Divider tint for neon line. */
   dividerTint?: "primary" | "life";
-
   /** Semantic wrapper element (defaults to `section`). */
   as?: HeroElement;
-
   /** Horizontal padding for the outer shell. */
   padding?: "default" | "none";
-
-  /** Built-in top-right sub-tabs (preferred). */
-  subTabs?: HeaderTabsProps<Key> & {
-    size?: TabBarProps["size"];
-    align?: TabBarProps["align"];
-    className?: string;
-    showBaseline?: boolean;
-    right?: React.ReactNode;
-    idBase?: string;
-  };
-
-  /** @deprecated Use `subTabs` instead. */
-  tabs?: {
-    items: TabItem[];
-    value: string;
-    onChange: (key: string) => void;
-    size?: TabBarProps["size"];
-    align?: TabBarProps["align"];
-    className?: string;
-    showBaseline?: boolean;
-    variant?: TabBarProps["variant"];
-    linkPanels?: boolean;
-  };
-
+  /** @deprecated Decorative rails were removed. */
+  rail?: boolean;
+  /** Built-in top-right segmented tabs (preferred). */
+  tabs?: HeroTabsProps<Key>;
+  /** Secondary segmented control support. */
+  subTabs?: HeaderTabsProps<Key>;
   /** Built-in bottom search (preferred). `round` makes it pill. */
-  search?: (HeroSearchBarProps & { round?: boolean }) | null;
-
-  /** Visual state for the hero illustration background. */
+  searchBar?: HeroSearchConfig;
+  /** @deprecated Use `searchBar` instead. */
+  search?: HeroSearchConfig;
+  /** Optional illustration rendered inside the hero frame. */
+  illustration?: React.ReactNode;
+  /** Visual state for the default hero illustration background. */
   illustrationState?: HeroImageProps["state"];
-
   /** Custom alt text for the hero illustration background. */
   illustrationAlt?: string;
 }
 
+function mapTabs<Key extends string>(
+  config: HeroTabsLike<Key> | undefined,
+  heroVariant: TabBarProps["variant"] | undefined,
+): React.ReactNode {
+  if (!config) {
+    return null;
+  }
+
+  const {
+    legacy,
+    align,
+    size,
+    right,
+    showBaseline,
+    variant,
+    className,
+    items: heroItems,
+    value,
+    onChange,
+    ariaLabel,
+    ariaLabelledBy,
+    linkPanels,
+    idBase,
+  } = config as HeroTabsProps<Key> & { legacy?: boolean };
+
+  const items = (legacy
+    ? (config as HeaderTabsProps<Key>).items
+    : heroItems
+  ).map(
+    ({ hint, ...item }) => {
+      void hint;
+      return { ...item, key: String(item.key ?? item.label) };
+    },
+  );
+
+  const resolvedValue = legacy
+    ? String((config as HeaderTabsProps<Key>).value)
+    : String(value);
+
+  const handleChange = (key: string) => {
+    if (legacy) {
+      (config as HeaderTabsProps<Key>).onChange(key as Key);
+      return;
+    }
+    onChange(key as Key);
+  };
+
+  const sanitizedLabel =
+    typeof ariaLabel === "string" && ariaLabel.trim().length > 0
+      ? ariaLabel.trim()
+      : undefined;
+  const sanitizedLabelledBy =
+    typeof ariaLabelledBy === "string" && ariaLabelledBy.trim().length > 0
+      ? ariaLabelledBy.trim()
+      : undefined;
+
+  const accessibilityProps: TabBarA11yProps = sanitizedLabelledBy
+    ? {
+        ariaLabelledBy: sanitizedLabelledBy,
+        ...(sanitizedLabel ? { ariaLabel: sanitizedLabel } : {}),
+      }
+    : {
+        ariaLabel: sanitizedLabel ?? "Hero tabs",
+      };
+
+  return (
+    <TabBar
+      items={items}
+      value={resolvedValue}
+      onValueChange={handleChange}
+      size={size ?? "md"}
+      align={align ?? "end"}
+      right={right}
+      showBaseline={showBaseline ?? true}
+      variant={variant ?? heroVariant}
+      className={cn("justify-end", className)}
+      {...accessibilityProps}
+      linkPanels={linkPanels}
+      idBase={idBase}
+    />
+  );
+}
+
 function Hero<Key extends string = string>({
   eyebrow,
+  title,
   heading,
   subtitle,
   icon,
@@ -101,20 +189,24 @@ function Hero<Key extends string = string>({
   barClassName,
   bodyClassName,
   barVariant = "flat",
-  rail: _deprecatedRail = true,
   dividerTint = "primary",
-  subTabs,
   tabs,
+  subTabs,
+  searchBar,
   search,
+  illustration,
   illustrationState,
   illustrationAlt,
   className,
   as,
   padding = "default",
+  rail: _deprecatedRail,
   ...rest
 }: HeroProps<Key>) {
   void _deprecatedRail;
-  const headingStr = typeof heading === "string" ? heading : undefined;
+  const heroHeading = title ?? heading;
+  const headingStr =
+    typeof heroHeading === "string" ? heroHeading : undefined;
   const Component: HeroElement = as ?? "section";
 
   const {
@@ -139,7 +231,7 @@ function Hero<Key extends string = string>({
     </div>
   ) : null;
 
-  const headingContent = (
+  const headingContent = heroHeading ? (
     <div className="min-w-0">
       {eyebrow ? (
         <div className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
@@ -149,78 +241,36 @@ function Hero<Key extends string = string>({
 
       <div className="flex min-w-0 flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]">
         <h2 className={classes.heading} data-text={headingStr}>
-          {heading}
+          {heroHeading}
         </h2>
         {subtitle ? <span className={classes.subtitle}>{subtitle}</span> : null}
       </div>
     </div>
+  ) : null;
+
+  const tabsNode = React.useMemo(
+    () =>
+      mapTabs<Key>(
+        subTabs
+          ? ({ ...subTabs, legacy: true } as HeroTabsLike<Key>)
+          : tabs
+            ? ({ ...tabs, legacy: false } as HeroTabsLike<Key>)
+            : undefined,
+        heroVariant,
+      ),
+    [heroVariant, subTabs, tabs],
   );
 
-  const subTabsNode = subTabs
-    ? (() => {
-        const sanitizedLabel =
-          typeof subTabs.ariaLabel === "string" && subTabs.ariaLabel.trim().length > 0
-            ? subTabs.ariaLabel.trim()
-            : undefined;
-        const sanitizedLabelledBy =
-          typeof subTabs.ariaLabelledBy === "string" &&
-          subTabs.ariaLabelledBy.trim().length > 0
-            ? subTabs.ariaLabelledBy.trim()
-            : undefined;
-        const accessibilityProps: TabBarA11yProps = sanitizedLabelledBy
-          ? {
-              ariaLabelledBy: sanitizedLabelledBy,
-              ...(sanitizedLabel ? { ariaLabel: sanitizedLabel } : {}),
-            }
-          : {
-              ariaLabel: sanitizedLabel ?? "Hero sub-tabs",
-            };
-
-        return (
-          <TabBar
-            items={subTabs.items.map(({ hint, ...item }) => {
-              void hint;
-              return item;
-            })}
-            value={String(subTabs.value)}
-            onValueChange={(key) => subTabs.onChange(key as Key)}
-            size={subTabs.size ?? "md"}
-            align={subTabs.align ?? "end"}
-            right={subTabs.right}
-            showBaseline={subTabs.showBaseline ?? true}
-            variant={subTabs.variant ?? heroVariant}
-            className={cn("justify-end", subTabs.className)}
-            {...accessibilityProps}
-            linkPanels={subTabs.linkPanels}
-            idBase={subTabs.idBase}
-          />
-        );
-      })()
-    : tabs
-      ? (
-          <TabBar
-            items={tabs.items}
-            value={tabs.value}
-            onValueChange={tabs.onChange}
-            size={tabs.size ?? "md"}
-            align={tabs.align ?? "end"}
-            showBaseline={tabs.showBaseline ?? true}
-            variant={tabs.variant ?? heroVariant}
-            className={cn("justify-end", tabs.className)}
-            ariaLabel="Hero tabs"
-            linkPanels={tabs.linkPanels}
-          />
-        )
-      : null;
+  const searchConfig = searchBar ?? search ?? null;
 
   const searchProps =
-    search != null
+    searchConfig != null
       ? {
-          ...search,
-          round: search.round ?? true,
-          variant: search.variant ?? heroVariant,
+          ...searchConfig,
+          round: searchConfig.round ?? true,
+          variant: searchConfig.variant ?? heroVariant,
         }
-      : search;
+      : searchConfig;
 
   const heroIllustrationAlt = React.useMemo(() => {
     if (typeof illustrationAlt === "string") {
@@ -235,19 +285,37 @@ function Hero<Key extends string = string>({
     return undefined;
   }, [illustrationAlt, headingStr]);
 
+  const illustrationNode = frame
+    ? illustration ? (
+        <div
+          className={cn(
+            "pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]",
+            "after:pointer-events-none after:absolute after:inset-0 after:z-[1] after:content-[''] after:bg-glitch-overlay after:opacity-30 after:mix-blend-soft-light",
+          )}
+        >
+          <div className="absolute inset-0">
+            <div className="relative h-full w-full">{illustration}</div>
+          </div>
+        </div>
+      ) : (
+        <HeroImage
+          state={illustrationState}
+          alt={heroIllustrationAlt}
+          className={cn(
+            "z-0 rounded-[inherit]",
+            "after:pointer-events-none after:absolute after:inset-0 after:z-[1] after:content-[''] after:bg-glitch-overlay after:opacity-30 after:mix-blend-soft-light",
+          )}
+        />
+      )
+    : null;
+
   return (
     <Component className={className} {...(rest as React.HTMLAttributes<HTMLElement>)}>
       {shouldRenderGlitchStyles ? <HeroGlitchStyles /> : null}
       {frame || isRaisedBar ? <NeomorphicFrameStyles /> : null}
 
       <div className={classes.shell}>
-        {frame ? (
-          <HeroImage
-            state={illustrationState}
-            alt={heroIllustrationAlt}
-            className="z-0 after:pointer-events-none after:absolute after:inset-0 after:z-[1] after:content-[''] after:bg-glitch-overlay after:opacity-30 after:mix-blend-soft-light"
-          />
-        ) : null}
+        {illustrationNode}
         <div className={cn(classes.bar, barClassName)}>
           <div className={classes.labelCluster}>
             {isRaisedBar ? (
@@ -263,7 +331,7 @@ function Hero<Key extends string = string>({
             )}
           </div>
 
-          {subTabsNode ? <div className={classes.utilities}>{subTabsNode}</div> : null}
+          {tabsNode ? <div className={classes.utilities}>{tabsNode}</div> : null}
         </div>
 
         {children || searchProps || actions ? (
@@ -279,9 +347,9 @@ function Hero<Key extends string = string>({
                 )}
                 data-divider-tint={dividerTint}
               >
-                <span aria-hidden className={classes.dividerLine} />
+                <span aria-hidden className={cn(classes.dividerLine, styles.dividerLine)} />
                 {showDividerGlow ? (
-                  <span aria-hidden className={classes.dividerGlow} />
+                  <span aria-hidden className={cn(classes.dividerGlow, styles.dividerGlow)} />
                 ) : null}
                 <div className={classes.actionRow}>
                   {searchProps ? (
