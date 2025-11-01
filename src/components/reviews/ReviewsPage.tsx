@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -176,8 +177,18 @@ export function ReviewsPage({
           }}
           hero={{
             sticky: false,
-            heading: "Browse Reviews",
+            title: "Browse Reviews",
             subtitle: heroSubtitle,
+            illustration: (
+              <Image
+                src="/images/agnes.svg"
+                alt="Agnes watching over review browsing"
+                fill
+                sizes="(min-width: 1280px) 38vw, (min-width: 768px) 56vw, 100vw"
+                priority={false}
+                className="object-contain object-right md:object-center"
+              />
+            ),
             children: isLoading ? (
               <div className={heroGridClass}>
                 <Skeleton

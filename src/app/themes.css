@@ -286,9 +286,9 @@
   --blob-surface2: hsl(var(--surface-2));
   --blob-surface3: hsl(var(--card));
   --blob-surface-shadow: hsl(var(--shadow-color) / 0.4);
-  --glitch-noise-primary: hsl(var(--accent) / 0.25);
-  --glitch-noise-secondary: hsl(var(--ring) / 0.2);
-  --glitch-noise-contrast: hsl(var(--foreground) / 0.12);
+  --glitch-noise-primary: hsl(var(--accent) / 0.055);
+  --glitch-noise-secondary: hsl(var(--ring) / 0.05);
+  --glitch-noise-contrast: hsl(var(--foreground) / 0.045);
   --elevation-card: var(--shadow-outline-subtle);
   --elevation-card-pressed: var(--shadow-control);
   --neo-depth-sm: var(--spacing-1);
@@ -563,9 +563,9 @@
   --glitch-accent-color: hsl(var(--accent) / 0.35);
   --glitch-accent-blur: var(--spacing-0-5);
   --glitch-accent-shadow: 0 0 var(--glitch-accent-blur) var(--glitch-accent-color);
-  --glitch-noise-primary: hsl(var(--accent) / 0.25);
-  --glitch-noise-secondary: hsl(var(--ring) / 0.2);
-  --glitch-noise-contrast: hsl(var(--foreground) / 0.12);
+  --glitch-noise-primary: hsl(var(--accent) / 0.055);
+  --glitch-noise-secondary: hsl(var(--ring) / 0.05);
+  --glitch-noise-contrast: hsl(var(--foreground) / 0.045);
   --glitch-noise-hover: calc(var(--glitch-noise-level) * 1.3);
   /* Retro grid parity */
   --retro-grid-step: 24px;
@@ -935,9 +935,9 @@ html.theme-noir {
   --glitch-intensity: 0.3;
   --glitch-fringe: 6deg;
   --glitch-static-opacity: 0.07;
-  --glitch-noise-primary: hsl(var(--ring) / 0.28);
-  --glitch-noise-secondary: hsl(var(--accent) / 0.22);
-  --glitch-noise-contrast: hsl(var(--foreground) / 0.14);
+  --glitch-noise-primary: hsl(var(--ring) / 0.056);
+  --glitch-noise-secondary: hsl(var(--accent) / 0.05);
+  --glitch-noise-contrast: hsl(var(--foreground) / 0.048);
   --lav-deep: 356 80% 62%;
   --icon-fg: 356 92% 72%;
   --success: 136 56% 52%;
@@ -1176,9 +1176,9 @@ html.theme-hardstuck {
   --glitch-intensity: 0.28;
   --glitch-fringe: 5deg;
   --glitch-static-opacity: 0.07;
-  --glitch-noise-primary: hsl(var(--ring) / 0.24);
-  --glitch-noise-secondary: hsl(var(--accent) / 0.18);
-  --glitch-noise-contrast: hsl(var(--hardstuck-foreground) / 0.18);
+  --glitch-noise-primary: hsl(var(--ring) / 0.055);
+  --glitch-noise-secondary: hsl(var(--accent) / 0.05);
+  --glitch-noise-contrast: hsl(var(--hardstuck-foreground) / 0.05);
   --lav-deep: 120 90% 52%;
   --icon-fg: 120 92% 64%;
   --success: 120 94% 52%;

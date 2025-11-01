@@ -518,7 +518,7 @@ function GoalsPageContent() {
             id: HERO_REGION_ID,
             role: "region",
             eyebrow: heroEyebrow,
-            heading: heroHeading,
+            title: heroHeading,
             subtitle: heroSubtitle,
             sticky: false,
             topClassName: GOALS_STICKY_TOP_CLASS,
@@ -527,7 +527,7 @@ function GoalsPageContent() {
             "aria-describedby": heroAriaDescribedby,
           }}
           subTabs={reminderHeroSubTabs}
-          search={reminderHeroSearch}
+          searchBar={reminderHeroSearch}
           actions={reminderHeroActions}
         />
       </PageShell>

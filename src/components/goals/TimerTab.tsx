@@ -418,7 +418,7 @@ export function TimerTab() {
         frame={false}
         topClassName="top-[var(--header-stack)]"
         eyebrow="Focus"
-        heading="Timer"
+        title="Timer"
         subtitle="Pick a duration and focus."
         subTabs={{
           items: tabItems,

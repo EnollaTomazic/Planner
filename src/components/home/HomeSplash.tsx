@@ -109,7 +109,7 @@ export function HomeSplash({ active, onExited }: HomeSplashProps) {
     >
       <PageShell className={styles.shell} aria-labelledby={statusHeadingId}>
         <Hero
-          heading="Plan your day"
+          title="Plan your day"
           subtitle="Track goals and review games."
           tone="supportive"
           frame={false}

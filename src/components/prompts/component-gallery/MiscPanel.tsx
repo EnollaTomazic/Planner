@@ -422,7 +422,7 @@ export function MiscPanel({ data }: MiscPanelProps) {
               <div className="space-y-[var(--space-2)]">
                 <p className="text-label font-medium text-muted-foreground">Glitch (default)</p>
                 <Hero
-                  heading="Hero"
+                  title="Hero"
                   eyebrow="Eyebrow"
                   subtitle="Subtitle"
                   sticky={false}
@@ -437,7 +437,7 @@ export function MiscPanel({ data }: MiscPanelProps) {
                     ariaLabel: "Gallery hero tabs",
                     linkPanels: false,
                   }}
-                  search={{ value: "", onValueChange: () => {}, round: true }}
+                  searchBar={{ value: "", onValueChange: () => {}, round: true }}
                   actions={<Button size="sm">Action</Button>}
                 >
                   <div className="text-ui font-medium text-muted-foreground">Body</div>
@@ -446,7 +446,7 @@ export function MiscPanel({ data }: MiscPanelProps) {
               <div className="space-y-[var(--space-2)]">
                 <p className="text-label font-medium text-muted-foreground">Glitch (subtle)</p>
                 <Hero
-                  heading="Hero"
+                  title="Hero"
                   eyebrow="Eyebrow"
                   subtitle="Subtitle"
                   sticky={false}
@@ -462,7 +462,7 @@ export function MiscPanel({ data }: MiscPanelProps) {
                     ariaLabel: "Gallery hero tabs (subtle)",
                     linkPanels: false,
                   }}
-                  search={{ value: "", onValueChange: () => {}, round: true }}
+                  searchBar={{ value: "", onValueChange: () => {}, round: true }}
                   actions={
                     <Button size="sm" variant="neo">
                       Calm action
@@ -500,7 +500,7 @@ export function MiscPanel({ data }: MiscPanelProps) {
                 }}
               >
                 <Hero
-                  heading="Frame-ready"
+                  title="Frame-ready"
                   eyebrow="No padding"
                   subtitle="Outer shell provides spacing"
                   sticky={false}
@@ -543,7 +543,7 @@ export function MiscPanel({ data }: MiscPanelProps) {
                     {HERO_STATE_LABELS[state]}
                   </p>
                   <Hero
-                    heading={`Planner hero (${HERO_STATE_LABELS[state]})`}
+                    title={`Planner hero (${HERO_STATE_LABELS[state]})`}
                     eyebrow="Component preview"
                     subtitle={`Illustration ${HERO_STATE_LABELS[state].toLowerCase()}.`}
                     sticky={false}
@@ -572,7 +572,7 @@ export function MiscPanel({ data }: MiscPanelProps) {
               style={{ width: SWATCH_WIDTH, height: HEIGHT_STACKED }}
             >
               <Header heading="Stacked" icon={<Star className="opacity-80" />} />
-              <Hero heading="Stacked" topClassName="top-[var(--header-stack)]" />
+              <Hero title="Stacked" topClassName="top-[var(--header-stack)]" />
               <div style={{ height: HERO_SPACER_HEIGHT }} />
             </div>
           ),
