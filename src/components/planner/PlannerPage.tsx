@@ -59,6 +59,7 @@ const {
   heroPortraitChip,
   heroPortraitChipReminder,
   heroPortraitFrame,
+  heroPortraitFrameShell,
   quickLinksRow,
   quickLinksList,
   quickLinkItem,
@@ -414,13 +415,16 @@ function Inner() {
                   ) : null}
                 </div>
               ) : null}
-              <PortraitFrame
-                pose={heroPose}
-                transparentBackground
-                pulse={(reminderStat?.count ?? 0) > 0}
-                className={heroPortraitFrame}
-                priority
-              />
+              <div className={heroPortraitFrameShell}>
+                <PortraitFrame
+                  pose={heroPose}
+                  transparentBackground
+                  pulse={(reminderStat?.count ?? 0) > 0}
+                  className={heroPortraitFrame}
+                  size="xl"
+                  priority
+                />
+              </div>
             </div>
           </div>
         </section>

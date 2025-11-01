@@ -1,7 +1,10 @@
 import * as React from "react";
 import Image from "next/image";
 
-import { AvatarFrame } from "@/components/ui/primitives/AvatarFrame";
+import {
+  AvatarFrame,
+  type AvatarFrameProps,
+} from "@/components/ui/primitives/AvatarFrame";
 import { cn } from "@/lib/utils";
 
 import styles from "./PortraitFrame.module.css";
@@ -22,6 +25,7 @@ export interface PortraitFrameProps {
    * When true, renders an accent pulse outside the rim to highlight planner activity.
    */
   pulse?: boolean;
+  size?: AvatarFrameProps["size"];
   className?: string;
   priority?: boolean;
 }
@@ -118,6 +122,7 @@ export function PortraitFrame({
   pose = "duo",
   transparentBackground = false,
   pulse = false,
+  size = "lg",
   className,
   priority = false,
 }: PortraitFrameProps) {
@@ -130,7 +135,7 @@ export function PortraitFrame({
     <AvatarFrame
       as="figure"
       frame
-      size="lg"
+      size={size}
       role="img"
       aria-labelledby={`${figureId} ${angelId} ${demonId}`}
       className={cn(styles.root, className)}

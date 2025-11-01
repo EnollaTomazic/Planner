@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 import styles from "./AvatarFrame.module.css";
 
-type AvatarFrameSize = "sm" | "md" | "lg";
+type AvatarFrameSize = "sm" | "md" | "lg" | "xl";
 
 type MediaElement = React.ReactElement<
   ImageProps | React.ImgHTMLAttributes<HTMLImageElement>
@@ -34,6 +34,7 @@ const sizeClassNames: Record<AvatarFrameSize, string> = {
   sm: styles.sizeSm,
   md: styles.sizeMd,
   lg: styles.sizeLg,
+  xl: styles.sizeXl,
 };
 
 function coerceMedia(media?: MediaElement) {
