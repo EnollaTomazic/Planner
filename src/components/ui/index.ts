@@ -99,6 +99,8 @@ export { IssueBadge } from "./primitives/IssueBadge";
 export type { IssueBadgeProps, IssueBadgeSeverity } from "./primitives/IssueBadge";
 export { NeoCard, neoCardOverlayClassName } from "./primitives/NeoCard";
 export type { NeoCardProps } from "./primitives/NeoCard";
+export { GlitchNeoCard } from "./primitives/GlitchNeoCard";
+export type { GlitchNeoCardProps } from "./primitives/GlitchNeoCard";
 export { neuInset, neuRaised } from "./primitives/Neu";
 export { SearchBar } from "./primitives/SearchBar";
 export type { SearchBarProps } from "./primitives/SearchBar";
