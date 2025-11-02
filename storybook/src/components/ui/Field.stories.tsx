@@ -426,7 +426,7 @@ function SelectDropdownPreview({
                   className={cn(
                     "flex items-center justify-between gap-[var(--space-3)] rounded-[var(--radius-xl)] px-[var(--space-4)] py-[var(--space-3)] text-ui transition-colors duration-motion-sm ease-out",
                     selected
-                      ? "bg-[linear-gradient(90deg,hsl(var(--accent)/0.22),hsl(var(--accent)/0.05))] text-foreground shadow-[inset_0_0_0_var(--hairline-w)_hsl(var(--accent)/0.35)]"
+                      ? "bg-[linear-gradient(90deg,hsl(var(--accent-1)/0.22),hsl(var(--accent-1)/0.05))] text-foreground shadow-[inset_0_0_0_var(--hairline-w)_hsl(var(--accent-1)/0.35)]"
                       : "text-muted-foreground hover:bg-[hsl(var(--foreground)/0.04)]",
                   )}
                 >

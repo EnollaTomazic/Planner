@@ -307,7 +307,7 @@ function DayColumn({
             >
               <span>{day.shortLabel}</span>
               {day.isToday ? (
-                <span className="rounded-[var(--radius-full)] bg-[hsl(var(--accent)/0.22)] px-[var(--space-2)] py-[var(--spacing-0-5)] text-label font-medium text-[hsl(var(--text-on-accent))]">
+                <span className="rounded-[var(--radius-full)] bg-[hsl(var(--accent-1)/0.22)] px-[var(--space-2)] py-[var(--spacing-0-5)] text-label font-medium text-[hsl(var(--text-on-accent))]">
                   Today
                 </span>
               ) : null}

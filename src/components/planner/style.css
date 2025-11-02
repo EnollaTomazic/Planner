@@ -93,7 +93,7 @@
   border-radius: calc(var(--radius-lg) - var(--hairline-w) * 2);
   background: var(
     --edge-iris,
-    linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)))
+    linear-gradient(90deg, hsl(var(--accent-1)), hsl(var(--primary)))
   );
   -webkit-mask:
     linear-gradient(hsl(var(--foreground)) 0 0) content-box,
@@ -286,7 +286,7 @@
 }
 .ws-tile--today .ws-tile__date {
   color: hsl(var(--primary-foreground));
-  text-shadow: 0 0 var(--space-2) hsl(var(--accent) / 0.35);
+  text-shadow: 0 0 var(--space-2) hsl(var(--accent-1) / 0.35);
 }
 
 .ws-tile--empty {
@@ -560,7 +560,7 @@
   );
 }
 .chip--today .chip__date {
-  text-shadow: 0 0 var(--space-2) hsl(var(--accent) / 0.35);
+  text-shadow: 0 0 var(--space-2) hsl(var(--accent-1) / 0.35);
 }
 
 .chip--today[data-active] {
@@ -606,7 +606,7 @@
   opacity: 0.75;
 }
 .chip--active .chip__date::before {
-  color: hsl(var(--accent));
+  color: hsl(var(--accent-1));
 }
 .chip--active .chip__date::after {
   color: hsl(var(--primary));
@@ -641,9 +641,9 @@
   background: linear-gradient(
     90deg,
     hsl(var(--primary) / 0.55),
-    hsl(var(--accent) / 0.45),
+    hsl(var(--accent-1) / 0.45),
     hsl(var(--ring) / 0.55),
-    hsl(var(--accent) / 0.45),
+    hsl(var(--accent-1) / 0.45),
     hsl(var(--primary) / 0.55)
   );
   -webkit-mask:
@@ -703,7 +703,7 @@
     animation: none;
     background: var(
       --edge-iris,
-      linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary)))
+      linear-gradient(135deg, hsl(var(--accent-1)), hsl(var(--primary)))
     );
     background-size: 140% 140%;
     background-position: 30% 50%;

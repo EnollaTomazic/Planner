@@ -110,20 +110,20 @@ describe("IconButton", () => {
     expect(classes).toContain("hover:shadow-btn-primary-hover");
     expect(classes).toContain("active:shadow-btn-primary-active");
     expect(classes).toContain(
-      "border-[hsl(var(--accent)/0.35)] [--neu-surface:hsl(var(--accent)/0.12)]",
+      "border-[hsl(var(--accent-1)/0.35)] [--neu-surface:hsl(var(--accent-1)/0.12)]",
     );
     expect(classes).toContain("text-on-accent");
     expect(classes).toContain(
-      "[--glow-active:hsl(var(--accent)/0.35)]",
+      "[--glow-active:hsl(var(--accent-1)/0.35)]",
     );
     expect(classes).toContain(
-      "[--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--accent)/0.25)]",
+      "[--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--accent-1)/0.25)]",
     );
     expect(classes).toContain(
-      "[--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--accent)/0.6)]",
+      "[--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--accent-1)/0.6)]",
     );
-    expect(classes).toContain("[--hover:hsl(var(--accent)/0.14)]");
-    expect(classes).toContain("[--active:hsl(var(--accent)/0.2)]");
+    expect(classes).toContain("[--hover:hsl(var(--accent-1)/0.14)]");
+    expect(classes).toContain("[--active:hsl(var(--accent-1)/0.2)]");
   });
 
   it("applies soft variant with info tone", () => {

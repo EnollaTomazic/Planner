@@ -21,7 +21,7 @@
   mix-blend-mode: screen;
 }
 [data-scope="team"] .glitch-title::before {
-  color: hsl(var(--accent));
+  color: hsl(var(--accent-1));
   clip-path: polygon(0 2%, 100% 2%, 100% 40%, 0 40%);
 }
 [data-scope="team"] .glitch-title::after {
@@ -36,7 +36,7 @@
     ),
     var(
       --team-glitch-accent-shadow,
-      0 0 var(--spacing-0-5) hsl(var(--accent) / 0.35)
+      0 0 var(--spacing-0-5) hsl(var(--accent-1) / 0.35)
     );
 }
 

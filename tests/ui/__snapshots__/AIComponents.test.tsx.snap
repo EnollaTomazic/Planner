@@ -90,7 +90,7 @@ exports[`AIConfidenceHint > formats scores and level metadata 1`] = `
 
 exports[`AIExplainTooltip > toggles open state via click 1`] = `
 <div
-  class="pointer-events-none absolute z-10 mt-[var(--space-2)] min-w-[min(22rem,calc(100vw-2rem))] rounded-card border p-[var(--space-3)] text-left shadow-[var(--shadow-outline-subtle)] opacity-0 -translate-y-[var(--space-1)] transition-[opacity,transform] duration-motion-sm ease-out motion-reduce:transition-none motion-reduce:transform-none data-[state=open]:opacity-100 data-[state=open]:translate-y-0 bg-[hsl(var(--accent-soft))] border-[hsl(var(--accent)/0.4)] text-[hsl(var(--accent-foreground))] left-0"
+  class="pointer-events-none absolute z-10 mt-[var(--space-2)] min-w-[min(22rem,calc(100vw-2rem))] rounded-card border p-[var(--space-3)] text-left shadow-[var(--shadow-outline-subtle)] opacity-0 -translate-y-[var(--space-1)] transition-[opacity,transform] duration-motion-sm ease-out motion-reduce:transition-none motion-reduce:transform-none data-[state=open]:opacity-100 data-[state=open]:translate-y-0 bg-[hsl(var(--accent-1-soft))] border-[hsl(var(--accent-1)/0.4)] text-[hsl(var(--accent-1-foreground))] left-0"
   data-state="open"
   id=":r0:"
   role="tooltip"
@@ -194,12 +194,12 @@ exports[`AITypingIndicator > renders typing dots and snapshot 1`] = `
 <div
   aria-busy="true"
   aria-live="polite"
-  class="flex items-center gap-[var(--space-3)] rounded-card border border-[hsl(var(--accent)/0.35)] bg-[hsl(var(--surface)/0.72)] p-[var(--space-3)] text-left shadow-[var(--shadow-outline-faint)] backdrop-blur-sm"
+  class="flex items-center gap-[var(--space-3)] rounded-card border border-[hsl(var(--accent-1)/0.35)] bg-[hsl(var(--surface)/0.72)] p-[var(--space-3)] text-left shadow-[var(--shadow-outline-faint)] backdrop-blur-sm"
   role="status"
 >
   <span
     aria-hidden="true"
-    class="grid size-[var(--space-9)] place-items-center rounded-full border border-[hsl(var(--accent)/0.35)] bg-[hsl(var(--accent-soft))] text-[hsl(var(--accent-foreground))] shadow-[var(--shadow-inset-hairline)]"
+    class="grid size-[var(--space-9)] place-items-center rounded-full border border-[hsl(var(--accent-1)/0.35)] bg-[hsl(var(--accent-1-soft))] text-[hsl(var(--accent-1-foreground))] shadow-[var(--shadow-inset-hairline)]"
   >
     <svg
       aria-hidden="true"
@@ -253,17 +253,17 @@ exports[`AITypingIndicator > renders typing dots and snapshot 1`] = `
     >
       <span
         aria-hidden="true"
-        class="size-[var(--space-1-5)] rounded-full bg-[hsl(var(--accent))] opacity-70 motion-safe:animate-pulse"
+        class="size-[var(--space-1-5)] rounded-full bg-[hsl(var(--accent-1))] opacity-70 motion-safe:animate-pulse"
         style="animation-delay: 0ms; animation-duration: 1200ms;"
       />
       <span
         aria-hidden="true"
-        class="size-[var(--space-1-5)] rounded-full bg-[hsl(var(--accent))] opacity-70 motion-safe:animate-pulse"
+        class="size-[var(--space-1-5)] rounded-full bg-[hsl(var(--accent-1))] opacity-70 motion-safe:animate-pulse"
         style="animation-delay: 120ms; animation-duration: 1200ms;"
       />
       <span
         aria-hidden="true"
-        class="size-[var(--space-1-5)] rounded-full bg-[hsl(var(--accent))] opacity-70 motion-safe:animate-pulse"
+        class="size-[var(--space-1-5)] rounded-full bg-[hsl(var(--accent-1))] opacity-70 motion-safe:animate-pulse"
         style="animation-delay: 240ms; animation-duration: 1200ms;"
       />
       <span

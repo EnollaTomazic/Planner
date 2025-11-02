@@ -27,7 +27,7 @@ export type DripEdgeProps = Omit<
 
 const toneStops: Record<DripTone, [string, string, string]> = {
   primary: ["--primary", "--primary", "--primary"],
-  accent: ["--accent", "--accent", "--accent"],
+  accent: ["--accent-1", "--accent-1", "--accent-1"],
   info: ["--accent-2", "--accent-2", "--accent-2"],
   danger: ["--danger", "--danger", "--danger"],
   surface: [

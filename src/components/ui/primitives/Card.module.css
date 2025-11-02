@@ -44,7 +44,7 @@
   background:
     radial-gradient(
       120% 120% at 18% -12%,
-      hsl(var(--accent) / 0.22),
+      hsl(var(--accent-1) / 0.22),
       transparent 60%
     ),
     radial-gradient(

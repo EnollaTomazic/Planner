@@ -28,7 +28,7 @@ const HEADER = [
 const SUPPORTS_SECTION = String.raw`/* Upgrade tokens when color-mix(oklab) is supported */
 @supports (color: color-mix(in oklab, white, black)) {
   :root {
-    --accent-overlay: color-mix(in oklab, hsl(var(--accent)) 60%, transparent);
+    --accent-overlay: color-mix(in oklab, hsl(var(--accent-1)) 60%, transparent);
     --ring-contrast: color-mix(
       in oklab,
       hsl(var(--ring)) 70%,
@@ -40,12 +40,12 @@ const SUPPORTS_SECTION = String.raw`/* Upgrade tokens when color-mix(oklab) is s
     --card-hairline: color-mix(
       in oklab,
       hsl(var(--border)) 82%,
-      hsl(var(--accent)) 18%
+      hsl(var(--accent-1)) 18%
     );
     --blob-surface-1: color-mix(
       in oklab,
       hsl(var(--surface)) 72%,
-      hsl(var(--accent)) 28%
+      hsl(var(--accent-1)) 28%
     );
     --blob-surface-2: color-mix(
       in oklab,
@@ -64,13 +64,13 @@ const SUPPORTS_SECTION = String.raw`/* Upgrade tokens when color-mix(oklab) is s
     );
     --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
     --aurora-g-light-color: var(--aurora-g-light);
-    --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+    --aurora-p-light: color-mix(in oklab, hsl(var(--accent-1)) 37.5%, white);
     --aurora-p-light-color: var(--aurora-p-light);
   }
   html.theme-aurora {
     --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
     --aurora-g-light-color: var(--aurora-g-light);
-    --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+    --aurora-p-light: color-mix(in oklab, hsl(var(--accent-1)) 37.5%, white);
     --aurora-p-light-color: var(--aurora-p-light);
   }
   html.theme-hardstuck {
@@ -110,7 +110,7 @@ const SUPPORTS_SECTION = String.raw`/* Upgrade tokens when color-mix(oklab) is s
     --blob-surface-3: color-mix(
       in oklab,
       hsl(var(--card)) 64%,
-      hsl(var(--accent)) 36%
+      hsl(var(--accent-1)) 36%
     );
     --blob-surface-shadow: color-mix(
       in oklab,

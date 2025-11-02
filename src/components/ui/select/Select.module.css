@@ -96,7 +96,7 @@
     hsl(var(--ring) / 0),
     hsl(var(--ring) / 0.7),
     hsl(var(--accent-2) / 0.65),
-    hsl(var(--accent) / 0.65),
+    hsl(var(--accent-1) / 0.65),
     hsl(var(--ring) / 0)
   );
   -webkit-mask:

@@ -19,7 +19,7 @@ type ReviewSliderTrackProps = {
 
 const toneTokenClassNames: Record<ReviewSliderTone, string> = {
   score:
-    "[--slider-fill-tint:hsl(var(--accent)/0.35)] [--slider-fill-tint-hover:hsl(var(--accent)/0.45)] [--slider-fill-tint-active:hsl(var(--accent)/0.55)] [--slider-focus-ring:var(--ring-contrast)] [--slider-knob-hover-surface:hsl(var(--accent)/0.28)] [--slider-knob-active-surface:hsl(var(--accent)/0.36)] [--slider-knob-focus-ring:var(--ring-contrast)]",
+    "[--slider-fill-tint:hsl(var(--accent-1)/0.35)] [--slider-fill-tint-hover:hsl(var(--accent-1)/0.45)] [--slider-fill-tint-active:hsl(var(--accent-1)/0.55)] [--slider-focus-ring:var(--ring-contrast)] [--slider-knob-hover-surface:hsl(var(--accent-1)/0.28)] [--slider-knob-active-surface:hsl(var(--accent-1)/0.36)] [--slider-knob-focus-ring:var(--ring-contrast)]",
   focus:
     "[--slider-fill-tint:hsl(var(--focus)/0.35)] [--slider-fill-tint-hover:hsl(var(--focus)/0.45)] [--slider-fill-tint-active:hsl(var(--focus)/0.55)] [--slider-focus-ring:var(--ring-contrast)] [--slider-knob-hover-surface:hsl(var(--focus)/0.3)] [--slider-knob-active-surface:hsl(var(--focus)/0.4)] [--slider-knob-focus-ring:var(--ring-contrast)]",
 };

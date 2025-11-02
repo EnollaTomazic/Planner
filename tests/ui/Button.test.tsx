@@ -26,10 +26,10 @@ describe("Button", () => {
     ],
     accent: [
       "text-on-accent",
-      "[--neu-surface:hsl(var(--accent)/0.12)]",
-      "border-[hsl(var(--accent)/0.35)]",
-      "[--hover:hsl(var(--accent)/0.14)]",
-      "[--active:hsl(var(--accent)/0.2)]",
+      "[--neu-surface:hsl(var(--accent-1)/0.12)]",
+      "border-[hsl(var(--accent-1)/0.35)]",
+      "[--hover:hsl(var(--accent-1)/0.14)]",
+      "[--active:hsl(var(--accent-1)/0.2)]",
     ],
     info: [
       "text-on-accent",
@@ -59,9 +59,9 @@ describe("Button", () => {
     ],
     accent: [
       "text-on-accent",
-      "[--neu-surface:hsl(var(--accent)/0.3)]",
-      "[--hover:hsl(var(--accent)/0.25)]",
-      "[--active:hsl(var(--accent)/0.2)]",
+      "[--neu-surface:hsl(var(--accent-1)/0.3)]",
+      "[--hover:hsl(var(--accent-1)/0.25)]",
+      "[--active:hsl(var(--accent-1)/0.2)]",
     ],
     info: [
       "text-on-accent",
@@ -87,10 +87,10 @@ describe("Button", () => {
     ],
     accent: [
       "text-on-accent",
-      "[--neu-surface:hsl(var(--accent)/0.2)]",
+      "[--neu-surface:hsl(var(--accent-1)/0.2)]",
       "border-accent/35",
-      "[--hover:hsl(var(--accent)/0.25)]",
-      "[--active:hsl(var(--accent)/0.35)]",
+      "[--hover:hsl(var(--accent-1)/0.25)]",
+      "[--active:hsl(var(--accent-1)/0.35)]",
     ],
     info: [
       "text-on-accent",
