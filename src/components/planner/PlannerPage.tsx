@@ -14,15 +14,15 @@ import * as React from "react";
 import Image from "next/image";
 import {
   Button,
-  GlitchProgress,
   GlitchSegmentedButton,
   GlitchSegmentedGroup,
+  Hero,
+  HeroCol,
+  HeroGrid,
   PageHeader,
   PageShell,
+  Slider,
 } from "@/components/ui";
-import { PortraitFrame } from "@/components/home/PortraitFrame";
-import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
-import { useOptionalTheme } from "@/lib/theme-context";
 import { cn } from "@/lib/utils";
 import styles from "./PlannerPage.module.css";
 import { useFocusDate, useWeek } from "./useFocusDate";
@@ -37,30 +37,21 @@ import { useWeekData } from "./useWeekData";
 import useBasePath from "@/lib/useBasePath";
 import { PlannerStatChip } from "./PlannerStatChip";
 import { useDay } from "./useDay";
+import { SmallAgnesNoxiImage } from "./SmallAgnesNoxiImage";
 
 const {
-  heroRow: heroPanel,
-  heroNoise,
-  heroContent,
-  heroText,
-  heroEyebrow,
-  heroHeading,
-  heroSubtitle,
-  heroDial,
-  heroGauge,
-  heroGaugeTrack,
-  heroGaugeValue,
-  heroGaugeCaption,
-  heroSliderLabel,
-  heroSlider,
-  heroFeedback,
+  autopilotHero,
+  heroSummaryCard,
+  heroSummaryLabel,
+  heroSummaryBody,
+  heroMetrics,
+  heroDonut,
+  heroDonutRing,
+  heroDonutValue,
+  heroDonutCaption,
+  heroStatStack,
   heroActions,
-  heroPortrait,
-  heroPortraitChipStack,
-  heroPortraitChip,
-  heroPortraitChipReminder,
-  heroPortraitFrame,
-  heroPortraitFrameShell,
+  heroActionButtons,
   quickLinksRow,
   quickLinksList,
   quickLinkItem,
@@ -155,12 +146,30 @@ function Inner() {
   const { start, end, days } = useWeek(iso);
   const { tasks } = useDay(iso);
   const hydrating = today === FOCUS_PLACEHOLDER;
-  const themeContext = useOptionalTheme();
-  const themeVariant = themeContext?.[0].variant ?? "aurora";
-  const prefersReducedMotion = usePrefersReducedMotion();
   const [planningEnergy, setPlanningEnergy] = React.useState(72);
   const { per, weekDone, weekTotal } = useWeekData(days ?? []);
   const { withBasePath } = useBasePath();
+  const sliderFeedback = React.useMemo(() => {
+    if (planningEnergy >= 75) return "High-intensity push queued.";
+    if (planningEnergy <= 40) return "Keeping a low-impact tempo.";
+    return "Balanced cadence engaged.";
+  }, [planningEnergy]);
+  const autopilotSummary = React.useMemo(() => {
+    if (hydrating) {
+      return "Syncing planner telemetry for this sprint…";
+    }
+    if (weekTotal > 0) {
+      return `Autopilot locked ${weekDone.toLocaleString()} of ${weekTotal.toLocaleString()} tasks so far. Adjust the focus dial before we finalize the sprint.`;
+    }
+    return "Draft your first tasks to let Agnes and Noxi assemble the sprint outline.";
+  }, [hydrating, weekDone, weekTotal]);
+  const donutStyle = React.useMemo<React.CSSProperties>(
+    () =>
+      ({
+        ["--donut-progress" as const]: planningEnergy,
+      } as React.CSSProperties),
+    [planningEnergy],
+  );
   const weekAnnouncement = React.useMemo(
     () => (hydrating ? "Week preview loading…" : formatWeekRangeLabel(start, end)),
     [end, hydrating, start],
@@ -206,7 +215,6 @@ function Inner() {
     } as const;
   }, [hydrating, tasks]);
   const labelId = React.useId();
-  const sliderId = React.useId();
   const handleViewModeChange = React.useCallback(
     (value: string) => {
       if (value === viewMode) return;
@@ -214,16 +222,6 @@ function Inner() {
     },
     [setViewMode, viewMode],
   );
-
-  const heroPose = React.useMemo(() => {
-    if (themeVariant === "noir" || themeVariant === "hardstuck") {
-      return "back-to-back";
-    }
-    if (themeVariant === "aurora" || themeVariant === "ocean") {
-      return "angel-leading";
-    }
-    return "demon-leading";
-  }, [themeVariant]);
 
   type QuickLink = {
     id: string;
@@ -295,100 +293,33 @@ function Inner() {
   return (
     <>
       <PageShell as="header" grid className="py-[var(--space-7)]">
-        <section
-          className={cn(
-            "col-span-full md:col-span-12",
-            heroPanel,
-            "rounded-card r-card-lg border border-card-hairline-60 shadow-neo-strong shadow-depth-outer-strong",
-          )}
-          aria-labelledby="planner-hero-heading"
-        >
-          <div
-            aria-hidden="true"
-            className={cn(
-              heroNoise,
-              "bg-glitch-noise bg-cover mix-blend-screen",
-              prefersReducedMotion
-                ? "motion-reduce:animate-none"
-                : "motion-safe:animate-glitch-noise",
-            )}
-          />
-          <div className={heroContent}>
-            <div className={cn(heroText, "col-span-full")}>
-              <span className={heroEyebrow}>Planner autopilot</span>
-              <h2 id="planner-hero-heading" className={heroHeading}>
-                Agnes &amp; Noxi tuned this sprint blueprint
-              </h2>
-              <p className={heroSubtitle}>
-                Tweak the focus dial before locking the week. Agnes maps the calm line, Noxi keeps the glitch guardrails on.
-                Every suggestion stays editable.
-              </p>
-              <div className={heroDial}>
-                <GlitchProgress
-                  current={planningEnergy}
-                  total={100}
-                  showPercentage
-                  className={heroGauge}
-                  trackClassName={heroGaugeTrack}
-                  percentageClassName={heroGaugeValue}
-                  formatPercentage={(value) => `${value}%`}
-                  aria-label="Focus calibration"
-                />
-                <span className={heroGaugeCaption}>Focus calibration</span>
-                <label className={heroSliderLabel} htmlFor={sliderId}>
-                  <span className="text-label font-medium tracking-[0.08em] uppercase">
-                    Adjust energy
-                  </span>
-                  <input
-                    id={sliderId}
-                    type="range"
-                    min={20}
-                    max={100}
-                    step={1}
-                    value={planningEnergy}
-                    onChange={(event) => setPlanningEnergy(Number(event.target.value))}
-                    className={heroSlider}
-                    aria-valuemin={20}
-                    aria-valuemax={100}
-                    aria-valuenow={planningEnergy}
-                    aria-describedby={`${sliderId}-feedback`}
-                  />
-                  <span
-                    id={`${sliderId}-feedback`}
-                    className={heroFeedback}
-                    aria-live="polite"
-                  >
-                    {planningEnergy >= 75
-                      ? "High-intensity push queued."
-                      : planningEnergy <= 40
-                        ? "Keeping a low-impact tempo."
-                        : "Balanced cadence engaged."}
-                  </span>
-                </label>
-              </div>
-              <div className={heroActions}>
-                <Button size="sm" variant="quiet" tone="accent">
-                  Retry suggestions
-                </Button>
-                <Button size="sm" variant="default" tone="accent">
-                  Edit draft
-                </Button>
-                <Button size="sm" variant="quiet">
-                  Cancel
-                </Button>
-              </div>
+        <Hero
+          className={cn("col-span-full md:col-span-12", autopilotHero)}
+          sticky={false}
+          eyebrow="Planner autopilot"
+          title="Your sprint blueprint"
+          subtitle="Tweak the focus dial before locking the week. Agnes maps the calm line, Noxi keeps the glitch guardrails on. Every suggestion stays editable."
+          illustration={<SmallAgnesNoxiImage />}
+          illustrationAlt="Agnes and Noxi calibrating the sprint blueprint"
+          actions={
+            <div className={heroActions}>
+              <Slider
+                label="Adjust energy"
+                min={20}
+                max={100}
+                step={1}
+                value={planningEnergy}
+                onChange={(event) => setPlanningEnergy(Number(event.target.value))}
+                minLabel="20%"
+                maxLabel="100%"
+                description={sliderFeedback}
+              />
               {quickLinks.length ? (
                 <nav aria-label="Planner quick suggestions" className={quickLinksRow}>
                   <ul className={quickLinksList} role="list">
                     {quickLinks.map((link) => (
                       <li key={link.id} className={quickLinkItem}>
-                        <a
-                          className={cn(
-                            quickLinkChip,
-                            "rounded-card r-card-md border border-card-hairline-60 shadow-depth-soft",
-                          )}
-                          href={link.href}
-                        >
+                        <a className={quickLinkChip} href={link.href}>
                           <span className={quickLinkLabel}>{link.label}</span>
                           {link.description ? (
                             <span className={quickLinkMeta}>{link.description}</span>
@@ -399,43 +330,65 @@ function Inner() {
                   </ul>
                 </nav>
               ) : null}
-            </div>
-            <div className={heroPortrait}>
-              {todayStat || reminderStat ? (
-                <div className={heroPortraitChipStack}>
-                  {todayStat ? (
-                    <PlannerStatChip
-                      label="Tasks today"
-                      value={todayStat.value}
-                      ariaLabel={todayStat.ariaLabel}
-                      current={todayStat.done}
-                      total={todayStat.total}
-                      className={heroPortraitChip}
-                    />
-                  ) : null}
-                  {reminderStat ? (
-                    <PlannerStatChip
-                      label="Nudges today"
-                      value={reminderStat.value}
-                      ariaLabel={reminderStat.ariaLabel}
-                      className={cn(heroPortraitChip, heroPortraitChipReminder)}
-                    />
-                  ) : null}
-                </div>
-              ) : null}
-              <div className={heroPortraitFrameShell}>
-                <PortraitFrame
-                  pose={heroPose}
-                  transparentBackground
-                  pulse={(reminderStat?.count ?? 0) > 0}
-                  className={heroPortraitFrame}
-                  size="xl"
-                  priority
-                />
+              <div className={heroActionButtons}>
+                <Button size="sm" variant="quiet" tone="accent">
+                  Retry suggestions
+                </Button>
+                <Button size="sm" variant="default" tone="accent">
+                  Edit draft
+                </Button>
+                <Button size="sm" variant="quiet">
+                  Cancel
+                </Button>
               </div>
             </div>
-          </div>
-        </section>
+          }
+        >
+          <HeroGrid>
+            <HeroCol span={7}>
+              <div className={heroSummaryCard}>
+                <span className={heroSummaryLabel}>Autopilot status</span>
+                <p className={heroSummaryBody}>{autopilotSummary}</p>
+              </div>
+            </HeroCol>
+            <HeroCol span={5} className={heroMetrics}>
+              <div className={heroDonut}>
+                <div
+                  className={heroDonutRing}
+                  style={donutStyle}
+                  role="progressbar"
+                  aria-label={`Focus calibration ${planningEnergy}%`}
+                  aria-valuemin={20}
+                  aria-valuemax={100}
+                  aria-valuenow={planningEnergy}
+                >
+                  <span className={heroDonutValue} aria-hidden>
+                    {planningEnergy}%
+                  </span>
+                </div>
+                <span className={heroDonutCaption}>Focus calibration</span>
+              </div>
+              <div className={heroStatStack}>
+                {todayStat ? (
+                  <PlannerStatChip
+                    label="Tasks today"
+                    value={todayStat.value}
+                    ariaLabel={todayStat.ariaLabel}
+                    current={todayStat.done}
+                    total={todayStat.total}
+                  />
+                ) : null}
+                {reminderStat ? (
+                  <PlannerStatChip
+                    label="Nudges today"
+                    value={reminderStat.value}
+                    ariaLabel={reminderStat.ariaLabel}
+                  />
+                ) : null}
+              </div>
+            </HeroCol>
+          </HeroGrid>
+        </Hero>
         {/* Week header (range, nav, totals, day chips) */}
         <PageHeader
           containerClassName="col-span-full"
