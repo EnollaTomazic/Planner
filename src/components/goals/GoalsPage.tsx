@@ -26,7 +26,8 @@ import {
 
 import { type HeaderTab } from "@/components/ui/layout/Header";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
-import { Snackbar, PageHeader, PageShell, Modal, GlitchNeoCard } from "@/components/ui";
+import { Snackbar, PageHeader, PageShell, Modal } from "@/components/ui";
+import { GlitchNeoCard } from "@/components/ui/patterns";
 import { PlannerProvider } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
 import {
@@ -622,7 +623,7 @@ function GoalsPageContent() {
               </div>
 
               <div ref={formRef} id="goal-form">
-                <GlitchNeoCard className="p-[var(--space-4)]">
+                <GlitchNeoCard padding="var(--space-4)">
                   <EntityForm
                     ref={goalFormRef}
                     title="Add goal"

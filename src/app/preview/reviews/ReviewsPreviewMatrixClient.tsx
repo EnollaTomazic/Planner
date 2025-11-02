@@ -46,10 +46,7 @@ function ReviewDetailLoadingPreview() {
   return (
     <ReviewPanel
       aria-busy="true"
-      className={cn(
-        detailPanelClass,
-        "glitch-card space-y-[var(--space-4)] px-[var(--space-7)] py-[var(--space-7)]",
-      )}
+      className={cn(detailPanelClass, "space-y-[var(--space-4)]")}
     >
       <div className="space-y-[var(--space-2)]">
         <Skeleton
@@ -88,13 +85,7 @@ function ReviewDetailLoadingPreview() {
 
 function ReviewDetailErrorPreview() {
   return (
-    <ReviewPanel
-      aria-live="polite"
-      className={cn(
-        detailPanelClass,
-        "glitch-card px-[var(--space-7)] py-[var(--space-7)]",
-      )}
-    >
+    <ReviewPanel aria-live="polite" className={detailPanelClass}>
       <AIErrorCard
         title="Review detail unavailable"
         description="We couldn’t load your review details."
@@ -113,8 +104,8 @@ function ReviewDetailEmptyPreview() {
       aria-live="polite"
       className={cn(
         detailPanelClass,
-        "relative isolate flex flex-col items-center justify-center gap-[var(--space-4)] overflow-hidden",
-        "glitch-card px-[var(--space-7)] py-[var(--space-8)] text-center text-ui text-muted-foreground",
+        "relative flex flex-col items-center justify-center gap-[var(--space-4)] overflow-hidden",
+        "text-center text-ui text-muted-foreground",
       )}
     >
       <span
@@ -151,8 +142,8 @@ function ReviewDetailPlaceholderPreview() {
       aria-live="polite"
       className={cn(
         detailPanelClass,
-        "relative isolate flex flex-col items-center justify-center gap-[var(--space-3)] overflow-hidden",
-        "glitch-card px-[var(--space-7)] py-[var(--space-8)] text-center text-ui text-muted-foreground",
+        "relative flex flex-col items-center justify-center gap-[var(--space-3)] overflow-hidden",
+        "text-center text-ui text-muted-foreground",
       )}
     >
       <span
