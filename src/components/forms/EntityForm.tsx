@@ -119,36 +119,52 @@ export const EntityForm = React.forwardRef<EntityFormHandle, EntityFormProps>(
     }, [fields, initialValues]);
 
     const [values, setValues] = React.useState<EntityFormValues>(defaultValues);
+    const valuesRef = React.useRef(values);
+    React.useEffect(() => {
+      valuesRef.current = values;
+    }, [values]);
     const fieldIds = React.useMemo(
       () => fields.map((field) => field.id),
       [fields],
     );
     const prevDefaultsRef = React.useRef(defaultValues);
+    const prevInitialValuesRef = React.useRef(initialValues);
     const prevFieldIdsRef = React.useRef(fieldIds);
     const isFirstRenderRef = React.useRef(true);
 
     React.useEffect(() => {
       const prevDefaults = prevDefaultsRef.current;
+      const prevInitialValues = prevInitialValuesRef.current;
       const prevFieldIds = prevFieldIdsRef.current;
       const hasFieldStructureChanged =
         prevFieldIds.length !== fieldIds.length ||
         fieldIds.some((id, index) => id !== prevFieldIds[index]);
       const defaultsChanged =
         hasFieldStructureChanged || !areValuesEqual(prevDefaults, defaultValues);
+      const initialValuesChanged = prevInitialValues !== initialValues;
+      const hasValuesDriftedFromDefaults =
+        !areValuesEqual(valuesRef.current, defaultValues);
 
-      if (isFirstRenderRef.current || defaultsChanged) {
+      if (
+        isFirstRenderRef.current ||
+        defaultsChanged ||
+        (initialValuesChanged && hasValuesDriftedFromDefaults)
+      ) {
         isFirstRenderRef.current = false;
         prevDefaultsRef.current = defaultValues;
+        prevInitialValuesRef.current = initialValues;
         prevFieldIdsRef.current = fieldIds;
+        valuesRef.current = defaultValues;
         setValues(defaultValues);
         onValuesChange?.(defaultValues);
         return;
       }
 
       prevDefaultsRef.current = defaultValues;
+      prevInitialValuesRef.current = initialValues;
       prevFieldIdsRef.current = fieldIds;
       isFirstRenderRef.current = false;
-    }, [defaultValues, fieldIds, onValuesChange]);
+    }, [defaultValues, fieldIds, initialValues, onValuesChange]);
 
     const firstFieldRef = React.useRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null>(
       null,
