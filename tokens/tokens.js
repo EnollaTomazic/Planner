@@ -311,7 +311,7 @@ export default {
   neonOutlineOpacity: "0.35",
   glitchIntensity: "1.0",
   glitchFringe: "12deg",
-  glitchStaticOpacity: "0.18",
+  glitchStaticOpacity: "0.054",
   glitchNoiseLevel: "var(--glitch-static-opacity)",
   glitchOverlayButtonOpacity: "0.42",
   glitchOverlayButtonOpacityReduced: "0.28",
