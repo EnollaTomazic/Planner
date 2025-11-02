@@ -14,6 +14,7 @@ import type {
   PlannerOverviewProps,
 } from "@/components/home"
 import { PageShell, Button, SectionCard, PageHeader } from "@/components/ui"
+import { GlitchNeoCard } from "@/components/ui/patterns"
 import { PlannerProvider } from "@/components/planner"
 import { useTheme } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
@@ -130,9 +131,10 @@ function GlitchLandingHeroContent() {
       <div className="space-y-[var(--space-4)]">
         <div className="grid gap-[var(--space-3)] sm:grid-cols-2">
           {glitchHeroMetrics.map((metric) => (
-            <div
+            <GlitchNeoCard
               key={metric.id}
-              className="rounded-[var(--radius-xl)] border border-border/70 bg-surface/80 p-[var(--space-4)] shadow-depth-soft"
+              padding="var(--space-4)"
+              className="space-y-[var(--space-2)] text-left"
             >
               <p className="text-label font-semibold uppercase tracking-[0.02em] text-muted-foreground">
                 {metric.label}
@@ -141,11 +143,11 @@ function GlitchLandingHeroContent() {
                 {metric.value}
               </p>
               <p className="text-label text-muted-foreground">{metric.hint}</p>
-            </div>
+            </GlitchNeoCard>
           ))}
         </div>
       </div>
-      <div className="flex flex-col items-center gap-[var(--space-3)] rounded-[var(--radius-3xl)] border border-border/70 bg-surface/80 p-[var(--space-5)] text-center shadow-depth-soft">
+      <GlitchNeoCard className="flex flex-col items-center gap-[var(--space-3)] text-center" padding="var(--space-5)">
         <div className="relative flex items-center justify-center">
           <ProgressRingIcon pct={68} size="l" />
           <span className="absolute text-title-lg font-semibold text-primary">
@@ -156,7 +158,7 @@ function GlitchLandingHeroContent() {
         <p className="text-body text-muted-foreground">
           Flow stabilized for the current sprint window.
         </p>
-      </div>
+      </GlitchNeoCard>
     </div>
   )
 }

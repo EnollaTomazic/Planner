@@ -346,10 +346,7 @@ export function ReviewsPage({
             {isLoading ? (
               <ReviewPanel
                 aria-busy="true"
-                className={cn(
-                  panelClass,
-                  "glitch-card space-y-[var(--space-4)] px-[var(--space-7)] py-[var(--space-7)]",
-                )}
+                className={cn(panelClass, "space-y-[var(--space-4)]")}
               >
                 <div className="space-y-[var(--space-2)]">
                   <Skeleton
@@ -384,13 +381,7 @@ export function ReviewsPage({
                 />
               </ReviewPanel>
             ) : isErrored ? (
-              <ReviewPanel
-                aria-live="polite"
-                className={cn(
-                  panelClass,
-                  "glitch-card px-[var(--space-7)] py-[var(--space-7)]",
-                )}
-              >
+              <ReviewPanel aria-live="polite" className={panelClass}>
                 <AIErrorCard
                   title="Review detail unavailable"
                   description={errorMessage ?? "We couldn’t load your review details."}
@@ -405,8 +396,8 @@ export function ReviewsPage({
                 aria-live="polite"
                 className={cn(
                   panelClass,
-                  "relative isolate flex flex-col items-center justify-center gap-[var(--space-4)] overflow-hidden",
-                  "glitch-card px-[var(--space-7)] py-[var(--space-8)] text-center text-ui text-muted-foreground",
+                  "relative flex flex-col items-center justify-center gap-[var(--space-4)] overflow-hidden",
+                  "text-center text-ui text-muted-foreground",
                 )}
               >
                 <span
@@ -437,8 +428,8 @@ export function ReviewsPage({
                 aria-live="polite"
                 className={cn(
                   panelClass,
-                  "relative isolate flex flex-col items-center justify-center gap-[var(--space-3)] overflow-hidden",
-                  "glitch-card px-[var(--space-7)] py-[var(--space-8)] text-center text-ui text-muted-foreground",
+                  "relative flex flex-col items-center justify-center gap-[var(--space-3)] overflow-hidden",
+                  "text-center text-ui text-muted-foreground",
                 )}
               >
                 <span
