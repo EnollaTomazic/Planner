@@ -9,6 +9,7 @@ import "./style.css";
 
 import * as React from "react";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { Label } from "@/components/ui/Label";
 import { Textarea } from "@/components/ui/primitives/Textarea";
 import { useDayNotes } from "./useDayNotes";
 import type { ISODate } from "./plannerTypes";
@@ -19,6 +20,9 @@ export function WeekNotes({ iso }: Props) {
   const { value, setValue, saving, isDirty, lastSavedRef, commit } =
     useDayNotes(iso);
   const headerId = React.useMemo(() => `notes-${iso}-header`, [iso]);
+  const textareaId = React.useId();
+  const textareaLabelId = `${textareaId}-label`;
+  const statusId = `${textareaId}-status`;
 
   return (
     <SectionCard className="card-neo-soft">
@@ -29,18 +33,26 @@ export function WeekNotes({ iso }: Props) {
         titleClassName="text-title font-semibold tracking-tight"
       />
       <SectionCard.Body>
+        <Label htmlFor={textareaId} id={textareaLabelId} className="sr-only">
+          Day notes
+        </Label>
         <Textarea
+          id={textareaId}
           placeholder="Jot down anything related to this day…"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           name={`notes-${iso}`}
-          aria-labelledby={headerId}
-          aria-label="Day notes"
+          aria-labelledby={`${textareaLabelId} ${headerId}`}
+          aria-describedby={statusId}
           resize="resize-y"
           textareaClassName="min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
           onBlur={commit}
         />
-        <div className="mt-[var(--space-2)] text-label text-muted-foreground" aria-live="polite">
+        <div
+          id={statusId}
+          className="mt-[var(--space-2)] text-label text-muted-foreground"
+          aria-live="polite"
+        >
           {saving
             ? "Saving…"
             : isDirty
