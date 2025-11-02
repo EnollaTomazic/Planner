@@ -61,7 +61,7 @@ const toneBorder: Record<Tone, string> = {
 const toneInteraction: Record<Tone, string> = {
   neutral: "[--hover:hsl(var(--muted)/0.28)] [--active:hsl(var(--muted)/0.36)]",
   primary: "[--hover:hsl(var(--primary)/0.22)] [--active:hsl(var(--primary)/0.3)]",
-  accent: "[--hover:hsl(var(--accent)/0.22)] [--active:hsl(var(--accent)/0.32)]",
+  accent: "[--hover:hsl(var(--accent-1)/0.22)] [--active:hsl(var(--accent-1)/0.32)]",
   top: "[--hover:hsl(var(--tone-top)/0.24)] [--active:hsl(var(--tone-top)/0.34)]",
   jungle: "[--hover:hsl(var(--tone-jg)/0.24)] [--active:hsl(var(--tone-jg)/0.34)]",
   mid: "[--hover:hsl(var(--tone-mid)/0.24)] [--active:hsl(var(--tone-mid)/0.34)]",

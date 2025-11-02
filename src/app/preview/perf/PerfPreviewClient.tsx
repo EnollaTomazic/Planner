@@ -402,7 +402,7 @@ function LoadWindowPanel({ points }: { readonly points: readonly LoadPoint[] }) 
                 const value = Number.parseInt(event.target.value, 10);
                 setWindowStart(Number.isNaN(value) ? 0 : value);
               }}
-              className="h-[var(--space-2)] w-full cursor-ew-resize appearance-none rounded-full bg-border accent-[hsl(var(--accent))]"
+              className="h-[var(--space-2)] w-full cursor-ew-resize appearance-none rounded-full bg-border accent-[hsl(var(--accent-1))]"
               aria-valuetext={`Starting ${aggregated.windowLabel}`}
             />
           </label>
@@ -495,10 +495,10 @@ function LoadChart({ series }: { readonly series: readonly LoadPoint[] }) {
           role="img"
         >
           <title id={chartId}>Virtualized hourly load</title>
-          <path d={`${pathSegments}`} fill="none" stroke="hsl(var(--accent))" strokeWidth={1.5} />
+          <path d={`${pathSegments}`} fill="none" stroke="hsl(var(--accent-1))" strokeWidth={1.5} />
           <path
             d={`${pathSegments} L ${Math.max(width, 1)} ${height} L 0 ${height} Z`}
-            fill="hsl(var(--accent)/0.16)"
+            fill="hsl(var(--accent-1)/0.16)"
           />
         </svg>
       </div>

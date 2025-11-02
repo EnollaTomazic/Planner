@@ -10,7 +10,7 @@
   pointer-events: none;
   background: repeating-linear-gradient(
     to bottom,
-    hsl(var(--accent) / 0.08) 0 var(--spacing-0-25),
+    hsl(var(--accent-1) / 0.08) 0 var(--spacing-0-25),
     transparent var(--spacing-0-25) var(--spacing-0-75)
   );
   opacity: 0.12;

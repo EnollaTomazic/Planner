@@ -6,7 +6,7 @@
   --pillar-indicator-gradient: linear-gradient(
     90deg,
     hsl(var(--primary) / 0.18),
-    hsl(var(--accent) / 0.18)
+    hsl(var(--accent-1) / 0.18)
   );
   background: var(--pillar-indicator-gradient);
 }

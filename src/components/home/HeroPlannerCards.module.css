@@ -124,7 +124,7 @@
 }
 
 .metricLink:focus-visible {
-  outline: 2px solid hsl(var(--accent) / 0.55);
+  outline: 2px solid hsl(var(--accent-1) / 0.55);
   outline-offset: 2px;
 }
 
@@ -173,7 +173,7 @@
 }
 
 .progressBlock :global(.progress-fill) {
-  background: hsl(var(--accent));
+  background: hsl(var(--accent-1));
 }
 
 .progressValue {
@@ -255,16 +255,16 @@
 }
 
 .calendarDay:focus-visible {
-  outline: 2px solid hsl(var(--accent) / 0.5);
+  outline: 2px solid hsl(var(--accent-1) / 0.5);
   outline-offset: 2px;
 }
 
 .calendarDayToday {
-  border-color: hsl(var(--accent) / 0.5);
+  border-color: hsl(var(--accent-1) / 0.5);
 }
 
 .calendarDaySelected {
-  background: color-mix(in oklab, hsl(var(--accent) / 0.25), hsl(var(--panel-surface)) 70%);
+  background: color-mix(in oklab, hsl(var(--accent-1) / 0.25), hsl(var(--panel-surface)) 70%);
 }
 
 .calendarDayDisabled {
@@ -384,12 +384,12 @@
 }
 
 .tabButton:focus-visible {
-  outline: 2px solid hsl(var(--accent) / 0.5);
+  outline: 2px solid hsl(var(--accent-1) / 0.5);
   outline-offset: 2px;
 }
 
 .tabButtonActive {
-  background: hsl(var(--accent) / 0.25);
+  background: hsl(var(--accent-1) / 0.25);
   color: hsl(var(--foreground));
 }
 
@@ -434,9 +434,9 @@
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
-  background: hsl(var(--accent) / 0.18);
-  border: 1px solid hsl(var(--accent) / 0.35);
-  color: hsl(var(--accent-foreground));
+  background: hsl(var(--accent-1) / 0.18);
+  border: 1px solid hsl(var(--accent-1) / 0.35);
+  color: hsl(var(--accent-1-foreground));
   font-size: var(--font-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;

@@ -1,7 +1,7 @@
 .root {}
 
 .ringToneAccent {
-  --theme-ring: hsl(var(--accent));
+  --theme-ring: hsl(var(--accent-1));
 }
 
 .ringToneDanger {

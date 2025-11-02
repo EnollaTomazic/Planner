@@ -99,7 +99,7 @@
   width: 100%;
   height: var(--space-2);
   border-radius: var(--radius-full);
-  background: linear-gradient(90deg, hsl(var(--accent-2) / 0.35), hsl(var(--accent) / 0.4));
+  background: linear-gradient(90deg, hsl(var(--accent-2) / 0.35), hsl(var(--accent-1) / 0.4));
   overflow: hidden;
   position: relative;
 }

@@ -15,7 +15,7 @@ type NeonIconProps = {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   on: boolean;
   size?: NeonIconSize;
-  /** CSS variable name like "--accent", "--primary", "--ring" */
+  /** CSS variable name like "--accent-1", "--primary", "--ring" */
   colorVar?: string;
   /** Preferred tone shorthand; overrides colorVar when provided. */
   tone?: NeonIconTone;
@@ -61,7 +61,7 @@ export function NeonIcon({
   icon: Icon,
   on,
   size = "md",
-  colorVar = "--accent",
+  colorVar = "--accent-1",
   tone,
   title,
   className,
