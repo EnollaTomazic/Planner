@@ -1,9 +1,10 @@
 "use client";
 
 import { Pencil, Trash2 } from "lucide-react";
-import type { FormEvent, KeyboardEvent, MouseEvent } from "react";
+import { useId, type FormEvent, type KeyboardEvent, type MouseEvent } from "react";
 
 import { cn } from "@/lib/utils";
+import { Label } from "@/components/ui/Label";
 import { Button } from "@/components/ui/primitives/Button";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Input } from "@/components/ui/primitives/Input";
@@ -57,6 +58,8 @@ export function TodayHeroTasks({
   onTaskRenameCancel,
   onToggleShowAllTasks,
 }: TodayHeroTasksProps) {
+  const taskInputId = useId();
+
   if (!projectId) {
     return (
       <div className="mt-[var(--space-4)] text-ui font-medium text-muted-foreground">
@@ -68,7 +71,11 @@ export function TodayHeroTasks({
   return (
     <div className="mt-[var(--space-4)] space-y-[var(--space-4)]">
       <form onSubmit={onTaskFormSubmit}>
+        <Label htmlFor={taskInputId} className="sr-only">
+          New task
+        </Label>
         <Input
+          id={taskInputId}
           name={taskInputName}
           placeholder={`> task for "${projectName || "Project"}"`}
           aria-label="New task"
