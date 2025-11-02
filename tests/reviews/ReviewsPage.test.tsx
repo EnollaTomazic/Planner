@@ -47,7 +47,7 @@ const baseReviews: Review[] = [
 ];
 
 describe("ReviewsPage", () => {
-  it("renders available reviews with summary count", () => {
+  it("renders available reviews with hero subtitle", () => {
     render(
       <ReviewsPage
         reviews={baseReviews}
@@ -58,7 +58,9 @@ describe("ReviewsPage", () => {
       />,
     );
 
-    expect(screen.getByText("Total 3")).toBeInTheDocument();
+    expect(
+      screen.getByText("Capture match recaps, filter by tags and patches"),
+    ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "New Review" })).toBeEnabled();
     const reviewButtons = screen
       .getAllByRole("button", { name: /Open review:/i })
@@ -150,6 +152,12 @@ describe("ReviewsPage", () => {
     const buttons = screen.getAllByRole("button", { name: "New Review" });
     expect(buttons).toHaveLength(1);
     expect(buttons[0]).toBeEnabled();
+    const searchInput = screen.getByRole("searchbox");
+    expect(searchInput).toBeDisabled();
+    expect(searchInput).toHaveAttribute(
+      "aria-label",
+      "Search reviews (disabled until a review exists)",
+    );
   });
 
   it("filters reviews by search query", async () => {
