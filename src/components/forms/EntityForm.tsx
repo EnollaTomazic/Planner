@@ -83,6 +83,21 @@ const areValuesEqual = (
   return true;
 };
 
+const areOptionalValuesEqual = (
+  a: EntityFormValues | undefined,
+  b: EntityFormValues | undefined,
+): boolean => {
+  if (a === b) {
+    return true;
+  }
+
+  if (!a || !b) {
+    return false;
+  }
+
+  return areValuesEqual(a, b);
+};
+
 export const EntityForm = React.forwardRef<EntityFormHandle, EntityFormProps>(
   (
     {
@@ -141,7 +156,10 @@ export const EntityForm = React.forwardRef<EntityFormHandle, EntityFormProps>(
         fieldIds.some((id, index) => id !== prevFieldIds[index]);
       const defaultsChanged =
         hasFieldStructureChanged || !areValuesEqual(prevDefaults, defaultValues);
-      const initialValuesChanged = prevInitialValues !== initialValues;
+      const initialValuesChanged = !areOptionalValuesEqual(
+        prevInitialValues,
+        initialValues,
+      );
       const hasValuesDriftedFromDefaults =
         !areValuesEqual(valuesRef.current, defaultValues);
 
