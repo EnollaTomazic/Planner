@@ -168,26 +168,17 @@ function ChatTabPanel({
   personas,
   savePrompt,
 }: ChatTabPanelProps) {
-  const [title, setTitle] = React.useState("");
-  const [text, setText] = React.useState("");
-
-  const handleSave = React.useCallback(() => {
-    if (savePrompt(title, text)) {
-      setTitle("");
-      setText("");
-    }
-  }, [savePrompt, text, title]);
+  const handleSave = React.useCallback(
+    (title: string, text: string, _category: string) => savePrompt(title, text),
+    [savePrompt],
+  );
 
   return (
     <ChatPromptsTab
-      title={title}
-      text={text}
-      onTitleChange={setTitle}
-      onTextChange={setText}
       prompts={prompts}
       query={query}
       personas={personas}
-      onSave={handleSave}
+      savePrompt={handleSave}
     />
   );
 }
@@ -203,25 +194,16 @@ function CodexTabPanel({
   query,
   savePrompt,
 }: CodexTabPanelProps) {
-  const [title, setTitle] = React.useState("");
-  const [text, setText] = React.useState("");
-
-  const handleSave = React.useCallback(() => {
-    if (savePrompt(title, text)) {
-      setTitle("");
-      setText("");
-    }
-  }, [savePrompt, text, title]);
+  const handleSave = React.useCallback(
+    (title: string, text: string, _category: string) => savePrompt(title, text),
+    [savePrompt],
+  );
 
   return (
     <CodexPromptsTab
-      title={title}
-      text={text}
-      onTitleChange={setTitle}
-      onTextChange={setText}
       prompts={prompts}
       query={query}
-      onSave={handleSave}
+      savePrompt={handleSave}
     />
   );
 }

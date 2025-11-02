@@ -322,7 +322,7 @@
   --neon-outline-opacity: 0.35;
   --glitch-intensity: 1.0;
   --glitch-fringe: 12deg;
-  --glitch-static-opacity: 0.18;
+  --glitch-static-opacity: 0.054;
   --glitch-noise-level: var(--glitch-static-opacity);
   --glitch-overlay-button-opacity: 0.42;
   --glitch-overlay-button-opacity-reduced: 0.28;

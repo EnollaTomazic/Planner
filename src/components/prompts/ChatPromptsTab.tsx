@@ -2,36 +2,53 @@
 
 import * as React from "react";
 
-import { Card } from "@/components/ui";
-import { PromptsComposePanel } from "./PromptsComposePanel";
+import { Card, GlitchNeoCard } from "@/components/ui";
+import {
+  EntityForm,
+  type EntityFormOption,
+  type EntityFormValues,
+} from "@/components/forms/EntityForm";
 import { PromptList } from "./PromptList";
 import type { Persona, PromptWithTitle } from "./types";
 import { LOCALE } from "@/lib/utils";
 
+const PROMPT_CATEGORY_OPTIONS = [
+  { value: "ChatGPT", label: "ChatGPT" },
+  { value: "Codex review", label: "Codex review" },
+  { value: "Notes", label: "Notes" },
+] satisfies ReadonlyArray<EntityFormOption>;
+
 interface ChatPromptsTabProps {
-  title: string;
-  text: string;
-  onTitleChange: (value: string) => void;
-  onTextChange: (value: string) => void;
-  onSave: () => void;
   prompts: PromptWithTitle[];
   query: string;
   personas: Persona[];
+  savePrompt: (title: string, text: string, category: string) => boolean;
 }
 
 export function ChatPromptsTab({
-  title,
-  text,
-  onTitleChange,
-  onTextChange,
   prompts,
   query,
   personas,
-  onSave,
+  savePrompt,
 }: ChatPromptsTabProps) {
   const composeHeadingId = React.useId();
   const personasHeadingId = React.useId();
   const libraryHeadingId = React.useId();
+  const formId = React.useId();
+
+  const handleSave = React.useCallback(
+    (values: EntityFormValues) => {
+      const title = values.title?.trim() ?? "";
+      const prompt = values.prompt?.trim() ?? "";
+      if (!title || !prompt) {
+        return false;
+      }
+
+      const category = values.category ?? "ChatGPT";
+      return savePrompt(title, prompt, category);
+    },
+    [savePrompt],
+  );
 
   return (
     <div className="flex flex-col gap-[var(--space-6)]">
@@ -47,13 +64,38 @@ export function ChatPromptsTab({
             Draft a ChatGPT request and save it for future reuse.
           </p>
         </div>
-        <PromptsComposePanel
-          title={title}
-          onTitleChange={onTitleChange}
-          text={text}
-          onTextChange={onTextChange}
-          onSave={onSave}
-        />
+        <GlitchNeoCard className="p-[var(--space-4)]">
+          <EntityForm
+            id={`chat-prompts-form-${formId}`}
+            title="New ChatGPT prompt"
+            fields={[
+              {
+                id: "title",
+                label: "Title",
+                placeholder: "Review macro calls",
+                required: true,
+              },
+              {
+                id: "category",
+                label: "Category",
+                type: "select",
+                options: PROMPT_CATEGORY_OPTIONS,
+                defaultValue: "ChatGPT",
+              },
+              {
+                id: "prompt",
+                label: "Prompt",
+                placeholder: "Write your prompt or snippet…",
+                type: "textarea",
+                rows: 6,
+                required: true,
+              },
+            ]}
+            initialValues={{ category: "ChatGPT" }}
+            submitLabel="Save"
+            onSubmit={handleSave}
+          />
+        </GlitchNeoCard>
       </section>
 
       <section

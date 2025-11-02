@@ -6,6 +6,7 @@ import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { ReviewListItem } from "./ReviewListItem";
 import { Button, Skeleton, AIErrorCard } from "@/components/ui";
+import { GenericList } from "@/components/lists/GenericList";
 import { BookOpen } from "lucide-react";
 
 const PAGE_SIZE = 40;
@@ -376,17 +377,18 @@ export function ReviewList({
       }}
     >
       {headerNode}
-      <ul className="flex flex-col gap-[var(--space-3)]">
-        {visibleReviews.map((r) => (
-          <li key={r.id}>
-            <ReviewListItem
-              review={r}
-              selected={r.id === selectedId}
-              onClick={onSelect ? () => onSelect(r.id) : undefined}
-            />
-          </li>
-        ))}
-      </ul>
+      <GenericList
+        items={visibleReviews}
+        getKey={(review) => review.id}
+        listClassName="flex flex-col gap-[var(--space-3)]"
+        renderItem={(review) => (
+          <ReviewListItem
+            review={review}
+            selected={review.id === selectedId}
+            onClick={onSelect ? () => onSelect(review.id) : undefined}
+          />
+        )}
+      />
       {shouldShowSummary ? (
         <footer className="mt-[var(--space-3)] flex flex-col gap-[var(--space-2)] text-ui text-muted-foreground">
           <div className="flex items-center justify-between gap-[var(--space-3)]">

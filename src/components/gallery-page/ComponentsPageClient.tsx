@@ -10,12 +10,20 @@ import {
 } from "lucide-react";
 
 import type { DesignTokenGroup, GalleryNavigationData } from "@/components/gallery/types";
-import { PageShell, SearchBar, TabBar } from "@/components/ui";
+import {
+  GlitchSegmentedButton,
+  GlitchSegmentedGroup,
+  PageShell,
+  SearchBar,
+  TabBar,
+} from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 import { ComponentsGalleryPanels } from "./ComponentsGalleryPanels";
 import {
+  COMPONENTS_PANEL_ID,
   COMPONENTS_SECTION_TAB_ID_BASE,
+  COMPONENTS_VIEW_TAB_ID_BASE,
   type ComponentsView,
   useComponentsGalleryState,
 } from "./useComponentsGalleryState";
@@ -146,32 +154,6 @@ export function ComponentsPageClient({
     return ids.join(" ");
   }, [categoryLabelIds]);
 
-  const handleCategoryActivate = React.useCallback(
-    (card: CategoryCardDefinition) => {
-      if (view !== card.id) {
-        handleViewChange(card.id);
-      }
-      if (typeof window === "undefined") {
-        return;
-      }
-      const targetHash = card.href.startsWith("#")
-        ? card.href.slice(1)
-        : card.href;
-      if (!targetHash) {
-        return;
-      }
-      const hashValue = `#${targetHash}`;
-      window.history.replaceState(null, "", hashValue);
-      window.requestAnimationFrame(() => {
-        const element = document.getElementById(targetHash);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      });
-    },
-    [handleViewChange, view],
-  );
-
   return (
     <>
       <PageShell
@@ -190,53 +172,32 @@ export function ComponentsPageClient({
               UI building blocks by category.
             </p>
           </div>
-          <ul
-            className="grid gap-[var(--space-3)] sm:grid-cols-2 xl:grid-cols-4"
-            role="list"
+          <GlitchSegmentedGroup
+            value={view}
+            onChange={(nextView) => handleViewChange(nextView)}
+            ariaLabel="Component categories"
+            className="flex w-full flex-wrap gap-[var(--space-2)]"
           >
             {categoryCards.map((card) => {
               const Icon = card.icon;
-              const isActive = view === card.id;
               const cardId = categoryLabelIds.get(card.id);
+              const controlsId =
+                card.id === "tokens"
+                  ? `${COMPONENTS_VIEW_TAB_ID_BASE}-tokens-panel`
+                  : COMPONENTS_PANEL_ID;
               return (
-                <li key={card.id}>
-                  <button
-                    type="button"
-                    id={cardId}
-                    onClick={() => handleCategoryActivate(card)}
-                    aria-pressed={isActive ? "true" : undefined}
-                    className={cn(
-                      "group relative flex h-full flex-col gap-[var(--space-3)] overflow-hidden text-left",
-                      "rounded-card border border-card-hairline-70 bg-[hsl(var(--surface-3)/0.82)]",
-                      "px-[var(--space-5)] py-[var(--space-4)]",
-                      "shadow-depth-outer transition-[transform,box-shadow] duration-motion-sm ease-out",
-                      "hover:-translate-y-[var(--spacing-0-25)] hover:shadow-depth-soft",
-                      "focus-visible:-translate-y-[var(--spacing-0-25)] focus-visible:shadow-depth-soft",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-3)/0.82)]",
-                      "data-[active=true]:shadow-depth-soft",
-                    )}
-                    data-active={isActive ? "true" : undefined}
-                  >
-                    <span
-                      aria-hidden
-                      className="glitch-rail pointer-events-none absolute inset-x-[var(--space-4)] top-0 h-[var(--spacing-0-5)] opacity-80"
-                    />
-                    <span className="inline-flex h-[var(--space-10)] w-[var(--space-10)] items-center justify-center rounded-full border border-card-hairline-60 bg-[hsl(var(--surface-1)/0.92)] text-foreground shadow-depth-soft">
-                      <Icon className="size-[var(--space-5)]" aria-hidden />
-                    </span>
-                    <span className="space-y-[var(--space-1)]">
-                      <span className="text-ui font-semibold text-foreground">
-                        {card.label}
-                      </span>
-                      <span className="text-label text-muted-foreground">
-                        {card.description}
-                      </span>
-                    </span>
-                  </button>
-                </li>
+                <GlitchSegmentedButton
+                  key={card.id}
+                  id={cardId}
+                  value={card.id}
+                  icon={<Icon className="size-[var(--space-4)]" aria-hidden />}
+                  aria-controls={controlsId}
+                >
+                  {card.label}
+                </GlitchSegmentedButton>
               );
             })}
-          </ul>
+          </GlitchSegmentedGroup>
           <div className="flex flex-col gap-[var(--space-3)] lg:flex-row lg:items-start lg:justify-between">
             {showSectionTabs ? (
               <TabBar
