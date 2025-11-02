@@ -326,7 +326,7 @@
   --neon-outline-opacity: 0.35;
   --glitch-intensity: 1.0;
   --glitch-fringe: 12deg;
-  --glitch-static-opacity: 0.18;
+  --glitch-static-opacity: 0.054;
   --glitch-noise-level: var(--glitch-static-opacity);
   --glitch-overlay-button-opacity: 0.42;
   --glitch-overlay-button-opacity-reduced: 0.28;
@@ -545,7 +545,7 @@
   /* hue-rotate magnitude */
   --glitch-fringe: 12deg;
   /* overlay alpha */
-  --glitch-static-opacity: 0.18;
+  --glitch-static-opacity: 0.054;
   --glitch-noise-level: var(--glitch-static-opacity);
   /* Card glitch overlay alpha */
   --glitch-overlay-opacity-card: 0.55;
@@ -766,7 +766,7 @@ html.theme-aurora {
   --neo-glow-strength: 0.4;
   --glitch-intensity: 0.4;
   --glitch-fringe: 8deg;
-  --glitch-static-opacity: 0.1;
+  --glitch-static-opacity: 0.03;
   --lav-deep: 276 88% 68%;
   --icon-fg: 152 96% 72%;
   --success: 148 72% 48%;
@@ -858,7 +858,7 @@ html.theme-citrus {
   --neo-glow-strength: 0.45;
   --glitch-intensity: 0.38;
   --glitch-fringe: 7deg;
-  --glitch-static-opacity: 0.09;
+  --glitch-static-opacity: 0.027;
   --lav-deep: 28 90% 56%;
   --icon-fg: 28 96% 74%;
   --success: 150 68% 46%;
@@ -934,7 +934,7 @@ html.theme-noir {
   --neo-glow-strength: 0.6;
   --glitch-intensity: 0.3;
   --glitch-fringe: 6deg;
-  --glitch-static-opacity: 0.07;
+  --glitch-static-opacity: 0.021;
   --glitch-noise-primary: hsl(var(--ring) / 0.056);
   --glitch-noise-secondary: hsl(var(--accent) / 0.05);
   --glitch-noise-contrast: hsl(var(--foreground) / 0.048);
@@ -1018,7 +1018,7 @@ html.theme-ocean {
   --neo-glow-strength: 0.52;
   --glitch-intensity: 0.4;
   --glitch-fringe: 7deg;
-  --glitch-static-opacity: 0.1;
+  --glitch-static-opacity: 0.03;
   --lav-deep: 254 78% 68%;
   --icon-fg: 194 90% 72%;
   --success: 158 72% 48%;
@@ -1092,7 +1092,7 @@ html.theme-kitten {
   --neo-glow-strength: 0.42;
   --glitch-intensity: 0.36;
   --glitch-fringe: 6deg;
-  --glitch-static-opacity: 0.085;
+  --glitch-static-opacity: 0.0255;
   --lav-deep: 336 84% 64%;
   --icon-fg: 336 92% 72%;
   --success: 152 62% 48%;
@@ -1175,7 +1175,7 @@ html.theme-hardstuck {
   --neo-glow-strength: 0.58;
   --glitch-intensity: 0.28;
   --glitch-fringe: 5deg;
-  --glitch-static-opacity: 0.07;
+  --glitch-static-opacity: 0.021;
   --glitch-noise-primary: hsl(var(--ring) / 0.055);
   --glitch-noise-secondary: hsl(var(--accent) / 0.05);
   --glitch-noise-contrast: hsl(var(--hardstuck-foreground) / 0.05);
@@ -1255,7 +1255,7 @@ html.theme-retro {
   --glitch-intensity-backdrop-drip-3: 0.26;
   --glitch-intensity-backdrop-shadow: 0.34;
   --glitch-intensity: 0.46;
-  --glitch-static-opacity: 0.2;
+  --glitch-static-opacity: 0.06;
   --lav-deep: 257.5 85.7% 72.5%;
   --icon-fg: 304 100% 80%;
   --success: 158 72% 48%;
