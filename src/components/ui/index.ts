@@ -36,22 +36,14 @@ export type { LabelProps } from "./Label";
 export { DecorLayer } from "./layout/DecorLayer";
 export type { DecorLayerProps, DecorLayerVariant } from "./layout/DecorLayer";
 export { Header, HeaderTabs, PRIMARY_PAGE_NAV } from "./layout/Header";
-export type {
-  HeaderProps,
-  HeaderTab,
-  HeaderTabsProps,
-  HeaderNavItem,
-  HeaderActionsConfig,
-  PrimaryPageNavKey,
-} from "./layout/Header";
+export type { HeaderActionsConfig, HeaderNavItem, HeaderProps, HeaderTab, HeaderTabsProps, PrimaryPageNavKey } from "./layout/Header";
 export { Index } from "./layout/Hero";
 export { Hero } from "./layout/hero/Hero";
-export type { HeroProps } from "./layout/hero/Hero";
+export type { HeroProps, HeroTab, HeroTabsProps } from "./layout/hero/Hero";
 export { HeroGlitchStyles } from "./layout/hero/HeroGlitchStyles";
 export type { HeroImageProps } from "./layout/hero/HeroImage";
 export { HeroSearchBar } from "./layout/hero/HeroSearchBar";
 export type { HeroSearchBarProps } from "./layout/hero/HeroSearchBar";
-export type { HeroTab, HeroTabsProps } from "./layout/hero/Hero";
 export { useHeroStyles } from "./layout/hero/useHeroStyles";
 export type { HeroStyleOptions, HeroStyleResult } from "./layout/hero/useHeroStyles";
 export { NeomorphicFrameStyles } from "./layout/NeomorphicFrameStyles";
@@ -87,6 +79,8 @@ export { DripEdge } from "./primitives/DripEdge";
 export type { DripEdgeProps } from "./primitives/DripEdge";
 export { Field, FieldInput, FieldRoot, FieldSearch, FieldSelect, FieldTextarea } from "./primitives/Field";
 export type { FieldHeight, FieldInputProps, FieldRootProps, FieldSearchProps, FieldSelectProps, FieldTextareaProps } from "./primitives/Field";
+export { GlitchNeoCard } from "./primitives/GlitchNeoCard";
+export type { GlitchNeoCardProps } from "./primitives/GlitchNeoCard";
 export { GLITCH_PERCENT_WIDTH, GlitchProgress, TOKEN_WIDTH_CLASS } from "./primitives/GlitchProgress";
 export type { GlitchProgressProps } from "./primitives/GlitchProgress";
 export { GlitchSegmentedButton, GlitchSegmentedGroup } from "./primitives/GlitchSegmented";
@@ -99,13 +93,13 @@ export { IssueBadge } from "./primitives/IssueBadge";
 export type { IssueBadgeProps, IssueBadgeSeverity } from "./primitives/IssueBadge";
 export { NeoCard, neoCardOverlayClassName } from "./primitives/NeoCard";
 export type { NeoCardProps } from "./primitives/NeoCard";
-export { GlitchNeoCard } from "./primitives/GlitchNeoCard";
-export type { GlitchNeoCardProps } from "./primitives/GlitchNeoCard";
 export { neuInset, neuRaised } from "./primitives/Neu";
 export { SearchBar } from "./primitives/SearchBar";
 export type { SearchBarProps } from "./primitives/SearchBar";
 export { SegmentedButton } from "./primitives/SegmentedButton";
 export type { SegmentedButtonDepth, SegmentedButtonProps } from "./primitives/SegmentedButton";
+export { Slider } from "./primitives/Slider";
+export type { SliderProps } from "./primitives/Slider";
 export { TabList, TabPanel, Tabs } from "./primitives/Tabs";
 export type { TabListItem, TabListProps, TabPanelProps, TabsProps } from "./primitives/Tabs";
 export { Textarea } from "./primitives/Textarea";
