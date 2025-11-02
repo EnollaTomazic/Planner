@@ -66,6 +66,23 @@ export interface EntityFormHandle {
 
 const DEFAULT_SUBMIT_LABEL = "Save";
 
+const areValuesEqual = (
+  a: EntityFormValues,
+  b: EntityFormValues,
+): boolean => {
+  const aKeys = Object.keys(a);
+  const bKeys = Object.keys(b);
+  if (aKeys.length !== bKeys.length) {
+    return false;
+  }
+  for (const key of aKeys) {
+    if (a[key] !== b[key]) {
+      return false;
+    }
+  }
+  return true;
+};
+
 export const EntityForm = React.forwardRef<EntityFormHandle, EntityFormProps>(
   (
     {
@@ -102,11 +119,36 @@ export const EntityForm = React.forwardRef<EntityFormHandle, EntityFormProps>(
     }, [fields, initialValues]);
 
     const [values, setValues] = React.useState<EntityFormValues>(defaultValues);
+    const fieldIds = React.useMemo(
+      () => fields.map((field) => field.id),
+      [fields],
+    );
+    const prevDefaultsRef = React.useRef(defaultValues);
+    const prevFieldIdsRef = React.useRef(fieldIds);
+    const isFirstRenderRef = React.useRef(true);
 
     React.useEffect(() => {
-      setValues(defaultValues);
-      onValuesChange?.(defaultValues);
-    }, [defaultValues, onValuesChange]);
+      const prevDefaults = prevDefaultsRef.current;
+      const prevFieldIds = prevFieldIdsRef.current;
+      const hasFieldStructureChanged =
+        prevFieldIds.length !== fieldIds.length ||
+        fieldIds.some((id, index) => id !== prevFieldIds[index]);
+      const defaultsChanged =
+        hasFieldStructureChanged || !areValuesEqual(prevDefaults, defaultValues);
+
+      if (isFirstRenderRef.current || defaultsChanged) {
+        isFirstRenderRef.current = false;
+        prevDefaultsRef.current = defaultValues;
+        prevFieldIdsRef.current = fieldIds;
+        setValues(defaultValues);
+        onValuesChange?.(defaultValues);
+        return;
+      }
+
+      prevDefaultsRef.current = defaultValues;
+      prevFieldIdsRef.current = fieldIds;
+      isFirstRenderRef.current = false;
+    }, [defaultValues, fieldIds, onValuesChange]);
 
     const firstFieldRef = React.useRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null>(
       null,
