@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { GenericList } from "@/components/lists/GenericList";
+import type { GenericListEmptyState } from "@/components/lists/GenericList";
 import { Card } from "@/components/ui";
 import { Badge } from "@/components/ui/primitives/Badge";
 import { LOCALE } from "@/lib/utils";
@@ -25,39 +27,51 @@ export function PromptList({ prompts, query }: PromptListProps) {
       }),
     [prompts],
   );
+  const emptyState: GenericListEmptyState | undefined = React.useMemo(() => {
+    if (prompts.length === 0) {
+      if (q) {
+        return {
+          title: "No prompts found",
+          description: (
+            <span className="inline-flex items-center gap-[var(--space-1)]">
+              No prompts match <Badge size="sm" tone="neutral">{q}</Badge>
+            </span>
+          ),
+        };
+      }
+      return {
+        title: "No prompts saved yet",
+        description: "Create a prompt to build your library.",
+      };
+    }
+    return undefined;
+  }, [prompts.length, q]);
+
   return (
-    <ul className="mt-[var(--space-4)] space-y-[var(--space-3)]">
-      {formattedPrompts.map((p) => (
-        <li key={p.id}>
-          <Card className="p-[var(--space-3)]">
-            <header className="flex items-center justify-between">
-              <h3 className="font-semibold">{p.title}</h3>
-              <time
-                dateTime={p.createdAtDateTime}
-                className="text-label text-muted-foreground"
-              >
-                {p.createdAtLabel}
-              </time>
-            </header>
-            {p.text ? (
-              <p className="mt-[var(--space-1)] whitespace-pre-wrap text-ui">{p.text}</p>
-            ) : null}
-          </Card>
-        </li>
-      ))}
-      {prompts.length === 0 ? (
-        <li className="text-muted-foreground flex items-center gap-[var(--space-1)]">
-          {q ? (
-            <>
-              No prompts match
-              <Badge size="sm" tone="neutral">{q}</Badge>
-            </>
-          ) : (
-            "No prompts saved yet"
-          )}
-        </li>
-      ) : null}
-    </ul>
+    <GenericList
+      items={formattedPrompts}
+      getKey={(prompt) => prompt.id}
+      listClassName="mt-[var(--space-4)] space-y-[var(--space-3)]"
+      emptyState={emptyState}
+      renderItem={(prompt) => (
+        <Card className="p-[var(--space-3)]">
+          <header className="flex items-center justify-between">
+            <h3 className="font-semibold">{prompt.title}</h3>
+            <time
+              dateTime={prompt.createdAtDateTime}
+              className="text-label text-muted-foreground"
+            >
+              {prompt.createdAtLabel}
+            </time>
+          </header>
+          {prompt.text ? (
+            <p className="mt-[var(--space-1)] whitespace-pre-wrap text-ui">
+              {prompt.text}
+            </p>
+          ) : null}
+        </Card>
+      )}
+    />
   );
 }
 

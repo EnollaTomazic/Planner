@@ -4,9 +4,7 @@ import * as React from "react";
 import Link, { type LinkProps } from "next/link";
 import { type BadgeProps, Badge } from "@/components/ui/primitives/Badge";
 import { cn, withBasePath } from "@/lib/utils";
-
-const LIST_CLASSNAME =
-  "flex flex-wrap items-start gap-x-[var(--space-2)] gap-y-[var(--space-2)] chip-gap-x-tight chip-gap-y-tight";
+import { TeamList } from "./TeamList";
 
 const CHIP_CLASSNAME = cn(
   "min-w-0 max-w-full truncate text-left overflow-hidden text-ellipsis",
@@ -71,17 +69,28 @@ export function TeamQuickActions({
   }
 
   return (
-    <ul role="list" className={cn("list-none p-0", LIST_CLASSNAME, className)}>
-      {actions.map((action, index) => {
-        const { id, href, label, tone = "neutral" } = action;
+    <TeamList
+      items={actions}
+      className={className}
+      getKey={(action, index) => {
+        const { id, href } = action;
+        if (typeof href === "string") {
+          const trimmedHref = href.trim();
+          if (id) return id;
+          if (trimmedHref) return trimmedHref;
+          return `${index}`;
+        }
+        if (id) return id;
+        try {
+          return JSON.stringify(href) ?? `${index}`;
+        } catch {
+          return `${index}`;
+        }
+      }}
+      renderItem={(action, { index }) => {
+        const { href, label, tone = "neutral" } = action;
         const hrefIsString = typeof href === "string";
         const trimmedHref = hrefIsString ? href.trim() : "";
-        const key =
-          id ??
-          (hrefIsString
-            ? trimmedHref || `${index}`
-            : JSON.stringify(href)) ??
-          `${index}`;
         const actionId = `${listId}-${index}`;
         const tooltipId = `${actionId}-tooltip`;
         const isTooltipOpen = tooltip?.id === actionId;
@@ -102,7 +111,11 @@ export function TeamQuickActions({
           setTooltip({ id: actionId });
         };
 
-        const handleClose = (event: React.FocusEvent<HTMLAnchorElement> | React.MouseEvent<HTMLAnchorElement>) => {
+        const handleClose = (
+          event:
+            | React.FocusEvent<HTMLAnchorElement>
+            | React.MouseEvent<HTMLAnchorElement>,
+        ) => {
           const target = event.currentTarget;
           if (
             event.type === "mouseleave" &&
@@ -114,14 +127,16 @@ export function TeamQuickActions({
           setTooltip((prev) => (prev?.id === actionId ? null : prev));
         };
 
-        const handleKeyDown: React.KeyboardEventHandler<HTMLAnchorElement> = (event) => {
+        const handleKeyDown: React.KeyboardEventHandler<HTMLAnchorElement> = (
+          event,
+        ) => {
           if (event.key === "Escape" || event.key === "Esc") {
             closeTooltip();
           }
         };
 
         return (
-          <li key={key} role="listitem" className="relative">
+          <div className="relative">
             <Badge
               as={Link}
               href={resolvedHref}
@@ -156,10 +171,10 @@ export function TeamQuickActions({
                 {label}
               </span>
             </div>
-          </li>
+          </div>
         );
-      })}
-    </ul>
+      }}
+    />
   );
 }
 
