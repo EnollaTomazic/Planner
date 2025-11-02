@@ -59,7 +59,7 @@ exports[`Ring icons across themes > renders ring icons for the aurora theme 1`] 
       stroke-width="4"
     />
     <circle
-      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent-1)]"
       cx="32"
       cy="32"
       fill="none"
@@ -125,7 +125,7 @@ exports[`Ring icons across themes > renders ring icons for the aurora theme 1`] 
       >
         <stop
           offset="0%"
-          stop-color="hsl(var(--accent))"
+          stop-color="hsl(var(--accent-1))"
         />
         <stop
           offset="100%"
@@ -217,7 +217,7 @@ exports[`Ring icons across themes > renders ring icons for the citrus theme 1`] 
       stroke-width="4"
     />
     <circle
-      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent-1)]"
       cx="32"
       cy="32"
       fill="none"
@@ -283,7 +283,7 @@ exports[`Ring icons across themes > renders ring icons for the citrus theme 1`] 
       >
         <stop
           offset="0%"
-          stop-color="hsl(var(--accent))"
+          stop-color="hsl(var(--accent-1))"
         />
         <stop
           offset="100%"
@@ -375,7 +375,7 @@ exports[`Ring icons across themes > renders ring icons for the hardstuck theme 1
       stroke-width="4"
     />
     <circle
-      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent-1)]"
       cx="32"
       cy="32"
       fill="none"
@@ -441,7 +441,7 @@ exports[`Ring icons across themes > renders ring icons for the hardstuck theme 1
       >
         <stop
           offset="0%"
-          stop-color="hsl(var(--accent))"
+          stop-color="hsl(var(--accent-1))"
         />
         <stop
           offset="100%"
@@ -533,7 +533,7 @@ exports[`Ring icons across themes > renders ring icons for the kitten theme 1`] 
       stroke-width="4"
     />
     <circle
-      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent-1)]"
       cx="32"
       cy="32"
       fill="none"
@@ -599,7 +599,7 @@ exports[`Ring icons across themes > renders ring icons for the kitten theme 1`] 
       >
         <stop
           offset="0%"
-          stop-color="hsl(var(--accent))"
+          stop-color="hsl(var(--accent-1))"
         />
         <stop
           offset="100%"
@@ -691,7 +691,7 @@ exports[`Ring icons across themes > renders ring icons for the lg theme 1`] = `
       stroke-width="4"
     />
     <circle
-      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent-1)]"
       cx="32"
       cy="32"
       fill="none"
@@ -757,7 +757,7 @@ exports[`Ring icons across themes > renders ring icons for the lg theme 1`] = `
       >
         <stop
           offset="0%"
-          stop-color="hsl(var(--accent))"
+          stop-color="hsl(var(--accent-1))"
         />
         <stop
           offset="100%"
@@ -849,7 +849,7 @@ exports[`Ring icons across themes > renders ring icons for the noir theme 1`] = 
       stroke-width="4"
     />
     <circle
-      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent-1)]"
       cx="32"
       cy="32"
       fill="none"
@@ -915,7 +915,7 @@ exports[`Ring icons across themes > renders ring icons for the noir theme 1`] = 
       >
         <stop
           offset="0%"
-          stop-color="hsl(var(--accent))"
+          stop-color="hsl(var(--accent-1))"
         />
         <stop
           offset="100%"
@@ -1007,7 +1007,7 @@ exports[`Ring icons across themes > renders ring icons for the ocean theme 1`] =
       stroke-width="4"
     />
     <circle
-      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+      class="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent-1)]"
       cx="32"
       cy="32"
       fill="none"
@@ -1073,7 +1073,7 @@ exports[`Ring icons across themes > renders ring icons for the ocean theme 1`] =
       >
         <stop
           offset="0%"
-          stop-color="hsl(var(--accent))"
+          stop-color="hsl(var(--accent-1))"
         />
         <stop
           offset="100%"

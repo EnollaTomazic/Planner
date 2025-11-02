@@ -175,10 +175,12 @@ const buildColorPalette = (
       soft: hslToken(manifest, "primarySoft"),
     },
     accent: {
-      DEFAULT: hslToken(manifest, "accent"),
-      foreground: hslToken(manifest, "accentForeground"),
-      soft: hslToken(manifest, "accentSoft"),
+      DEFAULT: hslToken(manifest, "accent1"),
+      foreground: hslToken(manifest, "accent1Foreground"),
+      soft: hslToken(manifest, "accent1Soft"),
+      hover: cssToken(manifest, "accent1Hover"),
       overlay: cssToken(manifest, "accentOverlay"),
+      contrast: hslToken(manifest, "accent1Contrast"),
     },
     on: {
       accent: cssToken(manifest, "textOnAccent"),
@@ -226,8 +228,8 @@ const buildColorPalette = (
     "surface-streak": hslToken(manifest, "surfaceStreak"),
     interaction: {
       primary: {
-        hover: `hsl(${cssVar("accent")} / 0.14)`,
-        active: `hsl(${cssVar("accent")} / 0.2)`,
+        hover: `hsl(${cssVar("accent1")} / 0.14)`,
+        active: `hsl(${cssVar("accent1")} / 0.2)`,
       },
       focus: {
         hover: `hsl(${cssVar("focus")} / 0.14)`,
@@ -238,12 +240,12 @@ const buildColorPalette = (
         tintActive: `hsl(${cssVar("focus")} / 0.2)`,
       },
       accent: {
-        hover: `hsl(${cssVar("accent")} / 0.14)`,
-        active: `hsl(${cssVar("accent")} / 0.2)`,
-        surfaceHover: `hsl(${cssVar("accent")} / 0.25)`,
-        surfaceActive: `hsl(${cssVar("accent")} / 0.35)`,
-        tintHover: `hsl(${cssVar("accent")} / 0.1)`,
-        tintActive: `hsl(${cssVar("accent")} / 0.2)`,
+        hover: `hsl(${cssVar("accent1")} / 0.14)`,
+        active: `hsl(${cssVar("accent1")} / 0.2)`,
+        surfaceHover: `hsl(${cssVar("accent1")} / 0.25)`,
+        surfaceActive: `hsl(${cssVar("accent1")} / 0.35)`,
+        tintHover: `hsl(${cssVar("accent1")} / 0.1)`,
+        tintActive: `hsl(${cssVar("accent1")} / 0.2)`,
       },
       info: {
         hover: `hsl(${cssVar("accent2")} / 0.14)`,

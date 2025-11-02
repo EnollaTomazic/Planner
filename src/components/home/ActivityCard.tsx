@@ -154,12 +154,12 @@ function ActivityChart({
         >
           <path
             d={areaPath}
-            fill="hsl(var(--accent) / 0.28)"
+            fill="hsl(var(--accent-1) / 0.28)"
           />
           <path
             d={lineSegments}
             fill="none"
-            stroke="hsl(var(--accent))"
+            stroke="hsl(var(--accent-1))"
             strokeWidth={1.6}
             strokeLinejoin="round"
             strokeLinecap="round"

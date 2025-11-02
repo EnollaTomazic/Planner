@@ -29,7 +29,7 @@
 @layer base {
   :root {
     --shell-max: var(--shell-width);
-    --accent-2-foreground: var(--accent-foreground);
+    --accent-2-foreground: var(--accent-1-foreground);
     --danger-foreground: var(--highlight);
     --danger-surface-foreground: var(--danger-foreground);
     --danger-tint-foreground: var(--danger-foreground);
@@ -84,7 +84,7 @@
     --shadow-glitch-card: var(--depth-shadow-outer);
     --shadow-glitch-card-hover: var(--depth-shadow-outer-strong);
     --glitch-card-spectrum-a: hsl(var(--primary) / 0.55);
-    --glitch-card-spectrum-b: hsl(var(--accent) / 0.45);
+    --glitch-card-spectrum-b: hsl(var(--accent-1) / 0.45);
     --glitch-card-spectrum-c: hsl(var(--ring) / 0.55);
     --glitch-card-stripe-color: hsl(var(--foreground) / 0.035);
     --glitch-card-stripe-opacity: var(--glitch-noise-level);
@@ -132,7 +132,7 @@
       --glitch-card-surface-top: color-mix(
         in oklab,
         hsl(var(--card)) 86%,
-        hsl(var(--accent)) 14%
+        hsl(var(--accent-1)) 14%
       );
       --glitch-card-surface-bottom: color-mix(
         in oklab,
@@ -141,7 +141,7 @@
       );
       --glitch-card-spectrum-a: color-mix(
         in oklab,
-        hsl(var(--accent)) 68%,
+        hsl(var(--accent-1)) 68%,
         hsl(var(--primary))
       );
       --glitch-card-spectrum-b: color-mix(
@@ -516,8 +516,8 @@ html.no-animations *:focus-visible {
 }
 
 ::selection {
-  background: hsl(var(--accent));
-  color: hsl(var(--accent-foreground));
+  background: hsl(var(--accent-1));
+  color: hsl(var(--accent-1-foreground));
 }
 
 /* ---------- Background & typography ---------- */
@@ -1108,7 +1108,7 @@ html.bg-intense body::after {
     background-image: var(--seg-active-grad);
     background-repeat: no-repeat;
     box-shadow:
-      0 0 calc(var(--space-5) + var(--spacing-0-25)) hsl(var(--accent) / 0.6),
+      0 0 calc(var(--space-5) + var(--spacing-0-25)) hsl(var(--accent-1) / 0.6),
       0 0 calc(var(--space-7) + var(--spacing-0-5)) hsl(var(--accent-2) / 0.4);
     transition:
       transform var(--motion-duration-sm) var(--ease-out),
@@ -1243,7 +1243,7 @@ html.bg-intense body::after {
       ),
       radial-gradient(
         120% 200% at 100% 0%,
-        hsl(var(--accent) / 0.18),
+        hsl(var(--accent-1) / 0.18),
         transparent 60%
       ),
       linear-gradient(180deg, hsl(var(--card)), hsl(var(--bg)));
@@ -1298,8 +1298,8 @@ html.bg-intense body::after {
     height: var(--pill-icon-size);
   }
   .pill--low {
-    background: hsl(var(--accent) / 0.15);
-    border-color: hsl(var(--accent) / 0.35);
+    background: hsl(var(--accent-1) / 0.15);
+    border-color: hsl(var(--accent-1) / 0.35);
   }
   .pill--medium {
     background: hsl(var(--primary) / 0.15);
@@ -1424,7 +1424,7 @@ html.bg-intense body::after {
   inset: 0;
   width: var(--progress-width);
   border-radius: inherit;
-  background: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--accent-2)));
+  background: linear-gradient(90deg, hsl(var(--accent-1)), hsl(var(--accent-2)));
   background-size: 200% 100%;
   transition: width var(--motion-duration-sm) var(--ease-out);
   pointer-events: none;
@@ -1461,13 +1461,13 @@ html.bg-intense body::after {
   height: 100%;
   width: 0%;
   border-radius: var(--radius-full);
-  background: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--accent-2)));
+  background: linear-gradient(90deg, hsl(var(--accent-1)), hsl(var(--accent-2)));
   background-size: 200% 100%;
   transition: width 0.35s cubic-bezier(0.22, 0.99, 0.28, 0.99);
 }
 .glitch-track[data-progress-state="active"] .glitch-fill {
   animation: glitchSheen 3s linear infinite;
-  box-shadow: 0 0 var(--space-2) hsl(var(--accent) / 0.5);
+  box-shadow: 0 0 var(--space-2) hsl(var(--accent-1) / 0.5);
 }
 .glitch-track[data-progress-state="zero"] .glitch-fill {
   height: 0;
@@ -1493,7 +1493,7 @@ html.bg-intense body::after {
     glitchJitter 0.8s steps(3, end) infinite;
 }
 .glitch-track.is-complete .glitch-fill {
-  filter: drop-shadow(0 0 var(--space-2) hsl(var(--accent)));
+  filter: drop-shadow(0 0 var(--space-2) hsl(var(--accent-1)));
 }
 .glitch-percent {
   font-variant-numeric: tabular-nums;
@@ -1527,13 +1527,13 @@ html.bg-intense body::after {
   border-color: transparent;
   background:
     linear-gradient(hsl(var(--card)), hsl(var(--card))) padding-box,
-    linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary))) border-box;
+    linear-gradient(90deg, hsl(var(--accent-1)), hsl(var(--primary))) border-box;
   color: hsl(var(--primary-foreground));
 }
 .pill--ok {
-  border-color: hsl(var(--accent));
-  color: hsl(var(--accent));
-  box-shadow: 0 0 var(--space-3) hsl(var(--accent) / 0.35);
+  border-color: hsl(var(--accent-1));
+  color: hsl(var(--accent-1));
+  box-shadow: 0 0 var(--space-3) hsl(var(--accent-1) / 0.35);
 }
 .pill--warn {
   border-color: hsl(var(--muted-foreground));
@@ -1543,15 +1543,15 @@ html.bg-intense body::after {
 }
 .pill--pulse {
   position: relative;
-  border-color: hsl(var(--accent));
-  color: hsl(var(--accent));
+  border-color: hsl(var(--accent-1));
+  color: hsl(var(--accent-1));
 }
 .pill--pulse::after {
   content: "";
   position: absolute;
   inset: calc(var(--spacing-0-5) * -1);
   border-radius: var(--radius-full);
-  border: 1px solid hsl(var(--accent) / 0.45);
+  border: 1px solid hsl(var(--accent-1) / 0.45);
   animation: pill-pulse 1.6s ease-out infinite;
 }
 
@@ -1597,7 +1597,7 @@ html.bg-intense body::after {
   background: linear-gradient(
     180deg,
     hsl(var(--primary) / 0.7),
-    hsl(var(--accent) / 0.7)
+    hsl(var(--accent-1) / 0.7)
   );
   border-radius: var(--radius-full);
   border: 2px solid hsl(var(--bg));
@@ -1661,7 +1661,7 @@ html.bg-intense body::after {
   background:
     radial-gradient(
       120% 90% at 10% -20%,
-      hsl(var(--accent) / 0.1),
+      hsl(var(--accent-1) / 0.1),
       transparent 60%
     ),
     radial-gradient(
@@ -1706,13 +1706,13 @@ html.bg-intense body::after {
   background:
     repeating-linear-gradient(
       90deg,
-      hsl(var(--accent) / 0.22) 0 var(--spacing-0-25),
+      hsl(var(--accent-1) / 0.22) 0 var(--spacing-0-25),
       transparent var(--spacing-0-25)
         calc(var(--space-5) + var(--spacing-0-5))
     ),
     repeating-linear-gradient(
       0deg,
-      hsl(var(--accent) / 0.18) 0 var(--spacing-0-25),
+      hsl(var(--accent-1) / 0.18) 0 var(--spacing-0-25),
       transparent var(--spacing-0-25)
         calc(var(--space-5) + var(--spacing-0-5))
     ),
@@ -1734,7 +1734,7 @@ html.bg-intense body::after {
 
 .week-outline .section-header {
   border-bottom: 0;
-  box-shadow: 0 var(--spacing-0-25) 0 hsl(var(--accent) / 0.14) inset;
+  box-shadow: 0 var(--spacing-0-25) 0 hsl(var(--accent-1) / 0.14) inset;
   background: color-mix(in oklab, hsl(var(--bg)) 72%, transparent);
   backdrop-filter: blur(8px);
 }
@@ -1780,9 +1780,9 @@ textarea:-webkit-autofill {
   border-color: hsl(var(--ring));
   background-color: hsl(var(--primary-soft) / 0.25);
 }
-.pill-compact--accent {
+.pill-compact--accent-1 {
   border-color: hsl(var(--ring));
-  background-color: hsl(var(--accent-soft) / 0.25);
+  background-color: hsl(var(--accent-1-soft) / 0.25);
 }
 
 /* Card padding rhythm */
@@ -1870,7 +1870,7 @@ textarea:-webkit-autofill {
   border-color: hsl(var(--ring));
 }
 .badge[data-tone="accent"] {
-  border-color: hsl(var(--accent));
+  border-color: hsl(var(--accent-1));
 }
 .badge[data-tone="top"] {
   border-color: hsl(var(--tone-top));
@@ -1897,7 +1897,7 @@ textarea:-webkit-autofill {
     0 0 calc(var(--space-3) + var(--spacing-0-5))
       hsl(var(--primary) / 0.25),
     0 0 calc(var(--space-5) + var(--space-1))
-      hsl(var(--accent) / 0.18);
+      hsl(var(--accent-1) / 0.18);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1980,7 +1980,7 @@ textarea:-webkit-autofill {
     0 0 calc(var(--space-2) - var(--spacing-0-5))
       hsl(var(--primary) / 0.45),
     0 0 calc(var(--space-4) + var(--spacing-0-5))
-      hsl(var(--accent) / 0.35);
+      hsl(var(--accent-1) / 0.35);
   transition:
     text-shadow 0.18s ease,
     transform 0.12s ease;
@@ -1996,11 +1996,11 @@ textarea:-webkit-autofill {
   .glitch-title:hover,
   .glitch-title:focus-visible {
     text-shadow:
-      var(--glitch-chromatic-offset-strong) 0 hsl(var(--accent) / 0.9),
+      var(--glitch-chromatic-offset-strong) 0 hsl(var(--accent-1) / 0.9),
       calc(var(--glitch-chromatic-offset-strong) * -1) 0
         hsl(var(--primary) / 0.9),
       0 0 var(--space-3) hsl(var(--ring) / 0.6),
-      0 0 calc(var(--space-5) + var(--spacing-0-5)) hsl(var(--accent) / 0.35);
+      0 0 calc(var(--space-5) + var(--spacing-0-5)) hsl(var(--accent-1) / 0.35);
   }
 }
 .badge[data-glitch="true"] {
@@ -2011,12 +2011,12 @@ textarea:-webkit-autofill {
   );
   box-shadow:
     0 0 0 var(--spacing-0-25) hsl(var(--card-hairline)) inset,
-    0 0 var(--space-4) hsl(var(--accent) / 0.25);
+    0 0 var(--space-4) hsl(var(--accent-1) / 0.25);
 }
 .badge[data-glitch="true"]:hover {
   box-shadow:
     0 0 0 var(--spacing-0-25) hsl(var(--ring)) inset,
-    0 0 calc(var(--space-4) + var(--space-1)) hsl(var(--accent) / 0.35);
+    0 0 calc(var(--space-4) + var(--space-1)) hsl(var(--accent-1) / 0.35);
 }
 
 @keyframes lg-railShift {
@@ -2056,7 +2056,7 @@ textarea:-webkit-autofill {
 :root {
   /* Glow tokens */
   --glow-strong: var(--ring) / 0.55;
-  --glow-soft: var(--accent) / 0.25;
+  --glow-soft: var(--accent-1) / 0.25;
 
   /* Radius tokens */
   --radius-md: theme("borderRadius.md");
@@ -2229,7 +2229,7 @@ textarea:-webkit-autofill {
   display: inline-block;
   text-shadow:
     0 0 0.35rem hsl(var(--ring) / 0.45),
-    0 0 0.08rem hsl(var(--accent) / 0.3);
+    0 0 0.08rem hsl(var(--accent-1) / 0.3);
   animation: glitch-flicker var(--glitch-flicker) infinite steps(1, end);
 }
 .glitch-anim::before,
@@ -2241,7 +2241,7 @@ textarea:-webkit-autofill {
   mix-blend-mode: screen;
 }
 .glitch-anim::before {
-  color: hsl(var(--accent));
+  color: hsl(var(--accent-1));
   clip-path: polygon(0 0, 100% 0, 100% 52%, 0 52%);
   animation:
     glitch-shift var(--glitch-speed) infinite linear alternate-reverse,
@@ -2413,7 +2413,7 @@ textarea:-webkit-autofill {
   padding: var(--spacing-0-25);
   background: linear-gradient(
     90deg,
-    hsl(var(--accent)) 0%,
+    hsl(var(--accent-1)) 0%,
     transparent 35%,
     hsl(var(--primary)) 65%,
     transparent 100%
@@ -2470,7 +2470,7 @@ textarea:-webkit-autofill {
     0 0 calc(var(--space-3) - var(--spacing-0-5))
       color-mix(in oklab, hsl(var(--primary)) 70%, transparent),
     0 0 calc(var(--space-4) + var(--spacing-0-5))
-      color-mix(in oklab, hsl(var(--accent)) 40%, transparent);
+      color-mix(in oklab, hsl(var(--accent-1)) 40%, transparent);
   transform: translateZ(0);
 }
 
@@ -2489,7 +2489,7 @@ textarea:-webkit-autofill {
     linear-gradient(
       90deg,
       color-mix(in oklab, hsl(var(--primary)) 55%, transparent),
-      color-mix(in oklab, hsl(var(--accent)) 55%, transparent)
+      color-mix(in oklab, hsl(var(--accent-1)) 55%, transparent)
     );
   box-shadow:
     0 0 calc(var(--space-4) + var(--spacing-0-5))
@@ -2673,9 +2673,9 @@ button:hover .lucide,
 button:active .lucide,
 a:hover .lucide,
 a:active .lucide {
-  color: hsl(var(--accent));
+  color: hsl(var(--accent-1));
   filter: drop-shadow(
-    0 0 calc(var(--space-2) - var(--spacing-0-5)) hsl(var(--accent) / 0.8)
+    0 0 calc(var(--space-2) - var(--spacing-0-5)) hsl(var(--accent-1) / 0.8)
   );
 }
 
@@ -2713,7 +2713,7 @@ a:active .lucide {
     );
     --surface-rail-accent: linear-gradient(
       180deg,
-      hsl(var(--accent)),
+      hsl(var(--accent-1)),
       hsl(var(--primary))
     );
   }
@@ -2960,7 +2960,7 @@ a:active .lucide {
     );
     box-shadow:
       0 0 0 var(--spacing-0-25) hsl(var(--border)) inset,
-      0 0 calc(var(--space-6) - var(--spacing-0-5)) hsl(var(--accent) / 0.15);
+      0 0 calc(var(--space-6) - var(--spacing-0-5)) hsl(var(--accent-1) / 0.15);
   }
   .goal-card::before {
     content: "";
@@ -2984,7 +2984,7 @@ a:active .lucide {
       hsl(var(--primary) / 0.15),
       transparent 40%,
       transparent 60%,
-      hsl(var(--accent) / 0.15)
+      hsl(var(--accent-1) / 0.15)
     );
   }
 
@@ -3002,7 +3002,7 @@ a:active .lucide {
     background: linear-gradient(
       90deg,
       hsl(var(--primary)),
-      hsl(var(--accent)),
+      hsl(var(--accent-1)),
       hsl(var(--primary))
     );
   }
@@ -3242,12 +3242,12 @@ a:active .lucide {
     0%,
     100% {
       text-shadow:
-        0.5px 0 hsl(var(--accent)),
+        0.5px 0 hsl(var(--accent-1)),
         -0.5px 0 hsl(var(--accent-2));
     }
     50% {
       text-shadow:
-        -0.5px 0 hsl(var(--accent)),
+        -0.5px 0 hsl(var(--accent-1)),
         0.5px 0 hsl(var(--accent-2));
     }
   }

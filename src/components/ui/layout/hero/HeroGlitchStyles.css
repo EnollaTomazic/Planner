@@ -95,7 +95,7 @@
 }
 
 .neon-life {
-  --neon: var(--accent);
+  --neon: var(--accent-1);
 }
 
 @media (prefers-contrast: more) {
