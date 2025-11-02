@@ -23,7 +23,7 @@ import {
   Clipboard,
   Plus,
 } from "lucide-react";
-import { type HeaderTab } from "@/components/ui/layout/Header";
+import type { HeaderTab } from "@/components/ui/layout/Header";
 import type { HeroProps } from "@/components/ui/layout/Hero";
 import {
   type BuilderHandle,
@@ -36,7 +36,13 @@ import { MyComps } from "./MyComps";
 import { usePersistentState } from "@/lib/db";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Button } from "@/components/ui/primitives/Button";
-import { PageHeader, PageShell, Badge } from "@/components/ui";
+import {
+  PageHeader,
+  PageShell,
+  Badge,
+  GlitchSegmentedGroup,
+  GlitchSegmentedButton,
+} from "@/components/ui";
 import type { BadgeProps } from "@/components/ui";
 import type { ClearSpeed } from "./data";
 
@@ -44,6 +50,15 @@ type Tab = "cheat" | "builder" | "clears";
 type SubTab = "sheet" | "comps";
 
 type LaneTone = Extract<BadgeProps["tone"], LaneKey>;
+
+type TabConfig = {
+  key: Tab;
+  label: string;
+  hint?: string;
+  icon: React.ReactNode;
+  render: () => React.ReactNode;
+  ref: React.RefObject<HTMLDivElement | null>;
+};
 
 const TAB_KEY = "team:page:activeTab.v1";
 const SUB_TAB_KEY = "team:cheatsheet:activeSubTab.v1";
@@ -201,13 +216,8 @@ export function TeamCompPage() {
     ),
     [subTabIds, subTab, query, editing],
   );
-  const TABS = React.useMemo(
-    (): Array<
-      HeaderTab<Tab> & {
-        render: () => React.ReactNode;
-        ref: React.RefObject<HTMLDivElement | null>;
-      }
-    > => [
+  const TABS = React.useMemo<TabConfig[]>(
+    () => [
       {
         key: "cheat",
         label: "Cheat Sheet",
@@ -215,8 +225,6 @@ export function TeamCompPage() {
         icon: <BookOpenText />,
         render: renderCheat,
         ref: cheatRef,
-        id: tabIds.cheat.tab,
-        controls: tabIds.cheat.panel,
       },
       {
         key: "builder",
@@ -232,8 +240,6 @@ export function TeamCompPage() {
           />
         ),
         ref: builderRef,
-        id: tabIds.builder.tab,
-        controls: tabIds.builder.panel,
       },
       {
         key: "clears",
@@ -250,15 +256,12 @@ export function TeamCompPage() {
           />
         ),
         ref: clearsRef,
-        id: tabIds.clears.tab,
-        controls: tabIds.clears.panel,
       },
     ],
     [
       renderCheat,
       editing,
       clearsQuery,
-      tabIds,
       builderState,
       setBuilderState,
       handleTargetBucketChange,
@@ -533,20 +536,51 @@ export function TeamCompPage() {
         header={{
           id: "teamcomp-header",
           eyebrow: "Comps",
-          heading: "Team Comps Today",
+          heading: "Team Comps",
           subtitle: "Readable. Fast. On brand.",
           icon: <Users2 className="opacity-80" />,
-          tabs: {
-            items: TABS,
-            value: tab,
-            onChange: (next: string) => setTab(next as Tab),
-            ariaLabel: "Team comps mode",
-          },
           underline: true,
           sticky: true,
         }}
         hero={hero}
       />
+
+      <div className="col-span-full">
+        <span id={`${tabBaseId}-tabs-label`} className="sr-only">
+          Team comps mode
+        </span>
+        <GlitchSegmentedGroup
+          ariaLabelledby={`${tabBaseId}-tabs-label`}
+          value={tab}
+          onChange={(next: string) => setTab(next as Tab)}
+          className="w-full"
+        >
+          <GlitchSegmentedButton
+            value="cheat"
+            id={tabIds.cheat.tab}
+            aria-controls={tabIds.cheat.panel}
+            icon={<BookOpenText />}
+          >
+            Cheat Sheet
+          </GlitchSegmentedButton>
+          <GlitchSegmentedButton
+            value="builder"
+            id={tabIds.builder.tab}
+            aria-controls={tabIds.builder.panel}
+            icon={<Hammer />}
+          >
+            Builder
+          </GlitchSegmentedButton>
+          <GlitchSegmentedButton
+            value="clears"
+            id={tabIds.clears.tab}
+            aria-controls={tabIds.clears.panel}
+            icon={<Timer />}
+          >
+            Jungle Clears
+          </GlitchSegmentedButton>
+        </GlitchSegmentedGroup>
+      </div>
 
       <section className="col-span-full grid gap-[var(--space-4)] md:grid-cols-12">
         {TABS.map((t) => {
