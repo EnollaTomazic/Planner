@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Label } from "@/components/ui/Label";
 import { Input } from "@/components/ui/primitives/Input";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Plus } from "lucide-react";
@@ -69,6 +70,9 @@ export function ReminderQuickAddForm() {
         )}
       >
         <div className={cn(styles.fields)}>
+          <Label htmlFor={inputId} className="sr-only">
+            Quick add reminder
+          </Label>
           <Input
             ref={inputRef}
             id={inputId}
