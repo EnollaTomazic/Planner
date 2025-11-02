@@ -23,6 +23,8 @@ export type { DayRecord, DayTask, ISODate, Project, Selection, TaskReminder } fr
 export { ProjectList } from "./ProjectList";
 export { scheduleSavingReset } from "./scheduleSavingReset";
 export { ScrollTopFloatingButton } from "./ScrollTopFloatingButton";
+export { SmallAgnesNoxiImage } from "./SmallAgnesNoxiImage";
+export type { SmallAgnesNoxiImageProps } from "./SmallAgnesNoxiImage";
 export { TaskList } from "./TaskList";
 export { TaskReminderSettings } from "./TaskReminderSettings";
 export { TaskRow } from "./TaskRow";
