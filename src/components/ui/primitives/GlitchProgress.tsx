@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import { cn } from "@/lib/utils";
 
 export const GLITCH_PERCENT_WIDTH = "var(--space-6)";
@@ -35,6 +36,7 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
     },
     ref,
   ) => {
+    const reduceMotion = usePrefersReducedMotion();
     const parsedTotal = Math.max(0, getSafeNumber(total));
     const parsedCurrent = getSafeNumber(current);
     const normalizedCurrent =
@@ -92,8 +94,9 @@ const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
             "glitch-fill transition-[width] duration-motion-lg ease-out motion-reduce:transition-none",
             progressClassName,
           )}
+          style={reduceMotion ? { animation: "none" } : undefined}
         />
-        <div className="glitch-scan" />
+        {!reduceMotion && <div className="glitch-scan" />}
       </div>
     );
 
