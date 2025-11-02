@@ -25,10 +25,10 @@
   --avatar-outline: 0 0 0 var(--hairline-w) hsl(var(--card-hairline) / 0.65);
   --avatar-rim-gradient: conic-gradient(
     from 140deg at 50% 50%,
-    hsl(var(--accent) / 0.88),
+    hsl(var(--accent-1) / 0.88),
     hsl(var(--accent-2) / 0.9),
     hsl(var(--ring) / 0.85),
-    hsl(var(--accent) / 0.88)
+    hsl(var(--accent-1) / 0.88)
   );
   --avatar-glow-gradient: radial-gradient(
     circle at 50% 32%,

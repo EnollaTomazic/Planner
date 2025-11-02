@@ -7,7 +7,7 @@ import { createGalleryPreview, defineGallerySection } from "@/components/gallery
 import { SegmentedButton } from "./SegmentedButton";
 
 const SEGMENTED_BUTTON_HOVER_STATE_CLASSNAME =
-  "[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent)/0.25)]";
+  "[--hover:var(--seg-hover-base)] bg-[--hover] text-[hsl(var(--foreground))] [text-shadow:0_0_calc(var(--space-2)-var(--spacing-0-5))_hsl(var(--accent-1)/0.25)]";
 
 const SEGMENTED_BUTTON_FOCUS_VISIBLE_STATE_CLASSNAME =
   "ring-2 ring-[--theme-ring] ring-offset-0 outline-none";

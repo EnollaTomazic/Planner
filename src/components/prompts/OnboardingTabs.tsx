@@ -496,7 +496,7 @@ export function OnboardingTabs() {
                   "relative grid size-[var(--space-7)] place-items-center rounded-full border text-label font-medium transition-colors duration-[160ms] ease-out",
                   "shadow-[var(--depth-shadow-soft)]",
                   status === "complete" &&
-                    "border-accent bg-[hsl(var(--accent)/0.18)] text-accent-foreground",
+                    "border-accent bg-[hsl(var(--accent-1)/0.18)] text-accent-foreground",
                   status === "current" &&
                     "border-primary-soft bg-[hsl(var(--primary)/0.16)] text-primary-foreground",
                   status === "upcoming" && "border-border/60 text-muted-foreground",
@@ -524,11 +524,11 @@ export function OnboardingTabs() {
               </span>
               <span
                 aria-hidden
-                className="pointer-events-none absolute inset-[calc(var(--space-1)-var(--hairline-w))] rounded-[calc(var(--control-radius-lg)*0.9)] border border-transparent opacity-0 transition duration-[180ms] ease-out group-hover/glitch:border-[hsl(var(--accent)/0.55)] group-hover/glitch:opacity-100 group-focus-visible/glitch:border-[hsl(var(--accent)/0.7)] group-focus-visible/glitch:opacity-100 group-active/glitch:border-[hsl(var(--accent-2)/0.65)]"
+                className="pointer-events-none absolute inset-[calc(var(--space-1)-var(--hairline-w))] rounded-[calc(var(--control-radius-lg)*0.9)] border border-transparent opacity-0 transition duration-[180ms] ease-out group-hover/glitch:border-[hsl(var(--accent-1)/0.55)] group-hover/glitch:opacity-100 group-focus-visible/glitch:border-[hsl(var(--accent-1)/0.7)] group-focus-visible/glitch:opacity-100 group-active/glitch:border-[hsl(var(--accent-2)/0.65)]"
               />
               <span
                 aria-hidden
-                className="pointer-events-none absolute inset-x-[var(--space-3)] bottom-[calc(var(--space-1)*-1)] h-[var(--space-1)] origin-bottom scale-y-0 rounded-full bg-[radial-gradient(80%_100%_at_50%_100%,hsl(var(--accent)/0.4),transparent)] opacity-0 transition duration-[180ms] ease-out group-hover/glitch:scale-y-100 group-hover/glitch:opacity-80 group-focus-visible/glitch:scale-y-100 group-focus-visible/glitch:opacity-90 group-active/glitch:scale-y-100"
+                className="pointer-events-none absolute inset-x-[var(--space-3)] bottom-[calc(var(--space-1)*-1)] h-[var(--space-1)] origin-bottom scale-y-0 rounded-full bg-[radial-gradient(80%_100%_at_50%_100%,hsl(var(--accent-1)/0.4),transparent)] opacity-0 transition duration-[180ms] ease-out group-hover/glitch:scale-y-100 group-hover/glitch:opacity-80 group-focus-visible/glitch:scale-y-100 group-focus-visible/glitch:opacity-90 group-active/glitch:scale-y-100"
               />
               <span
                 aria-hidden

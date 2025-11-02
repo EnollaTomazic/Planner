@@ -14,9 +14,9 @@ import { BookOpen, Ghost, Plus } from "lucide-react";
 
 import {
   Button,
-  HeroSearchBar,
-  PageHeader,
+  Hero,
   PageShell,
+  SearchBar,
   Select,
   TabBar,
   Skeleton,
@@ -131,29 +131,9 @@ export function ReviewsPage({
   );
   const panelClass = "mx-auto";
   const detailBaseId = active ? `review-${active.id}` : "review-detail";
+  const heroHeadingId = React.useId();
   const sortLabelId = React.useId();
   const emptySearchDescriptionId = React.useId();
-  const heroSubtitle = React.useMemo(() => {
-    if (isLoading) {
-      return (
-        <span className="text-label text-muted-foreground" aria-live="polite">
-          Syncing local reviews…
-        </span>
-      );
-    }
-    if (isErrored) {
-      return (
-        <span className="text-label font-medium text-danger" role="status">
-          {errorMessage ?? "Unable to load reviews"}
-        </span>
-      );
-    }
-    if (totalCount > 0) {
-      return <span className="pill">Total {totalCount}</span>;
-    }
-    return undefined;
-  }, [errorMessage, isErrored, isLoading, totalCount]);
-  const heroGridClass = "grid gap-[var(--space-3)] sm:gap-[var(--space-4)] md:grid-cols-12";
   const sortItems = React.useMemo(
     () => [
       { value: "newest", label: "Newest" },
@@ -166,194 +146,169 @@ export function ReviewsPage({
   return (
     <>
       <PageShell as="header" className="py-[var(--space-6)]">
-        <PageHeader
-          header={{
-            id: "reviews-header",
-            heading: "Reviews",
-            icon: <BookOpen className="opacity-80" />,
-            topClassName: "top-[var(--header-stack)]",
-            underline: true,
-            sticky: false,
-          }}
-          hero={{
-            sticky: false,
-            title: "Browse Reviews",
-            subtitle: heroSubtitle,
-            illustration: (
-              <Image
-                src="/images/agnes.svg"
-                alt="Agnes watching over review browsing"
-                fill
-                sizes="(min-width: 1280px) 38vw, (min-width: 768px) 56vw, 100vw"
-                priority={false}
-                className="object-contain object-right md:object-center"
-              />
-            ),
-            children: isLoading ? (
-              <div className={heroGridClass}>
-                <Skeleton
-                  ariaHidden={false}
-                  role="status"
-                  aria-label="Loading review search"
-                  className="md:col-span-8 h-[var(--control-h-lg)] w-full"
-                  radius="full"
-                />
-                <Skeleton
-                  ariaHidden={false}
-                  role="status"
-                  aria-label="Loading sort control"
-                  className="md:col-span-2 h-[var(--control-h-lg)] w-full"
-                  radius="md"
-                />
-                <Skeleton
-                  ariaHidden={false}
-                  role="status"
-                  aria-label="Loading review actions"
-                  className="md:col-span-2 h-[var(--control-h-lg)] w-full"
-                  radius="md"
-                />
-              </div>
-            ) : isErrored ? (
-              <div className={heroGridClass}>
-                <HeroSearchBar
-                  round
-                  value={q}
-                  onValueChange={undefined}
-                  placeholder="Search unavailable until reviews sync."
-                  aria-label="Search reviews (temporarily unavailable)"
-                  className="md:col-span-8"
-                  debounceMs={300}
-                  disabled
-                  aria-busy={isErrored}
-                />
-                <div
-                  className="flex w-full flex-col gap-[var(--space-1)] text-left md:col-span-2"
-                  aria-labelledby={sortLabelId}
-                >
-                  <span
-                    id={sortLabelId}
-                    className="text-ui font-medium text-muted-foreground"
-                  >
-                    Sort
-                  </span>
-                  <Select
-                    variant="animated"
-                    label="Sort reviews"
-                    hideLabel
-                    value={sort}
-                    onChange={(v) => setSort(v as SortKey)}
-                    items={sortItems}
-                    className="w-full"
-                    size="lg"
-                    disabled
-                  />
-                </div>
-                <Button
-                  type="button"
-                  variant="default"
-                  size="md"
-                  className={cn(
-                    "btn-glitch",
-                    "w-full whitespace-nowrap md:col-span-2 md:justify-self-end",
-                  )}
-                  onClick={onRetry ?? undefined}
-                  disabled={!onRetry}
-                >
-                  Retry sync
-                </Button>
-                <p className="text-ui text-danger md:col-span-12" role="alert">
-                  {errorMessage ?? "We couldn’t load your reviews. Retry to continue."}
-                </p>
-              </div>
-            ) : hasReviews ? (
-              <div className={heroGridClass}>
-                <HeroSearchBar
-                  round
-                  value={q}
-                  onValueChange={setQ}
-                  placeholder="Search title, tags, opponent, patch…"
-                  aria-label="Search reviews"
-                  className="md:col-span-8"
-                  debounceMs={300}
-                />
-                <div
-                  className="flex w-full flex-col gap-[var(--space-1)] text-left md:col-span-2"
-                  aria-labelledby={sortLabelId}
-                >
-                  <span
-                    id={sortLabelId}
-                    className="text-ui font-medium text-muted-foreground"
-                  >
-                    Sort
-                  </span>
-                  <Select
-                    variant="animated"
-                    label="Sort reviews"
-                    hideLabel
-                    value={sort}
-                    onChange={(v) => setSort(v as SortKey)}
-                    items={sortItems}
-                    className="w-full"
-                    size="lg"
-                  />
-                </div>
-                <Button
-                  type="button"
-                  variant="default"
-                  size="md"
-                  className={cn(
-                    "btn-glitch",
-                    "w-full whitespace-nowrap md:col-span-2 md:justify-self-end",
-                  )}
-                  onClick={commitCreateReview}
-                >
-                  <Plus />
-                  <span>New Review</span>
-                </Button>
-              </div>
-            ) : (
-              <div className={heroGridClass}>
-                <HeroSearchBar
-                  round
-                  value={q}
-                  onValueChange={undefined}
-                  placeholder="Add a review to unlock search by title, tags, opponent, or patch."
-                  aria-label="Search reviews (disabled until a review exists)"
-                  aria-describedby={emptySearchDescriptionId}
-                  className="md:col-span-8"
-                  debounceMs={300}
-                  disabled
-                />
-                <p
-                  id={emptySearchDescriptionId}
-                  className="text-ui text-muted-foreground md:col-span-8"
-                >
-                  Once you publish your first review, smart filters, tagging, and matchup search become available.
-                </p>
-                <Button
-                  type="button"
-                  variant="default"
-                  size="md"
-                  className={cn(
-                    "btn-glitch",
-                    "w-full whitespace-nowrap md:col-span-4 md:justify-self-end",
-                  )}
-                  onClick={commitCreateReview}
-                >
-                  <Plus />
-                  <span>New Review</span>
-                </Button>
-              </div>
-            ),
-          }}
+        <Hero
+          as="section"
+          sticky={false}
+          topClassName="top-[var(--header-stack)]"
+          title={<span id={heroHeadingId}>Reviews</span>}
+          subtitle="Capture match recaps, filter by tags and patches"
+          icon={<BookOpen className="opacity-80" />}
+          actions={
+            <Button
+              type="button"
+              variant="default"
+              size="md"
+              className={cn("btn-glitch", "whitespace-nowrap")}
+              onClick={commitCreateReview}
+              disabled={!allowInteractions}
+            >
+              <Plus />
+              <span>New Review</span>
+            </Button>
+          }
+          illustration={
+            <Image
+              src="/images/agnes.svg"
+              alt="Agnes watching over review browsing"
+              fill
+              sizes="(min-width: 1280px) 38vw, (min-width: 768px) 56vw, 100vw"
+              priority={false}
+              className="object-contain object-right md:object-center"
+            />
+          }
         />
       </PageShell>
 
       <PageShell
         as="section"
         className="py-[var(--space-6)] space-y-[var(--space-6)]"
-        aria-labelledby="reviews-header"
+        aria-labelledby={heroHeadingId}
       >
+        {isLoading ? (
+          <div className="grid gap-[var(--space-3)] sm:gap-[var(--space-4)] md:grid-cols-[minmax(0,1fr)_16rem]">
+            <Skeleton
+              ariaHidden={false}
+              role="status"
+              aria-label="Loading review search"
+              className="h-[var(--control-h-lg)] w-full"
+              radius="full"
+            />
+            <Skeleton
+              ariaHidden={false}
+              role="status"
+              aria-label="Loading sort control"
+              className="h-[var(--control-h-lg)] w-full md:w-[16rem]"
+              radius="md"
+            />
+          </div>
+        ) : isErrored ? (
+          <div className="space-y-[var(--space-3)]">
+            <div className="flex flex-col gap-[var(--space-3)] sm:gap-[var(--space-4)] md:flex-row md:items-end md:justify-between">
+              <SearchBar
+                value={q}
+                placeholder="Search unavailable until reviews sync."
+                aria-label="Search reviews (temporarily unavailable)"
+                variant="neo"
+                height="lg"
+                disabled
+                loading
+                debounceMs={300}
+                className="md:max-w-none"
+              />
+              <div
+                className="flex w-full flex-col gap-[var(--space-1)] text-left md:w-[16rem]"
+                aria-labelledby={sortLabelId}
+              >
+                <span
+                  id={sortLabelId}
+                  className="text-ui font-medium text-muted-foreground"
+                >
+                  Sort
+                </span>
+                <Select
+                  variant="animated"
+                  label="Sort reviews"
+                  hideLabel
+                  value={sort}
+                  onChange={(v) => setSort(v as SortKey)}
+                  items={sortItems}
+                  className="w-full"
+                  size="lg"
+                  disabled
+                />
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+              <Button
+                type="button"
+                variant="default"
+                size="md"
+                className={cn("btn-glitch", "whitespace-nowrap")}
+                onClick={onRetry ?? undefined}
+                disabled={!onRetry}
+              >
+                Retry sync
+              </Button>
+              <p className="text-ui text-danger" role="alert">
+                {errorMessage ?? "We couldn’t load your reviews. Retry to continue."}
+              </p>
+            </div>
+          </div>
+        ) : hasReviews ? (
+          <div className="flex flex-col gap-[var(--space-3)] sm:gap-[var(--space-4)] md:flex-row md:items-end md:justify-between">
+            <SearchBar
+              value={q}
+              onValueChange={setQ}
+              placeholder="Search title, tags, opponent, patch…"
+              aria-label="Search reviews"
+              variant="neo"
+              height="lg"
+              debounceMs={300}
+              className="md:max-w-none"
+            />
+            <div
+              className="flex w-full flex-col gap-[var(--space-1)] text-left md:w-[16rem]"
+              aria-labelledby={sortLabelId}
+            >
+              <span
+                id={sortLabelId}
+                className="text-ui font-medium text-muted-foreground"
+              >
+                Sort
+              </span>
+              <Select
+                variant="animated"
+                label="Sort reviews"
+                hideLabel
+                value={sort}
+                onChange={(v) => setSort(v as SortKey)}
+                items={sortItems}
+                className="w-full"
+                size="lg"
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-[var(--space-2)]">
+            <SearchBar
+              value={q}
+              placeholder="Add a review to unlock search by title, tags, opponent, or patch."
+              aria-label="Search reviews (disabled until a review exists)"
+              aria-describedby={emptySearchDescriptionId}
+              variant="neo"
+              height="lg"
+              debounceMs={300}
+              disabled
+              className="md:max-w-none"
+            />
+            <p
+              id={emptySearchDescriptionId}
+              className="text-ui text-muted-foreground"
+            >
+              Once you publish your first review, smart filters, tagging, and matchup search become available.
+            </p>
+          </div>
+        )}
         <div
           className={cn(
             "grid grid-cols-1 items-start gap-[var(--space-4)] sm:gap-[var(--space-6)] lg:gap-[var(--space-8)] md:grid-cols-6 lg:grid-cols-12",
@@ -391,10 +346,7 @@ export function ReviewsPage({
             {isLoading ? (
               <ReviewPanel
                 aria-busy="true"
-                className={cn(
-                  panelClass,
-                  "glitch-card space-y-[var(--space-4)] px-[var(--space-7)] py-[var(--space-7)]",
-                )}
+                className={cn(panelClass, "space-y-[var(--space-4)]")}
               >
                 <div className="space-y-[var(--space-2)]">
                   <Skeleton
@@ -429,13 +381,7 @@ export function ReviewsPage({
                 />
               </ReviewPanel>
             ) : isErrored ? (
-              <ReviewPanel
-                aria-live="polite"
-                className={cn(
-                  panelClass,
-                  "glitch-card px-[var(--space-7)] py-[var(--space-7)]",
-                )}
-              >
+              <ReviewPanel aria-live="polite" className={panelClass}>
                 <AIErrorCard
                   title="Review detail unavailable"
                   description={errorMessage ?? "We couldn’t load your review details."}
@@ -450,8 +396,8 @@ export function ReviewsPage({
                 aria-live="polite"
                 className={cn(
                   panelClass,
-                  "relative isolate flex flex-col items-center justify-center gap-[var(--space-4)] overflow-hidden",
-                  "glitch-card px-[var(--space-7)] py-[var(--space-8)] text-center text-ui text-muted-foreground",
+                  "relative flex flex-col items-center justify-center gap-[var(--space-4)] overflow-hidden",
+                  "text-center text-ui text-muted-foreground",
                 )}
               >
                 <span
@@ -482,8 +428,8 @@ export function ReviewsPage({
                 aria-live="polite"
                 className={cn(
                   panelClass,
-                  "relative isolate flex flex-col items-center justify-center gap-[var(--space-3)] overflow-hidden",
-                  "glitch-card px-[var(--space-7)] py-[var(--space-8)] text-center text-ui text-muted-foreground",
+                  "relative flex flex-col items-center justify-center gap-[var(--space-3)] overflow-hidden",
+                  "text-center text-ui text-muted-foreground",
                 )}
               >
                 <span

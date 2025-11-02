@@ -84,7 +84,7 @@ export function SideSelector({
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "disabled:opacity-disabled disabled:pointer-events-none",
         "data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none",
-        "[--hover:hsl(var(--accent)/0.08)] [--active:hsl(var(--accent)/0.15)]",
+        "[--hover:hsl(var(--accent-1)/0.08)] [--active:hsl(var(--accent-1)/0.15)]",
         "min-w-[calc(var(--space-8)*3+var(--space-6))]",
         "sm:min-w-[calc(var(--space-8)*4)]",
         "w-full max-w-[calc(var(--space-8)*5)] h-[var(--control-h)]", // responsive default aligned to tokens

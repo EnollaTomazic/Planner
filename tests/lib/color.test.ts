@@ -38,9 +38,9 @@ describe("color token helpers", () => {
   });
 
   it("passes through derived tokens", () => {
-    expect(tokenToHexColor("var(--accent)")).toBe("var(--accent)");
-    expect(resolveTokenColor("var(--accent)"))
-      .toBe("var(--accent)");
+    expect(tokenToHexColor("var(--accent-1)")).toBe("var(--accent-1)");
+    expect(resolveTokenColor("var(--accent-1)"))
+      .toBe("var(--accent-1)");
   });
 
   it("resolves mixed token inputs", () => {

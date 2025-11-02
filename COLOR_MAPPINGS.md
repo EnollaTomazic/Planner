@@ -10,7 +10,7 @@
 | `rgb(0 0 0 / .18)`                  | `hsl(var(--shadow-color) / 0.18)`  |
 | `#33ff99`                           | `hsl(var(--accent-2))`             |
 | `#b3ffd9`                           | `var(--aurora-g-light-color, hsl(var(--aurora-g-light)))` |
-| `#9e47eb`                           | `hsl(var(--accent))`               |
+| `#9e47eb`                           | `hsl(var(--accent-1))`               |
 | `#dbbaf7`                           | `var(--aurora-p-light-color, hsl(var(--aurora-p-light)))` |
 | `#0b0b12`                           | `hsl(var(--background))`           |
 | `#9a8cff`                           | `hsl(var(--icon-fg))`              |
@@ -25,8 +25,8 @@
 | `rgba(255, 0, 200, 0.04)`           | `hsl(var(--lav-deep) / 0.04)`      |
 | `rgba(70, 230, 255, 0.15)`          | `hsl(var(--accent-2) / 0.15)`      |
 | `rgba(150, 210, 225, 0.15)`         | `hsl(var(--accent-2) / 0.15)`      |
-| `rgba(180, 100, 255, 0.25)`         | `hsl(var(--accent) / 0.25)`        |
-| `rgba(160, 60, 255, 0.2)`           | `hsl(var(--accent) / 0.2)`         |
+| `rgba(180, 100, 255, 0.25)`         | `hsl(var(--accent-1) / 0.25)`        |
+| `rgba(160, 60, 255, 0.2)`           | `hsl(var(--accent-1) / 0.2)`         |
 | `rgba(255, 255, 255, 0.07)`         | `hsl(var(--foreground) / 0.07)`    |
 | `rgba(255, 255, 255, 0.10)`         | `hsl(var(--foreground) / 0.10)`    |
 | `rgba(255, 255, 255, 0.14)`         | `hsl(var(--foreground) / 0.14)`    |
@@ -43,8 +43,8 @@
 | `rgba(255, 0, 200, 0.08)`           | `hsl(var(--lav-deep) / 0.08)`      |
 | `rgba(255, 77, 210, 0.65)`          | `hsl(var(--lav-deep) / 0.65)`      |
 | `rgba(255, 77, 210, 0.85)`          | `hsl(var(--lav-deep) / 0.85)`      |
-| `rgba(192, 132, 252, 0.6)`          | `hsl(var(--accent))`               |
-| `rgba(168, 85, 247, 0.2)`           | `hsl(var(--accent) / 0.2)`         |
+| `rgba(192, 132, 252, 0.6)`          | `hsl(var(--accent-1))`               |
+| `rgba(168, 85, 247, 0.2)`           | `hsl(var(--accent-1) / 0.2)`         |
 | `#fb7185` (`rose-400`)              | `hsl(var(--danger))`               |
 | `#fbbf24` (`amber-400`)             | `hsl(var(--warning))`              |
 | `#34d399` (`emerald-400`)           | `hsl(var(--success))`              |
@@ -61,7 +61,7 @@
 | `hsl(165 40% 22%)`                  | `hsl(var(--hardstuck-border))`     |
 | `hsl(250 30% 2% / 0.35)`            | `hsl(var(--shadow-base) / 0.35)`   |
 | `hsl(250 30% 2% / 0.25)`            | `hsl(var(--shadow-base) / 0.25)`   |
-| `hsl(291 89% 61% / 0.6)`            | `hsl(var(--accent) / 0.6)`         |
+| `hsl(291 89% 61% / 0.6)`            | `hsl(var(--accent-1) / 0.6)`         |
 | `hsl(192 91% 46% / 0.4)`            | `hsl(var(--accent-2) / 0.4)`       |
 | `hsl(262 83% 58% / 0.6)`            | `hsl(var(--ring) / 0.6)`           |
 | `hsl(262 83% 58% / 0.7)`            | `hsl(var(--ring) / 0.7)`           |
@@ -74,4 +74,4 @@
 | `hsl(330 100% 60% / 0.45)`          | `hsl(var(--lav-deep) / 0.45)`      |
 | `hsl(248 30% 10%)`                  | `hsl(var(--card))`                 |
 | `hsl(260 85% 60%)` (glow-strong)    | `hsl(var(--ring))`                 |
-| `hsl(260 85% 60%)` (glow-soft)      | `hsl(var(--accent))`               |
+| `hsl(260 85% 60%)` (glow-soft)      | `hsl(var(--accent-1))`               |

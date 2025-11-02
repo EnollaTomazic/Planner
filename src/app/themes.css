@@ -28,7 +28,7 @@
   --seg-active-grad: linear-gradient(
     90deg,
     hsl(var(--primary-soft) / 0.85),
-    hsl(var(--accent-soft) / 0.85),
+    hsl(var(--accent-1-soft) / 0.85),
     hsl(var(--accent-2) / 0.8)
   );
   --seg-active-base: hsl(var(--card));
@@ -112,17 +112,17 @@
   --icon-stroke100: var(--spacing-0-5);
   --icon-stroke150: calc(var(--spacing-0-5) * 1.25);
   --control-radius: var(--radius-xl);
-  --pillar-wave-start: var(--accent);
+  --pillar-wave-start: var(--accent-1);
   --pillar-wave-end: var(--accent-2);
-  --pillar-wave-shadow: var(--accent) / 0.35;
+  --pillar-wave-shadow: var(--accent-1) / 0.35;
   --pillar-trading-start: var(--lav-deep);
-  --pillar-trading-end: var(--accent);
+  --pillar-trading-end: var(--accent-1);
   --pillar-trading-shadow: var(--lav-deep) / 0.35;
   --pillar-vision-start: var(--success);
   --pillar-vision-end: var(--accent-2);
   --pillar-vision-shadow: var(--success) / 0.35;
   --pillar-tempo-start: var(--ring);
-  --pillar-tempo-end: var(--accent);
+  --pillar-tempo-end: var(--accent-1);
   --pillar-tempo-shadow: var(--ring) / 0.35;
   --pillar-positioning-start: var(--accent-2);
   --pillar-positioning-end: var(--primary);
@@ -151,12 +151,12 @@
   --primary: 262 88% 60%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 88% 20%;
-  --accent: 294 90% 42%;
-  --accent2: 190 86% 38%;
-  --accent3: 200 88% 34%;
-  --accent-foreground: 0 0% 100%;
-  --accent-contrast: 294 92% 72%;
-  --accent-soft: 294 90% 16%;
+  --accent-1: 276 88% 62%;
+  --accent-2: 168 96% 56%;
+  --accent-3: 318 82% 60%;
+  --accent-1-foreground: 0 0% 100%;
+  --accent-1-contrast: 276 92% 80%;
+  --accent-1-soft: 276 88% 22%;
   --glow: 296 96% 56%;
   --ring-muted: 248 22% 24%;
   --danger: 0 84% 60%;
@@ -187,10 +187,10 @@
   --tone-sup: 320 72% 60%;
   --aurora-g: var(--accent-2);
   --aurora-g-light: 150 100% 85%;
-  --aurora-p: var(--accent);
+  --aurora-p: var(--accent-1);
   --aurora-p-light: 272 80% 85%;
   --icon-fg: 250 96% 78%;
-  --accent-overlay: hsl(var(--accent));
+  --accent-overlay: hsl(var(--accent-1));
   --ring-contrast: hsl(var(--ring));
   --glow-active: hsl(var(--glow));
   --neon: var(--glow);
@@ -202,7 +202,7 @@
   --review-result-win-gradient: linear-gradient(
     90deg,
     hsl(var(--success) / 0.22),
-    hsl(var(--accent) / 0.18)
+    hsl(var(--accent-1) / 0.18)
   );
   --review-result-loss-gradient: linear-gradient(
     90deg,
@@ -248,14 +248,14 @@
   --shadow-control: inset 0 var(--spacing-1) var(--spacing-2) 0 color-mix(in oklab, hsl(var(--shadow-color)) 18%, hsl(var(--background)) 82%),
     var(--shadow-outline-subtle);
   --glow-strong: var(--ring) / 0.55;
-  --glow-soft: var(--accent) / 0.25;
+  --glow-soft: var(--accent-1) / 0.25;
   --shadow-neon: 0 0 var(--space-1) hsl(var(--neon) / 0.6),
     0 0 calc(var(--space-3)) hsl(var(--neon) / 0.4),
     0 0 calc(var(--space-5)) hsl(var(--neon) / 0.22);
   --btn-primary-hover-shadow: 0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)
-    calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25);
+    calc(-1 * var(--space-1) / 4) hsl(var(--accent-1) / 0.25);
   --btn-primary-active-shadow: inset 0 0 0 calc(var(--space-1) / 4)
-    hsl(var(--accent) / 0.6);
+    hsl(var(--accent-1) / 0.6);
   --hero-divider-blur: calc(var(--spacing-1) * 1.5);
   --hero-illustration-opacity: 0.84;
   --hero-illustration-blur: calc(var(--space-4) + var(--space-1));
@@ -286,7 +286,7 @@
   --blob-surface2: hsl(var(--surface-2));
   --blob-surface3: hsl(var(--card));
   --blob-surface-shadow: hsl(var(--shadow-color) / 0.4);
-  --glitch-noise-primary: hsl(var(--accent) / 0.055);
+  --glitch-noise-primary: hsl(var(--accent-1) / 0.055);
   --glitch-noise-secondary: hsl(var(--ring) / 0.05);
   --glitch-noise-contrast: hsl(var(--foreground) / 0.045);
   --elevation-card: var(--shadow-outline-subtle);
@@ -315,8 +315,8 @@
   --backdrop-blob2: var(--lg-cyan);
   --backdrop-blob3: var(--lg-pink);
   --backdrop-blob-shadow: var(--lg-black);
-  --backdrop-grid-primary: var(--accent);
-  --backdrop-grid-secondary: var(--accent);
+  --backdrop-grid-primary: var(--accent-1);
+  --backdrop-grid-secondary: var(--accent-1);
   --backdrop-grid-opacity: 0.1;
   --backdrop-drip1: var(--backdrop-blob-1);
   --backdrop-drip2: var(--backdrop-blob-2);
@@ -326,7 +326,7 @@
   --neon-outline-opacity: 0.35;
   --glitch-intensity: 1.0;
   --glitch-fringe: 12deg;
-  --glitch-static-opacity: 0.18;
+  --glitch-static-opacity: 0.054;
   --glitch-noise-level: var(--glitch-static-opacity);
   --glitch-overlay-button-opacity: 0.42;
   --glitch-overlay-button-opacity-reduced: 0.28;
@@ -337,7 +337,7 @@
   --glitch-ring-color: hsl(var(--ring) / 0.55);
   --glitch-ring-blur: var(--space-2);
   --glitch-ring-shadow: 0 0 var(--glitch-ring-blur) var(--glitch-ring-color);
-  --glitch-accent-color: hsl(var(--accent) / 0.35);
+  --glitch-accent-color: hsl(var(--accent-1) / 0.35);
   --glitch-accent-blur: var(--spacing-0-5);
   --glitch-accent-shadow: 0 0 var(--glitch-accent-blur) var(--glitch-accent-color);
   --retro-grid-step: 24px;
@@ -347,7 +347,7 @@
   --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
   --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22);
   --glitch-noise-hover: calc(var(--glitch-noise-level) * 1.3);
-  --grid-color: var(--accent);
+  --grid-color: var(--accent-1);
   --grid-alpha: 0.1;
   --grid-size: calc(var(--space-6) - var(--space-1));
   --shadow-outer-sm: 0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.24);
@@ -358,17 +358,17 @@
   --glow-ring-sm: 0 0 0 calc(var(--spacing-0-25)) hsl(var(--ring) / 0.45);
   --glow-ring-md: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-2) hsl(var(--ring) / 0.2);
   --blob-surface: color-mix(in oklab, hsl(var(--surface)) 70%, hsl(var(--surface-2)) 30%);
-  --drip-surface: color-mix(in oklab, hsl(var(--accent)) 18%, hsl(var(--background)) 82%);
+  --drip-surface: color-mix(in oklab, hsl(var(--accent-1)) 18%, hsl(var(--background)) 82%);
   --gradient-blob-primary: radial-gradient(120% 120% at 50% 10%, hsl(var(--surface) / 0.85), hsl(var(--surface-2) / 0.35), transparent 85%);
   --gradient-drip-overlay: radial-gradient(60% 40% at 10% 0%, hsl(var(--backdrop-drip-1) / 0.2), transparent 60%), radial-gradient(50% 35% at 100% 5%, hsl(var(--backdrop-drip-2) / 0.18), transparent 60%), radial-gradient(55% 35% at 50% 120%, hsl(var(--backdrop-drip-3) / 0.14), transparent 65%), radial-gradient(120% 100% at 50% 100%, hsl(var(--backdrop-drip-shadow) / 0.35), transparent 70%);
   --gradient-drip-overlay-compact: radial-gradient(125% 85% at 18% -20%, hsl(var(--backdrop-drip-1) / 0.28), transparent 65%), radial-gradient(115% 85% at 82% -15%, hsl(var(--backdrop-drip-2) / 0.24), transparent 62%), radial-gradient(120% 95% at 50% 110%, hsl(var(--backdrop-drip-3) / 0.16), transparent 70%);
-  --gradient-glitch-primary: linear-gradient(135deg, hsl(var(--accent) / 0.35), hsl(var(--accent-2) / 0.3));
-  --gradient-glitch-overlay: linear-gradient(120deg, hsl(var(--accent) / 0.12) 0%, transparent 58%, hsl(var(--ring) / 0.16) 100%), var(--card-overlay-scanlines);
-  --gradient-glitch-rail: linear-gradient(180deg, hsl(var(--primary) / 0.6) 0%, hsl(var(--accent) / 0.45) 45%, hsl(var(--ring) / 0.6) 100%);
+  --gradient-glitch-primary: linear-gradient(135deg, hsl(var(--accent-1) / 0.35), hsl(var(--accent-2) / 0.3));
+  --gradient-glitch-overlay: linear-gradient(120deg, hsl(var(--accent-1) / 0.12) 0%, transparent 58%, hsl(var(--ring) / 0.16) 100%), var(--card-overlay-scanlines);
+  --gradient-glitch-rail: linear-gradient(180deg, hsl(var(--primary) / 0.6) 0%, hsl(var(--accent-1) / 0.45) 45%, hsl(var(--ring) / 0.6) 100%);
   --gradient-hero-slot-highlight: radial-gradient(circle at top left, var(--depth-glow-highlight-medium) 0%, transparent 62%);
   --gradient-hero-slot-shadow: radial-gradient(circle at bottom right, var(--depth-glow-shadow-medium) 0%, transparent 65%);
-  --gradient-hero-topline: linear-gradient(90deg, hsl(var(--accent) / 0.28), transparent 55%, hsl(var(--accent-2) / 0.32));
-  --gradient-hero-action-halo: radial-gradient(120% 95% at 50% 0%, hsl(var(--accent) / 0.24), transparent 65%);
+  --gradient-hero-topline: linear-gradient(90deg, hsl(var(--accent-1) / 0.28), transparent 55%, hsl(var(--accent-2) / 0.32));
+  --gradient-hero-action-halo: radial-gradient(120% 95% at 50% 0%, hsl(var(--accent-1) / 0.24), transparent 65%);
   --gradient-panel-tilt-strong: linear-gradient(140deg, hsl(var(--card) / 0.95), hsl(var(--surface-2) / 0.78));
   --gradient-panel-tilt-bright: linear-gradient(140deg, hsl(var(--card) / 0.98), hsl(var(--surface-2) / 0.82));
   --gradient-panel-tilt-muted: linear-gradient(140deg, hsl(var(--card) / 0.94), hsl(var(--surface-2) / 0.72));
@@ -383,7 +383,7 @@
   --surface-card-strong-active: linear-gradient(180deg, hsl(var(--card) / 0.8), hsl(var(--card) / 0.6));
   --surface-card-strong-today: linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--card) / 0.7));
   --surface-card-strong-empty: linear-gradient(180deg, hsl(var(--card) / 0.6), hsl(var(--card) / 0.5));
-  --surface-rail-accent: linear-gradient(180deg, hsl(var(--accent)), hsl(var(--primary)));
+  --surface-rail-accent: linear-gradient(180deg, hsl(var(--accent-1)), hsl(var(--primary)));
   --glitch-intensity-default: 1.0;
   --glitch-intensity-subtle: calc(var(--glitch-intensity-default) * 0.68);
   --glitch-intensity-hero-rail: 0.74;
@@ -412,7 +412,7 @@
   );
   --glitch-duration: 450ms;
   --glow-pulse: glow-pulse var(--dur-slow) var(--ease-out) infinite alternate;
-  --glitch-rgb-shift: drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45));
+  --glitch-rgb-shift: drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent-1) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45));
   --glitch-scanline: glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite;
   --scanline: var(--glitch-scanline);
   --motion-duration-sm: var(--dur-quick);
@@ -425,14 +425,14 @@
   :root {
     --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
     --aurora-g-light-color: var(--aurora-g-light);
-    --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+    --aurora-p-light: color-mix(in oklab, hsl(var(--accent-1)) 37.5%, white);
     --aurora-p-light-color: var(--aurora-p-light);
   }
 }
 @media (prefers-reduced-motion: no-preference) {
   :root {
     --glitch-scanline: glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite;
-    --glitch-rgb-shift: drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45));
+    --glitch-rgb-shift: drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent-1) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45));
     --glow-pulse: glow-pulse var(--dur-slow) var(--ease-out) infinite alternate;
   }
 }
@@ -515,11 +515,11 @@
   --backdrop-blob-2: var(--lg-cyan);
   --backdrop-blob-3: var(--lg-pink);
   --backdrop-blob-shadow: var(--lg-black);
-  --backdrop-grid-primary: var(--accent);
-  --backdrop-grid-secondary: var(--accent);
+  --backdrop-grid-primary: var(--accent-1);
+  --backdrop-grid-secondary: var(--accent-1);
   --backdrop-grid-opacity: 0.1;
   /* Grid overlay tokens (opacity / scale / color) */
-  --grid-color: var(--accent);
+  --grid-color: var(--accent-1);
   --grid-alpha: 0.1;
   --grid-size: calc(var(--space-6) - var(--space-1));
   --backdrop-drip-1: var(--backdrop-blob-1);
@@ -545,7 +545,7 @@
   /* hue-rotate magnitude */
   --glitch-fringe: 12deg;
   /* overlay alpha */
-  --glitch-static-opacity: 0.18;
+  --glitch-static-opacity: 0.054;
   --glitch-noise-level: var(--glitch-static-opacity);
   /* Card glitch overlay alpha */
   --glitch-overlay-opacity-card: 0.55;
@@ -560,10 +560,10 @@
   --glitch-ring-color: hsl(var(--ring) / 0.55);
   --glitch-ring-blur: var(--space-2);
   --glitch-ring-shadow: 0 0 var(--glitch-ring-blur) var(--glitch-ring-color);
-  --glitch-accent-color: hsl(var(--accent) / 0.35);
+  --glitch-accent-color: hsl(var(--accent-1) / 0.35);
   --glitch-accent-blur: var(--spacing-0-5);
   --glitch-accent-shadow: 0 0 var(--glitch-accent-blur) var(--glitch-accent-color);
-  --glitch-noise-primary: hsl(var(--accent) / 0.055);
+  --glitch-noise-primary: hsl(var(--accent-1) / 0.055);
   --glitch-noise-secondary: hsl(var(--ring) / 0.05);
   --glitch-noise-contrast: hsl(var(--foreground) / 0.045);
   --glitch-noise-hover: calc(var(--glitch-noise-level) * 1.3);
@@ -578,9 +578,9 @@
     0 0 calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),
     0 0 calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2);
   --btn-primary-hover-shadow: 0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)
-    calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25);
+    calc(-1 * var(--space-1) / 4) hsl(var(--accent-1) / 0.25);
   --btn-primary-active-shadow: inset 0 0 0 calc(var(--space-1) / 4)
-    hsl(var(--accent) / 0.6);
+    hsl(var(--accent-1) / 0.6);
   --pillar-wave-start: 257 90% 70%;
   --pillar-wave-end: 198 90% 62%;
   --pillar-wave-shadow: 258 90% 38% / 0.35;
@@ -603,7 +603,7 @@
 /* Upgrade tokens when color-mix(oklab) is supported */
 @supports (color: color-mix(in oklab, white, black)) {
   :root {
-    --accent-overlay: color-mix(in oklab, hsl(var(--accent)) 60%, transparent);
+    --accent-overlay: color-mix(in oklab, hsl(var(--accent-1)) 60%, transparent);
     --ring-contrast: color-mix(
       in oklab,
       hsl(var(--ring)) 70%,
@@ -615,12 +615,12 @@
     --card-hairline: color-mix(
       in oklab,
       hsl(var(--border)) 82%,
-      hsl(var(--accent)) 18%
+      hsl(var(--accent-1)) 18%
     );
     --blob-surface-1: color-mix(
       in oklab,
       hsl(var(--surface)) 72%,
-      hsl(var(--accent)) 28%
+      hsl(var(--accent-1)) 28%
     );
     --blob-surface-2: color-mix(
       in oklab,
@@ -639,13 +639,13 @@
     );
     --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
     --aurora-g-light-color: var(--aurora-g-light);
-    --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+    --aurora-p-light: color-mix(in oklab, hsl(var(--accent-1)) 37.5%, white);
     --aurora-p-light-color: var(--aurora-p-light);
   }
   html.theme-aurora {
     --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
     --aurora-g-light-color: var(--aurora-g-light);
-    --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+    --aurora-p-light: color-mix(in oklab, hsl(var(--accent-1)) 37.5%, white);
     --aurora-p-light-color: var(--aurora-p-light);
   }
   html.theme-hardstuck {
@@ -685,7 +685,7 @@
     --blob-surface-3: color-mix(
       in oklab,
       hsl(var(--card)) 64%,
-      hsl(var(--accent)) 36%
+      hsl(var(--accent-1)) 36%
     );
     --blob-surface-shadow: color-mix(
       in oklab,
@@ -737,11 +737,11 @@ html.theme-aurora {
   --primary: 152 96% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 152 100% 24%;
-  --accent: 274 78% 64%;
-  --accent-contrast: 274 80% 84%;
+  --accent-1: 274 78% 64%;
+  --accent-1-contrast: 274 80% 84%;
   --accent-2: 152 96% 56%;
-  --accent-foreground: 0 0% 100%;
-  --accent-soft: 274 78% 22%;
+  --accent-1-foreground: 0 0% 100%;
+  --accent-1-soft: 274 78% 22%;
   --glow: 152 100% 68%;
   --muted: 280 52% 16%;
   --muted-foreground: 280 24% 76%;
@@ -766,7 +766,7 @@ html.theme-aurora {
   --neo-glow-strength: 0.4;
   --glitch-intensity: 0.4;
   --glitch-fringe: 8deg;
-  --glitch-static-opacity: 0.1;
+  --glitch-static-opacity: 0.03;
   --lav-deep: 276 88% 68%;
   --icon-fg: 152 96% 72%;
   --success: 148 72% 48%;
@@ -778,20 +778,20 @@ html.theme-aurora {
   --danger-foreground: 0 0% 100%;
   --aurora-g: var(--accent-2);
   --aurora-g-light: 150 100% 85%;
-  --aurora-p: var(--accent);
+  --aurora-p: var(--accent-1);
   --aurora-p-light: 272 80% 85%;
   --shadow-base: 280 32% 6%;
   --backdrop-blob-1: var(--accent-2);
-  --backdrop-blob-2: var(--accent);
+  --backdrop-blob-2: var(--accent-1);
   --backdrop-blob-3: var(--accent-2);
   --backdrop-blob-shadow: var(--card);
   --backdrop-grid-primary: var(--accent-2);
-  --backdrop-grid-secondary: var(--accent);
+  --backdrop-grid-secondary: var(--accent-1);
   --grid-color: var(--accent-2);
   --grid-alpha: 0.12;
   --grid-size: calc(var(--space-6) + var(--space-1));
   --backdrop-drip-1: var(--accent-2);
-  --backdrop-drip-2: var(--accent);
+  --backdrop-drip-2: var(--accent-1);
   --backdrop-drip-3: var(--accent-2);
   --backdrop-drip-shadow: var(--card);
   --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22);
@@ -801,14 +801,14 @@ html.theme-aurora {
     from 180deg,
     hsl(var(--accent-2) / 0),
     hsl(var(--accent-2) / 0.7),
-    hsl(var(--accent) / 0.7),
+    hsl(var(--accent-1) / 0.7),
     hsl(var(--accent-2) / 0.7),
     hsl(var(--accent-2) / 0)
   );
   --seg-active-grad: linear-gradient(
     90deg,
     hsl(var(--accent-2) / 0.3),
-    hsl(var(--accent) / 0.32),
+    hsl(var(--accent-1) / 0.32),
     hsl(var(--accent-2) / 0.3)
   );
   --shadow: 0 10px 30px hsl(var(--shadow-base) / 0.28);
@@ -829,11 +829,11 @@ html.theme-citrus {
   --primary: 28 95% 56%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 28 95% 24%;
-  --accent: 26 92% 44%;
-  --accent-contrast: 26 92% 70%;
+  --accent-1: 26 92% 44%;
+  --accent-1-contrast: 26 92% 70%;
   --accent-2: 168 72% 32%;
-  --accent-foreground: 0 0% 100%;
-  --accent-soft: 26 92% 18%;
+  --accent-1-foreground: 0 0% 100%;
+  --accent-1-soft: 26 92% 18%;
   --glow: 28 96% 62%;
   --muted: 212 18% 22%;
   --muted-foreground: 212 20% 70%;
@@ -858,7 +858,7 @@ html.theme-citrus {
   --neo-glow-strength: 0.45;
   --glitch-intensity: 0.38;
   --glitch-fringe: 7deg;
-  --glitch-static-opacity: 0.09;
+  --glitch-static-opacity: 0.027;
   --lav-deep: 28 90% 56%;
   --icon-fg: 28 96% 74%;
   --success: 150 68% 46%;
@@ -902,11 +902,11 @@ html.theme-noir {
   --primary: 356 86% 60%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 356 86% 24%;
-  --accent: 184 86% 35%;
-  --accent-contrast: 184 90% 70%;
+  --accent-1: 184 86% 35%;
+  --accent-1-contrast: 184 90% 70%;
   --accent-2: 32 92% 38%;
-  --accent-foreground: 0 0% 100%;
-  --accent-soft: 184 86% 14%;
+  --accent-1-foreground: 0 0% 100%;
+  --accent-1-soft: 184 86% 14%;
   --glow: 356 90% 62%;
   --muted: 352 34% 18%;
   --muted-foreground: 352 24% 68%;
@@ -934,9 +934,9 @@ html.theme-noir {
   --neo-glow-strength: 0.6;
   --glitch-intensity: 0.3;
   --glitch-fringe: 6deg;
-  --glitch-static-opacity: 0.07;
+  --glitch-static-opacity: 0.021;
   --glitch-noise-primary: hsl(var(--ring) / 0.056);
-  --glitch-noise-secondary: hsl(var(--accent) / 0.05);
+  --glitch-noise-secondary: hsl(var(--accent-1) / 0.05);
   --glitch-noise-contrast: hsl(var(--foreground) / 0.048);
   --lav-deep: 356 80% 62%;
   --icon-fg: 356 92% 72%;
@@ -989,11 +989,11 @@ html.theme-ocean {
   --primary: 194 88% 58%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 194 88% 18%;
-  --accent: 204 92% 32%;
-  --accent-contrast: 204 92% 68%;
+  --accent-1: 204 92% 32%;
+  --accent-1-contrast: 204 92% 68%;
   --accent-2: 230 78% 36%;
-  --accent-foreground: 0 0% 100%;
-  --accent-soft: 204 92% 14%;
+  --accent-1-foreground: 0 0% 100%;
+  --accent-1-soft: 204 92% 14%;
   --glow: 194 94% 64%;
   --muted: 218 24% 17%;
   --muted-foreground: 218 16% 74%;
@@ -1018,7 +1018,7 @@ html.theme-ocean {
   --neo-glow-strength: 0.52;
   --glitch-intensity: 0.4;
   --glitch-fringe: 7deg;
-  --glitch-static-opacity: 0.1;
+  --glitch-static-opacity: 0.03;
   --lav-deep: 254 78% 68%;
   --icon-fg: 194 90% 72%;
   --success: 158 72% 48%;
@@ -1063,11 +1063,11 @@ html.theme-kitten {
   --primary: 336 90% 56%;
   --primary-foreground: 0 0% 100%;
   --primary-soft: 336 90% 24%;
-  --accent: 340 86% 36%;
-  --accent-contrast: 340 88% 74%;
+  --accent-1: 340 86% 36%;
+  --accent-1-contrast: 340 88% 74%;
   --accent-2: 194 90% 40%;
-  --accent-foreground: 0 0% 100%;
-  --accent-soft: 340 86% 14%;
+  --accent-1-foreground: 0 0% 100%;
+  --accent-1-soft: 340 86% 14%;
   --glow: 336 94% 64%;
   --muted: 334 64% 18%;
   --muted-foreground: 334 26% 74%;
@@ -1092,7 +1092,7 @@ html.theme-kitten {
   --neo-glow-strength: 0.42;
   --glitch-intensity: 0.36;
   --glitch-fringe: 6deg;
-  --glitch-static-opacity: 0.085;
+  --glitch-static-opacity: 0.0255;
   --lav-deep: 336 84% 64%;
   --icon-fg: 336 92% 72%;
   --success: 152 62% 48%;
@@ -1138,13 +1138,13 @@ html.theme-hardstuck {
   --primary: 120 100% 64%;
   --primary-foreground: 0 0% 8%;
   --primary-soft: 120 100% 26%;
-  --accent: 120 92% 58%;
-  --accent-contrast: 120 92% 78%;
+  --accent-1: 120 92% 58%;
+  --accent-1-contrast: 120 92% 78%;
   --accent-2: 120 76% 22%;
   --accent-2-foreground: 120 32% 94%;
-  --accent-foreground: 0 0% 8%;
+  --accent-1-foreground: 0 0% 8%;
   --text-on-accent: hsl(var(--hardstuck-foreground));
-  --accent-soft: 120 90% 16%;
+  --accent-1-soft: 120 90% 16%;
   --glow: 120 100% 70%;
   --ring-muted: 120 32% 22%;
   --danger: 0 84% 60%;
@@ -1175,9 +1175,9 @@ html.theme-hardstuck {
   --neo-glow-strength: 0.58;
   --glitch-intensity: 0.28;
   --glitch-fringe: 5deg;
-  --glitch-static-opacity: 0.07;
+  --glitch-static-opacity: 0.021;
   --glitch-noise-primary: hsl(var(--ring) / 0.055);
-  --glitch-noise-secondary: hsl(var(--accent) / 0.05);
+  --glitch-noise-secondary: hsl(var(--accent-1) / 0.05);
   --glitch-noise-contrast: hsl(var(--hardstuck-foreground) / 0.05);
   --lav-deep: 120 90% 52%;
   --icon-fg: 120 92% 64%;
@@ -1229,12 +1229,12 @@ html.theme-retro {
   --primary: 304 100% 68%;
   --primary-foreground: 0 0% 8%;
   --primary-soft: 304 100% 24%;
-  --accent: 304 100% 68%;
-  --accent-contrast: 304 100% 85%;
+  --accent-1: 304 100% 68%;
+  --accent-1-contrast: 304 100% 85%;
   --accent-2: 188.7 89.6% 69.8%;
   --accent-3: 257.5 85.7% 72.5%;
-  --accent-foreground: 0 0% 6%;
-  --accent-soft: 304 100% 20%;
+  --accent-1-foreground: 0 0% 6%;
+  --accent-1-soft: 304 100% 20%;
   --muted: 260 48% 18%;
   --muted-foreground: 260 22% 78%;
   --surface: 260 60% 10%;
@@ -1255,7 +1255,7 @@ html.theme-retro {
   --glitch-intensity-backdrop-drip-3: 0.26;
   --glitch-intensity-backdrop-shadow: 0.34;
   --glitch-intensity: 0.46;
-  --glitch-static-opacity: 0.2;
+  --glitch-static-opacity: 0.06;
   --lav-deep: 257.5 85.7% 72.5%;
   --icon-fg: 304 100% 80%;
   --success: 158 72% 48%;
@@ -1285,8 +1285,8 @@ html.theme-retro {
     0 var(--spacing-3) var(--spacing-8) hsl(var(--accent-3) / 0.24);
   --backdrop-blob-1: var(--accent-3);
   --backdrop-blob-2: var(--accent-2);
-  --backdrop-blob-3: var(--accent);
-  --backdrop-blob-shadow: var(--accent);
+  --backdrop-blob-3: var(--accent-1);
+  --backdrop-blob-shadow: var(--accent-1);
   --backdrop-grid-primary: var(--accent-3);
   --backdrop-grid-secondary: var(--accent-2);
   --backdrop-grid-opacity: 0.18;
@@ -1295,13 +1295,13 @@ html.theme-retro {
   --grid-size: calc(var(--space-6) - var(--space-1));
   --backdrop-drip-1: var(--accent-3);
   --backdrop-drip-2: var(--accent-2);
-  --backdrop-drip-3: var(--accent);
-  --backdrop-drip-shadow: var(--accent);
+  --backdrop-drip-3: var(--accent-1);
+  --backdrop-drip-shadow: var(--accent-1);
   --blob-radius-soft: calc(var(--radius-2xl) + var(--spacing-2));
   --grid-lines:
     repeating-linear-gradient(
       90deg,
-      hsl(var(--accent) / 0.18) 0 1px,
+      hsl(var(--accent-1) / 0.18) 0 1px,
       hsl(var(--accent-3) / 0.08) 1px 28px
   );
   --scan-lines:

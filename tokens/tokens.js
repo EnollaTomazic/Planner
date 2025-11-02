@@ -16,7 +16,7 @@ export default {
   edgeIris:
     "conic-gradient(\n    from 180deg,\n    hsl(262 88% 60% / 0),\n    hsl(262 88% 60% / 0.72),\n    hsl(var(--accent-3) / 0.72),\n    hsl(318 82% 60% / 0.7),\n    hsl(262 88% 60% / 0)\n  )",
   segActiveGrad:
-    "linear-gradient(\n    90deg,\n    hsl(var(--primary-soft) / 0.85),\n    hsl(var(--accent-soft) / 0.85),\n    hsl(var(--accent-2) / 0.8)\n  )",
+    "linear-gradient(\n    90deg,\n    hsl(var(--primary-soft) / 0.85),\n    hsl(var(--accent-1-soft) / 0.85),\n    hsl(var(--accent-2) / 0.8)\n  )",
   segActiveBase: "hsl(var(--card))",
   lgViolet: "var(--ring)",
   lgCyan: "var(--accent-2)",
@@ -100,17 +100,17 @@ export default {
   iconStroke100: "var(--spacing-0-5)",
   iconStroke150: "calc(var(--spacing-0-5) * 1.25)",
   controlRadius: "var(--radius-xl)",
-  pillarWaveStart: "var(--accent)",
+  pillarWaveStart: "var(--accent-1)",
   pillarWaveEnd: "var(--accent-2)",
-  pillarWaveShadow: "var(--accent) / 0.35",
+  pillarWaveShadow: "var(--accent-1) / 0.35",
   pillarTradingStart: "var(--lav-deep)",
-  pillarTradingEnd: "var(--accent)",
+  pillarTradingEnd: "var(--accent-1)",
   pillarTradingShadow: "var(--lav-deep) / 0.35",
   pillarVisionStart: "var(--success)",
   pillarVisionEnd: "var(--accent-2)",
   pillarVisionShadow: "var(--success) / 0.35",
   pillarTempoStart: "var(--ring)",
-  pillarTempoEnd: "var(--accent)",
+  pillarTempoEnd: "var(--accent-1)",
   pillarTempoShadow: "var(--ring) / 0.35",
   pillarPositioningStart: "var(--accent-2)",
   pillarPositioningEnd: "var(--primary)",
@@ -139,12 +139,14 @@ export default {
   primary: "262 88% 60%",
   primaryForeground: "0 0% 100%",
   primarySoft: "262 88% 20%",
-  accent: "294 90% 42%",
-  accent2: "190 86% 38%",
-  accent3: "200 88% 34%",
-  accentForeground: "0 0% 100%",
-  accentContrast: "294 92% 72%",
-  accentSoft: "294 90% 16%",
+  accent1: "276 88% 62%",
+  accent1Foreground: "0 0% 100%",
+  accent1Contrast: "276 92% 80%",
+  accent1Soft: "276 88% 22%",
+  accent1Hover: "hsl(var(--accent-1) / 0.14)",
+  accent2: "168 96% 56%",
+  accent2Foreground: "0 0% 100%",
+  accent3: "318 82% 60%",
   glow: "296 96% 56%",
   ringMuted: "248 22% 24%",
   danger: "0 84% 60%",
@@ -175,10 +177,10 @@ export default {
   toneSup: "320 72% 60%",
   auroraG: "var(--accent-2)",
   auroraGLight: "150 100% 85%",
-  auroraP: "var(--accent)",
+  auroraP: "var(--accent-1)",
   auroraPLight: "272 80% 85%",
   iconFg: "250 96% 78%",
-  accentOverlay: "hsl(var(--accent))",
+  accentOverlay: "hsl(var(--accent-1))",
   ringContrast: "hsl(var(--ring))",
   glowActive: "hsl(var(--glow))",
   neon: "var(--glow)",
@@ -189,7 +191,7 @@ export default {
   hairlineW: "1px",
   controlPx: "var(--spacing-3)",
   reviewResultWinGradient:
-    "linear-gradient(\n    90deg,\n    hsl(var(--success) / 0.22),\n    hsl(var(--accent) / 0.18)\n  )",
+    "linear-gradient(\n    90deg,\n    hsl(var(--success) / 0.22),\n    hsl(var(--accent-1) / 0.18)\n  )",
   reviewResultLossGradient:
     "linear-gradient(\n    90deg,\n    hsl(var(--danger) / 0.24),\n    hsl(var(--primary) / 0.2)\n  )",
   shadow: "0 12px 34px hsl(258 42% 6% / 0.32)",
@@ -223,13 +225,13 @@ export default {
   shadowControl:
     "inset 0 var(--spacing-1) var(--spacing-2) 0 color-mix(in oklab, hsl(var(--shadow-color)) 18%, hsl(var(--background)) 82%),\n    var(--shadow-outline-subtle)",
   glowStrong: "var(--ring) / 0.55",
-  glowSoft: "var(--accent) / 0.25",
+  glowSoft: "var(--accent-1) / 0.25",
   shadowNeon:
     "0 0 var(--space-1) hsl(var(--neon) / 0.6),\n    0 0 calc(var(--space-3)) hsl(var(--neon) / 0.4),\n    0 0 calc(var(--space-5)) hsl(var(--neon) / 0.22)",
   btnPrimaryHoverShadow:
-    "0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)\n    calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25)",
+    "0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)\n    calc(-1 * var(--space-1) / 4) hsl(var(--accent-1) / 0.25)",
   btnPrimaryActiveShadow:
-    "inset 0 0 0 calc(var(--space-1) / 4)\n    hsl(var(--accent) / 0.6)",
+    "inset 0 0 0 calc(var(--space-1) / 4)\n    hsl(var(--accent-1) / 0.6)",
   heroDividerBlur: "calc(var(--spacing-1) * 1.5)",
   heroIllustrationOpacity: "0.84",
   heroIllustrationBlur: "calc(var(--space-4) + var(--space-1))",
@@ -269,7 +271,7 @@ export default {
   blobSurface2: "hsl(var(--surface-2))",
   blobSurface3: "hsl(var(--card))",
   blobSurfaceShadow: "hsl(var(--shadow-color) / 0.4)",
-  glitchNoisePrimary: "hsl(var(--accent) / 0.055)",
+  glitchNoisePrimary: "hsl(var(--accent-1) / 0.055)",
   glitchNoiseSecondary: "hsl(var(--ring) / 0.05)",
   glitchNoiseContrast: "hsl(var(--foreground) / 0.045)",
   elevationCard: "var(--shadow-outline-subtle)",
@@ -300,8 +302,8 @@ export default {
   backdropBlob2: "var(--lg-cyan)",
   backdropBlob3: "var(--lg-pink)",
   backdropBlobShadow: "var(--lg-black)",
-  backdropGridPrimary: "var(--accent)",
-  backdropGridSecondary: "var(--accent)",
+  backdropGridPrimary: "var(--accent-1)",
+  backdropGridSecondary: "var(--accent-1)",
   backdropGridOpacity: "0.1",
   backdropDrip1: "var(--backdrop-blob-1)",
   backdropDrip2: "var(--backdrop-blob-2)",
@@ -311,7 +313,7 @@ export default {
   neonOutlineOpacity: "0.35",
   glitchIntensity: "1.0",
   glitchFringe: "12deg",
-  glitchStaticOpacity: "0.18",
+  glitchStaticOpacity: "0.054",
   glitchNoiseLevel: "var(--glitch-static-opacity)",
   glitchOverlayButtonOpacity: "0.42",
   glitchOverlayButtonOpacityReduced: "0.28",
@@ -322,7 +324,7 @@ export default {
   glitchRingColor: "hsl(var(--ring) / 0.55)",
   glitchRingBlur: "var(--space-2)",
   glitchRingShadow: "0 0 var(--glitch-ring-blur) var(--glitch-ring-color)",
-  glitchAccentColor: "hsl(var(--accent) / 0.35)",
+  glitchAccentColor: "hsl(var(--accent-1) / 0.35)",
   glitchAccentBlur: "var(--spacing-0-5)",
   glitchAccentShadow:
     "0 0 var(--glitch-accent-blur) var(--glitch-accent-color)",
@@ -336,7 +338,7 @@ export default {
   glowRing:
     "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
   glitchNoiseHover: "calc(var(--glitch-noise-level) * 1.3)",
-  gridColor: "var(--accent)",
+  gridColor: "var(--accent-1)",
   gridAlpha: "0.1",
   gridSize: "calc(var(--space-6) - var(--space-1))",
   shadowOuterSm:
@@ -352,7 +354,7 @@ export default {
   blobSurface:
     "color-mix(in oklab, hsl(var(--surface)) 70%, hsl(var(--surface-2)) 30%)",
   dripSurface:
-    "color-mix(in oklab, hsl(var(--accent)) 18%, hsl(var(--background)) 82%)",
+    "color-mix(in oklab, hsl(var(--accent-1)) 18%, hsl(var(--background)) 82%)",
   gradientBlobPrimary:
     "radial-gradient(120% 120% at 50% 10%, hsl(var(--surface) / 0.85), hsl(var(--surface-2) / 0.35), transparent 85%)",
   gradientDripOverlay:
@@ -360,19 +362,19 @@ export default {
   gradientDripOverlayCompact:
     "radial-gradient(125% 85% at 18% -20%, hsl(var(--backdrop-drip-1) / 0.28), transparent 65%), radial-gradient(115% 85% at 82% -15%, hsl(var(--backdrop-drip-2) / 0.24), transparent 62%), radial-gradient(120% 95% at 50% 110%, hsl(var(--backdrop-drip-3) / 0.16), transparent 70%)",
   gradientGlitchPrimary:
-    "linear-gradient(135deg, hsl(var(--accent) / 0.35), hsl(var(--accent-2) / 0.3))",
+    "linear-gradient(135deg, hsl(var(--accent-1) / 0.35), hsl(var(--accent-2) / 0.3))",
   gradientGlitchOverlay:
-    "linear-gradient(120deg, hsl(var(--accent) / 0.12) 0%, transparent 58%, hsl(var(--ring) / 0.16) 100%), var(--card-overlay-scanlines)",
+    "linear-gradient(120deg, hsl(var(--accent-1) / 0.12) 0%, transparent 58%, hsl(var(--ring) / 0.16) 100%), var(--card-overlay-scanlines)",
   gradientGlitchRail:
-    "linear-gradient(180deg, hsl(var(--primary) / 0.6) 0%, hsl(var(--accent) / 0.45) 45%, hsl(var(--ring) / 0.6) 100%)",
+    "linear-gradient(180deg, hsl(var(--primary) / 0.6) 0%, hsl(var(--accent-1) / 0.45) 45%, hsl(var(--ring) / 0.6) 100%)",
   gradientHeroSlotHighlight:
     "radial-gradient(circle at top left, var(--depth-glow-highlight-medium) 0%, transparent 62%)",
   gradientHeroSlotShadow:
     "radial-gradient(circle at bottom right, var(--depth-glow-shadow-medium) 0%, transparent 65%)",
   gradientHeroTopline:
-    "linear-gradient(90deg, hsl(var(--accent) / 0.28), transparent 55%, hsl(var(--accent-2) / 0.32))",
+    "linear-gradient(90deg, hsl(var(--accent-1) / 0.28), transparent 55%, hsl(var(--accent-2) / 0.32))",
   gradientHeroActionHalo:
-    "radial-gradient(120% 95% at 50% 0%, hsl(var(--accent) / 0.24), transparent 65%)",
+    "radial-gradient(120% 95% at 50% 0%, hsl(var(--accent-1) / 0.24), transparent 65%)",
   gradientPanelTiltStrong:
     "linear-gradient(140deg, hsl(var(--card) / 0.95), hsl(var(--surface-2) / 0.78))",
   gradientPanelTiltBright:
@@ -397,7 +399,7 @@ export default {
   surfaceCardStrongEmpty:
     "linear-gradient(180deg, hsl(var(--card) / 0.6), hsl(var(--card) / 0.5))",
   surfaceRailAccent:
-    "linear-gradient(180deg, hsl(var(--accent)), hsl(var(--primary)))",
+    "linear-gradient(180deg, hsl(var(--accent-1)), hsl(var(--primary)))",
   glitchIntensityDefault: "1.0",
   glitchIntensitySubtle: "calc(var(--glitch-intensity-default) * 0.68)",
   glitchIntensityHeroRail: "0.74",
@@ -422,7 +424,7 @@ export default {
   glitchDuration: "450ms",
   glowPulse: "glow-pulse var(--dur-slow) var(--ease-out) infinite alternate",
   glitchRgbShift:
-    "drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45))",
+    "drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent-1) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45))",
   glitchScanline:
     "glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite",
   scanline: "var(--glitch-scanline)",

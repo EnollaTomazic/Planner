@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { PromptsHeader } from "@/components/prompts";
+import { PromptsHeader } from "@/components/prompts/PromptsHeader";
 
 afterEach(() => {
   cleanup();

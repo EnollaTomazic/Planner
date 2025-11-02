@@ -51,7 +51,7 @@
 }
 
 .iconRim {
-  background: linear-gradient(140deg, hsl(var(--accent) / 0.9), hsl(var(--accent-2) / 0.85));
+  background: linear-gradient(140deg, hsl(var(--accent-1) / 0.9), hsl(var(--accent-2) / 0.85));
 }
 
 .iconGlow {

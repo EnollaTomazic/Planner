@@ -5,6 +5,7 @@ import RingNoiseDefs from "./RingNoiseDefs";
 interface ProgressRingIconProps {
   pct: number; // 0..100
   size?: number | RingSize;
+  strokeWidth?: number;
 }
 
 const DEFAULT_RING_SIZE: RingSize = "m";
@@ -12,6 +13,7 @@ const DEFAULT_RING_SIZE: RingSize = "m";
 export default function ProgressRingIcon({
   pct,
   size,
+  strokeWidth,
 }: ProgressRingIconProps) {
   const uniqueId = React.useId();
   const noiseFilterId = React.useMemo(
@@ -19,9 +21,15 @@ export default function ProgressRingIcon({
     [uniqueId],
   );
   const ringSize = typeof size === "string" ? size : DEFAULT_RING_SIZE;
-  const metrics = React.useMemo(() => getRingMetrics(ringSize), [ringSize]);
+  const metrics = React.useMemo(
+    () =>
+      strokeWidth == null
+        ? getRingMetrics(ringSize)
+        : getRingMetrics(ringSize, { stroke: strokeWidth }),
+    [ringSize, strokeWidth],
+  );
   const resolvedSize = typeof size === "number" ? size : metrics.diameter;
-  const strokeWidth = metrics.stroke;
+  const ringStrokeWidth = strokeWidth ?? metrics.stroke;
   const trackInset = metrics.inset;
   const radius = Math.max(resolvedSize / 2 - trackInset, 0);
   const circumference = 2 * Math.PI * radius;
@@ -41,7 +49,7 @@ export default function ProgressRingIcon({
         cy={resolvedSize / 2}
         r={radius}
         stroke="currentColor"
-        strokeWidth={strokeWidth}
+        strokeWidth={ringStrokeWidth}
         className="text-foreground/20"
         fill="none"
       />
@@ -50,11 +58,11 @@ export default function ProgressRingIcon({
         cy={resolvedSize / 2}
         r={radius}
         stroke="currentColor"
-        strokeWidth={strokeWidth}
+        strokeWidth={ringStrokeWidth}
         strokeLinecap="round"
         strokeDasharray={circumference}
         strokeDashoffset={offset}
-        className="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+        className="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent-1)]"
         filter={`url(#${noiseFilterId})`}
         fill="none"
       />
