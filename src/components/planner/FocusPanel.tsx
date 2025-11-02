@@ -12,6 +12,7 @@ import "./style.css";
 
 import * as React from "react";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { Label } from "@/components/ui/Label";
 import { Input } from "@/components/ui/primitives/Input";
 import { Button } from "@/components/ui/primitives/Button";
 import { useDayFocus } from "./useDayFocus";
@@ -23,6 +24,8 @@ export function FocusPanel({ iso }: Props) {
   const { value, setValue, saving, isDirty, lastSavedRef, commit } =
     useDayFocus(iso);
   const headerId = React.useMemo(() => `focus-${iso}-header`, [iso]);
+  const fieldId = React.useId();
+  const labelId = `${fieldId}-label`;
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,15 +42,19 @@ export function FocusPanel({ iso }: Props) {
       />
       <SectionCard.Body>
         <form onSubmit={onSubmit} className="flex items-center gap-[var(--space-2)]">
+          <Label id={labelId} htmlFor={fieldId} className="sr-only">
+            Daily Focus
+          </Label>
           <Input
             placeholder="What’s the one thing today?"
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onBlur={commit}                   // Auto-save on blur
             name={`focus-${iso}`}
+            id={fieldId}
             autoComplete="off"
             className="flex-1"
-            aria-labelledby={headerId}
+            aria-labelledby={`${labelId} ${headerId}`}
           />
           <Button
             type="submit"
