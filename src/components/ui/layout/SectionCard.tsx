@@ -3,6 +3,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import styles from "./SectionCard.module.css";
 
 type RootProps = React.HTMLAttributes<HTMLElement> & {
   variant?: "neo" | "plain" | "glitch";
@@ -42,13 +43,14 @@ const SectionCardRoot = React.forwardRef<HTMLElement, RootProps>(
       <SectionCardContext.Provider value={contextValue}>
         <section
           ref={ref}
+          data-variant={variant}
           className={cn(
             "overflow-hidden rounded-card r-card-lg text-card-foreground",
             variant === "neo"
               ? "card-neo-soft bg-glitch-noise-primary"
               : variant === "plain"
                 ? "card-soft bg-glitch-noise-primary"
-                : "glitch-card",
+                : styles.glitch,
             className,
           )}
           {...props}

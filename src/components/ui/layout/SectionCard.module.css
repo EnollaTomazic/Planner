@@ -1,0 +1,62 @@
+.glitch {
+  position: relative;
+  overflow: hidden;
+  border: var(--hairline-w) solid hsl(var(--card-hairline));
+  background:
+    radial-gradient(
+      110% 120% at 20% 10%,
+      hsl(var(--accent-1) / 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      120% 140% at 80% 90%,
+      hsl(var(--primary) / 0.1) 0%,
+      transparent 60%
+    ),
+    linear-gradient(
+      140deg,
+      color-mix(in srgb, hsl(var(--surface)) 88%, hsl(var(--surface-2))),
+      color-mix(in srgb, hsl(var(--surface-2)) 92%, hsl(var(--surface)))
+    );
+  box-shadow:
+    0 0 0 calc(var(--hairline-w) * 1.5) color-mix(in srgb, hsl(var(--ring)) 22%, transparent),
+    0 24px 60px -32px hsl(var(--accent-1) / 0.35),
+    var(--shadow-depth-outer);
+  isolation: isolate;
+}
+
+.glitch::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 140% at 15% 15%, hsl(var(--accent-1) / 0.24), transparent 60%),
+    radial-gradient(120% 160% at 85% 85%, hsl(var(--primary) / 0.22), transparent 65%),
+    linear-gradient(135deg, hsl(var(--accent-1) / 0.14), hsl(var(--primary) / 0.1));
+  mix-blend-mode: screen;
+  opacity: 0.6;
+  filter: blur(4px);
+}
+
+.glitch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 200% at 50% -20%, hsl(var(--accent-1) / 0.22), transparent 60%),
+    radial-gradient(160% 220% at 50% 120%, hsl(var(--primary) / 0.18), transparent 65%);
+  mix-blend-mode: screen;
+  opacity: 0.45;
+  filter: blur(12px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch::before,
+  .glitch::after {
+    filter: blur(6px);
+  }
+}
