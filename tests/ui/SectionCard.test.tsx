@@ -3,6 +3,7 @@ import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
 import { SectionCard } from "@/components/ui/layout/SectionCard";
+import styles from "@/components/ui/layout/SectionCard.module.css";
 
 afterEach(cleanup);
 
@@ -36,8 +37,8 @@ describe("SectionCard", () => {
   it("switches to the glitch token surface when requested", () => {
     const root = renderSectionCard({ variant: "glitch" });
 
-    expect(root.className).toContain("glitch-card");
-    expect(root.className).not.toContain("shadow-depth-outer-strong");
+    expect(root.className.split(/\s+/)).toContain(styles.glitch);
+    expect(root.className).not.toContain("bg-glitch-noise");
     expect(root.className).toContain("rounded-card");
   });
 
