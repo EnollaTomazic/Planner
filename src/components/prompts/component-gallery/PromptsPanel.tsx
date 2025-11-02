@@ -3,20 +3,23 @@
 import * as React from "react";
 import {
   Card,
+  Header,
   PillarBadge,
   PillarSelector,
   SearchBar,
   SectionCard,
   TabBar,
 } from "@/components/ui";
+import { HeroSearchBar } from "@/components/ui/layout/hero/HeroSearchBar";
+import { Badge } from "@/components/ui/primitives/Badge";
 import { GalleryItem } from "../GalleryItem";
 import { PromptsComposePanel } from "../PromptsComposePanel";
 import { PromptsDemos } from "../PromptsDemos";
-import { PromptsHeader } from "../PromptsHeader";
 import { WelcomeHeroFigure } from "@/components/home/WelcomeHeroFigure";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn } from "@/lib/utils";
 import type { PromptsPanelData } from "./useComponentGalleryState";
+import { PROMPTS_HEADER_CHIPS } from "../headerChips";
 
 const GRID_CLASS = cn(layoutGridClassName, "sm:grid-cols-2 md:grid-cols-12");
 const selectorWidth = "calc(var(--space-8) * 3.5)";
@@ -29,6 +32,42 @@ interface PromptsPanelProps {
 }
 
 export function PromptsPanel({ data }: PromptsPanelProps) {
+  const headerPreview = React.useMemo(
+    () => (
+      <SectionCard className="w-full">
+        <SectionCard.Header sticky topClassName="top-[var(--space-8)]">
+          <Header
+            heading="Prompts"
+            sticky={false}
+            className="relative isolate"
+            search={
+              <HeroSearchBar
+                id="component-gallery-prompts-search"
+                value=""
+                onValueChange={() => {}}
+                placeholder="Search prompts…"
+                aria-label="Search prompts"
+                variant="neo"
+                round
+              />
+            }
+            actions={<span className="pill">0 saved</span>}
+          >
+            <div className="hidden flex-wrap items-center gap-[var(--space-2)] sm:flex">
+              {PROMPTS_HEADER_CHIPS.map((chip) => (
+                <Badge key={chip} interactive>
+                  {chip}
+                </Badge>
+              ))}
+            </div>
+          </Header>
+        </SectionCard.Header>
+        <SectionCard.Body />
+      </SectionCard>
+    ),
+    [],
+  );
+
   const items = React.useMemo<PanelItem[]>(
     () =>
       [
@@ -47,16 +86,7 @@ export function PromptsPanel({ data }: PromptsPanelProps) {
         {
           label: "Prompts Header",
           element: (
-            <SectionCard className="w-full">
-              <SectionCard.Header sticky topClassName="top-[var(--space-8)]">
-                <PromptsHeader
-                  count={0}
-                  query=""
-                  onQueryChange={() => {}}
-                />
-              </SectionCard.Header>
-              <SectionCard.Body />
-            </SectionCard>
+            <div className="w-full">{headerPreview}</div>
           ),
           className: "sm:col-span-2 md:col-span-12 w-full",
         },
@@ -134,7 +164,7 @@ export function PromptsPanel({ data }: PromptsPanelProps) {
           className: "sm:col-span-2 md:col-span-12 w-full",
         },
       ],
-    [data.pillarSelector.value, data.pillarSelector.onChange],
+    [data.pillarSelector.value, data.pillarSelector.onChange, headerPreview],
   );
 
   return (

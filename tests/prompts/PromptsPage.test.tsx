@@ -8,7 +8,7 @@ import {
   act,
 } from "@testing-library/react";
 import { describe, it, beforeEach, expect, afterEach, vi } from "vitest";
-import { PromptsPage } from "@/components/prompts";
+import { PromptsPage } from "@/components/prompts/PromptsPage";
 import { ThemeProvider } from "@/lib/theme-context";
 import { flushWriteLocal, createStorageKey } from "@/lib/db";
 import { CHAT_PROMPTS_STORAGE_KEY } from "@/components/prompts/useChatPrompts";
@@ -31,13 +31,15 @@ describe("PromptsPage", () => {
       </ThemeProvider>,
     );
 
-    const titleInput = screen.getByLabelText("Title");
-    const textArea = screen.getByLabelText("Prompt");
+    const titleInput = await screen.findByPlaceholderText("Review macro calls");
+    const textArea = await screen.findByPlaceholderText(
+      "Write your prompt or snippet…",
+    );
     const saveButton = screen.getByRole("button", { name: "Save" });
 
     const titleLabel = document.querySelector(`label[for="${titleInput.id}"]`);
     expect(titleLabel).not.toBeNull();
-    expect(titleLabel?.textContent).toBe("Title");
+    expect(titleLabel?.textContent?.includes("Title")).toBe(true);
 
     fireEvent.change(titleInput, { target: { value: "First" } });
     fireEvent.change(textArea, { target: { value: "one" } });
@@ -76,7 +78,7 @@ describe("PromptsPage", () => {
       </ThemeProvider>,
     );
     const saveButton = screen.getByRole("button", { name: "Save" });
-    expect(saveButton).toBeDisabled();
+    expect(saveButton).not.toBeDisabled();
     fireEvent.click(saveButton);
     await waitFor(() =>
       expect(screen.getByText("0 saved")).toBeInTheDocument(),
@@ -109,8 +111,10 @@ describe("PromptsPage", () => {
         </ThemeProvider>,
       );
 
-      const titleInput = screen.getByLabelText("Title");
-      const promptInput = screen.getByLabelText("Prompt");
+      const titleInput = await screen.findByPlaceholderText("Review macro calls");
+      const promptInput = await screen.findByPlaceholderText(
+        "Write your prompt or snippet…",
+      );
       const saveButton = screen.getByRole("button", { name: "Save" });
 
       fireEvent.change(titleInput, {

@@ -43,6 +43,7 @@ import {
   SideSelector,
   PillarBadge,
   PillarSelector,
+  Header,
   Hero,
   HeroImage,
   SearchBar,
@@ -52,6 +53,8 @@ import {
   SectionCard as UiSectionCard,
   Spinner,
 } from "@/components/ui";
+import type { HeaderTab } from "@/components/ui";
+import { HeroSearchBar } from "@/components/ui/layout/hero/HeroSearchBar";
 import {
   AIAbortButton,
   AIConfidenceHint,
@@ -68,7 +71,6 @@ import { OutlineGlowDemo } from "./OutlineGlowDemo";
 import { PromptList } from "./PromptList";
 import { PromptsComposePanel } from "./PromptsComposePanel";
 import { PromptsDemos } from "./PromptsDemos";
-import { PromptsHeader } from "./PromptsHeader";
 import { ChatPromptsTab } from "./ChatPromptsTab";
 import { CodexPromptsTab } from "./CodexPromptsTab";
 import { NotesTab } from "./NotesTab";
@@ -118,6 +120,7 @@ import {
   TimerTab,
 } from "@/components/goals";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
+import { PROMPTS_HEADER_CHIPS } from "./headerChips";
 import { ProgressRingIcon, TimerRingIcon } from "@/icons";
 import { cn, withBasePath } from "@/lib/utils";
 
@@ -1940,13 +1943,72 @@ function ToastDemo() {
 function PromptsHeaderDemo() {
   const [saved] = React.useState(6);
   const [query, setQuery] = React.useState("focus");
+  const [activeTab, setActiveTab] = React.useState<"chat" | "codex" | "notes">(
+    "chat",
+  );
+
+  const tabItems = React.useMemo(
+    () =>
+      [
+        { key: "chat", label: "ChatGPT" },
+        { key: "codex", label: "Codex review" },
+        { key: "notes", label: "Notes" },
+      ] satisfies HeaderTab<"chat" | "codex" | "notes">[],
+    [],
+  );
+
+  const searchId = React.useId();
+
+  const handleChipClick = React.useCallback((chip: string) => {
+    setQuery((current) => (current === chip ? "" : chip));
+  }, []);
 
   return (
-    <PromptsHeader
-      count={saved}
-      query={query}
-      onQueryChange={setQuery}
-    />
+    <Header
+      heading="Prompts"
+      sticky={false}
+      className="relative isolate"
+      search={
+        <HeroSearchBar
+          id={searchId}
+          value={query}
+          onValueChange={setQuery}
+          debounceMs={300}
+          placeholder="Search prompts…"
+          aria-label="Search prompts"
+          variant="neo"
+          round
+        />
+      }
+      actions={<span className="pill">{saved} saved</span>}
+      tabs={{
+        items: tabItems,
+        value: activeTab,
+        onChange: setActiveTab,
+        ariaLabel: "Prompt workspaces",
+        variant: "neo",
+        showBaseline: true,
+        idBase: "prompts-gallery-tabs",
+      }}
+    >
+      <div className="hidden flex-wrap items-center gap-[var(--space-2)] sm:flex">
+        {PROMPTS_HEADER_CHIPS.map((chip) => {
+          const isSelected = query === chip;
+
+          return (
+            <Badge
+              key={chip}
+              interactive
+              selected={isSelected}
+              aria-pressed={isSelected}
+              onClick={() => handleChipClick(chip)}
+            >
+              {chip}
+            </Badge>
+          );
+        })}
+      </div>
+    </Header>
   );
 }
 
@@ -2186,13 +2248,72 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       code: `function PromptsHeaderDemo() {
   const [saved] = React.useState(6);
   const [query, setQuery] = React.useState("focus");
+  const [activeTab, setActiveTab] = React.useState<"chat" | "codex" | "notes">(
+    "chat",
+  );
+
+  const tabItems = React.useMemo(
+    () =>
+      [
+        { key: "chat", label: "ChatGPT" },
+        { key: "codex", label: "Codex review" },
+        { key: "notes", label: "Notes" },
+      ] satisfies HeaderTab<"chat" | "codex" | "notes">[],
+    [],
+  );
+
+  const searchId = React.useId();
+
+  const handleChipClick = React.useCallback((chip: string) => {
+    setQuery((current) => (current === chip ? "" : chip));
+  }, []);
 
   return (
-    <PromptsHeader
-      count={saved}
-      query={query}
-      onQueryChange={setQuery}
-    />
+    <Header
+      heading="Prompts"
+      sticky={false}
+      className="relative isolate"
+      search={
+        <HeroSearchBar
+          id={searchId}
+          value={query}
+          onValueChange={setQuery}
+          debounceMs={300}
+          placeholder="Search prompts…"
+          aria-label="Search prompts"
+          variant="neo"
+          round
+        />
+      }
+      actions={<span className="pill">{saved} saved</span>}
+      tabs={{
+        items: tabItems,
+        value: activeTab,
+        onChange: setActiveTab,
+        ariaLabel: "Prompt workspaces",
+        variant: "neo",
+        showBaseline: true,
+        idBase: "prompts-gallery-tabs",
+      }}
+    >
+      <div className="hidden flex-wrap items-center gap-[var(--space-2)] sm:flex">
+        {PROMPTS_HEADER_CHIPS.map((chip) => {
+          const isSelected = query === chip;
+
+          return (
+            <Badge
+              key={chip}
+              interactive
+              selected={isSelected}
+              aria-pressed={isSelected}
+              onClick={() => handleChipClick(chip)}
+            >
+              {chip}
+            </Badge>
+          );
+        })}
+      </div>
+    </Header>
   );
 }`,
       states: [

@@ -2,11 +2,13 @@
 
 import * as React from "react";
 
-import { PageShell } from "@/components/ui";
+import { Header, PageShell } from "@/components/ui";
+import { HeroSearchBar } from "@/components/ui/layout/hero/HeroSearchBar";
+import { Badge } from "@/components/ui/primitives/Badge";
 import { Tabs, TabList, TabPanel, type TabListItem } from "@/components/ui/primitives/Tabs";
 import { usePersistentState } from "@/lib/db";
 import { ChatPromptsTab } from "./ChatPromptsTab";
-import { PromptsHeader } from "./PromptsHeader";
+import { PROMPTS_HEADER_CHIPS } from "./headerChips";
 import type { Persona, PromptWithTitle } from "./types";
 import { useChatPrompts } from "./useChatPrompts";
 import { useCodexPrompts } from "./useCodexPrompts";
@@ -55,26 +57,10 @@ export function PromptsPage() {
   );
 
   const tabItems = React.useMemo<TabListItem<PromptsTabKey>[]>(() => {
-    return BASE_TAB_ITEMS.map<TabListItem<PromptsTabKey>>((item) => {
-      if (item.key === "chat") {
-        return {
-          ...item,
-          badge: chatPrompts.length > 0 ? chatPrompts.length : undefined,
-        };
-      }
-      if (item.key === "codex") {
-        return {
-          ...item,
-          badge: codexPrompts.length > 0 ? codexPrompts.length : undefined,
-        };
-      }
-      const hasNotes = notes.trim().length > 0;
-      return {
-        ...item,
-        badge: hasNotes ? 1 : undefined,
-      };
-    });
-  }, [chatPrompts.length, codexPrompts.length, notes]);
+    return BASE_TAB_ITEMS.map<TabListItem<PromptsTabKey>>((item) => ({
+      ...item,
+    }));
+  }, []);
 
   const activeQuery = React.useMemo(() => {
     if (activeTab === "chat") return chatQuery;
@@ -95,6 +81,30 @@ export function PromptsPage() {
     [activeTab, setChatQuery, setCodexQuery],
   );
 
+  const headerId = "prompts-header";
+  const searchId = `${headerId}-search`;
+
+  const handleChipClick = React.useCallback(
+    (chip: string) => {
+      const nextQuery = activeQuery === chip ? "" : chip;
+      handleQueryChange(nextQuery);
+    },
+    [activeQuery, handleQueryChange],
+  );
+
+  const headerTabs = React.useMemo(
+    () => ({
+      items: tabItems,
+      value: activeTab,
+      onChange: setActiveTab,
+      ariaLabel: "Prompt workspaces",
+      variant: "neo" as const,
+      showBaseline: true,
+      idBase: "prompts-tabs",
+    }),
+    [activeTab, setActiveTab, tabItems],
+  );
+
   const activeCount = React.useMemo(() => {
     if (activeTab === "chat") return chatPrompts.length;
     if (activeTab === "codex") return codexPrompts.length;
@@ -104,23 +114,57 @@ export function PromptsPage() {
   return (
     <>
       <PageShell as="header" className="py-[var(--space-6)]">
-        <PromptsHeader
-          id="prompts-header"
-          count={activeCount}
-          query={activeQuery}
-          onQueryChange={handleQueryChange}
-        />
+        <Header
+          id={headerId}
+          heading="Prompts"
+          sticky={false}
+          className="relative isolate"
+          search={
+            <HeroSearchBar
+              id={searchId}
+              value={activeQuery}
+              onValueChange={handleQueryChange}
+              debounceMs={300}
+              placeholder="Search prompts…"
+              aria-label="Search prompts"
+              variant="neo"
+              round
+            />
+          }
+          actions={<span className="pill" aria-live="polite">{activeCount} saved</span>}
+          tabs={headerTabs}
+        >
+          <div className="hidden flex-wrap items-center gap-[var(--space-2)] sm:flex">
+            {PROMPTS_HEADER_CHIPS.map((chip) => {
+              const isSelected = activeQuery === chip;
+
+              return (
+                <Badge
+                  key={chip}
+                  interactive
+                  selected={isSelected}
+                  aria-pressed={isSelected}
+                  onClick={() => handleChipClick(chip)}
+                >
+                  {chip}
+                </Badge>
+              );
+            })}
+          </div>
+        </Header>
       </PageShell>
 
       <PageShell
         as="section"
         className="space-y-[var(--space-6)] py-[var(--space-6)]"
-        aria-labelledby="prompts-header"
+        aria-labelledby={headerId}
       >
         <Tabs value={activeTab} onValueChange={setActiveTab} idBase="prompts-tabs">
           <TabList
             items={tabItems}
             ariaLabel="Prompt workspaces"
+            className="sr-only"
+            tablistClassName="hidden"
             variant="neo"
             showBaseline
           />

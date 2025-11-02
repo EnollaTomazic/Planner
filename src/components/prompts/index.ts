@@ -18,6 +18,7 @@ export type { ButtonsPanelData, ComponentGalleryPanels, InputsPanelData, MiscPan
 export { WeekPickerDemo } from "./component-gallery/WeekPickerDemo";
 export { ComponentsView, PROPS_DISCLOSURE_COLLAPSE_THRESHOLD, ThemeMatrix, ThemeMatrixPreview } from "./ComponentsView";
 export { COMPONENTS_VIEW_TABS, getGalleryPreview, getGallerySectionEntries, SECTION_TABS, SECTIONS } from "./constants";
+export { PROMPTS_HEADER_CHIPS } from "./headerChips";
 export type { GallerySpec, Section } from "./constants";
 export { colorTokens, focusRingToken, FRUIT_ITEMS, glowTokens, GOAL_DEMO_ITEMS, NEON_ICONS, radiusClasses, radiusTokens, spacingTokens, typeRamp } from "./demoData";
 export { DemoHeader } from "./DemoHeader";
@@ -33,7 +34,6 @@ export { PromptList } from "./PromptList";
 export type { PromptListProps } from "./PromptList";
 export { PromptsComposePanel } from "./PromptsComposePanel";
 export { PromptsDemos } from "./PromptsDemos";
-export { PromptsHeader } from "./PromptsHeader";
 export { PromptsPage } from "./PromptsPage";
 export { RadioIconGroupShowcase } from "./RadioIconGroupShowcase";
 export { SelectShowcase } from "./SelectShowcase";
