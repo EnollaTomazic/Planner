@@ -32,6 +32,19 @@
   color: hsl(var(--muted-foreground));
 }
 
+.progressTrack {
+  width: 100%;
+  margin-top: var(--space-1);
+  height: clamp(var(--space-2), 2.4vw, var(--space-3));
+  border-radius: var(--radius-full);
+  box-shadow:
+    inset 0 0 0 calc(var(--hairline-w) * 1.2) hsl(var(--card-hairline) / 0.4),
+    0 calc(var(--spacing-1) * 0.8) calc(var(--spacing-3))
+      hsl(var(--shadow-color) / 0.2);
+  background:
+    linear-gradient(180deg, hsl(var(--surface-2) / 0.85), hsl(var(--surface) / 0.7));
+}
+
 @media (max-width: 40rem) {
   .root {
     min-inline-size: min(100%, 18rem);

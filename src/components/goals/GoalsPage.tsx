@@ -26,7 +26,7 @@ import {
 
 import { type HeaderTab } from "@/components/ui/layout/Header";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
-import { Snackbar, PageHeader, PageShell, Modal } from "@/components/ui";
+import { Snackbar, PageHeader, PageShell, Modal, GlitchNeoCard } from "@/components/ui";
 import { PlannerProvider } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
 import {
@@ -37,7 +37,11 @@ import {
   CardFooter,
 } from "@/components/ui/primitives/Card";
 import { FilterKey, GoalsTabs } from "./GoalsTabs";
-import { GoalFormHandle, GoalForm } from "./GoalForm";
+import {
+  EntityForm,
+  type EntityFormHandle,
+  type EntityFormValues,
+} from "@/components/forms/EntityForm";
 import { GoalsProgress } from "./GoalsProgress";
 import { GoalList } from "./GoalList";
 import { GOALS_STICKY_TOP_CLASS } from "./constants";
@@ -160,13 +164,8 @@ function GoalsPageContent() {
     addReminder,
   } = useReminders();
 
-  // add form
-  const [title, setTitle] = React.useState("");
-  const [metric, setMetric] = React.useState("");
-  const [notes, setNotes] = React.useState("");
-
   const formRef = React.useRef<HTMLDivElement | null>(null);
-  const titleInputRef = React.useRef<GoalFormHandle>(null);
+  const goalFormRef = React.useRef<EntityFormHandle>(null);
   const goalsRef = React.useRef<HTMLDivElement>(null);
   const remindersRef = React.useRef<HTMLDivElement>(null);
   const timerRef = React.useRef<HTMLDivElement>(null);
@@ -189,12 +188,6 @@ function GoalsPageContent() {
     return () => window.clearTimeout(timer);
   }, [clearedCount]);
 
-  const resetForm = React.useCallback(() => {
-    setTitle("");
-    setMetric("");
-    setNotes("");
-  }, []);
-
   const handleOpenNuke = React.useCallback(() => {
     setConfirmClearOpen(true);
   }, []);
@@ -203,13 +196,31 @@ function GoalsPageContent() {
     setConfirmClearOpen(false);
   }, []);
 
-  const handleAddGoal = React.useCallback(() => {
-    const ok = addGoal({ title, metric, notes, pillar: "" });
-    if (ok) {
-      resetForm();
-      titleInputRef.current?.focus({ preventScroll: true });
-    }
-  }, [addGoal, title, metric, notes, resetForm]);
+  const handleAddGoal = React.useCallback(
+    (values: EntityFormValues) => {
+      const trimmedTitle = values.title?.trim() ?? "";
+      if (!trimmedTitle) {
+        return false;
+      }
+
+      const metric = values.metric?.trim() ?? "";
+      const notes = values.notes?.trim() ?? "";
+
+      const ok = addGoal({
+        title: trimmedTitle,
+        metric,
+        notes,
+        pillar: "",
+      });
+
+      if (ok) {
+        goalFormRef.current?.focus({ preventScroll: true });
+      }
+
+      return ok;
+    },
+    [addGoal],
+  );
 
   const startGoalCreation = React.useCallback(() => {
     setTab("goals");
@@ -287,7 +298,7 @@ function GoalsPageContent() {
     }
     const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
     formRef.current?.scrollIntoView({ behavior, block: "start" });
-    titleInputRef.current?.focus({ preventScroll: true });
+    goalFormRef.current?.focus({ preventScroll: true });
     setShouldFocusGoalForm(false);
   }, [shouldFocusGoalForm, reduceMotion]);
 
@@ -318,6 +329,7 @@ function GoalsPageContent() {
   const doneCount = goals.filter((g) => g.done).length;
   const activeCount = totalCount - doneCount;
   const remaining = Math.max(0, ACTIVE_CAP - activeCount);
+  const isAtCap = remaining === 0;
   const pctDone = totalCount ? Math.round((doneCount / totalCount) * 100) : 0;
 
   const handleConfirmNuke = React.useCallback(() => {
@@ -610,19 +622,58 @@ function GoalsPageContent() {
               </div>
 
               <div ref={formRef} id="goal-form">
-                <GoalForm
-                  ref={titleInputRef}
-                  title={title}
-                  metric={metric}
-                  notes={notes}
-                  onTitleChange={setTitle}
-                  onMetricChange={setMetric}
-                  onNotesChange={setNotes}
-                  onSubmit={handleAddGoal}
-                  activeCount={activeCount}
-                  activeCap={ACTIVE_CAP}
-                  err={err}
-                />
+                <GlitchNeoCard className="p-[var(--space-4)]">
+                  <EntityForm
+                    ref={goalFormRef}
+                    title="Add goal"
+                    description="Capture focused, finishable targets for your next session."
+                    fields={[
+                      {
+                        id: "title",
+                        label: "Title",
+                        placeholder: "Review lane states",
+                        required: true,
+                      },
+                      {
+                        id: "metric",
+                        label: "Metric (optional)",
+                        placeholder: "3 ranked wins",
+                      },
+                      {
+                        id: "notes",
+                        label: "Notes (optional)",
+                        placeholder: "Add context, blockers, or reminders",
+                        type: "textarea",
+                        rows: 4,
+                      },
+                    ]}
+                    submitLabel="Add goal"
+                    submitDisabled={isAtCap}
+                    onSubmit={handleAddGoal}
+                    afterFields={
+                      <p className="text-label font-medium tracking-[0.02em] text-muted-foreground">
+                        {isAtCap ? (
+                          <span className="text-danger">Cap reached. Finish one to add more.</span>
+                        ) : (
+                          <span>
+                            {remaining} active slot{remaining === 1 ? "" : "s"} left
+                          </span>
+                        )}
+                      </p>
+                    }
+                    footer={
+                      err ? (
+                        <p
+                          role="status"
+                          aria-live="polite"
+                          className="text-label font-medium tracking-[0.02em] text-danger"
+                        >
+                          {err}
+                        </p>
+                      ) : null
+                    }
+                  />
+                </GlitchNeoCard>
               </div>
 
               {lastDeleted && (

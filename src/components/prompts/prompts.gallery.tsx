@@ -2008,42 +2008,60 @@ function PromptListEmptyState() {
 }
 
 function ChatPromptsTabDemo() {
-  const [title, setTitle] = React.useState("Post-match sync");
-  const [text, setText] = React.useState(
-    "Capture three improvement areas and who owns the follow-up.",
-  );
+  const [library, setLibrary] = React.useState(demoPrompts);
   const query = "focus";
+
+  const handleSave = React.useCallback(
+    (title: string, prompt: string, _category: string) => {
+      setLibrary((prev) => [
+        {
+          id: `demo-chat-${prev.length + 1}`,
+          title,
+          text: prompt,
+          createdAt: Date.now(),
+        },
+        ...prev,
+      ]);
+      return true;
+    },
+    [],
+  );
 
   return (
     <ChatPromptsTab
-      title={title}
-      text={text}
-      onTitleChange={setTitle}
-      onTextChange={setText}
-      prompts={demoPrompts}
+      prompts={library}
       query={query}
       personas={demoPersonas}
-      onSave={() => {}}
+      savePrompt={handleSave}
     />
   );
 }
 
 function CodexPromptsTabDemo() {
-  const [title, setTitle] = React.useState("Patch audit");
-  const [text, setText] = React.useState(
-    "List risky balance changes and mitigation steps before scrims.",
-  );
+  const [library, setLibrary] = React.useState(demoPrompts);
   const query = "review";
+
+  const handleSave = React.useCallback(
+    (title: string, prompt: string, _category: string) => {
+      setLibrary((prev) => [
+        {
+          id: `demo-codex-${prev.length + 1}`,
+          title,
+          text: prompt,
+          createdAt: Date.now(),
+        },
+        ...prev,
+      ]);
+      return true;
+    },
+    [],
+  );
 
   return (
     <CodexPromptsTab
-      title={title}
-      text={text}
-      onTitleChange={setTitle}
-      onTextChange={setText}
-      prompts={demoPrompts}
+      prompts={library}
       query={query}
-      onSave={() => {}}
+      savePrompt={handleSave}
     />
   );
 }
