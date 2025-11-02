@@ -20,7 +20,7 @@ describe("ReviewSliderTrack", () => {
       "[--slider-fill-background:var(--edge-iris)]",
     );
     expect(root?.className).toContain(
-      "[--slider-fill-tint:hsl(var(--accent)/0.35)]",
+      "[--slider-fill-tint:hsl(var(--accent-1)/0.35)]",
     );
 
     const track = root?.querySelector("div");

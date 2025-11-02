@@ -119,14 +119,14 @@ export type ButtonProps =
 
 export const colorVar: Record<Tone, string> = {
   primary: "--primary",
-  accent: "--accent",
+  accent: "--accent-1",
   info: "--accent-2",
   danger: "--danger",
 };
 
 const toneForegroundVar: Record<Tone, string> = {
   primary: "--primary-foreground",
-  accent: "--accent-foreground",
+  accent: "--accent-1-foreground",
   info: "--accent-2-foreground",
   danger: "--danger-foreground",
 };
@@ -135,7 +135,7 @@ const primaryShadowVars: Record<Tone, string> = {
   primary:
     "[--glow-active:hsl(var(--primary)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--primary)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--primary)/0.6)]",
   accent:
-    "[--glow-active:hsl(var(--accent)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--accent)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--accent)/0.6)]",
+    "[--glow-active:hsl(var(--accent-1)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--accent-1)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--accent-1)/0.6)]",
   info:
     "[--glow-active:hsl(var(--accent-2)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--accent-2)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--accent-2)/0.6)]",
   danger:
@@ -144,21 +144,21 @@ const primaryShadowVars: Record<Tone, string> = {
 
 const toneInteractionTokens: Record<Tone, string> = {
   primary: "[--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)]",
-  accent: "[--hover:hsl(var(--accent)/0.14)] [--active:hsl(var(--accent)/0.2)]",
+  accent: "[--hover:hsl(var(--accent-1)/0.14)] [--active:hsl(var(--accent-1)/0.2)]",
   info: "[--hover:hsl(var(--accent-2)/0.14)] [--active:hsl(var(--accent-2)/0.2)]",
   danger: "[--hover:hsl(var(--danger)/0.14)] [--active:hsl(var(--danger)/0.2)]",
 };
 
 const secondarySurfaceTokens: Record<Tone, string> = {
   primary: "[--hover:hsl(var(--primary)/0.25)] [--active:hsl(var(--primary)/0.35)]",
-  accent: "[--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.2)]",
+  accent: "[--hover:hsl(var(--accent-1)/0.25)] [--active:hsl(var(--accent-1)/0.2)]",
   info: "[--hover:hsl(var(--accent-2)/0.2)] [--active:hsl(var(--accent-2)/0.15)]",
   danger: "[--hover:hsl(var(--danger)/0.14)] [--active:hsl(var(--danger)/0.2)]",
 };
 
 const ghostSurfaceTokens: Record<Tone, string> = {
   primary: "[--hover:hsl(var(--bg)/0.8)] [--active:hsl(var(--bg))]",
-  accent: "[--hover:hsl(var(--accent)/0.25)] [--active:hsl(var(--accent)/0.35)]",
+  accent: "[--hover:hsl(var(--accent-1)/0.25)] [--active:hsl(var(--accent-1)/0.35)]",
   info: "[--hover:hsl(var(--accent-2)/0.25)] [--active:hsl(var(--accent-2)/0.35)]",
   danger: "[--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)]",
 };
@@ -182,7 +182,7 @@ const baseToneClasses: Record<
     accent: cn(
       secondarySurfaceTokens.accent,
       "text-on-accent",
-      "[--neu-surface:hsl(var(--accent)/0.3)]",
+      "[--neu-surface:hsl(var(--accent-1)/0.3)]",
     ),
     info: cn(
       secondarySurfaceTokens.info,
@@ -205,7 +205,7 @@ const baseToneClasses: Record<
     accent: cn(
       ghostSurfaceTokens.accent,
       "text-on-accent",
-      "[--neu-surface:hsl(var(--accent)/0.2)]",
+      "[--neu-surface:hsl(var(--accent-1)/0.2)]",
       "border-accent/35",
     ),
     info: cn(

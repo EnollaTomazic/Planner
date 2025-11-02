@@ -63,7 +63,7 @@ export default function AIPreviewClient() {
           isTyping={isTyping}
           showAvatar={showTypingAvatar}
           hint={isTyping ? "Streaming contextual response" : "Paused"}
-          className="border border-[hsl(var(--accent)/0.3)] bg-[hsl(var(--surface)/0.75)]"
+          className="border border-[hsl(var(--accent-1)/0.3)] bg-[hsl(var(--surface)/0.75)]"
         >
           {isTyping ? "Drafting follow-up" : "Tap resume to continue"}
         </AITypingIndicator>

@@ -37,7 +37,7 @@ export default function TimerRingIcon({
       <defs>
         <RingNoiseDefs id={noiseFilterId} />
         <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="hsl(var(--accent))" />
+          <stop offset="0%" stopColor="hsl(var(--accent-1))" />
           <stop offset="100%" stopColor="hsl(var(--accent-2))" />
         </linearGradient>
       </defs>

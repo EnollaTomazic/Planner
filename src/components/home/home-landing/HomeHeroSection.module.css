@@ -160,7 +160,7 @@
 .focusRing :global(svg) {
   width: 72%;
   height: 72%;
-  filter: drop-shadow(0 var(--space-2) var(--space-4) hsl(var(--accent) / 0.35));
+  filter: drop-shadow(0 var(--space-2) var(--space-4) hsl(var(--accent-1) / 0.35));
 }
 
 .focusValue {

@@ -24,7 +24,7 @@ export interface AIExplainTooltipProps extends React.ComponentPropsWithoutRef<"d
 }
 
 const toneBackground: Record<AIExplainTooltipTone, string> = {
-  accent: "bg-[hsl(var(--accent-soft))] border-[hsl(var(--accent)/0.4)] text-[hsl(var(--accent-foreground))]",
+  accent: "bg-[hsl(var(--accent-1-soft))] border-[hsl(var(--accent-1)/0.4)] text-[hsl(var(--accent-1-foreground))]",
   neutral: "bg-[hsl(var(--surface)/0.9)] border-[hsl(var(--border)/0.6)] text-foreground",
 };
 

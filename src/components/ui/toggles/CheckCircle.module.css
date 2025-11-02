@@ -14,7 +14,7 @@
   background: linear-gradient(
     90deg,
     hsl(var(--success)),
-    hsl(var(--accent)),
+    hsl(var(--accent-1)),
     hsl(var(--success))
   );
   background-size: 200% 100%;

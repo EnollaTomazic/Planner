@@ -23,7 +23,7 @@ export function NeonIcon({
 }: Props) {
   const Icon = kind === "clock" ? Clock : kind === "brain" ? Brain : FileText;
   const colorVar =
-    kind === "clock" ? "--accent" : kind === "brain" ? "--primary" : "--ring";
+    kind === "clock" ? "--accent-1" : kind === "brain" ? "--primary" : "--ring";
 
   return (
     <UIToggleNeonIcon

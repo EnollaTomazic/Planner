@@ -3,7 +3,7 @@
 }
 
 .neonToneLife {
-  --neon: var(--accent);
+  --neon: var(--accent-1);
 }
 
 .form {

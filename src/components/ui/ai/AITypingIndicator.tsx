@@ -46,7 +46,7 @@ const AITypingIndicator = React.forwardRef<HTMLDivElement, AITypingIndicatorProp
         aria-live="polite"
         aria-busy={isTyping ? "true" : undefined}
         className={cn(
-          "flex items-center gap-[var(--space-3)] rounded-card border border-[hsl(var(--accent)/0.35)]",
+          "flex items-center gap-[var(--space-3)] rounded-card border border-[hsl(var(--accent-1)/0.35)]",
           "bg-[hsl(var(--surface)/0.72)] p-[var(--space-3)] text-left shadow-[var(--shadow-outline-faint)] backdrop-blur-sm",
           className,
         )}
@@ -55,7 +55,7 @@ const AITypingIndicator = React.forwardRef<HTMLDivElement, AITypingIndicatorProp
         {showAvatar ? (
           <span
             aria-hidden
-            className="grid size-[var(--space-9)] place-items-center rounded-full border border-[hsl(var(--accent)/0.35)] bg-[hsl(var(--accent-soft))] text-[hsl(var(--accent-foreground))] shadow-[var(--shadow-inset-hairline)]"
+            className="grid size-[var(--space-9)] place-items-center rounded-full border border-[hsl(var(--accent-1)/0.35)] bg-[hsl(var(--accent-1-soft))] text-[hsl(var(--accent-1-foreground))] shadow-[var(--shadow-inset-hairline)]"
           >
             {avatar ?? <Sparkles className="size-[var(--space-5)]" aria-hidden />}
           </span>
@@ -75,7 +75,7 @@ const AITypingIndicator = React.forwardRef<HTMLDivElement, AITypingIndicatorProp
                 key={index}
                 aria-hidden
                 className={cn(
-                  "size-[var(--space-1-5)] rounded-full bg-[hsl(var(--accent))] opacity-70",
+                  "size-[var(--space-1-5)] rounded-full bg-[hsl(var(--accent-1))] opacity-70",
                   isTyping ? "motion-safe:animate-pulse" : undefined,
                 )}
                 style={isTyping ? { animationDelay: `${index * 120}ms`, animationDuration: "1200ms" } : undefined}
