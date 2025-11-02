@@ -1,3 +1,5 @@
+'use client';
+
 import type { AriaAttributes, HTMLAttributes } from "react";
 
 import { cn } from "@/lib/utils";

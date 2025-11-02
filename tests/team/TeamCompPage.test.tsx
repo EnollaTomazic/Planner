@@ -19,7 +19,7 @@ afterEach(() => {
 describe("TeamCompPage builder tab", () => {
   it("shows builder hero with spacing", () => {
     render(<TeamCompPage />);
-    const builderTab = screen.getAllByRole("tab", { name: "Builder" })[0];
+    const builderTab = screen.getByRole("tab", { name: "Builder" });
     fireEvent.click(builderTab);
     const heroHeading = screen.getByRole("heading", { name: "Builder" });
     expect(heroHeading).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe("TeamCompPage builder tab", () => {
       .mockReturnValue(partialState);
     try {
       render(<TeamCompPage />);
-      const builderTab = screen.getAllByRole("tab", { name: "Builder" })[0];
+      const builderTab = screen.getByRole("tab", { name: "Builder" });
       fireEvent.click(builderTab);
       expect(screen.getAllByText("Lane coverage").length).toBeGreaterThan(0);
       expect(screen.getAllByText("Mid: Open / Open").length).toBeGreaterThan(0);
@@ -50,7 +50,7 @@ describe("TeamCompPage builder tab", () => {
 describe("TeamCompPage jungle clears tab", () => {
   it("shows clears hero with search and count", () => {
     render(<TeamCompPage />);
-    const clearsTab = screen.getAllByRole("tab", { name: "Jungle Clears" })[0];
+    const clearsTab = screen.getByRole("tab", { name: "Jungle Clears" });
     fireEvent.click(clearsTab);
     expect(
       screen.getByRole("heading", { name: "Clear Speed Buckets" })
