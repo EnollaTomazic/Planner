@@ -40,11 +40,15 @@ export function PromptsHeader({
       header={{
         id,
         heading: "Prompts",
-        subtitle: savedLabel,
         sticky: false,
         underline: false,
         barClassName:
           "flex flex-col items-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between",
+        actions: (
+          <span className="whitespace-nowrap text-label font-medium tracking-[0.02em] text-muted-foreground">
+            {savedLabel}
+          </span>
+        ),
       }}
       hero={{
         as: "div",
