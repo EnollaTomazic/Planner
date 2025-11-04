@@ -24,6 +24,7 @@ const FIELD_ROOT_BASE = cn(
   "group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center",
   "rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground",
   "[--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))]",
+  "[--neo-shadow:var(--shadow-inner-md)] [--neo-shadow-hover:var(--shadow-inner-md)]",
   "transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none",
   "focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))]",
   "hover:bg-[--hover] active:bg-[--active]",
