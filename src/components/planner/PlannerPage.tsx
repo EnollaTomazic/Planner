@@ -14,14 +14,13 @@ import * as React from "react";
 import Image from "next/image";
 import {
   Button,
-  GlitchSegmentedButton,
-  GlitchSegmentedGroup,
   Hero,
   HeroCol,
   HeroGrid,
   PageHeader,
   PageShell,
   Slider,
+  TabBar,
 } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import styles from "./PlannerPage.module.css";
@@ -81,6 +80,12 @@ const VIEW_MODE_OPTIONS: Array<{ value: PlannerViewMode; label: string }> = [
 ];
 
 const VIEW_TAB_ID_BASE = "planner-view";
+const VIEW_MODE_TAB_ITEMS = VIEW_MODE_OPTIONS.map((option) => ({
+  key: option.value,
+  label: option.label,
+  id: `${option.value}-tab`,
+  controls: `${option.value}-panel`,
+}));
 const VIEW_COMPONENTS: Record<
   PlannerViewMode,
   React.LazyExoticComponent<React.ComponentType>
@@ -216,9 +221,9 @@ function Inner() {
   }, [hydrating, tasks]);
   const labelId = React.useId();
   const handleViewModeChange = React.useCallback(
-    (value: string) => {
+    (value: PlannerViewMode) => {
       if (value === viewMode) return;
-      setViewMode(value as PlannerViewMode);
+      setViewMode(value);
     },
     [setViewMode, viewMode],
   );
@@ -425,6 +430,24 @@ function Inner() {
                 >
                   <WeekPicker />
                 </PlannerIslandBoundary>
+                <div className="flex flex-col gap-[var(--space-2)]">
+                  <span
+                    id={labelId}
+                    className="text-label font-medium text-muted-foreground"
+                  >
+                    View
+                  </span>
+                  <TabBar<PlannerViewMode>
+                    items={VIEW_MODE_TAB_ITEMS}
+                    value={viewMode}
+                    onValueChange={handleViewModeChange}
+                    ariaLabelledBy={labelId}
+                    variant="neo"
+                    className="w-full"
+                    tablistClassName="w-full"
+                    idBase={VIEW_TAB_ID_BASE}
+                  />
+                </div>
                 <div aria-live="polite" className="sr-only">
                   {weekAnnouncement}
                 </div>
@@ -432,34 +455,6 @@ function Inner() {
             ),
           }}
         />
-        <div className="col-span-full mt-[var(--space-4)] flex flex-wrap items-center justify-between gap-[var(--space-2)]">
-          <span
-            id={labelId}
-            className="text-label font-medium text-muted-foreground"
-          >
-            View
-          </span>
-          <GlitchSegmentedGroup
-            value={viewMode}
-            onChange={handleViewModeChange}
-            ariaLabelledby={labelId}
-          >
-            {VIEW_MODE_OPTIONS.map((option) => {
-              const tabId = `${VIEW_TAB_ID_BASE}-${option.value}-tab`;
-              const panelId = `${VIEW_TAB_ID_BASE}-${option.value}-panel`;
-              return (
-                <GlitchSegmentedButton
-                  key={option.value}
-                  value={option.value}
-                  id={tabId}
-                  aria-controls={panelId}
-                >
-                  {option.label}
-                </GlitchSegmentedButton>
-              );
-            })}
-          </GlitchSegmentedGroup>
-        </div>
       </PageShell>
 
       {VIEW_MODE_OPTIONS.map((option) => {
