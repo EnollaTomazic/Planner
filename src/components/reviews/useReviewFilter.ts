@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import type { Review } from "@/lib/types";
 import { ts } from "@/lib/date";
-import { getSearchBlob } from "./reviewSearch";
+import { getSearchBlob } from "./reviewSearchCache";
 
 export type SortKey = "newest" | "oldest" | "title";
 

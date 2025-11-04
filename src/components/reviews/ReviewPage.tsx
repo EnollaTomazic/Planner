@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Review } from "@/lib/types";
 import { uid } from "@/lib/db";
 import { ReviewsPage } from "./ReviewsPage";
-import { primeReviewSearch } from "./reviewSearch";
+import { primeReviewSearch } from "./reviewSearchCache";
 import { useReviews } from "./useReviews";
 
 /**
