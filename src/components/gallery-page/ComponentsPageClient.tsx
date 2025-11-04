@@ -82,6 +82,7 @@ export function ComponentsPageClient({
     section,
     query,
     setQuery,
+    heroCopy,
     heroTabs,
     viewTabs,
     inPageNavigation,
@@ -97,6 +98,8 @@ export function ComponentsPageClient({
     handleViewChange,
     handleSectionChange,
   } = useComponentsGalleryState({ navigation });
+
+  const subFiltersLabelId = React.useId();
 
   const categoryCards = React.useMemo<readonly CategoryCardDefinition[]>(() => {
     const tokensLabel =
@@ -161,16 +164,52 @@ export function ComponentsPageClient({
         className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
       >
         <div className="space-y-[var(--space-6)]">
-          <div className="space-y-[var(--space-2)]">
-            <h1
-              id="components-header"
-              className="text-title font-semibold tracking-[-0.01em] text-foreground"
+          <div className="space-y-[var(--space-3)]">
+            <div
+              className="rounded-card border border-card-hairline-60 bg-[hsl(var(--surface-1)/0.96)] p-[var(--space-4)] shadow-depth-soft"
             >
-              Component Gallery
-            </h1>
-            <p className="text-ui text-muted-foreground">
-              UI building blocks by category.
-            </p>
+              <div className="space-y-[var(--space-2)]">
+                {heroCopy.eyebrow ? (
+                  <p className="text-caption font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                    {heroCopy.eyebrow}
+                  </p>
+                ) : null}
+                <h1
+                  id="components-header"
+                  className="text-title font-semibold tracking-[-0.01em] text-foreground"
+                >
+                  {heroCopy.heading}
+                </h1>
+                {heroCopy.subtitle ? (
+                  <p className="text-ui text-muted-foreground">
+                    {heroCopy.subtitle}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+            {heroTabs.length > 0 ? (
+              <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+                <span
+                  id={subFiltersLabelId}
+                  className="text-caption font-medium uppercase tracking-[0.18em] text-muted-foreground"
+                >
+                  Related filters
+                </span>
+                <ul
+                  aria-labelledby={subFiltersLabelId}
+                  className="flex flex-wrap gap-[var(--space-2)] text-caption text-muted-foreground"
+                >
+                  {heroTabs.map((tab) => (
+                    <li
+                      key={tab.key}
+                      className="rounded-full border border-card-hairline-60 bg-[hsl(var(--surface-3)/0.82)] px-[var(--space-2)] py-[var(--space-1)] text-foreground"
+                    >
+                      {tab.label}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
           </div>
           <GlitchSegmentedGroup
             value={view}

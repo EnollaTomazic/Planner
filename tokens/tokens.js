@@ -227,7 +227,7 @@ export default {
   glowStrong: "var(--ring) / 0.55",
   glowSoft: "var(--accent-1) / 0.25",
   shadowNeon:
-    "0 0 var(--space-1) hsl(var(--neon) / 0.6),\n    0 0 calc(var(--space-3)) hsl(var(--neon) / 0.4),\n    0 0 calc(var(--space-5)) hsl(var(--neon) / 0.22)",
+    "calc(var(--spacing-0-5) / 2) calc(-1 * var(--spacing-0-5) / 2) var(--space-1) hsl(var(--neon) / 0.55),\n    calc(-1 * var(--spacing-0-5)) var(--spacing-0-5) calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),\n    calc(var(--spacing-0-5) * 1.5) calc(var(--spacing-0-5) * 1.25) calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2)",
   btnPrimaryHoverShadow:
     "0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)\n    calc(-1 * var(--space-1) / 4) hsl(var(--accent-1) / 0.25)",
   btnPrimaryActiveShadow:

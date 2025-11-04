@@ -268,9 +268,9 @@ export const rootVariables: VariableDefinition[] = [
     name: "shadow-neon",
     value: [
       "",
-      "0 0 var(--space-1) hsl(var(--neon) / 0.55),",
-      "0 0 calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),",
-      "0 0 calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2)",
+      "calc(var(--spacing-0-5) / 2) calc(-1 * var(--spacing-0-5) / 2) var(--space-1) hsl(var(--neon) / 0.55),",
+      "calc(-1 * var(--spacing-0-5)) var(--spacing-0-5) calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),",
+      "calc(var(--spacing-0-5) * 1.5) calc(var(--spacing-0-5) * 1.25) calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2)",
     ],
   },
   {

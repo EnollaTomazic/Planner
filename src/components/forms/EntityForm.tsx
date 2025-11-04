@@ -279,35 +279,37 @@ export const EntityForm = React.forwardRef<EntityFormHandle, EntityFormProps>(
                 disabled: field.disabled,
               } as const;
 
-              const labelContent = (
-                <div className="flex flex-wrap items-center gap-[var(--space-2)]">
-                  <span className="text-ui font-medium text-foreground">
-                    {field.label}
-                  </span>
-                  {field.required ? (
-                    <Badge
-                      size="sm"
-                      tone="accent"
-                      className="uppercase tracking-[0.08em]"
-                      aria-hidden="true"
-                    >
-                      Required
-                    </Badge>
-                  ) : null}
-                </div>
-              );
-
               const helperContent = field.helper
                 ? field.helper
                 : undefined;
+
+              const labelId = `${fieldId}-label`;
 
               return (
                 <div
                   key={field.id}
                   className="space-y-[var(--space-2)]"
                 >
-                  <label htmlFor={fieldId} className="grid gap-[var(--space-1)]">
-                    {labelContent}
+                  <div className="grid gap-[var(--space-1)]">
+                    <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+                      <label
+                        id={labelId}
+                        htmlFor={fieldId}
+                        className="text-ui font-medium text-foreground"
+                      >
+                        {field.label}
+                      </label>
+                      {field.required ? (
+                        <Badge
+                          size="sm"
+                          tone="accent"
+                          className="uppercase tracking-[0.08em]"
+                          aria-hidden="true"
+                        >
+                          Required
+                        </Badge>
+                      ) : null}
+                    </div>
                     {field.description ? (
                       <span
                         id={descriptionId}
@@ -316,24 +318,24 @@ export const EntityForm = React.forwardRef<EntityFormHandle, EntityFormProps>(
                         {field.description}
                       </span>
                     ) : null}
-                  </label>
+                  </div>
                   <Field.Root
                     helper={helperContent}
                     helperId={helperId}
                     className="bg-card/60"
                   >
-                    {renderFieldControl({
-                      field,
-                      commonProps,
-                      descriptionId,
-                      helperId,
-                      setFirstFieldRef:
-                        index === 0
-                          ? (element) => {
-                              firstFieldRef.current = element;
-                            }
-                          : undefined,
-                    })}
+                      {renderFieldControl({
+                        field,
+                        commonProps,
+                        descriptionId,
+                        helperId,
+                        setFirstFieldRef:
+                          index === 0
+                            ? (element) => {
+                                firstFieldRef.current = element;
+                              }
+                            : undefined,
+                      })}
                   </Field.Root>
                 </div>
               );
