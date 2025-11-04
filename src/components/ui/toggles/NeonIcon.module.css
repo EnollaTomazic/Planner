@@ -9,7 +9,7 @@
   --ni-size: var(--icon-size-md);
   --ni-radius: var(--radius-full);
   --ni-k: calc(0.56 * var(--ni-size));
-  --ni-color: hsl(var(--accent));
+  --ni-color: hsl(var(--accent-1));
   --ni-core-blur: calc(var(--hairline-w) * 2.5);
   --ni-core-shadow: var(--space-3);
   --ni-aura-blur: calc(var(--space-2) - var(--hairline-w));
@@ -57,7 +57,7 @@
 }
 
 .root[data-tone="accent"] {
-  --ni-color: hsl(var(--accent));
+  --ni-color: hsl(var(--accent-1));
 }
 
 .root[data-tone="primary"] {
@@ -81,7 +81,7 @@
 }
 
 .root[data-tone="info"] {
-  --ni-color: hsl(var(--info, var(--accent)));
+  --ni-color: hsl(var(--info, var(--accent-1)));
 }
 
 .icon,
@@ -195,7 +195,7 @@
   inset: 0;
   border-radius: var(--radius-2xl);
   filter: blur(calc(var(--space-3) - var(--hairline-w) * 2));
-  background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent) / 0.45), transparent 70%);
+  background: radial-gradient(60% 60% at 50% 50%, hsl(var(--accent-1) / 0.45), transparent 70%);
   opacity: 0;
   transition: opacity 220ms var(--ease-out);
 }

@@ -62,7 +62,7 @@ export default function ProgressRingIcon({
         strokeLinecap="round"
         strokeDasharray={circumference}
         strokeDashoffset={offset}
-        className="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent)]"
+        className="text-accent shadow-ring motion-safe:animate-pulse [--ring:var(--accent-1)]"
         filter={`url(#${noiseFilterId})`}
         fill="none"
       />

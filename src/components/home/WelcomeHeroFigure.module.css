@@ -3,10 +3,10 @@
   --welcome-figure-rim: calc(var(--space-2) / 1.4);
   --welcome-figure-rim-gradient: conic-gradient(
     from 125deg at 50% 50%,
-    hsl(var(--accent) / 0.92),
+    hsl(var(--accent-1) / 0.92),
     hsl(var(--accent-2) / 0.88),
     hsl(var(--ring) / 0.85),
-    hsl(var(--accent) / 0.92)
+    hsl(var(--accent-1) / 0.92)
   );
   --welcome-figure-surface: hsl(var(--card) / 0.95);
   --welcome-figure-inner: hsl(var(--surface) / 0.88);
@@ -22,7 +22,7 @@
   );
   --welcome-figure-secondary-halo: radial-gradient(
     circle at 34% 70%,
-    hsl(var(--accent) / 0.28),
+    hsl(var(--accent-1) / 0.28),
     transparent 74%
   );
   --welcome-figure-primary-opacity: 0.35;
@@ -43,7 +43,7 @@
   );
   --welcome-figure-secondary-halo: radial-gradient(
     circle at 34% 70%,
-    hsl(var(--accent) / 0.22),
+    hsl(var(--accent-1) / 0.22),
     transparent 70%
   );
   --welcome-figure-primary-opacity: 0.3;

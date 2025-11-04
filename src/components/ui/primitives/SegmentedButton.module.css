@@ -187,7 +187,7 @@
   background-image: var(--seg-active-grad);
   background-repeat: no-repeat;
   box-shadow:
-    0 0 calc(var(--segmented-depth-lg) * 1.35) hsl(var(--accent) / 0.6),
+    0 0 calc(var(--segmented-depth-lg) * 1.35) hsl(var(--accent-1) / 0.6),
     0 0 calc(var(--segmented-depth-lg) * 1.8) hsl(var(--accent-2) / 0.4);
 }
 

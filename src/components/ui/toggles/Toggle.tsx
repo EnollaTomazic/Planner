@@ -8,7 +8,7 @@ import styles from "./Toggle.module.css";
 type Side = "Left" | "Right";
 
 const STATE_TOKEN_CLASSES =
-  "[--toggle-hover-surface:hsl(var(--accent)/0.16)] [--toggle-active-surface:hsl(var(--accent)/0.26)] [--toggle-focus-ring:var(--ring-contrast)] [--toggle-focus-glow:var(--shadow-glow-md)]";
+  "[--toggle-hover-surface:hsl(var(--accent-1)/0.16)] [--toggle-active-surface:hsl(var(--accent-1)/0.26)] [--toggle-focus-ring:var(--ring-contrast)] [--toggle-focus-glow:var(--shadow-glow-md)]";
 
 export function Toggle({
   leftLabel = "Left",

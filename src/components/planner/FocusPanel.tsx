@@ -12,6 +12,7 @@ import "./style.css";
 
 import * as React from "react";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { Label } from "@/components/ui/Label";
 import { Input } from "@/components/ui/primitives/Input";
 import { Button } from "@/components/ui/primitives/Button";
 import { useDayFocus } from "./useDayFocus";
@@ -23,6 +24,9 @@ export function FocusPanel({ iso }: Props) {
   const { value, setValue, saving, isDirty, lastSavedRef, commit } =
     useDayFocus(iso);
   const headerId = React.useMemo(() => `focus-${iso}-header`, [iso]);
+  const focusFieldId = React.useId();
+  const focusLabelId = `${focusFieldId}-label`;
+  const statusId = `${focusFieldId}-status`;
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +43,11 @@ export function FocusPanel({ iso }: Props) {
       />
       <SectionCard.Body>
         <form onSubmit={onSubmit} className="flex items-center gap-[var(--space-2)]">
+          <Label htmlFor={focusFieldId} id={focusLabelId} className="sr-only">
+            Daily focus
+          </Label>
           <Input
+            id={focusFieldId}
             placeholder="What’s the one thing today?"
             value={value}
             onChange={(e) => setValue(e.target.value)}
@@ -47,7 +55,8 @@ export function FocusPanel({ iso }: Props) {
             name={`focus-${iso}`}
             autoComplete="off"
             className="flex-1"
-            aria-labelledby={headerId}
+            aria-labelledby={`${focusLabelId} ${headerId}`}
+            aria-describedby={statusId}
           />
           <Button
             type="submit"
@@ -61,7 +70,11 @@ export function FocusPanel({ iso }: Props) {
         </form>
 
         {/* Subtle status text without yelling at the user */}
-        <div className="mt-[var(--space-2)] text-label text-muted-foreground" aria-live="polite">
+        <div
+          id={statusId}
+          className="mt-[var(--space-2)] text-label text-muted-foreground"
+          aria-live="polite"
+        >
           {saving
             ? "Saving changes…"
             : isDirty

@@ -36,8 +36,8 @@ describe('Toggle', () => {
     const { getByRole } = render(<Toggle leftLabel="Left" rightLabel="Right" />);
     const button = getByRole('switch');
 
-    expect(button.className).toContain('[--toggle-hover-surface:hsl(var(--accent)/0.16)]');
-    expect(button.className).toContain('[--toggle-active-surface:hsl(var(--accent)/0.26)]');
+    expect(button.className).toContain('[--toggle-hover-surface:hsl(var(--accent-1)/0.16)]');
+    expect(button.className).toContain('[--toggle-active-surface:hsl(var(--accent-1)/0.26)]');
     expect(button.className).toContain('[--toggle-focus-ring:var(--ring-contrast)]');
   });
 });

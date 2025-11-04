@@ -18,6 +18,7 @@ import { isRecord, isStringArray, safeNumber } from "@/lib/validators";
 import { copyText } from "@/lib/clipboard";
 import { useCoarsePointer } from "@/lib/useCoarsePointer";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { Label } from "@/components/ui/Label";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Input } from "@/components/ui/primitives/Input";
 import { Textarea } from "@/components/ui/primitives/Textarea";
@@ -190,6 +191,7 @@ export function MyComps({ query = "", editing = false }: MyCompsProps) {
 
   // New-comp draft
   const [draft, setDraft] = React.useState("");
+  const quickAddId = React.useId();
 
   function setItems(next: TeamComp[]) {
     setRaw(next);
@@ -258,13 +260,16 @@ export function MyComps({ query = "", editing = false }: MyCompsProps) {
               onSubmit={addNew}
               className="rounded-card flex items-center gap-[var(--space-6)] glitch"
             >
+              <Label htmlFor={quickAddId} className="sr-only">
+                New comp title
+              </Label>
               <Input
+                id={quickAddId}
                 dir="ltr"
                 name="comp-title"
                 value={draft}
                 onChange={(e) => setDraft(e.currentTarget.value)}
                 placeholder="New comp title…"
-                aria-label="New comp title"
                 className="flex-1"
               />
               <IconButton

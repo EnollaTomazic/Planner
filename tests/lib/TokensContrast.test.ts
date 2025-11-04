@@ -71,7 +71,7 @@ describe("accent token contrast", () => {
   const white: Rgb = { r: 1, g: 1, b: 1 };
 
   it("keeps the accent gradient readable against white text", () => {
-    const accent = hslToRgb(parseHsl(tokens.accent));
+    const accent = hslToRgb(parseHsl(tokens.accent1));
     const accent2 = hslToRgb(parseHsl(tokens.accent2));
 
     expect(contrastRatio(accent, white)).toBeGreaterThanOrEqual(4.5);

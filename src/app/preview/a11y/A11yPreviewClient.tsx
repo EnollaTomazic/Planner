@@ -166,15 +166,15 @@ function FocusTrapDemo() {
               <fieldset className="space-y-[var(--space-2)]">
                 <legend className="text-label font-medium text-foreground">Quick audit</legend>
                 <label className="flex items-center gap-[var(--space-2)] text-label text-muted-foreground">
-                  <input type="checkbox" defaultChecked className="h-[var(--space-4)] w-[var(--space-4)] accent-[hsl(var(--accent))]" />
+                  <input type="checkbox" defaultChecked className="h-[var(--space-4)] w-[var(--space-4)] accent-[hsl(var(--accent-1))]" />
                   Focus trap engages when opened
                 </label>
                 <label className="flex items-center gap-[var(--space-2)] text-label text-muted-foreground">
-                  <input type="checkbox" defaultChecked className="h-[var(--space-4)] w-[var(--space-4)] accent-[hsl(var(--accent))]" />
+                  <input type="checkbox" defaultChecked className="h-[var(--space-4)] w-[var(--space-4)] accent-[hsl(var(--accent-1))]" />
                   Escape closes without side effects
                 </label>
                 <label className="flex items-center gap-[var(--space-2)] text-label text-muted-foreground">
-                  <input type="checkbox" className="h-[var(--space-4)] w-[var(--space-4)] accent-[hsl(var(--accent))]" />
+                  <input type="checkbox" className="h-[var(--space-4)] w-[var(--space-4)] accent-[hsl(var(--accent-1))]" />
                   First focus lands on the dialog heading
                 </label>
               </fieldset>

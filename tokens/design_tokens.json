@@ -34,7 +34,7 @@
       "value": "conic-gradient(\n    from 180deg,\n    hsl(262 88% 60% / 0),\n    hsl(262 88% 60% / 0.72),\n    hsl(var(--accent-3) / 0.72),\n    hsl(318 82% 60% / 0.7),\n    hsl(262 88% 60% / 0)\n  )"
     },
     "segActiveGrad": {
-      "value": "linear-gradient(\n    90deg,\n    hsl(var(--primary-soft) / 0.85),\n    hsl(var(--accent-soft) / 0.85),\n    hsl(var(--accent-2) / 0.8)\n  )"
+      "value": "linear-gradient(\n    90deg,\n    hsl(var(--primary-soft) / 0.85),\n    hsl(var(--accent-1-soft) / 0.85),\n    hsl(var(--accent-2) / 0.8)\n  )"
     },
     "segActiveBase": {
       "value": "hsl(var(--card))"
@@ -288,19 +288,19 @@
       "value": "var(--radius-xl)"
     },
     "pillarWaveStart": {
-      "value": "var(--accent)"
+      "value": "var(--accent-1)"
     },
     "pillarWaveEnd": {
       "value": "var(--accent-2)"
     },
     "pillarWaveShadow": {
-      "value": "var(--accent) / 0.35"
+      "value": "var(--accent-1) / 0.35"
     },
     "pillarTradingStart": {
       "value": "var(--lav-deep)"
     },
     "pillarTradingEnd": {
-      "value": "var(--accent)"
+      "value": "var(--accent-1)"
     },
     "pillarTradingShadow": {
       "value": "var(--lav-deep) / 0.35"
@@ -318,7 +318,7 @@
       "value": "var(--ring)"
     },
     "pillarTempoEnd": {
-      "value": "var(--accent)"
+      "value": "var(--accent-1)"
     },
     "pillarTempoShadow": {
       "value": "var(--ring) / 0.35"
@@ -406,23 +406,29 @@
     "primarySoft": {
       "value": "262 88% 20%"
     },
-    "accent": {
-      "value": "294 90% 42%"
+    "accent1": {
+      "value": "276 88% 62%"
     },
-    "accent2": {
-      "value": "190 86% 38%"
-    },
-    "accent3": {
-      "value": "200 88% 34%"
-    },
-    "accentForeground": {
+    "accent1Foreground": {
       "value": "0 0% 100%"
     },
-    "accentContrast": {
-      "value": "294 92% 72%"
+    "accent1Contrast": {
+      "value": "276 92% 80%"
     },
-    "accentSoft": {
-      "value": "294 90% 16%"
+    "accent1Soft": {
+      "value": "276 88% 22%"
+    },
+    "accent1Hover": {
+      "value": "hsl(var(--accent-1) / 0.14)"
+    },
+    "accent2": {
+      "value": "168 96% 56%"
+    },
+    "accent2Foreground": {
+      "value": "0 0% 100%"
+    },
+    "accent3": {
+      "value": "318 82% 60%"
     },
     "glow": {
       "value": "296 96% 56%"
@@ -515,7 +521,7 @@
       "value": "150 100% 85%"
     },
     "auroraP": {
-      "value": "var(--accent)"
+      "value": "var(--accent-1)"
     },
     "auroraPLight": {
       "value": "272 80% 85%"
@@ -524,7 +530,7 @@
       "value": "250 96% 78%"
     },
     "accentOverlay": {
-      "value": "hsl(var(--accent))"
+      "value": "hsl(var(--accent-1))"
     },
     "ringContrast": {
       "value": "hsl(var(--ring))"
@@ -551,7 +557,7 @@
       "value": "var(--spacing-3)"
     },
     "reviewResultWinGradient": {
-      "value": "linear-gradient(\n    90deg,\n    hsl(var(--success) / 0.22),\n    hsl(var(--accent) / 0.18)\n  )"
+      "value": "linear-gradient(\n    90deg,\n    hsl(var(--success) / 0.22),\n    hsl(var(--accent-1) / 0.18)\n  )"
     },
     "reviewResultLossGradient": {
       "value": "linear-gradient(\n    90deg,\n    hsl(var(--danger) / 0.24),\n    hsl(var(--primary) / 0.2)\n  )"
@@ -620,16 +626,16 @@
       "value": "var(--ring) / 0.55"
     },
     "glowSoft": {
-      "value": "var(--accent) / 0.25"
+      "value": "var(--accent-1) / 0.25"
     },
     "shadowNeon": {
       "value": "0 0 var(--space-1) hsl(var(--neon) / 0.6),\n    0 0 calc(var(--space-3)) hsl(var(--neon) / 0.4),\n    0 0 calc(var(--space-5)) hsl(var(--neon) / 0.22)"
     },
     "btnPrimaryHoverShadow": {
-      "value": "0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)\n    calc(-1 * var(--space-1) / 4) hsl(var(--accent) / 0.25)"
+      "value": "0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)\n    calc(-1 * var(--space-1) / 4) hsl(var(--accent-1) / 0.25)"
     },
     "btnPrimaryActiveShadow": {
-      "value": "inset 0 0 0 calc(var(--space-1) / 4)\n    hsl(var(--accent) / 0.6)"
+      "value": "inset 0 0 0 calc(var(--space-1) / 4)\n    hsl(var(--accent-1) / 0.6)"
     },
     "heroDividerBlur": {
       "value": "calc(var(--spacing-1) * 1.5)"
@@ -722,7 +728,7 @@
       "value": "hsl(var(--shadow-color) / 0.4)"
     },
     "glitchNoisePrimary": {
-      "value": "hsl(var(--accent) / 0.055)"
+      "value": "hsl(var(--accent-1) / 0.055)"
     },
     "glitchNoiseSecondary": {
       "value": "hsl(var(--ring) / 0.05)"
@@ -803,10 +809,10 @@
       "value": "var(--lg-black)"
     },
     "backdropGridPrimary": {
-      "value": "var(--accent)"
+      "value": "var(--accent-1)"
     },
     "backdropGridSecondary": {
-      "value": "var(--accent)"
+      "value": "var(--accent-1)"
     },
     "backdropGridOpacity": {
       "value": "0.1"
@@ -869,7 +875,7 @@
       "value": "0 0 var(--glitch-ring-blur) var(--glitch-ring-color)"
     },
     "glitchAccentColor": {
-      "value": "hsl(var(--accent) / 0.35)"
+      "value": "hsl(var(--accent-1) / 0.35)"
     },
     "glitchAccentBlur": {
       "value": "var(--spacing-0-5)"
@@ -899,7 +905,7 @@
       "value": "calc(var(--glitch-noise-level) * 1.3)"
     },
     "gridColor": {
-      "value": "var(--accent)"
+      "value": "var(--accent-1)"
     },
     "gridAlpha": {
       "value": "0.1"
@@ -932,7 +938,7 @@
       "value": "color-mix(in oklab, hsl(var(--surface)) 70%, hsl(var(--surface-2)) 30%)"
     },
     "dripSurface": {
-      "value": "color-mix(in oklab, hsl(var(--accent)) 18%, hsl(var(--background)) 82%)"
+      "value": "color-mix(in oklab, hsl(var(--accent-1)) 18%, hsl(var(--background)) 82%)"
     },
     "gradientBlobPrimary": {
       "value": "radial-gradient(120% 120% at 50% 10%, hsl(var(--surface) / 0.85), hsl(var(--surface-2) / 0.35), transparent 85%)"
@@ -944,13 +950,13 @@
       "value": "radial-gradient(125% 85% at 18% -20%, hsl(var(--backdrop-drip-1) / 0.28), transparent 65%), radial-gradient(115% 85% at 82% -15%, hsl(var(--backdrop-drip-2) / 0.24), transparent 62%), radial-gradient(120% 95% at 50% 110%, hsl(var(--backdrop-drip-3) / 0.16), transparent 70%)"
     },
     "gradientGlitchPrimary": {
-      "value": "linear-gradient(135deg, hsl(var(--accent) / 0.35), hsl(var(--accent-2) / 0.3))"
+      "value": "linear-gradient(135deg, hsl(var(--accent-1) / 0.35), hsl(var(--accent-2) / 0.3))"
     },
     "gradientGlitchOverlay": {
-      "value": "linear-gradient(120deg, hsl(var(--accent) / 0.12) 0%, transparent 58%, hsl(var(--ring) / 0.16) 100%), var(--card-overlay-scanlines)"
+      "value": "linear-gradient(120deg, hsl(var(--accent-1) / 0.12) 0%, transparent 58%, hsl(var(--ring) / 0.16) 100%), var(--card-overlay-scanlines)"
     },
     "gradientGlitchRail": {
-      "value": "linear-gradient(180deg, hsl(var(--primary) / 0.6) 0%, hsl(var(--accent) / 0.45) 45%, hsl(var(--ring) / 0.6) 100%)"
+      "value": "linear-gradient(180deg, hsl(var(--primary) / 0.6) 0%, hsl(var(--accent-1) / 0.45) 45%, hsl(var(--ring) / 0.6) 100%)"
     },
     "gradientHeroSlotHighlight": {
       "value": "radial-gradient(circle at top left, var(--depth-glow-highlight-medium) 0%, transparent 62%)"
@@ -959,10 +965,10 @@
       "value": "radial-gradient(circle at bottom right, var(--depth-glow-shadow-medium) 0%, transparent 65%)"
     },
     "gradientHeroTopline": {
-      "value": "linear-gradient(90deg, hsl(var(--accent) / 0.28), transparent 55%, hsl(var(--accent-2) / 0.32))"
+      "value": "linear-gradient(90deg, hsl(var(--accent-1) / 0.28), transparent 55%, hsl(var(--accent-2) / 0.32))"
     },
     "gradientHeroActionHalo": {
-      "value": "radial-gradient(120% 95% at 50% 0%, hsl(var(--accent) / 0.24), transparent 65%)"
+      "value": "radial-gradient(120% 95% at 50% 0%, hsl(var(--accent-1) / 0.24), transparent 65%)"
     },
     "gradientPanelTiltStrong": {
       "value": "linear-gradient(140deg, hsl(var(--card) / 0.95), hsl(var(--surface-2) / 0.78))"
@@ -1007,7 +1013,7 @@
       "value": "linear-gradient(180deg, hsl(var(--card) / 0.6), hsl(var(--card) / 0.5))"
     },
     "surfaceRailAccent": {
-      "value": "linear-gradient(180deg, hsl(var(--accent)), hsl(var(--primary)))"
+      "value": "linear-gradient(180deg, hsl(var(--accent-1)), hsl(var(--primary)))"
     },
     "glitchIntensityDefault": {
       "value": "1.0"
@@ -1078,7 +1084,7 @@
       "value": "glow-pulse var(--dur-slow) var(--ease-out) infinite alternate"
     },
     "glitchRgbShift": {
-      "value": "drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45))"
+      "value": "drop-shadow(calc(var(--glitch-chromatic-offset-light) * -1) 0 0 hsl(var(--accent-1) / 0.45)) drop-shadow(var(--glitch-chromatic-offset-light) 0 0 hsl(var(--ring) / 0.45))"
     },
     "glitchScanline": {
       "value": "glitch-scanline calc(var(--glitch-duration) * 1.2) steps(2, end) infinite"

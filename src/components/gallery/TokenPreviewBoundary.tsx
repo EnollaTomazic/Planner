@@ -5,7 +5,7 @@ import * as React from "react";
 import { useTokenOverrides } from "./token-overrides-store";
 
 const TOKEN_TO_CSS_VARIABLE: Record<string, readonly string[]> = {
-  color: ["--accent"],
+  color: ["--accent-1"],
   radius: ["--radius-card"],
   shadow: ["--depth-shadow-outer", "--depth-shadow-soft"],
 };

@@ -142,6 +142,12 @@ const toKebabCase = (value: string): string =>
     .replace(/([0-9])([a-z])/gi, '$1-$2')
     .toLowerCase();
 
+StyleDictionary.registerTransform({
+  name: 'name/kebab-with-digits',
+  type: 'name',
+  transform: (token) => toKebabCase(token.path.join('-')),
+});
+
 function normalizeToken(name: string, group: string, raw: RawToken): TokenDefinition {
   if (typeof raw === 'string') {
     return { value: raw, group };
@@ -233,7 +239,7 @@ async function buildTokens(): Promise<void> {
     tokens: sdTokens,
     platforms: {
       css: {
-        transforms: ['attribute/cti', 'name/kebab'],
+        transforms: ['attribute/cti', 'name/kebab-with-digits'],
         buildPath: 'tokens/',
         files: [{ destination: 'tokens.css', format: 'css/variables' }],
       },
@@ -264,7 +270,7 @@ async function buildTokens(): Promise<void> {
         ],
       },
       docs: {
-        transforms: ['attribute/cti', 'name/kebab'],
+        transforms: ['attribute/cti', 'name/kebab-with-digits'],
         buildPath: 'docs/',
         files: [{ destination: 'tokens.md', format: 'tokens/markdown' }],
       },
@@ -313,7 +319,7 @@ const AURORA_SUPPORT_BLOCK = `@supports (color: color-mix(in oklab, white, black
   :root {
     --aurora-g-light: color-mix(in oklab, hsl(var(--accent-2)) 37.5%, white);
     --aurora-g-light-color: var(--aurora-g-light);
-    --aurora-p-light: color-mix(in oklab, hsl(var(--accent)) 37.5%, white);
+    --aurora-p-light: color-mix(in oklab, hsl(var(--accent-1)) 37.5%, white);
     --aurora-p-light-color: var(--aurora-p-light);
   }
 }`;

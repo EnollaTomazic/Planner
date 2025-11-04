@@ -116,7 +116,7 @@ export function HomeSplash({ active, onExited }: HomeSplashProps) {
           sticky={false}
           padding="none"
           className={cn(
-            "relative isolate w-full overflow-hidden rounded-card r-card-lg bg-panel-tilt-strong px-[var(--space-6)] py-[var(--space-6)] text-foreground shadow-depth-inner md:px-[var(--space-7)] md:py-[var(--space-7)]",
+            "relative isolate w-full overflow-hidden rounded-card r-card-lg bg-panel-tilt-strong px-[var(--space-6)] py-[var(--space-6)] text-foreground [box-shadow:var(--shadow-neon),var(--shadow-depth-inner)] md:px-[var(--space-7)] md:py-[var(--space-7)]",
           )}
           barClassName={styles.heroBar}
           bodyClassName={styles.heroBody}
