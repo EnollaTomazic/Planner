@@ -139,7 +139,11 @@ export function CheatSheet({
         const isEditing = editing && editingId === a.id;
 
         return (
-          <Card key={a.id} depth="raised" className="relative h-full">
+          <Card
+            key={a.id}
+            depth="raised"
+            className="group glitch-card relative h-full"
+          >
             {/* Top-right edit/save control */}
             {editing && (
               <div className="absolute right-[var(--space-2)] top-[var(--space-2)] z-10 flex items-center gap-[var(--space-1)] opacity-100 pointer-events-auto">
@@ -164,6 +168,9 @@ export function CheatSheet({
                 )}
               </div>
             )}
+
+            {/* Neon spine for glitch styling */}
+            <span aria-hidden className="glitch-rail" />
 
             {/* Title + description */}
             <CardHeader className="mb-[var(--space-3)]">
