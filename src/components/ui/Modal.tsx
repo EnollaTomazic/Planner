@@ -42,7 +42,7 @@ export function Modal({
         role="presentation"
         aria-hidden="true"
         tabIndex={-1}
-        className="absolute inset-0 bg-background/80 transition-colors duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[hsl(var(--bg)/0.86)] active:bg-[hsl(var(--bg)/0.92)]"
+        className="absolute inset-0 bg-background/80 transition-colors duration-motion-sm ease-out motion-reduce:transition-none hover:bg-background/86 active:bg-background/92"
         onClick={onClose}
       />
       <Card

@@ -32,9 +32,9 @@ const TEXTAREA_STATES: readonly TextareaStateSpec[] = [
   {
     id: "focus-visible",
     name: "Focus-visible",
-    className: "ring-2 ring-[hsl(var(--ring))]",
+    className: "ring-2 ring-ring",
     props: { placeholder: "Focus-visible" },
-    code: "<Textarea className=\"ring-2 ring-[hsl(var(--ring))]\" placeholder=\"Focus-visible\" />",
+    code: "<Textarea className=\"ring-2 ring-ring\" placeholder=\"Focus-visible\" />",
   },
   {
     id: "active",
@@ -46,9 +46,9 @@ const TEXTAREA_STATES: readonly TextareaStateSpec[] = [
   {
     id: "invalid",
     name: "Invalid",
-    className: "ring-2 ring-[hsl(var(--danger))]",
+    className: "ring-2 ring-danger",
     props: { placeholder: "Needs attention", "aria-invalid": true },
-    code: "<Textarea\n  className=\"ring-2 ring-[hsl(var(--danger))]\"\n  placeholder=\"Needs attention\"\n  aria-invalid\n/>",
+    code: "<Textarea\n  className=\"ring-2 ring-danger\"\n  placeholder=\"Needs attention\"\n  aria-invalid\n/>",
   },
   {
     id: "read-only",
@@ -141,11 +141,11 @@ export const TextareaGallery = defineGallerySection({
       })),
       code: `<Textarea placeholder="Share your thoughts" />
 <Textarea placeholder="Hover" className="bg-[--hover]" />
-<Textarea placeholder="Focus-visible" className="ring-2 ring-[hsl(var(--ring))]" />
+<Textarea placeholder="Focus-visible" className="ring-2 ring-ring" />
 <Textarea placeholder="Active" className="bg-[--active]" />
 <Textarea
   placeholder="Needs attention"
-  className="ring-2 ring-[hsl(var(--danger))]"
+  className="ring-2 ring-danger"
   aria-invalid
 /> 
 <Textarea

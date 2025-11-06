@@ -57,9 +57,10 @@ const SEARCH_BAR_STATES: readonly SearchBarStateSpec[] = [
       value: "Hover",
       onValueChange: noop,
       placeholder: "Hover",
-      fieldClassName: "bg-[--hover]",
+      fieldClassName: "bg-interaction-foreground-tintHover",
     }),
-    code: "<SearchBar fieldClassName=\"bg-[--hover]\" placeholder=\"Hover\" />",
+    code:
+      "<SearchBar fieldClassName=\"bg-interaction-foreground-tintHover\" placeholder=\"Hover\" />",
   },
   {
     id: "focus-visible",
@@ -69,9 +70,10 @@ const SEARCH_BAR_STATES: readonly SearchBarStateSpec[] = [
       onValueChange: noop,
       placeholder: "Focus-visible",
       fieldClassName:
-        "ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]",
+        "ring-2 ring-ring ring-offset-0 ring-offset-background",
     }),
-    code: "<SearchBar fieldClassName=\"ring-2 ring-[hsl(var(--ring))] ring-offset-0 ring-offset-[hsl(var(--bg))]\" placeholder=\"Focus-visible\" />",
+    code:
+      "<SearchBar fieldClassName=\"ring-2 ring-ring ring-offset-0 ring-offset-background\" placeholder=\"Focus-visible\" />",
   },
   {
     id: "active",
@@ -80,9 +82,10 @@ const SEARCH_BAR_STATES: readonly SearchBarStateSpec[] = [
       value: "Active",
       onValueChange: noop,
       placeholder: "Active",
-      fieldClassName: "bg-[--active]",
+      fieldClassName: "bg-interaction-foreground-tintActive",
     }),
-    code: "<SearchBar fieldClassName=\"bg-[--active]\" placeholder=\"Active\" />",
+    code:
+      "<SearchBar fieldClassName=\"bg-interaction-foreground-tintActive\" placeholder=\"Active\" />",
   },
   {
     id: "disabled",

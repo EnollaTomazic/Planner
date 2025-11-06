@@ -78,17 +78,17 @@ export function MobileNavDrawer({
                     data-active={active ? "true" : undefined}
                     onClick={onClose}
                     className={cn(
-                      "group flex items-center gap-[var(--space-2)] rounded-full px-[var(--space-3)] py-[var(--space-2)] text-ui font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-0",
-                      "bg-surface/80 text-[hsl(var(--fg-muted))] shadow-[var(--shadow-glow-sm)] backdrop-blur",
-                      "hover:text-[hsl(var(--accent-1))] focus-visible:text-[hsl(var(--accent-1))]",
+                      "group flex items-center gap-[var(--space-2)] rounded-full px-[var(--space-3)] py-[var(--space-2)] text-ui font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-0",
+                      "bg-surface/80 text-muted-foreground shadow-[var(--shadow-glow-sm)] backdrop-blur",
+                      "hover:text-accent focus-visible:text-accent",
                       active &&
-                        "text-[hsl(var(--accent-1-contrast))] shadow-[var(--shadow-glow-md)] ring-1 ring-[hsl(var(--accent-1)/0.4)]",
+                        "text-accent-contrast shadow-[var(--shadow-glow-md)] ring-1 ring-accent/40",
                     )}
                   >
                     {Icon ? (
                       <span
                         aria-hidden="true"
-                        className="flex size-[var(--space-4)] items-center justify-center text-[hsl(var(--fg-muted))] transition-colors group-hover:text-[hsl(var(--accent-1))] group-focus-visible:text-[hsl(var(--accent-1))] group-data-[active=true]:text-[hsl(var(--accent-1-contrast))]"
+                        className="flex size-[var(--space-4)] items-center justify-center text-muted-foreground transition-colors group-hover:text-accent group-focus-visible:text-accent group-data-[active=true]:text-accent-contrast"
                       >
                         <Icon className="size-full" strokeWidth={1.75} />
                       </span>

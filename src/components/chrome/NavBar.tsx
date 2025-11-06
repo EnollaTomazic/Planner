@@ -93,19 +93,19 @@ export function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
                   "group relative inline-flex h-[var(--control-h-lg)] items-center gap-[var(--space-2)] rounded-full px-[var(--space-4)] text-ui font-medium font-mono tracking-[0.04em] transition motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
                   "before:absolute before:inset-y-[calc(var(--space-1)/2)] before:inset-x-[var(--space-1)] before:-z-10 before:rounded-full before:bg-surface/70 before:opacity-0 before:shadow-[var(--shadow-glow-sm)] before:transition-opacity before:duration-motion-sm before:ease-out",
                   "after:pointer-events-none after:absolute after:inset-x-[var(--space-2)] after:bottom-0 after:h-px after:rounded-full after:bg-[linear-gradient(90deg,hsl(var(--glow)/0.6),hsl(var(--accent-2)),hsl(var(--glow)/0.6))] after:opacity-0 after:transition-opacity after:duration-motion-sm after:ease-out",
-                  "hover:text-[hsl(var(--accent-1))] focus-visible:text-[hsl(var(--accent-1))]",
+                  "hover:text-accent focus-visible:text-accent",
                   "hover:before:opacity-100 focus-visible:before:opacity-100",
                   "hover:after:opacity-60 focus-visible:after:opacity-80",
                   "disabled:pointer-events-none disabled:opacity-disabled data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-disabled data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading",
                   active
-                    ? "text-[hsl(var(--accent-1-contrast))] before:opacity-100 after:opacity-90"
-                    : "text-[hsl(var(--fg-muted))]",
+                    ? "text-accent-contrast before:opacity-100 after:opacity-90"
+                    : "text-muted-foreground",
                 )}
               >
                 {Icon ? (
                   <span
                     aria-hidden="true"
-                    className="flex size-[var(--icon-size-md)] items-center justify-center text-[hsl(var(--fg-muted))] transition-colors group-hover:text-[hsl(var(--accent-1))] group-focus-visible:text-[hsl(var(--accent-1))] group-active:text-[hsl(var(--accent-1-contrast))] group-data-[active=true]:text-[hsl(var(--accent-1-contrast))]"
+                    className="flex size-[var(--icon-size-md)] items-center justify-center text-muted-foreground transition-colors group-hover:text-accent group-focus-visible:text-accent group-active:text-accent-contrast group-data-[active=true]:text-accent-contrast"
                   >
                     <Icon aria-hidden="true" className="size-full" />
                   </span>
