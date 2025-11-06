@@ -371,7 +371,7 @@
       "value": "247 32% 14%"
     },
     "foreground": {
-      "value": "258 24% 92%"
+      "value": "258 24% 96%"
     },
     "card": {
       "value": "249 28% 21%"
@@ -452,7 +452,7 @@
       "value": "248 22% 19%"
     },
     "mutedForeground": {
-      "value": "248 16% 68%"
+      "value": "248 18% 74%"
     },
     "fgMuted": {
       "value": "var(--muted-foreground)"
@@ -527,7 +527,7 @@
       "value": "272 80% 85%"
     },
     "iconFg": {
-      "value": "250 96% 78%"
+      "value": "250 96% 84%"
     },
     "accentOverlay": {
       "value": "hsl(var(--accent-1))"
@@ -703,6 +703,12 @@
     "gradientNoiseOverlayOpacity": {
       "value": "0.06"
     },
+    "textureGrainOpacity": {
+      "value": "0.05"
+    },
+    "textureScanlineOpacity": {
+      "value": "0.045"
+    },
     "shadowInnerSm": {
       "value": "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)"
     },
@@ -728,13 +734,13 @@
       "value": "hsl(var(--shadow-color) / 0.4)"
     },
     "glitchNoisePrimary": {
-      "value": "hsl(var(--accent-1) / 0.055)"
+      "value": "hsl(var(--accent-1) / var(--texture-grain-opacity, 0.05))"
     },
     "glitchNoiseSecondary": {
-      "value": "hsl(var(--ring) / 0.05)"
+      "value": "hsl(var(--ring) / var(--texture-grain-opacity, 0.05))"
     },
     "glitchNoiseContrast": {
-      "value": "hsl(var(--foreground) / 0.045)"
+      "value": "hsl(var(--foreground) / var(--texture-grain-opacity, 0.05))"
     },
     "elevationCard": {
       "value": "var(--shadow-outline-subtle)"
@@ -1075,7 +1081,7 @@
       "value": "420ms"
     },
     "cardOverlayScanlines": {
-      "value": "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / 0.035) 0,\n    hsl(var(--foreground) / 0.035) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )"
+      "value": "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) 0,\n    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )"
     },
     "glitchDuration": {
       "value": "450ms"

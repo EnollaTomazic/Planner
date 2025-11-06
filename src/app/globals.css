@@ -92,6 +92,12 @@
     --team-glitch-accent-color: var(--glitch-accent-color);
     --team-glitch-accent-blur: var(--glitch-accent-blur);
     --team-glitch-accent-shadow: var(--glitch-accent-shadow);
+    --texture-grain-strength: 1;
+    --texture-scanline-strength: 1;
+    --glitch-noise-level: calc(
+      var(--glitch-static-opacity, var(--texture-grain-opacity, 0.05)) *
+        var(--texture-grain-strength, 1)
+    );
     --font-sans-fallback: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
       "Segoe UI", sans-serif;
     --font-mono-fallback: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
@@ -125,6 +131,36 @@
     --viewport-height: 100dvh;
     --select-menu-max-height: calc(var(--viewport-height) * 0.6);
     --z-decor: 0;
+  }
+
+  html[data-texture='minimal'],
+  body[data-texture='minimal'] {
+    --texture-grain-strength: 0;
+    --texture-scanline-strength: 0;
+  }
+
+  html[data-texture-grain='off'],
+  body[data-texture-grain='off'] {
+    --texture-grain-strength: 0;
+  }
+
+  html[data-texture-scanlines='off'],
+  body[data-texture-scanlines='off'] {
+    --texture-scanline-strength: 0;
+  }
+
+  html[data-texture='minimal'] .bg-noise,
+  body[data-texture='minimal'] .bg-noise,
+  html[data-texture-grain='off'] .bg-noise,
+  body[data-texture-grain='off'] .bg-noise {
+    background-image: none;
+  }
+
+  html[data-texture='minimal'] .bg-glitch-noise-primary,
+  body[data-texture='minimal'] .bg-glitch-noise-primary,
+  html[data-texture-grain='off'] .bg-glitch-noise-primary,
+  body[data-texture-grain='off'] .bg-glitch-noise-primary {
+    background-image: none;
   }
 
   @supports (color: color-mix(in oklab, white 50%, black)) {
@@ -247,7 +283,9 @@
     );
     background-size: 160px 160px;
     background-repeat: repeat;
-    opacity: calc(var(--glitch-noise-level, 0.18) * 0.6);
+    opacity: calc(
+      var(--texture-grain-opacity, 0.05) * var(--texture-grain-strength, 1)
+    );
     mix-blend-mode: soft-light;
   }
 
@@ -272,12 +310,13 @@
     z-index: 5;
     background: repeating-linear-gradient(
       to bottom,
-      hsl(var(--foreground) / 0.02) 0px,
-      hsl(var(--foreground) / 0.02) 1px,
+      hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) 0px,
+      hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) 1px,
       transparent 2px,
       transparent 3px
     );
     mix-blend-mode: soft-light;
+    opacity: var(--texture-scanline-strength, 1);
   }
 
   html.fx-noise::before,
@@ -295,7 +334,9 @@
       )
     );
     background-size: 140px 140px;
-    opacity: var(--gradient-noise-overlay-opacity, 0.06);
+    opacity: calc(
+      var(--texture-grain-opacity, 0.05) * var(--texture-grain-strength, 1)
+    );
   }
 
 html.fx-gifbars::before,
@@ -650,7 +691,10 @@ html.bg-intense body::after {
     --asset-noise-url,
     var(--asset-noise-url-default)
   );
-  opacity: var(--gradient-noise-opacity, 0.1);
+  opacity: calc(
+    var(--gradient-noise-opacity, var(--texture-grain-opacity, 0.05)) *
+      var(--texture-grain-strength, 1)
+  );
 }
 
 .bg-glitch-noise-primary {

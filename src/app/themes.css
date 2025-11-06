@@ -139,7 +139,7 @@
   --radius-2-xl: 24px;
   --radius-full: 9999px;
   --background: 247 32% 14%;
-  --foreground: 258 24% 92%;
+  --foreground: 258 24% 96%;
   --card: 249 28% 21%;
   --card-foreground: var(--foreground);
   --panel: var(--card);
@@ -166,7 +166,7 @@
   --warning-soft: var(--warning) / 0.1;
   --warning-soft-strong: var(--warning) / 0.2;
   --muted: 248 22% 19%;
-  --muted-foreground: 248 16% 68%;
+  --muted-foreground: 248 18% 74%;
   --fg-muted: var(--muted-foreground);
   --surface: 248 24% 18%;
   --surface-2: 248 24% 18%;
@@ -191,7 +191,7 @@
   --aurora-g-light: 150 100% 85%;
   --aurora-p: var(--accent-1);
   --aurora-p-light: 272 80% 85%;
-  --icon-fg: 250 96% 78%;
+  --icon-fg: 250 96% 84%;
   --accent-overlay: hsl(var(--accent-1));
   --ring-contrast: hsl(var(--ring));
   --glow-active: hsl(var(--glow));
@@ -282,6 +282,8 @@
   --skeleton-fill: hsl(var(--foreground) / 0.08);
   --gradient-noise-opacity: 0.1;
   --gradient-noise-overlay-opacity: 0.06;
+  --texture-grain-opacity: 0.05;
+  --texture-scanline-opacity: 0.045;
   --shadow-inner-sm: inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18);
   --shadow-inner-md: inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28);
   --shadow-outer-lg: 0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36);
@@ -290,9 +292,9 @@
   --blob-surface-2: hsl(var(--surface-2));
   --blob-surface-3: hsl(var(--card));
   --blob-surface-shadow: hsl(var(--shadow-color) / 0.4);
-  --glitch-noise-primary: hsl(var(--accent-1) / 0.055);
-  --glitch-noise-secondary: hsl(var(--ring) / 0.05);
-  --glitch-noise-contrast: hsl(var(--foreground) / 0.045);
+  --glitch-noise-primary: hsl(var(--accent-1) / var(--texture-grain-opacity, 0.05));
+  --glitch-noise-secondary: hsl(var(--ring) / var(--texture-grain-opacity, 0.05));
+  --glitch-noise-contrast: hsl(var(--foreground) / var(--texture-grain-opacity, 0.05));
   --elevation-card: var(--shadow-outline-subtle);
   --elevation-card-pressed: var(--shadow-control);
   --neo-depth-sm: var(--spacing-1);
@@ -409,8 +411,8 @@
   --dur-slow: 420ms;
   --card-overlay-scanlines: repeating-linear-gradient(
     to bottom,
-    hsl(var(--foreground) / 0.035) 0,
-    hsl(var(--foreground) / 0.035) var(--spacing-0-25),
+    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) 0,
+    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) var(--spacing-0-25),
     transparent var(--spacing-0-5),
     transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
   );
