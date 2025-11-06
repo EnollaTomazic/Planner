@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { PageHeader } from "@/components/ui";
+import { HeroPageHeader } from "@/components/ui";
 import { Badge } from "@/components/ui/primitives/Badge";
 import { cn } from "@/lib/utils";
 
@@ -36,7 +36,7 @@ export function PromptsHeader({
   const searchId = `${id}-search`;
 
   return (
-    <PageHeader
+    <HeroPageHeader
       header={{
         id,
         heading: "Prompts",

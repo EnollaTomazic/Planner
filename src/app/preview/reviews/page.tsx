@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 
-import {
-  PageShell,
-  SectionCard,
-  SectionCardBody,
-  SectionCardHeader,
-} from "@/components/ui";
+import { PageShell, PageHeader, SectionCard, SectionCardBody } from "@/components/ui";
 
 import ReviewsPreviewMatrixClient from "./ReviewsPreviewMatrixClient";
 
@@ -26,27 +21,18 @@ export default function ReviewsPreviewPage() {
       className="py-[var(--space-6)] md:py-[var(--space-8)]"
       contentClassName="gap-y-[var(--space-6)] md:gap-y-[var(--space-7)]"
     >
+      <PageHeader
+        as="header"
+        className="col-span-full"
+        title="Reviews states"
+        subtitle="Gallery preview. Validate the refreshed loading, error, and empty experiences for review list and detail panels. Each card renders with production tokens so QA can audit parity across Glitch, Aurora, Kitten, Oceanic, Citrus, Noir, and Hardstuck themes."
+        headingId="reviews-preview-heading"
+      />
+
       <SectionCard
         className="col-span-full"
         aria-labelledby="reviews-preview-heading"
       >
-        <SectionCardHeader className="space-y-[var(--space-2)]">
-          <div className="space-y-[var(--space-1)]">
-            <p className="text-caption font-medium uppercase tracking-[0.2em] text-muted-foreground">
-              Gallery preview
-            </p>
-            <h1
-              id="reviews-preview-heading"
-              className="text-title font-semibold tracking-[-0.01em] text-foreground"
-            >
-              Reviews states
-            </h1>
-          </div>
-          <p className="max-w-3xl text-ui text-muted-foreground">
-            Validate the refreshed loading, error, and empty experiences for review list and detail panels. Each card renders with
-            production tokens so QA can audit parity across Glitch, Aurora, Kitten, Oceanic, Citrus, Noir, and Hardstuck themes.
-          </p>
-        </SectionCardHeader>
         <SectionCardBody className="space-y-[var(--space-5)]">
           <ReviewsPreviewMatrixClient />
         </SectionCardBody>

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import {
-  PageHeader,
+  HeroPageHeader,
   Header,
   Hero,
   NeomorphicHeroFrame,
@@ -272,7 +272,7 @@ export function PageHeaderDemo() {
         </div>
       </NeomorphicHeroFrame>
 
-      <PageHeader
+      <HeroPageHeader
         id="page-header-demo"
         aria-labelledby="page-header-demo-heading"
         subTabs={{
@@ -343,7 +343,7 @@ export function PageHeaderDemo() {
           barClassName: "p-0",
         }}
       />
-      <PageHeader
+      <HeroPageHeader
         id="page-header-elevated"
         aria-labelledby="page-header-elevated-heading"
         subTabs={{

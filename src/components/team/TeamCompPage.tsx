@@ -36,7 +36,7 @@ import { MyComps } from "./MyComps";
 import { usePersistentState } from "@/lib/db";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Button } from "@/components/ui/primitives/Button";
-import { PageHeader, PageShell, Badge, TabBar } from "@/components/ui";
+import { HeroPageHeader, PageShell, Badge, TabBar } from "@/components/ui";
 import type { BadgeProps } from "@/components/ui";
 import type { ClearSpeed } from "./data";
 
@@ -525,7 +525,7 @@ export function TeamCompPage() {
       contentClassName="gap-y-[var(--space-6)]"
       aria-labelledby="teamcomp-header"
     >
-      <PageHeader
+      <HeroPageHeader
         containerClassName="col-span-full"
         header={{
           id: "teamcomp-header",
