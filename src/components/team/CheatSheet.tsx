@@ -11,6 +11,8 @@ import "./style.css";
 
 import * as React from "react";
 import { usePersistentState } from "@/lib/db";
+import { cn } from "@/lib/utils";
+import { Card, CardContent, CardHeader } from "@/components/ui";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Pencil, Check } from "lucide-react";
 import { ROLES } from "./constants";
@@ -44,7 +46,7 @@ export type CheatSheetProps = {
 
 export function CheatSheet({
   className = "",
-  dense = false,
+  dense: _dense = false,
   data = DEFAULT_SHEET,
   query = "",
   editing = false,
@@ -128,23 +130,19 @@ export function CheatSheet({
   return (
     <section
       data-scope="team"
-      className={[
-        "grid gap-[var(--space-4)] sm:gap-[var(--space-6)] md:grid-cols-2 xl:grid-cols-3",
+      className={cn(
+        "grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3",
         className,
-      ].join(" ")}
+      )}
     >
       {filtered.map((a) => {
         const isEditing = editing && editingId === a.id;
 
         return (
-          <article
+          <Card
             key={a.id}
-            className={[
-              "group glitch-card rounded-card r-card-lg relative h-full",
-              dense
-                ? "p-[var(--space-4)]"
-                : "p-[var(--space-5)]",
-            ].join(" ")}
+            depth="raised"
+            className="group glitch-card relative h-full"
           >
             {/* Top-right edit/save control */}
             {editing && (
@@ -171,11 +169,11 @@ export function CheatSheet({
               </div>
             )}
 
-            {/* Neon spine */}
+            {/* Neon spine for glitch styling */}
             <span aria-hidden className="glitch-rail" />
 
             {/* Title + description */}
-            <header className="mb-[var(--space-3)]">
+            <CardHeader className="mb-[var(--space-3)]">
               <TitleEdit
                 value={a.title}
                 editing={isEditing}
@@ -186,10 +184,10 @@ export function CheatSheet({
                 editing={isEditing}
                 onChange={(v) => patchArc(a.id, { description: v })}
               />
-            </header>
+            </CardHeader>
 
             {/* Body */}
-            <div className="grid grid-cols-1 gap-[var(--space-4)]">
+            <CardContent className="grid grid-cols-1 gap-[var(--space-4)] pt-0">
               <div>
                 <Label>Wins when</Label>
                 <BulletListEdit
@@ -228,40 +226,38 @@ export function CheatSheet({
               <div>
                 <Label>Examples</Label>
                 <div className="mt-[var(--space-2)] space-y-[var(--space-2)]">
-                  {ROLES.map(
-                    (role) => {
-                      const champs = a.examples?.[role] ?? [];
-                      const setChamps = (list: string[]) =>
-                        patchArc(a.id, {
-                          examples: { [role]: list } as LaneExamples,
-                        });
-                      const showRow = champs.length || isEditing;
-                      if (!showRow) return null;
+                  {ROLES.map((role) => {
+                    const champs = a.examples?.[role] ?? [];
+                    const setChamps = (list: string[]) =>
+                      patchArc(a.id, {
+                        examples: { [role]: list } as LaneExamples,
+                      });
+                    const showRow = champs.length || isEditing;
+                    if (!showRow) return null;
 
-                      return (
+                    return (
+                      <div
+                        key={role}
+                        className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-start gap-x-[var(--space-3)]"
+                      >
                         <div
-                          key={role}
-                          className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-start gap-x-[var(--space-3)]"
+                          className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground pt-[var(--space-1)]"
+                          data-text={role}
                         >
-                          <div
-                            className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground pt-[var(--space-1)]"
-                            data-text={role}
-                          >
-                            {role}
-                          </div>
-                          <ChampListEditor
-                            list={champs}
-                            onChange={setChamps}
-                            editing={isEditing}
-                          />
+                          {role}
                         </div>
-                      );
-                    },
-                  )}
+                        <ChampListEditor
+                          list={champs}
+                          onChange={setChamps}
+                          editing={isEditing}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-            </div>
-          </article>
+            </CardContent>
+          </Card>
         );
       })}
     </section>
