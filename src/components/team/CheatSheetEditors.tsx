@@ -8,7 +8,7 @@ export function Label({ children }: { children: React.ReactNode }) {
   const text = typeof children === "string" ? children : String(children ?? "");
   return (
     <div
-      className="glitch-anim glitch-label text-label font-medium tracking-[0.02em] uppercase text-muted-foreground"
+      className="glitch-anim glitch-label text-body-sm font-medium tracking-[0.02em] uppercase leading-relaxed text-muted-foreground"
       data-text={text}
     >
       {text}
@@ -57,7 +57,7 @@ export function ParagraphEdit({
 }) {
   if (!editing)
     return (
-      <p className="mt-[var(--space-1)] text-ui font-medium text-muted-foreground">
+      <p className="mt-[var(--space-1)] text-body font-medium leading-relaxed text-muted-foreground">
         {value}
       </p>
     );
@@ -69,7 +69,7 @@ export function ParagraphEdit({
       rows={2}
       className="mt-[var(--space-1)]"
       resize="resize-y"
-      textareaClassName="min-h-[calc(var(--spacing-8)*2+var(--spacing-7)+var(--spacing-1))] text-ui font-medium text-muted-foreground leading-relaxed"
+      textareaClassName="min-h-[calc(var(--spacing-8)*2+var(--spacing-7)+var(--spacing-1))] text-body font-medium text-muted-foreground leading-relaxed"
       aria-label="Description"
     />
   );
@@ -180,16 +180,11 @@ export function BulletListEdit({
 
   if (!editing) {
     return (
-      <ul className="mt-[var(--space-1)] list-none pl-[var(--space-6)] space-y-[var(--space-1)] text-ui font-medium leading-5 text-foreground">
+      <ul className="mt-[var(--space-1)] list-outside list-disc space-y-1 pl-[var(--space-6)] text-body font-medium leading-relaxed text-foreground">
         {list
           .filter((w) => w.trim().length)
           .map((w, idx) => (
-            <li
-              key={idx}
-              className="relative pl-[var(--space-3)] before:absolute before:left-0 before:top-[var(--space-2)] before:h-[var(--space-2)] before:w-[var(--space-2)] before:rounded-full before:bg-current"
-            >
-              {w}
-            </li>
+            <li key={idx}>{w}</li>
           ))}
       </ul>
     );
@@ -197,7 +192,7 @@ export function BulletListEdit({
 
   return (
     <ul
-      className="mt-[var(--space-1)] list-none pl-[var(--space-6)] space-y-[var(--space-1)] text-ui font-medium leading-5 text-foreground"
+      className="mt-[var(--space-1)] list-none space-y-1 text-body font-medium leading-relaxed text-foreground"
       aria-label={ariaLabel}
     >
       {list.map((w, idx) => (
@@ -217,7 +212,7 @@ export function BulletListEdit({
           onKeyDown={(e) => handleKeyDown(idx, e)}
           onPaste={(e) => handlePaste(idx, e)}
           onDrop={(event) => event.preventDefault()}
-          className="relative pl-[var(--space-3)] before:absolute before:left-0 before:top-[var(--space-2)] before:h-[var(--space-2)] before:w-[var(--space-2)] before:rounded-full before:bg-current"
+          className="rounded-[var(--control-radius)] px-[var(--space-2)] py-[var(--space-1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           {w}
         </li>
