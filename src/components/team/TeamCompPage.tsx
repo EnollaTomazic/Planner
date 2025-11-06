@@ -36,13 +36,7 @@ import { MyComps } from "./MyComps";
 import { usePersistentState } from "@/lib/db";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Button } from "@/components/ui/primitives/Button";
-import {
-  PageHeader,
-  PageShell,
-  Badge,
-  GlitchSegmentedGroup,
-  GlitchSegmentedButton,
-} from "@/components/ui";
+import { PageHeader, PageShell, Badge, TabBar } from "@/components/ui";
 import type { BadgeProps } from "@/components/ui";
 import type { ClearSpeed } from "./data";
 
@@ -549,37 +543,41 @@ export function TeamCompPage() {
         <span id={`${tabBaseId}-tabs-label`} className="sr-only">
           Team comps mode
         </span>
-        <GlitchSegmentedGroup
-          ariaLabelledby={`${tabBaseId}-tabs-label`}
+        <TabBar<Tab>
+          ariaLabelledBy={`${tabBaseId}-tabs-label`}
           value={tab}
-          onChange={(next: string) => setTab(next as Tab)}
+          onValueChange={(next) => setTab(next as Tab)}
           className="w-full"
-        >
-          <GlitchSegmentedButton
-            value="cheat"
-            id={tabIds.cheat.tab}
-            aria-controls={tabIds.cheat.panel}
-            icon={<BookOpenText />}
-          >
-            Cheat Sheet
-          </GlitchSegmentedButton>
-          <GlitchSegmentedButton
-            value="builder"
-            id={tabIds.builder.tab}
-            aria-controls={tabIds.builder.panel}
-            icon={<Hammer />}
-          >
-            Builder
-          </GlitchSegmentedButton>
-          <GlitchSegmentedButton
-            value="clears"
-            id={tabIds.clears.tab}
-            aria-controls={tabIds.clears.panel}
-            icon={<Timer />}
-          >
-            Jungle Clears
-          </GlitchSegmentedButton>
-        </GlitchSegmentedGroup>
+          tablistClassName="w-full"
+          variant="neo"
+          items={[
+            {
+              key: "cheat",
+              label: "Cheat Sheet",
+              icon: <BookOpenText />,
+              id: "cheat-tab",
+              controls: "cheat-panel",
+              className: "flex-1",
+            },
+            {
+              key: "builder",
+              label: "Builder",
+              icon: <Hammer />,
+              id: "builder-tab",
+              controls: "builder-panel",
+              className: "flex-1",
+            },
+            {
+              key: "clears",
+              label: "Jungle Clears",
+              icon: <Timer />,
+              id: "clears-tab",
+              controls: "clears-panel",
+              className: "flex-1",
+            },
+          ]}
+          idBase={tabBaseId}
+        />
       </div>
 
       <section className="col-span-full grid gap-[var(--space-4)] md:grid-cols-12">

@@ -82,8 +82,6 @@ export { Field, FieldInput, FieldRoot, FieldSearch, FieldSelect, FieldTextarea }
 export type { FieldHeight, FieldInputProps, FieldRootProps, FieldSearchProps, FieldSelectProps, FieldTextareaProps } from "./primitives/Field";
 export { GLITCH_PERCENT_WIDTH, GlitchProgress, TOKEN_WIDTH_CLASS } from "./primitives/GlitchProgress";
 export type { GlitchProgressProps } from "./primitives/GlitchProgress";
-export { GlitchSegmentedButton, GlitchSegmentedGroup } from "./primitives/GlitchSegmented";
-export type { GlitchSegmentedButtonProps, GlitchSegmentedGroupProps } from "./primitives/GlitchSegmented";
 export { ICON_BUTTON_VARIANTS, IconButton } from "./primitives/IconButton";
 export type { IconButtonProps, IconButtonSize, IconButtonVariant } from "./primitives/IconButton";
 export { Input } from "./primitives/Input";

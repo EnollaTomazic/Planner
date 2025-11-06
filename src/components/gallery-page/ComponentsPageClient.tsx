@@ -10,13 +10,7 @@ import {
 } from "lucide-react";
 
 import type { DesignTokenGroup, GalleryNavigationData } from "@/components/gallery/types";
-import {
-  GlitchSegmentedButton,
-  GlitchSegmentedGroup,
-  PageShell,
-  SearchBar,
-  TabBar,
-} from "@/components/ui";
+import { PageShell, SearchBar, TabBar } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 import { ComponentsGalleryPanels } from "./ComponentsGalleryPanels";
@@ -211,32 +205,54 @@ export function ComponentsPageClient({
               </div>
             ) : null}
           </div>
-          <GlitchSegmentedGroup
-            value={view}
-            onChange={(nextView) => handleViewChange(nextView)}
-            ariaLabel="Component categories"
-            className="flex w-full flex-wrap gap-[var(--space-2)]"
-          >
-            {categoryCards.map((card) => {
+          <TabBar<ComponentsView>
+            items={categoryCards.map((card) => {
               const Icon = card.icon;
-              const cardId = categoryLabelIds.get(card.id);
+              return {
+                key: card.id,
+                label: card.label,
+                icon: <Icon className="size-[var(--space-4)]" aria-hidden />,
+              };
+            })}
+            value={view}
+            onValueChange={(nextView) => handleViewChange(nextView)}
+            ariaLabel="Component categories"
+            className="w-full"
+            tablistClassName="flex w-full flex-wrap gap-[var(--space-2)]"
+            variant="neo"
+            linkPanels={false}
+            renderItem={({ item, props, ref, defaultChildren, disabled }) => {
+              const { className, onClick, id: _id, ["aria-controls"]: _controls, ...restProps } =
+                props;
+              const cardId = categoryLabelIds.get(item.key as ComponentsView);
               const controlsId =
-                card.id === "tokens"
+                item.key === "tokens"
                   ? `${COMPONENTS_VIEW_TAB_ID_BASE}-tokens-panel`
                   : COMPONENTS_PANEL_ID;
+
               return (
-                <GlitchSegmentedButton
-                  key={card.id}
+                <button
+                  type="button"
+                  {...restProps}
                   id={cardId}
-                  value={card.id}
-                  icon={<Icon className="size-[var(--space-4)]" aria-hidden />}
                   aria-controls={controlsId}
+                  className={cn(className, "min-w-[calc(var(--space-8)*3.5)]")}
+                  disabled={disabled}
+                  ref={ref as React.Ref<HTMLButtonElement>}
+                  onClick={(event) => {
+                    if (disabled) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      return;
+                    }
+                    onClick?.(event);
+                  }}
                 >
-                  {card.label}
-                </GlitchSegmentedButton>
+                  {defaultChildren}
+                </button>
               );
-            })}
-          </GlitchSegmentedGroup>
+            }}
+          />
           <div className="flex flex-col gap-[var(--space-3)] lg:flex-row lg:items-start lg:justify-between">
             {showSectionTabs ? (
               <TabBar
