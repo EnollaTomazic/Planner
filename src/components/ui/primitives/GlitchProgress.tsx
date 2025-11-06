@@ -1,130 +1,120 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
 
-export const GLITCH_PERCENT_WIDTH = "var(--space-6)";
-export const TOKEN_WIDTH_CLASS = `w-[${GLITCH_PERCENT_WIDTH}]`;
+import ProgressRingIcon from '@/icons/ProgressRingIcon';
+import { getRingMetrics, type RingSize } from '@/lib/tokens';
+import { cn } from '@/lib/utils';
 
-export type GlitchProgressProps = React.HTMLAttributes<HTMLDivElement> & {
-  current: number;
-  total: number;
-  showPercentage?: boolean;
-  trackClassName?: string;
-  trackProps?: React.ComponentPropsWithoutRef<"div">;
-  percentageClassName?: string;
-  percentageProps?: React.ComponentPropsWithoutRef<"span">;
-  formatPercentage?: (value: number) => React.ReactNode;
+import styles from './GlitchProgress.module.css';
+
+const DEFAULT_MAX = 100;
+
+export type GlitchProgressSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+type SizeConfig = {
+  ringSize: RingSize;
+  padding: number;
+  halo: number;
 };
 
-const getSafeNumber = (value: number) => (Number.isFinite(value) ? value : 0);
+const SIZE_CONFIG: Record<GlitchProgressSize, SizeConfig> = {
+  xs: { ringSize: 'xs', padding: 8, halo: 14 },
+  sm: { ringSize: 's', padding: 10, halo: 18 },
+  md: { ringSize: 'm', padding: 12, halo: 24 },
+  lg: { ringSize: 'l', padding: 14, halo: 30 },
+  xl: { ringSize: 'l', padding: 20, halo: 38 },
+};
 
-const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
+export interface GlitchProgressProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
+  value?: number | null;
+  max?: number;
+  size?: GlitchProgressSize;
+}
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
+
+export const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressProps>(
   (
     {
-      current,
-      total,
+      value = 0,
+      max = DEFAULT_MAX,
+      size = 'md',
       className,
-      trackClassName,
-      showPercentage = false,
-      trackProps,
-      percentageClassName,
-      percentageProps,
-      formatPercentage,
+      style,
       ...rest
     },
     ref,
   ) => {
-    const reduceMotion = usePrefersReducedMotion();
-    const parsedTotal = Math.max(0, getSafeNumber(total));
-    const parsedCurrent = getSafeNumber(current);
-    const normalizedCurrent =
-      parsedTotal === 0
-        ? 0
-        : Math.min(Math.max(parsedCurrent, 0), parsedTotal);
-    const ratio = parsedTotal === 0 ? 0 : normalizedCurrent / parsedTotal;
-    const percent = Math.round(ratio * 100);
-    const clampedPercent = Math.min(Math.max(percent, 0), 100);
-    const hasProgress = clampedPercent > 0;
-    const formattedPercentage =
-      formatPercentage?.(clampedPercent) ?? `${clampedPercent}%`;
-    const progressClassName = hasProgress
-      ? `progress-${clampedPercent}`
-      : "progress-0";
+    const safeMax = Number.isFinite(max) && max > 0 ? max : DEFAULT_MAX;
+    const numericValue = typeof value === 'number' && Number.isFinite(value) ? value : 0;
+    const clampedValue = clamp(numericValue, 0, safeMax);
+    const percent = safeMax === 0 ? 0 : (clampedValue / safeMax) * 100;
+    const displayPercent = clamp(Number.parseFloat(percent.toFixed(2)), 0, 100);
 
-    const {
-      "aria-label": ariaLabel,
-      "aria-labelledby": ariaLabelledby,
-      "aria-describedby": ariaDescribedby,
-      ...nonLabelProps
-    } = rest;
-
-    const { className: trackClassNameFromProps, ...restTrackProps } =
-      trackProps ?? {};
-    const {
-      className: percentageClassNameFromProps,
-      "aria-live": ariaLive,
-      ...restPercentageProps
-    } = percentageProps ?? {};
-
-    const progressTrack = (
-      <div
-        {...restTrackProps}
-        {...(!showPercentage ? nonLabelProps : {})}
-        className={cn(
-          "glitch-track",
-          trackClassNameFromProps,
-          trackClassName,
-          !showPercentage && className,
-          clampedPercent >= 100 && "is-complete",
-        )}
-        data-progress-state={hasProgress ? "active" : "zero"}
-        role="progressbar"
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={clampedPercent}
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledby}
-        aria-describedby={ariaDescribedby}
-        ref={ref}
-      >
-        <div
-          className={cn(
-            "glitch-fill transition-[width] duration-motion-lg ease-out motion-reduce:transition-none",
-            progressClassName,
-          )}
-          style={reduceMotion ? { animation: "none" } : undefined}
-        />
-        {!reduceMotion && <div className="glitch-scan" />}
-      </div>
+    const sizeConfig = SIZE_CONFIG[size];
+    const metrics = React.useMemo(
+      () => getRingMetrics(sizeConfig.ringSize),
+      [sizeConfig.ringSize],
     );
 
-    if (!showPercentage) {
-      return progressTrack;
-    }
+    const dimension = metrics.diameter + sizeConfig.padding * 2;
+    const cssVars = React.useMemo<React.CSSProperties>(
+      () =>
+        ({
+          '--glitch-progress-size': `${dimension}px`,
+          '--glitch-progress-ring-size': `${metrics.diameter}px`,
+          '--glitch-progress-padding': `${sizeConfig.padding}px`,
+          '--glitch-progress-halo': `${sizeConfig.halo}px`,
+        }) as React.CSSProperties,
+      [dimension, metrics.diameter, sizeConfig.halo, sizeConfig.padding],
+    );
+
+    const {
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledBy,
+      'aria-describedby': ariaDescribedBy,
+      ...divProps
+    } = rest;
+
+    const progressProps = {
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledBy,
+      'aria-describedby': ariaDescribedBy,
+      value: clampedValue,
+      max: safeMax,
+    } satisfies React.ComponentPropsWithoutRef<'progress'>;
+
+    const mergedStyle = React.useMemo<React.CSSProperties>(
+      () => ({ ...cssVars, ...(style ?? {}) }),
+      [cssVars, style],
+    );
 
     return (
       <div
-        {...nonLabelProps}
-        className={cn("flex items-center gap-[var(--space-3)]", className)}
+        ref={ref}
+        className={cn(styles.root, className)}
+        data-size={size}
+        style={mergedStyle}
+        {...divProps}
       >
-        {progressTrack}
-        <span
-          {...restPercentageProps}
-          className={cn(
-            "glitch-percent text-ui font-medium",
-            percentageClassNameFromProps,
-            percentageClassName,
-          )}
-          aria-live={ariaLive ?? "polite"}
-        >
-          {formattedPercentage}
-        </span>
+        <progress className="sr-only" {...progressProps} />
+        <div className={styles.shell} aria-hidden>
+          <span className={styles.neon} />
+          <span className={styles.noise} />
+          <span className={styles.inner} />
+          <span className={styles.scanlines} />
+          <div className={styles.surface}>
+            <div className={styles.ring}>
+              <ProgressRingIcon pct={displayPercent} size={sizeConfig.ringSize} />
+            </div>
+          </div>
+        </div>
       </div>
     );
   },
 );
 
-GlitchProgress.displayName = "GlitchProgress";
-export { GlitchProgress };
+GlitchProgress.displayName = 'GlitchProgress';
