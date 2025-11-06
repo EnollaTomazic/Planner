@@ -12,7 +12,8 @@ import "./style.css";
 import * as React from "react";
 import { usePersistentState } from "@/lib/db";
 import { cn } from "@/lib/utils";
-import { Card, CardContent, CardHeader } from "@/components/ui";
+import { Badge, Card, CardContent, CardHeader } from "@/components/ui";
+import type { BadgeProps } from "@/components/ui";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Pencil, Check } from "lucide-react";
 import { ROLES } from "./constants";
@@ -234,22 +235,22 @@ export function CheatSheet({
                       });
                     const showRow = champs.length || isEditing;
                     if (!showRow) return null;
+                    const tone = role.toLowerCase() as BadgeProps["tone"];
 
                     return (
                       <div
                         key={role}
-                        className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-start gap-x-[var(--space-3)]"
+                        className="flex flex-wrap items-start gap-[var(--space-2)] sm:gap-[var(--space-3)]"
                       >
-                        <div
-                          className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground pt-[var(--space-1)]"
-                          data-text={role}
-                        >
+                        <Badge tone={tone} size="sm" className="uppercase tracking-[0.08em]">
                           {role}
-                        </div>
+                        </Badge>
                         <ChampListEditor
                           list={champs}
                           onChange={setChamps}
                           editing={isEditing}
+                          viewClassName="mt-0 flex-1"
+                          editClassName="mt-0 flex-1"
                         />
                       </div>
                     );
