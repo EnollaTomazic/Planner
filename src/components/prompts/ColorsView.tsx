@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import clsx from "clsx";
 import { Check, Copy } from "lucide-react";
 
 import {
@@ -14,6 +13,7 @@ import { useScopedCssVars } from "@/components/ui/hooks/useScopedCssVars";
 import type { DesignTokenGroup } from "@/components/gallery/types";
 import { copyText } from "@/lib/clipboard";
 import { useTheme } from "@/lib/theme-context";
+import { cn } from "@/lib/utils";
 import styles from "./ColorsView.module.css";
 import {
   isTokenSelected,
@@ -424,7 +424,7 @@ function ColorPreview({ token }: { token: TokenMeta }) {
 
   return (
     <div
-      className={clsx(styles.colorPreview, "rounded-card r-card-md")}
+      className={cn(styles.colorPreview, "rounded-card r-card-md")}
       aria-hidden="true"
     >
       {isTranslucent ? (
@@ -470,7 +470,7 @@ function RadiusPreview({ token }: { token: TokenMeta }) {
   return (
     <div className={styles.radiusPreview} aria-hidden="true">
       <div
-        className={clsx(styles.radiusDemo, "rounded-card r-card-md")}
+        className={cn(styles.radiusDemo, "rounded-card r-card-md")}
         {...(scopeProps ?? {})}
         style={style}
       />
@@ -489,7 +489,7 @@ function ShadowPreview({ token }: { token: TokenMeta }) {
   return (
     <div className={styles.shadowPreview} aria-hidden="true">
       <div
-        className={clsx(styles.shadowDemo, "rounded-card r-card-md")}
+        className={cn(styles.shadowDemo, "rounded-card r-card-md")}
         {...(scopeProps ?? {})}
         style={style}
       />
@@ -518,7 +518,7 @@ function TypographyPreview({ token }: { token: TokenMeta }) {
 
   return (
     <div
-      className={clsx(styles.typographyPreview, "rounded-card r-card-md")}
+      className={cn(styles.typographyPreview, "rounded-card r-card-md")}
       {...(scopeProps ?? {})}
       style={style}
       aria-hidden="true"
