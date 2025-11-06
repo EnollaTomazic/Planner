@@ -7,7 +7,7 @@ import {
   formatGallerySectionLabel,
   type GalleryPreviewRoute,
 } from "@/components/gallery";
-import { PageShell } from "@/components/ui";
+import { PageShell, PageHeader } from "@/components/ui";
 import {
   VARIANTS,
   VARIANT_LABELS,
@@ -283,18 +283,13 @@ export default function ThemeMatrixPage() {
       className="py-[var(--space-6)] md:py-[var(--space-8)]"
       contentClassName="md:gap-y-[var(--space-7)]"
     >
-      <header className="col-span-full space-y-[var(--space-2)] text-ui">
-        <p className="text-caption font-medium uppercase tracking-[0.2em] text-muted-foreground">
-          Gallery
-        </p>
-        <h1 id="theme-matrix-heading" className="text-title font-semibold tracking-[-0.01em]">
-          Theme matrix
-        </h1>
-        <p className="max-w-3xl text-body text-muted-foreground">
-          Review every gallery entry and state across all Planner themes. The matrix reuses the
-          component previews so screenshot and accessibility coverage stay in sync.
-        </p>
-      </header>
+      <PageHeader
+        as="header"
+        className="col-span-full"
+        title="Theme matrix"
+        subtitle="Review every gallery entry and state across all Planner themes. The matrix reuses the component previews so screenshot and accessibility coverage stay in sync."
+        headingId="theme-matrix-heading"
+      />
       {themeMatrixSections.map((section) => {
         const sectionHeadingId = `theme-matrix-section-${section.sectionId}`;
         return (

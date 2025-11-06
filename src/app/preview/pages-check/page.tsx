@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Button, PageShell, SectionCard } from "@/components/ui";
+import { Button, PageShell, PageHeader, SectionCard, SectionCardBody } from "@/components/ui";
 import { HeroPortraitFrame } from "@/components/home/HeroPortraitFrame";
 import { getBasePath, withBasePath } from "@/lib/utils";
 
@@ -22,11 +22,16 @@ export default function PagesCheckPage() {
       aria-labelledby="pages-check-heading"
       className="py-[var(--space-6)] md:py-[var(--space-8)]"
     >
-      <SectionCard className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3">
-        <div className="section-h" id="pages-check-heading">
-          <h1 className="text-title font-semibold tracking-[-0.01em]">GitHub Pages routing check</h1>
-        </div>
-        <div className="section-b flex flex-col items-center gap-[var(--space-4)] text-center text-ui">
+      <PageHeader
+        as="header"
+        className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3"
+        title="GitHub Pages routing check"
+        subtitle="Gallery utility. Confirm static assets resolve correctly when the site is served from a base path so smoke tests stay reliable."
+        headingId="pages-check-heading"
+      />
+
+      <SectionCard className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3" aria-labelledby="pages-check-heading">
+        <SectionCardBody className="flex flex-col items-center gap-[var(--space-4)] text-center text-ui">
           <p className="text-ui text-muted-foreground" data-testid="base-path-value">
             Base path resolved to <span className="font-mono text-foreground">{basePathLabel}</span>
           </p>
@@ -39,7 +44,7 @@ export default function PagesCheckPage() {
           <Button asChild variant="neo">
             <Link href={withBasePath("/", { skipForNextLink: true })}>Return home</Link>
           </Button>
-        </div>
+        </SectionCardBody>
       </SectionCard>
     </PageShell>
   );

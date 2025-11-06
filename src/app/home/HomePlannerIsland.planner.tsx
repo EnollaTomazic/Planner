@@ -13,7 +13,7 @@ import type {
   HeroPlannerHighlight,
   PlannerOverviewProps,
 } from "@/components/home"
-import { PageShell, Button, SectionCard, PageHeader } from "@/components/ui"
+import { PageShell, Button, SectionCard, HeroPageHeader } from "@/components/ui"
 import { GlitchNeoCard } from "@/components/ui/patterns"
 import { PlannerProvider } from "@/components/planner"
 import { useTheme } from "@/lib/theme-context"
@@ -339,7 +339,7 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <PageHeader
+        <HeroPageHeader
           containerClassName="col-span-full"
           header={{
             id: heroHeadingId,
@@ -461,7 +461,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <PageHeader
+        <HeroPageHeader
           containerClassName="col-span-full"
           header={{
             id: heroHeadingId,

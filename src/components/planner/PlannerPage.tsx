@@ -17,7 +17,7 @@ import {
   GlitchProgress,
   HeroCol,
   HeroGrid,
-  PageHeader,
+  HeroPageHeader,
   PageShell,
   SegmentedControl,
 } from "@/components/ui";
@@ -398,7 +398,7 @@ function Inner() {
           </HeroGrid>
         </Hero>
         {/* Week header (range, nav, totals, day chips) */}
-        <PageHeader
+        <HeroPageHeader
           containerClassName="col-span-full"
           header={{
             id: "planner-header",
