@@ -12,8 +12,16 @@ import "./style.css";
 
 import * as React from "react";
 import Image from "next/image";
-import { Button, HeroCol, HeroGrid, PageHeader, PageShell, TabBar } from "@/components/ui";
-import { Hero } from "@/components/ui/layout/hero/Hero";
+import {
+  Button,
+  GlitchProgress,
+  HeroCol,
+  HeroGrid,
+  PageHeader,
+  PageShell,
+  SegmentedControl,
+} from "@/components/ui";
+import { Hero } from "@/components/ui/layout/Hero";
 import { Slider } from "@/components/ui/primitives/Slider";
 import { cn } from "@/lib/utils";
 import styles from "./PlannerPage.module.css";
@@ -30,7 +38,6 @@ import useBasePath from "@/lib/useBasePath";
 import { PlannerStatChip } from "./PlannerStatChip";
 import { useDay } from "./useDay";
 import { SmallAgnesNoxiImage } from "./SmallAgnesNoxiImage";
-import ProgressRingIcon from "@/icons/ProgressRingIcon";
 
 const {
   autopilotHero,
@@ -52,8 +59,6 @@ const {
   quickLinkChip,
   quickLinkLabel,
   quickLinkMeta,
-  heroIconFrame,
-  heroIconInner,
 } = styles;
 
 const LazyDayView = React.lazy(async () => ({
@@ -77,12 +82,6 @@ const VIEW_MODE_OPTIONS: Array<{ value: PlannerViewMode; label: string }> = [
 ];
 
 const VIEW_TAB_ID_BASE = "planner-view";
-const VIEW_MODE_TAB_ITEMS = VIEW_MODE_OPTIONS.map((option) => ({
-  key: option.value,
-  label: option.label,
-  id: `${option.value}-tab`,
-  controls: `${option.value}-panel`,
-}));
 const VIEW_COMPONENTS: Record<
   PlannerViewMode,
   React.LazyExoticComponent<React.ComponentType>
@@ -302,11 +301,11 @@ function Inner() {
           title="Your sprint blueprint"
           subtitle="Tweak the focus dial before locking the week. Agnes maps the calm line, Noxi keeps the glitch guardrails on. Every suggestion stays editable."
           icon={
-            <div className={heroIconFrame} aria-hidden>
-              <div className={heroIconInner}>
-                <ProgressRingIcon pct={planningEnergy} size="l" />
-              </div>
-            </div>
+            <GlitchProgress
+              value={planningEnergy}
+              size="xl"
+              aria-label="Planner autopilot energy"
+            />
           }
           illustration={<SmallAgnesNoxiImage />}
           illustrationAlt="Agnes and Noxi calibrating the sprint blueprint"
@@ -441,14 +440,14 @@ function Inner() {
                   >
                     View
                   </span>
-                  <TabBar<PlannerViewMode>
-                    items={VIEW_MODE_TAB_ITEMS}
+                  <SegmentedControl<PlannerViewMode>
+                    options={VIEW_MODE_OPTIONS}
                     value={viewMode}
                     onValueChange={handleViewModeChange}
                     ariaLabelledBy={labelId}
-                    variant="neo"
+                    size="lg"
+                    align="start"
                     className="w-full"
-                    tablistClassName="w-full"
                     idBase={VIEW_TAB_ID_BASE}
                   />
                 </div>

@@ -10,18 +10,11 @@ import {
 } from "lucide-react";
 
 import type { DesignTokenGroup, GalleryNavigationData } from "@/components/gallery/types";
-import {
-  GlitchSegmentedButton,
-  GlitchSegmentedGroup,
-  PageShell,
-  SearchBar,
-  TabBar,
-} from "@/components/ui";
+import { Hero, type HeroTab, PageShell } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 import { ComponentsGalleryPanels } from "./ComponentsGalleryPanels";
 import {
-  COMPONENTS_PANEL_ID,
   COMPONENTS_SECTION_TAB_ID_BASE,
   COMPONENTS_VIEW_TAB_ID_BASE,
   type ComponentsView,
@@ -99,8 +92,6 @@ export function ComponentsPageClient({
     handleSectionChange,
   } = useComponentsGalleryState({ navigation });
 
-  const subFiltersLabelId = React.useId();
-
   const categoryCards = React.useMemo<readonly CategoryCardDefinition[]>(() => {
     const tokensLabel =
       viewTabs.find((tab) => tab.key === "tokens")?.label ?? "Tokens";
@@ -157,125 +148,112 @@ export function ComponentsPageClient({
     return ids.join(" ");
   }, [categoryLabelIds]);
 
+  const heroPrimaryTabItems = React.useMemo<HeroTab<ComponentsView>[]>(
+    () =>
+      categoryCards.map((card) => {
+        const Icon = card.icon;
+        return {
+          key: card.id,
+          label: card.label,
+          icon: <Icon className="size-[var(--space-4)]" aria-hidden />,
+          id: `category-${card.id}`,
+          controls: card.id === "tokens" ? "tokens-panel" : "components-panel",
+          className: "min-w-[calc(var(--space-8)*3.5)]",
+        } satisfies HeroTab<ComponentsView>;
+      }),
+    [categoryCards],
+  );
+
+  const activeCategoryMeta = React.useMemo(() => {
+    const match = categoryCards.find((card) => card.id === view);
+    if (!match) {
+      return null;
+    }
+    return { icon: match.icon, description: match.description };
+  }, [categoryCards, view]);
+
+  const ActiveCategoryIcon = activeCategoryMeta?.icon;
+
   return (
     <>
       <PageShell
         as="header"
         className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
       >
-        <div className="space-y-[var(--space-6)]">
-          <div className="space-y-[var(--space-3)]">
-            <div
-              className="rounded-card border border-card-hairline-60 bg-[hsl(var(--surface-1)/0.96)] p-[var(--space-4)] shadow-depth-soft"
-            >
-              <div className="space-y-[var(--space-2)]">
-                {heroCopy.eyebrow ? (
-                  <p className="text-caption font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                    {heroCopy.eyebrow}
-                  </p>
-                ) : null}
-                <h1
-                  id="components-header"
-                  className="text-title font-semibold tracking-[-0.01em] text-foreground"
-                >
-                  {heroCopy.heading}
-                </h1>
-                {heroCopy.subtitle ? (
-                  <p className="text-ui text-muted-foreground">
-                    {heroCopy.subtitle}
-                  </p>
-                ) : null}
-              </div>
+        <Hero
+          sticky={false}
+          eyebrow={heroCopy.eyebrow}
+          title={
+            <span id="components-header" className="inline-flex items-center gap-[var(--space-2)]">
+              {heroCopy.heading}
+            </span>
+          }
+          subtitle={
+            heroCopy.subtitle ? (
+              <span id="components-header-subtitle">{heroCopy.subtitle}</span>
+            ) : undefined
+          }
+          tabs={{
+            items: heroPrimaryTabItems,
+            value: view,
+            onChange: (nextView) => handleViewChange(nextView),
+            ariaLabel: "Component categories",
+            idBase: COMPONENTS_VIEW_TAB_ID_BASE,
+            linkPanels: true,
+            variant: "neo",
+            align: "end",
+            className: "w-full md:w-auto",
+          }}
+          subTabs={
+            showSectionTabs
+              ? {
+                  items: heroTabs.map((tab) => ({
+                    key: tab.key,
+                    label: tab.label,
+                    controls: tab.controls,
+                  })),
+                  value: section,
+                  onChange: (nextSection) => handleSectionChange(nextSection),
+                  ariaLabel: "Component sections",
+                  idBase: COMPONENTS_SECTION_TAB_ID_BASE,
+                  linkPanels: true,
+                  size: "sm",
+                  variant: "neo",
+                  className: "w-full",
+                  tablistClassName: cn(SECTION_TABLIST_CLASSES, "w-full"),
+                }
+              : undefined
+          }
+          searchBar={{
+            id: "components-search",
+            value: query,
+            onValueChange: setQuery,
+            debounceMs: 300,
+            label: searchLabel,
+            placeholder: searchPlaceholder,
+            round: true,
+            fieldClassName: cn(
+              "bg-[hsl(var(--surface-3)/0.82)]",
+              "border border-card-hairline-60",
+              "shadow-depth-soft",
+              "focus-within:shadow-depth-soft",
+            ),
+          }}
+        >
+          {activeCategoryMeta ? (
+            <div className="flex items-start gap-[var(--space-3)] text-muted-foreground">
+              {ActiveCategoryIcon ? (
+                <ActiveCategoryIcon
+                  aria-hidden
+                  className="mt-[var(--space-1)] size-[var(--space-5)] shrink-0"
+                />
+              ) : null}
+              <p className="max-w-2xl text-pretty text-ui md:text-body">
+                {activeCategoryMeta.description}
+              </p>
             </div>
-            {heroTabs.length > 0 ? (
-              <div className="flex flex-wrap items-center gap-[var(--space-2)]">
-                <span
-                  id={subFiltersLabelId}
-                  className="text-caption font-medium uppercase tracking-[0.18em] text-muted-foreground"
-                >
-                  Related filters
-                </span>
-                <ul
-                  aria-labelledby={subFiltersLabelId}
-                  className="flex flex-wrap gap-[var(--space-2)] text-caption text-muted-foreground"
-                >
-                  {heroTabs.map((tab) => (
-                    <li
-                      key={tab.key}
-                      className="rounded-full border border-card-hairline-60 bg-[hsl(var(--surface-3)/0.82)] px-[var(--space-2)] py-[var(--space-1)] text-foreground"
-                    >
-                      {tab.label}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-          </div>
-          <GlitchSegmentedGroup
-            value={view}
-            onChange={(nextView) => handleViewChange(nextView)}
-            ariaLabel="Component categories"
-            className="flex w-full flex-wrap gap-[var(--space-2)]"
-          >
-            {categoryCards.map((card) => {
-              const Icon = card.icon;
-              const cardId = categoryLabelIds.get(card.id);
-              const controlsId =
-                card.id === "tokens"
-                  ? `${COMPONENTS_VIEW_TAB_ID_BASE}-tokens-panel`
-                  : COMPONENTS_PANEL_ID;
-              return (
-                <GlitchSegmentedButton
-                  key={card.id}
-                  id={cardId}
-                  value={card.id}
-                  icon={<Icon className="size-[var(--space-4)]" aria-hidden />}
-                  aria-controls={controlsId}
-                >
-                  {card.label}
-                </GlitchSegmentedButton>
-              );
-            })}
-          </GlitchSegmentedGroup>
-          <div className="flex flex-col gap-[var(--space-3)] lg:flex-row lg:items-start lg:justify-between">
-            {showSectionTabs ? (
-              <TabBar
-                className="w-full lg:max-w-3xl"
-                items={heroTabs}
-                value={section}
-                onValueChange={handleSectionChange}
-                ariaLabel="Component section"
-                idBase={COMPONENTS_SECTION_TAB_ID_BASE}
-                linkPanels
-                size="sm"
-                variant="neo"
-                tablistClassName={cn(SECTION_TABLIST_CLASSES, "w-full")}
-              />
-            ) : null}
-            <div
-              className={cn(
-                "w-full",
-                showSectionTabs ? "lg:max-w-sm" : "lg:max-w-md",
-              )}
-            >
-              <SearchBar
-                id="components-search"
-                value={query}
-                onValueChange={setQuery}
-                debounceMs={300}
-                label={searchLabel}
-                placeholder={searchPlaceholder}
-                variant="neo"
-                fieldClassName={cn(
-                  "bg-[hsl(var(--surface-3)/0.82)]",
-                  "border border-card-hairline-60",
-                  "shadow-depth-soft",
-                  "focus-within:shadow-depth-soft",
-                )}
-              />
-            </div>
-          </div>
-        </div>
+          ) : null}
+        </Hero>
       </PageShell>
 
       <PageShell
