@@ -1148,6 +1148,7 @@ html.bg-intense body::after {
     background-color: hsl(var(--input));
     border-color: hsl(var(--card-hairline));
     color: hsl(var(--foreground));
+    box-shadow: var(--shadow-inner-md);
     transition:
       box-shadow var(--motion-duration-sm),
       border-color var(--motion-duration-sm),
@@ -1160,7 +1161,9 @@ html.bg-intense body::after {
   }
   .input-base:focus {
     outline: none;
-    box-shadow: 0 0 0 var(--spacing-0-75) hsl(var(--ring) / 0.35);
+    box-shadow:
+      0 0 0 var(--spacing-0-75) hsl(var(--ring) / 0.35),
+      var(--shadow-inner-md);
     border-color: hsl(var(--ring));
   }
 
