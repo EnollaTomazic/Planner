@@ -59,18 +59,18 @@
   --shadow-inset-contrast: inset 0 0 0 var(--hairline-w) var(--ring-contrast);
   --shadow-inset-hairline: inset 0 0 0 var(--hairline-w) hsl(var(--card-hairline));
   --shadow-control-hover: 0 var(--spacing-1) var(--spacing-2) hsl(var(--shadow-color) / 0.3);
-  --space1: var(--spacing-1);
-  --space2: var(--spacing-2);
-  --space3: var(--spacing-3);
-  --space4: var(--spacing-4);
-  --space5: var(--spacing-5);
-  --space6: var(--spacing-6);
-  --space7: var(--spacing-7);
-  --space8: var(--spacing-8);
-  --space12: calc(var(--space-8) + var(--space-4));
-  --space16: calc(var(--space-8) * 2);
-  --ring-size1: var(--spacing-0-5);
-  --ring-size2: var(--spacing-1);
+  --space-1: var(--spacing-1);
+  --space-2: var(--spacing-2);
+  --space-3: var(--spacing-3);
+  --space-4: var(--spacing-4);
+  --space-5: var(--spacing-5);
+  --space-6: var(--spacing-6);
+  --space-7: var(--spacing-7);
+  --space-8: var(--spacing-8);
+  --space-12: calc(var(--space-8) + var(--space-4));
+  --space-16: calc(var(--space-8) * 2);
+  --ring-size-1: var(--spacing-0-5);
+  --ring-size-2: var(--spacing-1);
   --ring-diameter-xs: var(--space-5);
   --ring-diameter-s: var(--space-6);
   --ring-diameter-m: var(--space-8);
@@ -84,33 +84,33 @@
   --layout-gutter-md: var(--spacing-5);
   --layout-gutter-lg: var(--spacing-6);
   --aa-min-contrast: 4.5;
-  --space9: calc(var(--space-8) + var(--space-1));
-  --space10: calc(var(--space-8) + var(--space-2));
-  --space11: calc(var(--space-8) + var(--space-3));
+  --space-9: calc(var(--space-8) + var(--space-1));
+  --space-10: calc(var(--space-8) + var(--space-2));
+  --space-11: calc(var(--space-8) + var(--space-3));
   --depth-shadow-inset: var(--shadow-depth-inner);
   --layout-quick-action-min: calc(var(--spacing-8) * 3);
   --layout-quick-action-tooltip-max: calc(var(--spacing-8) * 5);
-  --spacing0125: calc(var(--spacing-1) / 8);
-  --spacing025: calc(var(--spacing-1) / 4);
-  --spacing05: calc(var(--spacing-1) / 2);
-  --spacing075: calc(var(--spacing-1) * 0.75);
-  --spacing1: 4px;
-  --spacing2: 8px;
-  --spacing3: 12px;
-  --spacing4: 16px;
-  --spacing5: 24px;
-  --spacing6: 32px;
-  --spacing7: 48px;
-  --spacing8: 64px;
+  --spacing-0125: calc(var(--spacing-1) / 8);
+  --spacing-025: calc(var(--spacing-1) / 4);
+  --spacing-05: calc(var(--spacing-1) / 2);
+  --spacing-075: calc(var(--spacing-1) * 0.75);
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 24px;
+  --spacing-6: 32px;
+  --spacing-7: 48px;
+  --spacing-8: 64px;
   --icon-size: var(--icon-size-md);
   --icon-size-xs: 14px;
   --icon-size-sm: 16px;
   --icon-size-md: 18px;
   --icon-size-lg: 24px;
   --icon-size-xl: 32px;
-  --icon-size-2xl: 76px;
-  --icon-stroke100: var(--spacing-0-5);
-  --icon-stroke150: calc(var(--spacing-0-5) * 1.25);
+  --icon-size_2-xl: 76px;
+  --icon-stroke-100: var(--spacing-0-5);
+  --icon-stroke-150: calc(var(--spacing-0-5) * 1.25);
   --control-radius: var(--radius-xl);
   --pillar-wave-start: var(--accent-1);
   --pillar-wave-end: var(--accent-2);
@@ -136,11 +136,11 @@
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
-  --radius2xl: 24px;
+  --radius-2-xl: 24px;
   --radius-full: 9999px;
-  --background: 247 32% 9%;
+  --background: 247 32% 14%;
   --foreground: 258 24% 92%;
-  --card: 249 28% 15%;
+  --card: 249 28% 21%;
   --card-foreground: var(--foreground);
   --panel: var(--card);
   --border: 253 26% 28%;
@@ -152,11 +152,13 @@
   --primary-foreground: 0 0% 100%;
   --primary-soft: 262 88% 20%;
   --accent-1: 276 88% 62%;
-  --accent-2: 168 96% 56%;
-  --accent-3: 318 82% 60%;
   --accent-1-foreground: 0 0% 100%;
-  --accent-1-contrast: 276 92% 80%;
+  --accent-1-contrast: 276 92% 88%;
   --accent-1-soft: 276 88% 22%;
+  --accent-1-hover: hsl(var(--accent-1) / 0.14);
+  --accent-2: 168 96% 56%;
+  --accent-2-foreground: 0 0% 100%;
+  --accent-3: 318 82% 60%;
   --glow: 296 96% 56%;
   --ring-muted: 248 22% 24%;
   --danger: 0 84% 60%;
@@ -166,15 +168,15 @@
   --muted: 248 22% 19%;
   --muted-foreground: 248 16% 68%;
   --fg-muted: var(--muted-foreground);
-  --surface: 248 24% 13%;
-  --surface2: 248 24% 18%;
+  --surface: 248 24% 18%;
+  --surface-2: 248 24% 18%;
   --surface-vhs: 210 22% 10%;
   --surface-streak: 240 16% 16%;
   --shadow-color: 263 78% 56%;
-  --noir-background: 352 68% 4%;
+  --noir-background: 352 68% 10%;
   --noir-foreground: 0 0% 94%;
   --noir-border: 352 44% 24%;
-  --hardstuck-background: 120 58% 3%;
+  --hardstuck-background: 120 58% 9%;
   --hardstuck-foreground: 120 60% 72%;
   --hardstuck-border: 120 42% 22%;
   --success: 160 72% 48%;
@@ -249,12 +251,11 @@
     var(--shadow-outline-subtle);
   --glow-strong: var(--ring) / 0.55;
   --glow-soft: var(--accent-1) / 0.25;
-  --shadow-neon: calc(var(--spacing-0-5) / 2) calc(-1 * var(--spacing-0-5) / 2)
-      var(--space-1) hsl(var(--neon) / 0.55),
-    calc(-1 * var(--spacing-0-5)) var(--spacing-0-5)
-      calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),
-    calc(var(--spacing-0-5) * 1.5) calc(var(--spacing-0-5) * 1.25)
-      calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2);
+  --shadow-neon: 0 0 calc(var(--space-2)) hsl(var(--neon) / 0.55),
+    0 0 calc(var(--space-4)) hsl(var(--neon-soft) / 0.35),
+    calc(var(--spacing-0-5)) calc(var(--spacing-0-5) * -1) calc(var(--space-3)) hsl(var(--neon) / 0.3),
+    calc(var(--spacing-0-5) * -1.25) calc(var(--spacing-0-5) * 1.25) calc(var(--space-4)) hsl(var(--neon-soft) / 0.24),
+    0 calc(var(--spacing-1)) calc(var(--space-5)) hsl(var(--neon-soft) / 0.18);
   --btn-primary-hover-shadow: 0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)
     calc(-1 * var(--space-1) / 4) hsl(var(--accent-1) / 0.25);
   --btn-primary-active-shadow: inset 0 0 0 calc(var(--space-1) / 4)
@@ -273,10 +274,10 @@
   --state-danger-border: color-mix(in oklab, hsl(var(--danger)) 62%, hsl(var(--border)));
   --aurora-g-light-color: hsl(var(--aurora-g-light));
   --aurora-p-light-color: hsl(var(--aurora-p-light));
-  --elevation0: none;
-  --elevation1: var(--shadow-outline-faint);
-  --elevation2: var(--shadow-outline-subtle);
-  --elevation3: var(--shadow-control);
+  --elevation-0: none;
+  --elevation-1: var(--shadow-outline-faint);
+  --elevation-2: var(--shadow-outline-subtle);
+  --elevation-3: var(--shadow-control);
   --skeleton-bg: hsl(var(--muted) / 0.6);
   --skeleton-fill: hsl(var(--foreground) / 0.08);
   --gradient-noise-opacity: 0.1;
@@ -285,9 +286,9 @@
   --shadow-inner-md: inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28);
   --shadow-outer-lg: 0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36);
   --glow-primary: hsl(var(--primary) / 0.55);
-  --blob-surface1: hsl(var(--surface));
-  --blob-surface2: hsl(var(--surface-2));
-  --blob-surface3: hsl(var(--card));
+  --blob-surface-1: hsl(var(--surface));
+  --blob-surface-2: hsl(var(--surface-2));
+  --blob-surface-3: hsl(var(--card));
   --blob-surface-shadow: hsl(var(--shadow-color) / 0.4);
   --glitch-noise-primary: hsl(var(--accent-1) / 0.055);
   --glitch-noise-secondary: hsl(var(--ring) / 0.05);
@@ -314,16 +315,16 @@
     0 0 0 0 hsl(var(--ring) / 0);
   --depth-focus-ring-active: 0 0 0 calc(var(--hairline-w) * 1) hsl(var(--ring))
     var(--shadow-glow-lg);
-  --backdrop-blob1: var(--lg-violet);
-  --backdrop-blob2: var(--lg-cyan);
-  --backdrop-blob3: var(--lg-pink);
+  --backdrop-blob-1: var(--lg-violet);
+  --backdrop-blob-2: var(--lg-cyan);
+  --backdrop-blob-3: var(--lg-pink);
   --backdrop-blob-shadow: var(--lg-black);
   --backdrop-grid-primary: var(--accent-1);
   --backdrop-grid-secondary: var(--accent-1);
   --backdrop-grid-opacity: 0.1;
-  --backdrop-drip1: var(--backdrop-blob-1);
-  --backdrop-drip2: var(--backdrop-blob-2);
-  --backdrop-drip3: var(--backdrop-blob-3);
+  --backdrop-drip-1: var(--backdrop-blob-1);
+  --backdrop-drip-2: var(--backdrop-blob-2);
+  --backdrop-drip-3: var(--backdrop-blob-3);
   --backdrop-drip-shadow: var(--backdrop-blob-shadow);
   --neo-glow-strength: 0.45;
   --neon-outline-opacity: 0.35;
@@ -355,9 +356,9 @@
   --grid-size: calc(var(--space-6) - var(--space-1));
   --shadow-outer-sm: 0 var(--spacing-2) var(--spacing-4) hsl(var(--shadow-color) / 0.24);
   --shadow-outer-md: 0 var(--spacing-3) var(--spacing-6) hsl(var(--shadow-color) / 0.3);
-  --card-elev1: var(--shadow-outline-faint), var(--shadow-outer-sm);
-  --card-elev2: var(--shadow-outline-subtle), var(--shadow-outer-md);
-  --card-elev3: var(--shadow-outline-subtle), var(--shadow-outer-lg);
+  --card-elev-1: var(--shadow-outline-faint), var(--shadow-outer-sm);
+  --card-elev-2: var(--shadow-outline-subtle), var(--shadow-outer-md);
+  --card-elev-3: var(--shadow-outline-subtle), var(--shadow-outer-lg);
   --glow-ring-sm: 0 0 0 calc(var(--spacing-0-25)) hsl(var(--ring) / 0.45);
   --glow-ring-md: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-2) hsl(var(--ring) / 0.2);
   --blob-surface: color-mix(in oklab, hsl(var(--surface)) 70%, hsl(var(--surface-2)) 30%);
@@ -390,12 +391,12 @@
   --glitch-intensity-default: 1.0;
   --glitch-intensity-subtle: calc(var(--glitch-intensity-default) * 0.68);
   --glitch-intensity-hero-rail: 0.74;
-  --glitch-intensity-backdrop-blob1: 0.18;
-  --glitch-intensity-backdrop-blob2: 0.16;
-  --glitch-intensity-backdrop-blob3: 0.12;
-  --glitch-intensity-backdrop-drip1: 0.23;
-  --glitch-intensity-backdrop-drip2: 0.2;
-  --glitch-intensity-backdrop-drip3: 0.16;
+  --glitch-intensity-backdrop-blob-1: 0.18;
+  --glitch-intensity-backdrop-blob-2: 0.16;
+  --glitch-intensity-backdrop-blob-3: 0.12;
+  --glitch-intensity-backdrop-drip-1: 0.23;
+  --glitch-intensity-backdrop-drip-2: 0.2;
+  --glitch-intensity-backdrop-drip-3: 0.16;
   --glitch-intensity-backdrop-shadow: 0.38;
   --glitch-pixel: var(--glitch-noise-level);
   --stat-good: var(--success);
@@ -577,12 +578,11 @@
   /* used in tests; not CSS-enforced */
   --aa-min-contrast: 4.5;
   --shadow-neon:
-    calc(var(--spacing-0-5) / 2) calc(-1 * var(--spacing-0-5) / 2)
-      var(--space-1) hsl(var(--neon) / 0.55),
-    calc(-1 * var(--spacing-0-5)) var(--spacing-0-5)
-      calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),
-    calc(var(--spacing-0-5) * 1.5) calc(var(--spacing-0-5) * 1.25)
-      calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2);
+    0 0 calc(var(--space-2)) hsl(var(--neon) / 0.55),
+    0 0 calc(var(--space-4)) hsl(var(--neon-soft) / 0.35),
+    calc(var(--spacing-0-5)) calc(var(--spacing-0-5) * -1) calc(var(--space-3)) hsl(var(--neon) / 0.3),
+    calc(var(--spacing-0-5) * -1.25) calc(var(--spacing-0-5) * 1.25) calc(var(--space-4)) hsl(var(--neon-soft) / 0.24),
+    0 calc(var(--spacing-1)) calc(var(--space-5)) hsl(var(--neon-soft) / 0.18);
   --btn-primary-hover-shadow: 0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)
     calc(-1 * var(--space-1) / 4) hsl(var(--accent-1) / 0.25);
   --btn-primary-active-shadow: inset 0 0 0 calc(var(--space-1) / 4)
@@ -730,10 +730,10 @@
 }
 /* ---------- Aurora ---------- */
 html.theme-aurora {
-  --background: 284 78% 5%;
+  --background: 284 78% 11%;
   --foreground: 268 32% 97%;
   --text: var(--foreground);
-  --card: 282 70% 11%;
+  --card: 282 70% 17%;
   --panel: var(--card);
   --border: 280 58% 20%;
   --line: var(--border);
@@ -744,14 +744,14 @@ html.theme-aurora {
   --primary-foreground: 0 0% 100%;
   --primary-soft: 152 100% 24%;
   --accent-1: 274 78% 64%;
-  --accent-1-contrast: 274 80% 84%;
+  --accent-1-contrast: 274 80% 90%;
   --accent-2: 152 96% 56%;
   --accent-1-foreground: 0 0% 100%;
   --accent-1-soft: 274 78% 22%;
   --glow: 152 100% 68%;
   --muted: 280 52% 16%;
   --muted-foreground: 280 24% 76%;
-  --surface: 282 64% 10%;
+  --surface: 282 64% 15%;
   --surface-2: 280 48% 18%;
   --surface-vhs: 284 72% 6%;
   --surface-streak: 280 42% 14%;
@@ -822,10 +822,10 @@ html.theme-aurora {
 /* ---------- Citrus ---------- */
 html.theme-citrus {
   /* Dark citrus palette inspired by industrial orange hardware */
-  --background: 210 16% 7%;
+  --background: 210 16% 13%;
   --foreground: 32 42% 96%;
   --text: var(--foreground);
-  --card: 212 20% 13%;
+  --card: 212 20% 19%;
   --panel: var(--card);
   --border: 212 22% 26%;
   --line: var(--border);
@@ -836,14 +836,14 @@ html.theme-citrus {
   --primary-foreground: 0 0% 100%;
   --primary-soft: 28 95% 24%;
   --accent-1: 26 92% 44%;
-  --accent-1-contrast: 26 92% 70%;
+  --accent-1-contrast: 26 92% 82%;
   --accent-2: 168 72% 32%;
   --accent-1-foreground: 0 0% 100%;
   --accent-1-soft: 26 92% 18%;
   --glow: 28 96% 62%;
   --muted: 212 18% 22%;
   --muted-foreground: 212 20% 70%;
-  --surface: 212 22% 12%;
+  --surface: 212 22% 18%;
   --surface-2: 212 20% 20%;
   --surface-vhs: 210 16% 6%;
   --surface-streak: 212 18% 16%;
@@ -895,10 +895,10 @@ html.theme-citrus {
 }
 /* ---------- Noir ---------- */
 html.theme-noir {
-  --background: 352 68% 4%;
+  --background: 352 68% 10%;
   --foreground: 0 0% 94%;
   --text: var(--foreground);
-  --card: 352 62% 10%;
+  --card: 352 62% 16%;
   --panel: var(--card);
   --border: 352 44% 24%;
   --line: var(--border);
@@ -909,14 +909,14 @@ html.theme-noir {
   --primary-foreground: 0 0% 100%;
   --primary-soft: 356 86% 24%;
   --accent-1: 184 86% 35%;
-  --accent-1-contrast: 184 90% 70%;
+  --accent-1-contrast: 184 90% 82%;
   --accent-2: 32 92% 38%;
   --accent-1-foreground: 0 0% 100%;
   --accent-1-soft: 184 86% 14%;
   --glow: 356 90% 62%;
   --muted: 352 34% 18%;
   --muted-foreground: 352 24% 68%;
-  --surface: 352 56% 10%;
+  --surface: 352 56% 16%;
   --surface-2: 352 36% 18%;
   --surface-vhs: 352 64% 5%;
   --surface-streak: 352 30% 14%;
@@ -982,10 +982,10 @@ html.theme-noir {
 }
 /* ---------- Oceanic ---------- */
 html.theme-ocean {
-  --background: 216 48% 8%;
+  --background: 216 48% 14%;
   --foreground: 204 22% 96%;
   --text: var(--foreground);
-  --card: 218 34% 14%;
+  --card: 218 34% 20%;
   --panel: var(--card);
   --border: 218 26% 24%;
   --line: var(--border);
@@ -996,14 +996,14 @@ html.theme-ocean {
   --primary-foreground: 0 0% 100%;
   --primary-soft: 194 88% 18%;
   --accent-1: 204 92% 32%;
-  --accent-1-contrast: 204 92% 68%;
+  --accent-1-contrast: 204 92% 82%;
   --accent-2: 230 78% 36%;
   --accent-1-foreground: 0 0% 100%;
   --accent-1-soft: 204 92% 14%;
   --glow: 194 94% 64%;
   --muted: 218 24% 17%;
   --muted-foreground: 218 16% 74%;
-  --surface: 218 30% 12%;
+  --surface: 218 30% 18%;
   --surface-2: 218 26% 18%;
   --surface-vhs: 216 44% 7%;
   --surface-streak: 218 22% 15%;
@@ -1056,10 +1056,10 @@ html.theme-ocean {
 }
 /* ---------- Kitten ---------- */
 html.theme-kitten {
-  --background: 334 92% 3%;
+  --background: 334 92% 9%;
   --foreground: 332 28% 97%;
   --text: var(--foreground);
-  --card: 334 86% 9%;
+  --card: 334 86% 15%;
   --panel: var(--card);
   --border: 334 70% 22%;
   --line: var(--border);
@@ -1070,14 +1070,14 @@ html.theme-kitten {
   --primary-foreground: 0 0% 100%;
   --primary-soft: 336 90% 24%;
   --accent-1: 340 86% 36%;
-  --accent-1-contrast: 340 88% 74%;
+  --accent-1-contrast: 340 88% 88%;
   --accent-2: 194 90% 40%;
   --accent-1-foreground: 0 0% 100%;
   --accent-1-soft: 340 86% 14%;
   --glow: 336 94% 64%;
   --muted: 334 64% 18%;
   --muted-foreground: 334 26% 74%;
-  --surface: 334 74% 9%;
+  --surface: 334 74% 14%;
   --surface-2: 334 60% 15%;
   --surface-vhs: 334 88% 4%;
   --surface-streak: 334 50% 12%;
@@ -1131,10 +1131,10 @@ html.theme-kitten {
 }
 /* ---------- Hardstuck ---------- */
 html.theme-hardstuck {
-  --background: 120 58% 3%;
+  --background: 120 58% 9%;
   --foreground: 120 60% 72%;
   --text: var(--foreground);
-  --card: 120 52% 9%;
+  --card: 120 52% 15%;
   --panel: var(--card);
   --border: 120 42% 22%;
   --line: var(--border);
@@ -1145,7 +1145,7 @@ html.theme-hardstuck {
   --primary-foreground: 0 0% 8%;
   --primary-soft: 120 100% 26%;
   --accent-1: 120 92% 58%;
-  --accent-1-contrast: 120 92% 78%;
+  --accent-1-contrast: 120 92% 90%;
   --accent-2: 120 76% 22%;
   --accent-2-foreground: 120 32% 94%;
   --accent-1-foreground: 0 0% 8%;
@@ -1157,7 +1157,7 @@ html.theme-hardstuck {
   --warning: 43 96% 56%;
   --muted: 120 34% 11%;
   --muted-foreground: 120 18% 74%;
-  --surface: 120 32% 8%;
+  --surface: 120 32% 13%;
   --surface-2: 120 34% 13%;
   --surface-vhs: 120 26% 4%;
   --surface-streak: 120 18% 11%;
@@ -1222,10 +1222,10 @@ html.theme-hardstuck {
 /* ---------- Retro ---------- */
 html.theme-retro {
   /* Neon grid inspired by retro-futurist arcades */
-  --background: 258 78% 4%;
+  --background: 258 78% 10%;
   --foreground: 196 28% 96%;
   --text: var(--foreground);
-  --card: 260 68% 10%;
+  --card: 260 68% 16%;
   --panel: var(--card);
   --border: 260 56% 22%;
   --line: var(--border);
@@ -1236,14 +1236,14 @@ html.theme-retro {
   --primary-foreground: 0 0% 8%;
   --primary-soft: 304 100% 24%;
   --accent-1: 304 100% 68%;
-  --accent-1-contrast: 304 100% 85%;
+  --accent-1-contrast: 304 100% 92%;
   --accent-2: 188.7 89.6% 69.8%;
   --accent-3: 257.5 85.7% 72.5%;
   --accent-1-foreground: 0 0% 6%;
   --accent-1-soft: 304 100% 20%;
   --muted: 260 48% 18%;
   --muted-foreground: 260 22% 78%;
-  --surface: 260 60% 10%;
+  --surface: 260 60% 15%;
   --surface-2: 260 50% 16%;
   --surface-vhs: 258 76% 5%;
   --surface-streak: 260 44% 13%;

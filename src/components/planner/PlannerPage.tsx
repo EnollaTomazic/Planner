@@ -13,7 +13,7 @@ import "./style.css";
 import * as React from "react";
 import Image from "next/image";
 import { Button, HeroCol, HeroGrid, PageHeader, PageShell, TabBar } from "@/components/ui";
-import { Hero } from "@/components/ui/layout/hero/Hero";
+import { Hero } from "@/components/ui/layout/Hero";
 import { Slider } from "@/components/ui/primitives/Slider";
 import { cn } from "@/lib/utils";
 import styles from "./PlannerPage.module.css";

@@ -368,13 +368,13 @@
   },
   "shadow": {
     "background": {
-      "value": "247 32% 9%"
+      "value": "247 32% 14%"
     },
     "foreground": {
       "value": "258 24% 92%"
     },
     "card": {
-      "value": "249 28% 15%"
+      "value": "249 28% 21%"
     },
     "cardForeground": {
       "value": "var(--foreground)"
@@ -413,7 +413,7 @@
       "value": "0 0% 100%"
     },
     "accent1Contrast": {
-      "value": "276 92% 80%"
+      "value": "276 92% 88%"
     },
     "accent1Soft": {
       "value": "276 88% 22%"
@@ -458,7 +458,7 @@
       "value": "var(--muted-foreground)"
     },
     "surface": {
-      "value": "248 24% 13%"
+      "value": "248 24% 18%"
     },
     "surface2": {
       "value": "248 24% 18%"
@@ -473,7 +473,7 @@
       "value": "263 78% 56%"
     },
     "noirBackground": {
-      "value": "352 68% 4%"
+      "value": "352 68% 10%"
     },
     "noirForeground": {
       "value": "0 0% 94%"
@@ -482,7 +482,7 @@
       "value": "352 44% 24%"
     },
     "hardstuckBackground": {
-      "value": "120 58% 3%"
+      "value": "120 58% 9%"
     },
     "hardstuckForeground": {
       "value": "120 60% 72%"
@@ -629,7 +629,7 @@
       "value": "var(--accent-1) / 0.25"
     },
     "shadowNeon": {
-      "value": "calc(var(--spacing-0-5) / 2) calc(-1 * var(--spacing-0-5) / 2) var(--space-1) hsl(var(--neon) / 0.55),\n    calc(-1 * var(--spacing-0-5)) var(--spacing-0-5) calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),\n    calc(var(--spacing-0-5) * 1.5) calc(var(--spacing-0-5) * 1.25) calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2)"
+      "value": "0 0 calc(var(--space-2)) hsl(var(--neon) / 0.55),\n    0 0 calc(var(--space-4)) hsl(var(--neon-soft) / 0.35),\n    calc(var(--spacing-0-5)) calc(var(--spacing-0-5) * -1) calc(var(--space-3)) hsl(var(--neon) / 0.3),\n    calc(var(--spacing-0-5) * -1.25) calc(var(--spacing-0-5) * 1.25) calc(var(--space-4)) hsl(var(--neon-soft) / 0.24),\n    0 calc(var(--spacing-1)) calc(var(--space-5)) hsl(var(--neon-soft) / 0.18)"
     },
     "btnPrimaryHoverShadow": {
       "value": "0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)\n    calc(-1 * var(--space-1) / 4) hsl(var(--accent-1) / 0.25)"
