@@ -5,12 +5,11 @@ import { createPortal } from "react-dom";
 import { Bot, Loader2, Plus, CalendarClock, Sparkles } from "lucide-react";
 import {
   Button,
-  GlitchSegmentedButton,
-  GlitchSegmentedGroup,
   IconButton,
   Label,
   NeoCard,
   Select,
+  TabBar,
   Textarea,
   useDialogTrap,
 } from "@/components/ui";
@@ -603,19 +602,19 @@ export function PlannerFab() {
             <legend className="text-label font-medium text-muted-foreground">
               Creation mode
             </legend>
-            <GlitchSegmentedGroup
+            <TabBar<Mode>
+              items={SEGMENT_OPTIONS.map(({ value: key, label }) => ({
+                key,
+                label,
+              }))}
               value={mode}
-              onChange={(value) => setMode(value as Mode)}
-              ariaLabelledby={undefined}
-              aria-label="Planner creation mode"
+              onValueChange={(value) => setMode(value as Mode)}
+              ariaLabel="Planner creation mode"
+              variant="neo"
+              linkPanels={false}
               className="max-w-max"
-            >
-              {SEGMENT_OPTIONS.map((option) => (
-                <GlitchSegmentedButton key={option.value} value={option.value}>
-                  {option.label}
-                </GlitchSegmentedButton>
-              ))}
-            </GlitchSegmentedGroup>
+              tablistClassName="w-full"
+            />
           </fieldset>
           <div className="space-y-[var(--space-3)]">
             <Label htmlFor={`${titleId}-textarea`} className="text-label font-medium text-muted-foreground">

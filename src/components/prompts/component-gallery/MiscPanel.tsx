@@ -22,7 +22,6 @@ import {
   Snackbar,
   Spinner,
   TitleBar,
-  TOKEN_WIDTH_CLASS,
 } from "@/components/ui";
 import { Badge } from "@/components/ui/primitives/Badge";
 import { VirtualizedList } from "@/components/ui/primitives/VirtualizedList";
@@ -177,15 +176,13 @@ export function MiscPanel({ data }: MiscPanelProps) {
         {
           label: "GlitchProgress",
           element: (
-            <GlitchProgress
-              current={3}
-              total={5}
-              showPercentage
-              className="flex items-center gap-[var(--space-3)]"
+            <div
+              className="flex items-center justify-between gap-[var(--space-3)]"
               style={{ width: SWATCH_WIDTH }}
-              trackClassName="flex-1"
-              percentageClassName={cn("text-right", TOKEN_WIDTH_CLASS)}
-            />
+            >
+              <GlitchProgress value={3} max={5} size="sm" aria-label="Demo progress" />
+              <span className="tabular-nums text-label text-muted-foreground">60%</span>
+            </div>
           ),
         },
         {

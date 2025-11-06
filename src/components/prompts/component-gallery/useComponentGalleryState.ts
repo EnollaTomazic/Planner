@@ -8,11 +8,11 @@ import type { Pillar } from "@/lib/types";
 export type ToggleSide = "Left" | "Right";
 
 export interface ButtonsPanelData {
-  segmented: {
-    value: string;
-    onChange: (value: string) => void;
-  };
   appTabs: {
+    value: string;
+    onValueChange: (value: string) => void;
+  };
+  neoTabs: {
     value: string;
     onValueChange: (value: string) => void;
   };
@@ -106,8 +106,8 @@ export interface ComponentGalleryPanels {
 export function useComponentGalleryState(): ComponentGalleryPanels {
   const [goalFilter, setGoalFilter] = React.useState<FilterKey>("All");
   const [query, setQuery] = React.useState("");
-  const [segmentedValue, setSegmentedValue] = React.useState("one");
   const [appTab, setAppTab] = React.useState("reviews");
+  const [neoTab, setNeoTab] = React.useState("one");
   const [filterTab, setFilterTab] = React.useState("all");
   const [checked, setChecked] = React.useState(false);
   const [toggleSide, setToggleSide] = React.useState<ToggleSide>("Left");
@@ -123,12 +123,12 @@ export function useComponentGalleryState(): ComponentGalleryPanels {
 
   const labelId = React.useId();
 
-  const handleSegmentedChange = React.useCallback((value: string) => {
-    setSegmentedValue(value);
-  }, []);
-
   const handleAppTabChange = React.useCallback((value: string) => {
     setAppTab(value);
+  }, []);
+
+  const handleNeoTabChange = React.useCallback((value: string) => {
+    setNeoTab(value);
   }, []);
 
   const handleFilterTabChange = React.useCallback((value: string) => {
@@ -228,13 +228,13 @@ export function useComponentGalleryState(): ComponentGalleryPanels {
 
   const buttons = React.useMemo<ButtonsPanelData>(
     () => ({
-      segmented: {
-        value: segmentedValue,
-        onChange: handleSegmentedChange,
-      },
       appTabs: {
         value: appTab,
         onValueChange: handleAppTabChange,
+      },
+      neoTabs: {
+        value: neoTab,
+        onValueChange: handleNeoTabChange,
       },
       filterTabs: {
         value: filterTab,
@@ -264,10 +264,10 @@ export function useComponentGalleryState(): ComponentGalleryPanels {
       },
     }),
     [
-      segmentedValue,
-      handleSegmentedChange,
       appTab,
       handleAppTabChange,
+      neoTab,
+      handleNeoTabChange,
       filterTab,
       handleFilterTabChange,
       checked,

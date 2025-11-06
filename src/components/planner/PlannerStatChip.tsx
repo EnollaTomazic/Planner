@@ -56,12 +56,9 @@ export function PlannerStatChip({
         {label}
       </span>
       {hasProgress ? (
-        <GlitchProgress
-          current={progressCurrent}
-          total={progressTotal}
-          aria-hidden="true"
-          className={styles.progressTrack}
-        />
+        <div className={styles.progressDial} aria-hidden>
+          <GlitchProgress value={progressCurrent} max={progressTotal} size="sm" />
+        </div>
       ) : null}
     </div>
   );

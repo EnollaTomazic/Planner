@@ -14,7 +14,7 @@ import {
   useRef,
 } from "react";
 
-import { GlitchProgress, Hero, TOKEN_WIDTH_CLASS } from "@/components/ui";
+import { GlitchProgress, Hero } from "@/components/ui";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { toISODate } from "@/lib/date";
@@ -102,6 +102,7 @@ export function TodayHero({ iso }: Props) {
   const heroProgressLabel = selectedProjectName
     ? `Tasks completed for ${selectedProjectName}`
     : "Tasks completed";
+  const percentComplete = total === 0 ? 0 : Math.round((done / total) * 100);
 
   const heroActions = (
     <div className="flex items-center gap-[var(--space-2)]">
@@ -169,15 +170,24 @@ export function TodayHero({ iso }: Props) {
         barClassName="gap-[var(--space-3)]"
       />
 
-      <GlitchProgress
-        current={done}
-        total={total}
-        showPercentage
-        className="mb-[var(--space-4)] flex items-center gap-[var(--space-3)]"
-        trackClassName="w-full"
-        percentageClassName={cn("text-right", TOKEN_WIDTH_CLASS)}
-        aria-label={heroProgressLabel}
-      />
+      <div className="mb-[var(--space-4)] flex items-center gap-[var(--space-4)]">
+        <GlitchProgress
+          value={done}
+          max={total}
+          size="lg"
+          aria-label={heroProgressLabel}
+        />
+        <div className="flex flex-1 items-baseline justify-between gap-[var(--space-3)]">
+          <span className="min-w-[var(--space-9)] text-right font-semibold tabular-nums text-title">
+            {percentComplete}%
+          </span>
+          <span className="text-label text-muted-foreground">
+            <span className="tabular-nums">{done}</span>
+            {" / "}
+            <span className="tabular-nums">{total}</span> tasks
+          </span>
+        </div>
+      </div>
 
       <TodayHeroProjects
         projects={projects}

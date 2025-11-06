@@ -1,0 +1,83 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  width: auto;
+  min-height: var(--segmented-control-height, var(--control-h-md));
+  padding: calc(var(--space-1) * 1.4);
+  border-radius: calc(var(--control-radius) * 1.6);
+  border: var(--hairline-w) solid hsl(var(--card-hairline) / 0.55);
+  background:
+    radial-gradient(circle at 22% 24%, hsl(var(--accent-1) / 0.24) 0%, transparent 62%),
+    radial-gradient(circle at 78% 18%, hsl(var(--accent-2) / 0.2) 0%, transparent 58%),
+    linear-gradient(150deg, hsl(var(--surface) / 0.94), hsl(var(--surface-2) / 0.78));
+  box-shadow:
+    0 0 calc(var(--space-6)) hsl(var(--accent-1) / 0.22),
+    0 0 calc(var(--space-7)) hsl(var(--accent-2) / 0.18),
+    var(--shadow-outer-md);
+  isolation: isolate;
+}
+
+.content {
+  position: relative;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.halo,
+.noise {
+  position: absolute;
+  inset: -16%;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.halo {
+  background: radial-gradient(circle, hsl(var(--accent-1) / 0.42) 0%, transparent 70%);
+  filter: blur(calc(var(--segmented-control-halo, 32px)));
+  opacity: 0.9;
+}
+
+.noise {
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 22%, hsl(var(--accent-1) / 0.3) 0%, transparent 60%),
+    radial-gradient(circle at 84% 26%, hsl(var(--accent-2) / 0.24) 0%, transparent 56%),
+    var(--glitch-noise-image, var(--asset-noise-url, var(--asset-noise-url-default)));
+  background-size: 200% 200%, 200% 200%, cover;
+  background-position: 24% 28%, 76% 22%, center;
+  mix-blend-mode: screen;
+  opacity: 0.18;
+}
+
+.root[data-align='center'] .content {
+  justify-content: center;
+}
+
+.root[data-align='end'] .content {
+  justify-content: flex-end;
+}
+
+.root[data-align='between'] .content {
+  justify-content: space-between;
+}
+
+.root[data-size='sm'] {
+  --segmented-control-height: var(--control-h-sm);
+  --segmented-control-halo: 26px;
+  padding: calc(var(--space-1) * 1.1);
+}
+
+.root[data-size='md'] {
+  --segmented-control-height: var(--control-h-md);
+  --segmented-control-halo: 32px;
+}
+
+.root[data-size='lg'] {
+  --segmented-control-height: var(--control-h-lg);
+  --segmented-control-halo: 40px;
+  padding: calc(var(--space-2) * 1.1);
+}

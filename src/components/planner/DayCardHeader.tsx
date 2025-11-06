@@ -35,13 +35,13 @@ export function DayCardHeader({
         {headerText}
       </span>
 
-      <div className="flex-1 min-w-0">
-        <GlitchProgress
-          current={doneCount}
-          total={totalCount}
-          aria-label={`Completed items for ${formattedIsoLabel}`}
-        />
-      </div>
+      <GlitchProgress
+        value={doneCount}
+        max={totalCount}
+        size="sm"
+        aria-label={`Completed items for ${formattedIsoLabel}`}
+        className="shrink-0"
+      />
 
       <div className="shrink-0 flex items-baseline gap-[var(--space-3)] text-label text-muted-foreground">
         <span className="tabular-nums font-medium text-foreground">

@@ -1,4 +1,4 @@
-// src/components/ui/layout/hero/Hero.tsx
+// src/components/ui/layout/Hero.tsx
 "use client";
 
 import * as React from "react";
@@ -7,15 +7,15 @@ import {
   type TabBarA11yProps,
   type TabBarProps,
   type TabItem,
-} from "../TabBar";
+} from "./TabBar";
 import type { HeaderTabsProps } from "@/components/ui/layout/Header";
 import { cn } from "@/lib/utils";
-import { NeomorphicFrameStyles } from "../NeomorphicFrameStyles";
-import { HeroGlitchStyles } from "./HeroGlitchStyles";
-import { HeroImage, type HeroImageProps } from "./HeroImage";
-import { HeroSearchBar, type HeroSearchBarProps } from "./HeroSearchBar";
-import { useHeroStyles } from "./useHeroStyles";
-import styles from "./Hero.module.css";
+import { NeomorphicFrameStyles } from "./NeomorphicFrameStyles";
+import { HeroGlitchStyles } from "./hero/HeroGlitchStyles";
+import { HeroImage, type HeroImageProps } from "./hero/HeroImage";
+import { HeroSearchBar, type HeroSearchBarProps } from "./hero/HeroSearchBar";
+import { useHeroStyles } from "./hero/useHeroStyles";
+import styles from "./hero/Hero.module.css";
 
 type HeroElement = Extract<
   keyof React.JSX.IntrinsicElements,
