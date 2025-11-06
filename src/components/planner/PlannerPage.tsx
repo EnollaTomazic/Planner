@@ -12,16 +12,9 @@ import "./style.css";
 
 import * as React from "react";
 import Image from "next/image";
-import {
-  Button,
-  Hero,
-  HeroCol,
-  HeroGrid,
-  PageHeader,
-  PageShell,
-  Slider,
-  TabBar,
-} from "@/components/ui";
+import { Button, HeroCol, HeroGrid, PageHeader, PageShell, TabBar } from "@/components/ui";
+import { Hero } from "@/components/ui/layout/hero/Hero";
+import { Slider } from "@/components/ui/primitives/Slider";
 import { cn } from "@/lib/utils";
 import styles from "./PlannerPage.module.css";
 import { useFocusDate, useWeek } from "./useFocusDate";
@@ -37,9 +30,11 @@ import useBasePath from "@/lib/useBasePath";
 import { PlannerStatChip } from "./PlannerStatChip";
 import { useDay } from "./useDay";
 import { SmallAgnesNoxiImage } from "./SmallAgnesNoxiImage";
+import ProgressRingIcon from "@/icons/ProgressRingIcon";
 
 const {
   autopilotHero,
+  heroSummaryColumn,
   heroSummaryCard,
   heroSummaryLabel,
   heroSummaryBody,
@@ -49,7 +44,7 @@ const {
   heroDonutValue,
   heroDonutCaption,
   heroStatStack,
-  heroActions,
+  heroControls,
   heroActionButtons,
   quickLinksRow,
   quickLinksList,
@@ -57,6 +52,8 @@ const {
   quickLinkChip,
   quickLinkLabel,
   quickLinkMeta,
+  heroIconFrame,
+  heroIconInner,
 } = styles;
 
 const LazyDayView = React.lazy(async () => ({
@@ -304,56 +301,63 @@ function Inner() {
           eyebrow="Planner autopilot"
           title="Your sprint blueprint"
           subtitle="Tweak the focus dial before locking the week. Agnes maps the calm line, Noxi keeps the glitch guardrails on. Every suggestion stays editable."
-          illustration={<SmallAgnesNoxiImage />}
-          illustrationAlt="Agnes and Noxi calibrating the sprint blueprint"
-          actions={
-            <div className={heroActions}>
-              <Slider
-                label="Adjust energy"
-                min={20}
-                max={100}
-                step={1}
-                value={planningEnergy}
-                onChange={(event) => setPlanningEnergy(Number(event.target.value))}
-                minLabel="20%"
-                maxLabel="100%"
-                description={sliderFeedback}
-              />
-              {quickLinks.length ? (
-                <nav aria-label="Planner quick suggestions" className={quickLinksRow}>
-                  <ul className={quickLinksList} role="list">
-                    {quickLinks.map((link) => (
-                      <li key={link.id} className={quickLinkItem}>
-                        <a className={quickLinkChip} href={link.href}>
-                          <span className={quickLinkLabel}>{link.label}</span>
-                          {link.description ? (
-                            <span className={quickLinkMeta}>{link.description}</span>
-                          ) : null}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              ) : null}
-              <div className={heroActionButtons}>
-                <Button size="sm" variant="quiet" tone="accent">
-                  Retry suggestions
-                </Button>
-                <Button size="sm" variant="default" tone="accent">
-                  Edit draft
-                </Button>
-                <Button size="sm" variant="quiet">
-                  Cancel
-                </Button>
+          icon={
+            <div className={heroIconFrame} aria-hidden>
+              <div className={heroIconInner}>
+                <ProgressRingIcon pct={planningEnergy} size="l" />
               </div>
             </div>
           }
+          illustration={<SmallAgnesNoxiImage />}
+          illustrationAlt="Agnes and Noxi calibrating the sprint blueprint"
+          actions={
+            quickLinks.length ? (
+              <nav aria-label="Planner quick suggestions" className={quickLinksRow}>
+                <ul className={quickLinksList} role="list">
+                  {quickLinks.map((link) => (
+                    <li key={link.id} className={quickLinkItem}>
+                      <a className={quickLinkChip} href={link.href}>
+                        <span className={quickLinkLabel}>{link.label}</span>
+                        {link.description ? (
+                          <span className={quickLinkMeta}>{link.description}</span>
+                        ) : null}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ) : null
+          }
         >
           <HeroGrid>
-            <HeroCol span={7}>
+            <HeroCol span={7} className={heroSummaryColumn}>
               <div className={heroSummaryCard}>
                 <span className={heroSummaryLabel}>Autopilot status</span>
                 <p className={heroSummaryBody}>{autopilotSummary}</p>
+              </div>
+              <div className={heroControls}>
+                <Slider
+                  label="Adjust energy"
+                  min={20}
+                  max={100}
+                  step={1}
+                  value={planningEnergy}
+                  onChange={(event) => setPlanningEnergy(Number(event.target.value))}
+                  minLabel="20%"
+                  maxLabel="100%"
+                  description={sliderFeedback}
+                />
+                <div className={heroActionButtons}>
+                  <Button size="sm" variant="quiet" tone="accent">
+                    Retry suggestions
+                  </Button>
+                  <Button size="sm" variant="default" tone="accent">
+                    Edit draft
+                  </Button>
+                  <Button size="sm" variant="quiet">
+                    Cancel
+                  </Button>
+                </div>
               </div>
             </HeroCol>
             <HeroCol span={5} className={heroMetrics}>
