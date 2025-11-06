@@ -3,6 +3,7 @@
 
 import * as React from "react";
 import { Button, type ButtonProps } from "@/components/ui/primitives/Button";
+import { getAccentColors } from "@/components/ui/theme/getAccentColors";
 import { cn } from "@/lib/utils";
 
 const WRAPPER_BASE_CLASSES = cn(
@@ -85,11 +86,34 @@ const PageHeaderInner = (
     contentClassName,
     actionsLabel = "Page actions",
     headingId: headingIdProp,
+    style: styleProp,
     ...rest
   }: PageHeaderProps,
   ref: React.ForwardedRef<HTMLElement>,
 ) => {
   const Component: PageHeaderElement = as ?? "section";
+
+  const accentColors = React.useMemo(getAccentColors, []);
+  const accentVariables = React.useMemo(
+    () =>
+      ({
+        "--page-header-accent-surface": `color-mix(in oklab, ${accentColors.accent1Soft} 70%, ${accentColors.panel})`,
+        "--page-header-accent-border": `color-mix(in oklab, ${accentColors.accent1} 38%, ${accentColors.border})`,
+        "--page-header-accent-glow": `color-mix(in oklab, ${accentColors.accent2} 45%, transparent)`,
+        "--page-header-accent-glow-soft": `color-mix(in oklab, ${accentColors.accent3} 30%, transparent)`,
+        "--page-header-accent-ring": accentColors.glow,
+        "--page-header-accent-on-color": accentColors.accent1Foreground,
+        "--page-header-accent-contrast": accentColors.accent1Contrast,
+      }) as Record<string, string>,
+    [accentColors],
+  );
+
+  const mergedStyle = React.useMemo<React.CSSProperties | undefined>(() => {
+    if (styleProp) {
+      return { ...accentVariables, ...styleProp } as React.CSSProperties;
+    }
+    return accentVariables as React.CSSProperties;
+  }, [accentVariables, styleProp]);
 
   const generatedId = React.useId();
   const headingId = React.useMemo(
@@ -159,6 +183,7 @@ const PageHeaderInner = (
     <Component
       ref={ref as React.Ref<any>}
       className={cn(WRAPPER_BASE_CLASSES, className)}
+      style={mergedStyle}
       {...rest}
     >
       <div
