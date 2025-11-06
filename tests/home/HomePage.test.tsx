@@ -89,8 +89,7 @@ describe("Home page", () => {
     });
   });
 
-  it("falls back to the legacy landing experience when the flag is disabled", () => {
-    vi.useFakeTimers();
+  it("falls back to the legacy landing experience when the flag is disabled", async () => {
     const setTimeoutSpy = vi.spyOn(window, "setTimeout");
 
     try {
@@ -105,17 +104,20 @@ describe("Home page", () => {
       );
 
       expect(
-        screen.getAllByRole("region", { name: "Planner overview" }).length,
+        (await screen.findAllByRole("region", { name: "Planner overview" })).length,
       ).toBeGreaterThan(0);
       expect(document.body.dataset.glitchLanding).toBe("legacy");
       const homeContent = document.querySelector("[data-home-content]");
       expect(homeContent).not.toBeNull();
       expect(homeContent).toHaveAttribute("data-state", "ready");
-      const hasGlitchDelay = setTimeoutSpy.mock.calls.some(([, delay]) => delay === 400);
-      expect(hasGlitchDelay).toBe(false);
+      expect(
+        screen.queryByRole("status", { name: "Planner is loading" }),
+      ).toBeNull();
+      expect(
+        setTimeoutSpy.mock.calls.some(([, delay]) => delay === 400),
+      ).toBe(false);
     } finally {
       setTimeoutSpy.mockRestore();
-      vi.useRealTimers();
     }
   });
 });
