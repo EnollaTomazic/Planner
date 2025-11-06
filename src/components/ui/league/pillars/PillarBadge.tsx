@@ -2,9 +2,9 @@
 "use client";
 
 import * as React from "react";
-import clsx from "clsx";
-import type { Pillar } from "@/lib/types";
 import { Waves, HandCoins, Eye, Timer, Crosshair, MessagesSquare } from "lucide-react";
+import type { Pillar } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import styles from "./PillarBadge.module.css";
 
 type Size = "sm" | "md" | "lg";
@@ -61,7 +61,7 @@ export function PillarBadge({
   const Tag: AsTag = as ?? (interactive ? "button" : "span");
 
   // Common class list
-  const cls = clsx(styles.root, "rounded-full", sizeCls, className);
+  const cls = cn(styles.root, "rounded-full", sizeCls, className);
 
   // If not a real button but still clickable, apply minimal semantics
   const nonButtonInteractiveProps =
