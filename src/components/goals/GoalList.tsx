@@ -84,7 +84,7 @@ export function GoalList({
 
         return (
           <article
-            className="card-pad flex min-h-[var(--space-6)] w-full flex-1 flex-col rounded-card border border-card-hairline-60 bg-surface text-card-foreground transition-colors focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-2 focus-within:ring-offset-[hsl(var(--surface))] hover:bg-surface-2 focus-within:bg-surface-2"
+            className="card-pad flex min-h-[var(--space-6)] w-full flex-1 flex-col rounded-card border border-card-hairline-60 bg-surface text-card-foreground transition-colors focus-within:outline-none focus-within:ring-2 focus-within:ring-focus focus-within:ring-offset-2 focus-within:ring-offset-surface hover:bg-surface-2 focus-within:bg-surface-2"
           >
             <header className="flex items-start justify-between gap-[var(--space-2)]">
               <div className="flex-1 pr-[var(--space-6)]">

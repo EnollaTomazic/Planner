@@ -26,7 +26,7 @@ const DefaultFieldState: React.FC = () => (
 
 const FocusVisibleFieldState: React.FC = () => (
   <Field.Root
-    className="ring-2 ring-[hsl(var(--ring))]"
+    className="ring-2 ring-ring"
     helper="Helper text aligns with counter"
     helperId="field-focus-helper"
     counter="64 / 100"
@@ -128,7 +128,7 @@ const FIELD_STATES: readonly FieldStateSpec[] = [
     name: "Focus visible",
     Component: FocusVisibleFieldState,
     code: `<Field.Root
-  className="ring-2 ring-[hsl(var(--ring))]"
+  className="ring-2 ring-ring"
   helper="Helper text aligns with counter"
   helperId="field-focus-helper"
   counter="64 / 100"
@@ -300,7 +300,7 @@ export const FieldGallery = defineGallerySection({
   <Field.Input placeholder="Default field" />
 </Field.Root>
 <Field.Root
-  className="ring-2 ring-[hsl(var(--ring))]"
+  className="ring-2 ring-ring"
   helper="Helper text aligns with counter"
   helperId="field-focus-helper"
   counter="64 / 100"

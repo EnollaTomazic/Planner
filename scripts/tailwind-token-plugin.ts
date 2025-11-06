@@ -141,6 +141,7 @@ const buildColorPalette = (
       DEFAULT: hslToken(manifest, "ring"),
       contrast: cssToken(manifest, "ringContrast"),
     },
+    focus: cssToken(manifest, "focus"),
     background: hslToken(manifest, "background"),
     foreground: hslToken(manifest, "foreground"),
     card: {
