@@ -2,6 +2,12 @@
   --planner-donut-size: clamp(11rem, 26vw, 15rem);
 }
 
+.heroSummaryColumn {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+
 .heroSummaryCard {
   display: grid;
   gap: var(--space-2);
@@ -101,7 +107,8 @@
   max-width: var(--planner-donut-size);
 }
 
-.heroActions {
+
+.heroControls {
   display: grid;
   gap: var(--space-3);
   width: 100%;
@@ -173,7 +180,7 @@
 }
 
 @media (max-width: 40rem) {
-  .heroActions {
+  .heroControls {
     max-width: 100%;
   }
 
@@ -196,12 +203,35 @@
   }
 }
 
+.heroIconFrame {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(4.5rem, 10vw, 5.5rem);
+  aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  background: linear-gradient(145deg, hsl(var(--surface-2) / 0.9), hsl(var(--surface) / 0.9));
+  box-shadow:
+    0 calc(var(--space-1) * 0.6) calc(var(--space-3)) hsl(var(--shadow-color) / 0.4),
+    0 calc(var(--space-1) * 0.2) calc(var(--space-2)) hsl(var(--accent-1) / 0.18);
+  padding: clamp(var(--space-1), 2vw, var(--space-2));
+}
+
+.heroIconInner {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(160deg, hsl(var(--surface) / 0.92), hsl(var(--surface-2) / 0.72));
+  box-shadow:
+    inset 0 calc(var(--space-1) * 0.4) calc(var(--space-3)) hsl(var(--shadow-color) / 0.25),
+    inset 0 0 0 calc(var(--hairline-w) * 1.1) hsl(var(--card-hairline) / 0.5);
+}
+
 @media (min-width: 64rem) {
   .heroMetrics {
     justify-items: end;
-  }
-
-  .heroActions {
-    justify-self: end;
   }
 }
