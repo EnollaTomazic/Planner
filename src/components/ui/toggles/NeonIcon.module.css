@@ -151,7 +151,8 @@
   mix-blend-mode: overlay;
   background: repeating-linear-gradient(
     0deg,
-    hsl(var(--foreground) / 0.07) 0 var(--hairline-w),
+    hsl(var(--foreground) /
+      var(--texture-scanline-opacity, 0.05)) 0 var(--hairline-w),
     transparent var(--hairline-w) calc(var(--hairline-w) * 3)
   );
   opacity: 0;
@@ -160,7 +161,7 @@
 
 .root[data-phase="ignite"] .scanlines,
 .root[data-phase="steady-on"] .scanlines {
-  opacity: 0.35;
+  opacity: calc(0.35 * var(--texture-scanline-strength, 1));
 }
 
 .ignite,

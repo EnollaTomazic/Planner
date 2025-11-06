@@ -127,7 +127,7 @@ export default {
   radius2xl: "24px",
   radiusFull: "9999px",
   background: "247 32% 14%",
-  foreground: "258 24% 92%",
+  foreground: "258 24% 96%",
   card: "249 28% 21%",
   cardForeground: "var(--foreground)",
   panel: "var(--card)",
@@ -154,7 +154,7 @@ export default {
   warningSoft: "var(--warning) / 0.1",
   warningSoftStrong: "var(--warning) / 0.2",
   muted: "248 22% 19%",
-  mutedForeground: "248 16% 68%",
+  mutedForeground: "248 18% 74%",
   fgMuted: "var(--muted-foreground)",
   surface: "248 24% 18%",
   surface2: "248 24% 18%",
@@ -179,7 +179,7 @@ export default {
   auroraGLight: "150 100% 85%",
   auroraP: "var(--accent-1)",
   auroraPLight: "272 80% 85%",
-  iconFg: "250 96% 78%",
+  iconFg: "250 96% 84%",
   accentOverlay: "hsl(var(--accent-1))",
   ringContrast: "hsl(var(--ring))",
   glowActive: "hsl(var(--glow))",
@@ -260,6 +260,8 @@ export default {
   skeletonFill: "hsl(var(--foreground) / 0.08)",
   gradientNoiseOpacity: "0.1",
   gradientNoiseOverlayOpacity: "0.06",
+  textureGrainOpacity: "0.05",
+  textureScanlineOpacity: "0.045",
   shadowInnerSm:
     "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)",
   shadowInnerMd:
@@ -271,9 +273,11 @@ export default {
   blobSurface2: "hsl(var(--surface-2))",
   blobSurface3: "hsl(var(--card))",
   blobSurfaceShadow: "hsl(var(--shadow-color) / 0.4)",
-  glitchNoisePrimary: "hsl(var(--accent-1) / 0.055)",
-  glitchNoiseSecondary: "hsl(var(--ring) / 0.05)",
-  glitchNoiseContrast: "hsl(var(--foreground) / 0.045)",
+  glitchNoisePrimary:
+    "hsl(var(--accent-1) / var(--texture-grain-opacity, 0.05))",
+  glitchNoiseSecondary: "hsl(var(--ring) / var(--texture-grain-opacity, 0.05))",
+  glitchNoiseContrast:
+    "hsl(var(--foreground) / var(--texture-grain-opacity, 0.05))",
   elevationCard: "var(--shadow-outline-subtle)",
   elevationCardPressed: "var(--shadow-control)",
   neoDepthSm: "var(--spacing-1)",
@@ -420,7 +424,7 @@ export default {
   durChill: "220ms",
   durSlow: "420ms",
   cardOverlayScanlines:
-    "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / 0.035) 0,\n    hsl(var(--foreground) / 0.035) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )",
+    "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) 0,\n    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )",
   glitchDuration: "450ms",
   glowPulse: "glow-pulse var(--dur-slow) var(--ease-out) infinite alternate",
   glitchRgbShift:
