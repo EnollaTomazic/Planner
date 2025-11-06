@@ -15,7 +15,9 @@ export default function HomePageContent({
   overviewHeadingId,
 }: HomePageContentProps) {
   const { glitchLandingEnabled } = useUiFeatureFlags()
-  const [shouldRenderIsland, setShouldRenderIsland] = React.useState(false)
+  const [shouldRenderIsland, setShouldRenderIsland] = React.useState(
+    !glitchLandingEnabled,
+  )
 
   React.useEffect(() => {
     if (!glitchLandingEnabled) {
