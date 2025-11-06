@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import { describe, it, expect, afterEach } from "vitest";
 import { Header } from "@/components/ui/layout/Header";
-import { Hero } from "@/components/ui/layout/hero/Hero";
+import { Hero } from "@/components/ui/layout/Hero";
 
 afterEach(cleanup);
 
