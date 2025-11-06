@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-labelledby="title desc">
+  <title id="title">Placeholder 3D render of daemon Noxi</title>
+  <desc id="desc">A neon demon silhouette with crystalline horns and glitch lighting, representing Noxi in a 3D illustration style.</desc>
+  <defs>
+    <radialGradient id="noxiCore" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#ffe6ff" stop-opacity="0.95" />
+      <stop offset="45%" stop-color="#ff80d5" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#3a0f6b" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="noxiBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5310ff" />
+      <stop offset="50%" stop-color="#8c20ff" />
+      <stop offset="100%" stop-color="#ff3dc8" />
+    </linearGradient>
+    <linearGradient id="noxiEdge" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff9bf7" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#9f54ff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#4b19ff" stop-opacity="0.45" />
+    </linearGradient>
+    <filter id="noxiGlow" x="-15%" y="-15%" width="130%" height="130%">
+      <feGaussianBlur stdDeviation="7" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="100%" height="100%" fill="#05000f" opacity="0.75" />
+  <rect width="100%" height="100%" fill="url(#noxiCore)" />
+  <g filter="url(#noxiGlow)">
+    <path d="M240 78c32 12 48 46 48 80 0 38-16 74-48 86-32-12-48-48-48-86 0-34 16-68 48-80z" fill="url(#noxiBody)" />
+    <path d="M204 60c-22 4-36 36-40 64 26-22 46-34 56-40 6-24-8-28-16-24z" fill="url(#noxiEdge)" opacity="0.8" />
+    <path d="M276 60c22 4 36 36 40 64-26-22-46-34-56-40-6-24 8-28 16-24z" fill="url(#noxiEdge)" opacity="0.8" />
+    <path d="M204 196c-22 8-36 26-44 44 28 0 58-2 80 0-10-20-22-36-36-44z" fill="#ff5ed9" opacity="0.55" />
+    <path d="M276 196c22 8 36 26 44 44-28 0-58-2-80 0 10-20 22-36 36-44z" fill="#7b2bff" opacity="0.55" />
+    <ellipse cx="240" cy="250" rx="90" ry="28" fill="#140033" opacity="0.6" />
+  </g>
+</svg>

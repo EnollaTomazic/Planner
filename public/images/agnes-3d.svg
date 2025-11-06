@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-labelledby="title desc">
+  <title id="title">Placeholder 3D render of angel Agnes</title>
+  <desc id="desc">A softly glowing angelic silhouette with sweeping wings and iridescent lighting, representing Agnes in a 3D illustration style.</desc>
+  <defs>
+    <radialGradient id="agnesAura" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="45%" stop-color="#cbe5ff" stop-opacity="0.7" />
+      <stop offset="100%" stop-color="#7fb7ff" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="agnesBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f3f9ff" />
+      <stop offset="55%" stop-color="#d9e8ff" />
+      <stop offset="100%" stop-color="#bcd6ff" />
+    </linearGradient>
+    <linearGradient id="agnesWing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85" />
+      <stop offset="60%" stop-color="#d6e7ff" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#98c6ff" stop-opacity="0.35" />
+    </linearGradient>
+    <filter id="softGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#agnesAura)" />
+  <g filter="url(#softGlow)">
+    <path d="M160 108c32-42 80-42 112 0 28 36 28 94 0 130-32 42-80 42-112 0-28-36-28-94 0-130z" fill="url(#agnesBody)" opacity="0.95" />
+    <path d="M108 164c-22-58 34-118 82-82 12 10-4 28-28 44-20 14-40 26-54 38z" fill="url(#agnesWing)" />
+    <path d="M324 164c22-58-34-118-82-82-12 10 4 28 28 44 20 14 40 26 54 38z" fill="url(#agnesWing)" transform="scale(-1,1) translate(-648,0)" />
+    <ellipse cx="216" cy="246" rx="84" ry="24" fill="#9cc7ff" opacity="0.25" />
+  </g>
+</svg>

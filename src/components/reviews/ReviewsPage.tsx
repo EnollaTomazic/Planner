@@ -168,8 +168,8 @@ export function ReviewsPage({
           }
           illustration={
             <Image
-              src="/images/agnes.svg"
-              alt="Agnes watching over review browsing"
+              src="/images/agnes-3d.svg"
+              alt="Agnes radiating a calm glow while watching over review browsing"
               fill
               sizes="(min-width: 1280px) 38vw, (min-width: 768px) 56vw, 100vw"
               priority={false}

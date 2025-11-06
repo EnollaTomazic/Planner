@@ -29,7 +29,7 @@ import { useWeekData } from "./useWeekData";
 import useBasePath from "@/lib/useBasePath";
 import { PlannerStatChip } from "./PlannerStatChip";
 import { useDay } from "./useDay";
-import { SmallAgnesNoxiImage } from "./SmallAgnesNoxiImage";
+import { NoxiHeroImage } from "./NoxiHeroImage";
 import ProgressRingIcon from "@/icons/ProgressRingIcon";
 
 const {
@@ -308,8 +308,8 @@ function Inner() {
               </div>
             </div>
           }
-          illustration={<SmallAgnesNoxiImage />}
-          illustrationAlt="Agnes and Noxi calibrating the sprint blueprint"
+          illustration={<NoxiHeroImage />}
+          illustrationAlt="Noxi projecting glitch guardrails around the sprint blueprint"
           actions={
             quickLinks.length ? (
               <nav aria-label="Planner quick suggestions" className={quickLinksRow}>
