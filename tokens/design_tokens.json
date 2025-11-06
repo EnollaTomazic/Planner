@@ -368,13 +368,13 @@
   },
   "shadow": {
     "background": {
-      "value": "247 32% 9%"
+      "value": "247 32% 16%"
     },
     "foreground": {
       "value": "258 24% 92%"
     },
     "card": {
-      "value": "249 28% 15%"
+      "value": "249 28% 22%"
     },
     "cardForeground": {
       "value": "var(--foreground)"
@@ -389,7 +389,7 @@
       "value": "var(--border)"
     },
     "input": {
-      "value": "249 26% 15%"
+      "value": "249 26% 22%"
     },
     "ring": {
       "value": "262 88% 66%"
@@ -419,7 +419,7 @@
       "value": "0 0% 100%"
     },
     "accentContrast": {
-      "value": "294 92% 72%"
+      "value": "294 92% 88%"
     },
     "accentSoft": {
       "value": "294 90% 16%"
@@ -452,10 +452,10 @@
       "value": "var(--muted-foreground)"
     },
     "surface": {
-      "value": "248 24% 13%"
+      "value": "248 24% 20%"
     },
     "surface2": {
-      "value": "248 24% 18%"
+      "value": "248 24% 25%"
     },
     "surfaceVhs": {
       "value": "210 22% 10%"

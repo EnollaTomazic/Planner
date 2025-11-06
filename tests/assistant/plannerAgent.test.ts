@@ -40,7 +40,7 @@ describe("planWithAssistant", () => {
 
     expect(plan.sanitizedPrompt).toContain("Plan sprint review");
     expect(plan.suggestions.length).toBeGreaterThan(0);
-    expect(plan.summary).toMatch(/on 2025-10-\d{2}$/);
+    expect(plan.summary).toMatch(/on 2025-\d{2}-\d{2}$/);
     expect(plan.safety.safeMode).toBe(false);
 
     expect(plan.tokenBudget.totalTokens).toBeGreaterThan(0);

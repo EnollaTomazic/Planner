@@ -131,14 +131,14 @@
 | radius-xl | 16px |
 | radius2xl | 24px |
 | radius-full | 9999px |
-| background | 247 32% 9% |
+| background | 247 32% 16% |
 | foreground | 258 24% 92% |
-| card | 249 28% 15% |
+| card | 249 28% 22% |
 | card-foreground | var(--foreground) |
 | panel | var(--card) |
 | border | 253 26% 28% |
 | line | var(--border) |
-| input | 249 26% 15% |
+| input | 249 26% 22% |
 | ring | 262 88% 66% |
 | theme-ring | hsl(var(--ring)) |
 | primary | 262 88% 60% |
@@ -148,7 +148,7 @@
 | accent2 | 190 86% 38% |
 | accent3 | 200 88% 34% |
 | accent-foreground | 0 0% 100% |
-| accent-contrast | 294 92% 72% |
+| accent-contrast | 294 92% 88% |
 | accent-soft | 294 90% 16% |
 | glow | 296 96% 56% |
 | ring-muted | 248 22% 24% |
@@ -159,8 +159,8 @@
 | muted | 248 22% 19% |
 | muted-foreground | 248 16% 68% |
 | fg-muted | var(--muted-foreground) |
-| surface | 248 24% 13% |
-| surface2 | 248 24% 18% |
+| surface | 248 24% 20% |
+| surface2 | 248 24% 25% |
 | surface-vhs | 210 22% 10% |
 | surface-streak | 240 16% 16% |
 | shadow-color | 263 78% 56% |
