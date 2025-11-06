@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, cleanup } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
-import { Hero } from "@/components/ui/layout/hero/Hero";
+import { Hero } from "@/components/ui/layout/Hero";
 
 afterEach(cleanup);
 

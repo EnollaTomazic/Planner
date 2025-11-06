@@ -6,8 +6,6 @@ import {
   Button,
   Card,
   CheckCircle,
-  GlitchSegmentedButton,
-  GlitchSegmentedGroup,
   SideSelector,
   TabBar,
   TabList,
@@ -54,18 +52,6 @@ export function ButtonsPanel({ data }: ButtonsPanelProps) {
               <SegmentedButton>Default</SegmentedButton>
               <SegmentedButton selected>Active</SegmentedButton>
               <SegmentedButton disabled>Disabled</SegmentedButton>
-            </div>
-          ),
-        },
-        {
-          label: "GlitchSegmented",
-          element: (
-            <div style={sampleWidthStyle}>
-              <GlitchSegmentedGroup value={data.segmented.value} onChange={data.segmented.onChange}>
-                <GlitchSegmentedButton value="one">One</GlitchSegmentedButton>
-                <GlitchSegmentedButton value="two">Two</GlitchSegmentedButton>
-                <GlitchSegmentedButton value="three">Three</GlitchSegmentedButton>
-              </GlitchSegmentedGroup>
             </div>
           ),
         },
@@ -152,6 +138,25 @@ export function ButtonsPanel({ data }: ButtonsPanelProps) {
                   { key: "three", label: "Three" },
                 ]}
                 ariaLabel="Sample tabs"
+                linkPanels={false}
+              />
+            </div>
+          ),
+        },
+        {
+          label: "TabBar (neo)",
+          element: (
+            <div style={sampleWidthStyle}>
+              <TabBar
+                items={[
+                  { key: "one", label: "One" },
+                  { key: "two", label: "Two" },
+                  { key: "three", label: "Three" },
+                ]}
+                value={data.neoTabs.value}
+                onValueChange={data.neoTabs.onValueChange}
+                ariaLabel="Neomorphic tabs"
+                variant="neo"
                 linkPanels={false}
               />
             </div>
@@ -283,10 +288,10 @@ export function ButtonsPanel({ data }: ButtonsPanelProps) {
         },
       ],
     [
-      data.segmented.value,
-      data.segmented.onChange,
       data.appTabs.value,
       data.appTabs.onValueChange,
+      data.neoTabs.value,
+      data.neoTabs.onValueChange,
       data.filterTabs.value,
       data.filterTabs.onValueChange,
       data.checkCircle.checked,

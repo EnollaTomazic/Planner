@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { PageShell, Spinner } from "@/components/ui";
-import { Hero } from "@/components/ui/layout/hero/Hero";
+import { Hero } from "@/components/ui/layout/Hero";
 import { cn } from "@/lib/utils";
 import { HomeSplashIllustration } from "./HomeSplashIllustration";
 import styles from "./HomeSplash.module.css";

@@ -19,17 +19,7 @@ export default defineConfig({
     hookTimeout: 10000,
     retry: isCI ? 2 : 0,
     pool,
-    poolOptions: {
-      threads: {
-        isolate: true,
-        maxThreads: isCI ? 2 : undefined,
-        minThreads: 1,
-      },
-      forks: {
-        isolate: true,
-        singleFork: isCI,
-      },
-    },
+    maxWorkers: isCI ? 1 : undefined,
     sequence: {
       hooks: 'list',
     },

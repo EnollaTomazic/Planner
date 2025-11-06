@@ -131,9 +131,9 @@
 | radius-xl | 16px |
 | radius-2-xl | 24px |
 | radius-full | 9999px |
-| background | 247 32% 9% |
+| background | 247 32% 14% |
 | foreground | 258 24% 92% |
-| card | 249 28% 15% |
+| card | 249 28% 21% |
 | card-foreground | var(--foreground) |
 | panel | var(--card) |
 | border | 253 26% 28% |
@@ -146,7 +146,7 @@
 | primary-soft | 262 88% 20% |
 | accent-1 | 276 88% 62% |
 | accent-1-foreground | 0 0% 100% |
-| accent-1-contrast | 276 92% 80% |
+| accent-1-contrast | 276 92% 88% |
 | accent-1-soft | 276 88% 22% |
 | accent-1-hover | hsl(var(--accent-1) / 0.14) |
 | accent-2 | 168 96% 56% |
@@ -161,15 +161,15 @@
 | muted | 248 22% 19% |
 | muted-foreground | 248 16% 68% |
 | fg-muted | var(--muted-foreground) |
-| surface | 248 24% 13% |
+| surface | 248 24% 18% |
 | surface-2 | 248 24% 18% |
 | surface-vhs | 210 22% 10% |
 | surface-streak | 240 16% 16% |
 | shadow-color | 263 78% 56% |
-| noir-background | 352 68% 4% |
+| noir-background | 352 68% 10% |
 | noir-foreground | 0 0% 94% |
 | noir-border | 352 44% 24% |
-| hardstuck-background | 120 58% 3% |
+| hardstuck-background | 120 58% 9% |
 | hardstuck-foreground | 120 60% 72% |
 | hardstuck-border | 120 42% 22% |
 | success | 160 72% 48% |
@@ -244,9 +244,11 @@
     var(--shadow-outline-subtle) |
 | glow-strong | var(--ring) / 0.55 |
 | glow-soft | var(--accent-1) / 0.25 |
-| shadow-neon | calc(var(--spacing-0-5) / 2) calc(-1 * var(--spacing-0-5) / 2) var(--space-1) hsl(var(--neon) / 0.55),
-    calc(-1 * var(--spacing-0-5)) var(--spacing-0-5) calc(var(--space-3) - var(--space-1) / 2) hsl(var(--neon) / 0.35),
-    calc(var(--spacing-0-5) * 1.5) calc(var(--spacing-0-5) * 1.25) calc(var(--space-4) + var(--space-1) / 2) hsl(var(--neon) / 0.2) |
+| shadow-neon | 0 0 calc(var(--space-2)) hsl(var(--neon) / 0.55),
+    0 0 calc(var(--space-4)) hsl(var(--neon-soft) / 0.35),
+    calc(var(--spacing-0-5)) calc(var(--spacing-0-5) * -1) calc(var(--space-3)) hsl(var(--neon) / 0.3),
+    calc(var(--spacing-0-5) * -1.25) calc(var(--spacing-0-5) * 1.25) calc(var(--space-4)) hsl(var(--neon-soft) / 0.24),
+    0 calc(var(--spacing-1)) calc(var(--space-5)) hsl(var(--neon-soft) / 0.18) |
 | btn-primary-hover-shadow | 0 calc(var(--space-1) / 2) calc(var(--space-3) / 2)
     calc(-1 * var(--space-1) / 4) hsl(var(--accent-1) / 0.25) |
 | btn-primary-active-shadow | inset 0 0 0 calc(var(--space-1) / 4)
