@@ -1,0 +1,151 @@
+.root {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  border-radius: var(--radius-full);
+  width: var(--glitch-progress-size, 88px);
+  height: var(--glitch-progress-size, 88px);
+  isolation: isolate;
+}
+
+.shell {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  padding: var(--glitch-progress-padding, 12px);
+  background: linear-gradient(
+      150deg,
+      hsl(var(--surface) / 0.94),
+      hsl(var(--surface-2) / 0.76)
+    );
+  box-shadow:
+    inset 0 calc(var(--space-1) * 0.35) calc(var(--space-3)) hsl(var(--shadow-color) / 0.28),
+    inset 0 0 0 calc(var(--hairline-w) * 1.1) hsl(var(--card-hairline) / 0.55);
+}
+
+.surface {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.neon {
+  position: absolute;
+  inset: calc(var(--space-2) * -1.4);
+  border-radius: inherit;
+  background: radial-gradient(
+    circle,
+    hsl(var(--accent-1) / 0.6) 0%,
+    hsl(var(--accent-2) / 0.35) 45%,
+    transparent 70%
+  );
+  filter: blur(var(--glitch-progress-halo, 24px));
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.noise {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 18% 26%, hsl(var(--accent-1) / 0.32) 0%, transparent 62%),
+    radial-gradient(circle at 78% 18%, hsl(var(--accent-2) / 0.28) 0%, transparent 58%),
+    var(--glitch-noise-image, var(--asset-noise-url, var(--asset-noise-url-default)));
+  background-size: 180% 180%, 180% 180%, cover;
+  background-position: 20% 24%, 80% 18%, center;
+  mix-blend-mode: screen;
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.inner {
+  position: absolute;
+  inset: calc(var(--space-1) * 1.1);
+  border-radius: inherit;
+  background: radial-gradient(
+    circle,
+    hsl(var(--surface) / 0.92) 0%,
+    hsl(var(--surface-2) / 0.72) 68%
+  );
+  box-shadow:
+    inset 0 calc(var(--space-1) * 0.25) calc(var(--space-2)) hsl(var(--shadow-color) / 0.32),
+    inset 0 0 calc(var(--hairline-w) * 1.3) hsl(var(--card-hairline) / 0.48);
+}
+
+.ring {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--glitch-progress-ring-size, calc(100% - var(--space-4)));
+  height: var(--glitch-progress-ring-size, calc(100% - var(--space-4)));
+  border-radius: inherit;
+  color: hsl(var(--accent-1));
+}
+
+.scanlines {
+  position: absolute;
+  inset: calc(var(--space-1) * 1.2);
+  border-radius: inherit;
+  overflow: hidden;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.scanlines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    hsl(var(--accent-1) / 0.28) 45%,
+    transparent 70%
+  );
+  animation: var(--scanline, glitch-scanline 2.4s steps(2, end) infinite);
+  mix-blend-mode: screen;
+}
+
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--accent-2) / 0.24) 52%,
+    transparent 78%
+  );
+  opacity: 0.35;
+}
+
+.root[data-size="xs"] {
+  --glitch-progress-padding: 8px;
+  --glitch-progress-halo: 14px;
+}
+
+.root[data-size="sm"] {
+  --glitch-progress-padding: 10px;
+  --glitch-progress-halo: 18px;
+}
+
+.root[data-size="md"] {
+  --glitch-progress-padding: 12px;
+  --glitch-progress-halo: 24px;
+}
+
+.root[data-size="lg"] {
+  --glitch-progress-padding: 14px;
+  --glitch-progress-halo: 30px;
+}
+
+.root[data-size="xl"] {
+  --glitch-progress-padding: 20px;
+  --glitch-progress-halo: 38px;
+}
