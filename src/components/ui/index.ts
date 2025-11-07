@@ -52,6 +52,8 @@ export { HeroCol, HeroGrid, NeomorphicHeroFrame } from "./layout/NeomorphicHeroF
 export type { Align, HeroColProps, HeroGridProps, HeroSlot, HeroSlotInput, HeroSlots, HeroVariant, NeomorphicHeroFrameProps } from "./layout/NeomorphicHeroFrame";
 export { PageHeader } from "./layout/PageHeader";
 export type { PageHeaderAction, PageHeaderProps } from "./layout/PageHeader";
+export { PageHero } from "./layout/PageHero";
+export type { PageHeroAccent, PageHeroProps } from "./layout/PageHero";
 export { layoutGridClassName, PageShell } from "./layout/PageShell";
 export type { PageShellProps } from "./layout/PageShell";
 export { SectionCard, SectionCardBody, SectionCardHeader } from "./layout/SectionCard";

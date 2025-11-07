@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { SiteChrome } from "@/components/chrome/SiteChrome";
 import { NavBar } from "@/components/chrome/NavBar";
 import { DecorLayer, PageShell } from "@/components/ui";
+import { PageHero } from "@/components/ui/layout/PageHero";
 
 import ThemeCycleControl from "./ThemeCycleControl";
 
@@ -21,6 +22,8 @@ export function generateStaticParams(): never[] {
 }
 
 export default function NavAndBackgroundPreviewPage() {
+  const headingId = "nav-preview-heading";
+
   return (
     <React.Fragment>
       <div aria-hidden className="page-backdrop">
@@ -31,29 +34,38 @@ export default function NavAndBackgroundPreviewPage() {
       </div>
       <SiteChrome>
         <div className="relative z-10">
-          <main
-            id="main-content"
-            tabIndex={-1}
-            className="flex min-h-[60vh] flex-col py-[var(--space-8)]"
-          >
-            <PageShell className="flex flex-col gap-[var(--space-6)]">
-              <header className="max-w-2xl space-y-[var(--space-2)]">
-                <p className="text-label text-accent-foreground/80">Theme preview</p>
-                <h1 className="text-display-sm font-semibold text-foreground">
-                  Navigation & background layering
-                </h1>
+          <PageShell as="header" grid className="py-[var(--space-8)]">
+            <PageHero
+              id={headingId}
+              accent="supportive"
+              frame={false}
+              glitch="off"
+              eyebrow={<span className="normal-case text-accent-foreground/80">Theme preview</span>}
+              title="Navigation & background layering"
+            >
+              <div className="max-w-2xl space-y-[var(--space-3)]">
                 <p className="text-body-md text-muted-foreground">
                   Cycle through every variant and background pairing to verify that the navigation chrome and decorative backdrops stay in sync.
                 </p>
                 <ThemeCycleControl />
-              </header>
-              <section className="rounded-[var(--radius-2xl)] border border-border/80 bg-surface/90 p-[var(--space-6)] shadow-[var(--shadow-outline-subtle)] backdrop-blur-md">
-                <div className="mx-auto max-w-4xl">
-                  <NavBar />
-                </div>
-              </section>
-            </PageShell>
-          </main>
+              </div>
+            </PageHero>
+          </PageShell>
+
+          <PageShell
+            as="main"
+            id="main-content"
+            tabIndex={-1}
+            grid
+            aria-labelledby={headingId}
+            className="min-h-[60vh] pb-[var(--space-8)]"
+          >
+            <section className="col-span-full rounded-[var(--radius-2xl)] border border-border/80 bg-surface/90 p-[var(--space-6)] shadow-[var(--shadow-outline-subtle)] backdrop-blur-md">
+              <div className="mx-auto max-w-4xl">
+                <NavBar />
+              </div>
+            </section>
+          </PageShell>
         </div>
       </SiteChrome>
     </React.Fragment>

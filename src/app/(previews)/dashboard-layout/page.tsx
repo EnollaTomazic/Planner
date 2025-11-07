@@ -23,6 +23,7 @@ import {
   Stack,
   Switcher,
 } from "@/components/ui";
+import { PageHero } from "@/components/ui/layout/PageHero";
 
 import styles from "./page.module.css";
 
@@ -211,26 +212,26 @@ export default function DashboardLayoutPreviewPage() {
 
   return (
     <>
-      <PageShell as="header" className="py-[var(--space-7)]">
-        <Stack gap="4" as="div">
-          <div className="flex flex-wrap items-center gap-[var(--space-3)]">
-            <span className="text-label text-muted-foreground">Planner previews</span>
+      <PageShell as="header" grid className="py-[var(--space-7)]">
+        <PageHero
+          id={pageTitleId}
+          accent="supportive"
+          frame={false}
+          glitch="off"
+          eyebrow={<span className="normal-case">Planner previews</span>}
+          title="Dashboard layout preview"
+        >
+          <div className="space-y-[var(--space-3)]">
             <span className="inline-flex items-center gap-[var(--space-2)] rounded-full border border-card-hairline bg-muted/18 px-[var(--space-3)] py-[var(--space-1)] text-label text-muted-foreground">
               <Radio aria-hidden="true" className="size-[var(--space-4)]" />
               Adaptive grid
             </span>
+            <p className="max-w-prose text-body text-muted-foreground">
+              The dashboard frame balances focus, scheduling, and upgrades using the new layout primitives. Container queries
+              drive the responsive flow from mobile through desktop without sacrificing neumorphic depth or accessibility.
+            </p>
           </div>
-          <h1
-            id={pageTitleId}
-            className="text-title-lg font-semibold tracking-[-0.02em] text-foreground"
-          >
-            Dashboard layout preview
-          </h1>
-          <p className="max-w-prose text-body text-muted-foreground">
-            The dashboard frame balances focus, scheduling, and upgrades using the new layout primitives. Container queries drive
-            the responsive flow from mobile through desktop without sacrificing neumorphic depth or accessibility.
-          </p>
-        </Stack>
+        </PageHero>
       </PageShell>
 
       <PageShell
