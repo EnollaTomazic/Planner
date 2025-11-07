@@ -84,6 +84,12 @@ node-compile-cache/
 out
 docs/bundle-report/
 
+# Generated gallery artifacts (run `pnpm run build-gallery-usage`)
+src/components/gallery/generated-manifest.ts
+src/components/gallery/generated-manifest.g.ts
+src/components/gallery/generated-manifest.runtime.json
+src/components/gallery/usage.json
+
 # Nuxt.js build / generate output
 .nuxt
 dist
