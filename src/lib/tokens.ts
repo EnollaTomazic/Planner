@@ -91,6 +91,7 @@ export const colorTokens = [
   "bg-interaction-foreground-tintHover",
   "bg-interaction-foreground-tintActive",
   "bg-ring-contrast",
+  "bg-focus",
 ];
 
 export const depthTokenNames = [

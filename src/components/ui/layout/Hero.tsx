@@ -38,6 +38,9 @@ export type HeroTabsProps<K extends string = string> = TabBarA11yProps & {
   idBase?: string;
 };
 
+type HeroNoiseLevel = "none" | "subtle" | "moderate";
+type HeroNoiseStyle = React.CSSProperties & Record<string, string>;
+
 type HeroSearchConfig = (HeroSearchBarProps & { round?: boolean }) | null;
 
 type HeroTabsLike<Key extends string> =
@@ -66,6 +69,8 @@ export interface HeroProps<Key extends string = string>
   frame?: boolean;
   /** Level of glitch treatment for frame overlays (defaults to `default`). */
   glitch?: "default" | "subtle" | "off";
+  /** Noise intensity for scanline + grain overlays. */
+  noiseLevel?: "none" | "subtle" | "moderate";
   /** Divider tint for neon line. */
   dividerTint?: "primary" | "life";
   /** Semantic wrapper element (defaults to `section`). */
@@ -173,6 +178,32 @@ function mapTabs<Key extends string>(
   );
 }
 
+const HERO_NOISE_STYLES: Record<HeroNoiseLevel, HeroNoiseStyle> = {
+  none: {
+    "--hero-glitch-overlay-opacity": "var(--theme-scanline-opacity-none, 0)",
+    "--texture-grain-opacity": "var(--theme-noise-level-none, 0)",
+    "--texture-grain-strength": "0",
+    "--texture-scanline-opacity": "var(--theme-scanline-opacity-none, 0)",
+    "--texture-scanline-strength": "0",
+  },
+  subtle: {
+    "--hero-glitch-overlay-opacity":
+      "var(--theme-scanline-opacity-subtle, 0.05)",
+    "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.035)",
+    "--texture-grain-strength": "1",
+    "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.05)",
+    "--texture-scanline-strength": "1",
+  },
+  moderate: {
+    "--hero-glitch-overlay-opacity":
+      "var(--theme-scanline-opacity-moderate, 0.08)",
+    "--texture-grain-opacity": "var(--theme-noise-level-moderate, 0.06)",
+    "--texture-grain-strength": "1",
+    "--texture-scanline-opacity": "var(--theme-scanline-opacity-moderate, 0.08)",
+    "--texture-scanline-strength": "1",
+  },
+};
+
 function Hero<Key extends string = string>({
   eyebrow,
   title,
@@ -184,6 +215,7 @@ function Hero<Key extends string = string>({
   tone = "heroic",
   frame = true,
   glitch = "default",
+  noiseLevel = "moderate",
   sticky = true,
   topClassName = "top-[var(--space-8)]",
   barClassName,
@@ -285,12 +317,16 @@ function Hero<Key extends string = string>({
     return undefined;
   }, [illustrationAlt, headingStr]);
 
+  const noiseStyle = React.useMemo<HeroNoiseStyle>(() => {
+    return HERO_NOISE_STYLES[noiseLevel] ?? HERO_NOISE_STYLES.moderate;
+  }, [noiseLevel]);
+
   const illustrationNode = frame
     ? illustration ? (
         <div
           className={cn(
             "pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]",
-            "after:pointer-events-none after:absolute after:inset-0 after:z-[1] after:content-[''] after:bg-glitch-overlay after:opacity-30 after:mix-blend-soft-light",
+            "after:pointer-events-none after:absolute after:inset-0 after:z-[1] after:content-[''] after:bg-glitch-overlay after:opacity-[var(--hero-glitch-overlay-opacity,0.08)] after:mix-blend-soft-light",
           )}
         >
           <div className="absolute inset-0">
@@ -303,7 +339,7 @@ function Hero<Key extends string = string>({
           alt={heroIllustrationAlt}
           className={cn(
             "z-0 rounded-[inherit]",
-            "after:pointer-events-none after:absolute after:inset-0 after:z-[1] after:content-[''] after:bg-glitch-overlay after:opacity-30 after:mix-blend-soft-light",
+            "after:pointer-events-none after:absolute after:inset-0 after:z-[1] after:content-[''] after:bg-glitch-overlay after:opacity-[var(--hero-glitch-overlay-opacity,0.08)] after:mix-blend-soft-light",
           )}
         />
       )
@@ -314,7 +350,7 @@ function Hero<Key extends string = string>({
       {shouldRenderGlitchStyles ? <HeroGlitchStyles /> : null}
       {frame || isRaisedBar ? <NeomorphicFrameStyles /> : null}
 
-      <div className={classes.shell}>
+      <div className={classes.shell} style={noiseStyle}>
         {illustrationNode}
         <div className={cn(classes.bar, barClassName)}>
           <div className={classes.labelCluster}>
@@ -343,7 +379,7 @@ function Hero<Key extends string = string>({
                   "relative",
                   classes.divider,
                   frame &&
-                    "before:pointer-events-none before:absolute before:inset-0 before:z-[1] before:rounded-[inherit] before:content-[''] before:bg-glitch-overlay before:opacity-30 before:mix-blend-soft-light",
+                    "before:pointer-events-none before:absolute before:inset-0 before:z-[1] before:rounded-[inherit] before:content-[''] before:bg-glitch-overlay before:opacity-[var(--hero-glitch-overlay-opacity,0.08)] before:mix-blend-soft-light",
                 )}
                 data-divider-tint={dividerTint}
               >

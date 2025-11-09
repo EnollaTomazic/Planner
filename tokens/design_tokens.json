@@ -896,7 +896,7 @@
       "value": "0.15"
     },
     "glitchOverlayOpacityCard": {
-      "value": "0.55"
+      "value": "var(--theme-scanline-opacity-moderate, 0.08)"
     },
     "shadowInnerLg": {
       "value": "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)"

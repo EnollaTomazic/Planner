@@ -146,13 +146,13 @@ const config: Config = {
         },
         glitchNoise: {
           "0%": {
-            opacity: "calc(var(--glitch-noise-level, 0.18) * 0.6)",
+            opacity: "calc(var(--glitch-noise-level, 0.06) * 0.6)",
           },
           "50%": {
-            opacity: "var(--glitch-noise-level, 0.18)",
+            opacity: "var(--glitch-noise-level, 0.06)",
           },
           "100%": {
-            opacity: "calc(var(--glitch-noise-level, 0.18) * 0.6)",
+            opacity: "calc(var(--glitch-noise-level, 0.06) * 0.6)",
           },
         },
       },

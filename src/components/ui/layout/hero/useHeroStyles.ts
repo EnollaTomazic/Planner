@@ -80,8 +80,8 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
         ? cn(
             "group/hero relative z-0 isolate overflow-hidden rounded-card r-card-lg border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph",
             "before:pointer-events-none before:absolute before:inset-0 before:z-[1] before:rounded-[inherit] before:content-['']",
-            "before:bg-glitch-overlay before:opacity-[var(--hero-glitch-overlay-opacity,0.38)] before:mix-blend-soft-light",
-            "motion-reduce:before:opacity-[calc(var(--hero-glitch-overlay-opacity,0.38)*0.75)]",
+            "before:bg-glitch-overlay before:opacity-[var(--hero-glitch-overlay-opacity,0.08)] before:mix-blend-soft-light",
+            "motion-reduce:before:opacity-[calc(var(--hero-glitch-overlay-opacity,0.08)*0.75)]",
             shellPadding,
           )
         : padding === "default"
