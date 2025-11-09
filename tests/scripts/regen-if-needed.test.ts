@@ -382,15 +382,27 @@ describe("gallery manifest validation", () => {
     ).resolves.toBe(false);
   });
 
-  it("throws in CI when the manifest is missing and references the gallery usage command", async () => {
+  it("regenerates the manifest in CI when it is missing", async () => {
     fs.rmSync(manifestPath, { force: true });
 
-    const regenModule = await importRegenModule("1");
-    await expect(
-      regenModule.ensureGalleryManifestIntegrity(),
-    ).rejects.toThrow(
-      `Missing gallery manifest. Run \`${GALLERY_USAGE_COMMAND}\` to regenerate src/components/gallery/generated-manifest.g.ts.`,
-    );
+    const warnSpy = vi
+      .spyOn(console, "warn")
+      .mockImplementation(() => undefined);
+
+    try {
+      const regenModule = await importRegenModule("1");
+      await expect(
+        regenModule.ensureGalleryManifestIntegrity(),
+      ).resolves.toBe(true);
+
+      const regeneratedManifest = fs.readFileSync(manifestPath, "utf8");
+      expect(regeneratedManifest).toBe(minimalManifest);
+      expect(warnSpy).toHaveBeenCalledWith(
+        `Missing gallery manifest. Run \`${GALLERY_USAGE_COMMAND}\` to regenerate src/components/gallery/generated-manifest.g.ts.\nRegenerating gallery manifest with \`${GALLERY_USAGE_COMMAND}\` (CI fallback).`,
+      );
+    } finally {
+      warnSpy.mockRestore();
+    }
   });
 
   it("requests regeneration locally when the manifest is malformed", async () => {
@@ -519,7 +531,9 @@ describe("gallery manifest validation", () => {
       expect(regeneratedManifest).toBe(minimalManifest);
       const regeneratedPayload = fs.readFileSync(manifestPayloadPath, "utf8");
       expect(regeneratedPayload).toBe(minimalManifestPayload);
-      expect(warnSpy).not.toHaveBeenCalled();
+      expect(warnSpy).toHaveBeenCalledWith(
+        `Gallery manifest entrypoint appears to contain raw JSON. Run \`${GALLERY_USAGE_COMMAND}\` to regenerate src/components/gallery/generated-manifest.g.ts.\nRegenerating gallery manifest with \`${GALLERY_USAGE_COMMAND}\` (CI fallback).`,
+      );
     } finally {
       warnSpy.mockRestore();
       restoreRead();
@@ -545,7 +559,9 @@ describe("gallery manifest validation", () => {
       ).rejects.toThrow(
         `Gallery manifest payload appears to contain raw JSON. Run \`${GALLERY_USAGE_COMMAND}\` to regenerate src/components/gallery/generated-manifest.ts.`,
       );
-      expect(warnSpy).not.toHaveBeenCalled();
+      expect(warnSpy).toHaveBeenCalledWith(
+        `Gallery manifest payload appears to contain raw JSON. Run \`${GALLERY_USAGE_COMMAND}\` to regenerate src/components/gallery/generated-manifest.ts.\nRegenerating gallery manifest with \`${GALLERY_USAGE_COMMAND}\` (CI fallback).`,
+      );
     } finally {
       warnSpy.mockRestore();
       restoreRead();
