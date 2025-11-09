@@ -365,6 +365,7 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
             sticky: false,
             frame: true,
             glitch: "default",
+            noiseLevel: "subtle",
             eyebrow: "Glitch control brief",
             title: "Planner control hub",
             subtitle:

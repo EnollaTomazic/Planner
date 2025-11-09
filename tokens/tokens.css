@@ -344,7 +344,7 @@
   --glitch-accent-shadow: 0 0 var(--glitch-accent-blur) var(--glitch-accent-color);
   --retro-grid-step: 24px;
   --retro-grid-opacity: 0.15;
-  --glitch-overlay-opacity-card: 0.55;
+  --glitch-overlay-opacity-card: var(--theme-scanline-opacity-moderate, 0.08);
   --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36);
   --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
   --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22);

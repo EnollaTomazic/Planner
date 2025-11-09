@@ -50,10 +50,10 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
         className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
       >
         <span
-          className="absolute inset-0 rounded-[inherit] bg-gradient-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-blob-drift group-hover/glitch:opacity-[var(--glitch-overlay-opacity-card,0.55)] group-focus-visible/glitch:opacity-[var(--glitch-overlay-opacity-card,0.55)] group-focus-within/glitch:opacity-[var(--glitch-overlay-opacity-card,0.55)]"
+          className="absolute inset-0 rounded-[inherit] bg-gradient-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-blob-drift group-hover/glitch:opacity-[var(--glitch-overlay-opacity-card,0.08)] group-focus-visible/glitch:opacity-[var(--glitch-overlay-opacity-card,0.08)] group-focus-within/glitch:opacity-[var(--glitch-overlay-opacity-card,0.08)]"
         />
         <span
-          className="absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-glitch-noise group-hover/glitch:opacity-[var(--glitch-noise-level,0.18)] group-focus-visible/glitch:opacity-[var(--glitch-noise-level,0.18)] group-focus-within/glitch:opacity-[calc(var(--glitch-noise-level,0.18)*1.3)]"
+          className="absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-glitch-noise group-hover/glitch:opacity-[var(--glitch-noise-level,0.06)] group-focus-visible/glitch:opacity-[var(--glitch-noise-level,0.06)] group-focus-within/glitch:opacity-[calc(var(--glitch-noise-level,0.06)*1.3)]"
         />
       </span>
     ) : null;

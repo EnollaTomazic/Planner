@@ -174,7 +174,6 @@ export const EntityForm = React.forwardRef<EntityFormHandle, EntityFormProps>(
         prevFieldIdsRef.current = fieldIds;
         valuesRef.current = defaultValues;
         setValues(defaultValues);
-        onValuesChange?.(defaultValues);
         return;
       }
 
@@ -188,21 +187,13 @@ export const EntityForm = React.forwardRef<EntityFormHandle, EntityFormProps>(
       null,
     );
 
-    const handleFieldChange = React.useCallback(
-      (fieldId: string, nextValue: string) => {
-        setValues((prev) => {
-          const updated = { ...prev, [fieldId]: nextValue };
-          onValuesChange?.(updated);
-          return updated;
-        });
-      },
-      [onValuesChange],
-    );
+    const handleFieldChange = React.useCallback((fieldId: string, nextValue: string) => {
+      setValues((prev) => ({ ...prev, [fieldId]: nextValue }));
+    }, []);
 
     const resetForm = React.useCallback(() => {
       setValues(defaultValues);
-      onValuesChange?.(defaultValues);
-    }, [defaultValues, onValuesChange]);
+    }, [defaultValues]);
 
     React.useImperativeHandle(
       ref,
@@ -214,6 +205,14 @@ export const EntityForm = React.forwardRef<EntityFormHandle, EntityFormProps>(
       }),
       [resetForm],
     );
+
+    React.useEffect(() => {
+      if (!onValuesChange) {
+        return;
+      }
+
+      onValuesChange(values);
+    }, [onValuesChange, values]);
 
     const handleSubmit = React.useCallback(
       async (event: React.FormEvent<HTMLFormElement>) => {
