@@ -5,7 +5,11 @@ import { Octagon } from "lucide-react";
 import { AIAbortButton } from "@/components/ui";
 
 const docsSource = `
-<AIAbortButton busy onAbort={() => console.log("abort")}/>
+const handleAbort = () => {
+  // Cancel the active assistant response.
+};
+
+<AIAbortButton busy onAbort={handleAbort} />
 `;
 
 const meta: Meta<typeof AIAbortButton> = {

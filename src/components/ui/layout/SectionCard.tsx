@@ -43,15 +43,11 @@ const SECTION_CARD_NOISE_STYLES: Record<NoiseLevel, React.CSSProperties> = {
   } as React.CSSProperties,
   subtle: {
     "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.035)",
-    "--texture-grain-strength": "1",
     "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.05)",
-    "--texture-scanline-strength": "1",
   } as React.CSSProperties,
   moderate: {
     "--texture-grain-opacity": "var(--theme-noise-level-moderate, 0.06)",
-    "--texture-grain-strength": "1",
     "--texture-scanline-opacity": "var(--theme-scanline-opacity-moderate, 0.08)",
-    "--texture-scanline-strength": "1",
   } as React.CSSProperties,
 };
 

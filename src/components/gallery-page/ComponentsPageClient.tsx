@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 
 import type { DesignTokenGroup, GalleryNavigationData } from "@/components/gallery/types";
-import { Hero, type HeroTab, PageShell } from "@/components/ui";
+import { PageHeroHeader, type HeroTab, PageShell } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 import { ComponentsGalleryPanels } from "./ComponentsGalleryPanels";
@@ -176,85 +176,83 @@ export function ComponentsPageClient({
 
   return (
     <>
-      <PageShell
-        as="header"
-        className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
+      <PageHeroHeader
+        shellProps={{
+          className: "py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]",
+        }}
+        sticky={false}
+        eyebrow={heroCopy.eyebrow}
+        title={
+          <span id="components-header" className="inline-flex items-center gap-[var(--space-2)]">
+            {heroCopy.heading}
+          </span>
+        }
+        subtitle={
+          heroCopy.subtitle ? (
+            <span id="components-header-subtitle">{heroCopy.subtitle}</span>
+          ) : undefined
+        }
+        tabs={{
+          items: heroPrimaryTabItems,
+          value: view,
+          onChange: (nextView) => handleViewChange(nextView),
+          ariaLabel: "Component categories",
+          idBase: COMPONENTS_VIEW_TAB_ID_BASE,
+          linkPanels: true,
+          variant: "neo",
+          align: "end",
+          className: "w-full md:w-auto",
+        }}
+        subTabs={
+          showSectionTabs
+            ? {
+                items: heroTabs.map((tab) => ({
+                  key: tab.key,
+                  label: tab.label,
+                  controls: tab.controls,
+                })),
+                value: section,
+                onChange: (nextSection) => handleSectionChange(nextSection),
+                ariaLabel: "Component sections",
+                idBase: COMPONENTS_SECTION_TAB_ID_BASE,
+                linkPanels: true,
+                size: "sm",
+                variant: "neo",
+                className: "w-full",
+                tablistClassName: cn(SECTION_TABLIST_CLASSES, "w-full"),
+              }
+            : undefined
+        }
+        searchBar={{
+          id: "components-search",
+          value: query,
+          onValueChange: setQuery,
+          debounceMs: 300,
+          label: searchLabel,
+          placeholder: searchPlaceholder,
+          round: true,
+          fieldClassName: cn(
+            "bg-[hsl(var(--surface-3)/0.82)]",
+            "border border-card-hairline-60",
+            "shadow-depth-soft",
+            "focus-within:shadow-depth-soft",
+          ),
+        }}
       >
-        <Hero
-          sticky={false}
-          eyebrow={heroCopy.eyebrow}
-          title={
-            <span id="components-header" className="inline-flex items-center gap-[var(--space-2)]">
-              {heroCopy.heading}
-            </span>
-          }
-          subtitle={
-            heroCopy.subtitle ? (
-              <span id="components-header-subtitle">{heroCopy.subtitle}</span>
-            ) : undefined
-          }
-          tabs={{
-            items: heroPrimaryTabItems,
-            value: view,
-            onChange: (nextView) => handleViewChange(nextView),
-            ariaLabel: "Component categories",
-            idBase: COMPONENTS_VIEW_TAB_ID_BASE,
-            linkPanels: true,
-            variant: "neo",
-            align: "end",
-            className: "w-full md:w-auto",
-          }}
-          subTabs={
-            showSectionTabs
-              ? {
-                  items: heroTabs.map((tab) => ({
-                    key: tab.key,
-                    label: tab.label,
-                    controls: tab.controls,
-                  })),
-                  value: section,
-                  onChange: (nextSection) => handleSectionChange(nextSection),
-                  ariaLabel: "Component sections",
-                  idBase: COMPONENTS_SECTION_TAB_ID_BASE,
-                  linkPanels: true,
-                  size: "sm",
-                  variant: "neo",
-                  className: "w-full",
-                  tablistClassName: cn(SECTION_TABLIST_CLASSES, "w-full"),
-                }
-              : undefined
-          }
-          searchBar={{
-            id: "components-search",
-            value: query,
-            onValueChange: setQuery,
-            debounceMs: 300,
-            label: searchLabel,
-            placeholder: searchPlaceholder,
-            round: true,
-            fieldClassName: cn(
-              "bg-[hsl(var(--surface-3)/0.82)]",
-              "border border-card-hairline-60",
-              "shadow-depth-soft",
-              "focus-within:shadow-depth-soft",
-            ),
-          }}
-        >
-          {activeCategoryMeta ? (
-            <div className="flex items-start gap-[var(--space-3)] text-muted-foreground">
-              {ActiveCategoryIcon ? (
-                <ActiveCategoryIcon
-                  aria-hidden
-                  className="mt-[var(--space-1)] size-[var(--space-5)] shrink-0"
-                />
-              ) : null}
-              <p className="max-w-2xl text-pretty text-ui md:text-body">
-                {activeCategoryMeta.description}
-              </p>
-            </div>
-          ) : null}
-        </Hero>
-      </PageShell>
+        {activeCategoryMeta ? (
+          <div className="flex items-start gap-[var(--space-3)] text-muted-foreground">
+            {ActiveCategoryIcon ? (
+              <ActiveCategoryIcon
+                aria-hidden
+                className="mt-[var(--space-1)] size-[var(--space-5)] shrink-0"
+              />
+            ) : null}
+            <p className="max-w-2xl text-pretty text-ui md:text-body">
+              {activeCategoryMeta.description}
+            </p>
+          </div>
+        ) : null}
+      </PageHeroHeader>
 
       <PageShell
         as="section"
