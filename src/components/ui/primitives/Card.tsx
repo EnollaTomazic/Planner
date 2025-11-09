@@ -18,6 +18,27 @@ const depthShadowClasses: Record<CardDepth, string> = {
   sunken: "shadow-neo-inset",
 };
 
+const hasCardOverlay = (node: React.ReactNode): boolean => {
+  if (node === null || node === undefined || typeof node === "boolean") {
+    return false;
+  }
+  if (Array.isArray(node)) {
+    return node.some((child) => hasCardOverlay(child));
+  }
+  if (React.isValidElement(node)) {
+    type OverlayElementProps = {
+      children?: React.ReactNode;
+      ["data-card-overlay"]?: string;
+    };
+    const element = node as React.ReactElement<OverlayElementProps>;
+    if (element.props?.["data-card-overlay"] === "true") {
+      return true;
+    }
+    return hasCardOverlay(element.props?.children);
+  }
+  return false;
+};
+
 const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
   (
     {
@@ -44,9 +65,11 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
       className,
     );
 
-    const overlay = glitch ? (
+    const overlayEnabled = glitch && !hasCardOverlay(children);
+    const overlay = overlayEnabled ? (
       <span
         aria-hidden
+        data-card-overlay="true"
         className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
       >
         <span
@@ -77,10 +100,18 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
       }
 
       const child = React.Children.only(children) as React.ReactElement<{ children?: React.ReactNode }>;
+      const content = overlay ? (
+        <>
+          {overlay}
+          {child.props.children}
+        </>
+      ) : (
+        <>{child.props.children}</>
+      );
 
       return (
         <Slot {...baseProps} ref={ref as React.ForwardedRef<HTMLElement>}>
-          {React.cloneElement(child, undefined, <>{overlay}{child.props.children}</>)}
+          {React.cloneElement(child, undefined, content)}
         </Slot>
       );
     }

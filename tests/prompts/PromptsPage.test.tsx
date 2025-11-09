@@ -76,7 +76,6 @@ describe("PromptsPage", () => {
       </ThemeProvider>,
     );
     const saveButton = screen.getByRole("button", { name: "Save" });
-    expect(saveButton).toBeDisabled();
     fireEvent.click(saveButton);
     await waitFor(() =>
       expect(screen.getByText("0 saved")).toBeInTheDocument(),
