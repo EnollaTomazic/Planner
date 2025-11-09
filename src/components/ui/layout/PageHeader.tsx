@@ -32,13 +32,15 @@ const HERO_CONTAINER_CLASSES = cn(
 
 type PageHeaderElement = Extract<
   keyof React.JSX.IntrinsicElements,
-  "header" | "section" | "article" | "div" | "aside"
+  "header" | "section" | "article" | "aside"
 >;
 
 type PageHeaderElementProps = Omit<
   React.HTMLAttributes<HTMLElement>,
   "title" | "children"
 >;
+
+type PageHeaderElementRef = HTMLElementTagNameMap[PageHeaderElement];
 
 export type PageHeaderAction = {
   /** Unique identifier used as the React key. Falls back to array index when omitted. */
@@ -89,7 +91,7 @@ const PageHeaderInner = (
     style: styleProp,
     ...rest
   }: PageHeaderProps,
-  ref: React.ForwardedRef<HTMLElement>,
+  ref: React.ForwardedRef<PageHeaderElementRef>,
 ) => {
   const Component: PageHeaderElement = as ?? "section";
 
@@ -181,7 +183,7 @@ const PageHeaderInner = (
 
   return (
     <Component
-      ref={ref as React.Ref<any>}
+      ref={ref}
       className={cn(WRAPPER_BASE_CLASSES, className)}
       style={mergedStyle}
       {...rest}

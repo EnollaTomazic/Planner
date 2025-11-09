@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { z } from 'zod'
 import {
   GALLERY_SECTION_IDS,
@@ -96,7 +97,14 @@ export const ManifestEntryRelatedSchema: z.ZodType<GalleryEntryRelated> = z.obje
 export const ManifestPreviewRendererSchema: z.ZodType<GalleryPreviewRenderer> = z
   .function()
   .input(z.tuple([]))
-  .output(z.any())
+  .output(
+    z.custom<ReactNode>(
+      () => true,
+      {
+        message: 'Preview renderers must return a valid React node',
+      },
+    ),
+  )
 
 export const ManifestPreviewSchema: z.ZodType<GalleryPreview> = z.object({
   id: z.string(),
