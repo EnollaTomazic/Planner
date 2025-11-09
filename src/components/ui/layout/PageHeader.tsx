@@ -3,7 +3,10 @@
 
 import * as React from "react";
 import { Button, type ButtonProps } from "@/components/ui/primitives/Button";
-import { getAccentColors } from "@/components/ui/theme/getAccentColors";
+import {
+  getAccentColors,
+  type AccentTone,
+} from "@/components/ui/theme/getAccentColors";
 import { cn } from "@/lib/utils";
 
 const WRAPPER_BASE_CLASSES = cn(
@@ -72,6 +75,8 @@ export interface PageHeaderProps extends PageHeaderElementProps {
   actionsLabel?: string;
   /** Optional id applied to the internal heading element. */
   headingId?: string;
+  /** Accent palette applied to the decorative surfaces. */
+  accent?: AccentTone;
 }
 
 const PageHeaderInner = (
@@ -89,13 +94,17 @@ const PageHeaderInner = (
     actionsLabel = "Page actions",
     headingId: headingIdProp,
     style: styleProp,
+    accent = "accent",
     ...rest
   }: PageHeaderProps,
   ref: React.ForwardedRef<PageHeaderElementRef>,
 ) => {
   const Component: PageHeaderElement = as ?? "section";
 
-  const accentColors = React.useMemo(getAccentColors, []);
+  const accentColors = React.useMemo(
+    () => getAccentColors(accent),
+    [accent],
+  );
   const accentVariables = React.useMemo(
     () =>
       ({
