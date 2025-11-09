@@ -1,6 +1,5 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { fn } from "@storybook/test";
 import { Octagon } from "lucide-react";
 
 import { AIAbortButton } from "@/components/ui";
@@ -32,7 +31,7 @@ const meta: Meta<typeof AIAbortButton> = {
     },
   },
   args: {
-    onAbort: fn(),
+    onAbort: () => {},
     busy: false,
   },
   argTypes: {

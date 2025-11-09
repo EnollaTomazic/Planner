@@ -35,6 +35,15 @@ export function ChatPromptsTab({
   const personasHeadingId = React.useId();
   const libraryHeadingId = React.useId();
   const formId = React.useId();
+  const [composeValues, setComposeValues] = React.useState<EntityFormValues>({
+    title: "",
+    prompt: "",
+    category: "ChatGPT",
+  });
+  const composeValuesRef = React.useRef(composeValues);
+  React.useEffect(() => {
+    composeValuesRef.current = composeValues;
+  }, [composeValues]);
 
   const handleSave = React.useCallback(
     (values: EntityFormValues) => {
@@ -49,6 +58,38 @@ export function ChatPromptsTab({
     },
     [savePrompt],
   );
+
+  const handleValuesChange = React.useCallback((values: EntityFormValues) => {
+    const nextTitle = values.title ?? "";
+    const nextPrompt = values.prompt ?? "";
+    const nextCategory = values.category ?? "ChatGPT";
+
+    const previous = composeValuesRef.current;
+    if (
+      previous.title === nextTitle &&
+      previous.prompt === nextPrompt &&
+      previous.category === nextCategory
+    ) {
+      return;
+    }
+
+    const nextState = {
+      title: nextTitle,
+      prompt: nextPrompt,
+      category: nextCategory,
+    } satisfies EntityFormValues;
+
+    React.startTransition(() => {
+      composeValuesRef.current = nextState;
+      setComposeValues(nextState);
+    });
+  }, []);
+
+  const submitDisabled = React.useMemo(() => {
+    const title = composeValues.title?.trim() ?? "";
+    const prompt = composeValues.prompt?.trim() ?? "";
+    return title.length === 0 || prompt.length === 0;
+  }, [composeValues.prompt, composeValues.title]);
 
   return (
     <div className="flex flex-col gap-[var(--space-6)]">
@@ -93,7 +134,9 @@ export function ChatPromptsTab({
             ]}
             initialValues={{ category: "ChatGPT" }}
             submitLabel="Save"
+            submitDisabled={submitDisabled}
             onSubmit={handleSave}
+            onValuesChange={handleValuesChange}
           />
         </GlitchNeoCard>
       </section>

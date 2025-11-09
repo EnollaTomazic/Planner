@@ -334,7 +334,8 @@ export default {
     "0 0 var(--glitch-accent-blur) var(--glitch-accent-color)",
   retroGridStep: "24px",
   retroGridOpacity: "0.15",
-  glitchOverlayOpacityCard: "0.55",
+  glitchOverlayOpacityCard:
+    "var(--theme-scanline-opacity-moderate, 0.08)",
   shadowInnerLg:
     "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)",
   shadowOuterXl:

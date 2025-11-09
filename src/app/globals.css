@@ -97,6 +97,7 @@
     --theme-noise-level-none: 0;
     --theme-noise-level-subtle: 0.035;
     --theme-noise-level-moderate: 0.06;
+    --theme-scanline-opacity-none: 0;
     --theme-scanline-opacity-subtle: 0.05;
     --theme-scanline-opacity-moderate: 0.08;
     --glitch-noise-level: calc(
@@ -751,7 +752,10 @@ html.bg-intense body::after {
   :where(.glitch-wrapper, .btn-glitch, .card-neo, .card-neo-soft, .card-soft):hover::before,
   :where(.glitch-wrapper, .btn-glitch, .card-neo, .card-neo-soft, .card-soft):focus-visible::before,
   :where(.glitch-wrapper, .card-neo, .card-neo-soft, .card-soft):focus-within::before {
-    opacity: var(--glitch-overlay-opacity, 0.36);
+    opacity: var(
+      --glitch-overlay-opacity,
+      var(--theme-scanline-opacity-moderate, 0.08)
+    );
     animation: glitch 0.54s steps(2, end) infinite;
   }
 
@@ -768,7 +772,10 @@ html.bg-intense body::after {
   .card-neo-soft,
   .card-soft {
     --_r: var(--radius-card);
-    --glitch-overlay-opacity: 0.32;
+    --glitch-overlay-opacity: var(
+      --theme-scanline-opacity-moderate,
+      0.08
+    );
     --card-shadow-neon: var(--shadow-neon);
     border-radius: var(--_r);
     border: var(--hairline-w) solid hsl(var(--card-hairline) / 0.55);

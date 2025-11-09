@@ -48,7 +48,7 @@ describe("Card", () => {
     );
 
     expect(moduleSource).toContain(
-      "--card-glitch-overlay-opacity: var(\n    --glitch-overlay-opacity-card,\n    0.55\n  );",
+      "--card-glitch-overlay-opacity: var(\n    --glitch-overlay-opacity-card,\n    0.08\n  );",
     );
     expect(moduleSource).toContain(
       "opacity: var(--card-glitch-overlay-opacity);",
@@ -65,7 +65,7 @@ describe("Card", () => {
     );
 
     expect(source).toContain(
-      "opacity-[var(--glitch-overlay-opacity-card,0.55)]",
+      "opacity-[var(--glitch-overlay-opacity-card,0.08)]",
     );
 
     document.documentElement.style.removeProperty(
