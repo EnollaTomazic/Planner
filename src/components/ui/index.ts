@@ -54,6 +54,8 @@ export { PageHeader } from "./layout/PageHeader";
 export type { PageHeaderAction, PageHeaderProps } from "./layout/PageHeader";
 export { PageHero } from "./layout/PageHero";
 export type { PageHeroAccent, PageHeroProps } from "./layout/PageHero";
+export { PageHeroHeader } from "./layout/PageHeroHeader";
+export type { PageHeroHeaderProps } from "./layout/PageHeroHeader";
 export { layoutGridClassName, PageShell } from "./layout/PageShell";
 export type { PageShellProps } from "./layout/PageShell";
 export { SectionCard, SectionCardBody, SectionCardHeader } from "./layout/SectionCard";

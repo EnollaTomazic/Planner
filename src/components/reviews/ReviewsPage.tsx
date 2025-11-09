@@ -14,7 +14,7 @@ import { BookOpen, Ghost, Plus } from "lucide-react";
 
 import {
   Button,
-  Hero,
+  PageHeroHeader as PageHeader,
   PageShell,
   SearchBar,
   Select,
@@ -145,39 +145,38 @@ export function ReviewsPage({
 
   return (
     <>
-      <PageShell as="header" className="py-[var(--space-6)]">
-        <Hero
-          as="section"
-          sticky={false}
-          topClassName="top-[var(--header-stack)]"
-          title={<span id={heroHeadingId}>Reviews</span>}
-          subtitle="Capture match recaps, filter by tags and patches"
-          icon={<BookOpen className="opacity-80" />}
-          actions={
-            <Button
-              type="button"
-              variant="default"
-              size="md"
-              className={cn("btn-glitch", "whitespace-nowrap")}
-              onClick={commitCreateReview}
-              disabled={!allowInteractions}
-            >
-              <Plus />
-              <span>New Review</span>
-            </Button>
-          }
-          illustration={
-            <Image
-              src="/images/agnes.svg"
-              alt="Agnes watching over review browsing"
-              fill
-              sizes="(min-width: 1280px) 38vw, (min-width: 768px) 56vw, 100vw"
-              priority={false}
-              className="object-contain object-right md:object-center"
-            />
-          }
-        />
-      </PageShell>
+      <PageHeader
+        shellProps={{ className: "py-[var(--space-6)]" }}
+        as="section"
+        topClassName="top-[var(--header-stack)]"
+        title={<span id={heroHeadingId}>Reviews</span>}
+        subtitle="Capture match recaps, filter by tags and patches"
+        glitch="default"
+        icon={<BookOpen className="opacity-80" />}
+        actions={
+          <Button
+            type="button"
+            variant="default"
+            size="md"
+            className={cn("btn-glitch", "whitespace-nowrap")}
+            onClick={commitCreateReview}
+            disabled={!allowInteractions}
+          >
+            <Plus />
+            <span>New Review</span>
+          </Button>
+        }
+        illustration={
+          <Image
+            src="/images/agnes.svg"
+            alt="Agnes watching over review browsing"
+            fill
+            sizes="(min-width: 1280px) 38vw, (min-width: 768px) 56vw, 100vw"
+            priority={false}
+            className="object-contain object-right md:object-center"
+          />
+        }
+      />
 
       <PageShell
         as="section"
