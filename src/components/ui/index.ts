@@ -139,7 +139,7 @@ export type { SwitcherProps } from "./Switcher";
 export { BackgroundPicker } from "./theme/BackgroundPicker";
 export type { BackgroundPickerProps } from "./theme/BackgroundPicker";
 export { getAccentColors } from "./theme/getAccentColors";
-export type { AccentColors } from "./theme/getAccentColors";
+export type { AccentColors, AccentTone } from "./theme/getAccentColors";
 export { SettingsSelect } from "./theme/SettingsSelect";
 export type { SettingsSelectProps } from "./theme/SettingsSelect";
 export { ThemePicker } from "./theme/ThemePicker";

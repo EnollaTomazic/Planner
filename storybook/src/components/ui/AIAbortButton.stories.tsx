@@ -1,11 +1,16 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
+import { fn } from "@storybook/test";
 import { Octagon } from "lucide-react";
 
 import { AIAbortButton } from "@/components/ui";
 
 const docsSource = `
-<AIAbortButton busy onAbort={() => console.log("abort")}/>
+const handleAbort = () => {
+  // Cancel the active assistant response.
+};
+
+<AIAbortButton busy onAbort={handleAbort} />
 `;
 
 const meta: Meta<typeof AIAbortButton> = {
@@ -27,7 +32,7 @@ const meta: Meta<typeof AIAbortButton> = {
     },
   },
   args: {
-    onAbort: () => {},
+    onAbort: fn(),
     busy: false,
   },
   argTypes: {

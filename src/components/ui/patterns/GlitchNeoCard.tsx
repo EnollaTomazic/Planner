@@ -58,13 +58,11 @@ const GLITCH_NEO_NOISE_STYLES: Record<
     "--glitch-neo-card-scanline-opacity":
       "var(--theme-scanline-opacity-subtle, 0.05)",
     "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.05)",
-    "--texture-scanline-strength": "1",
   },
   moderate: {
     "--glitch-neo-card-scanline-opacity":
       "var(--theme-scanline-opacity-moderate, 0.08)",
     "--texture-scanline-opacity": "var(--theme-scanline-opacity-moderate, 0.08)",
-    "--texture-scanline-strength": "1",
   },
 };
 
