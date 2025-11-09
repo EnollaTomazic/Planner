@@ -18,10 +18,10 @@ import {
   HeroCol,
   HeroGrid,
   HeroPageHeader,
+  PageHeroHeader as PageHeader,
   PageShell,
   SegmentedControl,
 } from "@/components/ui";
-import { Hero } from "@/components/ui/layout/Hero";
 import { Slider } from "@/components/ui/primitives/Slider";
 import { cn } from "@/lib/utils";
 import styles from "./PlannerPage.module.css";
@@ -293,41 +293,41 @@ function Inner() {
 
   return (
     <>
-      <PageShell as="header" grid className="py-[var(--space-7)]">
-        <Hero
-          className={cn("col-span-full md:col-span-12", autopilotHero)}
-          sticky={false}
-          eyebrow="Planner autopilot"
-          title="Your sprint blueprint"
-          subtitle="Tweak the focus dial before locking the week. Agnes maps the calm line, Noxi keeps the glitch guardrails on. Every suggestion stays editable."
-          icon={
-            <GlitchProgress
-              value={planningEnergy}
-              size="xl"
-              aria-label="Planner autopilot energy"
-            />
-          }
-          illustration={<SmallAgnesNoxiImage />}
-          illustrationAlt="Agnes and Noxi calibrating the sprint blueprint"
-          actions={
-            quickLinks.length ? (
-              <nav aria-label="Planner quick suggestions" className={quickLinksRow}>
-                <ul className={quickLinksList} role="list">
-                  {quickLinks.map((link) => (
-                    <li key={link.id} className={quickLinkItem}>
-                      <a className={quickLinkChip} href={link.href}>
-                        <span className={quickLinkLabel}>{link.label}</span>
-                        {link.description ? (
-                          <span className={quickLinkMeta}>{link.description}</span>
-                        ) : null}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            ) : null
-          }
-        >
+      <PageHeader
+        shellProps={{ className: "py-[var(--space-7)]" }}
+        className={cn("col-span-full md:col-span-12", autopilotHero)}
+        eyebrow="Planner autopilot"
+        title="Your sprint blueprint"
+        subtitle="Tweak the focus dial before locking the week. Agnes maps the calm line, Noxi keeps the glitch guardrails on. Every suggestion stays editable."
+        glitch="default"
+        icon={
+          <GlitchProgress
+            value={planningEnergy}
+            size="xl"
+            aria-label="Planner autopilot energy"
+          />
+        }
+        illustration={<SmallAgnesNoxiImage />}
+        illustrationAlt="Agnes and Noxi calibrating the sprint blueprint"
+        actions={
+          quickLinks.length ? (
+            <nav aria-label="Planner quick suggestions" className={quickLinksRow}>
+              <ul className={quickLinksList} role="list">
+                {quickLinks.map((link) => (
+                  <li key={link.id} className={quickLinkItem}>
+                    <a className={quickLinkChip} href={link.href}>
+                      <span className={quickLinkLabel}>{link.label}</span>
+                      {link.description ? (
+                        <span className={quickLinkMeta}>{link.description}</span>
+                      ) : null}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ) : null
+        }
+      >
           <HeroGrid>
             <HeroCol span={7} className={heroSummaryColumn}>
               <div className={heroSummaryCard}>
@@ -396,7 +396,8 @@ function Inner() {
               </div>
             </HeroCol>
           </HeroGrid>
-        </Hero>
+      </PageHeader>
+      <PageShell as="header" grid className="py-[var(--space-7)]">
         {/* Week header (range, nav, totals, day chips) */}
         <HeroPageHeader
           containerClassName="col-span-full"
