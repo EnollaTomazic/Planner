@@ -289,6 +289,17 @@ const isCiEnvironment = (() => {
   return value !== "false" && value !== "0";
 })();
 
+function isMissingGalleryManifestError(error: unknown): boolean {
+  if (!(error instanceof Error)) {
+    return false;
+  }
+
+  return (
+    error.message.includes("Missing gallery manifest.") ||
+    error.message.includes("Missing gallery manifest payload.")
+  );
+}
+
 async function readRequiredFile(
   filePath: string,
   missingMessage: string,
@@ -353,12 +364,16 @@ export async function ensureGalleryManifestIntegrity(): Promise<boolean> {
     await validateGalleryManifest();
     return false;
   } catch (error) {
-    if (error instanceof GalleryManifestRawJsonError) {
-      if (!isCiEnvironment) {
-        console.warn(
-          `${error.message}\nRegenerating gallery manifest with \`${galleryUsageCommand}\`.`,
-        );
-      }
+    const message = error instanceof Error ? error.message : String(error);
+
+    if (
+      error instanceof GalleryManifestRawJsonError ||
+      isMissingGalleryManifestError(error)
+    ) {
+      const suffix = isCiEnvironment ? " (CI fallback)" : "";
+      console.warn(
+        `${message}\nRegenerating gallery manifest with \`${galleryUsageCommand}\`${suffix}.`,
+      );
 
       await regenerateGalleryUsage();
 
@@ -375,7 +390,6 @@ export async function ensureGalleryManifestIntegrity(): Promise<boolean> {
       throw error;
     }
 
-    const message = error instanceof Error ? error.message : String(error);
     console.warn(
       `${message}\nRegenerating gallery manifest with \`${galleryUsageCommand}\`.`,
     );
