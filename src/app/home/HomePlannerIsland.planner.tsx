@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import type { CSSProperties } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import {
@@ -108,6 +109,10 @@ const weeklyHighlights = [
 
 const homeBackdropClassName =
   'relative isolate overflow-hidden bg-[color-mix(in_oklab,hsl(var(--surface))_88%,hsl(var(--surface-2)))] shadow-inner-sm bg-glitch-noise-primary'
+const homeBackdropNoiseStyle = {
+  "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.035)",
+  "--texture-grain-strength": "1",
+} as CSSProperties
 const sectionCardOverlayClassName = 'relative'
 
 const glitchHeroMetrics = [
@@ -135,6 +140,7 @@ function GlitchLandingHeroContent() {
               key={metric.id}
               padding="var(--space-4)"
               className="space-y-[var(--space-2)] text-left"
+              noiseLevel="none"
             >
               <p className="text-label font-semibold uppercase tracking-[0.02em] text-muted-foreground">
                 {metric.label}
@@ -147,7 +153,11 @@ function GlitchLandingHeroContent() {
           ))}
         </div>
       </div>
-      <GlitchNeoCard className="flex flex-col items-center gap-[var(--space-3)] text-center" padding="var(--space-5)">
+      <GlitchNeoCard
+        className="flex flex-col items-center gap-[var(--space-3)] text-center"
+        padding="var(--space-5)"
+        noiseLevel="subtle"
+      >
         <div className="relative flex items-center justify-center">
           <ProgressRingIcon pct={68} size="l" />
           <span className="absolute text-title-lg font-semibold text-primary">
@@ -230,7 +240,10 @@ function HomePagePlannerContent({
   }, [isSplashVisible])
 
   return (
-    <div className={cn(styles.root, homeBackdropClassName)}>
+    <div
+      className={cn(styles.root, homeBackdropClassName)}
+      style={homeBackdropNoiseStyle}
+    >
       {glitchLandingEnabled && isSplashMounted ? (
         <HomeSplash active={isSplashVisible} onExited={handleSplashExit} />
       ) : null}

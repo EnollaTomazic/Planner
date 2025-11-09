@@ -5,8 +5,11 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import styles from "./SectionCard.module.css";
 
+type NoiseLevel = "none" | "subtle" | "moderate";
+
 type RootProps = React.HTMLAttributes<HTMLElement> & {
   variant?: "neo" | "plain" | "glitch";
+  noiseLevel?: NoiseLevel;
 };
 export type SectionCardHeaderProps = Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -31,13 +34,69 @@ const SectionCardContext = React.createContext<SectionCardContextValue | null>(
   null,
 );
 
+const SECTION_CARD_NOISE_STYLES: Record<NoiseLevel, React.CSSProperties> = {
+  none: {
+    "--texture-grain-opacity": "var(--theme-noise-level-none, 0)",
+    "--texture-grain-strength": "0",
+    "--texture-scanline-opacity": "var(--theme-noise-level-none, 0)",
+    "--texture-scanline-strength": "0",
+  } as React.CSSProperties,
+  subtle: {
+    "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.035)",
+    "--texture-grain-strength": "1",
+    "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.05)",
+    "--texture-scanline-strength": "1",
+  } as React.CSSProperties,
+  moderate: {
+    "--texture-grain-opacity": "var(--theme-noise-level-moderate, 0.06)",
+    "--texture-grain-strength": "1",
+    "--texture-scanline-opacity": "var(--theme-scanline-opacity-moderate, 0.08)",
+    "--texture-scanline-strength": "1",
+  } as React.CSSProperties,
+};
+
 const SectionCardRoot = React.forwardRef<HTMLElement, RootProps>(
-  ({ variant = "neo", className, children, ...props }, ref) => {
+  ({ variant = "neo", noiseLevel, className, children, style, ...props }, ref) => {
     const [headingId, setHeadingId] = React.useState<string | undefined>();
     const contextValue = React.useMemo(
       () => ({ headingId, setHeadingId }),
       [headingId],
     );
+
+    const resolvedNoiseLevel: NoiseLevel = React.useMemo(() => {
+      if (noiseLevel) {
+        return noiseLevel;
+      }
+
+      return variant === "glitch" ? "moderate" : "subtle";
+    }, [noiseLevel, variant]);
+
+    const noiseStyle = React.useMemo<React.CSSProperties | undefined>(() => {
+      const variables = SECTION_CARD_NOISE_STYLES[resolvedNoiseLevel];
+
+      if (!style) {
+        return { ...variables };
+      }
+
+      return { ...variables, ...style };
+    }, [resolvedNoiseLevel, style]);
+
+    const showNoiseBackground = resolvedNoiseLevel !== "none";
+
+    const variantClassName = React.useMemo(() => {
+      if (variant === "neo") {
+        return cn(
+          "card-neo-soft shadow-depth-outer-strong",
+          showNoiseBackground && "bg-glitch-noise-primary",
+        );
+      }
+
+      if (variant === "plain") {
+        return cn("card-soft", showNoiseBackground && "bg-glitch-noise-primary");
+      }
+
+      return styles.glitch;
+    }, [showNoiseBackground, variant]);
 
     return (
       <SectionCardContext.Provider value={contextValue}>
@@ -46,13 +105,10 @@ const SectionCardRoot = React.forwardRef<HTMLElement, RootProps>(
           data-variant={variant}
           className={cn(
             "overflow-hidden rounded-card r-card-lg text-card-foreground",
-            variant === "neo"
-              ? "card-neo-soft bg-glitch-noise-primary"
-              : variant === "plain"
-                ? "card-soft bg-glitch-noise-primary"
-                : styles.glitch,
+            variantClassName,
             className,
           )}
+          style={noiseStyle}
           {...props}
         >
           {children}

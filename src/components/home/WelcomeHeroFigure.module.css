@@ -30,7 +30,8 @@
   --welcome-figure-primary-blur: calc(var(--welcome-figure-glow) * 0.85);
   --welcome-figure-secondary-blur: calc(var(--welcome-figure-glow) * 0.6);
   --welcome-figure-glitch-opacity: calc(
-    var(--glitch-intensity-hero-rail, 0.74) * 0.48
+    var(--glitch-intensity-hero-rail, 1) *
+      var(--theme-scanline-opacity-moderate, 0.08)
   );
 }
 
@@ -51,7 +52,8 @@
   --welcome-figure-primary-blur: calc(var(--welcome-figure-glow) * 0.7);
   --welcome-figure-secondary-blur: calc(var(--welcome-figure-glow) * 0.5);
   --welcome-figure-glitch-opacity: calc(
-    var(--glitch-intensity-hero-rail, 0.74) * 0.24
+    var(--glitch-intensity-hero-rail, 1) *
+      var(--theme-scanline-opacity-subtle, 0.05)
   );
 }
 
