@@ -9,7 +9,12 @@ import { NeomorphicFrameStyles } from "../layout/NeomorphicFrameStyles";
 
 type GlitchNeoCardStyle = React.CSSProperties & {
   "--glitch-neo-card-padding"?: string;
+  "--glitch-neo-card-scanline-opacity"?: string;
+  "--texture-scanline-opacity"?: string;
+  "--texture-scanline-strength"?: string;
 };
+
+type GlitchNeoCardNoiseLevel = "none" | "subtle" | "moderate";
 
 export type GlitchNeoCardProps = React.HTMLAttributes<HTMLDivElement> & {
   /**
@@ -28,6 +33,8 @@ export type GlitchNeoCardProps = React.HTMLAttributes<HTMLDivElement> & {
    * Accepts any valid CSS `padding` value.
    */
   padding?: string;
+  /** Adjust the scanline overlay strength. */
+  noiseLevel?: GlitchNeoCardNoiseLevel;
 };
 
 const baseClassName = cn(
@@ -35,8 +42,31 @@ const baseClassName = cn(
   "rounded-card r-card-lg bg-card/80 backdrop-blur shadow-depth-outer-xl",
   "p-[var(--glitch-neo-card-padding,var(--space-6))]",
   "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:content-['']",
-  "after:bg-[var(--card-overlay-scanlines)] after:mix-blend-soft-light after:opacity-60 after:z-[1]",
+  "after:bg-[var(--card-overlay-scanlines)] after:mix-blend-soft-light after:opacity-[var(--glitch-neo-card-scanline-opacity,var(--theme-scanline-opacity-subtle,0.05))] after:z-[1]",
 );
+
+const GLITCH_NEO_NOISE_STYLES: Record<
+  GlitchNeoCardNoiseLevel,
+  GlitchNeoCardStyle
+> = {
+  none: {
+    "--glitch-neo-card-scanline-opacity": "0",
+    "--texture-scanline-opacity": "var(--theme-noise-level-none, 0)",
+    "--texture-scanline-strength": "0",
+  },
+  subtle: {
+    "--glitch-neo-card-scanline-opacity":
+      "var(--theme-scanline-opacity-subtle, 0.05)",
+    "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.05)",
+    "--texture-scanline-strength": "1",
+  },
+  moderate: {
+    "--glitch-neo-card-scanline-opacity":
+      "var(--theme-scanline-opacity-moderate, 0.08)",
+    "--texture-scanline-opacity": "var(--theme-scanline-opacity-moderate, 0.08)",
+    "--texture-scanline-strength": "1",
+  },
+};
 
 const headerContainerClassName = "relative z-[2] mb-[var(--space-4)] flex flex-col gap-[var(--space-2)] md:flex-row md:items-start md:justify-between";
 const headerTextStackClassName = "space-y-[var(--space-1)]";
@@ -55,20 +85,30 @@ const GlitchNeoCard = React.forwardRef<HTMLDivElement, GlitchNeoCardProps>(
       actions,
       padding,
       style,
+      noiseLevel = "subtle",
       ...rest
     },
     ref,
   ) => {
-    const styleWithPadding = React.useMemo<GlitchNeoCardStyle | undefined>(() => {
-      if (!padding) {
-        return style as GlitchNeoCardStyle | undefined;
+    const resolvedStyle = React.useMemo<GlitchNeoCardStyle>(() => {
+      const variables = GLITCH_NEO_NOISE_STYLES[noiseLevel];
+      const baseStyle: GlitchNeoCardStyle = {
+        ...variables,
+      };
+
+      if (padding) {
+        baseStyle["--glitch-neo-card-padding"] = padding;
       }
 
-      return {
-        ...(style as GlitchNeoCardStyle | undefined),
-        "--glitch-neo-card-padding": padding,
-      };
-    }, [padding, style]);
+      if (style) {
+        return {
+          ...baseStyle,
+          ...(style as GlitchNeoCardStyle),
+        };
+      }
+
+      return baseStyle;
+    }, [noiseLevel, padding, style]);
 
     const hasTitle = title !== undefined && title !== null && title !== "";
     const hasSubtitle = subtitle !== undefined && subtitle !== null && subtitle !== "";
@@ -103,7 +143,7 @@ const GlitchNeoCard = React.forwardRef<HTMLDivElement, GlitchNeoCardProps>(
       <div
         ref={ref}
         className={cn(baseClassName, className)}
-        style={styleWithPadding}
+        style={resolvedStyle}
         {...rest}
       >
         {frame ? (

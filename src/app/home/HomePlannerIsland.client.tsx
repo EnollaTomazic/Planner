@@ -1,5 +1,6 @@
 "use client"
 
+import type { CSSProperties } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import { Button, PageShell, SectionCard } from "@/components/ui"
@@ -13,6 +14,10 @@ import type { HomePlannerIslandPlannerProps } from "./HomePlannerIsland.planner"
 
 const homeBackdropClassName =
   'relative isolate overflow-hidden bg-[color-mix(in_oklab,hsl(var(--surface))_88%,hsl(var(--surface-2)))] shadow-inner-sm bg-glitch-noise-primary'
+const homeBackdropNoiseStyle = {
+  "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.035)",
+  "--texture-grain-strength": "1",
+} as CSSProperties
 const sectionCardOverlayClassName = 'relative'
 
 let latestPlannerProps: HomePlannerIslandPlannerProps | null = null
@@ -44,7 +49,10 @@ function HomePlannerIslandFallback() {
   )
 
   return (
-    <div className={cn(styles.root, homeBackdropClassName)}>
+    <div
+      className={cn(styles.root, homeBackdropClassName)}
+      style={homeBackdropNoiseStyle}
+    >
       <section
         tabIndex={-1}
         className={styles.content}

@@ -94,6 +94,11 @@
     --team-glitch-accent-shadow: var(--glitch-accent-shadow);
     --texture-grain-strength: 1;
     --texture-scanline-strength: 1;
+    --theme-noise-level-none: 0;
+    --theme-noise-level-subtle: 0.035;
+    --theme-noise-level-moderate: 0.06;
+    --theme-scanline-opacity-subtle: 0.05;
+    --theme-scanline-opacity-moderate: 0.08;
     --glitch-noise-level: calc(
       var(--glitch-static-opacity, var(--texture-grain-opacity, 0.05)) *
         var(--texture-grain-strength, 1)

@@ -1,6 +1,6 @@
 'use client'
 
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 
 import { Skeleton } from '@/app/_loading'
 import { cn } from '@/lib/utils'
@@ -15,6 +15,10 @@ const sectionCardClassName = cn(
 )
 const homeBackdropClassName =
   'relative isolate overflow-hidden bg-[color-mix(in_oklab,hsl(var(--surface))_88%,hsl(var(--surface-2)))] shadow-inner-sm bg-glitch-noise-primary'
+const homeBackdropNoiseStyle = {
+  "--texture-grain-opacity": 'var(--theme-noise-level-subtle, 0.035)',
+  "--texture-grain-strength": '1',
+} as CSSProperties
 
 export type HomePageFallbackProps = {
   heroHeadingId: string
@@ -31,7 +35,10 @@ export function HomePageFallbackContentView({
   overviewHeadingId,
 }: HomePageFallbackContentProps) {
   return (
-    <div className={cn(styles.root, homeBackdropClassName)}>
+    <div
+      className={cn(styles.root, homeBackdropClassName)}
+      style={homeBackdropNoiseStyle}
+    >
       <section
         tabIndex={-1}
         className={styles.content}
