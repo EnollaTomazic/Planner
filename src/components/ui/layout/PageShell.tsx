@@ -1,3 +1,5 @@
+'use client';
+
 // src/components/ui/layout/PageShell.tsx
 'use client';
 
