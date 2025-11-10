@@ -3,9 +3,8 @@
 import * as React from "react";
 
 import { ThemeMatrix } from "@/components/prompts/ComponentsView";
-import { Field } from "@/components/ui/primitives/Field";
+import { Field, InsetRow, Input } from "@/components/ui";
 import { FIELD_STATE_SPECS } from "@/components/ui/primitives/Field.gallery";
-import { Input } from "@/components/ui/primitives/Input";
 import {
   INPUT_STATE_SPECS,
   type InputStateSpec,
@@ -173,6 +172,35 @@ if (loadingFieldState) {
   });
 }
 
+const InsetRowPreview: React.FC = () => {
+  const errorId = React.useId();
+
+  return (
+    <InsetRow
+      label="Link Riot account"
+      description="Pair your Riot profile to unlock personalized match insights."
+      errorMessage="We couldn't find that Summoner. Check the name and tag."
+      errorMessageId={errorId}
+      contentClassName="sm:grid-cols-2"
+    >
+      <Input
+        aria-label="Summoner name"
+        placeholder="Summoner name"
+        variant="sunken"
+        glitch
+        glitchText="Summoner search"
+        aria-invalid
+        aria-errormessage={errorId}
+      />
+      <Input
+        aria-label="Summoner tag"
+        placeholder="#NA1"
+        variant="sunken"
+      />
+    </InsetRow>
+  );
+};
+
 export const FORM_CONTROL_STATE_IDS: Record<string, readonly FormStateId[]> = {
   input: inputStates.map((state) => state.id as FormStateId),
   field: resolvedFieldStates.map((state) => state.id),
@@ -236,6 +264,20 @@ function FormsPreview() {
             </figure>
           ))}
         </div>
+      </section>
+      <section aria-labelledby="forms-preview-inset-row">
+        <header className="space-y-[var(--space-1)]">
+          <h2
+            id="forms-preview-inset-row"
+            className="text-subhead font-semibold tracking-[-0.01em]"
+          >
+            Sunken input row
+          </h2>
+          <p className="text-label text-muted-foreground">
+            Sunken variants group related fields with inset lighting and inherit optional glitch overlays.
+          </p>
+        </header>
+        <InsetRowPreview />
       </section>
       <section aria-labelledby="forms-preview-radio-icon-group">
         <header className="space-y-[var(--space-1)]">

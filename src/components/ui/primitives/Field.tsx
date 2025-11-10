@@ -45,6 +45,8 @@ function resolveHeight(height: number) {
 
 type HelperTone = "muted" | "danger" | "success";
 
+export type FieldVariant = "surface" | "sunken";
+
 export type FieldRootProps = React.HTMLAttributes<HTMLDivElement> & {
   /**
    * Visual height of the field. Token keys ("sm"–"xl") map to control heights.
@@ -65,6 +67,7 @@ export type FieldRootProps = React.HTMLAttributes<HTMLDivElement> & {
   glitch?: boolean;
   glitchText?: string;
   glitchIntensity?: GlitchOverlayToken;
+  variant?: FieldVariant;
 };
 
 export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
@@ -85,6 +88,7 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
       glitch = false,
       glitchText,
       glitchIntensity = "glitch-overlay-button-opacity-reduced",
+      variant = "surface",
       className,
       children,
       style: inlineStyle,
@@ -145,6 +149,7 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
     const resolvedGlitchText = glitch
       ? glitchText ?? providedGlitchText
       : providedGlitchText ?? glitchText;
+    const isSunken = variant === "sunken";
     return (
       <div
         className={cn(
@@ -155,11 +160,12 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
         <div
           ref={ref}
           className={cn(
-            neumorphicStyles.neu,
+            isSunken ? neumorphicStyles["neu-inset"] : neumorphicStyles.neu,
             neumorphicStyles["neu-hover"],
             FIELD_ROOT_BASE,
             glitch && "group/glitch isolate",
             styles.root,
+            isSunken ? styles.sunken : styles.surface,
             className,
           )}
           data-field-height={heightKey}
@@ -170,6 +176,7 @@ export const FieldRoot = React.forwardRef<HTMLDivElement, FieldRootProps>(
           data-loading={loading ? "true" : undefined}
           data-readonly={readOnly ? "true" : undefined}
           data-glitch={glitch ? "true" : undefined}
+          data-variant={variant}
           data-text={resolvedGlitchText}
           aria-disabled={disabled || undefined}
           aria-busy={loading || undefined}

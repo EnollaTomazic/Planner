@@ -68,3 +68,23 @@
 .root[data-field-state="disabled"] {
   --bg: var(--card);
 }
+
+.surface {}
+
+.sunken {
+  --neu-surface: color-mix(in oklab, hsl(var(--surface-2)) 82%, hsl(var(--surface)) 18%);
+  --neo-shadow: var(--shadow-inner-lg, var(--shadow-inner-md));
+  --neo-shadow-hover: var(--shadow-inner-lg, var(--shadow-inner-md));
+  border-color: color-mix(in oklab, hsl(var(--card-hairline)) 72%, transparent 28%);
+  background-color: color-mix(in oklab, hsl(var(--surface-2)) 82%, hsl(var(--surface)) 18%);
+}
+
+.root[data-variant="sunken"]:where(
+    :not([data-disabled="true"]):not([aria-disabled="true"])
+  ):is(:hover, :focus-visible, :focus-within) {
+  background-color: color-mix(in oklab, hsl(var(--surface-2)) 88%, hsl(var(--surface)) 12%);
+}
+
+.root[data-variant="sunken"][data-field-state="invalid"] {
+  border-color: color-mix(in oklab, hsl(var(--danger)) 45%, hsl(var(--card-hairline)) 55%);
+}
