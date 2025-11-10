@@ -10,20 +10,25 @@ import {
 } from "lucide-react";
 
 import type { DesignTokenGroup, GalleryNavigationData } from "@/components/gallery/types";
+import { ColorsView } from "@/components/prompts/ColorsView";
+import { ComponentsView as ComponentSpecView } from "@/components/prompts/ComponentsView";
 import {
   PageHero,
   type HeroTab,
   PageShell,
   SegmentedControl,
   type SegmentedControlOption,
+  Card,
+  CardContent,
 } from "@/components/ui";
+import { Badge } from "@/components/ui/primitives/Badge";
 import { cn } from "@/lib/utils";
 import { VARIANTS, type Variant } from "@/lib/theme";
 import { useTheme } from "@/lib/theme-context";
 import { useThemeQuerySync } from "@/lib/theme-hooks";
 
-import { ComponentsGalleryPanels } from "./ComponentsGalleryPanels";
 import {
+  COMPONENTS_PANEL_ID,
   COMPONENTS_SECTION_TAB_ID_BASE,
   COMPONENTS_VIEW_TAB_ID_BASE,
   type ComponentsView,
@@ -61,6 +66,19 @@ const CATEGORY_META = {
     description: "Color, typography, and elevation tokens.",
   },
 } satisfies Record<ComponentsView, { icon: LucideIcon; description: string }>;
+
+function formatCategoryHeadingId(key: string, index: number): string {
+  const normalized = key
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  if (normalized) {
+    return `components-category-${normalized}`;
+  }
+
+  return `components-category-${index}`;
+}
 
 interface CategoryCardDefinition {
   id: ComponentsView;
@@ -207,6 +225,10 @@ export function ComponentsPageClient({
   );
 
   const themeControlLabelId = React.useId();
+  const navLabelId = React.useId();
+  const isTokensView = view === "tokens";
+  const fallbackSectionLabel = sectionLabel || "gallery";
+  const hasCategoryGroups = categoryGroups.length > 0;
 
   return (
     <>
@@ -322,19 +344,142 @@ export function ComponentsPageClient({
         className="scroll-mt-[calc(env(safe-area-inset-top)+var(--header-stack)+var(--space-2))] py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
         contentClassName="gap-y-[var(--space-6)] md:gap-y-[var(--space-7)] lg:gap-y-[var(--space-8)]"
       >
-        <div id={`components-${view}`}>
-          <ComponentsGalleryPanels
-            view={view}
-            categoryGroups={categoryGroups}
-            sectionLabel={sectionLabel}
-            countLabel={countLabel}
-            countDescriptionId={countDescriptionId}
-            componentsPanelLabelledBy={activePanelLabelledBy}
-            componentsPanelRef={componentsPanelRef}
-            tokensPanelRef={tokensPanelRef}
-            tokenGroups={tokenGroups}
-            tokensPanelLabelledBy={tokensPanelLabelledBy}
-          />
+        <div id={`components-${view}`} className="space-y-[var(--space-6)]">
+          <div
+            id={COMPONENTS_PANEL_ID}
+            role="tabpanel"
+            aria-labelledby={activePanelLabelledBy}
+            tabIndex={isTokensView ? -1 : 0}
+            ref={componentsPanelRef}
+            hidden={isTokensView}
+            aria-hidden={isTokensView}
+            className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            <div
+              className="grid gap-[var(--space-6)] lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]"
+              aria-describedby={countDescriptionId}
+            >
+              <aside className="space-y-[var(--space-4)]">
+                <header className="space-y-[var(--space-2)]">
+                  <div className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
+                    <h2 className="text-[var(--font-title)] font-semibold tracking-[-0.01em] text-muted-foreground">
+                      {sectionLabel} specs
+                    </h2>
+                    <Badge
+                      id={countDescriptionId}
+                      tone="support"
+                      size="md"
+                      className="text-muted-foreground"
+                    >
+                      {countLabel}
+                    </Badge>
+                  </div>
+                  <p id={navLabelId} className="text-caption text-muted-foreground">
+                    Jump to a category
+                  </p>
+                </header>
+                <nav aria-labelledby={navLabelId} className="space-y-[var(--space-3)]">
+                  {hasCategoryGroups ? (
+                    <ul className="flex flex-col gap-[var(--space-2)]">
+                      {categoryGroups.map((group, index) => {
+                        const headingId = formatCategoryHeadingId(group.key, index);
+                        const badgeLabel = `${group.filteredCount} ${
+                          group.filteredCount === 1 ? "spec" : "specs"
+                        }`;
+                        return (
+                          <li key={group.key}>
+                            <a
+                              href={`#${headingId}`}
+                              className="flex items-center justify-between gap-[var(--space-2)] rounded-card border border-card-hairline-60 bg-[hsl(var(--surface-2)/0.65)] px-[var(--space-3)] py-[var(--space-2)] text-label text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                            >
+                              <span className="truncate">{group.label}</span>
+                              <Badge tone="support" size="sm" className="shrink-0 text-muted-foreground">
+                                {badgeLabel}
+                              </Badge>
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    <p className="text-label text-muted-foreground">
+                      No categories available.
+                    </p>
+                  )}
+                </nav>
+              </aside>
+              <section className="space-y-[var(--space-6)] lg:space-y-[var(--space-7)]">
+                {hasCategoryGroups ? (
+                  categoryGroups.map((group, index) => {
+                    const headingId = formatCategoryHeadingId(group.key, index);
+                    const badgeLabel = `${group.filteredCount} ${
+                      group.filteredCount === 1 ? "spec" : "specs"
+                    }`;
+                    const showEmpty = group.filteredCount === 0;
+                    const labelForEmptyState = group.label || fallbackSectionLabel;
+                    const emptyCopy =
+                      group.emptyCopy ??
+                      `No ${labelForEmptyState.toLowerCase()} specs match this search.`;
+
+                    return (
+                      <section
+                        key={group.key}
+                        aria-labelledby={headingId}
+                        className={cn(
+                          "space-y-[var(--space-4)]",
+                          index > 0 &&
+                            "border-t border-card-hairline-60 pt-[var(--space-5)]",
+                        )}
+                      >
+                        <header className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
+                          <h3
+                            id={headingId}
+                            className="text-base font-semibold tracking-[-0.01em] text-muted-foreground"
+                          >
+                            {group.label}
+                          </h3>
+                          <Badge tone="support" size="sm" className="text-muted-foreground">
+                            {badgeLabel}
+                          </Badge>
+                        </header>
+                        {showEmpty ? (
+                          <Card>
+                            <CardContent className="text-base text-muted-foreground">
+                              {emptyCopy}
+                            </CardContent>
+                          </Card>
+                        ) : (
+                          <div className="grid gap-[var(--space-6)]">
+                            {group.filteredSpecs.map((spec) => (
+                              <ComponentSpecView key={spec.id} entry={spec} />
+                            ))}
+                          </div>
+                        )}
+                      </section>
+                    );
+                  })
+                ) : (
+                  <Card>
+                    <CardContent className="text-base text-muted-foreground">
+                      No {fallbackSectionLabel.toLowerCase()} specs available.
+                    </CardContent>
+                  </Card>
+                )}
+              </section>
+            </div>
+          </div>
+          <div
+            id={`${COMPONENTS_VIEW_TAB_ID_BASE}-tokens-panel`}
+            role="tabpanel"
+            aria-labelledby={tokensPanelLabelledBy}
+            tabIndex={isTokensView ? 0 : -1}
+            ref={tokensPanelRef}
+            hidden={!isTokensView}
+            aria-hidden={!isTokensView}
+            className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            <ColorsView groups={tokenGroups} />
+          </div>
         </div>
       </PageShell>
     </>
