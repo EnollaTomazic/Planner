@@ -18,7 +18,9 @@ export default function NotFound() {
 
   return (
     <PageShell
-      as="section"
+      as="main"
+      id="page-main"
+      tabIndex={-1}
       className="flex min-h-screen flex-col items-center justify-center gap-[var(--space-3)] px-[var(--space-4)] py-[var(--space-5)] text-center"
       aria-labelledby={headerId}
       role="region"

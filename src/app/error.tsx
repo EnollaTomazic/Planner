@@ -84,7 +84,9 @@ export function RouteErrorContent({
 
   return (
     <PageShell
-      as="section"
+      as="main"
+      id="page-main"
+      tabIndex={-1}
       role="alert"
       aria-live="assertive"
       className="py-[var(--space-8)]"

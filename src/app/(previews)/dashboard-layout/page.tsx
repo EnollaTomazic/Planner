@@ -236,6 +236,8 @@ export default function DashboardLayoutPreviewPage() {
 
       <PageShell
         as="main"
+        id="page-main"
+        tabIndex={-1}
         className="py-[var(--space-7)]"
         aria-labelledby={pageTitleId}
       >

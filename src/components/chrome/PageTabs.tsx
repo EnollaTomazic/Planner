@@ -11,8 +11,11 @@ import {
 } from "next/navigation";
 
 import {
+  PageShell,
   type TabItem as TabBarItem,
-  type TabRenderContext, TabBar } from "@/components/ui/layout/TabBar";
+  type TabRenderContext,
+  TabBar,
+} from "@/components/ui";
 import { cn, withBasePath } from "@/lib/utils";
 import segmentedButtonStyles from "@/components/ui/primitives/SegmentedButton.module.css";
 
@@ -243,7 +246,7 @@ export function PageTabs({
       data-sticky={sticky ? "true" : undefined}
       style={sticky ? stickyStyle : undefined}
     >
-      <div className="page-shell">
+      <PageShell>
         <TabBar<string, { href?: string }>
           items={tabItems}
           value={activeValue}
@@ -253,7 +256,7 @@ export function PageTabs({
           renderItem={renderTab}
           tablistClassName="data-[variant=glitch]:gap-[var(--space-2)] data-[variant=glitch]:py-[var(--space-3)]"
         />
-      </div>
+      </PageShell>
     </div>
   );
 }

@@ -16,6 +16,8 @@ export default function FormsPreviewPage() {
   return (
     <PageShell
       as="main"
+      id="page-main"
+      tabIndex={-1}
       grid
       aria-labelledby="forms-preview-heading"
       className="py-[var(--space-6)] md:py-[var(--space-8)]"

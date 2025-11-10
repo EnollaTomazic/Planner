@@ -461,29 +461,37 @@ function Inner() {
         />
       </PageShell>
 
-      {VIEW_MODE_OPTIONS.map((option) => {
-        const tabId = `${VIEW_TAB_ID_BASE}-${option.value}-tab`;
-        const panelId = `${VIEW_TAB_ID_BASE}-${option.value}-panel`;
-        const isActive = viewMode === option.value;
-        const ViewComponent = VIEW_COMPONENTS[option.value];
+      <PageShell
+        as="main"
+        id="page-main"
+        tabIndex={-1}
+        aria-labelledby="planner-header"
+        className="py-[var(--space-6)]"
+      >
+        {VIEW_MODE_OPTIONS.map((option) => {
+          const tabId = `${VIEW_TAB_ID_BASE}-${option.value}-tab`;
+          const panelId = `${VIEW_TAB_ID_BASE}-${option.value}-panel`;
+          const isActive = viewMode === option.value;
+          const ViewComponent = VIEW_COMPONENTS[option.value];
 
-        return (
-          <div
-            key={option.value}
-            role="tabpanel"
-            id={panelId}
-            aria-labelledby={tabId}
-            hidden={!isActive}
-            tabIndex={isActive ? 0 : -1}
-          >
-            {isActive ? (
-              <React.Suspense fallback={<PlannerViewFallback mode={option.value} />}>
-                <ViewComponent />
-              </React.Suspense>
-            ) : null}
-          </div>
-        );
-      })}
+          return (
+            <div
+              key={option.value}
+              role="tabpanel"
+              id={panelId}
+              aria-labelledby={tabId}
+              hidden={!isActive}
+              tabIndex={isActive ? 0 : -1}
+            >
+              {isActive ? (
+                <React.Suspense fallback={<PlannerViewFallback mode={option.value} />}>
+                  <ViewComponent />
+                </React.Suspense>
+              ) : null}
+            </div>
+          );
+        })}
+      </PageShell>
     </>
   );
 }
