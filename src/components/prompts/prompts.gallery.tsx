@@ -79,10 +79,12 @@ import { ToggleShowcase } from "./ToggleShowcase";
 import { PageHeaderDemo } from "./PageHeaderDemo";
 import { NeomorphicHeroFrameDemo } from "./NeomorphicHeroFrameDemo";
 import { RadioIconGroupShowcase } from "./RadioIconGroupShowcase";
-import { WeekPickerDemo } from "./component-gallery/WeekPickerDemo";
+import { WeekPickerDemo } from "./previews/WeekPickerDemo";
 import {
   CalendarPreviewError,
-  CalendarPreviewLoading, CalendarPreview as PlannerCalendarPreview } from "./component-gallery/CalendarLayoutPreview";
+  CalendarPreviewLoading,
+  CalendarPreview as PlannerCalendarPreview,
+} from "./previews/CalendarLayoutPreview";
 import {
   Card as HomeCard,
   DashboardList,
