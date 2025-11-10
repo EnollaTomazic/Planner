@@ -1,10 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { PlannerOverviewCalendarCard } from "./PlannerOverviewCalendarCard";
-import { PlannerOverviewFocusCard } from "./PlannerOverviewFocusCard";
-import { PlannerOverviewGoalsCard } from "./PlannerOverviewGoalsCard";
-import { PlannerOverviewSummaryCard } from "./PlannerOverviewSummaryCard";
+import { CalendarCard, FocusCard, MomentumCard, SummaryCard } from "./cards";
 import type { PlannerOverviewProps } from "./types";
 import { cn } from "@/lib/utils";
 
@@ -28,10 +25,10 @@ export function PlannerOverview({
           className,
         )}
       >
-        <PlannerOverviewSummaryCard {...summary} />
-        <PlannerOverviewFocusCard {...focus} />
-        <PlannerOverviewGoalsCard {...goals} />
-        <PlannerOverviewCalendarCard {...calendar} />
+        <SummaryCard {...summary} />
+        <FocusCard {...focus} />
+        <MomentumCard {...goals} />
+        <CalendarCard {...calendar} />
       </div>
     ),
     [calendar, className, focus, goals, summary],

@@ -1,11 +1,14 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { CheckCircle, NeoCard } from "@/components/ui";
-import { cn } from "@/lib/utils";
-import type { PlannerOverviewFocusProps } from "./types";
+import * as React from "react"
 
-function PlannerOverviewFocusCardComponent({
+import { Card } from "../../Card"
+import { CheckCircle } from "@/components/ui"
+import { cn } from "@/lib/utils"
+
+import type { PlannerOverviewFocusProps } from "../types"
+
+function FocusCardComponent({
   label,
   title,
   doneCount,
@@ -15,22 +18,23 @@ function PlannerOverviewFocusCardComponent({
   onToggleTask,
 }: PlannerOverviewFocusProps) {
   return (
-    <div className="col-span-12 md:col-span-6 lg:col-span-4">
-      <NeoCard className="flex h-full flex-col gap-[var(--space-4)] p-[var(--space-4)] md:p-[var(--space-5)]">
-        <header className="flex items-start justify-between gap-[var(--space-3)]">
-          <div className="space-y-[var(--space-1)]">
-            <p className="text-label text-muted-foreground">{label}</p>
-            <h3 className="text-body font-semibold text-card-foreground tracking-[-0.01em]">
-              {title}
-            </h3>
-          </div>
+    <Card as="section" className="col-span-12 h-full md:col-span-6 lg:col-span-4">
+      <Card.Header
+        eyebrow={label}
+        eyebrowClassName="text-label text-muted-foreground"
+        title={title}
+        titleClassName="text-body font-semibold text-card-foreground tracking-[-0.01em]"
+        actionsClassName="justify-end"
+        actions={
           <div className="text-right">
             <p className="text-label text-muted-foreground">Progress</p>
             <p className="text-ui font-medium tabular-nums text-card-foreground">
               {doneCount}/{totalCount}
             </p>
           </div>
-        </header>
+        }
+      />
+      <Card.Body className="gap-[var(--space-3)] text-card-foreground">
         <ul className="flex flex-col gap-[var(--space-3)]" aria-live="polite">
           {tasks.length > 0 ? (
             tasks.map((task) => (
@@ -78,9 +82,9 @@ function PlannerOverviewFocusCardComponent({
             +{remainingTasks} more task{remainingTasks === 1 ? "" : "s"} in planner
           </p>
         ) : null}
-      </NeoCard>
-    </div>
-  );
+      </Card.Body>
+    </Card>
+  )
 }
 
-export const PlannerOverviewFocusCard = React.memo(PlannerOverviewFocusCardComponent)
+export const FocusCard = React.memo(FocusCardComponent)
