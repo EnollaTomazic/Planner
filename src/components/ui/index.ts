@@ -20,6 +20,7 @@ export { Cluster } from "./Cluster";
 export type { ClusterProps } from "./Cluster";
 export { Progress } from "./feedback/Progress";
 export { ProgressRing } from "./feedback/ProgressRing";
+export type { ProgressRingProps } from "./feedback/ProgressRing";
 export { Skeleton } from "./feedback/Skeleton";
 export type { SkeletonProps, SkeletonRadius } from "./feedback/Skeleton";
 export { Snackbar } from "./feedback/Snackbar";

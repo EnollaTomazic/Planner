@@ -9,8 +9,12 @@ import {
   type GalleryAxis,
   type GalleryRelatedSurface,
   type GallerySerializableEntry,
-  type GallerySerializableStateDefinition,
 } from "@/components/gallery";
+import {
+  ComponentPreview,
+  ComponentPreviewFallback,
+  componentPreviewFrameClassName,
+} from "@/components/gallery-page/ComponentPreview";
 import { cn } from "@/lib/utils";
 import {
   applyTheme,
@@ -38,13 +42,6 @@ interface ComponentsViewProps {
   onCurrentCodeChange?: (code: string | null) => void;
 }
 
-interface ShowCodeButtonProps {
-  controls: string;
-  expanded: boolean;
-  onToggle: () => void;
-  disabled?: boolean;
-}
-
 const containerClassName = cn(
   "group/component-view relative isolate flex flex-col gap-[var(--space-6)] overflow-hidden",
   "rounded-card r-card-lg border border-card-hairline-80",
@@ -56,13 +53,6 @@ const containerClassName = cn(
   "before:pointer-events-none before:absolute before:inset-x-[var(--space-5)] before:top-0 before:h-[var(--spacing-0-5)] before:rounded-full before:bg-[var(--gradient-glitch-rail)] before:opacity-90",
   "after:pointer-events-none after:absolute after:inset-0 after:bg-glitch-overlay after:opacity-20 after:mix-blend-soft-light",
   "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-within:translate-y-0",
-);
-
-const frameClassName = cn(
-  "relative isolate rounded-card r-card-md border border-card-hairline-60 bg-[hsl(var(--surface-1)/0.92)] p-[var(--space-4)]",
-  "shadow-[var(--shadow-inset-hairline)]",
-  "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-glitch-overlay before:opacity-20 before:mix-blend-soft-light",
-  "after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-[var(--spacing-0-5)] after:rounded-[inherit] after:bg-[var(--gradient-glitch-rail)] after:opacity-80",
 );
 
 function ThemePreviewSurface({
@@ -104,7 +94,7 @@ function ThemePreviewSurface({
     };
   }, []);
 
-  return <div className={frameClassName}>{children}</div>;
+  return <div className={componentPreviewFrameClassName}>{children}</div>;
 }
 
 export function ThemeMatrix({
@@ -180,7 +170,7 @@ export function ThemeMatrix({
       );
     }
     return (
-      <React.Suspense fallback={<GalleryPreviewFallback />}>
+      <React.Suspense fallback={<ComponentPreviewFallback />}>
         {previewRenderer()}
       </React.Suspense>
     );
@@ -192,7 +182,7 @@ export function ThemeMatrix({
   }, [activeVariant]);
 
   if (VARIANTS.length === 0) {
-    return <div className={frameClassName}>{previewNode}</div>;
+    return <div className={componentPreviewFrameClassName}>{previewNode}</div>;
   }
 
   return (
@@ -267,59 +257,6 @@ export function ThemeMatrixPreview({
   );
 
   return <ThemeMatrix entryId={entryId} previewRenderer={previewRenderer} />;
-}
-
-function GalleryPreviewFallback() {
-  return (
-    <div
-      aria-busy="true"
-      className="flex min-h-[var(--space-24)] items-center justify-center text-label text-muted-foreground [--space-24:calc(var(--space-8)*3)]"
-    >
-      Loading preview…
-    </div>
-  );
-}
-
-function ShowCodeButton({
-  controls,
-  expanded,
-  onToggle,
-  disabled,
-}: ShowCodeButtonProps) {
-  return (
-    <button
-      type="button"
-      onClick={onToggle}
-      aria-expanded={expanded}
-      aria-controls={controls}
-      disabled={disabled}
-      data-pressed={expanded ? "true" : undefined}
-      className={cn(
-        "group/button relative inline-flex h-[var(--control-h-md)] items-center justify-center gap-[var(--space-1)]",
-        "rounded-full px-[var(--space-5)] text-ui font-medium tracking-[-0.01em]",
-        "bg-panel-tilt-bright text-foreground",
-        "border border-[hsl(var(--ring)/0.45)]",
-        "shadow-depth-outer",
-        "hover:shadow-depth-soft focus-visible:shadow-depth-soft",
-        "transition-[transform,box-shadow,background,filter] duration-motion-sm ease-out motion-reduce:transition-none",
-        "hover:-translate-y-[var(--spacing-0-25)] focus-visible:-translate-y-[var(--spacing-0-25)]",
-        "active:translate-y-[var(--spacing-0-25)]",
-        "active:shadow-depth-soft",
-        "data-[pressed=true]:translate-y-[var(--spacing-0-25)]",
-        "data-[pressed=true]:shadow-depth-soft",
-        "motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 motion-reduce:active:translate-y-0",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--card))]",
-        "before:pointer-events-none before:absolute before:-inset-px before:rounded-full before:border before:border-[hsl(var(--ring)/0.35)] before:opacity-0 before:transition-opacity before:duration-motion-sm before:ease-out",
-        "focus-visible:before:opacity-100",
-        "after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-hero-action-halo after:opacity-0 after:transition-opacity after:duration-motion-sm after:ease-out",
-        "hover:after:opacity-100 focus-visible:after:opacity-100",
-        "disabled:cursor-not-allowed disabled:opacity-disabled disabled:translate-y-0",
-        "disabled:shadow-outline-subtle",
-      )}
-    >
-      {expanded ? "Hide code" : "Show code"}
-    </button>
-  );
 }
 
 function SectionHeading({
@@ -833,195 +770,17 @@ function UsedOnSection({
   );
 }
 
-interface StatesSectionProps {
-  entryId: string;
-  states: readonly GallerySerializableStateDefinition[];
-  stateAxes: readonly GalleryAxis[];
-  activeSnippet: string | null;
-  onToggleState: (stateId: string) => void;
-}
-
-function StatesSection({
-  entryId,
-  states,
-  stateAxes,
-  activeSnippet,
-  onToggleState,
-}: StatesSectionProps) {
-  const headingId = `${entryId}-states-heading`;
-
-  if (states.length === 0 && stateAxes.length === 0) {
-    return null;
-  }
-
-  return (
-    <section
-      aria-labelledby={headingId}
-      className="space-y-[var(--space-3)]"
-    >
-      <SectionHeading id={headingId}>States</SectionHeading>
-      {stateAxes.length > 0 ? (
-        <div className="rounded-card border border-card-hairline-60 bg-[hsl(var(--surface-2)/0.65)] p-[var(--space-4)] shadow-[var(--shadow-inset-hairline)]">
-          <div className="grid gap-[var(--space-3)] md:grid-cols-2">
-            {stateAxes.map((axis) => (
-              <div key={axis.id} className="space-y-[var(--space-2)]">
-                <p className="text-label font-medium text-muted-foreground">
-                  {axis.label}
-                </p>
-                <ul className="flex flex-wrap gap-[var(--space-2)]">
-                  {axis.values.map((value) => (
-                    <li key={value.value}>
-                      <Badge tone="support" size="md" className="text-muted-foreground">
-                        {value.value}
-                      </Badge>
-                    </li>
-                  ))}
-                </ul>
-                {axis.description ? (
-                  <p className="text-caption text-muted-foreground">
-                    {axis.description}
-                  </p>
-                ) : null}
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : null}
-      {states.length > 0 ? (
-        <div className="overflow-hidden rounded-card border border-card-hairline-60 bg-[hsl(var(--surface-2)/0.65)] shadow-[var(--shadow-inset-hairline)]">
-          <table className="w-full border-collapse text-left">
-            <tbody>
-              {states.map((state) => {
-                const key = `state:${state.id}`;
-                return (
-                  <StateTableRow
-                    key={state.id}
-                    entryId={entryId}
-                    state={state}
-                    expanded={activeSnippet === key}
-                    onToggle={() => onToggleState(state.id)}
-                  />
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      ) : null}
-    </section>
-  );
-}
-
-function StateTableRow({
-  entryId,
-  state,
-  expanded,
-  onToggle,
-}: {
-  entryId: string;
-  state: GallerySerializableStateDefinition;
-  expanded: boolean;
-  onToggle: () => void;
-}) {
-  const headingId = `${entryId}-state-${state.id}`;
-  const descriptionId = state.description
-    ? `${headingId}-description`
-    : undefined;
-  const codeId = `${entryId}-state-${state.id}-code`;
-
-  const previewRenderer = React.useMemo(
-    () => getGalleryPreview(state.preview.id),
-    [state.preview.id],
-  );
-
-  const previewNode = React.useMemo(() => {
-    if (!previewRenderer) {
-      return (
-        <div className="text-ui text-muted-foreground">Preview unavailable</div>
-      );
-    }
-    return (
-      <React.Suspense fallback={<GalleryPreviewFallback />}>
-        {previewRenderer()}
-      </React.Suspense>
-    );
-  }, [previewRenderer]);
-
-  return (
-    <tr className="border-t border-card-hairline-60 first:border-t-0">
-      <th
-        scope="row"
-        id={headingId}
-        className="w-[28%] min-w-[12rem] align-top px-[var(--space-5)] py-[var(--space-4)] text-left"
-      >
-        <div className="space-y-[var(--space-1)]">
-          <p className="text-ui font-semibold tracking-[-0.01em] text-foreground">
-            {state.name}
-          </p>
-          {state.description ? (
-            <p
-              id={descriptionId}
-              className="text-label text-muted-foreground"
-            >
-              {state.description}
-            </p>
-          ) : null}
-        </div>
-      </th>
-      <td className="align-top px-[var(--space-5)] py-[var(--space-4)]">
-        <div className="space-y-[var(--space-3)]">
-          <div className={frameClassName}>{previewNode}</div>
-          {state.code ? (
-            <div className="space-y-[var(--space-2)]">
-              <div className="flex justify-end">
-                <ShowCodeButton
-                  controls={codeId}
-                  expanded={expanded}
-                  onToggle={onToggle}
-                />
-              </div>
-              <pre
-                id={codeId}
-                hidden={!expanded}
-                aria-hidden={expanded ? undefined : true}
-                className="rounded-card r-card-md border border-card-hairline-60 bg-[hsl(var(--surface-1)/0.9)] p-[var(--space-4)] text-label shadow-[var(--shadow-inset-hairline)]"
-              >
-                <code>{state.code}</code>
-              </pre>
-            </div>
-          ) : null}
-        </div>
-      </td>
-    </tr>
-  );
-}
 
 export function ComponentsView({
   entry,
   onCurrentCodeChange,
 }: ComponentsViewProps) {
-  const previewRenderer = React.useMemo(
-    () => getGalleryPreview(entry.preview.id),
-    [entry.preview.id],
-  );
-
   const variantAxes = React.useMemo(
     () => entry.axes?.filter((axis) => axis.type === "variant") ?? [],
     [entry.axes],
   );
 
-  const stateAxes = React.useMemo(
-    () => entry.axes?.filter((axis) => axis.type === "state") ?? [],
-    [entry.axes],
-  );
-
-  const states = React.useMemo(
-    () => entry.states ?? [],
-    [entry.states],
-  );
-
   const usage = entry.usage ?? [];
-
-  const [openSnippet, setOpenSnippet] = React.useState<string | null>(null);
 
   const issues = React.useMemo(
     () => getComponentIssues(entry.id),
@@ -1036,62 +795,17 @@ export function ComponentsView({
   const issueBadgeId = `${issuePanelId}-badge`;
 
   React.useEffect(() => {
-    setOpenSnippet(null);
-  }, [entry.id]);
-
-  React.useEffect(() => {
     setIssuesExpanded(issueCount > 0);
   }, [entry.id, issueCount]);
 
-  const stateMap = React.useMemo(() => {
-    const map = new Map<string, GallerySerializableStateDefinition>();
-    for (const state of states) {
-      map.set(`state:${state.id}`, state);
-    }
-    return map;
-  }, [states]);
-
-  const currentCode = React.useMemo(() => {
-    if (!openSnippet) {
-      return null;
-    }
-    if (openSnippet === "component") {
-      return entry.code ?? null;
-    }
-    return stateMap.get(openSnippet)?.code ?? null;
-  }, [entry.code, openSnippet, stateMap]);
-
-  React.useEffect(() => {
-    if (!onCurrentCodeChange) {
-      return;
-    }
-    onCurrentCodeChange(currentCode ?? null);
-  }, [currentCode, onCurrentCodeChange]);
-
-  const handleToggleMainCode = React.useCallback(() => {
-    if (!entry.code) {
-      return;
-    }
-    setOpenSnippet((current) =>
-      current === "component" ? null : "component",
-    );
-  }, [entry.code]);
-
-  const handleToggleStateCode = React.useCallback(
-    (stateId: string) => {
-      const key = `state:${stateId}`;
-      const state = stateMap.get(key);
-      if (!state?.code) {
+  const handleCodeChange = React.useCallback(
+    (code: string | null) => {
+      if (!onCurrentCodeChange) {
         return;
       }
-      setOpenSnippet((current) => (current === key ? null : key));
+      onCurrentCodeChange(code);
     },
-    [stateMap],
-  );
-
-  const componentCodeId = React.useMemo(
-    () => `${entry.id}-code`,
-    [entry.id],
+    [onCurrentCodeChange],
   );
 
   return (
@@ -1122,13 +836,6 @@ export function ComponentsView({
             </ul>
           ) : null}
         </div>
-        {entry.code ? (
-          <ShowCodeButton
-            controls={componentCodeId}
-            expanded={openSnippet === "component"}
-            onToggle={handleToggleMainCode}
-          />
-        ) : null}
       </header>
       <IssuesSection
         entryId={entry.id}
@@ -1138,30 +845,13 @@ export function ComponentsView({
         expanded={issuesExpanded}
         onToggle={() => setIssuesExpanded((prev) => !prev)}
       />
-      <ThemeMatrix entryId={entry.id} previewRenderer={previewRenderer} />
-      {entry.code ? (
-        <pre
-          id={componentCodeId}
-          hidden={openSnippet !== "component"}
-          aria-hidden={openSnippet === "component" ? undefined : true}
-          className="rounded-card r-card-md border border-card-hairline-60 bg-[hsl(var(--surface-1)/0.9)] p-[var(--space-4)] text-label shadow-[var(--shadow-inset-hairline)]"
-        >
-          <code>{entry.code}</code>
-        </pre>
-      ) : null}
+      <ComponentPreview entry={entry} onCodeChange={handleCodeChange} />
       {entry.props && entry.props.length > 0 ? (
         <PropsTable entryId={entry.id} props={entry.props} />
       ) : null}
       {variantAxes.length > 0 ? (
         <VariantsMatrix entryId={entry.id} axes={variantAxes} />
       ) : null}
-      <StatesSection
-        entryId={entry.id}
-        states={states}
-        stateAxes={stateAxes}
-        activeSnippet={openSnippet}
-        onToggleState={handleToggleStateCode}
-      />
       <UsedOnSection entryId={entry.id} surfaces={entry.related?.surfaces} />
       <UsageSection entryId={entry.id} notes={usage} />
     </article>
