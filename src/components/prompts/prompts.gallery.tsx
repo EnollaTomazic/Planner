@@ -84,7 +84,7 @@ import {
   CalendarPreviewError,
   CalendarPreviewLoading, CalendarPreview as PlannerCalendarPreview } from "./component-gallery/CalendarLayoutPreview";
 import {
-  DashboardCard,
+  Card as HomeCard,
   DashboardList,
   HeroPlannerCards,
   IsometricRoom,
@@ -4362,11 +4362,23 @@ const [value, setValue] = React.useState(options[0].value);
   ],
   homepage: [
     {
-      id: "dashboard-card",
-      name: "DashboardCard",
-      element: <DashboardCard title="Demo" />,
+      id: "card",
+      name: "Card",
+      element: (
+        <HomeCard>
+          <HomeCard.Header title="Demo" />
+          <HomeCard.Body>
+            <p className="text-ui">Body</p>
+          </HomeCard.Body>
+        </HomeCard>
+      ),
       tags: ["dashboard", "card"],
-      code: `<DashboardCard title="Demo" />`,
+      code: `<Card>
+  <Card.Header title="Demo" />
+  <Card.Body>
+    <p className="text-ui">Body</p>
+  </Card.Body>
+</Card>`,
     },
     {
       id: "dashboard-list",

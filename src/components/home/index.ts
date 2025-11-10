@@ -1,5 +1,6 @@
 // src/components/home/index.ts
-export { DashboardCard as DashboardCard } from "./DashboardCard";
+export { Card as Card } from "./Card";
+export { DashboardListCard as DashboardListCard } from "./DashboardListCard";
 export { DashboardList as DashboardList } from "./DashboardList";
 export { DashboardSectionHeader as DashboardSectionHeader } from "./DashboardSectionHeader";
 export { TodayCard as TodayCard } from "./TodayCard";

@@ -14,9 +14,8 @@ import { BookOpen, Ghost, Plus } from "lucide-react";
 
 import {
   Button,
-  PageHeroHeader as PageHeader,
+  Hero,
   PageShell,
-  SearchBar,
   Select,
   TabBar,
   Skeleton,
@@ -143,16 +142,41 @@ export function ReviewsPage({
     [],
   );
 
+  const heroSearchLabel = isLoading
+    ? "Search reviews (temporarily unavailable)"
+    : isErrored
+      ? "Search reviews (temporarily unavailable)"
+      : !hasReviews
+        ? "Search reviews (disabled until a review exists)"
+        : "Search reviews";
+  const heroSearchDescription = !hasReviews ? emptySearchDescriptionId : undefined;
+  const heroSearchDisabled = !allowInteractions || !hasReviews;
+
   return (
     <>
-      <PageHeader
-        shellProps={{ className: "py-[var(--space-6)]" }}
+      <Hero
         as="section"
+        className="py-[var(--space-6)]"
         topClassName="top-[var(--header-stack)]"
         title={<span id={heroHeadingId}>Reviews</span>}
-        subtitle="Capture match recaps, filter by tags and patches"
+        subtitle="Capture and learn from your past sprints."
         glitch="default"
+        frame
         icon={<BookOpen className="opacity-80" />}
+        search={
+          {
+            value: q,
+            onValueChange: setQ,
+            placeholder: "Search reviews...",
+            "aria-label": heroSearchLabel,
+            "aria-describedby": heroSearchDescription,
+            height: "lg",
+            debounceMs: 300,
+            variant: "sunken",
+            loading: isLoading,
+            disabled: heroSearchDisabled,
+          }
+        }
         actions={
           <Button
             type="button"
@@ -163,7 +187,7 @@ export function ReviewsPage({
             disabled={!allowInteractions}
           >
             <Plus />
-            <span>New Review</span>
+            <span>New review</span>
           </Button>
         }
         illustration={
@@ -186,14 +210,7 @@ export function ReviewsPage({
         aria-labelledby={heroHeadingId}
       >
         {isLoading ? (
-          <div className="grid gap-[var(--space-3)] sm:gap-[var(--space-4)] md:grid-cols-[minmax(0,1fr)_16rem]">
-            <Skeleton
-              ariaHidden={false}
-              role="status"
-              aria-label="Loading review search"
-              className="h-[var(--control-h-lg)] w-full"
-              radius="full"
-            />
+          <div className="flex flex-col gap-[var(--space-3)] sm:gap-[var(--space-4)] md:flex-row md:items-end md:justify-end">
             <Skeleton
               ariaHidden={false}
               role="status"
@@ -204,18 +221,7 @@ export function ReviewsPage({
           </div>
         ) : isErrored ? (
           <div className="space-y-[var(--space-3)]">
-            <div className="flex flex-col gap-[var(--space-3)] sm:gap-[var(--space-4)] md:flex-row md:items-end md:justify-between">
-              <SearchBar
-                value={q}
-                placeholder="Search unavailable until reviews sync."
-                aria-label="Search reviews (temporarily unavailable)"
-                variant="neo"
-                height="lg"
-                disabled
-                loading
-                debounceMs={300}
-                className="md:max-w-none"
-              />
+            <div className="flex flex-col gap-[var(--space-3)] sm:gap-[var(--space-4)] md:flex-row md:items-end md:justify-end">
               <div
                 className="flex w-full flex-col gap-[var(--space-1)] text-left md:w-[16rem]"
                 aria-labelledby={sortLabelId}
@@ -256,17 +262,7 @@ export function ReviewsPage({
             </div>
           </div>
         ) : hasReviews ? (
-          <div className="flex flex-col gap-[var(--space-3)] sm:gap-[var(--space-4)] md:flex-row md:items-end md:justify-between">
-            <SearchBar
-              value={q}
-              onValueChange={setQ}
-              placeholder="Search title, tags, opponent, patch…"
-              aria-label="Search reviews"
-              variant="neo"
-              height="lg"
-              debounceMs={300}
-              className="md:max-w-none"
-            />
+          <div className="flex flex-col gap-[var(--space-3)] sm:gap-[var(--space-4)] md:flex-row md:items-end md:justify-end">
             <div
               className="flex w-full flex-col gap-[var(--space-1)] text-left md:w-[16rem]"
               aria-labelledby={sortLabelId}
@@ -291,17 +287,6 @@ export function ReviewsPage({
           </div>
         ) : (
           <div className="space-y-[var(--space-2)]">
-            <SearchBar
-              value={q}
-              placeholder="Add a review to unlock search by title, tags, opponent, or patch."
-              aria-label="Search reviews (disabled until a review exists)"
-              aria-describedby={emptySearchDescriptionId}
-              variant="neo"
-              height="lg"
-              debounceMs={300}
-              disabled
-              className="md:max-w-none"
-            />
             <p
               id={emptySearchDescriptionId}
               className="text-ui text-muted-foreground"
@@ -420,7 +405,7 @@ export function ReviewsPage({
                   <p className="text-card-foreground">You&rsquo;re ready to capture your first review.</p>
                   <p>
                     Log a match recap to unlock summaries, tagging, and focus tracking.
-                    Use the New Review button above to begin.
+                    Use the New review button above to begin.
                   </p>
                 </div>
               </ReviewPanel>
@@ -450,7 +435,7 @@ export function ReviewsPage({
                 </span>
                 <div className="space-y-[var(--space-1)]">
                   <p className="text-card-foreground">Select a review from the list to see its summary.</p>
-                  <p>Use New Review to document another match when you&rsquo;re ready.</p>
+                  <p>Use New review to document another match when you&rsquo;re ready.</p>
                 </div>
               </ReviewPanel>
             ) : (

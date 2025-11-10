@@ -3,6 +3,7 @@
 import Link from "next/link";
 import * as React from "react";
 
+import { Card } from "./Card";
 import { ActivityCard } from "./ActivityCard";
 import { GoalsCard } from "./GoalsCard";
 import { IsometricRoom } from "./IsometricRoom";
@@ -157,26 +158,31 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
           </div>
         </div>
         <div className={cn("col-span-full", styles.overviewRow)}>
-          <article className={styles.overviewCard}>
-            <header className={styles.overviewHeader}>
-              <p className={styles.cardLabel}>{summary.label}</p>
-              <h3 className={styles.cardTitle}>{summary.title}</h3>
-            </header>
-            <ul className={styles.metricList} role="list">
-              {upcomingItems.map((item) => (
-                <li key={item.key} className={styles.metricItem}>
-                  <Link
-                    href={withBasePath(item.href, { skipForNextLink: true })}
-                    className={styles.metricLink}
-                  >
-                    <span className={styles.metricLabel}>{item.label}</span>
-                    <span className={styles.metricValue}>{item.value}</span>
-                    <span className={styles.metricCta}>{item.cta}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <div className={styles.cardActions}>
+          <Card className={styles.overviewCard} noiseLevel="none">
+            <Card.Header
+              className={styles.overviewHeader}
+              eyebrow={summary.label}
+              title={summary.title}
+              eyebrowClassName={styles.cardLabel}
+              titleClassName={styles.cardTitle}
+            />
+            <Card.Body className="text-card-foreground">
+              <ul className={styles.metricList} role="list">
+                {upcomingItems.map((item) => (
+                  <li key={item.key} className={styles.metricItem}>
+                    <Link
+                      href={withBasePath(item.href, { skipForNextLink: true })}
+                      className={styles.metricLink}
+                    >
+                      <span className={styles.metricLabel}>{item.label}</span>
+                      <span className={styles.metricValue}>{item.value}</span>
+                      <span className={styles.metricCta}>{item.cta}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Card.Body>
+            <Card.Actions className={styles.cardActions}>
               <Button
                 asChild
                 size="sm"
@@ -187,89 +193,81 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
                   Open planner
                 </Link>
               </Button>
-            </div>
-          </article>
-          <article className={styles.overviewCard}>
-            <header className={styles.overviewHeader}>
-              <p className={styles.cardLabel}>{goals.label}</p>
-              <h3 className={styles.cardTitle}>{goals.title}</h3>
-              <p className={styles.cardHint}>
-                {goals.completed}/{goals.total} complete
-              </p>
-            </header>
-            <div className={styles.progressBlock}>
-              <Progress value={goals.percentage} label="Goals completion" />
-              <span className={styles.progressValue}>{goals.percentage}%</span>
-            </div>
-            <div className={styles.goalList}>
-              {goals.total === 0 ? (
-                <p className={styles.emptyGoal}>{goals.emptyMessage}</p>
-              ) : goals.active.length > 0 ? (
-                goals.active.slice(0, 3).map((goal) => (
-                  <div key={goal.id} className={styles.goalItem}>
-                    <p className={styles.goalTitle}>{goal.title}</p>
-                    {goal.detail ? (
-                      <p className={styles.goalDetail}>{goal.detail}</p>
-                    ) : null}
-                  </div>
-                ))
-              ) : (
-                <p className={styles.emptyGoal}>{goals.allCompleteMessage}</p>
-              )}
-            </div>
-            <div className={styles.calendarStrip}>
-              <div className={styles.calendarMeta}>
-                <p className={styles.cardLabel}>{calendar.label}</p>
-                <p className={styles.calendarSummary}>{calendarSummary}</p>
+            </Card.Actions>
+          </Card>
+          <Card className={styles.overviewCard} noiseLevel="none">
+            <Card.Header
+              className={styles.overviewHeader}
+              eyebrow={goals.label}
+              title={goals.title}
+              eyebrowClassName={styles.cardLabel}
+              titleClassName={styles.cardTitle}
+              description={`${goals.completed}/${goals.total} complete`}
+              descriptionClassName={styles.cardHint}
+            />
+            <Card.Body className="text-card-foreground">
+              <div className={styles.progressBlock}>
+                <Progress value={goals.percentage} label="Goals completion" />
+                <span className={styles.progressValue}>{goals.percentage}%</span>
               </div>
-              <ul className={styles.calendarDays} role="list">
-                {days.map((day) => {
-                  const blockInteraction = day.disabled || day.loading;
-                  return (
-                    <li key={day.iso}>
-                      <button
-                        type="button"
-                        aria-pressed={day.selected}
-                        aria-current={day.today ? "date" : undefined}
-                        aria-disabled={blockInteraction || undefined}
-                        aria-busy={day.loading || undefined}
-                        disabled={day.disabled}
-                        data-loading={day.loading ? "true" : undefined}
-                        onClick={() => {
-                          if (blockInteraction) return;
-                          handleSelectDay(day.iso);
-                        }}
-                        className={cn(
-                          styles.calendarDay,
-                          day.today && styles.calendarDayToday,
-                          day.selected && styles.calendarDaySelected,
-                          day.disabled && styles.calendarDayDisabled,
-                        )}
-                      >
-                        <span className={styles.calendarDayLabel}>{day.weekday}</span>
-                        <span className={styles.calendarDayNumber}>{day.dayNumber}</span>
-                        <span className={styles.calendarDayCount}>
-                          {day.done}/{day.total}
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-            <div className={styles.cardActions}>
-              <Button
-                asChild
-                size="sm"
-                variant="default"
-                className={styles.primaryButton}
-              >
-                <Link href={withBasePath("/goals", { skipForNextLink: true })}>
-                  Manage goals
-                </Link>
-              </Button>
-            </div>
-          </article>
+              <div className={styles.goalList}>
+                {goals.total === 0 ? (
+                  <p className={styles.emptyGoal}>{goals.emptyMessage}</p>
+                ) : goals.active.length > 0 ? (
+                  goals.active.slice(0, 3).map((goal) => (
+                    <div key={goal.id} className={styles.goalItem}>
+                      <p className={styles.goalTitle}>{goal.title}</p>
+                      {goal.detail ? (
+                        <p className={styles.goalDetail}>{goal.detail}</p>
+                      ) : null}
+                    </div>
+                  ))
+                ) : (
+                  <p className={styles.emptyGoal}>{goals.allCompleteMessage}</p>
+                )}
+              </div>
+              <div className={styles.calendarStrip}>
+                <div className={styles.calendarMeta}>
+                  <p className={styles.cardLabel}>{calendar.label}</p>
+                  <p className={styles.calendarSummary}>{calendarSummary}</p>
+                </div>
+                <ul className={styles.calendarDays} role="list">
+                  {days.map((day) => {
+                    const blockInteraction = day.disabled || day.loading;
+                    return (
+                      <li key={day.iso}>
+                        <button
+                          type="button"
+                          aria-pressed={day.selected}
+                          aria-current={day.today ? "date" : undefined}
+                          aria-disabled={blockInteraction || undefined}
+                          aria-busy={day.loading || undefined}
+                          disabled={day.disabled}
+                          data-loading={day.loading ? "true" : undefined}
+                          onClick={() => {
+                            if (blockInteraction) return;
+                            handleSelectDay(day.iso);
+                          }}
+                          className={cn(
+                            styles.calendarDay,
+                            day.today && styles.calendarDayToday,
+                            day.selected && styles.calendarDaySelected,
+                            day.disabled && styles.calendarDayDisabled,
+                          )}
+                        >
+                          <span className={styles.calendarDayLabel}>{day.weekday}</span>
+                          <span className={styles.calendarDayNumber}>{day.dayNumber}</span>
+                          <span className={styles.calendarDayCount}>
+                            {day.done}/{day.total}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </Card.Body>
+          </Card>
         </div>
         <div className={cn("col-span-full", styles.miniGrid)}>
           <div className={styles.section}>

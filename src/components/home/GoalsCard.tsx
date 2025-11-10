@@ -1,8 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { DashboardCard } from "./DashboardCard";
-import { DashboardList } from "./DashboardList";
+import { DashboardListCard } from "./DashboardListCard";
 import { useGoals } from "@/components/goals";
 import type { Goal } from "@/lib/types";
 import { Progress } from "@/components/ui";
@@ -128,41 +127,41 @@ export function GoalsCard() {
   );
 
   return (
-    <DashboardCard
+    <DashboardListCard
       title="Active goals"
-      cta={{ label: "Manage Goals", href: "/goals" }}
-    >
-      <DashboardList
-        items={activeGoals}
-        getKey={(goal) => goal.id}
-        empty="No active goals"
-        cta={{ label: "Create", href: "/goals" }}
-        renderItem={(goal) => {
-          const progress = deriveGoalProgress(goal);
-          const statusText = getGoalStatus(goal);
+      items={activeGoals}
+      getKey={(goal) => goal.id}
+      emptyMessage="No active goals"
+      listCta={{ label: "Create", href: "/goals" }}
+      renderItem={(goal) => {
+        const progress = deriveGoalProgress(goal);
+        const statusText = getGoalStatus(goal);
 
-          return (
-            <div>
-              <p className="text-ui">{goal.title}</p>
-              <div className="mt-[var(--space-2)]">
-                {progress ? (
-                  <>
-                    <Progress value={progress.value} label={progress.label} />
-                    {progress.display ? (
-                      <p className="mt-[var(--space-1)] text-label text-muted-foreground tabular-nums">
-                        {progress.display}
-                      </p>
-                    ) : null}
-                  </>
-                ) : (
-                  <p className="text-label text-muted-foreground">{statusText}</p>
-                )}
-              </div>
+        return (
+          <div>
+            <p className="text-ui">{goal.title}</p>
+            <div className="mt-[var(--space-2)]">
+              {progress ? (
+                <>
+                  <Progress value={progress.value} label={progress.label} />
+                  {progress.display ? (
+                    <p className="mt-[var(--space-1)] text-label text-muted-foreground tabular-nums">
+                      {progress.display}
+                    </p>
+                  ) : null}
+                </>
+              ) : (
+                <p className="text-label text-muted-foreground">{statusText}</p>
+              )}
             </div>
-          );
-        }}
-      />
-    </DashboardCard>
+          </div>
+        );
+      }}
+      footerAction={{
+        label: "Manage Goals",
+        href: "/goals",
+      }}
+    />
   );
 }
 
