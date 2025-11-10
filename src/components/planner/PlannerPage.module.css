@@ -2,15 +2,27 @@
   --planner-donut-size: clamp(11rem, 26vw, 15rem);
 }
 
-.heroSummaryColumn {
+.heroBody {
+  display: grid;
+  gap: clamp(var(--space-5), 3vw, var(--space-7));
+}
+
+@media (min-width: 48rem) {
+  .heroBody {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: start;
+  }
+}
+
+.heroDialColumn {
   display: grid;
   gap: var(--space-4);
   align-content: start;
 }
 
-.heroSummaryCard {
+.focusDialCard {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-3);
   padding: clamp(var(--space-3), 3vw, var(--space-4));
   border-radius: var(--radius2xl);
   background:
@@ -23,20 +35,131 @@
     var(--shadow-neon-soft);
 }
 
-.heroSummaryLabel {
+.focusDialLabel {
   font-size: var(--font-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: hsl(var(--muted-foreground));
 }
 
-.heroSummaryBody {
+.focusDialBody {
   font-size: var(--font-body);
   color: hsl(var(--muted-foreground));
   max-width: 52ch;
 }
 
-.heroMetrics {
+.heroActionButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.focusDialControls {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: center;
+}
+
+.focusDialKnob {
+  --dial-progress: 0;
+  --dial-rotation: 0deg;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(9rem, 24vw, 12rem);
+  aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  background:
+    radial-gradient(140% 120% at 50% 0%, hsl(var(--accent-2) / 0.28), transparent 66%),
+    radial-gradient(160% 140% at 50% 94%, hsl(var(--accent-1) / 0.35), transparent 70%),
+    conic-gradient(
+      from 135deg,
+      color-mix(in oklab, hsl(var(--accent-1)) 70%, hsl(var(--accent-2)) 30%)
+        calc(var(--dial-progress, 0) * 270deg),
+      hsl(var(--surface-2) / 0.28) 0
+    ),
+    linear-gradient(170deg, hsl(var(--surface) / 0.95), hsl(var(--surface-2) / 0.82));
+  box-shadow:
+    inset 0 0 0 calc(var(--hairline-w) * 1.3) hsl(var(--card-hairline) / 0.55),
+    0 calc(var(--space-1) * 0.6) calc(var(--space-4)) hsl(var(--shadow-color) / 0.45),
+    0 0 calc(var(--space-5)) hsl(var(--accent-1) / 0.32);
+  overflow: hidden;
+}
+
+.focusDialKnob::after {
+  content: '';
+  position: absolute;
+  inset: clamp(var(--space-3), 12%, var(--space-5));
+  border-radius: inherit;
+  background:
+    linear-gradient(200deg, hsl(var(--surface) / 0.94), hsl(var(--surface-2) / 0.86));
+  box-shadow:
+    inset 0 calc(var(--space-1) * 0.6) calc(var(--space-3)) hsl(var(--shadow-color) / 0.3),
+    inset 0 0 0 calc(var(--hairline-w) * 1.1) hsl(var(--card-hairline) / 0.52);
+}
+
+.focusDialFace {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: clamp(5rem, 14vw, 7rem);
+  aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  background:
+    radial-gradient(120% 140% at 50% 25%, hsl(var(--accent-1) / 0.5), transparent 74%),
+    linear-gradient(190deg, hsl(var(--surface) / 0.98), hsl(var(--surface-2) / 0.9));
+  box-shadow:
+    inset 0 calc(var(--space-1) * 0.5) calc(var(--space-3)) hsl(var(--shadow-color) / 0.25),
+    inset 0 0 0 calc(var(--hairline-w) * 1.1) hsl(var(--card-hairline) / 0.45);
+}
+
+.focusDialValue {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: hsl(var(--foreground));
+  text-shadow: 0 0 var(--space-3) hsl(var(--accent-1) / 0.35);
+}
+
+.focusDialNeedle {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  width: calc(var(--hairline-w) * 10);
+  height: 42%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(180deg, hsl(var(--accent-1)), hsl(var(--accent-2)));
+  box-shadow:
+    0 calc(var(--space-1) * 0.3) calc(var(--space-2)) hsl(var(--shadow-color) / 0.4),
+    inset 0 calc(var(--space-1) * -0.4) calc(var(--space-2)) hsl(var(--accent-2) / 0.45);
+  transform-origin: center 88%;
+  transform: translateX(-50%) rotate(var(--dial-rotation, 0deg));
+  transition: transform var(--motion-duration-md) var(--ease-out);
+}
+
+.focusDialNeedle::after {
+  content: '';
+  position: absolute;
+  bottom: calc(var(--space-1) * -0.5);
+  left: 50%;
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-full);
+  background:
+    radial-gradient(circle at 50% 30%, hsl(var(--accent-1) / 0.5), transparent 70%),
+    linear-gradient(180deg, hsl(var(--surface) / 0.95), hsl(var(--surface-2) / 0.78));
+  box-shadow:
+    inset 0 calc(var(--space-1) * 0.4) calc(var(--space-2)) hsl(var(--shadow-color) / 0.35),
+    inset 0 0 0 calc(var(--hairline-w) * 1.1) hsl(var(--card-hairline) / 0.55);
+  transform: translateX(-50%);
+}
+
+.focusDialSlider {
+  width: min(32rem, 100%);
+}
+
+.heroCalibrationColumn {
   display: grid;
   gap: var(--space-4);
   justify-items: center;
@@ -50,41 +173,54 @@
   width: 100%;
 }
 
-.heroDonutRing {
-  --donut-progress: 0;
+.heroDonutGauge {
   position: relative;
   display: grid;
   place-items: center;
-  width: var(--planner-donut-size);
+  width: min(100%, var(--planner-donut-size));
   aspect-ratio: 1;
   border-radius: var(--radius-full);
   background:
-    conic-gradient(
-      color-mix(in oklab, hsl(var(--accent-1)) 75%, hsl(var(--accent-2)) 25%)
-        calc(var(--donut-progress, 0) * 1%),
-      hsl(var(--surface-2) / 0.32) 0
-    );
+    radial-gradient(140% 120% at 50% 0%, hsl(var(--accent-2) / 0.25), transparent 68%),
+    radial-gradient(160% 140% at 50% 100%, hsl(var(--accent-1) / 0.34), transparent 70%),
+    linear-gradient(170deg, hsl(var(--surface) / 0.95), hsl(var(--surface-2) / 0.86));
   box-shadow:
-    inset 0 0 0 calc(var(--hairline-w) * 1.4) hsl(var(--card-hairline) / 0.5),
-    0 0 calc(var(--space-5)) hsl(var(--accent-1) / 0.35),
-    0 calc(var(--space-1) * 0.8) calc(var(--space-4)) hsl(var(--shadow-color) / 0.35);
+    inset 0 0 0 calc(var(--hairline-w) * 1.2) hsl(var(--card-hairline) / 0.55),
+    0 calc(var(--space-1) * 0.7) calc(var(--space-4)) hsl(var(--shadow-color) / 0.35),
+    0 0 calc(var(--space-6)) hsl(var(--accent-1) / 0.28);
   overflow: hidden;
 }
 
-.heroDonutRing::after {
-  content: "";
+.heroDonutGauge::after {
+  content: '';
   position: absolute;
-  inset: clamp(var(--space-3), calc(var(--planner-donut-size) * 0.18), var(--space-6));
+  inset: clamp(var(--space-3), calc(var(--planner-donut-size) * 0.2), var(--space-6));
   border-radius: inherit;
   background:
-    linear-gradient(180deg, hsl(var(--surface) / 0.88), hsl(var(--surface-2) / 0.82));
+    linear-gradient(190deg, hsl(var(--surface) / 0.96), hsl(var(--surface-2) / 0.88));
   box-shadow:
-    inset 0 0 0 calc(var(--hairline-w) * 1.2) hsl(var(--card-hairline) / 0.55),
-    inset 0 calc(var(--space-1) * 0.7) calc(var(--space-3)) hsl(var(--shadow-color) / 0.32);
+    inset 0 calc(var(--space-1) * 0.6) calc(var(--space-3)) hsl(var(--shadow-color) / 0.3),
+    inset 0 0 0 calc(var(--hairline-w) * 1.1) hsl(var(--card-hairline) / 0.52);
+}
+
+.heroDonutRing {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.heroDonutTrack {
+  color: color-mix(in oklab, hsl(var(--foreground)) 32%, transparent);
+}
+
+.heroDonutProgress {
+  color: hsl(var(--accent-1));
+  filter: drop-shadow(0 0 calc(var(--space-3)) hsl(var(--accent-1) / 0.35));
 }
 
 .heroDonutValue {
-  position: relative;
+  position: absolute;
   z-index: 1;
   font-size: clamp(2rem, 4vw, 2.8rem);
   font-weight: 700;
@@ -100,25 +236,9 @@
   color: hsl(var(--muted-foreground));
 }
 
-.heroStatStack {
-  display: grid;
-  gap: var(--space-2);
+.heroNudgeChip {
   width: 100%;
   max-width: var(--planner-donut-size);
-}
-
-
-.heroControls {
-  display: grid;
-  gap: var(--space-3);
-  width: 100%;
-  max-width: min(32rem, 100%);
-}
-
-.heroActionButtons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
 }
 
 .quickLinksRow {
@@ -180,8 +300,12 @@
 }
 
 @media (max-width: 40rem) {
-  .heroControls {
-    max-width: 100%;
+  .focusDialControls {
+    justify-items: stretch;
+  }
+
+  .focusDialKnob {
+    margin-inline: auto;
   }
 
   .quickLinksList {
@@ -203,35 +327,8 @@
   }
 }
 
-.heroIconFrame {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: clamp(4.5rem, 10vw, 5.5rem);
-  aspect-ratio: 1;
-  border-radius: var(--radius-full);
-  background: linear-gradient(145deg, hsl(var(--surface-2) / 0.9), hsl(var(--surface) / 0.9));
-  box-shadow:
-    0 calc(var(--space-1) * 0.6) calc(var(--space-3)) hsl(var(--shadow-color) / 0.4),
-    0 calc(var(--space-1) * 0.2) calc(var(--space-2)) hsl(var(--accent-1) / 0.18);
-  padding: clamp(var(--space-1), 2vw, var(--space-2));
-}
-
-.heroIconInner {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(160deg, hsl(var(--surface) / 0.92), hsl(var(--surface-2) / 0.72));
-  box-shadow:
-    inset 0 calc(var(--space-1) * 0.4) calc(var(--space-3)) hsl(var(--shadow-color) / 0.25),
-    inset 0 0 0 calc(var(--hairline-w) * 1.1) hsl(var(--card-hairline) / 0.5);
-}
-
-@media (min-width: 64rem) {
-  .heroMetrics {
-    justify-items: end;
+@media (prefers-reduced-motion: reduce) {
+  .focusDialNeedle {
+    transition: none;
   }
 }

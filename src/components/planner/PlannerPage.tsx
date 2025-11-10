@@ -15,11 +15,10 @@ import Image from "next/image";
 import {
   Button,
   GlitchProgress,
-  HeroCol,
-  HeroGrid,
+  Hero,
   HeroPageHeader,
-  PageHeroHeader as PageHeader,
   PageShell,
+  ProgressRing,
   SegmentedControl,
 } from "@/components/ui";
 import { Slider } from "@/components/ui/primitives/Slider";
@@ -41,17 +40,26 @@ import { SmallAgnesNoxiImage } from "./SmallAgnesNoxiImage";
 
 const {
   autopilotHero,
-  heroSummaryColumn,
-  heroSummaryCard,
-  heroSummaryLabel,
-  heroSummaryBody,
-  heroMetrics,
+  heroBody,
+  heroDialColumn,
+  focusDialCard,
+  focusDialLabel,
+  focusDialBody,
+  focusDialControls,
+  focusDialKnob,
+  focusDialFace,
+  focusDialValue,
+  focusDialNeedle,
+  focusDialSlider,
+  heroCalibrationColumn,
   heroDonut,
+  heroDonutGauge,
   heroDonutRing,
   heroDonutValue,
   heroDonutCaption,
-  heroStatStack,
-  heroControls,
+  heroDonutTrack,
+  heroDonutProgress,
+  heroNudgeChip,
   heroActionButtons,
   quickLinksRow,
   quickLinksList,
@@ -164,40 +172,10 @@ function Inner() {
     }
     return "Draft your first tasks to let Agnes and Noxi assemble the sprint outline.";
   }, [hydrating, weekDone, weekTotal]);
-  const donutStyle = React.useMemo<React.CSSProperties>(
-    () =>
-      ({
-        ["--donut-progress" as const]: planningEnergy,
-      } as React.CSSProperties),
-    [planningEnergy],
-  );
   const weekAnnouncement = React.useMemo(
     () => (hydrating ? "Week preview loading…" : formatWeekRangeLabel(start, end)),
     [end, hydrating, start],
   );
-  const todayStat = React.useMemo(() => {
-    if (hydrating || !per.length) {
-      return null;
-    }
-    const entry = per.find((day) => day.iso === today);
-    if (!entry) {
-      return null;
-    }
-    if (entry.total === 0) {
-      return {
-        value: "0",
-        ariaLabel: "No tasks scheduled for today",
-        done: entry.done,
-        total: entry.total,
-      } as const;
-    }
-    return {
-      value: `${entry.done}/${entry.total}`,
-      ariaLabel: `${entry.done} of ${entry.total} tasks complete today`,
-      done: entry.done,
-      total: entry.total,
-    } as const;
-  }, [hydrating, per, today]);
   const reminderStat = React.useMemo(() => {
     if (hydrating) {
       return null;
@@ -215,6 +193,26 @@ function Inner() {
           : `${enabledCount} tasks have reminders enabled for today`,
     } as const;
   }, [hydrating, tasks]);
+  const dialStyle = React.useMemo<
+    React.CSSProperties & Record<string, string>
+  >(() => {
+    const clamped = Math.max(0, Math.min(100, planningEnergy));
+    const rotation = clamped * 2.7 - 135;
+    return {
+      "--dial-rotation": `${rotation}deg`,
+      "--dial-progress": (clamped / 100).toString(),
+    };
+  }, [planningEnergy]);
+  const nudgesStat = React.useMemo(
+    () =>
+      reminderStat ??
+      ({
+        value: "—",
+        count: 0,
+        ariaLabel: "Nudges today loading",
+      } as const),
+    [reminderStat],
+  );
   const labelId = React.useId();
   const handleViewModeChange = React.useCallback(
     (value: PlannerViewMode) => {
@@ -293,110 +291,110 @@ function Inner() {
 
   return (
     <>
-      <PageHeader
-        shellProps={{ className: "py-[var(--space-7)]" }}
-        className={cn("col-span-full md:col-span-12", autopilotHero)}
-        eyebrow="Planner autopilot"
-        title="Your sprint blueprint"
-        subtitle="Tweak the focus dial before locking the week. Agnes maps the calm line, Noxi keeps the glitch guardrails on. Every suggestion stays editable."
-        glitch="default"
-        icon={
-          <GlitchProgress
-            value={planningEnergy}
-            size="xl"
-            aria-label="Planner autopilot energy"
-          />
-        }
-        illustration={<SmallAgnesNoxiImage />}
-        illustrationAlt="Agnes and Noxi calibrating the sprint blueprint"
-        actions={
-          quickLinks.length ? (
-            <nav aria-label="Planner quick suggestions" className={quickLinksRow}>
-              <ul className={quickLinksList} role="list">
-                {quickLinks.map((link) => (
-                  <li key={link.id} className={quickLinkItem}>
-                    <a className={quickLinkChip} href={link.href}>
-                      <span className={quickLinkLabel}>{link.label}</span>
-                      {link.description ? (
-                        <span className={quickLinkMeta}>{link.description}</span>
-                      ) : null}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ) : null
-        }
-      >
-          <HeroGrid>
-            <HeroCol span={7} className={heroSummaryColumn}>
-              <div className={heroSummaryCard}>
-                <span className={heroSummaryLabel}>Autopilot status</span>
-                <p className={heroSummaryBody}>{autopilotSummary}</p>
+      <PageShell as="header" grid className="py-[var(--space-7)]">
+        <Hero
+          className={cn("col-span-full md:col-span-12", autopilotHero)}
+          eyebrow="Planner autopilot"
+          title="Your sprint blueprint"
+          subtitle="Tweak the focus dial before locking the week. Agnes maps the calm line, Noxi keeps the glitch guardrails on. Every suggestion stays editable."
+          glitch="default"
+          icon={
+            <GlitchProgress
+              value={planningEnergy}
+              size="xl"
+              aria-label="Planner autopilot energy"
+            />
+          }
+          illustration={<SmallAgnesNoxiImage />}
+          illustrationAlt="Agnes and Noxi calibrating the sprint blueprint"
+          sticky={false}
+          bodyClassName={heroBody}
+          actions={
+            quickLinks.length ? (
+              <nav aria-label="Planner quick suggestions" className={quickLinksRow}>
+                <ul className={quickLinksList} role="list">
+                  {quickLinks.map((link) => (
+                    <li key={link.id} className={quickLinkItem}>
+                      <a className={quickLinkChip} href={link.href}>
+                        <span className={quickLinkLabel}>{link.label}</span>
+                        {link.description ? (
+                          <span className={quickLinkMeta}>{link.description}</span>
+                        ) : null}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ) : null
+          }
+        >
+          <div className={heroDialColumn}>
+            <div className={focusDialCard}>
+              <span className={focusDialLabel}>Focus dial</span>
+              <p className={focusDialBody}>{autopilotSummary}</p>
+              <div className={heroActionButtons}>
+                <Button size="sm" variant="quiet" tone="accent">
+                  Retry suggestions
+                </Button>
+                <Button size="sm" variant="default" tone="accent">
+                  Edit draft
+                </Button>
+                <Button size="sm" variant="quiet">
+                  Cancel
+                </Button>
               </div>
-              <div className={heroControls}>
-                <Slider
-                  label="Adjust energy"
-                  min={20}
-                  max={100}
-                  step={1}
+            </div>
+            <div className={focusDialControls}>
+              <div className={focusDialKnob} style={dialStyle} role="presentation" aria-hidden>
+                <div className={focusDialFace}>
+                  <span className={focusDialValue}>{planningEnergy}%</span>
+                </div>
+                <span className={focusDialNeedle} />
+              </div>
+              <Slider
+                className={focusDialSlider}
+                label="Adjust energy"
+                min={20}
+                max={100}
+                step={1}
+                value={planningEnergy}
+                onChange={(event) => setPlanningEnergy(Number(event.target.value))}
+                minLabel="20%"
+                maxLabel="100%"
+                description={sliderFeedback}
+              />
+            </div>
+          </div>
+          <div className={heroCalibrationColumn}>
+            <div className={heroDonut}>
+              <div
+                className={heroDonutGauge}
+                role="img"
+                aria-label={`Focus calibration ${planningEnergy}%`}
+              >
+                <ProgressRing
                   value={planningEnergy}
-                  onChange={(event) => setPlanningEnergy(Number(event.target.value))}
-                  minLabel="20%"
-                  maxLabel="100%"
-                  description={sliderFeedback}
-                />
-                <div className={heroActionButtons}>
-                  <Button size="sm" variant="quiet" tone="accent">
-                    Retry suggestions
-                  </Button>
-                  <Button size="sm" variant="default" tone="accent">
-                    Edit draft
-                  </Button>
-                  <Button size="sm" variant="quiet">
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            </HeroCol>
-            <HeroCol span={5} className={heroMetrics}>
-              <div className={heroDonut}>
-                <div
+                  size="l"
                   className={heroDonutRing}
-                  style={donutStyle}
-                  role="progressbar"
-                  aria-label={`Focus calibration ${planningEnergy}%`}
-                  aria-valuemin={20}
-                  aria-valuemax={100}
-                  aria-valuenow={planningEnergy}
-                >
-                  <span className={heroDonutValue} aria-hidden>
-                    {planningEnergy}%
-                  </span>
-                </div>
-                <span className={heroDonutCaption}>Focus calibration</span>
+                  trackClassName={heroDonutTrack}
+                  progressClassName={heroDonutProgress}
+                  aria-hidden
+                />
+                <span className={heroDonutValue} aria-hidden>
+                  {planningEnergy}%
+                </span>
               </div>
-              <div className={heroStatStack}>
-                {todayStat ? (
-                  <PlannerStatChip
-                    label="Tasks today"
-                    value={todayStat.value}
-                    ariaLabel={todayStat.ariaLabel}
-                    current={todayStat.done}
-                    total={todayStat.total}
-                  />
-                ) : null}
-                {reminderStat ? (
-                  <PlannerStatChip
-                    label="Nudges today"
-                    value={reminderStat.value}
-                    ariaLabel={reminderStat.ariaLabel}
-                  />
-                ) : null}
-              </div>
-            </HeroCol>
-          </HeroGrid>
-      </PageHeader>
+              <span className={heroDonutCaption}>Focus calibration</span>
+            </div>
+            <PlannerStatChip
+              label="Nudges today"
+              value={nudgesStat.value}
+              ariaLabel={nudgesStat.ariaLabel}
+              className={heroNudgeChip}
+            />
+          </div>
+        </Hero>
+      </PageShell>
       <PageShell as="header" grid className="py-[var(--space-7)]">
         {/* Week header (range, nav, totals, day chips) */}
         <HeroPageHeader
