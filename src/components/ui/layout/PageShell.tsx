@@ -1,3 +1,5 @@
+'use client';
+
 // src/components/ui/layout/PageShell.tsx
 
 import * as React from "react";
