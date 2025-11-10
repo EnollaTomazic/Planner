@@ -10,15 +10,18 @@ export function QuickActions() {
   const actions = React.useMemo(
     () => [
       {
+        type: "link" as const,
         href: withBasePath("/planner/"),
         label: "Planner Today",
       },
       {
+        type: "link" as const,
         href: `${withBasePath("/goals/")}?tab=goals&intent=create-goal#goal-form`,
         label: "New Goal",
         tone: "accent" as const,
       },
       {
+        type: "link" as const,
         href: `${withBasePath("/reviews/")}?intent=create-review`,
         label: "New Review",
         tone: "accent" as const,
