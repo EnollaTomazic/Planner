@@ -194,7 +194,84 @@ This app respects your operating system's "reduced motion" setting. If reduced m
 
 ## Design System
 
-Learn more about the components and guidelines in the [Design System](docs/design-system.md).
+Planner ships with a token-driven design system that keeps themes, spacing, and
+depth treatments consistent across the app. Reach for the shared primitives
+below before introducing custom utility stacks or ad-hoc CSS.
+
+### Component quickstart
+
+#### Hero
+
+- Import from `@/components/ui/layout/Hero` to render page-level intros with
+  built-in tabs, search, and glitch overlays.【F:src/components/ui/layout/Hero.tsx†L12-L116】【F:docs/design-system.md†L93-L123】
+- Pair `<Hero>` with `<PageShell as="header">` so the hero respects the shared
+  shell padding and landmarks; follow with `<PageShell as="main">` for the body
+  content.【F:docs/design-system.md†L140-L146】
+- Use the `frame` and `glitch` props to opt into the animated neon frame and
+  noise textures, and adjust `tabs`, `subTabs`, or `searchBar` to surface
+  interactive controls without wiring extra layout wrappers.【F:src/components/ui/layout/Hero.tsx†L45-L120】【F:docs/design-system.md†L93-L123】
+
+#### Card
+
+- Import from `@/components/ui/primitives/Card` to display token-aware panels
+  with neumorphic depth. Choose `depth="base"`, `"raised"`, or `"sunken"` to
+  align with the shared `shadow-neo` tokens.【F:src/components/ui/primitives/Card.tsx†L1-L71】【F:docs/design-system.md†L210-L218】
+- Enable the `glitch` prop to add the animated blob + noise overlay. Cards auto
+  detect custom overlays to prevent duplicates, so you can safely layer badges
+  or media on top.【F:src/components/ui/primitives/Card.tsx†L36-L70】
+- Use the exported `CardHeader`, `CardTitle`, `CardContent`, and `CardFooter`
+  helpers to apply consistent spacing without recreating token values.【F:src/components/ui/primitives/Card.tsx†L72-L117】
+
+#### PageShell
+
+- Import from `@/components/ui/layout/PageShell` to wrap page sections in the
+  shared `page-shell` class. The shell clamps width and applies the responsive
+  vertical rhythm defined by the spacing tokens.【F:src/components/ui/layout/PageShell.tsx†L1-L60】【F:docs/design-system.md†L134-L146】
+- Pass `grid` to enable the 12-column layout; compose children with Tailwind's
+  `col-span-*` utilities and the exported `layoutGridClassName` for consistent
+  gutter spacing.【F:src/components/ui/layout/PageShell.tsx†L21-L58】【F:docs/design-system.md†L134-L143】
+
+#### Input
+
+- Import from `@/components/ui/primitives/Input` for form controls that hook
+  into the shared `Field` primitive and tokenized focus rings.【F:src/components/ui/primitives/Input.tsx†L1-L107】
+- Choose control height with `height="sm" | "md" | "lg" | "xl"` (or a control
+  height token) and set `ringTone` to map focus states to semantic color
+  tokens.【F:src/components/ui/primitives/Input.tsx†L23-L107】【F:docs/design-system.md†L210-L218】
+- Enable glitch styling with the `glitch`/`glitchText` props or reserve trailing
+  content slots via `hasEndSlot` when adding icons, spinners, or inline
+  actions.【F:src/components/ui/primitives/Input.tsx†L23-L107】
+
+### Token quick reference
+
+#### Theme tokens
+
+- Source tokens live under [`tokens/`](tokens/) and are compiled to CSS
+  variables by `pnpm run generate-tokens`. Consume them through semantic Tailwind
+  utilities like `bg-background`, `text-foreground`, and gradient helpers (for
+  example `bg-panel-tilt-strong`) so theme overrides propagate automatically.【F:README.md†L200-L206】【F:docs/design-system.md†L107-L133】
+- Use `docs/design-system.md` and [`tokens/tokens.css`](tokens/tokens.css) to
+  locate gradients, glow overlays, and tone-specific text tokens before adding
+  new values.【F:docs/design-system.md†L107-L133】
+
+#### Spacing scale
+
+- Global spacing tokens (`--space-1`…`--space-8`) map to 4px increments (4, 8,
+  12, 16, 24, 32, 48, 64). Page shells, cards, and primitives already consume
+  these values via Tailwind classes such as `space-y-[var(--space-6)]` or
+  `p-[var(--space-4)]`; match the existing pattern when building new layouts.【F:src/components/ui/layout/PageShell.tsx†L31-L45】【F:src/components/ui/primitives/Card.tsx†L45-L56】【F:docs/design-system.md†L134-L143】
+
+#### 3D effects and depth
+
+- Depth comes from the neumorphic shadow tokens exposed as Tailwind utilities
+  (`shadow-neo`, `shadow-neo-strong`, `shadow-neo-inset`). Combine them with the
+  hero frame helpers (`NeomorphicHeroFrame`, glitch overlays) to maintain the
+  shared 3D look without redefining box-shadows.【F:src/components/ui/primitives/Card.tsx†L13-L57】【F:docs/design-system.md†L107-L133】
+- When layering surfaces, prefer semantic elevations (`Card` depth, hero frame
+  variants, dropdown shadows) and reuse the existing gradient overlays instead
+  of adding new alpha blends.【F:src/components/ui/primitives/Card.tsx†L13-L70】【F:docs/design-system.md†L107-L133】
+
+Learn more in the dedicated [Design System guide](docs/design-system.md).
 
 ## Tokens
 
