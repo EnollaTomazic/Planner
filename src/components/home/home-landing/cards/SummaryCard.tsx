@@ -1,25 +1,23 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import Link from "next/link";
-import { NeoCard } from "@/components/ui";
-import { cn, withBasePath } from "@/lib/utils";
-import type { PlannerOverviewSummaryProps } from "./types";
+import * as React from "react"
+import Link from "next/link"
 
-function PlannerOverviewSummaryCardComponent({
-  label,
-  title,
-  items,
-}: PlannerOverviewSummaryProps) {
+import { Card } from "../../Card"
+import { cn, withBasePath } from "@/lib/utils"
+
+import type { PlannerOverviewSummaryProps } from "../types"
+
+function SummaryCardComponent({ label, title, items }: PlannerOverviewSummaryProps) {
   return (
-    <div className="col-span-12 md:col-span-6 lg:col-span-4">
-      <NeoCard className="flex h-full flex-col gap-[var(--space-3)] md:p-[var(--space-5)]">
-        <div className="space-y-[var(--space-1)]">
-          <p className="text-label text-muted-foreground">{label}</p>
-          <h3 className="text-body font-semibold text-card-foreground tracking-[-0.01em]">
-            {title}
-          </h3>
-        </div>
+    <Card as="section" className="col-span-12 h-full md:col-span-6 lg:col-span-4">
+      <Card.Header
+        eyebrow={label}
+        eyebrowClassName="text-label text-muted-foreground"
+        title={title}
+        titleClassName="text-body font-semibold text-card-foreground tracking-[-0.01em]"
+      />
+      <Card.Body className="gap-[var(--space-3)] text-card-foreground">
         <ul className="grid gap-[var(--space-2)]" role="list">
           {items.map((item) => (
             <li key={item.key}>
@@ -44,9 +42,9 @@ function PlannerOverviewSummaryCardComponent({
             </li>
           ))}
         </ul>
-      </NeoCard>
-    </div>
-  );
+      </Card.Body>
+    </Card>
+  )
 }
 
-export const PlannerOverviewSummaryCard = React.memo(PlannerOverviewSummaryCardComponent)
+export const SummaryCard = React.memo(SummaryCardComponent)
