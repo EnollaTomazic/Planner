@@ -56,16 +56,15 @@ describe("Home page", () => {
   it("renders a single main landmark", () => {
     const { container } = render(
       <ThemeProvider>
-        <main id="main-content">
-          <Suspense fallback="loading">
-            <Page />
-          </Suspense>
-        </main>
+        <Suspense fallback="loading">
+          <Page />
+        </Suspense>
       </ThemeProvider>,
     );
 
     const landmarks = container.querySelectorAll("main, [role=\"main\"]");
     expect(landmarks).toHaveLength(1);
+    expect(landmarks[0]).toHaveAttribute("id", "page-main");
   });
 
   it("enables the glitch landing experience when the flag is set", async () => {

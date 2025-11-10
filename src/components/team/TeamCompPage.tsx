@@ -518,87 +518,99 @@ export function TeamCompPage() {
   ]);
 
   return (
-    <PageShell
-      as="section"
-      grid
-      className="py-[var(--space-6)]"
-      contentClassName="gap-y-[var(--space-6)]"
-      aria-labelledby="teamcomp-header"
-    >
-      <HeroPageHeader
-        containerClassName="col-span-full"
-        header={{
-          id: "teamcomp-header",
-          eyebrow: "Comps",
-          heading: "Team Comps",
-          subtitle: "Readable. Fast. On brand.",
-          icon: <Users2 className="opacity-80" />,
-          underline: true,
-          sticky: true,
-        }}
-        hero={hero}
-      />
-
-      <div className="col-span-full">
-        <span id={`${tabBaseId}-tabs-label`} className="sr-only">
-          Team comps mode
-        </span>
-        <TabBar<Tab>
-          ariaLabelledBy={`${tabBaseId}-tabs-label`}
-          value={tab}
-          onValueChange={(next) => setTab(next as Tab)}
-          className="w-full"
-          tablistClassName="w-full"
-          variant="neo"
-          items={[
-            {
-              key: "cheat",
-              label: "Cheat Sheet",
-              icon: <BookOpenText />,
-              id: "cheat-tab",
-              controls: "cheat-panel",
-              className: "flex-1",
-            },
-            {
-              key: "builder",
-              label: "Builder",
-              icon: <Hammer />,
-              id: "builder-tab",
-              controls: "builder-panel",
-              className: "flex-1",
-            },
-            {
-              key: "clears",
-              label: "Jungle Clears",
-              icon: <Timer />,
-              id: "clears-tab",
-              controls: "clears-panel",
-              className: "flex-1",
-            },
-          ]}
-          idBase={tabBaseId}
+    <>
+      <PageShell
+        as="header"
+        grid
+        className="py-[var(--space-6)]"
+        contentClassName="gap-y-[var(--space-6)]"
+        aria-labelledby="teamcomp-header"
+      >
+        <HeroPageHeader
+          containerClassName="col-span-full"
+          header={{
+            id: "teamcomp-header",
+            eyebrow: "Comps",
+            heading: "Team Comps",
+            subtitle: "Readable. Fast. On brand.",
+            icon: <Users2 className="opacity-80" />,
+            underline: true,
+            sticky: true,
+          }}
+          hero={hero}
         />
-      </div>
+      </PageShell>
 
-      <section className="col-span-full grid gap-[var(--space-4)] md:grid-cols-12">
-        {TABS.map((t) => {
-          const ids = tabIds[t.key];
-          return (
-            <div
-              key={t.key}
-              id={ids.panel}
-              role="tabpanel"
-              aria-labelledby={ids.tab}
-              hidden={tab !== t.key}
-              tabIndex={tab === t.key ? 0 : -1}
-              ref={t.ref}
-              className="col-span-full"
-            >
-              {tab === t.key && t.render()}
-            </div>
-          );
-        })}
-      </section>
-    </PageShell>
+      <PageShell
+        as="main"
+        id="page-main"
+        tabIndex={-1}
+        grid
+        className="py-[var(--space-6)]"
+        contentClassName="gap-y-[var(--space-6)]"
+        aria-labelledby="teamcomp-header"
+      >
+        <div className="col-span-full">
+          <span id={`${tabBaseId}-tabs-label`} className="sr-only">
+            Team comps mode
+          </span>
+          <TabBar<Tab>
+            ariaLabelledBy={`${tabBaseId}-tabs-label`}
+            value={tab}
+            onValueChange={(next) => setTab(next as Tab)}
+            className="w-full"
+            tablistClassName="w-full"
+            variant="neo"
+            items={[
+              {
+                key: "cheat",
+                label: "Cheat Sheet",
+                icon: <BookOpenText />,
+                id: "cheat-tab",
+                controls: "cheat-panel",
+                className: "flex-1",
+              },
+              {
+                key: "builder",
+                label: "Builder",
+                icon: <Hammer />,
+                id: "builder-tab",
+                controls: "builder-panel",
+                className: "flex-1",
+              },
+              {
+                key: "clears",
+                label: "Jungle Clears",
+                icon: <Timer />,
+                id: "clears-tab",
+                controls: "clears-panel",
+                className: "flex-1",
+              },
+            ]}
+            idBase={tabBaseId}
+          />
+        </div>
+
+        <section className="col-span-full grid gap-[var(--space-4)] md:grid-cols-12">
+          {TABS.map((t) => {
+            const ids = tabIds[t.key];
+            return (
+              <div
+                key={t.key}
+                id={ids.panel}
+                role="tabpanel"
+                aria-labelledby={ids.tab}
+                hidden={tab !== t.key}
+                tabIndex={tab === t.key ? 0 : -1}
+                ref={t.ref}
+                className="col-span-full"
+              >
+                {tab === t.key && t.render()}
+              </div>
+            );
+          })}
+        </section>
+      </PageShell>
+    </>
   );
 }
