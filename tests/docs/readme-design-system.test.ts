@@ -43,27 +43,27 @@ describe('README design system documentation', () => {
   const designSystemSection = getSection(readme, 'Design System');
 
   it('documents the Hero component usage', () => {
-    const hero = getSubsection(designSystemSection, 'Hero');
+    const hero = getDetail(designSystemSection, 'Hero');
     expect(hero).toMatch(/Hero/);
     expect(hero).toMatch(/glitch/);
     expect(hero).toMatch(/PageShell/);
   });
 
   it('documents the Card component usage', () => {
-    const card = getSubsection(designSystemSection, 'Card');
+    const card = getDetail(designSystemSection, 'Card');
     expect(card).toMatch(/Card/);
     expect(card).toMatch(/depth/);
     expect(card).toMatch(/glitch/);
   });
 
   it('documents the PageShell component usage', () => {
-    const pageShell = getSubsection(designSystemSection, 'PageShell');
+    const pageShell = getDetail(designSystemSection, 'PageShell');
     expect(pageShell).toMatch(/page-shell/);
     expect(pageShell).toMatch(/grid/);
   });
 
   it('documents the Input component usage', () => {
-    const input = getSubsection(designSystemSection, 'Input');
+    const input = getDetail(designSystemSection, 'Input');
     expect(input).toMatch(/Input/);
     expect(input).toMatch(/height/);
     expect(input).toMatch(/ringTone/);
