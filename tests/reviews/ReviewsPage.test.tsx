@@ -59,9 +59,9 @@ describe("ReviewsPage", () => {
     );
 
     expect(
-      screen.getByText("Capture match recaps, filter by tags and patches"),
+      screen.getByText("Capture and learn from your past sprints."),
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "New Review" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "New review" })).toBeEnabled();
     const reviewButtons = screen
       .getAllByRole("button", { name: /Open review:/i })
       .map((node) => node.getAttribute("aria-label"));
@@ -81,9 +81,14 @@ describe("ReviewsPage", () => {
       />,
     );
 
-    expect(
-      screen.getByRole("status", { name: "Loading review search" }),
-    ).toBeInTheDocument();
+    const searchForm = screen.getByRole("search");
+    expect(searchForm).toHaveAttribute("data-loading", "true");
+    const searchInput = screen.getByRole("searchbox");
+    expect(searchInput).toBeDisabled();
+    expect(searchInput).toHaveAttribute(
+      "aria-label",
+      "Search reviews (temporarily unavailable)",
+    );
     expect(
       screen.getByRole("status", { name: "Loading review summary" }),
     ).toBeInTheDocument();
@@ -149,7 +154,7 @@ describe("ReviewsPage", () => {
     expect(
       screen.getByText("You’re ready to capture your first review."),
     ).toBeInTheDocument();
-    const buttons = screen.getAllByRole("button", { name: "New Review" });
+    const buttons = screen.getAllByRole("button", { name: "New review" });
     expect(buttons).toHaveLength(1);
     expect(buttons[0]).toBeEnabled();
     const searchInput = screen.getByRole("searchbox");
@@ -231,7 +236,7 @@ describe("ReviewsPage", () => {
             onCreate();
             const next: Review = {
               id: "4",
-              title: "New Review",
+              title: "New review",
               tags: [],
               pillars: [],
               createdAt: 4000,
@@ -247,7 +252,7 @@ describe("ReviewsPage", () => {
     const createSpy = vi.fn();
     render(<Harness onCreate={createSpy} />);
 
-    fireEvent.click(screen.getByRole("button", { name: "New Review" }));
+    fireEvent.click(screen.getByRole("button", { name: "New review" }));
     expect(createSpy).toHaveBeenCalled();
     expect(screen.getByRole("button", { name: "Done" })).toBeInTheDocument();
   });

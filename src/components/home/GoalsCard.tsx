@@ -1,14 +1,10 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
-
-import { Card } from "./Card";
-import { DashboardList } from "./DashboardList";
+import { DashboardListCard } from "./DashboardListCard";
 import { useGoals } from "@/components/goals";
 import type { Goal } from "@/lib/types";
-import { Button, Progress } from "@/components/ui";
-import { withBasePath } from "@/lib/utils";
+import { Progress } from "@/components/ui";
 
 type GoalProgress = {
   value: number;
@@ -131,48 +127,41 @@ export function GoalsCard() {
   );
 
   return (
-    <Card>
-      <Card.Header title="Active goals" />
-      <Card.Body className="text-card-foreground">
-        <DashboardList
-          items={activeGoals}
-          getKey={(goal) => goal.id}
-          empty="No active goals"
-          cta={{ label: "Create", href: "/goals" }}
-          renderItem={(goal) => {
-            const progress = deriveGoalProgress(goal);
-            const statusText = getGoalStatus(goal);
+    <DashboardListCard
+      title="Active goals"
+      items={activeGoals}
+      getKey={(goal) => goal.id}
+      emptyMessage="No active goals"
+      listCta={{ label: "Create", href: "/goals" }}
+      renderItem={(goal) => {
+        const progress = deriveGoalProgress(goal);
+        const statusText = getGoalStatus(goal);
 
-            return (
-              <div>
-                <p className="text-ui">{goal.title}</p>
-                <div className="mt-[var(--space-2)]">
-                  {progress ? (
-                    <>
-                      <Progress value={progress.value} label={progress.label} />
-                      {progress.display ? (
-                        <p className="mt-[var(--space-1)] text-label text-muted-foreground tabular-nums">
-                          {progress.display}
-                        </p>
-                      ) : null}
-                    </>
-                  ) : (
-                    <p className="text-label text-muted-foreground">{statusText}</p>
-                  )}
-                </div>
-              </div>
-            );
-          }}
-        />
-      </Card.Body>
-      <Card.Footer className="flex justify-end text-card-foreground">
-        <Button asChild size="sm" variant="default">
-          <Link href={withBasePath("/goals", { skipForNextLink: true })}>
-            Manage Goals
-          </Link>
-        </Button>
-      </Card.Footer>
-    </Card>
+        return (
+          <div>
+            <p className="text-ui">{goal.title}</p>
+            <div className="mt-[var(--space-2)]">
+              {progress ? (
+                <>
+                  <Progress value={progress.value} label={progress.label} />
+                  {progress.display ? (
+                    <p className="mt-[var(--space-1)] text-label text-muted-foreground tabular-nums">
+                      {progress.display}
+                    </p>
+                  ) : null}
+                </>
+              ) : (
+                <p className="text-label text-muted-foreground">{statusText}</p>
+              )}
+            </div>
+          </div>
+        );
+      }}
+      footerAction={{
+        label: "Manage Goals",
+        href: "/goals",
+      }}
+    />
   );
 }
 
