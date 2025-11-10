@@ -3,7 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useFieldIds } from "@/lib/useFieldIds";
-import { Field } from "./Field";
+import { Field, type FieldVariant } from "./Field";
 
 /**
  * Textarea primitive.
@@ -20,6 +20,8 @@ export type TextareaProps =
     resize?: string;
     /** Optional loading state forwarded via `data-loading` */
     "data-loading"?: string | boolean | number;
+    /** Sets the Field.Root variant */
+    variant?: FieldVariant;
   };
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
@@ -28,6 +30,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       className,
       textareaClassName,
       resize,
+      variant = "surface",
       id,
       name,
       "aria-label": ariaLabel,
@@ -57,6 +60,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         disabled={props.disabled}
         readOnly={props.readOnly}
         loading={loading}
+        variant={variant}
         className={cn("items-start", className)}
       >
         <Field.Textarea

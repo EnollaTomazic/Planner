@@ -144,7 +144,9 @@ export function CheatSheet({
             key={a.id}
             depth="raised"
             className="group glitch-card relative h-full"
+            asChild
           >
+            <article>
             {/* Top-right edit/save control */}
             {editing && (
               <div className="absolute right-[var(--space-2)] top-[var(--space-2)] z-10 flex items-center gap-[var(--space-1)] opacity-100 pointer-events-auto">
@@ -258,6 +260,7 @@ export function CheatSheet({
                 </div>
               </div>
             </CardContent>
+            </article>
           </Card>
         );
       })}
