@@ -27,10 +27,10 @@ export default function NavAndBackgroundPreviewPage() {
   return (
     <React.Fragment>
       <div aria-hidden className="page-backdrop">
-        <div className="page-shell">
+        <PageShell>
           <DecorLayer className="page-backdrop__layer" variant="grid" />
           <DecorLayer className="page-backdrop__layer" variant="drip" />
-        </div>
+        </PageShell>
       </div>
       <SiteChrome>
         <div className="relative z-10">
@@ -54,7 +54,7 @@ export default function NavAndBackgroundPreviewPage() {
 
           <PageShell
             as="main"
-            id="main-content"
+            id="page-main"
             tabIndex={-1}
             grid
             aria-labelledby={headingId}

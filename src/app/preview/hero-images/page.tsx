@@ -75,6 +75,8 @@ export default async function HeroImagesPreviewPage({
   return (
     <PageShell
       as="main"
+      id="page-main"
+      tabIndex={-1}
       grid
       aria-labelledby="hero-images-preview-heading"
       className="py-[var(--space-6)] md:py-[var(--space-8)]"

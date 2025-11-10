@@ -16,6 +16,8 @@ export default function AIStatesPreviewPage() {
   return (
     <PageShell
       as="main"
+      id="page-main"
+      tabIndex={-1}
       grid
       aria-labelledby="ai-states-preview-heading"
       className="py-[var(--space-6)] md:py-[var(--space-8)]"

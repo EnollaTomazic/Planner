@@ -2,12 +2,10 @@
 
 import type { CSSProperties, ReactNode } from 'react'
 
-import { Skeleton } from '@/app/_loading'
+import { PageShell, Skeleton } from '@/app/_loading'
 import { cn } from '@/lib/utils'
 import styles from '../page-client.module.css'
 
-const layoutGridClassName =
-  '[--grid-gutter:var(--space-4)] grid grid-cols-1 gap-[var(--grid-gutter)] md:[--grid-gutter:var(--space-5)] md:grid-cols-12'
 const sectionCardOverlayClassName = 'relative'
 const sectionCardClassName = cn(
   'shadow-depth-outer-strong rounded-card r-card-lg text-card-foreground card-neo-soft col-span-full',
@@ -80,44 +78,50 @@ function GlitchLandingFallback({
       >
         Planner is loading
       </div>
-      <div className={`page-shell pt-[var(--space-6)] md:pt-[var(--space-8)]`} aria-labelledby={heroHeadingId}>
-        <div className={layoutGridClassName}>
-          <section className={sectionCardClassName} aria-labelledby={heroHeadingId}>
-            <div className="section-b text-ui md:p-[var(--space-6)]">
-              <HomeHeroSectionFallbackContent
-                headingId={heroHeadingId}
-                actions={<HeroActionSkeletons />}
-              />
-            </div>
-          </section>
-        </div>
-      </div>
-      <div
-        className={`page-shell mt-[var(--space-6)] pb-[var(--space-6)] md:mt-[var(--space-8)] md:pb-[var(--space-8)]`}
+      <PageShell
+        as="header"
+        grid
+        className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
+        aria-labelledby={heroHeadingId}
       >
-        <div className={layoutGridClassName}>
-          <section className={sectionCardClassName} aria-labelledby={overviewHeadingId}>
-            <div className="section-h">
-              <div className="flex w-full items-center justify-between">
-                <div>
-                  <h2
-                    id={overviewHeadingId}
-                    className="text-title font-semibold tracking-[-0.01em]"
-                  >
-                    Planner overview
-                  </h2>
-                </div>
+        <section className={sectionCardClassName} aria-labelledby={heroHeadingId}>
+          <div className="section-b text-ui md:p-[var(--space-6)]">
+            <HomeHeroSectionFallbackContent
+              headingId={heroHeadingId}
+              actions={<HeroActionSkeletons />}
+            />
+          </div>
+        </section>
+      </PageShell>
+      <PageShell
+        as="main"
+        id="page-main"
+        tabIndex={-1}
+        grid
+        className="mt-[var(--space-6)] pb-[var(--space-6)] md:mt-[var(--space-8)] md:pb-[var(--space-8)]"
+        aria-labelledby={overviewHeadingId}
+      >
+        <section className={sectionCardClassName} aria-labelledby={overviewHeadingId}>
+          <div className="section-h">
+            <div className="flex w-full items-center justify-between">
+              <div>
+                <h2
+                  id={overviewHeadingId}
+                  className="text-title font-semibold tracking-[-0.01em]"
+                >
+                  Planner overview
+                </h2>
               </div>
             </div>
-            <div
-              className="section-b text-ui md:p-[var(--space-6)]"
-              aria-labelledby={overviewHeadingId}
-            >
-              <HeroPlannerCardsFallbackContent />
-            </div>
-          </section>
-        </div>
-      </div>
+          </div>
+          <div
+            className="section-b text-ui md:p-[var(--space-6)]"
+            aria-labelledby={overviewHeadingId}
+          >
+            <HeroPlannerCardsFallbackContent />
+          </div>
+        </section>
+      </PageShell>
     </>
   )
 }
@@ -137,74 +141,81 @@ function LegacyHomeFallback({
 }: LandingFallbackProps) {
   return (
     <>
-      <div className={`page-shell pt-[var(--space-6)] md:pt-[var(--space-8)]`} aria-labelledby={heroHeadingId}>
-        <div className={layoutGridClassName}>
-          <section className={sectionCardClassName} aria-labelledby={heroHeadingId}>
-            <div className="section-h">
-              <div className="flex w-full items-center justify-between">
-                <div>
-                  <h1
-                    id={heroHeadingId}
-                    className="text-balance text-title-lg font-semibold tracking-[-0.01em]"
-                  >
-                    Planner preview
-                  </h1>
-                </div>
-              </div>
-            </div>
-            <div
-              className="section-b text-ui"
-              aria-labelledby={heroHeadingId}
-            >
-              <div className="flex flex-col gap-[var(--space-4)] md:flex-row md:items-center md:justify-between">
-                <div className="space-y-[var(--space-3)]">
-                  <Skeleton
-                    className="w-[min(100%,calc(var(--space-8)*4))]"
-                    radius="md"
-                  />
-                  <Skeleton
-                    className="h-[calc(var(--space-4)+var(--spacing-1))] w-[min(100%,calc(var(--space-8)*4.5))]"
-                    radius="md"
-                  />
-                </div>
-                <div
-                  role="group"
-                  aria-label="Planner actions"
-                  className="flex flex-wrap items-center gap-[var(--space-3)]"
-                >
-                  <HeroActionSkeletons />
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-      <div
-        className={`page-shell mt-[var(--space-6)] pb-[var(--space-6)] md:mt-[var(--space-8)] md:pb-[var(--space-8)]`}
+      <PageShell
+        as="header"
+        grid
+        className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
+        aria-labelledby={heroHeadingId}
       >
-        <div className={layoutGridClassName}>
-          <section className={sectionCardClassName} aria-labelledby={overviewHeadingId}>
-            <div className="section-h">
-              <div className="flex w-full items-center justify-between">
-                <div>
-                  <h2
-                    id={overviewHeadingId}
-                    className="text-title font-semibold tracking-[-0.01em]"
-                  >
-                    Planner overview
-                  </h2>
-                </div>
+        <section className={sectionCardClassName} aria-labelledby={heroHeadingId}>
+          <div className="section-h">
+            <div className="flex w-full items-center justify-between">
+              <div>
+                <h1
+                  id={heroHeadingId}
+                  className="text-balance text-title-lg font-semibold tracking-[-0.01em]"
+                >
+                  Planner preview
+                </h1>
               </div>
             </div>
-            <div
-              className="section-b space-y-[var(--space-5)] text-ui"
-              aria-busy
-              aria-live="polite"
-              aria-labelledby={overviewHeadingId}
-            >
-              <div className="grid gap-[var(--space-3)] md:grid-cols-3" role="list">
-                {Array.from({ length: 3 }).map((_, index) => (
-                  <article
+          </div>
+          <div
+            className="section-b text-ui"
+            aria-labelledby={heroHeadingId}
+          >
+            <div className="flex flex-col gap-[var(--space-4)] md:flex-row md:items-center md:justify-between">
+              <div className="space-y-[var(--space-3)]">
+                <Skeleton
+                  className="w-[min(100%,calc(var(--space-8)*4))]"
+                  radius="md"
+                />
+                <Skeleton
+                  className="h-[calc(var(--space-4)+var(--spacing-1))] w-[min(100%,calc(var(--space-8)*4.5))]"
+                  radius="md"
+                />
+              </div>
+              <div
+                role="group"
+                aria-label="Planner actions"
+                className="flex flex-wrap items-center gap-[var(--space-3)]"
+              >
+                <HeroActionSkeletons />
+              </div>
+            </div>
+          </div>
+        </section>
+      </PageShell>
+      <PageShell
+        as="main"
+        id="page-main"
+        tabIndex={-1}
+        grid
+        className="mt-[var(--space-6)] pb-[var(--space-6)] md:mt-[var(--space-8)] md:pb-[var(--space-8)]"
+        aria-labelledby={overviewHeadingId}
+      >
+        <section className={sectionCardClassName} aria-labelledby={overviewHeadingId}>
+          <div className="section-h">
+            <div className="flex w-full items-center justify-between">
+              <div>
+                <h2
+                  id={overviewHeadingId}
+                  className="text-title font-semibold tracking-[-0.01em]"
+                >
+                  Planner overview
+                </h2>
+              </div>
+            </div>
+          </div>
+          <div
+            className="section-b space-y-[var(--space-5)] text-ui"
+            aria-busy
+            aria-live="polite"
+            aria-labelledby={overviewHeadingId}
+          >
+            <div className="grid gap-[var(--space-3)] md:grid-cols-3" role="list">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <article
                     key={`legacy-summary-${index}`}
                     className="flex flex-col gap-[var(--space-2)] rounded-[var(--radius-lg)] border border-border bg-surface p-[var(--space-3)]"
                     role="listitem"
@@ -314,10 +325,9 @@ function LegacyHomeFallback({
                   ))}
                 </div>
               </section>
-            </div>
-          </section>
-        </div>
-      </div>
+          </div>
+        </section>
+      </PageShell>
     </>
   )
 }

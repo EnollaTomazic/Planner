@@ -48,7 +48,9 @@ export default function PlannerLoading() {
         </div>
       </PageShell>
       <PageShell
-        as="section"
+        as="main"
+        id="page-main"
+        tabIndex={-1}
         className="space-y-[var(--space-6)] py-[var(--space-6)]"
         aria-busy="true"
       >

@@ -546,7 +546,9 @@ function GoalsPageContent() {
       </PageShell>
 
       <PageShell
-        as="section"
+        as="main"
+        id="page-main"
+        tabIndex={-1}
         aria-labelledby="goals-header"
         className="py-[var(--space-6)]"
       >
