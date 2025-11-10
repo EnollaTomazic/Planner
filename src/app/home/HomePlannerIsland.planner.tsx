@@ -110,7 +110,7 @@ const weeklyHighlights = [
 const homeBackdropClassName =
   'relative isolate overflow-hidden bg-[color-mix(in_oklab,hsl(var(--surface))_88%,hsl(var(--surface-2)))] shadow-inner-sm bg-glitch-noise-primary'
 const homeBackdropNoiseStyle = {
-  "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.035)",
+  "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.03)",
   "--texture-grain-strength": "1",
 } as CSSProperties
 const sectionCardOverlayClassName = 'relative'

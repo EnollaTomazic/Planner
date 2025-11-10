@@ -42,7 +42,7 @@ const baseClassName = cn(
   "rounded-card r-card-lg bg-card/80 backdrop-blur shadow-depth-outer-xl",
   "p-[var(--glitch-neo-card-padding,var(--space-6))]",
   "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:content-['']",
-  "after:bg-[var(--card-overlay-scanlines)] after:mix-blend-soft-light after:opacity-[var(--glitch-neo-card-scanline-opacity,var(--theme-scanline-opacity-subtle,0.05))] after:z-[1]",
+  "after:bg-[var(--card-overlay-scanlines)] after:mix-blend-soft-light after:opacity-[var(--glitch-neo-card-scanline-opacity,var(--theme-scanline-opacity-subtle,0.045))] after:z-[1]",
 );
 
 const GLITCH_NEO_NOISE_STYLES: Record<
@@ -56,13 +56,13 @@ const GLITCH_NEO_NOISE_STYLES: Record<
   },
   subtle: {
     "--glitch-neo-card-scanline-opacity":
-      "var(--theme-scanline-opacity-subtle, 0.05)",
-    "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.05)",
+      "var(--theme-scanline-opacity-subtle, 0.045)",
+    "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.045)",
   },
   moderate: {
     "--glitch-neo-card-scanline-opacity":
-      "var(--theme-scanline-opacity-moderate, 0.08)",
-    "--texture-scanline-opacity": "var(--theme-scanline-opacity-moderate, 0.08)",
+      "var(--theme-scanline-opacity-moderate, 0.06)",
+    "--texture-scanline-opacity": "var(--theme-scanline-opacity-moderate, 0.06)",
   },
 };
 

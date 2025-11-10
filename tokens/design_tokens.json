@@ -704,10 +704,10 @@
       "value": "0.06"
     },
     "textureGrainOpacity": {
-      "value": "0.05"
+      "value": "0.04"
     },
     "textureScanlineOpacity": {
-      "value": "0.045"
+      "value": "0.06"
     },
     "shadowInnerSm": {
       "value": "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)"
@@ -734,13 +734,13 @@
       "value": "hsl(var(--shadow-color) / 0.4)"
     },
     "glitchNoisePrimary": {
-      "value": "hsl(var(--accent-1) / var(--texture-grain-opacity, 0.05))"
+      "value": "hsl(var(--accent-1) / var(--texture-grain-opacity, 0.04))"
     },
     "glitchNoiseSecondary": {
-      "value": "hsl(var(--ring) / var(--texture-grain-opacity, 0.05))"
+      "value": "hsl(var(--ring) / var(--texture-grain-opacity, 0.04))"
     },
     "glitchNoiseContrast": {
-      "value": "hsl(var(--foreground) / var(--texture-grain-opacity, 0.05))"
+      "value": "hsl(var(--foreground) / var(--texture-grain-opacity, 0.04))"
     },
     "elevationCard": {
       "value": "var(--shadow-outline-subtle)"
@@ -896,7 +896,7 @@
       "value": "0.15"
     },
     "glitchOverlayOpacityCard": {
-      "value": "var(--theme-scanline-opacity-moderate, 0.08)"
+      "value": "var(--theme-scanline-opacity-moderate, 0.06)"
     },
     "shadowInnerLg": {
       "value": "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)"
@@ -1081,7 +1081,7 @@
       "value": "420ms"
     },
     "cardOverlayScanlines": {
-      "value": "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) 0,\n    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )"
+      "value": "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.06)) 0,\n    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.06)) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )"
     },
     "glitchDuration": {
       "value": "450ms"
