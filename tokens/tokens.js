@@ -260,8 +260,8 @@ export default {
   skeletonFill: "hsl(var(--foreground) / 0.08)",
   gradientNoiseOpacity: "0.1",
   gradientNoiseOverlayOpacity: "0.06",
-  textureGrainOpacity: "0.05",
-  textureScanlineOpacity: "0.045",
+  textureGrainOpacity: "0.04",
+  textureScanlineOpacity: "0.06",
   shadowInnerSm:
     "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)",
   shadowInnerMd:
@@ -274,10 +274,10 @@ export default {
   blobSurface3: "hsl(var(--card))",
   blobSurfaceShadow: "hsl(var(--shadow-color) / 0.4)",
   glitchNoisePrimary:
-    "hsl(var(--accent-1) / var(--texture-grain-opacity, 0.05))",
-  glitchNoiseSecondary: "hsl(var(--ring) / var(--texture-grain-opacity, 0.05))",
+    "hsl(var(--accent-1) / var(--texture-grain-opacity, 0.04))",
+  glitchNoiseSecondary: "hsl(var(--ring) / var(--texture-grain-opacity, 0.04))",
   glitchNoiseContrast:
-    "hsl(var(--foreground) / var(--texture-grain-opacity, 0.05))",
+    "hsl(var(--foreground) / var(--texture-grain-opacity, 0.04))",
   elevationCard: "var(--shadow-outline-subtle)",
   elevationCardPressed: "var(--shadow-control)",
   neoDepthSm: "var(--spacing-1)",
@@ -335,7 +335,7 @@ export default {
   retroGridStep: "24px",
   retroGridOpacity: "0.15",
   glitchOverlayOpacityCard:
-    "var(--theme-scanline-opacity-moderate, 0.08)",
+    "var(--theme-scanline-opacity-moderate, 0.06)",
   shadowInnerLg:
     "inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36)",
   shadowOuterXl:
@@ -425,7 +425,7 @@ export default {
   durChill: "220ms",
   durSlow: "420ms",
   cardOverlayScanlines:
-    "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) 0,\n    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )",
+    "repeating-linear-gradient(\n    to bottom,\n    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.06)) 0,\n    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.06)) var(--spacing-0-25),\n    transparent var(--spacing-0-5),\n    transparent calc(var(--spacing-0-5) + var(--spacing-0-25))\n  )",
   glitchDuration: "450ms",
   glowPulse: "glow-pulse var(--dur-slow) var(--ease-out) infinite alternate",
   glitchRgbShift:

@@ -188,18 +188,18 @@ const HERO_NOISE_STYLES: Record<HeroNoiseLevel, HeroNoiseStyle> = {
   },
   subtle: {
     "--hero-glitch-overlay-opacity":
-      "var(--theme-scanline-opacity-subtle, 0.05)",
-    "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.035)",
+      "var(--theme-scanline-opacity-subtle, 0.045)",
+    "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.03)",
     "--texture-grain-strength": "1",
-    "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.05)",
+    "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.045)",
     "--texture-scanline-strength": "1",
   },
   moderate: {
     "--hero-glitch-overlay-opacity":
-      "var(--theme-scanline-opacity-moderate, 0.08)",
-    "--texture-grain-opacity": "var(--theme-noise-level-moderate, 0.06)",
+      "var(--theme-scanline-opacity-moderate, 0.06)",
+    "--texture-grain-opacity": "var(--theme-noise-level-moderate, 0.04)",
     "--texture-grain-strength": "1",
-    "--texture-scanline-opacity": "var(--theme-scanline-opacity-moderate, 0.08)",
+    "--texture-scanline-opacity": "var(--theme-scanline-opacity-moderate, 0.06)",
     "--texture-scanline-strength": "1",
   },
 };

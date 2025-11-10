@@ -213,7 +213,7 @@ export const rootVariables: VariableDefinition[] = [
   {
     comment: "Card glitch overlay alpha",
     name: "glitch-overlay-opacity-card",
-    value: "var(--theme-scanline-opacity-moderate, 0.08)",
+    value: "var(--theme-scanline-opacity-moderate, 0.06)",
   },
   {
     comment: "Button glitch overlays",

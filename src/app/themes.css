@@ -282,8 +282,8 @@
   --skeleton-fill: hsl(var(--foreground) / 0.08);
   --gradient-noise-opacity: 0.1;
   --gradient-noise-overlay-opacity: 0.06;
-  --texture-grain-opacity: 0.05;
-  --texture-scanline-opacity: 0.045;
+  --texture-grain-opacity: 0.04;
+  --texture-scanline-opacity: 0.06;
   --shadow-inner-sm: inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18);
   --shadow-inner-md: inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28);
   --shadow-outer-lg: 0 var(--spacing-4) var(--spacing-7) hsl(var(--shadow-color) / 0.36);
@@ -292,9 +292,9 @@
   --blob-surface-2: hsl(var(--surface-2));
   --blob-surface-3: hsl(var(--card));
   --blob-surface-shadow: hsl(var(--shadow-color) / 0.4);
-  --glitch-noise-primary: hsl(var(--accent-1) / var(--texture-grain-opacity, 0.05));
-  --glitch-noise-secondary: hsl(var(--ring) / var(--texture-grain-opacity, 0.05));
-  --glitch-noise-contrast: hsl(var(--foreground) / var(--texture-grain-opacity, 0.05));
+  --glitch-noise-primary: hsl(var(--accent-1) / var(--texture-grain-opacity, 0.04));
+  --glitch-noise-secondary: hsl(var(--ring) / var(--texture-grain-opacity, 0.04));
+  --glitch-noise-contrast: hsl(var(--foreground) / var(--texture-grain-opacity, 0.04));
   --elevation-card: var(--shadow-outline-subtle);
   --elevation-card-pressed: var(--shadow-control);
   --neo-depth-sm: var(--spacing-1);
@@ -348,7 +348,7 @@
   --glitch-accent-shadow: 0 0 var(--glitch-accent-blur) var(--glitch-accent-color);
   --retro-grid-step: 24px;
   --retro-grid-opacity: 0.15;
-  --glitch-overlay-opacity-card: var(--theme-scanline-opacity-moderate, 0.08);
+  --glitch-overlay-opacity-card: var(--theme-scanline-opacity-moderate, 0.06);
   --shadow-inner-lg: inset 0 var(--spacing-0-5) var(--spacing-2) hsl(var(--shadow-color) / 0.36);
   --shadow-outer-xl: 0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45);
   --glow-ring: 0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22);
@@ -411,8 +411,8 @@
   --dur-slow: 420ms;
   --card-overlay-scanlines: repeating-linear-gradient(
     to bottom,
-    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) 0,
-    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) var(--spacing-0-25),
+    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.06)) 0,
+    hsl(var(--foreground) / var(--texture-scanline-opacity, 0.06)) var(--spacing-0-25),
     transparent var(--spacing-0-5),
     transparent calc(var(--spacing-0-5) + var(--spacing-0-25))
   );
@@ -554,7 +554,7 @@
   --glitch-static-opacity: 0.054;
   --glitch-noise-level: var(--glitch-static-opacity);
   /* Card glitch overlay alpha */
-  --glitch-overlay-opacity-card: var(--theme-scanline-opacity-moderate, 0.08);
+  --glitch-overlay-opacity-card: var(--theme-scanline-opacity-moderate, 0.06);
   /* Button glitch overlays */
   --glitch-overlay-button-opacity: 0.42;
   --glitch-overlay-button-opacity-reduced: 0.28;

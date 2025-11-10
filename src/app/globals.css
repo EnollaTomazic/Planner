@@ -95,13 +95,13 @@
     --texture-grain-strength: 1;
     --texture-scanline-strength: 1;
     --theme-noise-level-none: 0;
-    --theme-noise-level-subtle: 0.035;
-    --theme-noise-level-moderate: 0.06;
+    --theme-noise-level-subtle: 0.03;
+    --theme-noise-level-moderate: 0.04;
     --theme-scanline-opacity-none: 0;
-    --theme-scanline-opacity-subtle: 0.05;
-    --theme-scanline-opacity-moderate: 0.08;
+    --theme-scanline-opacity-subtle: 0.045;
+    --theme-scanline-opacity-moderate: 0.06;
     --glitch-noise-level: calc(
-      var(--glitch-static-opacity, var(--texture-grain-opacity, 0.05)) *
+      var(--glitch-static-opacity, var(--texture-grain-opacity, 0.04)) *
         var(--texture-grain-strength, 1)
     );
     --font-sans-fallback: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
@@ -290,7 +290,7 @@
     background-size: 160px 160px;
     background-repeat: repeat;
     opacity: calc(
-      var(--texture-grain-opacity, 0.05) * var(--texture-grain-strength, 1)
+      var(--texture-grain-opacity, 0.04) * var(--texture-grain-strength, 1)
     );
     mix-blend-mode: soft-light;
   }
@@ -316,8 +316,8 @@
     z-index: 5;
     background: repeating-linear-gradient(
       to bottom,
-      hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) 0px,
-      hsl(var(--foreground) / var(--texture-scanline-opacity, 0.05)) 1px,
+      hsl(var(--foreground) / var(--texture-scanline-opacity, 0.06)) 0px,
+      hsl(var(--foreground) / var(--texture-scanline-opacity, 0.06)) 1px,
       transparent 2px,
       transparent 3px
     );
@@ -341,7 +341,7 @@
     );
     background-size: 140px 140px;
     opacity: calc(
-      var(--texture-grain-opacity, 0.05) * var(--texture-grain-strength, 1)
+      var(--texture-grain-opacity, 0.04) * var(--texture-grain-strength, 1)
     );
   }
 
@@ -698,7 +698,7 @@ html.bg-intense body::after {
     var(--asset-noise-url-default)
   );
   opacity: calc(
-    var(--gradient-noise-opacity, var(--texture-grain-opacity, 0.05)) *
+    var(--gradient-noise-opacity, var(--texture-grain-opacity, 0.04)) *
       var(--texture-grain-strength, 1)
   );
 }
@@ -754,7 +754,7 @@ html.bg-intense body::after {
   :where(.glitch-wrapper, .card-neo, .card-neo-soft, .card-soft):focus-within::before {
     opacity: var(
       --glitch-overlay-opacity,
-      var(--theme-scanline-opacity-moderate, 0.08)
+      var(--theme-scanline-opacity-moderate, 0.06)
     );
     animation: glitch 0.54s steps(2, end) infinite;
   }
