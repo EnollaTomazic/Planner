@@ -10,8 +10,17 @@ import {
 } from "lucide-react";
 
 import type { DesignTokenGroup, GalleryNavigationData } from "@/components/gallery/types";
-import { PageHeroHeader, type HeroTab, PageShell } from "@/components/ui";
+import {
+  PageHero,
+  type HeroTab,
+  PageShell,
+  SegmentedControl,
+  type SegmentedControlOption,
+} from "@/components/ui";
 import { cn } from "@/lib/utils";
+import { VARIANTS, type Variant } from "@/lib/theme";
+import { useTheme } from "@/lib/theme-context";
+import { useThemeQuerySync } from "@/lib/theme-hooks";
 
 import { ComponentsGalleryPanels } from "./ComponentsGalleryPanels";
 import {
@@ -75,7 +84,6 @@ export function ComponentsPageClient({
     section,
     query,
     setQuery,
-    heroCopy,
     heroTabs,
     viewTabs,
     inPageNavigation,
@@ -174,24 +182,72 @@ export function ComponentsPageClient({
 
   const ActiveCategoryIcon = activeCategoryMeta?.icon;
 
+  const [theme, setTheme] = useTheme();
+  useThemeQuerySync();
+
+  const themeOptions = React.useMemo<
+    readonly SegmentedControlOption<Variant>[]
+  >(() => {
+    return VARIANTS.map((variant) => ({
+      value: variant.id,
+      label: variant.label,
+    }));
+  }, []);
+
+  const handleThemeChange = React.useCallback(
+    (nextVariant: Variant) => {
+      setTheme((current) => {
+        if (current.variant === nextVariant) {
+          return current;
+        }
+        return { ...current, variant: nextVariant };
+      });
+    },
+    [setTheme],
+  );
+
+  const themeControlLabelId = React.useId();
+
   return (
     <>
-      <PageHeroHeader
-        shellProps={{
-          className: "py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]",
-        }}
-        sticky={false}
-        eyebrow={heroCopy.eyebrow}
-        title={
-          <span id="components-header" className="inline-flex items-center gap-[var(--space-2)]">
-            {heroCopy.heading}
-          </span>
-        }
-        subtitle={
-          heroCopy.subtitle ? (
-            <span id="components-header-subtitle">{heroCopy.subtitle}</span>
-          ) : undefined
-        }
+      <PageShell
+        as="header"
+        grid
+        className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
+      >
+        <PageHero
+          sticky={false}
+          title={
+            <span
+              id="components-header"
+              className="inline-flex items-center gap-[var(--space-2)]"
+            >
+              Components
+            </span>
+          }
+          subtitle={
+            <span id="components-header-subtitle">
+              Explore the building blocks of the Planner.
+            </span>
+          }
+          actions={
+            <div className="flex flex-col items-stretch gap-[var(--space-2)] text-right sm:flex-row sm:items-center sm:justify-end">
+              <span id={themeControlLabelId} className="sr-only">
+                Select a preview theme
+              </span>
+              <SegmentedControl<Variant>
+                options={themeOptions}
+                value={theme.variant}
+                onValueChange={handleThemeChange}
+                ariaLabel="Select a preview theme"
+                ariaLabelledBy={themeControlLabelId}
+                size="sm"
+                align="end"
+                linkPanels={false}
+                className="w-full sm:w-auto"
+              />
+            </div>
+          }
         tabs={{
           items: heroPrimaryTabItems,
           value: view,
@@ -223,36 +279,38 @@ export function ComponentsPageClient({
               }
             : undefined
         }
-        searchBar={{
-          id: "components-search",
-          value: query,
-          onValueChange: setQuery,
-          debounceMs: 300,
-          label: searchLabel,
-          placeholder: searchPlaceholder,
-          round: true,
-          fieldClassName: cn(
-            "bg-[hsl(var(--surface-3)/0.82)]",
-            "border border-card-hairline-60",
-            "shadow-depth-soft",
-            "focus-within:shadow-depth-soft",
-          ),
-        }}
-      >
-        {activeCategoryMeta ? (
-          <div className="flex items-start gap-[var(--space-3)] text-muted-foreground">
-            {ActiveCategoryIcon ? (
-              <ActiveCategoryIcon
-                aria-hidden
-                className="mt-[var(--space-1)] size-[var(--space-5)] shrink-0"
-              />
-            ) : null}
-            <p className="max-w-2xl text-pretty text-ui md:text-body">
-              {activeCategoryMeta.description}
-            </p>
-          </div>
-        ) : null}
-      </PageHeroHeader>
+          searchBar={{
+            id: "components-search",
+            value: query,
+            onValueChange: setQuery,
+            debounceMs: 300,
+            label: searchLabel,
+            placeholder: searchPlaceholder,
+            round: true,
+            fieldClassName: cn(
+              "bg-[hsl(var(--surface-3)/0.82)]",
+              "border border-card-hairline-60",
+              "shadow-depth-soft",
+              "focus-within:shadow-depth-soft",
+            ),
+          }}
+          className="col-span-full"
+        >
+          {activeCategoryMeta ? (
+            <div className="flex items-start gap-[var(--space-3)] text-muted-foreground">
+              {ActiveCategoryIcon ? (
+                <ActiveCategoryIcon
+                  aria-hidden
+                  className="mt-[var(--space-1)] size-[var(--space-5)] shrink-0"
+                />
+              ) : null}
+              <p className="max-w-2xl text-pretty text-ui md:text-body">
+                {activeCategoryMeta.description}
+              </p>
+            </div>
+          ) : null}
+        </PageHero>
+      </PageShell>
 
       <PageShell
         as="main"
