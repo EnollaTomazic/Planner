@@ -1,10 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { DashboardCard } from "./DashboardCard";
+import Link from "next/link";
+
+import { Card } from "./Card";
 import { Button } from "@/components/ui";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 import { TeamQuickActions } from "@/components/team/TeamQuickActions";
 import styles from "./TeamPromptsCard.module.css";
 
@@ -63,16 +65,17 @@ export function TeamPromptsCard() {
   return (
     <div className={cn(layoutGridClassName, styles.root, "md:grid-cols-12")}>
       <div className={cn("md:col-span-6", styles.column)}>
-        <DashboardCard title="Team quick actions">
-          <TeamQuickActions actions={teamQuickActions} />
-        </DashboardCard>
+        <Card>
+          <Card.Header title="Team quick actions" />
+          <Card.Body className="text-card-foreground">
+            <TeamQuickActions actions={teamQuickActions} />
+          </Card.Body>
+        </Card>
       </div>
       <div className={cn("md:col-span-6", styles.column)}>
-        <DashboardCard
-          title="Prompts cockpit"
-          cta={{ label: "Explore Prompts", href: "/prompts" }}
-        >
-          <div className={styles.stack}>
+        <Card>
+          <Card.Header title="Prompts cockpit" />
+          <Card.Body className={cn(styles.stack, "text-card-foreground")}>
             {suggestions.map((suggestion) => {
               if (suggestion.status === "draft") {
                 return (
@@ -143,8 +146,15 @@ export function TeamPromptsCard() {
                 </article>
               );
             })}
-          </div>
-        </DashboardCard>
+          </Card.Body>
+          <Card.Footer className="flex justify-end text-card-foreground">
+            <Button asChild size="sm" variant="default">
+              <Link href={withBasePath("/prompts", { skipForNextLink: true })}>
+                Explore Prompts
+              </Link>
+            </Button>
+          </Card.Footer>
+        </Card>
       </div>
     </div>
   );

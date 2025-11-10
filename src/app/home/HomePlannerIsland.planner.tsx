@@ -9,6 +9,7 @@ import {
   useHomePlannerOverview,
   useHydratedCallback,
 } from "@/components/home"
+import { Card } from "@/components/home/Card"
 import type {
   HeroPlannerCardsProps,
   HeroPlannerHighlight,
@@ -530,63 +531,81 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
           >
             <div className="grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2 md:grid-cols-3" role="list">
               {summary.items.map((item) => (
-                <article
+                <Card
                   key={item.key}
-                  className="flex flex-col gap-[var(--space-2)] rounded-[var(--radius-lg)] border border-border bg-surface p-[var(--space-3)]"
+                  as="article"
                   role="listitem"
+                  className="h-full"
                 >
-                  <p className="text-label text-muted-foreground">{item.label}</p>
-                  <p className="text-ui font-semibold text-foreground text-balance">
-                    {item.value}
-                  </p>
-                  <Link
-                    href={withBasePath(item.href, { skipForNextLink: true })}
-                    className="text-label font-medium text-primary transition-colors hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  >
-                    {item.cta}
-                  </Link>
-                </article>
+                  <Card.Header
+                    eyebrow={item.label}
+                    title={item.value}
+                    eyebrowClassName="text-label text-muted-foreground uppercase tracking-[0.08em]"
+                    titleClassName="text-ui font-semibold text-foreground text-balance"
+                  />
+                  <Card.Actions className="mt-auto justify-start">
+                    <Button asChild size="sm" variant="quiet">
+                      <Link href={withBasePath(item.href, { skipForNextLink: true })}>
+                        {item.cta}
+                      </Link>
+                    </Button>
+                  </Card.Actions>
+                </Card>
               ))}
             </div>
             <div className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-2">
-              <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-focus-heading">
-                <div className="flex w-full flex-col items-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between">
-                  <h3 id="legacy-focus-heading" className="text-body font-semibold text-foreground">
-                    {focus.label}
-                  </h3>
-                  <p className="text-label text-muted-foreground">
-                    {hydrating ? "—" : `${focus.doneCount}/${focus.totalCount} done`}
-                  </p>
-                </div>
-                <ul className="grid gap-[var(--space-2)]" role="list">
-                  {focus.tasks.map((task) => (
-                    <li
-                      key={task.id}
-                      className="flex flex-col gap-[var(--space-1)] rounded-[var(--radius-md)] border border-border/80 bg-card/70 px-[var(--space-3)] py-[var(--space-2)]"
-                    >
-                      <span className="text-ui font-medium text-foreground">{task.title}</span>
-                      {task.projectName ? (
-                        <span className="text-label text-muted-foreground">{task.projectName}</span>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
+              <Card
+                as="section"
+                aria-labelledby="legacy-focus-heading"
+                className="h-full"
+              >
+                <Card.Header
+                  id="legacy-focus-heading"
+                  title={focus.label}
+                  titleClassName="text-body font-semibold text-foreground"
+                  actions={
+                    <p className="text-label text-muted-foreground">
+                      {hydrating ? "—" : `${focus.doneCount}/${focus.totalCount} done`}
+                    </p>
+                  }
+                />
+                <Card.Body className="text-card-foreground">
+                  <ul className="grid gap-[var(--space-2)]" role="list">
+                    {focus.tasks.map((task) => (
+                      <li
+                        key={task.id}
+                        className="flex flex-col gap-[var(--space-1)] rounded-[var(--radius-md)] border border-border/80 bg-card/70 px-[var(--space-3)] py-[var(--space-2)]"
+                      >
+                        <span className="text-ui font-medium text-foreground">{task.title}</span>
+                        {task.projectName ? (
+                          <span className="text-label text-muted-foreground">{task.projectName}</span>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
+                </Card.Body>
                 {focus.remainingTasks > 0 ? (
-                  <p className="text-label text-muted-foreground">
+                  <Card.Footer className="text-label text-muted-foreground">
                     +{focus.remainingTasks} additional task{focus.remainingTasks === 1 ? "" : "s"} scheduled for the day
-                  </p>
+                  </Card.Footer>
                 ) : null}
-              </section>
-              <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-goals-heading">
-                <div className="flex w-full flex-col items-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between">
-                  <h3 id="legacy-goals-heading" className="text-body font-semibold text-foreground">
-                    {goals.label ?? "Goals"}
-                  </h3>
-                  <p className="text-label text-muted-foreground">
-                    {hydrating ? "—" : `${goals.completed}/${goals.total} complete`}
-                  </p>
-                </div>
-                <div className="flex flex-col gap-[var(--space-2)] rounded-[var(--radius-md)] border border-border/80 bg-card/70 p-[var(--space-3)]">
+              </Card>
+              <Card
+                as="section"
+                aria-labelledby="legacy-goals-heading"
+                className="h-full"
+              >
+                <Card.Header
+                  id="legacy-goals-heading"
+                  title={goals.label ?? "Goals"}
+                  titleClassName="text-body font-semibold text-foreground"
+                  actions={
+                    <p className="text-label text-muted-foreground">
+                      {hydrating ? "—" : `${goals.completed}/${goals.total} complete`}
+                    </p>
+                  }
+                />
+                <Card.Body className="text-card-foreground">
                   {activeGoals.length > 0 ? (
                     <ul className="grid gap-[var(--space-2)]" role="list">
                       {activeGoals.map((goal) => (
@@ -603,37 +622,44 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
                       {hydrating ? "Loading goals…" : goals.emptyMessage}
                     </p>
                   )}
-                  <p className="text-label text-muted-foreground">
-                    {hydrating
-                      ? "Momentum updates after data loads."
-                      : goals.total === goals.completed && goals.total > 0
-                        ? goals.allCompleteMessage
-                        : "Track progress without the glitch visuals."}
-                  </p>
-                </div>
-              </section>
+                </Card.Body>
+                <Card.Footer className="text-label text-muted-foreground">
+                  {hydrating
+                    ? "Momentum updates after data loads."
+                    : goals.total === goals.completed && goals.total > 0
+                      ? goals.allCompleteMessage
+                      : "Track progress without the glitch visuals."}
+                </Card.Footer>
+              </Card>
             </div>
-            <section className="space-y-[var(--space-3)]" aria-labelledby="legacy-calendar-heading">
-              <div className="flex w-full flex-col items-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between">
-                <h3 id="legacy-calendar-heading" className="text-body font-semibold text-foreground">
-                  {calendar.label}
-                </h3>
-                <p className="text-label text-muted-foreground">{calendar.summary}</p>
-              </div>
-              <div className="flex flex-wrap gap-[var(--space-2)]">
-                {calendar.days.map((day) => (
-                  <span
-                    key={day.iso}
-                    className="inline-flex min-w-[var(--space-8)] items-center justify-center rounded-full border border-border bg-card/60 px-[var(--space-2)] py-[var(--space-1)] text-label text-muted-foreground"
-                    data-state={day.selected ? "selected" : undefined}
-                    aria-current={day.selected ? "date" : undefined}
-                  >
-                    <span className="font-semibold text-foreground">{day.weekday}</span>
-                    <span className="ml-[var(--space-1)] text-label text-muted-foreground">{day.dayNumber}</span>
-                  </span>
-                ))}
-              </div>
-            </section>
+            <Card
+              as="section"
+              aria-labelledby="legacy-calendar-heading"
+              className="h-full"
+            >
+              <Card.Header
+                id="legacy-calendar-heading"
+                title={calendar.label}
+                titleClassName="text-body font-semibold text-foreground"
+                description={calendar.summary}
+                descriptionClassName="text-label text-muted-foreground"
+              />
+              <Card.Body className="text-card-foreground">
+                <div className="flex flex-wrap gap-[var(--space-2)]">
+                  {calendar.days.map((day) => (
+                    <span
+                      key={day.iso}
+                      className="inline-flex min-w-[var(--space-8)] items-center justify-center rounded-full border border-border bg-card/60 px-[var(--space-2)] py-[var(--space-1)] text-label text-muted-foreground"
+                      data-state={day.selected ? "selected" : undefined}
+                      aria-current={day.selected ? "date" : undefined}
+                    >
+                      <span className="font-semibold text-foreground">{day.weekday}</span>
+                      <span className="ml-[var(--space-1)] text-label text-muted-foreground">{day.dayNumber}</span>
+                    </span>
+                  ))}
+                </div>
+              </Card.Body>
+            </Card>
           </SectionCard.Body>
         </SectionCard>
       </PageShell>

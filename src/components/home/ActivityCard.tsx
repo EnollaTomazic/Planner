@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { DashboardCard } from "./DashboardCard";
+import { Card } from "./Card";
 import type {
   PlannerOverviewActivityPoint,
   PlannerOverviewActivityProps,
@@ -27,8 +27,9 @@ export function ActivityCard({
 }: ActivityCardProps) {
   if (loading) {
     return (
-      <DashboardCard title="Weekly activity" headerLoading>
-        <div className={cn("space-y-[var(--space-4)]", className)}>
+      <Card>
+        <Card.Header title="Weekly activity" loading />
+        <Card.Body className={cn("space-y-[var(--space-4)]", className)}>
           <div className="space-y-[var(--space-2)]">
             <Skeleton className="h-[var(--space-4)] w-1/3" ariaHidden={false} />
             <Skeleton className="h-[var(--space-8)] w-1/2" ariaHidden={false} />
@@ -39,8 +40,8 @@ export function ActivityCard({
             radius="card"
             ariaHidden={false}
           />
-        </div>
-      </DashboardCard>
+        </Card.Body>
+      </Card>
     );
   }
 
@@ -53,8 +54,9 @@ export function ActivityCard({
     : "No scheduled tasks yet";
 
   return (
-    <DashboardCard title="Weekly activity">
-      <div
+    <Card>
+      <Card.Header title="Weekly activity" />
+      <Card.Body
         className={cn(
           "grid gap-[var(--space-4)]",
           hasData ? "grid-rows-[auto_auto]" : "grid-rows-[auto]",
@@ -82,8 +84,8 @@ export function ActivityCard({
           )}
         </div>
         {hasData ? <ActivityChart points={points} /> : null}
-      </div>
-    </DashboardCard>
+      </Card.Body>
+    </Card>
   );
 }
 
