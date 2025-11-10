@@ -1,11 +1,13 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { NeoCard } from "@/components/ui";
-import { cn } from "@/lib/utils";
-import type { PlannerOverviewCalendarProps } from "./types";
+import * as React from "react"
 
-function PlannerOverviewCalendarCardComponent({
+import { Card } from "../../Card"
+import { cn } from "@/lib/utils"
+
+import type { PlannerOverviewCalendarProps } from "../types"
+
+function CalendarCardComponent({
   label,
   title,
   summary,
@@ -15,33 +17,31 @@ function PlannerOverviewCalendarCardComponent({
   days,
   onSelectDay,
 }: PlannerOverviewCalendarProps) {
+  const description = hasPlannedTasks ? (
+    <span className="tabular-nums text-card-foreground">
+      {doneCount}/{totalCount}
+    </span>
+  ) : (
+    summary
+  )
+
   return (
-    <div className="col-span-12 md:col-span-6 lg:col-span-4">
-      <NeoCard className="flex h-full flex-col gap-[var(--space-4)] p-[var(--space-4)] md:p-[var(--space-5)]">
-        <header className="space-y-[var(--space-1)]">
-          <p className="text-label text-muted-foreground">{label}</p>
-          <h3 className="text-body font-semibold text-card-foreground tracking-[-0.01em]">
-            {title}
-          </h3>
-          <p className="text-label text-muted-foreground">
-            {hasPlannedTasks ? (
-              <span className="tabular-nums text-card-foreground">
-                {doneCount}/{totalCount}
-              </span>
-            ) : (
-              summary
-            )}
-          </p>
-        </header>
+    <Card as="section" className="col-span-12 h-full md:col-span-6 lg:col-span-4">
+      <Card.Header
+        eyebrow={label}
+        eyebrowClassName="text-label text-muted-foreground"
+        title={title}
+        titleClassName="text-body font-semibold text-card-foreground tracking-[-0.01em]"
+        description={description}
+        descriptionClassName="text-label text-muted-foreground"
+      />
+      <Card.Body className="text-card-foreground">
         <div className="flex overflow-x-auto rounded-card r-card-lg border border-border/60 p-[var(--space-2)]">
           <ul className="flex w-full min-w-0 gap-[var(--space-2)]" aria-label="Select focus day">
             {days.map((day) => {
-              const blockInteraction = day.disabled || day.loading;
+              const blockInteraction = day.disabled || day.loading
               return (
-                <li
-                  key={day.iso}
-                  className="flex-1 min-w-[calc(var(--space-8)+var(--space-2))]"
-                >
+                <li key={day.iso} className="flex-1 min-w-[calc(var(--space-8)+var(--space-2))]">
                   <button
                     type="button"
                     aria-pressed={day.selected}
@@ -51,8 +51,8 @@ function PlannerOverviewCalendarCardComponent({
                     disabled={day.disabled}
                     data-loading={day.loading ? "true" : undefined}
                     onClick={() => {
-                      if (blockInteraction) return;
-                      onSelectDay(day.iso);
+                      if (blockInteraction) return
+                      onSelectDay(day.iso)
                     }}
                     className={cn(
                       "flex w-full flex-col items-start gap-[var(--space-1)] rounded-[var(--control-radius)] border px-[var(--space-3)] py-[var(--space-2)] text-left transition",
@@ -79,13 +79,13 @@ function PlannerOverviewCalendarCardComponent({
                     </span>
                   </button>
                 </li>
-              );
+              )
             })}
           </ul>
         </div>
-      </NeoCard>
-    </div>
-  );
+      </Card.Body>
+    </Card>
+  )
 }
 
-export const PlannerOverviewCalendarCard = React.memo(PlannerOverviewCalendarCardComponent)
+export const CalendarCard = React.memo(CalendarCardComponent)

@@ -4431,9 +4431,9 @@ const [value, setValue] = React.useState(options[0].value);
       element: (
         <QuickActionGrid
           actions={[
-            { href: "/planner", label: "Planner Today" },
-            { href: "/goals", label: "New Goal", tone: "accent" },
-            { href: "/reviews", label: "New Review", tone: "accent" },
+            { type: "link", href: "/planner", label: "Planner Today" },
+            { type: "link", href: "/goals", label: "New Goal", tone: "accent" },
+            { type: "link", href: "/reviews", label: "New Review", tone: "accent" },
           ]}
           layout="inline"
           buttonSize="lg"
@@ -4443,9 +4443,9 @@ const [value, setValue] = React.useState(options[0].value);
       tags: ["actions", "planner"],
       code: `<QuickActionGrid
   actions={[
-    { href: "/planner", label: "Planner Today" },
-    { href: "/goals", label: "New Goal", tone: "accent" },
-    { href: "/reviews", label: "New Review", tone: "accent" },
+    { type: "link", href: "/planner", label: "Planner Today" },
+    { type: "link", href: "/goals", label: "New Goal", tone: "accent" },
+    { type: "link", href: "/reviews", label: "New Review", tone: "accent" },
   ]}
   layout="inline"
   buttonSize="lg"

@@ -12,6 +12,7 @@ describe("QuickActionGrid", () => {
       <QuickActionGrid
         actions={[
           {
+            type: "link",
             href: "/planner",
             label: "Plan week",
             linkProps: {
@@ -38,6 +39,7 @@ describe("QuickActionGrid", () => {
       <QuickActionGrid
         actions={[
           {
+            type: "link",
             href: "https://example.com",
             label: "External",
             linkProps: {
@@ -68,6 +70,7 @@ describe("QuickActionGrid", () => {
         <QuickActionGrid
           actions={[
             {
+              type: "link",
               href: "#hash-action",
               label: "Hash action",
             },
@@ -90,7 +93,7 @@ describe("QuickActionGrid", () => {
         actions={[
           {
             id: "direct-action",
-            asChild: false,
+            type: "button",
             label: "Trigger sync",
             buttonProps: {
               onClick: handleClick,

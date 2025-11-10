@@ -38,44 +38,45 @@ type QuickActionButtonProps = Omit<
   "tone" | "size" | "variant" | "className" | "children" | "asChild"
 >;
 
-type QuickActionButtonDefinition = {
-  id?: string;
-  tone?: ButtonProps["tone"];
-  asChild: false;
-  className?: string;
-  size?: ButtonProps["size"];
-  variant?: ButtonProps["variant"];
-  label?: React.ReactNode;
-  content?: React.ReactNode;
-  buttonProps?: QuickActionButtonProps;
-};
+interface QuickActionBase {
+  readonly id?: string;
+  readonly tone?: ButtonProps["tone"];
+  readonly className?: string;
+  readonly size?: ButtonProps["size"];
+  readonly variant?: ButtonProps["variant"];
+  readonly ariaLabel?: string;
+}
 
-type QuickActionLinkDefinition = {
-  id?: string;
-  href: QuickActionHref;
-  label: React.ReactNode;
-  tone?: ButtonProps["tone"];
-  asChild?: true;
-  className?: string;
-  size?: ButtonProps["size"];
-  variant?: ButtonProps["variant"];
-  linkProps?: Omit<React.ComponentProps<typeof Link>, "href" | "children">;
-};
+interface QuickActionButtonDefinition extends QuickActionBase {
+  readonly type: "button";
+  readonly label?: React.ReactNode;
+  readonly content?: React.ReactNode;
+  readonly buttonProps?: QuickActionButtonProps;
+}
+
+interface QuickActionLinkDefinition extends QuickActionBase {
+  readonly type: "link";
+  readonly href: QuickActionHref;
+  readonly label: React.ReactNode;
+  readonly linkProps?: Omit<React.ComponentProps<typeof Link>, "href" | "children">;
+}
 
 type QuickActionDefinition =
   | QuickActionButtonDefinition
   | QuickActionLinkDefinition;
 
-type QuickActionGridProps = {
-  actions: QuickActionDefinition[];
-  layout?: QuickActionLayout;
-  className?: string;
-  buttonClassName?: string;
-  buttonSize?: ButtonProps["size"];
-  buttonTone?: ButtonProps["tone"];
-  buttonVariant?: ButtonProps["variant"];
-  hoverLift?: boolean;
-};
+interface QuickActionGridProps<
+  TAction extends QuickActionDefinition = QuickActionDefinition,
+> {
+  readonly actions: readonly TAction[];
+  readonly layout?: QuickActionLayout;
+  readonly className?: string;
+  readonly buttonClassName?: string;
+  readonly buttonSize?: ButtonProps["size"];
+  readonly buttonTone?: ButtonProps["tone"];
+  readonly buttonVariant?: ButtonProps["variant"];
+  readonly hoverLift?: boolean;
+}
 
 export function QuickActionGrid({
   actions,
@@ -93,24 +94,11 @@ export function QuickActionGrid({
         const {
           id,
           tone,
-          asChild,
           className: actionClassName,
           size,
           variant,
+          ariaLabel,
         } = action;
-        const isAsChild = asChild !== false;
-        const href = "href" in action ? action.href : undefined;
-        const label = "label" in action ? action.label : undefined;
-        const hrefIsString = typeof href === "string";
-        const trimmedHref = hrefIsString ? href.trim() : "";
-        const key =
-          id ??
-          (hrefIsString
-            ? trimmedHref || `${index}`
-            : href !== undefined
-              ? JSON.stringify(href)
-              : undefined) ??
-          `${index}`;
         const resolvedTone = tone ?? buttonTone;
         const resolvedSize = size ?? buttonSize;
         const resolvedVariant = variant ?? buttonVariant;
@@ -129,8 +117,19 @@ export function QuickActionGrid({
           ButtonProps,
           "tone" | "size" | "variant" | "className"
         >;
-        if (isAsChild && href !== undefined) {
-          const linkProps = "linkProps" in action ? action.linkProps : undefined;
+
+        if (action.type === "link") {
+          const { href, label, linkProps } = action;
+          const hrefIsString = typeof href === "string";
+          const trimmedHref = hrefIsString ? href.trim() : "";
+          const key =
+            id ??
+            (hrefIsString
+              ? trimmedHref || `${index}`
+              : href !== undefined
+                ? JSON.stringify(href)
+                : undefined) ??
+            `${index}`;
           const isHash = hrefIsString && trimmedHref.startsWith("#");
           const isExternal = hrefIsString && isExternalHref(trimmedHref);
           const shouldPrefixBasePathForAnchor =
@@ -158,6 +157,7 @@ export function QuickActionGrid({
             className: _omitClassName,
             target,
             rel,
+            ["aria-label"]: ariaLabelOverride,
             ...restLinkProps
           } = linkProps ?? {};
           void _omitClassName;
@@ -165,12 +165,14 @@ export function QuickActionGrid({
             target === "_blank" && typeof rel === "undefined"
               ? "noopener noreferrer"
               : rel;
+          const resolvedAriaLabel = ariaLabel ?? ariaLabelOverride;
 
           const childNode = isExternal || isHash ? (
             <a
               href={anchorHref}
               target={target}
               rel={resolvedRel}
+              aria-label={resolvedAriaLabel}
               {...(restLinkProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
             >
               {label}
@@ -180,6 +182,7 @@ export function QuickActionGrid({
               href={linkHref}
               target={target}
               rel={resolvedRel}
+              aria-label={resolvedAriaLabel}
               {...restLinkProps}
             >
               {label}
@@ -193,11 +196,19 @@ export function QuickActionGrid({
           );
         }
 
-        const buttonAction = action as QuickActionButtonDefinition;
-        const { content, buttonProps } = buttonAction;
+        const { label, content, buttonProps } = action;
+        const key = id ?? `${index}`;
+        const { ["aria-label"]: ariaLabelOverride, ...restButtonProps } =
+          buttonProps ?? {};
+        const resolvedAriaLabel = ariaLabel ?? ariaLabelOverride;
 
         return (
-          <Button key={key} {...commonButtonProps} {...buttonProps}>
+          <Button
+            key={key}
+            {...commonButtonProps}
+            {...restButtonProps}
+            aria-label={resolvedAriaLabel}
+          >
             {content ?? label}
           </Button>
         );
