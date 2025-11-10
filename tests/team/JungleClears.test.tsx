@@ -79,13 +79,15 @@ describe("JungleClears persistence", () => {
 
     await user.click(screen.getByLabelText("Save"));
 
-    const [createdCell] = await screen.findAllByText("Test Champ 123", {
-      selector: "td",
-    });
-    const createdRow = createdCell.closest("tr");
-    expect(createdRow).not.toBeNull();
+    const createdMatches = await screen.findAllByText("Test Champ 123");
+    const createdName = createdMatches.find((element) =>
+      element.closest('[data-testid="jungle-card"]'),
+    );
+    expect(createdName).toBeDefined();
+    const createdCard = createdName!.closest('[data-testid="jungle-card"]');
+    expect(createdCard).not.toBeNull();
 
-    const editButton = within(createdRow!).getByLabelText("Edit");
+    const editButton = within(createdCard as HTMLElement).getByLabelText("Edit");
     await user.click(editButton);
 
     const editChampionInput = await screen.findByLabelText("Champion");
@@ -94,17 +96,22 @@ describe("JungleClears persistence", () => {
 
     await user.click(screen.getByLabelText("Save"));
 
-    const [updatedCell] = await screen.findAllByText("Edited Champ", {
-      selector: "td",
-    });
-    const updatedRow = updatedCell.closest("tr");
-    expect(updatedRow).not.toBeNull();
+    const updatedMatches = await screen.findAllByText("Edited Champ");
+    const updatedName = updatedMatches.find((element) =>
+      element.closest('[data-testid="jungle-card"]'),
+    );
+    expect(updatedName).toBeDefined();
+    const updatedCard = updatedName!.closest('[data-testid="jungle-card"]');
+    expect(updatedCard).not.toBeNull();
 
-    const deleteButton = within(updatedRow!).getByLabelText("Delete");
+    const deleteButton = within(updatedCard as HTMLElement).getByLabelText("Delete");
     await user.click(deleteButton);
 
     await waitFor(() => {
-      expect(screen.queryAllByText("Edited Champ", { selector: "td" })).toHaveLength(0);
+      const remaining = screen
+        .queryAllByText("Edited Champ")
+        .filter((element) => element.closest('[data-testid="jungle-card"]'));
+      expect(remaining).toHaveLength(0);
     });
   });
 });
