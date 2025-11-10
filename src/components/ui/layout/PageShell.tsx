@@ -1,5 +1,4 @@
 // src/components/ui/layout/PageShell.tsx
-"use client";
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
@@ -27,14 +26,25 @@ export type PageShellProps<T extends PageShellElement = "div"> =
  * PageShell — width-constrained wrapper that applies the global `page-shell` class.
  * Use the `grid` prop to opt into the standard 12-column layout inside the shell.
  */
+const baseShellClassName =
+  [
+    "page-shell",
+    "space-y-[var(--space-6)]",
+    "md:space-y-[var(--space-7)]",
+    "lg:space-y-[var(--space-8)]",
+  ].join(" ");
+
 export const layoutGridClassName =
   [
-    "[--grid-gutter:var(--layout-gutter-sm,var(--space-4))]",
     "grid",
     "grid-cols-1",
-    "gap-[var(--grid-gutter)]",
-    "md:[--grid-gutter:var(--layout-gutter-md,var(--space-5))]",
-    "lg:[--grid-gutter:var(--layout-gutter-lg,var(--space-6))]",
+    "gap-x-[var(--space-4)]",
+    "gap-y-[var(--space-6)]",
+    "md:grid-cols-12",
+    "md:gap-x-[var(--space-5)]",
+    "md:gap-y-[var(--space-7)]",
+    "lg:gap-x-[var(--space-6)]",
+    "lg:gap-y-[var(--space-8)]",
   ].join(" ");
 
 export function PageShell<T extends PageShellElement = "div">({
@@ -49,7 +59,7 @@ export function PageShell<T extends PageShellElement = "div">({
 
   return (
     <Component
-      className={cn("page-shell", className)}
+      className={cn(baseShellClassName, className)}
       {...rest}
     >
       {grid ? (

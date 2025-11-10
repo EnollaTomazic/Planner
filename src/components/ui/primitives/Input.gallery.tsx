@@ -63,14 +63,24 @@ const INPUT_STATES: readonly InputStateSpec[] = [
     code: "<Input placeholder=\"Custom ring\" ringTone=\"danger\" />",
   },
   {
+    id: "sunken",
+    name: "Sunken",
+    props: {
+      placeholder: "Sunken inset",
+      variant: "sunken",
+    },
+    code: "<Input placeholder=\"Sunken inset\" variant=\"sunken\" />",
+  },
+  {
     id: "glitch",
     name: "Glitch overlay",
     props: {
       placeholder: "Glitch overlay",
+      variant: "sunken",
       glitch: true,
       glitchText: "Summoner search",
     },
-    code: `<Input glitch glitchText="Summoner search" placeholder="Glitch overlay" />`,
+    code: `<Input glitch glitchText="Summoner search" placeholder="Glitch overlay" variant="sunken" />`,
   },
 ];
 
@@ -94,7 +104,7 @@ function InputGalleryPreview() {
         <div className="space-y-[var(--space-1)]">
           <InputStatePreview state={glitchState} />
           <p className="text-caption text-muted-foreground">
-            Field shells use{" "}
+            Sunken shells use{" "}
             <code className="mx-[var(--space-1)]">
               --glitch-overlay-button-opacity-reduced
             </code>

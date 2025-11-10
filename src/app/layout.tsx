@@ -154,7 +154,7 @@ export default async function RootLayout({
         >
           .
         </span>
-        <SkipLink targetId="main-content" />
+        <SkipLink targetId="page-main" />
         <noscript>
           <div
             role="status"
@@ -171,10 +171,10 @@ export default async function RootLayout({
                   organicDepthEnabled={organicDepthState}
                 >
                   <div aria-hidden className="page-backdrop">
-                    <div className="page-shell">
+                    <PageShell>
                       <DecorLayer className="page-backdrop__layer" variant="grid" />
                       <DecorLayer className="page-backdrop__layer" variant="drip" />
-                    </div>
+                    </PageShell>
                   </div>
                   <div className="flex min-h-screen flex-col">
                     <SiteChrome>
@@ -187,9 +187,9 @@ export default async function RootLayout({
                         className="min-h-0 flex-1 overflow-y-auto"
                       >
                         <div className="relative z-10">
-                          <main id="main-content" role="main" tabIndex={-1}>
+                          <div id="page-shell-root">
                             {children}
-                          </main>
+                          </div>
                           <footer
                             role="contentinfo"
                             className="mt-[var(--space-8)] border-t border-border bg-surface"

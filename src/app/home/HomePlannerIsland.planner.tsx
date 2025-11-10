@@ -377,7 +377,9 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
         />
       </PageShell>
       <PageShell
-        as="section"
+        as="main"
+        id="page-main"
+        tabIndex={-1}
         grid
         role="region"
         aria-labelledby={overviewHeadingId}
@@ -503,7 +505,9 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
         />
       </PageShell>
       <PageShell
-        as="section"
+        as="main"
+        id="page-main"
+        tabIndex={-1}
         grid
         role="region"
         aria-labelledby={overviewHeadingId}
