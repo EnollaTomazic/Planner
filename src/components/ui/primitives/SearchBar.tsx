@@ -13,6 +13,7 @@ const SEARCH_BAR_VARIANTS = [
   "default",
   "neo",
   "quiet",
+  "sunken",
 ] as const satisfies readonly UIVariant[];
 type SearchBarVariant = (typeof SEARCH_BAR_VARIANTS)[number];
 
@@ -99,10 +100,12 @@ export function SearchBar({
     fallback: "default",
   });
 
+  const isNeo = resolvedVariant === "neo";
   const variantFieldClasses =
-    resolvedVariant === "neo"
+    isNeo
       ? "hero2-neomorph z-0 !border border-border/40 !shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft focus-within:!shadow-depth-soft [--hover:transparent] [--active:transparent]"
       : undefined;
+  const fieldVariant = resolvedVariant === "sunken" ? "sunken" : "surface";
 
   const inputField = (
     <Field.Root
@@ -111,6 +114,7 @@ export function SearchBar({
       className={cn("w-full", variantFieldClasses, fieldClassName)}
       disabled={disabled}
       loading={loading}
+      variant={fieldVariant}
     >
       <Field.Search
         id={resolvedId}

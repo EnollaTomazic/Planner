@@ -3,6 +3,7 @@ export const CONTROL_VARIANTS = [
   "quiet",
   "neo",
   "glitch",
+  "sunken",
 ] as const;
 
 export type ControlVariant = (typeof CONTROL_VARIANTS)[number];

@@ -4,7 +4,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useFieldIds } from "@/lib/useFieldIds";
-import { Field } from "./Field";
+import { Field, type FieldVariant } from "./Field";
+import { type GlitchOverlayToken } from "./BlobContainer";
 import styles from "./Input.module.css";
 
 export type InputRingTone =
@@ -47,6 +48,10 @@ export type InputProps = Omit<
    * Falls back to `data-text`, `placeholder`, or `aria-label` when available.
    */
   glitchText?: string;
+  /** Sets the Field.Root variant */
+  variant?: FieldVariant;
+  /** Overrides the glitch overlay intensity */
+  glitchIntensity?: GlitchOverlayToken;
 };
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
@@ -63,6 +68,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
     ringTone,
     glitch = false,
     glitchText,
+    variant = "surface",
+    glitchIntensity,
     ...props
   },
   ref,
@@ -105,6 +112,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
       loading={loading}
       glitch={glitch}
       glitchText={resolvedGlitchText}
+      glitchIntensity={glitchIntensity}
+      variant={variant}
       className={cn(ringTone ? RING_TONE_CLASS_MAP[ringTone] : undefined, className)}
     >
       <Field.Input

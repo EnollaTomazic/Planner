@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 import {
   Field,
   Input,
+  InsetRow,
   Label,
   SearchBar,
   Select,
@@ -29,6 +30,7 @@ interface InputsPanelProps {
 }
 
 export function InputsPanel({ data }: InputsPanelProps) {
+  const insetRowErrorId = React.useId();
   const items = React.useMemo<PanelItem[]>(
     () =>
       [
@@ -188,6 +190,36 @@ export function InputsPanel({ data }: InputsPanelProps) {
           ),
         },
         {
+          label: "Inset row",
+          element: (
+            <InsetRow
+              label="Account lookup"
+              description="Connect to Riot to sync match history."
+              errorMessage="No matches found. Check the Summoner name and tag."
+              errorMessageId={insetRowErrorId}
+              contentClassName="md:grid-cols-2"
+            >
+              <Input
+                aria-label="Summoner name"
+                placeholder="Summoner name"
+                className="w-full"
+                variant="sunken"
+                glitch
+                glitchText="Summoner search"
+                aria-invalid="true"
+                aria-errormessage={insetRowErrorId}
+              />
+              <Input
+                aria-label="Summoner tag"
+                placeholder="#NA1"
+                className="w-full"
+                variant="sunken"
+              />
+            </InsetRow>
+          ),
+          className: "sm:col-span-2 md:col-span-12",
+        },
+        {
           label: "Input Variants",
           element: (
             <div style={sampleWidthStyle} className="space-y-[var(--space-2)]">
@@ -280,6 +312,7 @@ export function InputsPanel({ data }: InputsPanelProps) {
       data.selects.defaultVariant.onChange,
       data.selects.successVariant.value,
       data.selects.successVariant.onChange,
+      insetRowErrorId,
     ],
   );
 
