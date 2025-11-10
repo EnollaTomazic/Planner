@@ -7,6 +7,17 @@ import styles from "./Toggle.module.css";
 
 type Side = "Left" | "Right";
 
+interface ToggleProps {
+  readonly leftLabel?: string;
+  readonly rightLabel?: string;
+  readonly value?: Side;
+  readonly onChange?: (value: Side) => void;
+  readonly className?: string;
+  readonly disabled?: boolean;
+  readonly loading?: boolean;
+  readonly ariaLabel?: string;
+}
+
 const STATE_TOKEN_CLASSES =
   "[--toggle-hover-surface:hsl(var(--accent-1)/0.16)] [--toggle-active-surface:hsl(var(--accent-1)/0.26)] [--toggle-focus-ring:var(--ring-contrast)] [--toggle-focus-glow:var(--shadow-glow-md)]";
 
@@ -18,15 +29,8 @@ export function Toggle({
   className,
   disabled = false,
   loading = false,
-}: {
-  leftLabel?: string;
-  rightLabel?: string;
-  value?: Side;
-  onChange?: (v: Side) => void;
-  className?: string;
-  disabled?: boolean;
-  loading?: boolean;
-}) {
+  ariaLabel,
+}: ToggleProps) {
   const isRight = value === "Right";
   const id = React.useId();
   const leftId = `${id}-left`;
@@ -52,7 +56,8 @@ export function Toggle({
       type="button"
       role="switch"
       aria-checked={isRight}
-      aria-labelledby={`${leftId} ${rightId}`}
+      aria-labelledby={ariaLabel ? undefined : `${leftId} ${rightId}`}
+      aria-label={ariaLabel}
       aria-busy={loading || undefined}
       disabled={disabled}
       data-loading={loading || undefined}
