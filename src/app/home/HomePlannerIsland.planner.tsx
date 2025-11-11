@@ -15,7 +15,7 @@ import type {
   HeroPlannerHighlight,
   PlannerOverviewProps,
 } from "@/components/home"
-import { PageShell, Button, SectionCard, HeroPageHeader } from "@/components/ui"
+import { Hero, PageShell, Button, SectionCard } from "@/components/ui"
 import { GlitchNeoCard } from "@/components/ui/patterns"
 import { PlannerProvider } from "@/components/planner"
 import { useTheme } from "@/lib/theme-context"
@@ -353,28 +353,20 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <HeroPageHeader
-          containerClassName="col-span-full"
-          header={{
-            id: heroHeadingId,
-            heading: "Home",
-            icon: <HomeIcon className="h-5 w-5" aria-hidden />,
-            sticky: false,
-            tabIndex: -1,
-          }}
-          hero={{
-            sticky: false,
-            frame: true,
-            glitch: "default",
-            noiseLevel: "subtle",
-            eyebrow: "Glitch control brief",
-            title: "Planner control hub",
-            subtitle:
-              "Keep the weekly plan calm and intentional with synced pulses and a grounded focus lock.",
-            actions: heroActions,
-            children: <GlitchLandingHeroContent />,
-          }}
-        />
+        <Hero
+          icon={<HomeIcon className="h-5 w-5" aria-hidden />}
+          eyebrow="Glitch control brief"
+          title={<span id={heroHeadingId}>Planner control hub</span>}
+          subtitle="Keep the weekly plan calm and intentional with synced pulses and a grounded focus lock."
+          frame
+          glitch="default"
+          noiseLevel="subtle"
+          sticky={false}
+          actions={heroActions}
+          className="col-span-full md:col-span-12"
+        >
+          <GlitchLandingHeroContent />
+        </Hero>
       </PageShell>
       <PageShell
         as="main"
@@ -478,31 +470,22 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <HeroPageHeader
-          containerClassName="col-span-full"
-          header={{
-            id: heroHeadingId,
-            heading: "Home",
-            icon: <HomeIcon className="h-5 w-5" aria-hidden />,
-            sticky: false,
-            tabIndex: -1,
-          }}
-          hero={{
-            sticky: false,
-            frame: false,
-            tone: "supportive",
-            title: "Planner preview",
-            subtitle:
-              "Planner highlights your next focus day, surfaces weekly goals, and gives the team a quick win tracker.",
-            actions: heroActions,
-            bodyClassName: "space-y-[var(--space-3)] text-muted-foreground",
-            children: (
-              <p className="text-body">
-                Use the controls below to switch themes or open the full planner experience.
-              </p>
-            ),
-          }}
-        />
+        <Hero
+          icon={<HomeIcon className="h-5 w-5" aria-hidden />}
+          title={<span id={heroHeadingId}>Planner preview</span>}
+          subtitle="Planner highlights your next focus day, surfaces weekly goals, and gives the team a quick win tracker."
+          tone="supportive"
+          frame={false}
+          sticky={false}
+          actions={heroActions}
+          glitch="subtle"
+          bodyClassName="space-y-[var(--space-3)] text-muted-foreground"
+          className="col-span-full md:col-span-12"
+        >
+          <p className="text-body">
+            Use the controls below to switch themes or open the full planner experience.
+          </p>
+        </Hero>
       </PageShell>
       <PageShell
         as="main"
