@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
-    "@sentry/nextjs": "^8.35.0",
+    "@sentry/nextjs": "^10.25.0",
     "clsx": "^2.1.1",
     "framer-motion": "12.23.24",
     "fuse.js": "^7.1.0",
@@ -92,7 +92,7 @@
     "commitizen": "^4.3.1",
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
-    "eslint": "9.39.0",
+    "eslint": "9.39.1",
     "eslint-config-next": "16.0.1",
     "eslint-config-prettier": "^10.1.8",
     "fast-glob": "^3.3.3",
