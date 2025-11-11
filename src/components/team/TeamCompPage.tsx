@@ -36,9 +36,10 @@ import { MyComps } from "./MyComps";
 import { usePersistentState } from "@/lib/db";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Button } from "@/components/ui/primitives/Button";
-import { HeroPageHeader, PageShell, Badge, TabBar } from "@/components/ui";
+import { Hero, PageShell, Badge, TabBar } from "@/components/ui";
 import type { BadgeProps } from "@/components/ui";
 import type { ClearSpeed } from "./data";
+import { cn } from "@/lib/utils";
 
 type Tab = "cheat" | "builder" | "clears";
 type SubTab = "sheet" | "comps";
@@ -517,6 +518,15 @@ export function TeamCompPage() {
     toggleEditing,
   ]);
 
+  const {
+    eyebrow: heroEyebrow,
+    title: heroTitle,
+    subtitle: heroSubtitle,
+    children: heroChildren,
+    className: heroClassName,
+    ...heroRest
+  } = hero;
+
   return (
     <>
       <PageShell
@@ -526,19 +536,33 @@ export function TeamCompPage() {
         contentClassName="gap-y-[var(--space-6)]"
         aria-labelledby="teamcomp-header"
       >
-        <HeroPageHeader
-          containerClassName="col-span-full"
-          header={{
-            id: "teamcomp-header",
-            eyebrow: "Comps",
-            heading: "Team Comps",
-            subtitle: "Readable. Fast. On brand.",
-            icon: <Users2 className="opacity-80" />,
-            underline: true,
-            sticky: true,
-          }}
-          hero={hero}
-        />
+        <Hero<SubTab>
+          id="teamcomp-header"
+          icon={<Users2 className="opacity-80" />}
+          eyebrow="Comps"
+          title="Team Comps"
+          subtitle="Readable. Fast. On brand."
+          glitch="subtle"
+          className={cn("col-span-full md:col-span-12", heroClassName)}
+          {...heroRest}
+        >
+          <div className="space-y-[var(--space-3)]">
+            {heroEyebrow ? (
+              <span className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
+                {heroEyebrow}
+              </span>
+            ) : null}
+            {heroTitle ? (
+              <span className="text-title font-semibold tracking-[-0.01em]">
+                {heroTitle}
+              </span>
+            ) : null}
+            {heroSubtitle ? (
+              <div className="text-ui text-muted-foreground">{heroSubtitle}</div>
+            ) : null}
+            {heroChildren}
+          </div>
+        </Hero>
       </PageShell>
 
       <PageShell
