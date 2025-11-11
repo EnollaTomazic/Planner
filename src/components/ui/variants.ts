@@ -15,6 +15,7 @@ export const CONTROL_VARIANT_ALIASES = {
   plain: "default",
   primary: "default",
   secondary: "neo",
+  destructive: "default",
 } as const satisfies Record<string, ControlVariant>;
 
 export type DeprecatedControlVariant = keyof typeof CONTROL_VARIANT_ALIASES;

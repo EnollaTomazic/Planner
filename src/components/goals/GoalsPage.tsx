@@ -491,20 +491,50 @@ function GoalsPageContent() {
     };
   }, [tab, query, handleReminderSearchChange, reminderCount]);
 
-  const reminderHeroActions = React.useMemo(() => {
-    if (tab !== "reminders") return undefined;
-    return (
-      <Button
-        variant="default"
-        size="md"
-        className="whitespace-nowrap"
-        onClick={handleAddReminder}
-      >
-        <Plus />
-        <span>New Reminder</span>
-      </Button>
-    );
-  }, [tab, handleAddReminder]);
+  const heroActions = React.useMemo(() => {
+    if (tab === "reminders") {
+      return (
+        <Button
+          variant="default"
+          size="md"
+          className="whitespace-nowrap"
+          onClick={handleAddReminder}
+        >
+          <Plus />
+          <span>New Reminder</span>
+        </Button>
+      );
+    }
+
+    if (tab === "goals") {
+      return (
+        <Button
+          type="button"
+          size="sm"
+          variant="destructive"
+          tone="danger"
+          className="w-full shrink-0 md:w-auto"
+          onClick={handleOpenNuke}
+          disabled={totalCount === 0}
+          aria-haspopup="dialog"
+          aria-controls={confirmClearOpen ? nukeDialogId : undefined}
+          title="Delete all goals"
+        >
+          <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
+          <span className="font-semibold tracking-[0.01em]">Nuke all</span>
+        </Button>
+      );
+    }
+
+    return undefined;
+  }, [
+    tab,
+    handleAddReminder,
+    handleOpenNuke,
+    totalCount,
+    confirmClearOpen,
+    nukeDialogId,
+  ]);
 
   return (
     <>
@@ -531,7 +561,7 @@ function GoalsPageContent() {
           }}
           subTabs={reminderHeroSubTabs}
           searchBar={reminderHeroSearch}
-          actions={reminderHeroActions}
+          actions={heroActions}
           className="col-span-full md:col-span-12"
         >
           <div className="space-y-[var(--space-3)]">
@@ -585,21 +615,6 @@ function GoalsPageContent() {
                         <span className="font-semibold tracking-[0.01em]">New goal</span>
                       </Button>
                       <GoalsTabs value={filter} onChange={setFilter} />
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="neo"
-                        tone="danger"
-                        className="w-full shrink-0 sm:w-auto"
-                        onClick={handleOpenNuke}
-                        disabled={totalCount === 0}
-                        aria-haspopup="dialog"
-                        aria-controls={confirmClearOpen ? nukeDialogId : undefined}
-                        title="Delete all goals"
-                      >
-                        <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
-                        <span className="font-semibold tracking-[0.01em]">Nuke all</span>
-                      </Button>
                     </div>
                   </SectionCard.Header>
                   <SectionCard.Body>
