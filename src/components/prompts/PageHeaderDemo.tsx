@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import {
-  HeroPageHeader,
   Header,
   Hero,
+  PageShell,
   NeomorphicHeroFrame,
   Button,
   ThemeToggle,
@@ -272,32 +272,18 @@ export function PageHeaderDemo() {
         </div>
       </NeomorphicHeroFrame>
 
-      <HeroPageHeader
-        id="page-header-demo"
-        aria-labelledby="page-header-demo-heading"
-        subTabs={{
-          items: heroFilters,
-          value: activeFilter,
-          onChange: (key) => setActiveFilter(key as HeroFilter),
-          ariaLabel: "Filter planner highlights",
-        }}
-        searchBar={{
-          id: "page-header-demo-search",
-          value: query,
-          onValueChange: setQuery,
-          debounceMs: 200,
-          placeholder: "Search upcoming scrims…",
-          "aria-label": "Search planner highlights",
-        }}
-        header={{
-          heading: (
+      <PageShell as="header" grid>
+        <Hero
+          id="page-header-demo"
+          aria-labelledby="page-header-demo-heading"
+          eyebrow="Daily briefing"
+          title={
             <span id="page-header-demo-heading">
               Welcome to Planner — plan smarter with multi-line titles
             </span>
-          ),
-          subtitle:
-            "Plan your day, track goals, and review games with a calm single-frame hero.",
-          icon: (
+          }
+          subtitle="Plan your day, track goals, and review games with a calm single-frame hero."
+          icon={
             <Image
               src={plannerLogoSrc}
               alt="Planner logo"
@@ -305,28 +291,26 @@ export function PageHeaderDemo() {
               height={48}
               className="h-[var(--control-h-lg)] w-auto object-contain"
             />
-          ),
-          sticky: false,
-          rail: false,
-          barClassName: "p-0",
-        }}
-        hero={{
-          eyebrow: "Daily briefing",
-          heading: "Your day at a glance",
-          subtitle: "Stay synced with the squad",
-          children: (
-            <div className="space-y-[var(--space-2)]">
-              <p className="text-ui text-muted-foreground">
-                {heroFilterCopy[activeFilter]}
-              </p>
-              <p className="text-ui text-muted-foreground">
-                Filters, search, and quick actions now snap to the frame’s
-                12-column grid so the controls stay aligned with the story
-                content below.
-              </p>
-            </div>
-          ),
-          actions: (
+          }
+          sticky={false}
+          glitch="subtle"
+          barClassName="p-0"
+          topClassName="top-0"
+          subTabs={{
+            items: heroFilters,
+            value: activeFilter,
+            onChange: (key) => setActiveFilter(key as HeroFilter),
+            ariaLabel: "Filter planner highlights",
+          }}
+          searchBar={{
+            id: "page-header-demo-search",
+            value: query,
+            onValueChange: setQuery,
+            debounceMs: 200,
+            placeholder: "Search upcoming scrims…",
+            "aria-label": "Search planner highlights",
+          }}
+          actions={
             <>
               <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
               <Button
@@ -337,35 +321,34 @@ export function PageHeaderDemo() {
                 Plan Week
               </Button>
             </>
-          ),
-          sticky: false,
-          topClassName: "top-0",
-          barClassName: "p-0",
-        }}
-      />
-      <HeroPageHeader
-        id="page-header-elevated"
-        aria-labelledby="page-header-elevated-heading"
-        subTabs={{
-          items: heroFilters,
-          value: activeFilter,
-          onChange: (key) => setActiveFilter(key as HeroFilter),
-          ariaLabel: "Filter spotlight content",
-        }}
-        searchBar={{
-          id: "page-header-elevated-search",
-          value: query,
-          onValueChange: setQuery,
-          debounceMs: 200,
-          placeholder: "Search highlight reels…",
-          "aria-label": "Search highlight reels",
-        }}
-        header={{
-          heading: (
-            <span id="page-header-elevated-heading">Planner Spotlight</span>
-          ),
-          subtitle: "Stage a high-energy announcement right in the app.",
-          icon: (
+          }
+          className="col-span-full md:col-span-12"
+        >
+          <div className="space-y-[var(--space-2)]">
+            <span className="text-title font-semibold tracking-[-0.01em]">
+              Your day at a glance
+            </span>
+            <p className="text-ui text-muted-foreground">Stay synced with the squad</p>
+          </div>
+          <div className="space-y-[var(--space-2)]">
+            <p className="text-ui text-muted-foreground">
+              {heroFilterCopy[activeFilter]}
+            </p>
+            <p className="text-ui text-muted-foreground">
+              Filters, search, and quick actions now snap to the frame’s 12-column
+              grid so the controls stay aligned with the story content below.
+            </p>
+          </div>
+        </Hero>
+      </PageShell>
+      <PageShell as="header" grid>
+        <Hero
+          id="page-header-elevated"
+          aria-labelledby="page-header-elevated-heading"
+          eyebrow="Launch highlight"
+          title={<span id="page-header-elevated-heading">Planner Spotlight</span>}
+          subtitle="Stage a high-energy announcement right in the app."
+          icon={
             <Image
               src={plannerLogoSrc}
               alt="Planner logo"
@@ -373,24 +356,28 @@ export function PageHeaderDemo() {
               height={48}
               className="h-[var(--control-h-lg)] w-auto object-contain"
             />
-          ),
-          sticky: false,
-          rail: false,
-          barClassName: "p-0",
-        }}
-        hero={{
-          eyebrow: "Launch highlight",
-          heading: "Rally the squad",
-          subtitle: "Pull focus for milestone beats",
-          tone: "heroic",
-          frame: true,
-          children: (
-            <p className="text-ui text-muted-foreground">
-              Spotlight a major update with the neon treatment while keeping
-              navigation close at hand.
-            </p>
-          ),
-          actions: (
+          }
+          sticky={false}
+          glitch="subtle"
+          barClassName="p-0"
+          topClassName="top-0"
+          tone="heroic"
+          frame
+          subTabs={{
+            items: heroFilters,
+            value: activeFilter,
+            onChange: (key) => setActiveFilter(key as HeroFilter),
+            ariaLabel: "Filter spotlight content",
+          }}
+          searchBar={{
+            id: "page-header-elevated-search",
+            value: query,
+            onValueChange: setQuery,
+            debounceMs: 200,
+            placeholder: "Search highlight reels…",
+            "aria-label": "Search highlight reels",
+          }}
+          actions={
             <div className="flex items-center gap-[var(--space-2)]">
               <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
               <Button
@@ -401,12 +388,23 @@ export function PageHeaderDemo() {
                 Launch Event
               </Button>
             </div>
-          ),
-          sticky: false,
-          topClassName: "top-0",
-          barClassName: "p-0",
-        }}
-      />
+          }
+          className="col-span-full md:col-span-12"
+        >
+          <div className="space-y-[var(--space-2)]">
+            <span className="text-title font-semibold tracking-[-0.01em]">
+              Rally the squad
+            </span>
+            <p className="text-ui text-muted-foreground">
+              Pull focus for milestone beats
+            </p>
+          </div>
+          <p className="text-ui text-muted-foreground">
+            Spotlight a major update with the neon treatment while keeping navigation
+            close at hand.
+          </p>
+        </Hero>
+      </PageShell>
       <p className="text-ui text-muted-foreground">
         PageHeader now routes shared sub-tabs, search, and quick actions into
         the frame’s action grid so controls align with the 12-column layout
