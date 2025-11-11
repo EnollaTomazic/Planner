@@ -26,7 +26,7 @@ import {
 
 import { type HeaderTab } from "@/components/ui/layout/Header";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
-import { Snackbar, HeroPageHeader, PageShell, Modal } from "@/components/ui";
+import { Hero, Snackbar, PageShell, Modal } from "@/components/ui";
 import { GlitchNeoCard } from "@/components/ui/patterns";
 import { PlannerProvider } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
@@ -462,9 +462,9 @@ function GoalsPageContent() {
   const reminderHeroSubTabs = React.useMemo(() => {
     if (tab !== "reminders") return undefined;
     return {
-      items: DOMAIN_ITEMS,
-      value: domain,
-      onChange: handleDomainChange,
+      items: DOMAIN_ITEMS as HeaderTab<Tab | Domain>[],
+      value: domain as Tab | Domain,
+      onChange: (key: Tab | Domain) => handleDomainChange(key as Domain),
       align: "end" as const,
       size: "md" as const,
       ariaLabel: "Reminder domain",
@@ -508,48 +508,46 @@ function GoalsPageContent() {
 
   return (
     <>
-      <PageShell as="header" className="py-[var(--space-6)]">
-        <HeroPageHeader
-          header={{
-            id: "goals-header",
-            eyebrow: "Goals",
-            heading: "Today’s Goals",
-            subtitle: summary,
-            icon: <Flag className="opacity-80" />,
-            sticky: false,
-            barClassName:
-              "flex-col items-start justify-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between sm:gap-[var(--space-4)]",
-            tabs: {
-              items: TABS,
-              value: tab,
-              onChange: handleTabChange,
-              ariaLabel: "Goals header mode",
-              idBase: GOALS_TABS_ID_BASE,
-            },
-          }}
-          hero={{
-            id: HERO_REGION_ID,
-            role: "region",
-            eyebrow: heroEyebrow,
-            title: heroHeading,
-            subtitle: heroSubtitle,
-            sticky: false,
-            topClassName: GOALS_STICKY_TOP_CLASS,
-            dividerTint: heroDividerTint,
-            "aria-labelledby": heroHeadingId,
-            "aria-describedby": heroAriaDescribedby,
+      <PageShell as="header" grid className="py-[var(--space-6)]">
+        <Hero<Tab | Domain>
+          id={HERO_REGION_ID}
+          role="region"
+          aria-labelledby={heroHeadingId}
+          aria-describedby={heroAriaDescribedby}
+          icon={<Flag className="opacity-80" />}
+          eyebrow="Goals"
+          title={heroHeading}
+          subtitle={heroSubtitle}
+          sticky={false}
+          glitch="subtle"
+          topClassName={GOALS_STICKY_TOP_CLASS}
+          dividerTint={heroDividerTint}
+          tabs={{
+            items: TABS,
+            value: tab,
+            onChange: handleTabChange,
+            ariaLabel: "Goals header mode",
+            idBase: GOALS_TABS_ID_BASE,
           }}
           subTabs={reminderHeroSubTabs}
           searchBar={reminderHeroSearch}
           actions={reminderHeroActions}
-        />
+          className="col-span-full md:col-span-12"
+        >
+          <div className="space-y-[var(--space-3)]">
+            <span className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
+              {heroEyebrow}
+            </span>
+            {summary}
+          </div>
+        </Hero>
       </PageShell>
 
       <PageShell
         as="main"
         id="page-main"
         tabIndex={-1}
-        aria-labelledby="goals-header"
+        aria-labelledby={heroHeadingId}
         className="py-[var(--space-6)]"
       >
         <div className="grid gap-[var(--space-6)]">
