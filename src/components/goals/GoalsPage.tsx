@@ -25,12 +25,12 @@ import {
 } from "lucide-react";
 
 import { type HeaderTab } from "@/components/ui/layout/Header";
-import { SectionCard } from "@/components/ui/layout/SectionCard";
 import { Hero, Snackbar, PageShell, Modal } from "@/components/ui";
 import { GlitchNeoCard } from "@/components/ui/patterns";
 import { PlannerProvider } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
 import {
+  Card,
   CardHeader,
   CardTitle,
   CardDescription,
@@ -50,6 +50,7 @@ import { GOALS_STICKY_TOP_CLASS } from "./constants";
 import { usePersistentState } from "@/lib/db";
 import { useGoals, ACTIVE_CAP } from "./useGoals";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
+import { Progress } from "@/components/ui/feedback/Progress";
 
 /* Tabs */
 import { RemindersTab } from "./RemindersTab";
@@ -332,6 +333,14 @@ function GoalsPageContent() {
   const remaining = Math.max(0, ACTIVE_CAP - activeCount);
   const isAtCap = remaining === 0;
   const pctDone = totalCount ? Math.round((doneCount / totalCount) * 100) : 0;
+  const activeCapPct =
+    ACTIVE_CAP > 0
+      ? Math.min(100, Math.max(0, Math.round((activeCount / ACTIVE_CAP) * 100)))
+      : 0;
+  const remainingCapPct =
+    ACTIVE_CAP > 0
+      ? Math.min(100, Math.max(0, Math.round((remaining / ACTIVE_CAP) * 100)))
+      : 0;
 
   const handleConfirmNuke = React.useCallback(() => {
     if (totalCount > 0) {
@@ -562,65 +571,98 @@ function GoalsPageContent() {
           >
             {tab === "goals" && (
               <div className="grid gap-[var(--space-4)]">
-              <div className="space-y-[var(--space-2)]">
-                <SectionCard className="card-neo-soft">
-                  <SectionCard.Header
-                    sticky
-                    topClassName={GOALS_STICKY_TOP_CLASS}
-                    className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-between"
-                  >
-                    <div className="flex items-center gap-[var(--space-2)] sm:gap-[var(--space-4)]">
-                      <h2 className="text-title font-semibold tracking-[-0.01em]">Your Goals</h2>
-                      <GoalsProgress total={totalCount} pct={pctDone} />
-                    </div>
-                    <div className="flex w-full flex-col gap-[var(--space-2)] sm:w-auto sm:flex-row sm:items-center sm:justify-end sm:gap-[var(--space-3)]">
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="default"
-                        className="w-full shrink-0 sm:w-auto"
-                        onClick={startGoalCreation}
-                      >
-                        <Plus aria-hidden="true" className="size-[var(--space-4)]" />
-                        <span className="font-semibold tracking-[0.01em]">New goal</span>
-                      </Button>
-                      <GoalsTabs value={filter} onChange={setFilter} />
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="neo"
-                        tone="danger"
-                        className="w-full shrink-0 sm:w-auto"
-                        onClick={handleOpenNuke}
-                        disabled={totalCount === 0}
-                        aria-haspopup="dialog"
-                        aria-controls={confirmClearOpen ? nukeDialogId : undefined}
-                        title="Delete all goals"
-                      >
-                        <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
-                        <span className="font-semibold tracking-[0.01em]">Nuke all</span>
-                      </Button>
-                    </div>
-                  </SectionCard.Header>
-                  <SectionCard.Body>
-                    {totalCount === 0 ? (
-                      <div className="flex flex-col items-center gap-[var(--space-4)] py-[var(--space-6)] text-center">
-                        <p className="text-ui font-medium text-muted-foreground">No goals yet.</p>
-                        <Button onClick={handleAddFirst} size="sm" variant="default">
-                          Add a first goal
+                <div className="space-y-[var(--space-2)]">
+                  <Card className="card-neo-soft shadow-depth-outer-strong p-0">
+                    <CardHeader
+                      className={`sticky ${GOALS_STICKY_TOP_CLASS} z-10 space-y-0 gap-[var(--space-3)] border-b border-card-hairline/50 bg-card/95 px-[var(--space-4)] py-[var(--space-4)] supports-[backdrop-filter]:backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between`}
+                    >
+                      <div className="flex items-center gap-[var(--space-2)] sm:gap-[var(--space-4)]">
+                        <h2 className="text-title font-semibold tracking-[-0.01em]">Your Goals</h2>
+                        <GoalsProgress total={totalCount} pct={pctDone} />
+                      </div>
+                      <div className="flex w-full flex-col gap-[var(--space-2)] sm:w-auto sm:flex-row sm:items-center sm:justify-end sm:gap-[var(--space-3)]">
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="default"
+                          className="w-full shrink-0 sm:w-auto"
+                          onClick={startGoalCreation}
+                        >
+                          <Plus aria-hidden="true" className="size-[var(--space-4)]" />
+                          <span className="font-semibold tracking-[0.01em]">New goal</span>
+                        </Button>
+                        <GoalsTabs value={filter} onChange={setFilter} />
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="neo"
+                          tone="danger"
+                          className="w-full shrink-0 sm:w-auto"
+                          onClick={handleOpenNuke}
+                          disabled={totalCount === 0}
+                          aria-haspopup="dialog"
+                          aria-controls={confirmClearOpen ? nukeDialogId : undefined}
+                          title="Delete all goals"
+                        >
+                          <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
+                          <span className="font-semibold tracking-[0.01em]">Nuke all</span>
                         </Button>
                       </div>
-                    ) : (
-                      <GoalList
-                        goals={filtered}
-                        onToggleDone={toggleDone}
-                        onRemove={removeGoal}
-                        onUpdate={updateGoal}
-                      />
-                    )}
-                  </SectionCard.Body>
-                </SectionCard>
-              </div>
+                    </CardHeader>
+                    <CardContent className="space-y-[var(--space-4)] px-[var(--space-4)] pb-[var(--space-4)] pt-0">
+                      <dl
+                        className="grid gap-[var(--space-3)] sm:grid-cols-3"
+                        aria-label="Goal progress overview"
+                      >
+                        <div className="flex flex-col gap-[var(--space-3)] rounded-card border border-card-hairline/60 bg-surface/80 p-[var(--space-3)] shadow-depth-soft">
+                          <dt className="text-label font-semibold uppercase tracking-[0.08em] text-muted-foreground">Completed</dt>
+                          <dd className="flex items-center justify-between gap-[var(--space-3)]">
+                            <GoalsProgress total={totalCount} pct={pctDone} maxWidth={64} />
+                            <div className="text-right">
+                              <p className="text-title font-semibold tracking-[-0.01em] tabular-nums">{doneCount}</p>
+                              <p className="text-ui text-muted-foreground">of {totalCount}</p>
+                            </div>
+                          </dd>
+                        </div>
+                        <div className="flex flex-col gap-[var(--space-3)] rounded-card border border-card-hairline/60 bg-surface/80 p-[var(--space-3)] shadow-depth-soft">
+                          <dt className="text-label font-semibold uppercase tracking-[0.08em] text-muted-foreground">Active</dt>
+                          <dd className="space-y-[var(--space-2)]">
+                            <div className="flex items-baseline justify-between">
+                              <p className="text-title font-semibold tracking-[-0.01em] tabular-nums">{activeCount}</p>
+                              <span className="text-label font-medium tracking-[0.02em] text-muted-foreground">cap {ACTIVE_CAP}</span>
+                            </div>
+                            <Progress value={activeCapPct} label="Active goals usage" />
+                          </dd>
+                        </div>
+                        <div className="flex flex-col gap-[var(--space-3)] rounded-card border border-card-hairline/60 bg-surface/80 p-[var(--space-3)] shadow-depth-soft">
+                          <dt className="text-label font-semibold uppercase tracking-[0.08em] text-muted-foreground">Remaining</dt>
+                          <dd className="space-y-[var(--space-2)]">
+                            <div className="flex items-baseline justify-between">
+                              <p className="text-title font-semibold tracking-[-0.01em] tabular-nums">{remaining}</p>
+                              <span className="text-label font-medium tracking-[0.02em] text-muted-foreground">cap {ACTIVE_CAP}</span>
+                            </div>
+                            <Progress value={remainingCapPct} label="Remaining goal capacity" />
+                          </dd>
+                        </div>
+                      </dl>
+                      {totalCount === 0 ? (
+                        <div className="flex flex-col items-center gap-[var(--space-4)] py-[var(--space-6)] text-center">
+                          <p className="text-ui font-medium text-muted-foreground">No goals yet.</p>
+                          <Button onClick={handleAddFirst} size="sm" variant="default">
+                            Add a first goal
+                          </Button>
+                        </div>
+                      ) : (
+                        <GoalList
+                          goals={filtered}
+                          onToggleDone={toggleDone}
+                          onRemove={removeGoal}
+                          onUpdate={updateGoal}
+                        />
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
 
               <div ref={formRef} id="goal-form">
                 <GlitchNeoCard padding="var(--space-4)">

@@ -84,21 +84,51 @@ describe("GoalsPage", () => {
 
   it("renders dynamic subtitle with counts", () => {
     render(<GoalsPage />);
-    const headerHeading = screen.getByRole("heading", {
-      name: "Today’s Goals",
+    const goalsHeading = screen.getByRole("heading", {
+      name: "Your Goals",
     });
-    const summaryList = headerHeading.parentElement?.querySelector(
-      ":scope > span ul",
-    );
-    if (!(summaryList instanceof HTMLElement)) {
-      throw new Error("Expected header summary list to render");
+    const goalsCard = goalsHeading.closest<HTMLElement>("[data-depth]");
+    if (!goalsCard) {
+      throw new Error("Expected goals card container to be found");
     }
-    const items = within(summaryList).getAllByRole("listitem");
-    expect(items).toHaveLength(4);
-    expect(items[0]).toHaveTextContent(/Cap\s*3\s*active/);
-    expect(items[1]).toHaveTextContent(/Remaining\s*3/);
-    expect(items[2]).toHaveTextContent(/Complete\s*0%/);
-    expect(items[3]).toHaveTextContent(/Total\s*0/);
+
+    const metricsList = goalsCard.querySelector(
+      "dl[aria-label='Goal progress overview']",
+    );
+    if (!(metricsList instanceof HTMLDListElement)) {
+      throw new Error("Expected goal metrics to render as a definition list");
+    }
+
+    const [completedDt, activeDt, remainingDt] = Array.from(
+      metricsList.querySelectorAll("dt"),
+    );
+    expect(completedDt?.textContent).toContain("Completed");
+    expect(activeDt?.textContent).toContain("Active");
+    expect(remainingDt?.textContent).toContain("Remaining");
+
+    const completedDd = completedDt?.nextElementSibling as HTMLElement | null;
+    const activeDd = activeDt?.nextElementSibling as HTMLElement | null;
+    const remainingDd = remainingDt?.nextElementSibling as HTMLElement | null;
+
+    if (!completedDd || !activeDd || !remainingDd) {
+      throw new Error("Expected each metric to include a definition value");
+    }
+
+    expect(within(completedDd).getByText("0%"))
+      .toBeInTheDocument();
+    expect(within(completedDd).getByText(/of\s+0/)).toBeInTheDocument();
+
+    const activeProgress = within(activeDd).getByRole("progressbar", {
+      name: "Active goals usage",
+    });
+    expect(activeProgress).toHaveAttribute("aria-valuenow", "0");
+    expect(activeDd).toHaveTextContent(/cap\s*3/i);
+
+    const remainingProgress = within(remainingDd).getByRole("progressbar", {
+      name: "Remaining goal capacity",
+    });
+    expect(remainingProgress).toHaveAttribute("aria-valuenow", "100");
+    expect(remainingDd).toHaveTextContent(/cap\s*3/i);
   });
 
   it("shows domain in reminders hero and updates on change", () => {
@@ -111,7 +141,9 @@ describe("GoalsPage", () => {
       .getByRole("heading", { name: "Reminders" })
       .closest("section") as HTMLElement;
     expect(
-      within(heroSection).getByText("League", { selector: "div" }),
+      within(heroSection).getByText("League", {
+        selector: "span.text-label",
+      }),
     ).toBeInTheDocument();
 
     const domainTabs = screen.getByRole("tablist", {
@@ -119,7 +151,9 @@ describe("GoalsPage", () => {
     });
     fireEvent.click(within(domainTabs).getByRole("tab", { name: "Life" }));
     expect(
-      within(heroSection).getByText("Life", { selector: "div" }),
+      within(heroSection).getByText("Life", {
+        selector: "span.text-label",
+      }),
     ).toBeInTheDocument();
   });
 
