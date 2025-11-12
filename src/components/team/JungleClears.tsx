@@ -10,8 +10,9 @@
  */
 
 import * as React from "react";
-import { SectionCard } from "@/components/ui/layout/SectionCard";
+import { AIExplainTooltip } from "@/components/ui/ai/AIExplainTooltip";
 import { AvatarFrame } from "@/components/ui/primitives/AvatarFrame";
+import { Card, CardContent } from "@/components/ui/primitives/Card";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Input } from "@/components/ui/primitives/Input";
 import { usePersistentState, uid } from "@/lib/db";
@@ -214,7 +215,7 @@ type EditingRowProps = {
   onCancel: () => void;
 };
 
-type ChampionCardProps = {
+type ChampionItemProps = {
   row: JunglerRow;
   editing: boolean;
   onStartEdit: (row: JunglerRow) => void;
@@ -242,7 +243,7 @@ const EditingRow = React.memo(function EditingRow({
   );
 
   return (
-    <div className="flex min-w-[18rem] flex-col gap-[var(--space-2)] rounded-xl border border-dashed border-primary/40 bg-card/70 p-[var(--space-3)] shadow-sm">
+    <div className="flex min-w-[18rem] max-w-[20rem] flex-col gap-[var(--space-2)] rounded-lg border border-dashed border-primary/40 bg-surface/90 p-[var(--space-3)]">
       <Input
         aria-label="Champion"
         name="champion"
@@ -297,25 +298,42 @@ const getInitials = (name: string) => {
   return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
 };
 
-const ChampionCard = React.memo(function ChampionCard({
+const ChampionItem = React.memo(function ChampionItem({
   row,
   editing,
   onStartEdit,
   onDeleteRow,
-}: ChampionCardProps) {
+}: ChampionItemProps) {
   const initials = React.useMemo(() => getInitials(row.champ), [row.champ]);
 
   return (
-    <div
+    <figure
       data-testid="jungle-card"
-      className="relative flex min-w-[18rem] flex-col gap-[var(--space-2)] rounded-xl border border-border/60 bg-card/80 p-[var(--space-3)] shadow-sm"
+      className="flex min-w-[8rem] max-w-[10rem] flex-col items-center gap-[var(--space-2)] rounded-lg border border-border/60 bg-surface/90 p-[var(--space-3)] text-center"
+      title={row.notes ?? undefined}
     >
-      {editing && (
-        <div className="absolute right-[var(--space-2)] top-[var(--space-2)] flex gap-[var(--space-1)]">
+      <AvatarFrame
+        frame={false}
+        size="sm"
+        className="bg-muted text-muted-foreground"
+        surfaceClassName="bg-muted"
+      >
+        <span className="text-sm font-semibold uppercase text-foreground">{initials}</span>
+      </AvatarFrame>
+      <figcaption className="flex w-full flex-col items-center gap-[var(--space-1)]">
+        <span className="text-sm font-medium text-foreground">{row.champ}</span>
+        {row.type.length > 0 ? (
+          <span className="text-label uppercase tracking-[0.08em] text-muted-foreground">
+            {row.type.join(" • ")}
+          </span>
+        ) : null}
+      </figcaption>
+      {editing ? (
+        <div className="flex gap-[var(--space-1)]">
           <IconButton
             size="sm"
             iconSize="xs"
-            aria-label="Edit"
+            aria-label={`Edit ${row.champ}`}
             onClick={() => onStartEdit(row)}
           >
             <Pencil />
@@ -324,42 +342,14 @@ const ChampionCard = React.memo(function ChampionCard({
             size="sm"
             iconSize="xs"
             tone="danger"
-            aria-label="Delete"
+            aria-label={`Delete ${row.champ}`}
             onClick={() => onDeleteRow(row.id)}
           >
             <Trash2 />
           </IconButton>
         </div>
-      )}
-      <div className="flex items-start gap-[var(--space-3)]">
-        <AvatarFrame
-          frame={false}
-          size="sm"
-          className="bg-muted text-muted-foreground"
-          surfaceClassName="bg-muted"
-        >
-          <span className="text-sm font-semibold uppercase text-foreground">{initials}</span>
-        </AvatarFrame>
-        <div className="flex flex-1 flex-col gap-[var(--space-1)] pr-[var(--space-7)]">
-          <span className="text-sm font-medium text-foreground">{row.champ}</span>
-          {row.notes ? (
-            <span className="text-xs text-muted-foreground">{row.notes}</span>
-          ) : null}
-        </div>
-      </div>
-      {row.type.length > 0 ? (
-        <div className="flex flex-wrap gap-[var(--space-1)]">
-          {row.type.map((t, index) => (
-            <span
-              key={`${row.id}-${index}`}
-              className="pill pill-compact text-label text-xs"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
       ) : null}
-    </div>
+    </figure>
   );
 });
 
@@ -382,92 +372,78 @@ const BucketSection = React.memo(function BucketSection({
   }, [onAddRow, bucket]);
 
   return (
-    <SectionCard
-      className="col-span-12"
-      variant="plain"
-      noiseLevel="none"
-    >
-      <SectionCard.Header
-        title={
-          <div className="flex items-center gap-[var(--space-3)]">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground">
-              <Timer className="h-5 w-5" aria-hidden />
-            </span>
-            <div>
-              <p className="text-title-sm font-semibold text-foreground">{bucket}</p>
-              <p className="text-sm text-muted-foreground">
-                {SPEED_PERSONA[bucket].line}
-              </p>
+    <li className="flex flex-col gap-[var(--space-3)] py-[var(--space-4)]">
+      <div className="flex flex-wrap items-start justify-between gap-[var(--space-3)]">
+        <div className="flex min-w-0 items-center gap-[var(--space-3)]">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground">
+            <Timer className="h-5 w-5" aria-hidden />
+          </span>
+          <div className="flex min-w-0 flex-col gap-[var(--space-1)]">
+            <p className="text-title-sm font-semibold text-foreground">{bucket}</p>
+            <div className="flex flex-wrap items-center gap-[var(--space-2)] text-xs text-muted-foreground">
+              <span>{SPEED_TIME[bucket]} target</span>
+              <span aria-hidden className="text-muted-foreground/60">
+                •
+              </span>
+              <AIExplainTooltip
+                triggerLabel={SPEED_PERSONA[bucket].tag}
+                explanation={SPEED_PERSONA[bucket].line}
+                tone="neutral"
+              />
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-2)] text-xs text-muted-foreground">
+              <span>Example: {exampleChampion}</span>
+              <span aria-hidden className="text-muted-foreground/60">
+                •
+              </span>
+              <span>{totalCount} tracked</span>
             </div>
           </div>
-        }
-        actions={
-          <div className="text-right">
-            <p
-              className="text-sm font-medium text-foreground"
-              aria-label="Expected first-clear timing"
-              title="Expected first-clear timing"
+        </div>
+        <div className="flex items-center gap-[var(--space-2)]">
+          <span className="text-xs uppercase tracking-wide text-muted-foreground">
+            Champions
+          </span>
+          {editing && (
+            <IconButton
+              size="sm"
+              iconSize="xs"
+              aria-label={`Add champion to ${bucket}`}
+              onClick={handleAddRow}
             >
-              {SPEED_TIME[bucket]}
-            </p>
-            <p className="text-xs text-muted-foreground">{SPEED_PERSONA[bucket].tag}</p>
-          </div>
-        }
-      />
-      <SectionCard.Body className="space-y-[var(--space-3)]">
-        <p className="text-sm text-muted-foreground">{SPEED_HINT[bucket]}</p>
-        <div className="flex flex-wrap items-center gap-[var(--space-2)] text-xs text-muted-foreground">
-          <span className="font-medium text-foreground">Example:</span>
-          <span className="pill pill-compact text-label">{exampleChampion}</span>
-          <span>({totalCount} total)</span>
+              <Plus />
+            </IconButton>
+          )}
         </div>
-        <div className="border-t border-border/60 pt-[var(--space-3)]">
-          <div className="mb-[var(--space-2)] flex justify-between gap-[var(--space-2)]">
-            <span className="text-xs uppercase tracking-wide text-muted-foreground">
-              Champions
-            </span>
-            {editing && (
-              <IconButton
-                size="sm"
-                iconSize="xs"
-                aria-label="Add row"
-                onClick={handleAddRow}
-                variant="default"
-              >
-                <Plus />
-              </IconButton>
-            )}
+      </div>
+      <div className="flex gap-[var(--space-3)] overflow-x-auto pb-[var(--space-1)]">
+        {visibleRows.length === 0 ? (
+          <div className="flex min-h-[var(--space-8)] min-w-[16rem] items-center justify-center rounded-lg border border-dashed border-border/60 bg-surface/90 px-[var(--space-3)] py-[var(--space-4)] text-sm text-muted-foreground">
+            {editing ? "Add a champion to get started" : "No champions yet"}
           </div>
-          <div className="flex gap-[var(--space-3)] overflow-x-auto pb-[var(--space-1)]">
-            {visibleRows.length === 0 ? (
-              <div className="flex min-h-[var(--space-8)] min-w-[16rem] items-center justify-center rounded-lg border border-dashed border-border/60 bg-card/60 px-[var(--space-3)] py-[var(--space-4)] text-sm text-muted-foreground">
-                {editing ? "Add a champion to get started" : "No champions yet"}
-              </div>
+        ) : (
+          visibleRows.map((row) =>
+            editingRow?.id === row.id ? (
+              <EditingRow
+                key={row.id}
+                draft={editingRow}
+                setDraft={setEditingRow}
+                onSave={onSaveEdit}
+                onCancel={onCancelEdit}
+              />
             ) : (
-              visibleRows.map((row) =>
-                editingRow?.id === row.id ? (
-                  <EditingRow
-                    key={row.id}
-                    draft={editingRow}
-                    setDraft={setEditingRow}
-                    onSave={onSaveEdit}
-                    onCancel={onCancelEdit}
-                  />
-                ) : (
-                  <ChampionCard
-                    key={row.id}
-                    row={row}
-                    editing={editing}
-                    onStartEdit={onStartEdit}
-                    onDeleteRow={onDeleteRow}
-                  />
-                ),
-              )
-            )}
-          </div>
-        </div>
-      </SectionCard.Body>
-    </SectionCard>
+              <ChampionItem
+                key={row.id}
+                row={row}
+                editing={editing}
+                onStartEdit={onStartEdit}
+                onDeleteRow={onDeleteRow}
+              />
+            ),
+          )
+        )}
+      </div>
+    </li>
   );
 });
 
@@ -632,29 +608,28 @@ export const JungleClears = React.forwardRef<
   React.useImperativeHandle(ref, () => ({ addRow }), [addRow]);
 
   return (
-    <div
-      data-scope="team"
-      className="grid gap-[var(--space-4)] sm:gap-[var(--space-6)]"
-    >
-      <div className="grid grid-cols-12 gap-[var(--space-4)]">
-        {BUCKETS.map((bucket) => (
-          <BucketSection
-            key={bucket}
-            bucket={bucket}
-            visibleRows={filteredByBucket[bucket]}
-            editing={editing}
-            editingRow={editingRow}
-            exampleChampion={exampleByBucket[bucket]}
-            totalCount={rowsByBucket[bucket].length}
-            onAddRow={addRow}
-            onStartEdit={startEdit}
-            onDeleteRow={deleteRow}
-            onSaveEdit={saveEdit}
-            onCancelEdit={cancelEdit}
-            setEditingRow={setEditingRow}
-          />
-        ))}
-      </div>
-    </div>
+    <Card depth="base" className="p-0">
+      <CardContent className="p-0">
+        <ul className="divide-y divide-border/60">
+          {BUCKETS.map((bucket) => (
+            <BucketSection
+              key={bucket}
+              bucket={bucket}
+              visibleRows={filteredByBucket[bucket]}
+              editing={editing}
+              editingRow={editingRow}
+              exampleChampion={exampleByBucket[bucket]}
+              totalCount={rowsByBucket[bucket].length}
+              onAddRow={addRow}
+              onStartEdit={startEdit}
+              onDeleteRow={deleteRow}
+              onSaveEdit={saveEdit}
+              onCancelEdit={cancelEdit}
+              setEditingRow={setEditingRow}
+            />
+          ))}
+        </ul>
+      </CardContent>
+    </Card>
   );
 })
