@@ -37,7 +37,7 @@ import {
   Textarea,
   AIExplainTooltip,
 } from "@/components/ui";
-import { PlannerProvider } from "@/components/planner";
+import { PlannerProvider, SmallAgnesNoxiImage } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
 import {
   Card,
@@ -118,7 +118,7 @@ const DOMAIN_ITEMS: Array<{
 ];
 
 const HERO_HEADINGS: Record<Tab, string> = {
-  goals: "Goals overview",
+  goals: "Goals",
   reminders: "Reminders",
   timer: "Focus timer",
 };
@@ -453,26 +453,41 @@ function GoalsPageContent() {
 
   const summary: React.ReactNode =
     tab === "goals" ? (
-      <ul className="m-0 list-none flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-1)] p-0 text-label text-muted-foreground">
-        <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="font-semibold text-foreground">Cap</span>
-          <span className="text-foreground">{ACTIVE_CAP} active</span>
-        </li>
-        <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="font-semibold text-accent-3">Remaining</span>
-          <span className="text-accent-3">{remaining}</span>
-        </li>
-        <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="font-semibold text-success">Complete</span>
-          <span className="text-success">{pctDone}%</span>
-        </li>
-        <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-primary-soft px-[var(--space-2)] text-label text-primary-foreground">
-            <span className="font-semibold">Total</span>
-            <span>{totalCount}</span>
+      <div className="flex flex-wrap items-center gap-[var(--space-4)]">
+        <div
+          className="relative flex h-[var(--ring-diameter-l)] w-[var(--ring-diameter-l)] items-center justify-center"
+          role="img"
+          aria-label={`${pctDone}% of goals complete`}
+        >
+          <ProgressRing
+            value={pctDone}
+            className="text-foreground/15"
+            progressClassName="text-success"
+            trackClassName="text-success/20"
+            aria-hidden
+          />
+          <span className="absolute text-title font-semibold tracking-[-0.01em] text-foreground">
+            {pctDone}%
           </span>
-        </li>
-      </ul>
+        </div>
+        <div className="flex flex-col gap-[var(--space-1)]">
+          <p className="text-label font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+            Progress
+          </p>
+          <p className="text-ui text-muted-foreground">
+            <span className="font-semibold text-foreground">{doneCount}</span> completed
+            {totalCount > 0 ? (
+              <>
+                {" "}
+                of <span className="font-semibold text-foreground">{totalCount}</span>
+              </>
+            ) : null}
+            {" · "}
+            <span className="font-semibold text-foreground">{remaining}</span>{" "}
+            {remaining === 1 ? "slot" : "slots"} left
+          </p>
+        </div>
+      </div>
     ) : tab === "reminders" ? (
       <>
         Keep <span className="font-semibold text-accent-3">nudges</span> handy with quick edit loops.
@@ -498,30 +513,8 @@ function GoalsPageContent() {
   let heroSubtitle: React.ReactNode;
   if (tab === "goals") {
     heroSubtitle = (
-      <span
-        id={heroSubtitleId}
-        className="flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-1)] text-muted-foreground"
-      >
-        <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="text-label font-semibold text-foreground">Cap</span>
-          <span className="text-label text-foreground">{ACTIVE_CAP}</span>
-        </span>
-        <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-primary-soft px-[var(--space-2)] text-label text-primary-foreground">
-            <span className="font-semibold">Active</span>
-            <span>{activeCount}</span>
-          </span>
-        </span>
-        <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="text-label font-semibold text-accent-3">Remaining</span>
-          <span className="text-label text-accent-3">{remaining}</span>
-        </span>
-        <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="text-label font-semibold text-success">Done</span>
-          <span className="text-label text-success">
-            {doneCount} ({pctDone}%)
-          </span>
-        </span>
+      <span id={heroSubtitleId} className="text-muted-foreground">
+        Set and achieve your objectives.
       </span>
     );
   } else if (tab === "reminders") {
@@ -597,21 +590,32 @@ function GoalsPageContent() {
 
     if (tab === "goals") {
       return (
-        <Button
-          type="button"
-          size="sm"
-          variant="default"
-          tone="danger"
-          className="w-full shrink-0 md:w-auto"
-          onClick={handleOpenNuke}
-          disabled={totalCount === 0}
-          aria-haspopup="dialog"
-          aria-controls={confirmClearOpen ? nukeDialogId : undefined}
-          title="Delete all goals"
-        >
-          <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
-          <span className="font-semibold tracking-[0.01em]">Nuke all</span>
-        </Button>
+        <div className="flex w-full flex-col gap-[var(--space-2)] md:w-auto md:flex-row md:items-center md:justify-end md:gap-[var(--space-3)]">
+          <Button
+            type="button"
+            size="sm"
+            variant="default"
+            className="w-full shrink-0 md:w-auto"
+            onClick={startGoalCreation}
+          >
+            <Plus aria-hidden="true" className="size-[var(--space-4)]" />
+            <span className="font-semibold tracking-[0.01em]">Add Goal</span>
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            variant="destructive"
+            className="w-full shrink-0 md:w-auto"
+            onClick={handleOpenNuke}
+            disabled={totalCount === 0}
+            aria-haspopup="dialog"
+            aria-controls={confirmClearOpen ? nukeDialogId : undefined}
+            title="Delete all goals"
+          >
+            <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
+            <span className="font-semibold tracking-[0.01em]">Reset All Goals</span>
+          </Button>
+        </div>
       );
     }
 
@@ -623,6 +627,7 @@ function GoalsPageContent() {
     totalCount,
     confirmClearOpen,
     nukeDialogId,
+    startGoalCreation,
   ]);
 
   return (
@@ -638,7 +643,7 @@ function GoalsPageContent() {
           title={heroHeading}
           subtitle={heroSubtitle}
           sticky={false}
-          glitch="subtle"
+          glitch={tab === "goals" ? "off" : "subtle"}
           topClassName={GOALS_STICKY_TOP_CLASS}
           dividerTint={heroDividerTint}
           tabs={{
@@ -651,6 +656,8 @@ function GoalsPageContent() {
           subTabs={reminderHeroSubTabs}
           searchBar={reminderHeroSearch}
           actions={heroActions}
+          illustration={<SmallAgnesNoxiImage />}
+          illustrationAlt="Agnes and Noxi cheering on your goal progress"
           className="col-span-full md:col-span-12"
         >
           <div className="space-y-[var(--space-3)]">
