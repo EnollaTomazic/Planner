@@ -511,7 +511,7 @@ function GoalsPageContent() {
         <Button
           type="button"
           size="sm"
-          variant="destructive"
+          variant="default"
           tone="danger"
           className="w-full shrink-0 md:w-auto"
           onClick={handleOpenNuke}

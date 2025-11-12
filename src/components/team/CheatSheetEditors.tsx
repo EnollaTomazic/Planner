@@ -2,17 +2,15 @@
 "use client";
 
 import * as React from "react";
+
+import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/primitives/Textarea";
 
 export function Label({ children }: { children: React.ReactNode }) {
-  const text = typeof children === "string" ? children : String(children ?? "");
   return (
-    <div
-      className="glitch-anim glitch-label text-body-sm font-medium tracking-[0.02em] uppercase leading-relaxed text-muted-foreground"
-      data-text={text}
-    >
-      {text}
-    </div>
+    <p className="text-label font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+      {children}
+    </p>
   );
 }
 
@@ -27,10 +25,7 @@ export function TitleEdit({
 }) {
   if (!editing)
     return (
-      <h3
-        className="glitch-title glitch-flicker title-glow text-title sm:text-title-lg font-semibold tracking-[-0.01em]"
-        data-text={value}
-      >
+      <h3 className="text-title sm:text-title-lg font-semibold tracking-[-0.01em] text-foreground">
         {value}
       </h3>
     );
@@ -39,7 +34,7 @@ export function TitleEdit({
       dir="ltr"
       value={value}
       onChange={(event) => onChange(event.currentTarget.value)}
-      className="w-full bg-transparent border-none rounded-[var(--control-radius)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-title sm:text-title-lg font-semibold tracking-[-0.01em] glitch-title title-glow"
+      className="w-full rounded-[var(--control-radius)] border border-input bg-transparent px-[var(--space-3)] py-[var(--space-2)] text-title sm:text-title-lg font-semibold tracking-[-0.01em] text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       aria-label="Archetype title"
       autoFocus
     />
@@ -57,7 +52,7 @@ export function ParagraphEdit({
 }) {
   if (!editing)
     return (
-      <p className="mt-[var(--space-1)] text-body font-medium leading-relaxed text-muted-foreground">
+      <p className="mt-[var(--space-2)] text-body font-medium leading-relaxed text-muted-foreground">
         {value}
       </p>
     );
@@ -67,7 +62,7 @@ export function ParagraphEdit({
       value={value}
       onChange={(event) => onChange(event.currentTarget.value)}
       rows={2}
-      className="mt-[var(--space-1)]"
+      className="mt-[var(--space-2)]"
       resize="resize-y"
       textareaClassName="min-h-[calc(var(--spacing-8)*2+var(--spacing-7)+var(--spacing-1))] text-body font-medium text-muted-foreground leading-relaxed"
       aria-label="Description"
@@ -80,17 +75,34 @@ export function BulletListEdit({
   onChange,
   editing,
   ariaLabel,
+  viewIcon,
+  itemClassName,
 }: {
   items: string[];
   onChange: (next: string[]) => void;
   editing: boolean;
   ariaLabel: string;
+  viewIcon?: React.ReactNode;
+  itemClassName?: string;
 }) {
   const [list, setList] = React.useState<string[]>(() => {
     const cleaned = items.map((item) => item.trim()).filter(Boolean);
     return cleaned.length ? [...items] : [""];
   });
   const liRefs = React.useRef<Array<HTMLLIElement | null>>([]);
+
+  const viewIconNode = React.useMemo(() => {
+    if (!viewIcon) return null;
+    if (React.isValidElement(viewIcon)) {
+      const iconElement = viewIcon as React.ReactElement<{
+        className?: string;
+      }>;
+      return React.cloneElement(iconElement, {
+        className: cn("size-[var(--space-4)]", iconElement.props.className),
+      });
+    }
+    return viewIcon;
+  }, [viewIcon]);
 
   React.useEffect(() => {
     const cleaned = items.map((item) => item.trim()).filter(Boolean);
@@ -179,13 +191,34 @@ export function BulletListEdit({
   };
 
   if (!editing) {
+    const formatted = list
+      .map((item) => item.trim())
+      .filter(Boolean)
+      .map((item) => item.replace(/[.?!]+$/u, ""));
+
     return (
-      <ul className="mt-[var(--space-1)] list-outside list-disc space-y-1 pl-[var(--space-6)] text-body font-medium leading-relaxed text-foreground">
-        {list
-          .filter((w) => w.trim().length)
-          .map((w, idx) => (
-            <li key={idx}>{w}</li>
-          ))}
+      <ul className="mt-[var(--space-2)] space-y-[var(--space-2)] text-body font-medium leading-relaxed text-foreground">
+        {formatted.map((w, idx) => (
+          <li
+            key={idx}
+            className={cn(
+              "flex items-start gap-[var(--space-2)]",
+              itemClassName,
+            )}
+          >
+            {viewIconNode ? (
+              <span
+                aria-hidden
+                className="mt-[calc(var(--space-1)/2)] grid size-[var(--space-4)] place-items-center"
+              >
+                {viewIconNode}
+              </span>
+            ) : (
+              <span className="mt-[calc(var(--space-1)/2)] block size-[var(--space-3)] rounded-full bg-foreground/25" />
+            )}
+            <span className="flex-1 text-pretty">{w}</span>
+          </li>
+        ))}
       </ul>
     );
   }
