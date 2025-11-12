@@ -90,6 +90,9 @@ src/components/gallery/generated-manifest.g.ts
 src/components/gallery/generated-manifest.runtime.json
 src/components/gallery/usage.json
 
+# Generated theme styles (run `pnpm run generate-themes`)
+src/app/themes.css
+
 # Nuxt.js build / generate output
 .nuxt
 dist

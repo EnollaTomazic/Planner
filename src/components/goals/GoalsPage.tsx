@@ -25,8 +25,18 @@ import {
 } from "lucide-react";
 
 import { type HeaderTab } from "@/components/ui/layout/Header";
-import { Hero, Snackbar, PageShell, Modal, ProgressRing } from "@/components/ui";
-import { GlitchNeoCard } from "@/components/ui/patterns";
+import {
+  Hero,
+  Snackbar,
+  PageShell,
+  Modal,
+  ProgressRing,
+  InsetRow,
+  Label,
+  Input,
+  Textarea,
+  AIExplainTooltip,
+} from "@/components/ui";
 import { PlannerProvider } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
 import {
@@ -39,8 +49,7 @@ import {
 } from "@/components/ui/primitives/Card";
 import { FilterKey, GoalsTabs } from "./GoalsTabs";
 import {
-  EntityForm,
-  type EntityFormHandle,
+  type EntityFormSubmitResult,
   type EntityFormValues,
 } from "@/components/forms/EntityForm";
 import { GoalsProgress } from "./GoalsProgress";
@@ -58,6 +67,18 @@ import { useReminders, type Domain } from "./reminders/useReminders";
 
 /* ---------- Types & constants ---------- */
 type Tab = "goals" | "reminders" | "timer";
+
+type GoalsInsetFormHandle = {
+  focus: (options?: FocusOptions) => void;
+  reset: () => void;
+};
+
+type GoalsInsetFormProps = {
+  isAtCap: boolean;
+  remaining: number;
+  errorMessage?: string | null;
+  onSubmit?: (values: EntityFormValues) => EntityFormSubmitResult;
+};
 
 const isTabValue = (value: unknown): value is Tab =>
   value === "goals" || value === "reminders" || value === "timer";
@@ -166,7 +187,7 @@ function GoalsPageContent() {
   } = useReminders();
 
   const formRef = React.useRef<HTMLDivElement | null>(null);
-  const goalFormRef = React.useRef<EntityFormHandle>(null);
+  const goalFormRef = React.useRef<GoalsInsetFormHandle>(null);
   const goalsRef = React.useRef<HTMLDivElement>(null);
   const remindersRef = React.useRef<HTMLDivElement>(null);
   const timerRef = React.useRef<HTMLDivElement>(null);
@@ -680,7 +701,12 @@ function GoalsPageContent() {
                           <Plus aria-hidden="true" className="size-[var(--space-4)]" />
                           <span className="font-semibold tracking-[0.01em]">New goal</span>
                         </Button>
-                        <GoalsTabs value={filter} onChange={setFilter} />
+                        <GoalsTabs
+                          value={filter}
+                          onChange={setFilter}
+                          onNewGoal={startGoalCreation}
+                          newGoalDisabled={isAtCap}
+                        />
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-[var(--space-4)] px-[var(--space-4)] pb-[var(--space-4)] pt-[var(--space-4)]">
@@ -742,58 +768,13 @@ function GoalsPageContent() {
                 </div>
 
                 <div ref={formRef} id="goal-form">
-                  <GlitchNeoCard padding="var(--space-4)">
-                    <EntityForm
-                      ref={goalFormRef}
-                      title="Add goal"
-                      description="Capture focused, finishable targets for your next session."
-                      fields={[
-                        {
-                          id: "title",
-                          label: "Title",
-                          placeholder: "Review lane states",
-                          required: true,
-                        },
-                        {
-                          id: "metric",
-                          label: "Metric (optional)",
-                          placeholder: "3 ranked wins",
-                        },
-                        {
-                          id: "notes",
-                          label: "Notes (optional)",
-                          placeholder: "Add context, blockers, or reminders",
-                          type: "textarea",
-                          rows: 4,
-                        },
-                      ]}
-                      submitLabel="Add goal"
-                      submitDisabled={isAtCap}
-                      onSubmit={handleAddGoal}
-                      afterFields={
-                        <p className="text-label font-medium tracking-[0.02em] text-muted-foreground">
-                          {isAtCap ? (
-                            <span className="text-danger">Cap reached. Finish one to add more.</span>
-                          ) : (
-                            <span>
-                              {remaining} active slot{remaining === 1 ? "" : "s"} left
-                            </span>
-                          )}
-                        </p>
-                      }
-                      footer={
-                        err ? (
-                          <p
-                            role="status"
-                            aria-live="polite"
-                            className="text-label font-medium tracking-[0.02em] text-danger"
-                          >
-                            {err}
-                          </p>
-                        ) : null
-                      }
-                    />
-                  </GlitchNeoCard>
+                  <GoalsInsetForm
+                    ref={goalFormRef}
+                    isAtCap={isAtCap}
+                    remaining={remaining}
+                    errorMessage={err}
+                    onSubmit={handleAddGoal}
+                  />
                 </div>
 
                 {lastDeleted && (
@@ -897,3 +878,180 @@ function GoalsPageContent() {
     </>
   );
 }
+
+const createDefaultGoalFormValues = () => ({
+  title: "",
+  metric: "",
+  notes: "",
+});
+
+const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProps>(
+  ({ isAtCap, remaining, errorMessage, onSubmit }, ref) => {
+    const [values, setValues] = React.useState(createDefaultGoalFormValues);
+    const titleInputRef = React.useRef<HTMLInputElement | null>(null);
+
+    const titleId = React.useId();
+    const metricId = React.useId();
+    const notesId = React.useId();
+
+    const resetValues = React.useCallback(() => {
+      setValues(createDefaultGoalFormValues());
+    }, []);
+
+    React.useImperativeHandle(
+      ref,
+      () => ({
+        focus: (options) => {
+          titleInputRef.current?.focus(options);
+        },
+        reset: () => {
+          resetValues();
+        },
+      }),
+      [resetValues],
+    );
+
+    const handleInputChange = React.useCallback(
+      (field: "title" | "metric") =>
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+          const { value } = event.target;
+          setValues((previous) => ({ ...previous, [field]: value }));
+        },
+      [],
+    );
+
+    const handleNotesChange = React.useCallback(
+      (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const { value } = event.target;
+        setValues((previous) => ({ ...previous, notes: value }));
+      },
+      [],
+    );
+
+    const handleSubmit = React.useCallback(
+      async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (!onSubmit || isAtCap) {
+          return;
+        }
+
+        const result = await onSubmit({
+          title: values.title,
+          metric: values.metric,
+          notes: values.notes,
+        });
+
+        if (result !== false) {
+          resetValues();
+        }
+      },
+      [isAtCap, onSubmit, resetValues, values.metric, values.notes, values.title],
+    );
+
+    const handleCancel = React.useCallback(() => {
+      resetValues();
+      const active = document.activeElement;
+      if (active instanceof HTMLElement) {
+        active.blur();
+      }
+    }, [resetValues]);
+
+    const remainingMessage = isAtCap
+      ? "Cap reached. Finish one to add more."
+      : `${remaining} active slot${remaining === 1 ? "" : "s"} left`;
+
+    return (
+      <form className="space-y-[var(--space-4)]" onSubmit={handleSubmit}>
+        <InsetRow
+          label="Add goal"
+          description="Capture focused, finishable targets for your next session."
+          contentClassName="space-y-[var(--space-4)]"
+        >
+          <div className="space-y-[var(--space-2)]">
+            <Label htmlFor={titleId}>Title</Label>
+            <Input
+              id={titleId}
+              ref={titleInputRef}
+              placeholder="Review lane states"
+              value={values.title}
+              onChange={handleInputChange("title")}
+              required
+            />
+          </div>
+
+          <div className="space-y-[var(--space-2)]">
+            <div className="flex items-center justify-between gap-[var(--space-2)]">
+              <Label htmlFor={metricId} className="mb-0">
+                Metric (optional)
+              </Label>
+              <AIExplainTooltip
+                triggerLabel="How metrics help"
+                explanation="Metrics surface on each goal card so you can track progress against a specific target. Leave it blank if a number doesn't help."
+                tone="neutral"
+              />
+            </div>
+            <Input
+              id={metricId}
+              type="text"
+              inputMode="decimal"
+              placeholder="75"
+              value={values.metric}
+              onChange={handleInputChange("metric")}
+              hasEndSlot
+            >
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute right-[var(--space-4)] top-1/2 -translate-y-1/2 text-label text-muted-foreground"
+              >
+                %
+              </span>
+            </Input>
+          </div>
+
+          <div className="space-y-[var(--space-2)]">
+            <Label htmlFor={notesId}>Notes (optional)</Label>
+            <Textarea
+              id={notesId}
+              placeholder="Add context, blockers, or reminders"
+              value={values.notes}
+              onChange={handleNotesChange}
+              resize="resize-y"
+              className="border border-card-hairline/70"
+              textareaClassName="min-h-[var(--space-20)]"
+            />
+          </div>
+        </InsetRow>
+
+        <div className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-label font-medium tracking-[0.02em] text-muted-foreground">
+            {isAtCap ? (
+              <span className="text-danger">{remainingMessage}</span>
+            ) : (
+              <span>{remainingMessage}</span>
+            )}
+          </p>
+          <div className="flex items-center gap-[var(--space-2)]">
+            <Button type="submit" size="sm" variant="default" disabled={isAtCap}>
+              Add Goal
+            </Button>
+            <Button type="button" size="sm" variant="quiet" onClick={handleCancel}>
+              Cancel
+            </Button>
+          </div>
+        </div>
+
+        {errorMessage ? (
+          <p
+            role="status"
+            aria-live="polite"
+            className="text-label font-medium tracking-[0.02em] text-danger"
+          >
+            {errorMessage}
+          </p>
+        ) : null}
+      </form>
+    );
+  },
+);
+
+GoalsInsetForm.displayName = "GoalsInsetForm";
