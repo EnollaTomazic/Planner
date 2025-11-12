@@ -701,7 +701,12 @@ function GoalsPageContent() {
                           <Plus aria-hidden="true" className="size-[var(--space-4)]" />
                           <span className="font-semibold tracking-[0.01em]">New goal</span>
                         </Button>
-                        <GoalsTabs value={filter} onChange={setFilter} />
+                        <GoalsTabs
+                          value={filter}
+                          onChange={setFilter}
+                          onNewGoal={startGoalCreation}
+                          newGoalDisabled={isAtCap}
+                        />
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-[var(--space-4)] px-[var(--space-4)] pb-[var(--space-4)] pt-[var(--space-4)]">
