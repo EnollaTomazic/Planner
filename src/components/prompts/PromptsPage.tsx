@@ -44,6 +44,8 @@ export function PromptsPage() {
     setQuery: setChatQuery,
     filtered: chatFiltered,
     save: saveChatPrompt,
+    update: updateChatPrompt,
+    remove: deleteChatPrompt,
   } = useChatPrompts();
   const {
     prompts: codexPrompts,
@@ -51,6 +53,8 @@ export function PromptsPage() {
     setQuery: setCodexQuery,
     filtered: codexFiltered,
     save: saveCodexPrompt,
+    update: updateCodexPrompt,
+    remove: deleteCodexPrompt,
   } = useCodexPrompts();
   const [personas] = usePersonas();
   const [notes, setNotes] = useNotes();
@@ -151,6 +155,8 @@ export function PromptsPage() {
                 query={chatQuery}
                 personas={personas}
                 savePrompt={saveChatPrompt}
+                updatePrompt={updateChatPrompt}
+                deletePrompt={deleteChatPrompt}
               />
             );
           } else if (item.key === "codex") {
@@ -160,6 +166,8 @@ export function PromptsPage() {
                   prompts={codexFiltered}
                   query={codexQuery}
                   savePrompt={saveCodexPrompt}
+                  updatePrompt={updateCodexPrompt}
+                  deletePrompt={deleteCodexPrompt}
                 />
               </React.Suspense>
             );
@@ -199,6 +207,8 @@ interface ChatTabPanelProps {
   query: string;
   personas: Persona[];
   savePrompt: (title: string, text: string) => boolean;
+  updatePrompt: (id: string, title: string, text: string) => boolean;
+  deletePrompt: (id: string) => boolean;
 }
 
 function ChatTabPanel({
@@ -206,6 +216,8 @@ function ChatTabPanel({
   query,
   personas,
   savePrompt,
+  updatePrompt,
+  deletePrompt,
 }: ChatTabPanelProps) {
   const handleSave = React.useCallback(
     (title: string, text: string, _category: string) => savePrompt(title, text),
@@ -218,6 +230,8 @@ function ChatTabPanel({
       query={query}
       personas={personas}
       savePrompt={handleSave}
+      updatePrompt={updatePrompt}
+      deletePrompt={deletePrompt}
     />
   );
 }
@@ -226,12 +240,16 @@ interface CodexTabPanelProps {
   prompts: PromptWithTitle[];
   query: string;
   savePrompt: (title: string, text: string) => boolean;
+  updatePrompt: (id: string, title: string, text: string) => boolean;
+  deletePrompt: (id: string) => boolean;
 }
 
 function CodexTabPanel({
   prompts,
   query,
   savePrompt,
+  updatePrompt,
+  deletePrompt,
 }: CodexTabPanelProps) {
   const handleSave = React.useCallback(
     (title: string, text: string, _category: string) => savePrompt(title, text),
@@ -243,6 +261,8 @@ function CodexTabPanel({
       prompts={prompts}
       query={query}
       savePrompt={handleSave}
+      updatePrompt={updatePrompt}
+      deletePrompt={deletePrompt}
     />
   );
 }
