@@ -130,6 +130,22 @@ describe("github-pages bootstrap helpers", () => {
         storedLocation: "/current/tasks",
       }),
     ).toBe("/planner/tasks");
+
+    expect(
+      planGitHubPagesRestoration({
+        basePath: "/planner",
+        currentPath: "/planner/index.html",
+        storedLocation: "/planner/pages/tasks",
+      }),
+    ).toBe("/planner/tasks");
+
+    expect(
+      planGitHubPagesRestoration({
+        basePath: "/planner",
+        currentPath: "/planner/index.html",
+        storedLocation: "/planner/main/index.html",
+      }),
+    ).toBe("/planner");
   });
 
   it("exposes the storage key literal", () => {
