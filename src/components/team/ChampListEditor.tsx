@@ -24,13 +24,34 @@ export type ChampListEditorProps = {
   inputClassName?: string;
 };
 
-const VIEW_CONTAINER = "champ-badges mt-[var(--space-1)]";
+const VIEW_CONTAINER =
+  "champ-badges mt-[var(--space-2)] flex flex-wrap gap-[var(--space-2)]";
 const EDIT_CONTAINER =
-  "champ-badges mt-[var(--space-1)] flex flex-wrap gap-[var(--space-2)]";
+  "champ-badges mt-[var(--space-2)] flex flex-wrap gap-[var(--space-2)]";
 const PILL_CLASSNAME =
-  "bg-card text-foreground text-label tracking-[0.02em] border-border";
+  "flex items-center gap-[var(--space-2)] rounded-full border border-transparent px-[var(--space-3)] py-[var(--space-1)] text-label font-medium tracking-[0.02em] shadow-none [--badge-surface:hsl(var(--card)/0.3)] [--badge-shadow-rest:var(--depth-shadow-subtle)]";
 const INPUT_BASE =
-  "bg-transparent border-none rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-24";
+  "bg-transparent border-none text-label font-medium tracking-[0.02em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background min-w-[6rem]";
+const AVATAR_BASE =
+  "flex size-[var(--space-5)] shrink-0 items-center justify-center rounded-full bg-foreground/10 text-[0.65rem] font-semibold uppercase text-muted-foreground";
+
+function getInitials(name: string) {
+  const trimmed = name.trim();
+  if (!trimmed) return "?";
+  const parts = trimmed
+    .replace(/['`’]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
+  if (parts.length === 1) {
+    const letters = Array.from(parts[0]);
+    return letters.slice(0, 2).join("").toUpperCase();
+  }
+  return parts
+    .slice(0, 2)
+    .map((part) => part[0] ?? "")
+    .join("")
+    .toUpperCase();
+}
 
 export function ChampListEditor({
   list,
@@ -110,13 +131,14 @@ export function ChampListEditor({
       return (
         <div className={cn(VIEW_CONTAINER, viewClassName)}>
           <Badge
-            glitch
             size="sm"
             disabled
             className={cn(PILL_CLASSNAME, pillClassName)}
           >
-            <i className="dot" />
-            {emptyLabel}
+            <span className={AVATAR_BASE} aria-hidden>
+              ∅
+            </span>
+            <span>{emptyLabel}</span>
           </Badge>
         </div>
       );
@@ -127,12 +149,13 @@ export function ChampListEditor({
         {normalized.map((champ, index) => (
           <Badge
             key={editingKeys[index]}
-            glitch
             size="sm"
             className={cn(PILL_CLASSNAME, pillClassName)}
           >
-            <i className="dot" />
-            {champ}
+            <span className={AVATAR_BASE} aria-hidden>
+              {getInitials(champ)}
+            </span>
+            <span className="max-w-[12rem] truncate text-pretty">{champ}</span>
           </Badge>
         ))}
       </div>
@@ -144,11 +167,12 @@ export function ChampListEditor({
       {workingList.map((champ, index) => (
         <Badge
           key={editingKeys[index]}
-          glitch
           size="sm"
           className={cn(PILL_CLASSNAME, editPillClassName ?? pillClassName)}
         >
-          <i className="dot" />
+          <span className={AVATAR_BASE} aria-hidden>
+            {champ.trim() ? getInitials(champ) : "?"}
+          </span>
           <input
             type="text"
             dir="ltr"
