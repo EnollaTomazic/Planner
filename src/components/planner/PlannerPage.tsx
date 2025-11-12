@@ -21,6 +21,7 @@ import {
   SegmentedControl,
 } from "@/components/ui";
 import { Slider } from "@/components/ui/primitives/Slider";
+import { NoiseOverlay } from "@/components/ui/patterns/NoiseOverlay";
 import { cn } from "@/lib/utils";
 import styles from "./PlannerPage.module.css";
 import { useFocusDate, useWeek } from "./useFocusDate";
@@ -363,6 +364,7 @@ function Inner() {
                 description={sliderFeedback}
               />
             </div>
+            <NoiseOverlay level="subtle" />
           </div>
           <div className={heroCalibrationColumn}>
             <div className={heroDonut}>
@@ -391,6 +393,7 @@ function Inner() {
               ariaLabel={nudgesStat.ariaLabel}
               className={heroNudgeChip}
             />
+            <NoiseOverlay level="subtle" />
           </div>
         </Hero>
       </PageShell>
