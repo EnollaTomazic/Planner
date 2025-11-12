@@ -288,21 +288,35 @@ function HomePageBody({
   overviewHeadingId,
 }: HomePageBodyProps) {
   const { hydrated } = plannerOverviewProps
-  const heroActions = React.useMemo<React.ReactNode>(
-    () => (
-      <Button
-        asChild
-        variant="default"
-        size="md"
-        tactile
-        tone="accent"
-        className="whitespace-nowrap shadow-depth-soft"
-      >
-        <Link href={withBasePath("/planner", { skipForNextLink: true })}>Plan week</Link>
-      </Button>
-    ),
-    [],
-  )
+  const heroActions = React.useMemo<React.ReactNode>(() => {
+    const createGoalHref = `${withBasePath("/goals", { skipForNextLink: true })}?tab=goals&intent=create-goal#goal-form`
+    const createReviewHref = `${withBasePath("/reviews", { skipForNextLink: true })}?intent=create-review`
+
+    return (
+      <>
+        <Button
+          asChild
+          variant="default"
+          size="md"
+          tactile
+          tone="accent"
+          className="whitespace-nowrap shadow-depth-soft"
+        >
+          <Link href={createGoalHref}>New Goal</Link>
+        </Button>
+        <Button
+          asChild
+          variant="default"
+          size="md"
+          tactile
+          tone="primary"
+          className="whitespace-nowrap shadow-depth-soft"
+        >
+          <Link href={createReviewHref}>New Review</Link>
+        </Button>
+      </>
+    )
+  }, [])
 
   useHydratedCallback(hydrated, onClientReady)
 
@@ -355,11 +369,10 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
       >
         <Hero
           icon={<HomeIcon className="h-5 w-5" aria-hidden />}
-          eyebrow="Glitch control brief"
-          title={<span id={heroHeadingId}>Planner control hub</span>}
-          subtitle="Keep the weekly plan calm and intentional with synced pulses and a grounded focus lock."
+          title={<span id={heroHeadingId}>Planner Control Hub</span>}
+          subtitle="Track your goals, activities, and drafts."
           frame
-          glitch="default"
+          glitch="subtle"
           noiseLevel="subtle"
           sticky={false}
           actions={heroActions}
@@ -472,8 +485,8 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
       >
         <Hero
           icon={<HomeIcon className="h-5 w-5" aria-hidden />}
-          title={<span id={heroHeadingId}>Planner preview</span>}
-          subtitle="Planner highlights your next focus day, surfaces weekly goals, and gives the team a quick win tracker."
+          title={<span id={heroHeadingId}>Planner Control Hub</span>}
+          subtitle="Track your goals, activities, and drafts."
           tone="supportive"
           frame={false}
           sticky={false}
@@ -483,7 +496,8 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
           className="col-span-full md:col-span-12"
         >
           <p className="text-body">
-            Use the controls below to switch themes or open the full planner experience.
+            Create goals, kick off reviews, or jump into the planner without the glitch
+            visuals.
           </p>
         </Hero>
       </PageShell>

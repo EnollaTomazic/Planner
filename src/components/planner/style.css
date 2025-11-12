@@ -35,8 +35,9 @@
   min-height: var(--scroll-min);
   max-height: clamp(var(--scroll-min), var(--scroll-ideal), var(--scroll-max));
   border-radius: var(--radius-md);
-  background: hsl(var(--bg) / 0.25);
-  box-shadow: var(--shadow-inset-hairline);
+  background: hsl(var(--surface) / 0.22);
+  border: var(--hairline-w) solid hsl(var(--card-hairline) / 0.45);
+  box-shadow: inset 0 1px 0 hsl(var(--foreground) / 0.06);
 }
 
 @media (max-width: 639px) {
@@ -59,64 +60,34 @@
   padding-right: var(--space-2);
   padding-top: var(--space-2);
   padding-bottom: var(--space-2);
-  border: var(--hairline-w) solid hsl(var(--card-hairline));
-  background: hsl(var(--card) / 0.55);
-  --planner-card-glow-color: var(--glow-primary);
-  --planner-card-title-glow: 0 0 var(--space-3) var(--planner-card-glow-color);
-  --planner-card-title-glow-strong: 0 0 var(--space-3)
-    color-mix(in oklab, var(--planner-card-glow-color) 82%, transparent);
-  --planner-card-active-shadow: var(--depth-shadow-outer, var(--shadow-outer-lg));
-  --planner-card-loading-glow: var(--shadow-glow-md);
-  --glow-active: var(--planner-card-glow-color);
+  border: var(--hairline-w) solid hsl(var(--card-hairline) / 0.55);
+  border-radius: var(--radius-lg);
+  background: hsl(var(--surface) / 0.92);
+  box-shadow:
+    inset 0 1px 0 hsl(var(--foreground) / 0.08),
+    var(--shadow-neo-soft);
   transition:
-    background 0.15s var(--ease-out),
-    border-color 0.15s var(--ease-out),
-    box-shadow 0.15s var(--ease-out);
+    background var(--motion-duration-sm) var(--ease-out),
+    border-color var(--motion-duration-sm) var(--ease-out),
+    box-shadow var(--motion-duration-sm) var(--ease-out),
+    transform var(--motion-duration-sm) var(--ease-out);
 }
 .proj-card:hover {
-  background: hsl(var(--card) / 0.7);
+  background: hsl(var(--surface) / 0.96);
   border-color: hsl(var(--ring) / 0.45);
+  box-shadow:
+    inset 0 1px 0 hsl(var(--foreground) / 0.1),
+    var(--shadow-neo-soft);
 }
 .proj-card:active {
-  --active: hsl(var(--panel) / 0.55);
-  background: hsl(var(--card) / 0.8);
+  background: hsl(var(--surface) / 0.9);
+  transform: translateY(0);
 }
 .proj-card--active {
-  border-color: hsl(var(--ring));
-  box-shadow: var(--planner-card-active-shadow);
-  position: relative;
-}
-.proj-card--active::after {
-  content: "";
-  position: absolute;
-  inset: var(--hairline-w);
-  border-radius: calc(var(--radius-lg) - var(--hairline-w) * 2);
-  background: var(
-    --edge-iris,
-    linear-gradient(90deg, hsl(var(--accent-1)), hsl(var(--primary)))
-  );
-  -webkit-mask:
-    linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-    linear-gradient(hsl(var(--foreground)) 0 0);
-  mask:
-    linear-gradient(hsl(var(--foreground)) 0 0) content-box,
-    linear-gradient(hsl(var(--foreground)) 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0.42;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .proj-card--active::after {
-    animation: sheen-rotate 6s linear infinite;
-  }
-}
-
-@keyframes sheen-rotate {
-  to {
-    transform: rotate(360deg);
-  }
+  border-color: hsl(var(--ring) / 0.65);
+  box-shadow:
+    inset 0 1px 0 hsl(var(--foreground) / 0.12),
+    var(--shadow-neo-soft);
 }
 
 .proj-card__title {
@@ -126,12 +97,9 @@
   letter-spacing: -0.01em;
   color: hsl(var(--foreground));
 }
-.proj-card:hover .proj-card__title {
-  text-shadow: var(--planner-card-title-glow);
-}
 .proj-card[aria-disabled="true"] {
-  background: hsl(var(--card) / 0.35);
-  border-color: hsl(var(--card-hairline) / 0.85);
+  background: hsl(var(--surface) / 0.82);
+  border-color: hsl(var(--card-hairline) / 0.7);
   color: hsl(var(--muted-foreground));
   cursor: not-allowed;
   pointer-events: none;
@@ -139,19 +107,17 @@
 }
 .proj-card[aria-disabled="true"] .proj-card__title {
   color: hsl(var(--muted-foreground));
-  text-shadow: none;
 }
 .proj-card[data-loading="true"] {
-  background: hsl(var(--card) / 0.6);
+  background: hsl(var(--surface) / 0.88);
   border-color: hsl(var(--ring) / 0.45);
   color: hsl(var(--muted-foreground));
   cursor: progress;
   pointer-events: none;
-  box-shadow: var(--planner-card-loading-glow);
+  box-shadow: var(--shadow-neo-soft);
 }
 .proj-card[data-loading="true"] .proj-card__title {
   color: hsl(var(--muted-foreground));
-  text-shadow: var(--planner-card-title-glow);
 }
 
 /* ============ Task rows (right column) ============ */
@@ -162,22 +128,16 @@
   text-align: left;
   cursor: pointer;
   color: hsl(var(--foreground));
-  --planner-task-glow-color: var(--glow-primary);
-  --planner-task-glow: 0 0 var(--space-3) var(--planner-task-glow-color);
-  --planner-task-glow-strong: 0 0 var(--space-3)
-    color-mix(in oklab, var(--planner-task-glow-color) 82%, transparent);
   transition:
     color 0.15s var(--ease-out),
-    text-shadow 0.15s var(--ease-out);
+    text-decoration-color 0.15s var(--ease-out);
 }
 .task-tile__text:hover {
   color: hsl(var(--primary-foreground));
-  text-shadow: var(--planner-task-glow);
 }
 .task-tile__text:active {
   color: hsl(var(--primary-foreground));
   cursor: pointer;
-  text-shadow: var(--planner-task-glow-strong);
 }
 .task-tile__text:focus-visible {
   outline: calc(var(--hairline-w) * 2) solid hsl(var(--ring));
@@ -187,13 +147,11 @@
 .task-tile__text[aria-disabled="true"] {
   color: hsl(var(--muted-foreground));
   cursor: not-allowed;
-  text-shadow: none;
   pointer-events: none;
 }
 .task-tile__text[data-loading="true"] {
   color: hsl(var(--muted-foreground) / 0.85);
   cursor: progress;
-  text-shadow: var(--planner-task-glow);
   pointer-events: none;
 }
 
