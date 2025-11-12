@@ -29,11 +29,19 @@
     var ABSOLUTE_URL_PATTERN = /^[a-zA-Z][a-zA-Z\d+.-]*:/;
     var DEPLOY_ALIAS_PATTERN = /^[0-9a-f]{7,40}$/i;
 
+    var BRANCH_ALIASES = Object.freeze([
+      "current",
+      "main",
+      "master",
+      "pages",
+    ]);
+
     function isDeployAliasSegment(segment) {
       if (!segment) {
         return false;
       }
-      if (segment.toLowerCase() === "current") {
+      var normalized = segment.toLowerCase();
+      if (BRANCH_ALIASES.includes(normalized)) {
         return true;
       }
       return DEPLOY_ALIAS_PATTERN.test(segment);
