@@ -128,10 +128,16 @@ function GlitchLandingFallback({
 
 function HeroActionSkeletons() {
   return (
-    <Skeleton
-      radius="full"
-      className="h-[var(--control-h-md)] w-[calc(var(--space-8)*2)]"
-    />
+    <>
+      <Skeleton
+        radius="full"
+        className="h-[var(--control-h-md)] w-[calc(var(--space-8)*2)]"
+      />
+      <Skeleton
+        radius="full"
+        className="h-[var(--control-h-md)] w-[calc(var(--space-8)*2.25)]"
+      />
+    </>
   )
 }
 
@@ -155,8 +161,9 @@ function LegacyHomeFallback({
                   id={heroHeadingId}
                   className="text-balance text-title-lg font-semibold tracking-[-0.01em]"
                 >
-                  Planner preview
+                  Planner Control Hub
                 </h1>
+                <p className="sr-only">Track your goals, activities, and drafts.</p>
               </div>
             </div>
           </div>
