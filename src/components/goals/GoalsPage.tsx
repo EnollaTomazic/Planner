@@ -25,12 +25,12 @@ import {
 } from "lucide-react";
 
 import { type HeaderTab } from "@/components/ui/layout/Header";
-import { SectionCard } from "@/components/ui/layout/SectionCard";
-import { Hero, Snackbar, PageShell, Modal } from "@/components/ui";
+import { Hero, Snackbar, PageShell, Modal, ProgressRing } from "@/components/ui";
 import { GlitchNeoCard } from "@/components/ui/patterns";
 import { PlannerProvider } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
 import {
+  Card,
   CardHeader,
   CardTitle,
   CardDescription,
@@ -332,6 +332,74 @@ function GoalsPageContent() {
   const remaining = Math.max(0, ACTIVE_CAP - activeCount);
   const isAtCap = remaining === 0;
   const pctDone = totalCount ? Math.round((doneCount / totalCount) * 100) : 0;
+  const activePctOfCap =
+    ACTIVE_CAP > 0
+      ? Math.max(
+          0,
+          Math.min(100, Math.round((Math.min(activeCount, ACTIVE_CAP) / ACTIVE_CAP) * 100)),
+        )
+      : 0;
+  const remainingPctOfCap =
+    ACTIVE_CAP > 0
+      ? Math.max(
+          0,
+          Math.min(100, Math.round((Math.min(remaining, ACTIVE_CAP) / ACTIVE_CAP) * 100)),
+        )
+      : 0;
+  const activeCapNumber = Number(ACTIVE_CAP);
+  const activeSlotLabel = activeCapNumber === 1 ? "slot" : "slots";
+
+  const goalMetrics = React.useMemo(
+    () => [
+      {
+        key: "completed" as const,
+        label: "Completed",
+        percent: pctDone,
+        percentLabel: `${pctDone}%`,
+        valueLabel: doneCount.toString(),
+        detail:
+          totalCount === 0
+            ? "of 0 goals"
+            : `of ${totalCount} ${totalCount === 1 ? "goal" : "goals"}`,
+        progressClassName: "text-success",
+        trackClassName: "text-success/20",
+        srText: `Completed ${doneCount} of ${totalCount} ${totalCount === 1 ? "goal" : "goals"}`,
+      },
+      {
+        key: "active" as const,
+        label: "Active",
+        percent: activePctOfCap,
+        percentLabel: `${activePctOfCap}%`,
+        valueLabel: activeCount.toString(),
+        detail: `of ${activeCapNumber} ${activeSlotLabel} used`,
+        progressClassName: "text-primary",
+        trackClassName: "text-primary/20",
+        srText: `Active ${activeCount} of ${activeCapNumber} ${activeSlotLabel} used`,
+      },
+      {
+        key: "remaining" as const,
+        label: "Remaining",
+        percent: remainingPctOfCap,
+        percentLabel: `${remainingPctOfCap}%`,
+        valueLabel: remaining.toString(),
+        detail: `${remaining === 1 ? "slot" : "slots"} left`,
+        progressClassName: "text-accent-3",
+        trackClassName: "text-accent-3/25",
+        srText: `${remaining} active ${remaining === 1 ? "slot" : "slots"} remaining`,
+      },
+    ],
+    [
+      activeCapNumber,
+      activeCount,
+      activePctOfCap,
+      activeSlotLabel,
+      doneCount,
+      pctDone,
+      remaining,
+      remainingPctOfCap,
+      totalCount,
+    ],
+  );
 
   const handleConfirmNuke = React.useCallback(() => {
     if (totalCount > 0) {
@@ -511,7 +579,7 @@ function GoalsPageContent() {
         <Button
           type="button"
           size="sm"
-          variant="destructive"
+          variant="default"
           tone="danger"
           className="w-full shrink-0 md:w-auto"
           onClick={handleOpenNuke}
@@ -592,125 +660,161 @@ function GoalsPageContent() {
           >
             {tab === "goals" && (
               <div className="grid gap-[var(--space-4)]">
-              <div className="space-y-[var(--space-2)]">
-                <SectionCard className="card-neo-soft">
-                  <SectionCard.Header
-                    sticky
-                    topClassName={GOALS_STICKY_TOP_CLASS}
-                    className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-between"
-                  >
-                    <div className="flex items-center gap-[var(--space-2)] sm:gap-[var(--space-4)]">
-                      <h2 className="text-title font-semibold tracking-[-0.01em]">Your Goals</h2>
-                      <GoalsProgress total={totalCount} pct={pctDone} />
-                    </div>
-                    <div className="flex w-full flex-col gap-[var(--space-2)] sm:w-auto sm:flex-row sm:items-center sm:justify-end sm:gap-[var(--space-3)]">
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="default"
-                        className="w-full shrink-0 sm:w-auto"
-                        onClick={startGoalCreation}
-                      >
-                        <Plus aria-hidden="true" className="size-[var(--space-4)]" />
-                        <span className="font-semibold tracking-[0.01em]">New goal</span>
-                      </Button>
-                      <GoalsTabs value={filter} onChange={setFilter} />
-                    </div>
-                  </SectionCard.Header>
-                  <SectionCard.Body>
-                    {totalCount === 0 ? (
-                      <div className="flex flex-col items-center gap-[var(--space-4)] py-[var(--space-6)] text-center">
-                        <p className="text-ui font-medium text-muted-foreground">No goals yet.</p>
-                        <Button onClick={handleAddFirst} size="sm" variant="default">
-                          Add a first goal
-                        </Button>
+                <div className="space-y-[var(--space-2)]">
+                  <Card className="p-0">
+                    <CardHeader
+                      className={`sticky ${GOALS_STICKY_TOP_CLASS} z-[1] flex flex-col gap-[var(--space-3)] space-y-0 border-b border-card-hairline/60 bg-card/90 px-[var(--space-4)] py-[var(--space-3)] backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between`}
+                    >
+                      <div className="flex items-center gap-[var(--space-2)] sm:gap-[var(--space-4)]">
+                        <h2 className="text-title font-semibold tracking-[-0.01em]">Your Goals</h2>
+                        <GoalsProgress total={totalCount} pct={pctDone} />
                       </div>
-                    ) : (
-                      <GoalList
-                        goals={filtered}
-                        onToggleDone={toggleDone}
-                        onRemove={removeGoal}
-                        onUpdate={updateGoal}
-                      />
-                    )}
-                  </SectionCard.Body>
-                </SectionCard>
-              </div>
-
-              <div ref={formRef} id="goal-form">
-                <GlitchNeoCard padding="var(--space-4)">
-                  <EntityForm
-                    ref={goalFormRef}
-                    title="Add goal"
-                    description="Capture focused, finishable targets for your next session."
-                    fields={[
-                      {
-                        id: "title",
-                        label: "Title",
-                        placeholder: "Review lane states",
-                        required: true,
-                      },
-                      {
-                        id: "metric",
-                        label: "Metric (optional)",
-                        placeholder: "3 ranked wins",
-                      },
-                      {
-                        id: "notes",
-                        label: "Notes (optional)",
-                        placeholder: "Add context, blockers, or reminders",
-                        type: "textarea",
-                        rows: 4,
-                      },
-                    ]}
-                    submitLabel="Add goal"
-                    submitDisabled={isAtCap}
-                    onSubmit={handleAddGoal}
-                    afterFields={
-                      <p className="text-label font-medium tracking-[0.02em] text-muted-foreground">
-                        {isAtCap ? (
-                          <span className="text-danger">Cap reached. Finish one to add more.</span>
-                        ) : (
-                          <span>
-                            {remaining} active slot{remaining === 1 ? "" : "s"} left
-                          </span>
-                        )}
-                      </p>
-                    }
-                    footer={
-                      err ? (
-                        <p
-                          role="status"
-                          aria-live="polite"
-                          className="text-label font-medium tracking-[0.02em] text-danger"
+                      <div className="flex w-full flex-col gap-[var(--space-2)] sm:w-auto sm:flex-row sm:items-center sm:justify-end sm:gap-[var(--space-3)]">
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="default"
+                          className="w-full shrink-0 sm:w-auto"
+                          onClick={startGoalCreation}
                         >
-                          {err}
+                          <Plus aria-hidden="true" className="size-[var(--space-4)]" />
+                          <span className="font-semibold tracking-[0.01em]">New goal</span>
+                        </Button>
+                        <GoalsTabs value={filter} onChange={setFilter} />
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-[var(--space-4)] px-[var(--space-4)] pb-[var(--space-4)] pt-[var(--space-4)]">
+                      <dl className="grid gap-[var(--space-3)] sm:grid-cols-3">
+                        {goalMetrics.map((metric) => (
+                          <div
+                            key={metric.key}
+                            className="flex items-center gap-[var(--space-3)] rounded-card border border-card-hairline/60 bg-card/60 p-[var(--space-3)] shadow-neo-soft"
+                          >
+                            <div
+                              className="relative flex h-[var(--ring-diameter-m)] w-[var(--ring-diameter-m)] items-center justify-center rounded-full bg-panel-tilt"
+                              aria-hidden="true"
+                            >
+                              <ProgressRing
+                                value={metric.percent}
+                                className="text-foreground/30"
+                                progressClassName={metric.progressClassName}
+                                trackClassName={metric.trackClassName}
+                                aria-hidden={true}
+                              />
+                              <span className="absolute text-label font-semibold tracking-[0.02em] tabular-nums">
+                                {metric.percentLabel}
+                              </span>
+                            </div>
+                            <div className="flex flex-col gap-[var(--space-1)]">
+                              <dt className="text-label font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+                                {metric.label}
+                              </dt>
+                              <dd className="text-title font-semibold tracking-[-0.01em] text-foreground">
+                                <span className="sr-only">{metric.srText}</span>
+                                <span aria-hidden>
+                                  {metric.valueLabel}
+                                  <span className="ml-[var(--space-1)] text-label font-medium text-muted-foreground">
+                                    {metric.detail}
+                                  </span>
+                                </span>
+                              </dd>
+                            </div>
+                          </div>
+                        ))}
+                      </dl>
+                      {totalCount === 0 ? (
+                        <div className="flex flex-col items-center gap-[var(--space-4)] py-[var(--space-6)] text-center">
+                          <p className="text-ui font-medium text-muted-foreground">No goals yet.</p>
+                          <Button onClick={handleAddFirst} size="sm" variant="default">
+                            Add a first goal
+                          </Button>
+                        </div>
+                      ) : (
+                        <GoalList
+                          goals={filtered}
+                          onToggleDone={toggleDone}
+                          onRemove={removeGoal}
+                          onUpdate={updateGoal}
+                        />
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <div ref={formRef} id="goal-form">
+                  <GlitchNeoCard padding="var(--space-4)">
+                    <EntityForm
+                      ref={goalFormRef}
+                      title="Add goal"
+                      description="Capture focused, finishable targets for your next session."
+                      fields={[
+                        {
+                          id: "title",
+                          label: "Title",
+                          placeholder: "Review lane states",
+                          required: true,
+                        },
+                        {
+                          id: "metric",
+                          label: "Metric (optional)",
+                          placeholder: "3 ranked wins",
+                        },
+                        {
+                          id: "notes",
+                          label: "Notes (optional)",
+                          placeholder: "Add context, blockers, or reminders",
+                          type: "textarea",
+                          rows: 4,
+                        },
+                      ]}
+                      submitLabel="Add goal"
+                      submitDisabled={isAtCap}
+                      onSubmit={handleAddGoal}
+                      afterFields={
+                        <p className="text-label font-medium tracking-[0.02em] text-muted-foreground">
+                          {isAtCap ? (
+                            <span className="text-danger">Cap reached. Finish one to add more.</span>
+                          ) : (
+                            <span>
+                              {remaining} active slot{remaining === 1 ? "" : "s"} left
+                            </span>
+                          )}
                         </p>
-                      ) : null
+                      }
+                      footer={
+                        err ? (
+                          <p
+                            role="status"
+                            aria-live="polite"
+                            className="text-label font-medium tracking-[0.02em] text-danger"
+                          >
+                            {err}
+                          </p>
+                        ) : null
+                      }
+                    />
+                  </GlitchNeoCard>
+                </div>
+
+                {lastDeleted && (
+                  <Snackbar
+                    role="status"
+                    aria-live="assertive"
+                    message={<>Deleted “{lastDeleted.title}”.</>}
+                    actionLabel="Undo"
+                    actionAriaLabel="Undo delete goal"
+                    onAction={handleUndo}
+                  />
+                )}
+                {clearedCount > 0 && (
+                  <Snackbar
+                    tone="danger"
+                    message={
+                      <>Removed {clearedCount} {clearedCount === 1 ? "goal" : "goals"}.</>
                     }
                   />
-                </GlitchNeoCard>
+                )}
               </div>
-
-              {lastDeleted && (
-                <Snackbar
-                  role="status"
-                  aria-live="assertive"
-                  message={<>Deleted “{lastDeleted.title}”.</>}
-                  actionLabel="Undo"
-                  actionAriaLabel="Undo delete goal"
-                  onAction={handleUndo}
-                />
-              )}
-              {clearedCount > 0 && (
-                <Snackbar
-                  tone="danger"
-                  message={
-                    <>Removed {clearedCount} {clearedCount === 1 ? "goal" : "goals"}.</>
-                  }
-                />
-              )}
-            </div>
           )}
           </div>
 
