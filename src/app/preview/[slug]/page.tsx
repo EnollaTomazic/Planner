@@ -11,6 +11,7 @@ import {
 } from "@/components/gallery";
 import PreviewContentClient from "./PreviewContentClient";
 import { PreviewThemeClient } from "@/components/gallery/PreviewThemeClient";
+import { PageShell } from "@/components/ui";
 import { VARIANT_LABELS } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import { readServerEnv } from '@env'
@@ -105,6 +106,7 @@ export function PreviewUnavailable({ route }: { readonly route: GalleryPreviewRo
   const themeLabel = VARIANT_LABELS[route.themeVariant];
   const stateLabel = route.stateName ?? null;
   const axisSummary = getGalleryPreviewAxisSummary(route.entryId, route.stateId);
+  const headingId = "preview-unavailable-heading";
 
   return (
     <div
@@ -114,12 +116,22 @@ export function PreviewUnavailable({ route }: { readonly route: GalleryPreviewRo
       data-preview-state={route.stateId ?? undefined}
     >
       <PreviewThemeClient variant={route.themeVariant} background={route.themeBackground} />
-      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)]">
-        <header className="space-y-[var(--space-2)]">
-          <p className="text-caption font-medium uppercase tracking-[0.2em] text-muted-foreground">
-            Gallery preview
-          </p>
-          <h1 className="text-title font-semibold tracking-[-0.01em]">
+      <PageShell
+        as="main"
+        id="page-main"
+        tabIndex={-1}
+        aria-labelledby={headingId}
+        className="min-h-screen py-[var(--space-6)]"
+      >
+        <div className="flex flex-col gap-[var(--space-5)]">
+          <header className="space-y-[var(--space-2)]">
+            <p className="text-caption font-medium uppercase tracking-[0.2em] text-muted-foreground">
+              Gallery preview
+            </p>
+          <h1
+            id={headingId}
+            className="text-title font-semibold tracking-[-0.01em]"
+          >
             {route.entryName}
             {stateLabel ? <span className="text-muted-foreground"> · {stateLabel}</span> : null}
           </h1>
@@ -130,14 +142,15 @@ export function PreviewUnavailable({ route }: { readonly route: GalleryPreviewRo
           {axisSummary ? (
             <p className="text-caption text-muted-foreground">{axisSummary}</p>
           ) : null}
-        </header>
-        <PreviewSurfaceContainer status="loading">
-          <div className="space-y-[var(--space-2)] text-label text-muted-foreground">
-            <p>Preview unavailable in the static export.</p>
-            <p>Clone the repository and run the development server to view this preview.</p>
-          </div>
-        </PreviewSurfaceContainer>
-      </div>
+          </header>
+          <PreviewSurfaceContainer status="loading">
+            <div className="space-y-[var(--space-2)] text-label text-muted-foreground">
+              <p>Preview unavailable in the static export.</p>
+              <p>Clone the repository and run the development server to view this preview.</p>
+            </div>
+          </PreviewSurfaceContainer>
+        </div>
+      </PageShell>
     </div>
   );
 }
