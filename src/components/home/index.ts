@@ -10,6 +10,7 @@ export { QuickActions as QuickActions } from "./QuickActions";
 export { TeamPromptsCard as TeamPromptsCard } from "./TeamPromptsCard";
 export { QuickActionGrid as QuickActionGrid } from "./QuickActionGrid";
 export { ActivityCard as ActivityCard } from "./ActivityCard";
+export { ProgressCard as ProgressCard } from "./ProgressCard";
 export { BottomNav as BottomNav } from "../chrome/BottomNav";
 export { IsometricRoom as IsometricRoom } from "./IsometricRoom";
 export { HeroPlannerCards as HeroPlannerCards } from "./HeroPlannerCards";
