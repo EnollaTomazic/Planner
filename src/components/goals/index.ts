@@ -1,5 +1,7 @@
 export { DurationSelector as DurationSelector } from "./DurationSelector";
 export type { DurationSelectorProps } from "./DurationSelector";
+export { GoalForm as GoalForm } from "./GoalForm";
+export type { GoalFormHandle } from "./GoalForm";
 export { GoalQueue as GoalQueue } from "./GoalQueue";
 export type { WaitItem } from "./GoalQueue";
 export { GoalSlot as GoalSlot } from "./GoalSlot";
