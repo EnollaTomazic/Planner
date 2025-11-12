@@ -14,42 +14,61 @@ import { createStorageKey } from "@/lib/db";
 // Clean up DOM after each test
 afterEach(cleanup);
 
+function getGoalFormAddButton(): HTMLButtonElement {
+  const buttons = screen.getAllByRole("button", { name: /add goal/i });
+  const formButton = buttons.find((button) => button.closest("form"));
+  if (!formButton) {
+    throw new Error("Expected goal form submission button to be present");
+  }
+  return formButton as HTMLButtonElement;
+}
+
 describe("GoalsPage", () => {
   beforeEach(() => {
     window.localStorage.clear();
   });
 
-  it("renders hero heading and subtitle", () => {
+  it("renders hero heading, subtitle, and progress summary", () => {
     render(<GoalsPage />);
-    const heroRegion = screen.getByRole("region", {
-      name: "Goals overview",
-    });
+    const heroRegion = screen.getByRole("region", { name: "Goals" });
     expect(
-      within(heroRegion).getByRole("heading", { name: "Goals overview" }),
+      within(heroRegion).getByRole("heading", { name: "Goals" }),
     ).toBeInTheDocument();
-    const heroSummary = within(heroRegion).getByText((_, node) => {
-      if (!(node instanceof HTMLElement)) {
-        return false;
-      }
-      return node.id === "goals-hero-summary";
-    });
-    const capSegment = within(heroSummary)
-      .getByText("Cap", { selector: "span" })
+    expect(
+      within(heroRegion).getByText("Set and achieve your objectives."),
+    ).toBeInTheDocument();
+    expect(
+      within(heroRegion).getByRole("img", { name: "0% of goals completed" }),
+    ).toBeInTheDocument();
+
+    const capStat = within(heroRegion)
+      .getByText("Cap", { selector: "dt" })
       .parentElement as HTMLElement;
-    const activeSegment = within(heroSummary)
-      .getByText("Active", { selector: "span" })
+    const activeStat = within(heroRegion)
+      .getByText("Active", { selector: "dt" })
       .parentElement as HTMLElement;
-    const remainingSegment = within(heroSummary)
-      .getByText("Remaining", { selector: "span" })
+    const remainingStat = within(heroRegion)
+      .getByText("Remaining", { selector: "dt" })
       .parentElement as HTMLElement;
-    const doneSegment = within(heroSummary)
-      .getByText("Done", { selector: "span" })
+    const doneStat = within(heroRegion)
+      .getByText("Done", { selector: "dt" })
+      .parentElement as HTMLElement;
+    const totalStat = within(heroRegion)
+      .getByText("Total", { selector: "dt" })
       .parentElement as HTMLElement;
 
-    expect(capSegment).toHaveTextContent(/Cap\s*3/);
-    expect(activeSegment).toHaveTextContent(/Active\s*0/);
-    expect(remainingSegment).toHaveTextContent(/Remaining\s*3/);
-    expect(doneSegment).toHaveTextContent(/Done\s*0\s*\(0%\)/);
+    expect(capStat).toHaveTextContent(/Cap\s*3\s*active/i);
+    expect(activeStat).toHaveTextContent(/Active\s*0\s*live/i);
+    expect(remainingStat).toHaveTextContent(/Remaining\s*3/);
+    expect(doneStat).toHaveTextContent(/Done\s*0\s*\(0%\)/);
+    expect(totalStat).toHaveTextContent(/Total\s*0/);
+
+    expect(
+      within(heroRegion).getByRole("button", { name: "Add Goal" }),
+    ).toBeInTheDocument();
+    expect(
+      within(heroRegion).getByRole("button", { name: "Reset All Goals" }),
+    ).toBeDisabled();
   });
 
   it("allows editing goal fields", async () => {
@@ -57,7 +76,7 @@ describe("GoalsPage", () => {
 
     const titleInput = screen.getByRole("textbox", { name: "Title" });
     const metricInput = screen.getByRole("textbox", { name: "Metric (optional)" });
-    const addButton = screen.getByRole("button", { name: /add goal/i });
+    const addButton = getGoalFormAddButton();
 
     fireEvent.change(titleInput, { target: { value: "Initial" } });
     fireEvent.change(metricInput, { target: { value: "5" } });
@@ -82,23 +101,44 @@ describe("GoalsPage", () => {
     expect(metricLabel.parentElement?.textContent).toBe("Metric: 10");
   });
 
-  it("renders dynamic subtitle with counts", () => {
+  it("updates hero progress stats when goals change", async () => {
     render(<GoalsPage />);
-    const headerHeading = screen.getByRole("heading", {
-      name: "Today’s Goals",
+
+    const titleInput = screen.getByRole("textbox", { name: "Title" });
+    const addButton = getGoalFormAddButton();
+
+    fireEvent.change(titleInput, { target: { value: "Goal A" } });
+    fireEvent.click(addButton);
+    await screen.findByText("Goal A");
+
+    fireEvent.change(titleInput, { target: { value: "Goal B" } });
+    fireEvent.click(addButton);
+    const goalB = await screen.findByText("Goal B");
+
+    const heroRegion = screen.getByRole("region", { name: "Goals" });
+    expect(
+      within(heroRegion).getByRole("img", { name: "0% of goals completed" }),
+    ).toBeInTheDocument();
+    expect(
+      within(heroRegion).getByText("Remaining", { selector: "dt" })
+        .nextElementSibling,
+    ).toHaveTextContent("1");
+
+    const goalBCard = goalB.closest("article") as HTMLElement;
+    const toggle = within(goalBCard).getByRole("checkbox", {
+      name: /mark done/i,
     });
-    const summaryList = headerHeading.parentElement?.querySelector(
-      ":scope > span ul",
-    );
-    if (!(summaryList instanceof HTMLElement)) {
-      throw new Error("Expected header summary list to render");
-    }
-    const items = within(summaryList).getAllByRole("listitem");
-    expect(items).toHaveLength(4);
-    expect(items[0]).toHaveTextContent(/Cap\s*3\s*active/);
-    expect(items[1]).toHaveTextContent(/Remaining\s*3/);
-    expect(items[2]).toHaveTextContent(/Complete\s*0%/);
-    expect(items[3]).toHaveTextContent(/Total\s*0/);
+    fireEvent.click(toggle);
+
+    expect(
+      within(heroRegion).getByRole("img", {
+        name: "50% of goals completed",
+      }),
+    ).toBeInTheDocument();
+    const doneStat = within(heroRegion)
+      .getByText("Done", { selector: "dt" })
+      .nextElementSibling as HTMLElement;
+    expect(doneStat).toHaveTextContent("1 (50%)");
   });
 
   it("shows domain in reminders hero and updates on change", () => {
@@ -110,17 +150,19 @@ describe("GoalsPage", () => {
     const heroSection = screen
       .getByRole("heading", { name: "Reminders" })
       .closest("section") as HTMLElement;
-    expect(
-      within(heroSection).getByText("League", { selector: "div" }),
-    ).toBeInTheDocument();
+    const initialDomainLabel = within(heroSection)
+      .getAllByText(/League/i)
+      .find((node) => !node.closest('[role="tab"]'));
+    expect(initialDomainLabel?.textContent?.trim()).toBe("League");
 
     const domainTabs = screen.getByRole("tablist", {
       name: "Reminder domain",
     });
     fireEvent.click(within(domainTabs).getByRole("tab", { name: "Life" }));
-    expect(
-      within(heroSection).getByText("Life", { selector: "div" }),
-    ).toBeInTheDocument();
+    const updatedDomainLabel = within(heroSection)
+      .getAllByText(/Life/i)
+      .find((node) => !node.closest('[role="tab"]'));
+    expect(updatedDomainLabel?.textContent?.trim()).toBe("Life");
   });
 
   it("shows timer hero with profile tabs", () => {
@@ -139,7 +181,7 @@ describe("GoalsPage", () => {
     render(<GoalsPage />);
 
     const titleInput = screen.getByRole("textbox", { name: "Title" });
-    const addButton = screen.getByRole("button", { name: /add goal/i });
+    const addButton = getGoalFormAddButton();
 
     // Add three goals up to the active cap
     const goalCreationPromises = [];

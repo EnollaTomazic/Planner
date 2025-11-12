@@ -26,9 +26,9 @@ import {
 
 import { type HeaderTab } from "@/components/ui/layout/Header";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
-import { Hero, Snackbar, PageShell, Modal } from "@/components/ui";
+import { Hero, Snackbar, PageShell, Modal, ProgressRing } from "@/components/ui";
 import { GlitchNeoCard } from "@/components/ui/patterns";
-import { PlannerProvider } from "@/components/planner";
+import { PlannerProvider, SmallAgnesNoxiImage } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
 import {
   CardHeader,
@@ -97,7 +97,7 @@ const DOMAIN_ITEMS: Array<{
 ];
 
 const HERO_HEADINGS: Record<Tab, string> = {
-  goals: "Goals overview",
+  goals: "Goals",
   reminders: "Reminders",
   timer: "Focus timer",
 };
@@ -362,28 +362,58 @@ function GoalsPageContent() {
     map[tab].current?.focus();
   }, [tab]);
 
+  const progressLabel = `${pctDone}% of goals completed`;
+
   const summary: React.ReactNode =
     tab === "goals" ? (
-      <ul className="m-0 list-none flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-1)] p-0 text-label text-muted-foreground">
-        <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="font-semibold text-foreground">Cap</span>
-          <span className="text-foreground">{ACTIVE_CAP} active</span>
-        </li>
-        <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="font-semibold text-accent-3">Remaining</span>
-          <span className="text-accent-3">{remaining}</span>
-        </li>
-        <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="font-semibold text-success">Complete</span>
-          <span className="text-success">{pctDone}%</span>
-        </li>
-        <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-primary-soft px-[var(--space-2)] text-label text-primary-foreground">
-            <span className="font-semibold">Total</span>
-            <span>{totalCount}</span>
+      <div className="flex flex-col gap-[var(--space-4)] sm:flex-row sm:items-center sm:gap-[var(--space-6)]">
+        <div
+          className="relative h-[var(--space-12)] w-[var(--space-12)]"
+          role="img"
+          aria-label={progressLabel}
+        >
+          <ProgressRing
+            value={pctDone}
+            size="l"
+            className="text-accent"
+            trackClassName="text-muted-foreground/40"
+            aria-hidden="true"
+          />
+          <span className="absolute inset-0 grid place-items-center text-title font-semibold text-foreground">
+            {pctDone}%
           </span>
-        </li>
-      </ul>
+        </div>
+        <dl className="grid gap-[var(--space-2)] text-label text-muted-foreground">
+          <div className="flex items-center gap-[var(--space-2)] text-foreground">
+            <dt className="font-semibold uppercase tracking-[0.08em] text-muted-foreground">Cap</dt>
+            <dd className="m-0 text-foreground">{ACTIVE_CAP} active</dd>
+          </div>
+          <div className="flex items-center gap-[var(--space-2)] text-foreground">
+            <dt className="font-semibold uppercase tracking-[0.08em] text-muted-foreground">Active</dt>
+            <dd className="m-0">
+              <span className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-primary-soft px-[var(--space-2)] text-primary-foreground">
+                <span className="font-semibold">{activeCount}</span>
+                <span className="uppercase tracking-[0.08em]">live</span>
+              </span>
+            </dd>
+          </div>
+          <div className="flex items-center gap-[var(--space-2)] text-accent-3">
+            <dt className="font-semibold uppercase tracking-[0.08em]">Remaining</dt>
+            <dd className="m-0">{remaining}</dd>
+          </div>
+          <div className="flex items-center gap-[var(--space-2)] text-success">
+            <dt className="font-semibold uppercase tracking-[0.08em]">Done</dt>
+            <dd className="m-0">
+              {doneCount}
+              <span className="text-muted-foreground"> ({pctDone}%)</span>
+            </dd>
+          </div>
+          <div className="flex items-center gap-[var(--space-2)] text-foreground">
+            <dt className="font-semibold uppercase tracking-[0.08em] text-muted-foreground">Total</dt>
+            <dd className="m-0">{totalCount}</dd>
+          </div>
+        </dl>
+      </div>
     ) : tab === "reminders" ? (
       <>
         Keep <span className="font-semibold text-accent-3">nudges</span> handy with quick edit loops.
@@ -409,30 +439,8 @@ function GoalsPageContent() {
   let heroSubtitle: React.ReactNode;
   if (tab === "goals") {
     heroSubtitle = (
-      <span
-        id={heroSubtitleId}
-        className="flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-1)] text-muted-foreground"
-      >
-        <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="text-label font-semibold text-foreground">Cap</span>
-          <span className="text-label text-foreground">{ACTIVE_CAP}</span>
-        </span>
-        <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-primary-soft px-[var(--space-2)] text-label text-primary-foreground">
-            <span className="font-semibold">Active</span>
-            <span>{activeCount}</span>
-          </span>
-        </span>
-        <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="text-label font-semibold text-accent-3">Remaining</span>
-          <span className="text-label text-accent-3">{remaining}</span>
-        </span>
-        <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="text-label font-semibold text-success">Done</span>
-          <span className="text-label text-success">
-            {doneCount} ({pctDone}%)
-          </span>
-        </span>
+      <span id={heroSubtitleId} className="text-muted-foreground">
+        Set and achieve your objectives.
       </span>
     );
   } else if (tab === "reminders") {
@@ -508,21 +516,32 @@ function GoalsPageContent() {
 
     if (tab === "goals") {
       return (
-        <Button
-          type="button"
-          size="sm"
-          variant="destructive"
-          tone="danger"
-          className="w-full shrink-0 md:w-auto"
-          onClick={handleOpenNuke}
-          disabled={totalCount === 0}
-          aria-haspopup="dialog"
-          aria-controls={confirmClearOpen ? nukeDialogId : undefined}
-          title="Delete all goals"
-        >
-          <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
-          <span className="font-semibold tracking-[0.01em]">Nuke all</span>
-        </Button>
+        <div className="flex flex-col items-stretch gap-[var(--space-2)] sm:flex-row sm:items-center sm:gap-[var(--space-3)]">
+          <Button
+            type="button"
+            size="md"
+            variant="default"
+            className="w-full shrink-0 sm:w-auto"
+            onClick={startGoalCreation}
+          >
+            <Plus aria-hidden="true" className="size-[var(--space-4)]" />
+            <span className="font-semibold tracking-[0.01em]">Add Goal</span>
+          </Button>
+          <Button
+            type="button"
+            size="md"
+            variant="default"
+            tone="danger"
+            className="w-full shrink-0 sm:w-auto"
+            onClick={handleOpenNuke}
+            disabled={totalCount === 0}
+            aria-haspopup="dialog"
+            aria-controls={confirmClearOpen ? nukeDialogId : undefined}
+          >
+            <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
+            <span className="font-semibold tracking-[0.01em]">Reset All Goals</span>
+          </Button>
+        </div>
       );
     }
 
@@ -531,6 +550,7 @@ function GoalsPageContent() {
     tab,
     handleAddReminder,
     handleOpenNuke,
+    startGoalCreation,
     totalCount,
     confirmClearOpen,
     nukeDialogId,
@@ -549,7 +569,8 @@ function GoalsPageContent() {
           title={heroHeading}
           subtitle={heroSubtitle}
           sticky={false}
-          glitch="subtle"
+          glitch="off"
+          noiseLevel="none"
           topClassName={GOALS_STICKY_TOP_CLASS}
           dividerTint={heroDividerTint}
           tabs={{
@@ -562,6 +583,10 @@ function GoalsPageContent() {
           subTabs={reminderHeroSubTabs}
           searchBar={reminderHeroSearch}
           actions={heroActions}
+          illustration={tab === "goals" ? <SmallAgnesNoxiImage /> : undefined}
+          illustrationAlt={
+            tab === "goals" ? "Agnes and Noxi calibrating the sprint focus dial" : undefined
+          }
           className="col-span-full md:col-span-12"
         >
           <div className="space-y-[var(--space-3)]">
