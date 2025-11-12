@@ -1,28 +1,14 @@
 // src/components/team/Builder.tsx
 "use client";
-import "./style.css";
-
-/**
- * Builder — Allies vs Enemies with a center divider
- * - Local storage via usePersistentState
- * - Icon-only actions with tooltips (Swap / Copy)
- * - Glitch-styled titles and subtle neon rail
- * - Center spine shows on md+ only
- */
 
 import * as React from "react";
-import { Input } from "@/components/ui/primitives/Input";
-import { Textarea } from "@/components/ui/primitives/Textarea";
-import { IconButton } from "@/components/ui/primitives/IconButton";
-import {
-  Shield,
-  Swords,
-  Eraser,
-  NotebookPen,
-  Copy,
-} from "lucide-react";
+import { ArrowLeftRight, Copy, Eraser, NotebookPen } from "lucide-react";
+
+import { Button } from "@/components/ui/primitives/Button";
+import { FieldInput, FieldRoot, FieldTextarea } from "@/components/ui/primitives/Field";
 import { usePersistentState } from "@/lib/db";
 import { copyText } from "@/lib/clipboard";
+import { cn } from "@/lib/utils";
 
 /* ───────────────── types & constants ───────────────── */
 
@@ -160,6 +146,13 @@ export const Builder = React.forwardRef<BuilderHandle, BuilderProps>(
       [setState],
     );
 
+    const clearAll = React.useCallback(() => {
+      setState(() => ({
+        allies: { ...EMPTY_TEAM },
+        enemies: { ...EMPTY_TEAM },
+      }));
+    }, [setState]);
+
     const swapSides = React.useCallback(() => {
       setState((prev) => ({
         allies: { ...prev.enemies },
@@ -200,14 +193,6 @@ export const Builder = React.forwardRef<BuilderHandle, BuilderProps>(
       [setNotes],
     );
 
-    const handleAlliesClear = React.useCallback(() => {
-      clearSide("allies");
-    }, [clearSide]);
-
-    const handleAlliesCopy = React.useCallback(() => {
-      void copy("allies");
-    }, [copy]);
-
     const handleEnemiesLane = React.useCallback(
       (lane: LaneKey, value: string) => {
         setLane("enemies", lane, value);
@@ -222,15 +207,40 @@ export const Builder = React.forwardRef<BuilderHandle, BuilderProps>(
       [setNotes],
     );
 
+    const handleAlliesClear = React.useCallback(() => {
+      clearSide("allies");
+    }, [clearSide]);
+
     const handleEnemiesClear = React.useCallback(() => {
       clearSide("enemies");
     }, [clearSide]);
+
+    const handleAlliesCopy = React.useCallback(() => {
+      void copy("allies");
+    }, [copy]);
 
     const handleEnemiesCopy = React.useCallback(() => {
       void copy("enemies");
     }, [copy]);
 
-  /* ─────────────── UI ─────────────── */
+    const laneSuggestions = React.useMemo(() => {
+      const values = new Set<string>();
+      (Object.keys(state) as Side[]).forEach((side) => {
+        LANES.forEach(({ key }) => {
+          const value = state[side][key];
+          if (typeof value === "string") {
+            const trimmed = value.trim();
+            if (trimmed.length > 0) {
+              values.add(trimmed);
+            }
+          }
+        });
+      });
+
+      return Array.from(values).sort((a, b) => a.localeCompare(b));
+    }, [state]);
+
+    const insights = React.useMemo(() => createLaneInsights(state), [state]);
 
     React.useImperativeHandle(
       ref,
@@ -241,156 +251,373 @@ export const Builder = React.forwardRef<BuilderHandle, BuilderProps>(
       [handleCopyAll, swapSides],
     );
 
-  return (
-    <div data-scope="team" className="w-full mt-[var(--space-6)]">
-      <section className="rounded-card r-card-lg glitch-card text-card-foreground">
-        <div className="p-[var(--space-5)] text-ui">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-[var(--space-6)]">
-            {/* Allies */}
-            <div className="md:col-span-5">
-              <SideEditor
-                side="allies"
-                title="Allies"
-                icon={<Shield />}
-                value={state.allies}
-                onLane={handleAlliesLane}
-                onNotes={handleAlliesNotes}
-                onClear={handleAlliesClear}
-                onCopy={handleAlliesCopy}
-                count={filledCount.allies}
-              />
+    return (
+      <div data-scope="team" className="w-full mt-[var(--space-6)]">
+        <section className="rounded-card r-card-lg border border-card-hairline-60 bg-surface text-card-foreground shadow-depth-soft overflow-hidden">
+          <div className="flex flex-col text-ui">
+            <ActionToolbar
+              alliesCount={filledCount.allies}
+              enemiesCount={filledCount.enemies}
+              onSwap={swapSides}
+              onCopyAll={handleCopyAll}
+              onCopyAllies={handleAlliesCopy}
+              onCopyEnemies={handleEnemiesCopy}
+              onClearAll={clearAll}
+              onClearAllies={handleAlliesClear}
+              onClearEnemies={handleEnemiesClear}
+            />
+
+            <div className="overflow-x-auto px-[var(--space-5)] pb-[var(--space-6)] pt-[var(--space-5)]">
+              <div className="min-w-[min(58rem,100%)]">
+                <LaneGrid
+                  allies={state.allies}
+                  enemies={state.enemies}
+                  onAlliesLane={handleAlliesLane}
+                  onEnemiesLane={handleEnemiesLane}
+                  suggestions={laneSuggestions}
+                />
+              </div>
             </div>
 
-              {/* Center spine (md+) */}
-            <div className="hidden md:block relative md:col-span-2">
-              <span
-                aria-hidden
-                className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-px bg-border"
-              />
-            </div>
-
-              {/* Enemies */}
-            <div className="md:col-span-5">
-              <SideEditor
-                side="enemies"
-                title="Enemies"
-                icon={<Swords />}
-                value={state.enemies}
-                onLane={handleEnemiesLane}
-                onNotes={handleEnemiesNotes}
-                onClear={handleEnemiesClear}
-                onCopy={handleEnemiesCopy}
-                count={filledCount.enemies}
-              />
-            </div>
+            <SummaryPanel
+              insights={insights}
+              alliesNotes={state.allies.notes ?? ""}
+              enemiesNotes={state.enemies.notes ?? ""}
+              onAlliesNotesChange={handleAlliesNotes}
+              onEnemiesNotesChange={handleEnemiesNotes}
+            />
           </div>
-        </div>
-      </section>
-    </div>
-  );
-})
+        </section>
+      </div>
+    );
+  },
+);
 
-/* ───────────────── subcomponents ───────────────── */
+type ActionToolbarProps = {
+  alliesCount: number;
+  enemiesCount: number;
+  onSwap: () => void;
+  onCopyAll: () => void;
+  onCopyAllies: () => void;
+  onCopyEnemies: () => void;
+  onClearAll: () => void;
+  onClearAllies: () => void;
+  onClearEnemies: () => void;
+};
 
-function SideEditor(props: {
-  side: Side;
-  title: string;
-  icon: React.ReactNode;
-  value: Team;
-  onLane: (lane: LaneKey, v: string) => void;
-  onNotes: (v: string) => void;
-  onClear: () => void;
-  onCopy: () => void;
-  count: number;
-}) {
-  const { side, title, icon, value, onLane, onNotes, onClear, onCopy, count } = props;
-
+function ActionToolbar({
+  alliesCount,
+  enemiesCount,
+  onSwap,
+  onCopyAll,
+  onCopyAllies,
+  onCopyEnemies,
+  onClearAll,
+  onClearAllies,
+  onClearEnemies,
+}: ActionToolbarProps) {
   return (
-    <div className="rounded-card r-card-lg p-[var(--space-4)] glitch-card relative text-card-foreground text-ui">
-      {/* neon rail */}
-      <span aria-hidden className="glitch-rail" />
+    <header className="sticky top-0 z-20 border-b border-card-hairline-60 bg-surface/95 px-[var(--space-5)] py-[var(--space-4)] backdrop-blur supports-[backdrop-filter:blur(0px)]:bg-surface/80">
+      <div className="flex flex-col gap-[var(--space-3)] lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-wrap items-center gap-[var(--space-2)] text-label font-medium tracking-[0.06em] uppercase text-muted-foreground">
+          <span>Team builder</span>
+          <span className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-[hsl(var(--accent-1)/0.12)] px-[var(--space-3)] py-[var(--space-1)] text-[hsl(var(--accent-1-foreground))] shadow-[var(--shadow-inset-hairline)]">
+            Allies {alliesCount}/5
+          </span>
+          <span className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-[hsl(var(--accent-3)/0.12)] px-[var(--space-3)] py-[var(--space-1)] text-[hsl(var(--accent-3-foreground))] shadow-[var(--shadow-inset-hairline)]">
+            Enemies {enemiesCount}/5
+          </span>
+        </div>
 
-      <header className="mb-[var(--space-3)] flex items-center gap-[var(--space-2)]">
-        {/* glitchy side title */}
-        <span
-          className="glitch-title glitch-flicker title-glow inline-flex items-center gap-[var(--space-2)]"
-          data-text={title}
-        >
-          {icon}
-          <strong className="text-body sm:text-title font-semibold tracking-[-0.01em]">{title}</strong>
+        <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+          <Button size="sm" variant="neo" onClick={onSwap} className="min-w-[7rem]">
+            <ArrowLeftRight className="mr-[var(--space-2)] size-[var(--space-4)]" />
+            Swap sides
+          </Button>
+          <Button size="sm" variant="quiet" onClick={onCopyAll}>
+            <Copy className="mr-[var(--space-2)] size-[var(--space-4)]" />
+            Copy all
+          </Button>
+          <Button size="sm" variant="quiet" onClick={onCopyAllies}>
+            <Copy className="mr-[var(--space-2)] size-[var(--space-4)]" />
+            Copy allies
+          </Button>
+          <Button size="sm" variant="quiet" onClick={onCopyEnemies}>
+            <Copy className="mr-[var(--space-2)] size-[var(--space-4)]" />
+            Copy enemies
+          </Button>
+          <Button size="sm" variant="quiet" onClick={onClearAllies}>
+            <Eraser className="mr-[var(--space-2)] size-[var(--space-4)]" />
+            Clear allies
+          </Button>
+          <Button size="sm" variant="quiet" onClick={onClearEnemies}>
+            <Eraser className="mr-[var(--space-2)] size-[var(--space-4)]" />
+            Clear enemies
+          </Button>
+          <Button size="sm" variant="quiet" onClick={onClearAll}>
+            <Eraser className="mr-[var(--space-2)] size-[var(--space-4)]" />
+            Clear all
+          </Button>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+type LaneGridProps = {
+  allies: Team;
+  enemies: Team;
+  onAlliesLane: (lane: LaneKey, value: string) => void;
+  onEnemiesLane: (lane: LaneKey, value: string) => void;
+  suggestions: string[];
+};
+
+function LaneGrid({ allies, enemies, onAlliesLane, onEnemiesLane, suggestions }: LaneGridProps) {
+  return (
+    <div className="rounded-card border border-card-hairline-60 bg-surface-2/70 p-[var(--space-4)] shadow-[var(--shadow-outline-subtle)]">
+      <div className="grid grid-cols-[minmax(7rem,0.45fr)_minmax(12rem,1fr)_minmax(12rem,1fr)] gap-x-[var(--space-5)]">
+        <span className="text-label font-medium uppercase tracking-[0.06em] text-muted-foreground">Lane</span>
+        <span className="flex items-center gap-[var(--space-2)] text-label font-medium uppercase tracking-[0.06em] text-muted-foreground">
+          Allies
+        </span>
+        <span className="flex items-center gap-[var(--space-2)] text-label font-medium uppercase tracking-[0.06em] text-muted-foreground">
+          Enemies
         </span>
 
-        <span className="ml-auto pill pill-compact text-label font-medium tracking-[0.02em] uppercase">
-          {count}/5 filled
-        </span>
-      </header>
-
-      <div className="grid gap-[var(--space-3)]">
-        {LANES.map(({ key, label }) => {
-          const inputId = `${side}-${key}`;
+        {LANES.map(({ key, label }, index) => {
+          const alliesId = `allies-${key}`;
+          const enemiesId = `enemies-${key}`;
           return (
-            <div
-              key={key}
-              className="grid grid-cols-[calc(var(--spacing-8)+var(--spacing-5))_1fr] items-center gap-[var(--space-3)]"
-            >
-              <label
-                className="glitch-title glitch-flicker text-label font-medium tracking-[0.02em] text-muted-foreground"
-                data-text={label}
-                htmlFor={inputId}
-              >
-                {label}
-              </label>
-              <Input
-                id={inputId}
-                placeholder={`Enter ${label} champion`}
-                value={value[key] as string}
-                onChange={(e) => onLane(key, e.currentTarget.value)}
-              />
-            </div>
+            <React.Fragment key={key}>
+              {index > 0 ? (
+                <span className="col-span-3 h-px bg-card-hairline-40" aria-hidden />
+              ) : null}
+
+              <div className="py-[var(--space-3)]">
+                <label
+                  htmlFor={alliesId}
+                  className="text-body font-medium tracking-[-0.01em] text-foreground/90"
+                >
+                  {label}
+                </label>
+              </div>
+
+              <div className="py-[var(--space-3)]">
+                <ChampionSelect
+                  id={alliesId}
+                  placeholder={`Allied ${label}`}
+                  value={(allies[key] ?? "") as string}
+                  onChange={(value) => onAlliesLane(key, value)}
+                  suggestions={suggestions}
+                />
+              </div>
+
+              <div className="py-[var(--space-3)]">
+                <ChampionSelect
+                  id={enemiesId}
+                  placeholder={`Enemy ${label}`}
+                  value={(enemies[key] ?? "") as string}
+                  onChange={(value) => onEnemiesLane(key, value)}
+                  suggestions={suggestions}
+                />
+              </div>
+            </React.Fragment>
           );
         })}
-
-        <div className="grid gap-[var(--space-3)]">
-          <label
-            className="text-label font-medium tracking-[0.02em] text-muted-foreground inline-flex items-center gap-[var(--space-2)]"
-            htmlFor={`${side}-notes`}
-          >
-            <NotebookPen className="opacity-80" /> Notes
-          </label>
-          <Textarea
-            id={`${side}-notes`}
-            placeholder="Short plan, spikes, target calls…"
-            value={value.notes ?? ""}
-            onChange={(e) => onNotes(e.currentTarget.value)}
-            resize="resize-y"
-            textareaClassName="min-h-[calc(var(--spacing-8)*2+var(--spacing-7)+var(--spacing-1))] leading-relaxed"
-            rows={4}
-          />
-        </div>
-
-        {/* side actions: icon-only, same behavior */}
-        <div className="mt-[var(--space-1)] flex items-center gap-[var(--space-2)] justify-end">
-          <IconButton
-            title={`Clear ${title}`}
-            aria-label={`Clear ${title}`}
-            variant="quiet"
-            onClick={onClear}
-            size="sm"
-            iconSize="sm"
-          >
-            <Eraser />
-          </IconButton>
-          <IconButton
-            title={`Copy ${title}`}
-            aria-label={`Copy ${title}`}
-            onClick={onCopy}
-            size="sm"
-            iconSize="sm"
-          >
-            <Copy />
-          </IconButton>
-        </div>
       </div>
     </div>
   );
+}
+
+type ChampionSelectProps = {
+  id: string;
+  placeholder: string;
+  value: string;
+  onChange: (value: string) => void;
+  suggestions: string[];
+};
+
+function ChampionSelect({ id, placeholder, value, onChange, suggestions }: ChampionSelectProps) {
+  const listId = suggestions.length > 0 ? `${id}-suggestions` : undefined;
+
+  return (
+    <div className="flex flex-col gap-[var(--space-1)]">
+      <FieldRoot
+        variant="sunken"
+        height="md"
+        className="rounded-full border border-card-hairline-60 bg-[hsl(var(--surface-1)/0.92)] px-[var(--space-1)] shadow-[var(--shadow-inset-hairline)]"
+      >
+        <FieldInput
+          id={id}
+          value={value}
+          onChange={(event) => onChange(event.currentTarget.value)}
+          placeholder={placeholder}
+          list={listId}
+          aria-label={placeholder}
+          className="rounded-full px-[var(--space-4)] text-body"
+        />
+      </FieldRoot>
+      {listId ? (
+        <datalist id={listId}>
+          {suggestions.map((option) => (
+            <option key={option} value={option} />
+          ))}
+        </datalist>
+      ) : null}
+    </div>
+  );
+}
+
+type LaneInsights = ReturnType<typeof createLaneInsights>;
+
+type SummaryPanelProps = {
+  insights: LaneInsights;
+  alliesNotes: string;
+  enemiesNotes: string;
+  onAlliesNotesChange: (value: string) => void;
+  onEnemiesNotesChange: (value: string) => void;
+};
+
+function SummaryPanel({
+  insights,
+  alliesNotes,
+  enemiesNotes,
+  onAlliesNotesChange,
+  onEnemiesNotesChange,
+}: SummaryPanelProps) {
+  return (
+    <footer className="sticky bottom-0 z-20 border-t border-card-hairline-60 bg-surface/95 px-[var(--space-5)] py-[var(--space-5)] backdrop-blur supports-[backdrop-filter:blur(0px)]:bg-surface/80">
+      <div className="grid gap-[var(--space-5)]">
+        <div className="grid gap-[var(--space-4)] lg:grid-cols-[minmax(16rem,1fr)_minmax(18rem,1fr)] lg:gap-[var(--space-6)]">
+          <InsightList title="Synergy focus" items={insights.synergy} empty="Lock in allied champions to surface synergy cues." />
+          <InsightList title="Counter watch" items={insights.counters} empty="Add enemy picks to surface matchup notes." />
+        </div>
+
+        <div className="grid gap-[var(--space-4)] md:grid-cols-2">
+          <NotesField
+            id="allies-notes"
+            label="Allies notes"
+            value={alliesNotes}
+            placeholder="Draft triggers, spike timings, roam pairings…"
+            onChange={onAlliesNotesChange}
+          />
+          <NotesField
+            id="enemies-notes"
+            label="Enemies notes"
+            value={enemiesNotes}
+            placeholder="Threat windows, key cooldowns, punish ideas…"
+            onChange={onEnemiesNotesChange}
+          />
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+type InsightListProps = {
+  title: string;
+  items: string[];
+  empty: string;
+};
+
+function InsightList({ title, items, empty }: InsightListProps) {
+  return (
+    <div className="rounded-card border border-card-hairline-60 bg-surface-2/70 p-[var(--space-4)] shadow-[var(--shadow-outline-subtle)]">
+      <h3 className="flex items-center gap-[var(--space-2)] text-label font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+        {title}
+      </h3>
+      {items.length > 0 ? (
+        <ul className="mt-[var(--space-3)] space-y-[var(--space-2)] text-body leading-relaxed text-foreground/90">
+          {items.map((item) => (
+            <li key={item} className="flex items-start gap-[var(--space-2)]">
+              <span aria-hidden className="mt-[var(--space-1)] size-[var(--space-1)] rounded-full bg-[hsl(var(--accent-1))]" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-[var(--space-3)] text-body text-muted-foreground">{empty}</p>
+      )}
+    </div>
+  );
+}
+
+type NotesFieldProps = {
+  id: string;
+  label: string;
+  value: string;
+  placeholder: string;
+  onChange: (value: string) => void;
+};
+
+function NotesField({ id, label, value, placeholder, onChange }: NotesFieldProps) {
+  return (
+    <div className="flex flex-col gap-[var(--space-2)]">
+      <label
+        htmlFor={id}
+        className="flex items-center gap-[var(--space-2)] text-label font-medium uppercase tracking-[0.06em] text-muted-foreground"
+      >
+        <NotebookPen className="size-[var(--space-4)] opacity-75" /> {label}
+      </label>
+      <FieldRoot
+        variant="sunken"
+        className={cn(
+          "min-h-[var(--space-12)] rounded-card border border-card-hairline-60 bg-[hsl(var(--surface-1)/0.92)] shadow-[var(--shadow-inset-hairline)]",
+          "focus-within:ring-2 focus-within:ring-[hsl(var(--accent-1)/0.6)]",
+        )}
+      >
+        <FieldTextarea
+          id={id}
+          value={value}
+          onChange={(event) => onChange(event.currentTarget.value)}
+          rows={4}
+          placeholder={placeholder}
+          className="min-h-[var(--space-12)] resize-y text-body leading-relaxed"
+        />
+      </FieldRoot>
+    </div>
+  );
+}
+
+function createLaneInsights(state: TeamState) {
+  const synergy: string[] = [];
+  const counters: string[] = [];
+
+  LANES.forEach(({ key, label }) => {
+    const allyRaw = state.allies[key];
+    const enemyRaw = state.enemies[key];
+    const ally = typeof allyRaw === "string" ? allyRaw.trim() : "";
+    const enemy = typeof enemyRaw === "string" ? enemyRaw.trim() : "";
+
+    if (ally && enemy) {
+      if (ally.localeCompare(enemy, undefined, { sensitivity: "accent" }) === 0) {
+        counters.push(`Mirror matchup in ${label}: ${ally}. Track jungle pressure to break symmetry.`);
+      } else {
+        counters.push(`${ally} vs ${enemy} on ${label}. Prep counterplay windows and wave control.`);
+      }
+      return;
+    }
+
+    if (ally) {
+      synergy.push(`${ally} locked for ${label}. Coordinate roam paths and objective timers around their spike.`);
+    } else if (enemy) {
+      counters.push(`${enemy} secured ${label}. Identify a response pick or early gank path.`);
+    }
+  });
+
+  if (synergy.length === 0) {
+    const allyFilled = LANES.filter(({ key }) => (state.allies[key] ?? "").toString().trim().length > 0).length;
+    if (allyFilled === 0) {
+      synergy.push("No allied lanes are locked yet. Start with comfort picks to surface coordination notes.");
+    }
+  }
+
+  if (counters.length === 0) {
+    const enemyFilled = LANES.filter(({ key }) => (state.enemies[key] ?? "").toString().trim().length > 0).length;
+    if (enemyFilled === 0) {
+      counters.push("Enemy draft is still open. Scout likely threats once picks appear.");
+    }
+  }
+
+  return { synergy, counters };
 }
