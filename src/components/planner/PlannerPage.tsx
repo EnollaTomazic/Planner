@@ -16,7 +16,6 @@ import {
   Button,
   GlitchProgress,
   Hero,
-  HeroPageHeader,
   PageShell,
   ProgressRing,
   SegmentedControl,
@@ -395,68 +394,60 @@ function Inner() {
           </div>
         </Hero>
       </PageShell>
-      <PageShell as="header" grid className="py-[var(--space-7)]">
-        {/* Week header (range, nav, totals, day chips) */}
-        <HeroPageHeader
-          containerClassName="col-span-full"
-          header={{
-            id: "planner-header",
-            tabIndex: -1,
-            eyebrow: "Planner",
-            heading: "Planner for Today",
-            subtitle: "Plan your week",
-            icon: <CalendarDays className="opacity-80" />,
-            sticky: false,
-          }}
-          hero={{
-            sticky: false,
-            title: "Week controls",
-            className: "planner-header__hero",
-            illustration: (
-              <Image
-                src="/images/noxi.svg"
-                alt="Noxi guiding weekly planning"
-                fill
-                sizes="(min-width: 1280px) 40vw, (min-width: 768px) 60vw, 100vw"
-                priority={false}
-                className="object-contain object-right md:object-center"
-              />
-            ),
-            children: (
-              <>
-                <PlannerIslandBoundary
-                  name="planner:week-picker"
-                  title="Week controls unavailable"
-                  description="We hit an error loading the planner controls. Retry to restore the week picker."
-                  retryLabel="Retry controls"
-                >
-                  <WeekPicker />
-                </PlannerIslandBoundary>
-                <div className="flex flex-col gap-[var(--space-2)]">
-                  <span
-                    id={labelId}
-                    className="text-label font-medium text-muted-foreground"
-                  >
-                    View
-                  </span>
-                  <SegmentedControl<PlannerViewMode>
-                    options={VIEW_MODE_OPTIONS}
-                    value={viewMode}
-                    onValueChange={handleViewModeChange}
-                    ariaLabelledBy={labelId}
-                    size="lg"
-                    align="start"
-                    className="w-full"
-                    idBase={VIEW_TAB_ID_BASE}
-                  />
-                </div>
-                <div aria-live="polite" className="sr-only">
-                  {weekAnnouncement}
-                </div>
-              </>
-            ),
-          }}
-        />
+      <PageShell
+        as="header"
+        grid
+        className="py-[var(--space-7)]"
+      >
+        <Hero
+          id="planner-header"
+          tabIndex={-1}
+          eyebrow="Planner"
+          title="Planner for Today"
+          subtitle="Plan your week"
+          icon={<CalendarDays className="opacity-80" />}
+          sticky={false}
+          glitch="subtle"
+          className={cn("col-span-full md:col-span-12", "planner-header__hero")}
+          illustration={
+            <Image
+              src="/images/noxi.svg"
+              alt="Noxi guiding weekly planning"
+              fill
+              sizes="(min-width: 1280px) 40vw, (min-width: 768px) 60vw, 100vw"
+              priority={false}
+              className="object-contain object-right md:object-center"
+            />
+          }
+        >
+          <span className="sr-only">Week controls</span>
+          <PlannerIslandBoundary
+            name="planner:week-picker"
+            title="Week controls unavailable"
+            description="We hit an error loading the planner controls. Retry to restore the week picker."
+          retryLabel="Retry controls"
+        >
+          <WeekPicker />
+        </PlannerIslandBoundary>
+        <div className="flex flex-col gap-[var(--space-2)]">
+          <span id={labelId} className="text-label font-medium text-muted-foreground">
+            View
+          </span>
+          <SegmentedControl<PlannerViewMode>
+            options={VIEW_MODE_OPTIONS}
+            value={viewMode}
+            onValueChange={handleViewModeChange}
+            ariaLabelledBy={labelId}
+            size="lg"
+            align="start"
+            className="w-full"
+            idBase={VIEW_TAB_ID_BASE}
+          />
+        </div>
+        <div aria-live="polite" className="sr-only">
+          {weekAnnouncement}
+        </div>
+        </Hero>
       </PageShell>
 
       <PageShell

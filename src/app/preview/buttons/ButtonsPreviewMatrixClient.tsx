@@ -2,24 +2,15 @@
 
 import * as React from "react";
 
-import { ThemeMatrix } from "@/components/prompts/ComponentsView";
-import {
-  type ButtonStateSpec,
-  BUTTON_STATE_SPECS,
-} from "@/components/ui/primitives/Button.gallery";
-import {
-  type IconButtonStateSpec,
-  ICON_BUTTON_STATE_SPECS,
-} from "@/components/ui/primitives/IconButton.gallery";
-import {
-  type SegmentedButtonStateSpec,
-  SEGMENTED_BUTTON_STATE_SPECS,
-} from "@/components/ui/primitives/SegmentedButton.gallery";
-import { Button, IconButton } from "@/components/ui";
-import { SegmentedButton } from "@/components/ui/primitives/SegmentedButton";
-import { cn } from "@/lib/utils";
+import { galleryPayload } from "@/components/gallery";
+import { ThemeMatrixPreview } from "@/components/prompts/ComponentsView";
+import type { GallerySerializableEntry } from "@/components/gallery/registry";
 
-type PreviewStateId =
+const BUTTON_ENTRY_IDS = ["button", "icon-button", "segmented-button"] as const;
+
+type ButtonEntryId = (typeof BUTTON_ENTRY_IDS)[number];
+
+export type PreviewStateId =
   | "default"
   | "hover"
   | "focus"
@@ -34,7 +25,11 @@ export const BUTTON_PREVIEW_REQUIRED_STATE_IDS: readonly PreviewStateId[] = [
   "active",
   "disabled",
   "loading",
-];
+] as const;
+
+const REQUIRED_STATE_SET = new Set<PreviewStateId>(
+  BUTTON_PREVIEW_REQUIRED_STATE_IDS,
+);
 
 const SEGMENTED_STATE_ALIAS: Record<string, PreviewStateId | undefined> = {
   default: "default",
@@ -46,169 +41,104 @@ const SEGMENTED_STATE_ALIAS: Record<string, PreviewStateId | undefined> = {
   loading: "loading",
 };
 
-const filterStates = <T extends { id: string }>(
-  states: readonly T[],
-  aliases: Record<string, PreviewStateId | undefined> | null = null,
-) => {
-  const allowed = new Set(BUTTON_PREVIEW_REQUIRED_STATE_IDS);
-  return states.filter((state) => {
-    if (allowed.has(state.id as PreviewStateId)) {
-      return true;
+interface ButtonPreviewSpec {
+  readonly entry: GallerySerializableEntry;
+}
+
+function findEntry(entryId: ButtonEntryId): GallerySerializableEntry | null {
+  for (const section of galleryPayload.sections) {
+    const match = section.entries.find((candidate) => candidate.id === entryId);
+    if (match) {
+      return match;
     }
-    if (!aliases) {
-      return false;
+  }
+  return null;
+}
+
+function normalizeStateId(
+  entryId: ButtonEntryId,
+  stateId: string,
+): PreviewStateId | null {
+  if (entryId === "segmented-button") {
+    return SEGMENTED_STATE_ALIAS[stateId] ?? null;
+  }
+  if (REQUIRED_STATE_SET.has(stateId as PreviewStateId)) {
+    return stateId as PreviewStateId;
+  }
+  return null;
+}
+
+function collectPreviewStates(entryId: ButtonEntryId): PreviewStateId[] {
+  const entry = findEntry(entryId);
+  if (!entry) {
+    return [];
+  }
+  const states = new Set<PreviewStateId>();
+  for (const state of entry.states ?? []) {
+    const normalized = normalizeStateId(entryId, state.id);
+    if (normalized) {
+      states.add(normalized);
     }
-    const mapped = aliases[state.id];
-    return mapped ? allowed.has(mapped) : false;
-  });
+  }
+  return [...states];
+}
+
+export const BUTTON_CONTROL_STATE_IDS: Record<
+  ButtonEntryId,
+  readonly PreviewStateId[]
+> = {
+  button: collectPreviewStates("button"),
+  "icon-button": collectPreviewStates("icon-button"),
+  "segmented-button": collectPreviewStates("segmented-button"),
 };
 
-const buttonStates = filterStates<ButtonStateSpec>(BUTTON_STATE_SPECS);
-const iconButtonStates = filterStates<IconButtonStateSpec>(
-  ICON_BUTTON_STATE_SPECS,
-);
-const segmentedButtonStates = filterStates<SegmentedButtonStateSpec>(
-  SEGMENTED_BUTTON_STATE_SPECS,
-  SEGMENTED_STATE_ALIAS,
-);
-
-const stateFigureClassName =
-  "flex flex-col items-center gap-[var(--space-2)] text-center";
-const stateSurfaceClassName = cn(
-  "flex min-h-[var(--space-12)] min-w-[var(--space-12)] items-center justify-center",
-  "rounded-card border border-card-hairline/70 bg-card/70 p-[var(--space-3)]",
-  "shadow-depth-soft",
+const BUTTON_PREVIEW_SPECS: ButtonPreviewSpec[] = BUTTON_ENTRY_IDS.flatMap(
+  (entryId) => {
+    const entry = findEntry(entryId);
+    if (!entry) {
+      return [] as const;
+    }
+    return [{ entry }] as const;
+  },
 );
 
-function renderButtonState(state: ButtonStateSpec) {
-  const { className, props } = state;
-  return (
-    <Button
-      className={cn("w-full justify-center", className, props.className)}
-      {...props}
-    />
-  );
-}
-
-function renderIconButtonState(state: IconButtonStateSpec) {
-  const { className, props } = state;
-  return (
-    <IconButton
-      className={cn(className, props.className)}
-      {...props}
-    />
-  );
-}
-
-function renderSegmentedButtonState(state: SegmentedButtonStateSpec) {
-  const { props } = state;
-  return <SegmentedButton {...props} />;
-}
-
-export const BUTTON_CONTROL_STATE_IDS: Record<string, readonly string[]> = {
-  button: buttonStates.map((state) => state.id),
-  "icon-button": iconButtonStates.map((state) => state.id),
-  "segmented-button": segmentedButtonStates.map(
-    (state) => SEGMENTED_STATE_ALIAS[state.id] ?? state.id,
-  ),
-};
-
-function ButtonsPreview() {
+export default function ButtonsPreviewMatrixClient(): JSX.Element {
   return (
     <div className="space-y-[var(--space-6)]">
-      <section aria-labelledby="buttons-preview-primary">
-        <header className="space-y-[var(--space-1)]">
-          <h2
-            id="buttons-preview-primary"
-            className="text-subhead font-semibold tracking-[-0.01em]"
-          >
-            Button
-          </h2>
-          <p className="text-label text-muted-foreground">
-            Default trigger variants across default, hover, focus, active,
-            disabled, and loading states.
-          </p>
-        </header>
-        <div className="grid gap-[var(--space-3)] sm:grid-cols-2 lg:grid-cols-3">
-          {buttonStates.map((state) => (
-            <figure key={state.id} className={stateFigureClassName}>
-              <div className={stateSurfaceClassName}>{renderButtonState(state)}</div>
-              <figcaption className="text-label text-muted-foreground">
-                {state.name}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
-      <section aria-labelledby="buttons-preview-icon">
-        <header className="space-y-[var(--space-1)]">
-          <h2
-            id="buttons-preview-icon"
-            className="text-subhead font-semibold tracking-[-0.01em]"
-          >
-            Icon button
-          </h2>
-          <p className="text-label text-muted-foreground">
-            Icon-only affordances maintain contrast and focus treatments per
-            Planner state tokens.
-          </p>
-        </header>
-        <div className="grid gap-[var(--space-3)] sm:grid-cols-2 lg:grid-cols-3">
-          {iconButtonStates.map((state) => (
-            <figure key={state.id} className={stateFigureClassName}>
-              <div className={stateSurfaceClassName}>
-                {renderIconButtonState(state)}
-              </div>
-              <figcaption className="text-label text-muted-foreground">
-                {state.name}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
-      <section aria-labelledby="buttons-preview-segmented">
-        <header className="space-y-[var(--space-1)]">
-          <h2
-            id="buttons-preview-segmented"
-            className="text-subhead font-semibold tracking-[-0.01em]"
-          >
-            Segmented button
-          </h2>
-          <p className="text-label text-muted-foreground">
-            Inline segment controls cover pressed, disabled, and async loading
-            affordances.
-          </p>
-        </header>
-        <div className="grid gap-[var(--space-3)] sm:grid-cols-2 lg:grid-cols-3">
-          {segmentedButtonStates.map((state) => (
-            <figure key={state.id} className={stateFigureClassName}>
-              <div className={stateSurfaceClassName}>
-                {renderSegmentedButtonState(state)}
-              </div>
-              <figcaption className="text-label text-muted-foreground">
-                {state.name}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
-    </div>
-  );
-}
+      {BUTTON_PREVIEW_SPECS.map(({ entry }) => {
+        const headingId = `buttons-preview-${entry.id}`;
+        const descriptionId = `${headingId}-description`;
 
-export default function ButtonsPreviewMatrixClient() {
-  const previewRenderer = React.useMemo(() => {
-    const Renderer = () => <ButtonsPreview />;
-    Renderer.displayName = "ButtonsPreviewRenderer";
-    return Renderer;
-  }, []);
-
-  return (
-    <div className="space-y-[var(--space-5)]">
-      <ThemeMatrix
-        entryId="gallery-buttons-preview"
-        previewRenderer={previewRenderer}
-      />
+        return (
+          <section
+            key={entry.id}
+            aria-labelledby={headingId}
+            aria-describedby={entry.description ? descriptionId : undefined}
+            className="space-y-[var(--space-3)]"
+          >
+            <header className="space-y-[var(--space-1)]">
+              <h2
+                id={headingId}
+                className="text-subhead font-semibold tracking-[-0.01em]"
+              >
+                {entry.name}
+              </h2>
+              {entry.description ? (
+                <p
+                  id={descriptionId}
+                  className="text-label text-muted-foreground"
+                >
+                  {entry.description}
+                </p>
+              ) : null}
+            </header>
+            <ThemeMatrixPreview
+              entryId={`${headingId}-theme-matrix`}
+              previewId={entry.preview.id}
+            />
+          </section>
+        );
+      })}
     </div>
   );
 }

@@ -65,7 +65,7 @@ import { Check as CheckIcon } from "lucide-react";
 import { DemoHeader } from "./DemoHeader";
 import { GoalListDemo } from "./GoalListDemo";
 import { OutlineGlowDemo } from "./OutlineGlowDemo";
-import { PromptList } from "./PromptList";
+import { SavedPromptList } from "./SavedPromptList";
 import { PromptsComposePanel } from "./PromptsComposePanel";
 import { PromptsDemos } from "./PromptsDemos";
 import { PromptsHeader } from "./PromptsHeader";
@@ -79,10 +79,12 @@ import { ToggleShowcase } from "./ToggleShowcase";
 import { PageHeaderDemo } from "./PageHeaderDemo";
 import { NeomorphicHeroFrameDemo } from "./NeomorphicHeroFrameDemo";
 import { RadioIconGroupShowcase } from "./RadioIconGroupShowcase";
-import { WeekPickerDemo } from "./component-gallery/WeekPickerDemo";
+import { WeekPickerDemo } from "./previews/WeekPickerDemo";
 import {
   CalendarPreviewError,
-  CalendarPreviewLoading, CalendarPreview as PlannerCalendarPreview } from "./component-gallery/CalendarLayoutPreview";
+  CalendarPreviewLoading,
+  CalendarPreview as PlannerCalendarPreview,
+} from "./previews/CalendarLayoutPreview";
 import {
   Card as HomeCard,
   DashboardList,
@@ -1967,18 +1969,18 @@ function PromptsComposePanelDemo() {
   );
 }
 
-const PROMPT_LIST_LOADING_KEYS = [
+const SAVED_PROMPT_LIST_LOADING_KEYS = [
   "prompt-loading-1",
   "prompt-loading-2",
   "prompt-loading-3",
 ];
 
-function PromptListLoadingState() {
+function SavedPromptListLoadingState() {
   return (
     <ul className="mt-[var(--space-4)] space-y-[var(--space-3)]">
-      {PROMPT_LIST_LOADING_KEYS.map((itemKey) => (
+      {SAVED_PROMPT_LIST_LOADING_KEYS.map((itemKey) => (
         <li key={itemKey}>
-          <Card className="space-y-[var(--space-3)] p-[var(--space-3)]">
+          <Card className="space-y-[var(--space-3)] rounded-card border border-border bg-card/80 p-[var(--space-3)] shadow-neo">
             <div className="flex items-center justify-between">
               <Skeleton
                 ariaHidden={false}
@@ -2003,8 +2005,8 @@ function PromptListLoadingState() {
   );
 }
 
-function PromptListEmptyState() {
-  return <PromptList prompts={[]} query="" />;
+function SavedPromptListEmptyState() {
+  return <SavedPromptList prompts={[]} query="" />;
 }
 
 function ChatPromptsTabDemo() {
@@ -2027,12 +2029,31 @@ function ChatPromptsTabDemo() {
     [],
   );
 
+  const handleUpdate = React.useCallback(
+    (id: string, title: string, prompt: string) => {
+      setLibrary((prev) =>
+        prev.map((entry) =>
+          entry.id === id ? { ...entry, title, text: prompt } : entry,
+        ),
+      );
+      return true;
+    },
+    [],
+  );
+
+  const handleDelete = React.useCallback((id: string) => {
+    setLibrary((prev) => prev.filter((entry) => entry.id !== id));
+    return true;
+  }, []);
+
   return (
     <ChatPromptsTab
       prompts={library}
       query={query}
       personas={demoPersonas}
       savePrompt={handleSave}
+      updatePrompt={handleUpdate}
+      deletePrompt={handleDelete}
     />
   );
 }
@@ -2057,11 +2078,30 @@ function CodexPromptsTabDemo() {
     [],
   );
 
+  const handleUpdate = React.useCallback(
+    (id: string, title: string, prompt: string) => {
+      setLibrary((prev) =>
+        prev.map((entry) =>
+          entry.id === id ? { ...entry, title, text: prompt } : entry,
+        ),
+      );
+      return true;
+    },
+    [],
+  );
+
+  const handleDelete = React.useCallback((id: string) => {
+    setLibrary((prev) => prev.filter((entry) => entry.id !== id));
+    return true;
+  }, []);
+
   return (
     <CodexPromptsTab
       prompts={library}
       query={query}
       savePrompt={handleSave}
+      updatePrompt={handleUpdate}
+      deletePrompt={handleDelete}
     />
   );
 }
@@ -2102,29 +2142,29 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   inputs: [],
   prompts: [
     {
-      id: "prompt-list",
-      name: "PromptList",
+      id: "saved-prompt-list",
+      name: "SavedPromptList",
       description: "Prompt filtering",
-      element: <PromptList prompts={demoPrompts} query="" />,
+      element: <SavedPromptList prompts={demoPrompts} query="" />,
       tags: ["prompt", "list"],
-      code: `<PromptList prompts={demoPrompts} query="" />`,
+      code: `<SavedPromptList prompts={demoPrompts} query="" />`,
       states: [
         {
           id: "loading",
           name: "Loading",
           description:
             "Skeleton cards preserve the prompt layout while entries sync from storage.",
-          element: <PromptListLoadingState />,
-          code: `const PROMPT_LIST_LOADING_KEYS = [
+          element: <SavedPromptListLoadingState />,
+          code: `const SAVED_PROMPT_LIST_LOADING_KEYS = [
   "prompt-loading-1",
   "prompt-loading-2",
   "prompt-loading-3",
 ];
 
 <ul className="mt-[var(--space-4)] space-y-[var(--space-3)]">
-  {PROMPT_LIST_LOADING_KEYS.map((itemKey) => (
+  {SAVED_PROMPT_LIST_LOADING_KEYS.map((itemKey) => (
     <li key={itemKey}>
-      <Card className="space-y-[var(--space-3)] p-[var(--space-3)]">
+      <Card className="space-y-[var(--space-3)] rounded-card border border-border bg-card/80 p-[var(--space-3)] shadow-neo">
         <div className="flex items-center justify-between">
           <Skeleton
             ariaHidden={false}
@@ -2152,8 +2192,8 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
           name: "Empty",
           description:
             "Muted guidance keeps the workspace clear when no prompts have been saved yet.",
-          element: <PromptListEmptyState />,
-          code: `<PromptList prompts={[]} query="" />`,
+          element: <SavedPromptListEmptyState />,
+          code: `<SavedPromptList prompts={[]} query="" />`,
         },
       ],
       usage: [
@@ -2684,22 +2724,50 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       element: <ChatPromptsTabDemo />,
       tags: ["prompts", "chat"],
       code: `function ChatPromptsTabDemo() {
-  const [title, setTitle] = React.useState("Post-match sync");
-  const [text, setText] = React.useState(
-    "Capture three improvement areas and who owns the follow-up.",
-  );
+  const [library, setLibrary] = React.useState(demoPrompts);
   const query = "focus";
+
+  const handleSave = React.useCallback(
+    (title: string, prompt: string, _category: string) => {
+      setLibrary((prev) => [
+        {
+          id: \`demo-chat-\${prev.length + 1}\`,
+          title,
+          text: prompt,
+          createdAt: Date.now(),
+        },
+        ...prev,
+      ]);
+      return true;
+    },
+    [],
+  );
+
+  const handleUpdate = React.useCallback(
+    (id: string, title: string, prompt: string) => {
+      setLibrary((prev) =>
+        prev.map((entry) =>
+          entry.id === id ? { ...entry, title, text: prompt } : entry,
+        ),
+      );
+      return true;
+    },
+    [],
+  );
+
+  const handleDelete = React.useCallback((id: string) => {
+    setLibrary((prev) => prev.filter((entry) => entry.id !== id));
+    return true;
+  }, []);
 
   return (
     <ChatPromptsTab
-      title={title}
-      text={text}
-      onTitleChange={setTitle}
-      onTextChange={setText}
-      prompts={demoPrompts}
+      prompts={library}
       query={query}
       personas={demoPersonas}
-      onSave={() => {}}
+      savePrompt={handleSave}
+      updatePrompt={handleUpdate}
+      deletePrompt={handleDelete}
     />
   );
 }`,
@@ -2711,21 +2779,49 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       element: <CodexPromptsTabDemo />,
       tags: ["prompts", "codex"],
       code: `function CodexPromptsTabDemo() {
-  const [title, setTitle] = React.useState("Patch audit");
-  const [text, setText] = React.useState(
-    "List risky balance changes and mitigation steps before scrims.",
-  );
+  const [library, setLibrary] = React.useState(demoPrompts);
   const query = "review";
+
+  const handleSave = React.useCallback(
+    (title: string, prompt: string, _category: string) => {
+      setLibrary((prev) => [
+        {
+          id: \`demo-codex-\${prev.length + 1}\`,
+          title,
+          text: prompt,
+          createdAt: Date.now(),
+        },
+        ...prev,
+      ]);
+      return true;
+    },
+    [],
+  );
+
+  const handleUpdate = React.useCallback(
+    (id: string, title: string, prompt: string) => {
+      setLibrary((prev) =>
+        prev.map((entry) =>
+          entry.id === id ? { ...entry, title, text: prompt } : entry,
+        ),
+      );
+      return true;
+    },
+    [],
+  );
+
+  const handleDelete = React.useCallback((id: string) => {
+    setLibrary((prev) => prev.filter((entry) => entry.id !== id));
+    return true;
+  }, []);
 
   return (
     <CodexPromptsTab
-      title={title}
-      text={text}
-      onTitleChange={setTitle}
-      onTextChange={setText}
-      prompts={demoPrompts}
+      prompts={library}
       query={query}
-      onSave={() => {}}
+      savePrompt={handleSave}
+      updatePrompt={handleUpdate}
+      deletePrompt={handleDelete}
     />
   );
 }`,

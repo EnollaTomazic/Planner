@@ -1,21 +1,34 @@
 // src/components/team/CheatSheet.tsx
 "use client";
-import "./style.css";
 
 /**
- * CheatSheet — edit per card with persistent controls, write-through persistence.
- * Titles use Lavender-Glitch (glitch-title + glitch-flicker + title-glow).
- * Lane labels (TOP/JUNGLE/MID/BOT/SUPPORT) also flicker via team scope.
- * Scoped with data-scope="team" to avoid global glitch leakage.
+ * CheatSheet — renders archetypes as accordion cards with persistent editing.
+ * Editing uses write-through persistence so card copy + champion pools stay in sync.
  */
 
 import * as React from "react";
+
 import { usePersistentState } from "@/lib/db";
 import { cn } from "@/lib/utils";
-import { Badge, Card, CardContent, CardHeader } from "@/components/ui";
+import { Badge } from "@/components/ui";
 import type { BadgeProps } from "@/components/ui";
 import { IconButton } from "@/components/ui/primitives/IconButton";
-import { Pencil, Check } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import {
+  ArrowDownCircle,
+  Check,
+  ChevronDown,
+  CircleCheck,
+  CircleX,
+  Crosshair,
+  GitBranch,
+  Pencil,
+  ShieldCheck,
+  Sparkle,
+  Sparkles,
+  Swords,
+  Target,
+} from "lucide-react";
 import { ROLES } from "./constants";
 import { DEFAULT_SHEET } from "./data";
 import {
@@ -32,6 +45,18 @@ import {
 } from "./CheatSheetEditors";
 import { ChampListEditor } from "./ChampListEditor";
 
+const ARCHETYPE_ICON_MAP: Record<string, LucideIcon> = {
+  "front-to-back": ShieldCheck,
+  dive: ArrowDownCircle,
+  pick: Crosshair,
+  "poke-siege": Target,
+  "splitpush-131": GitBranch,
+  wombo: Sparkles,
+};
+
+function archetypeIconFor(id: string): LucideIcon {
+  return ARCHETYPE_ICON_MAP[id] ?? Swords;
+}
 export { decodeCheatSheet, ensureExamples } from "./cheatSheet.model";
 export type { Archetype, LaneExamples } from "./cheatSheet.model";
 
@@ -60,6 +85,9 @@ export function CheatSheet({
     },
   );
   const [editingId, setEditingId] = React.useState<string | null>(null);
+  const [expandedIds, setExpandedIds] = React.useState<Set<string>>(
+    () => new Set(),
+  );
 
   React.useEffect(() => {
     let needsUpdate = false;
@@ -100,6 +128,34 @@ export function CheatSheet({
     });
   }, [sheet, query]);
 
+  React.useEffect(() => {
+    setExpandedIds((prev) => {
+      const next = new Set<string>();
+      for (const item of filtered) {
+        if (prev.has(item.id)) {
+          next.add(item.id);
+        }
+      }
+      if (next.size === 0 && filtered[0]) {
+        next.add(filtered[0].id);
+      }
+      const unchanged =
+        next.size === prev.size &&
+        Array.from(next).every((id) => prev.has(id));
+      return unchanged ? prev : next;
+    });
+  }, [filtered]);
+
+  React.useEffect(() => {
+    if (!editingId) return;
+    setExpandedIds((prev) => {
+      if (prev.has(editingId)) return prev;
+      const next = new Set(prev);
+      next.add(editingId);
+      return next;
+    });
+  }, [editingId]);
+
   const patchArc = React.useCallback(
     (id: string, partial: Partial<Archetype>) => {
       setSheet((prev) =>
@@ -128,142 +184,185 @@ export function CheatSheet({
     [setSheet],
   );
 
+  const toggleExpanded = React.useCallback((id: string) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }, []);
+
   return (
     <section
       data-scope="team"
-      className={cn(
-        "grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3",
-        className,
-      )}
+      className={cn("space-y-[var(--space-3)]", className)}
     >
-      {filtered.map((a) => {
-        const isEditing = editing && editingId === a.id;
+      <div className="flex flex-col gap-[var(--space-3)]">
+        {filtered.map((a) => {
+          const isEditing = editing && editingId === a.id;
+          const expanded = expandedIds.has(a.id);
+          const Icon = archetypeIconFor(a.id);
 
-        return (
-          <Card
-            key={a.id}
-            depth="raised"
-            className="group glitch-card relative h-full"
-            asChild
-          >
-            <article className="relative flex h-full flex-col">
-            {/* Top-right edit/save control */}
-            {editing && (
-              <div className="absolute right-[var(--space-2)] top-[var(--space-2)] z-10 flex items-center gap-[var(--space-1)] opacity-100 pointer-events-auto">
-                {!isEditing ? (
-                  <IconButton
-                    title="Edit"
-                    aria-label="Edit"
-                    size="sm"
-                    onClick={() => setEditingId(a.id)}
-                  >
-                    <Pencil />
-                  </IconButton>
-                ) : (
-                  <IconButton
-                    title="Save"
-                    aria-label="Save"
-                    size="sm"
-                    onClick={() => setEditingId(null)}
-                  >
-                    <Check />
-                  </IconButton>
-                )}
-              </div>
-            )}
-
-            {/* Neon spine for glitch styling */}
-            <span aria-hidden className="glitch-rail" />
-
-            {/* Title + description */}
-            <CardHeader className="mb-[var(--space-3)]">
-              <TitleEdit
-                value={a.title}
-                editing={isEditing}
-                onChange={(v) => patchArc(a.id, { title: v })}
-              />
-              <ParagraphEdit
-                value={a.description}
-                editing={isEditing}
-                onChange={(v) => patchArc(a.id, { description: v })}
-              />
-            </CardHeader>
-
-            {/* Body */}
-            <CardContent className="grid grid-cols-1 gap-[var(--space-4)] pt-0">
-              <div>
-                <Label>Wins when</Label>
-                <BulletListEdit
-                  items={a.wins}
-                  onChange={(v) => patchArc(a.id, { wins: v })}
-                  editing={isEditing}
-                  ariaLabel="Wins when"
-                />
-              </div>
-
-              {a.struggles?.length || isEditing ? (
-                <div>
-                  <Label>Struggles vs</Label>
-                  <BulletListEdit
-                    items={a.struggles ?? []}
-                    onChange={(v) => patchArc(a.id, { struggles: v })}
-                    editing={isEditing}
-                    ariaLabel="Struggles vs"
+          return (
+            <article
+              key={a.id}
+              className="rounded-card border border-card-hairline bg-card/70 shadow-none backdrop-blur-sm"
+            >
+              <header className="flex items-start gap-[var(--space-2)] px-[var(--space-4)] py-[var(--space-3)] sm:px-[var(--space-5)]">
+                <button
+                  type="button"
+                  onClick={() => toggleExpanded(a.id)}
+                  aria-expanded={expanded}
+                  className="flex flex-1 items-center justify-between gap-[var(--space-3)] rounded-[var(--control-radius-lg)] px-[var(--space-2)] py-[var(--space-2)] text-left transition-colors duration-motion-sm ease-out hover:bg-foreground/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                >
+                  <span className="flex min-w-0 items-center gap-[var(--space-3)]">
+                    <span className="flex size-[var(--space-8)] shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent-3">
+                      <Icon aria-hidden className="size-[var(--space-5)]" />
+                    </span>
+                    <span className="min-w-0 text-ui font-semibold tracking-[-0.01em] text-foreground sm:text-title-sm">
+                      {a.title}
+                    </span>
+                  </span>
+                  <ChevronDown
+                    aria-hidden
+                    className={cn(
+                      "size-[var(--space-5)] text-muted-foreground transition-transform duration-motion-sm ease-out",
+                      expanded && "rotate-180",
+                    )}
                   />
-                </div>
-              ) : null}
-
-              {a.tips?.length || isEditing ? (
-                <div>
-                  <Label>Tips</Label>
-                  <BulletListEdit
-                    items={a.tips ?? []}
-                    onChange={(v) => patchArc(a.id, { tips: v })}
-                    editing={isEditing}
-                    ariaLabel="Tips"
-                  />
-                </div>
-              ) : null}
-
-              {/* Examples with fixed role column */}
-              <div>
-                <Label>Examples</Label>
-                <div className="mt-[var(--space-2)] space-y-[var(--space-2)]">
-                  {ROLES.map((role) => {
-                    const champs = a.examples?.[role] ?? [];
-                    const setChamps = (list: string[]) =>
-                      patchArc(a.id, {
-                        examples: { [role]: list } as LaneExamples,
+                </button>
+                {editing ? (
+                  <IconButton
+                    title={isEditing ? "Save" : "Edit"}
+                    aria-label={isEditing ? "Save" : "Edit"}
+                    size="sm"
+                    onClick={() => {
+                      setExpandedIds((prev) => {
+                        if (prev.has(a.id)) return prev;
+                        const next = new Set(prev);
+                        next.add(a.id);
+                        return next;
                       });
-                    const showRow = champs.length || isEditing;
-                    if (!showRow) return null;
-                    const tone = role.toLowerCase() as BadgeProps["tone"];
+                      setEditingId((current) =>
+                        current === a.id ? null : a.id,
+                      );
+                    }}
+                  >
+                    {isEditing ? <Check /> : <Pencil />}
+                  </IconButton>
+                ) : null}
+              </header>
 
-                    return (
-                      <div
-                        key={role}
-                        className="flex flex-wrap items-start gap-[var(--space-2)] sm:gap-[var(--space-3)]"
-                      >
-                        <Badge tone={tone} size="sm" className="uppercase tracking-[0.08em]">
-                          {role}
-                        </Badge>
-                        <ChampListEditor
-                          list={champs}
-                          onChange={setChamps}
+              {expanded ? (
+                <div className="px-[var(--space-4)] pb-[var(--space-5)] sm:px-[var(--space-5)]">
+                  <div className="space-y-[var(--space-3)]">
+                    {isEditing ? (
+                      <TitleEdit
+                        value={a.title}
+                        editing={isEditing}
+                        onChange={(v) => patchArc(a.id, { title: v })}
+                      />
+                    ) : null}
+                    <ParagraphEdit
+                      value={a.description}
+                      editing={isEditing}
+                      onChange={(v) => patchArc(a.id, { description: v })}
+                    />
+                  </div>
+
+                  <div className="mt-[var(--space-5)] grid gap-[var(--space-4)] md:grid-cols-2">
+                    <div>
+                      <Label>Wins when</Label>
+                      <BulletListEdit
+                        items={a.wins}
+                        onChange={(v) => patchArc(a.id, { wins: v })}
+                        editing={isEditing}
+                        ariaLabel="Wins when"
+                        viewIcon={
+                          <CircleCheck className="size-[var(--space-4)] text-success" />
+                        }
+                      />
+                    </div>
+
+                    {a.struggles?.length || isEditing ? (
+                      <div>
+                        <Label>Struggles vs</Label>
+                        <BulletListEdit
+                          items={a.struggles ?? []}
+                          onChange={(v) => patchArc(a.id, { struggles: v })}
                           editing={isEditing}
-                          viewClassName="mt-0 flex-1"
-                          editClassName="mt-0 flex-1"
+                          ariaLabel="Struggles vs"
+                          viewIcon={
+                            <CircleX className="size-[var(--space-4)] text-danger" />
+                          }
                         />
                       </div>
-                    );
-                  })}
+                    ) : null}
+                  </div>
+
+                  {a.tips?.length || isEditing ? (
+                    <div className="mt-[var(--space-4)]">
+                      <Label>Tips</Label>
+                      <BulletListEdit
+                        items={a.tips ?? []}
+                        onChange={(v) => patchArc(a.id, { tips: v })}
+                        editing={isEditing}
+                        ariaLabel="Tips"
+                        viewIcon={
+                          <Sparkle className="size-[var(--space-4)] text-accent-3" />
+                        }
+                        itemClassName="text-body-sm text-muted-foreground"
+                      />
+                    </div>
+                  ) : null}
+
+                  <div className="mt-[var(--space-5)] space-y-[var(--space-3)]">
+                    <Label>Champion pool</Label>
+                    <div className="space-y-[var(--space-3)]">
+                      {ROLES.map((role) => {
+                        const champs = a.examples?.[role] ?? [];
+                        const setChamps = (list: string[]) =>
+                          patchArc(a.id, {
+                            examples: { [role]: list } as LaneExamples,
+                          });
+                        const showRow = champs.length || isEditing;
+                        if (!showRow) return null;
+                        const tone = role.toLowerCase() as BadgeProps["tone"];
+
+                        return (
+                          <div
+                            key={role}
+                            className="flex flex-wrap items-start gap-[var(--space-3)]"
+                          >
+                            <Badge
+                              tone={tone}
+                              size="xs"
+                              className="uppercase tracking-[0.1em]"
+                            >
+                              {role}
+                            </Badge>
+                            <ChampListEditor
+                              list={champs}
+                              onChange={setChamps}
+                              editing={isEditing}
+                              viewClassName="flex-1"
+                              editClassName="flex-1"
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
+              ) : null}
             </article>
-          </Card>
-        );
-      })}
+          );
+        })}
+      </div>
     </section>
   );
 }
