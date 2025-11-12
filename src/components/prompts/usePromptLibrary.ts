@@ -42,9 +42,13 @@ export function decodePrompts(value: unknown): Prompt[] | null {
 const EMPTY_PROMPT_LIST: Prompt[] = [];
 
 export function usePromptLibrary(storageKey: string) {
-  const [prompts, setPrompts] = usePersistentState<Prompt[]>(storageKey, EMPTY_PROMPT_LIST, {
-    decode: decodePrompts,
-  });
+  const [prompts, setPrompts] = usePersistentState<Prompt[]>(
+    storageKey,
+    EMPTY_PROMPT_LIST,
+    {
+      decode: decodePrompts,
+    },
+  );
   const [query, setQuery] = React.useState("");
 
   const withTitles = React.useMemo(
@@ -128,5 +132,42 @@ export function usePromptLibrary(storageKey: string) {
     [setPrompts],
   );
 
-  return { prompts, query, setQuery, filtered, save } as const;
+  const update = React.useCallback(
+    (id: string, titleDraft: string, textDraft: string) => {
+      const text = textDraft.trim();
+      const title =
+        titleDraft.trim() || text.split(/\r?\n/)[0]?.trim() || "Untitled";
+      if (!text && !titleDraft.trim()) return false;
+      let didUpdate = false;
+      setPrompts((prev) =>
+        prev.map((prompt) => {
+          if (prompt.id !== id) return prompt;
+          didUpdate = true;
+          return { ...prompt, title, text } satisfies Prompt;
+        }),
+      );
+      return didUpdate;
+    },
+    [setPrompts],
+  );
+
+  const remove = React.useCallback(
+    (id: string) => {
+      let didRemove = false;
+      setPrompts((prev) => {
+        const next = prev.filter((prompt) => {
+          const keep = prompt.id !== id;
+          if (!keep) {
+            didRemove = true;
+          }
+          return keep;
+        });
+        return next;
+      });
+      return didRemove;
+    },
+    [setPrompts],
+  );
+
+  return { prompts, query, setQuery, filtered, save, update, remove } as const;
 }

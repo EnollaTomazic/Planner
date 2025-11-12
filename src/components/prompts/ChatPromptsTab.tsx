@@ -8,7 +8,7 @@ import {
   type EntityFormOption,
   type EntityFormValues,
 } from "@/components/forms/EntityForm";
-import { PromptList } from "./PromptList";
+import { SavedPromptList } from "./SavedPromptList";
 import type { Persona, PromptWithTitle } from "./types";
 import { LOCALE } from "@/lib/utils";
 
@@ -23,27 +23,45 @@ interface ChatPromptsTabProps {
   query: string;
   personas: Persona[];
   savePrompt: (title: string, text: string, category: string) => boolean;
+  updatePrompt: (id: string, title: string, text: string) => boolean;
+  deletePrompt: (id: string) => boolean;
 }
+
+const createChatComposeDefaults = (): EntityFormValues => ({
+  title: "",
+  prompt: "",
+  category: "ChatGPT",
+});
 
 export function ChatPromptsTab({
   prompts,
   query,
   personas,
   savePrompt,
+  updatePrompt,
+  deletePrompt,
 }: ChatPromptsTabProps) {
   const composeHeadingId = React.useId();
   const personasHeadingId = React.useId();
   const libraryHeadingId = React.useId();
   const formId = React.useId();
-  const [composeValues, setComposeValues] = React.useState<EntityFormValues>({
-    title: "",
-    prompt: "",
-    category: "ChatGPT",
-  });
+  const [composeValues, setComposeValues] = React.useState<EntityFormValues>(
+    createChatComposeDefaults,
+  );
   const composeValuesRef = React.useRef(composeValues);
   React.useEffect(() => {
     composeValuesRef.current = composeValues;
   }, [composeValues]);
+  const [editingPromptId, setEditingPromptId] = React.useState<string | null>(
+    null,
+  );
+
+  const resetComposeValues = React.useCallback(() => {
+    const nextState = createChatComposeDefaults();
+    composeValuesRef.current = nextState;
+    setComposeValues(nextState);
+    setEditingPromptId(null);
+  }, []);
 
   const handleSave = React.useCallback(
     (values: EntityFormValues) => {
@@ -54,9 +72,20 @@ export function ChatPromptsTab({
       }
 
       const category = values.category ?? "ChatGPT";
-      return savePrompt(title, prompt, category);
+      if (editingPromptId) {
+        const success = updatePrompt(editingPromptId, title, prompt);
+        if (success) {
+          resetComposeValues();
+        }
+        return success;
+      }
+      const success = savePrompt(title, prompt, category);
+      if (success) {
+        resetComposeValues();
+      }
+      return success;
     },
-    [savePrompt],
+    [editingPromptId, resetComposeValues, savePrompt, updatePrompt],
   );
 
   const handleValuesChange = React.useCallback((values: EntityFormValues) => {
@@ -85,11 +114,37 @@ export function ChatPromptsTab({
     });
   }, []);
 
+  const handleEditPrompt = React.useCallback(
+    (prompt: PromptWithTitle) => {
+      const nextState = {
+        title: prompt.title,
+        prompt: prompt.text,
+        category: composeValuesRef.current.category ?? "ChatGPT",
+      } satisfies EntityFormValues;
+      composeValuesRef.current = nextState;
+      setComposeValues(nextState);
+      setEditingPromptId(prompt.id);
+    },
+    [],
+  );
+
+  const handleDeletePrompt = React.useCallback(
+    (prompt: PromptWithTitle) => {
+      const didDelete = deletePrompt(prompt.id);
+      if (didDelete && editingPromptId === prompt.id) {
+        resetComposeValues();
+      }
+    },
+    [deletePrompt, editingPromptId, resetComposeValues],
+  );
+
   const submitDisabled = React.useMemo(() => {
     const title = composeValues.title?.trim() ?? "";
     const prompt = composeValues.prompt?.trim() ?? "";
     return title.length === 0 || prompt.length === 0;
   }, [composeValues.prompt, composeValues.title]);
+
+  const submitLabel = editingPromptId ? "Update" : "Save";
 
   return (
     <div className="flex flex-col gap-[var(--space-6)]">
@@ -132,8 +187,8 @@ export function ChatPromptsTab({
                 required: true,
               },
             ]}
-            initialValues={{ category: "ChatGPT" }}
-            submitLabel="Save"
+            initialValues={composeValues}
+            submitLabel={submitLabel}
             submitDisabled={submitDisabled}
             onSubmit={handleSave}
             onValuesChange={handleValuesChange}
@@ -198,7 +253,13 @@ export function ChatPromptsTab({
             Saved ChatGPT prompts appear here with newest first.
           </p>
         </div>
-        <PromptList prompts={prompts} query={query} />
+        <SavedPromptList
+          prompts={prompts}
+          query={query}
+          onSelectPrompt={handleEditPrompt}
+          onEditPrompt={handleEditPrompt}
+          onDeletePrompt={handleDeletePrompt}
+        />
       </section>
     </div>
   );
