@@ -26,9 +26,9 @@ import {
 
 import { type HeaderTab } from "@/components/ui/layout/Header";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
-import { Hero, Snackbar, PageShell, Modal } from "@/components/ui";
+import { Hero, Snackbar, PageShell, Modal, ProgressRing } from "@/components/ui";
 import { GlitchNeoCard } from "@/components/ui/patterns";
-import { PlannerProvider } from "@/components/planner";
+import { PlannerProvider, SmallAgnesNoxiImage } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
 import {
   CardHeader,
@@ -292,6 +292,7 @@ function GoalsPageContent() {
   }, [addReminder]);
 
   const reduceMotion = usePrefersReducedMotion();
+  const isGoalsTab = tab === "goals";
 
   React.useEffect(() => {
     if (!shouldFocusGoalForm) {
@@ -362,29 +363,11 @@ function GoalsPageContent() {
     map[tab].current?.focus();
   }, [tab]);
 
-  const summary: React.ReactNode =
-    tab === "goals" ? (
-      <ul className="m-0 list-none flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-1)] p-0 text-label text-muted-foreground">
-        <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="font-semibold text-foreground">Cap</span>
-          <span className="text-foreground">{ACTIVE_CAP} active</span>
-        </li>
-        <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="font-semibold text-accent-3">Remaining</span>
-          <span className="text-accent-3">{remaining}</span>
-        </li>
-        <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="font-semibold text-success">Complete</span>
-          <span className="text-success">{pctDone}%</span>
-        </li>
-        <li className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-primary-soft px-[var(--space-2)] text-label text-primary-foreground">
-            <span className="font-semibold">Total</span>
-            <span>{totalCount}</span>
-          </span>
-        </li>
-      </ul>
-    ) : tab === "reminders" ? (
+  const heroHeadingId = HERO_HEADING_IDS[tab];
+  const heroSubtitleId = HERO_SUBTITLE_IDS[tab];
+
+  const nonGoalsSummary: React.ReactNode = !isGoalsTab
+    ? tab === "reminders" ? (
       <>
         Keep <span className="font-semibold text-accent-3">nudges</span> handy with quick edit loops.
       </>
@@ -395,46 +378,18 @@ function GoalsPageContent() {
         </span>{" "}
         focus runs and reset between sets.
       </>
-    );
+    )
+    : null;
 
-  const heroHeadingId = HERO_HEADING_IDS[tab];
-  const heroSubtitleId = HERO_SUBTITLE_IDS[tab];
-
-  const heroHeading = (
+  const heroTitle: React.ReactNode = isGoalsTab ? "Goals" : (
     <span id={heroHeadingId}>{HERO_HEADINGS[tab]}</span>
   );
 
   const heroEyebrow = tab === "reminders" ? domain : "Guide";
 
   let heroSubtitle: React.ReactNode;
-  if (tab === "goals") {
-    heroSubtitle = (
-      <span
-        id={heroSubtitleId}
-        className="flex flex-wrap items-center gap-x-[var(--space-3)] gap-y-[var(--space-1)] text-muted-foreground"
-      >
-        <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="text-label font-semibold text-foreground">Cap</span>
-          <span className="text-label text-foreground">{ACTIVE_CAP}</span>
-        </span>
-        <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="inline-flex items-center gap-[var(--space-1)] rounded-full bg-primary-soft px-[var(--space-2)] text-label text-primary-foreground">
-            <span className="font-semibold">Active</span>
-            <span>{activeCount}</span>
-          </span>
-        </span>
-        <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="text-label font-semibold text-accent-3">Remaining</span>
-          <span className="text-label text-accent-3">{remaining}</span>
-        </span>
-        <span className="inline-flex items-center gap-[var(--space-1)]">
-          <span className="text-label font-semibold text-success">Done</span>
-          <span className="text-label text-success">
-            {doneCount} ({pctDone}%)
-          </span>
-        </span>
-      </span>
-    );
+  if (isGoalsTab) {
+    heroSubtitle = "Set and achieve your objectives.";
   } else if (tab === "reminders") {
     heroSubtitle = (
       <span id={heroSubtitleId} className="text-muted-foreground">
@@ -454,10 +409,53 @@ function GoalsPageContent() {
   }
 
   const heroAriaDescribedby =
-    heroSubtitle != null ? heroSubtitleId : undefined;
+    !isGoalsTab && heroSubtitle != null ? heroSubtitleId : undefined;
+
+  const heroAriaLabelledby = !isGoalsTab ? heroHeadingId : undefined;
+  const heroAriaLabel = isGoalsTab ? "Goals" : undefined;
 
   const heroDividerTint =
     tab === "reminders" ? (domain === "Life" ? "life" : "primary") : undefined;
+
+  const goalsCompletionLabel = `Goals ${pctDone}% complete`;
+
+  const heroSupportingContent = isGoalsTab ? (
+    <div className="flex flex-wrap items-center gap-[var(--space-4)]">
+      <div
+        role="img"
+        aria-label={goalsCompletionLabel}
+        className="relative flex size-[var(--space-12)] items-center justify-center rounded-full border border-border bg-surface shadow-[var(--depth-shadow-soft)]"
+      >
+        <ProgressRing
+          value={pctDone}
+          size="l"
+          aria-hidden="true"
+          className="text-primary"
+          trackClassName="text-muted-foreground/20"
+          progressClassName="text-primary"
+        />
+        <span aria-hidden className="absolute text-title font-semibold text-foreground">
+          {pctDone}%
+        </span>
+      </div>
+      <dl className="grid grid-cols-[max-content_auto] items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-2)] text-label">
+        <dt className="font-semibold text-foreground">Cap</dt>
+        <dd className="text-muted-foreground">{ACTIVE_CAP} active</dd>
+        <dt className="font-semibold text-primary">Active</dt>
+        <dd className="text-primary">{activeCount}</dd>
+        <dt className="font-semibold text-accent-3">Remaining</dt>
+        <dd className="text-accent-3">{remaining}</dd>
+        <dt className="font-semibold text-success">Complete</dt>
+        <dd className="text-success">
+          {doneCount} ({pctDone}%)
+        </dd>
+        <dt className="font-semibold text-muted-foreground">Total</dt>
+        <dd className="text-foreground">{totalCount}</dd>
+      </dl>
+    </div>
+  ) : (
+    nonGoalsSummary
+  );
 
   const reminderHeroSubTabs = React.useMemo(() => {
     if (tab !== "reminders") return undefined;
@@ -492,6 +490,36 @@ function GoalsPageContent() {
   }, [tab, query, handleReminderSearchChange, reminderCount]);
 
   const heroActions = React.useMemo(() => {
+    if (isGoalsTab) {
+      return (
+        <div className="flex w-full flex-col gap-[var(--space-2)] sm:w-auto sm:flex-row sm:items-center sm:justify-end sm:gap-[var(--space-2)]">
+          <Button
+            type="button"
+            size="md"
+            variant="default"
+            className="w-full shrink-0 sm:w-auto"
+            onClick={startGoalCreation}
+          >
+            <Plus aria-hidden="true" className="size-[var(--space-4)]" />
+            <span className="font-semibold tracking-[0.01em]">Add Goal</span>
+          </Button>
+          <Button
+            type="button"
+            size="md"
+            variant="destructive"
+            className="w-full shrink-0 sm:w-auto"
+            onClick={handleOpenNuke}
+            disabled={totalCount === 0}
+            aria-haspopup="dialog"
+            aria-controls={confirmClearOpen ? nukeDialogId : undefined}
+          >
+            <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
+            <span className="font-semibold tracking-[0.01em]">Reset All Goals</span>
+          </Button>
+        </div>
+      );
+    }
+
     if (tab === "reminders") {
       return (
         <Button
@@ -506,29 +534,11 @@ function GoalsPageContent() {
       );
     }
 
-    if (tab === "goals") {
-      return (
-        <Button
-          type="button"
-          size="sm"
-          variant="default"
-          tone="danger"
-          className="w-full shrink-0 md:w-auto"
-          onClick={handleOpenNuke}
-          disabled={totalCount === 0}
-          aria-haspopup="dialog"
-          aria-controls={confirmClearOpen ? nukeDialogId : undefined}
-          title="Delete all goals"
-        >
-          <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
-          <span className="font-semibold tracking-[0.01em]">Nuke all</span>
-        </Button>
-      );
-    }
-
     return undefined;
   }, [
     tab,
+    isGoalsTab,
+    startGoalCreation,
     handleAddReminder,
     handleOpenNuke,
     totalCount,
@@ -542,14 +552,16 @@ function GoalsPageContent() {
         <Hero<Tab | Domain>
           id={HERO_REGION_ID}
           role="region"
-          aria-labelledby={heroHeadingId}
+          aria-labelledby={heroAriaLabelledby}
+          aria-label={heroAriaLabel}
           aria-describedby={heroAriaDescribedby}
           icon={<Flag className="opacity-80" />}
           eyebrow="Goals"
-          title={heroHeading}
+          title={heroTitle}
           subtitle={heroSubtitle}
           sticky={false}
-          glitch="subtle"
+          glitch="off"
+          noiseLevel="none"
           topClassName={GOALS_STICKY_TOP_CLASS}
           dividerTint={heroDividerTint}
           tabs={{
@@ -562,13 +574,15 @@ function GoalsPageContent() {
           subTabs={reminderHeroSubTabs}
           searchBar={reminderHeroSearch}
           actions={heroActions}
+          illustration={<SmallAgnesNoxiImage />}
+          illustrationAlt="Agnes and Noxi guiding goal planning"
           className="col-span-full md:col-span-12"
         >
           <div className="space-y-[var(--space-3)]">
             <span className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
               {heroEyebrow}
             </span>
-            {summary}
+            {heroSupportingContent}
           </div>
         </Hero>
       </PageShell>
@@ -577,7 +591,8 @@ function GoalsPageContent() {
         as="main"
         id="page-main"
         tabIndex={-1}
-        aria-labelledby={heroHeadingId}
+        aria-labelledby={heroAriaLabelledby}
+        aria-label={heroAriaLabel}
         className="py-[var(--space-6)]"
       >
         <div className="grid gap-[var(--space-6)]">

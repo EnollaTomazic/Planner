@@ -62,7 +62,7 @@ export const BUTTON_VARIANTS = [
 export type ButtonVariant = (typeof BUTTON_VARIANTS)[number];
 type LegacyButtonVariant = Extract<
   DeprecatedUIVariant,
-  "primary" | "secondary" | "soft" | "ghost"
+  "primary" | "secondary" | "soft" | "ghost" | "destructive"
 >;
 type ButtonVariantProp = ButtonVariant | LegacyButtonVariant;
 
