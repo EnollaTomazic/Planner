@@ -133,6 +133,7 @@ export function ReviewsPage({
   const heroHeadingId = React.useId();
   const sortLabelId = React.useId();
   const emptySearchDescriptionId = React.useId();
+  const emptySearchTooltipId = React.useId();
   const sortItems = React.useMemo(
     () => [
       { value: "newest", label: "Newest" },
@@ -142,28 +143,134 @@ export function ReviewsPage({
     [],
   );
 
+  const shouldShowEmptySearchHelper = allowInteractions && totalCount === 0;
+  const [isSearchTooltipOpen, setIsSearchTooltipOpen] = React.useState(false);
+
+  const closeSearchTooltip = React.useCallback(() => {
+    setIsSearchTooltipOpen(false);
+  }, []);
+
+  const openSearchTooltip = React.useCallback(() => {
+    if (!shouldShowEmptySearchHelper) return;
+    setIsSearchTooltipOpen(true);
+  }, [shouldShowEmptySearchHelper]);
+
+  const handleSearchFocus = React.useCallback<
+    React.FocusEventHandler<HTMLInputElement>
+  >(() => {
+    openSearchTooltip();
+  }, [openSearchTooltip]);
+
+  const handleSearchBlur = React.useCallback<
+    React.FocusEventHandler<HTMLInputElement>
+  >(() => {
+    closeSearchTooltip();
+  }, [closeSearchTooltip]);
+
+  const handleSearchMouseEnter = React.useCallback<
+    React.MouseEventHandler<HTMLInputElement>
+  >(() => {
+    openSearchTooltip();
+  }, [openSearchTooltip]);
+
+  const handleSearchMouseLeave = React.useCallback<
+    React.MouseEventHandler<HTMLInputElement>
+  >((event) => {
+      const target = event.currentTarget;
+      if (target instanceof HTMLElement && target === document.activeElement) {
+        return;
+      }
+      closeSearchTooltip();
+    },
+    [closeSearchTooltip],
+  );
+
+  const handleSearchKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "Escape" || event.key === "Esc") {
+        closeSearchTooltip();
+      }
+    },
+    [closeSearchTooltip],
+  );
+
+  React.useEffect(() => {
+    if (!shouldShowEmptySearchHelper) {
+      setIsSearchTooltipOpen(false);
+      return undefined;
+    }
+
+    if (!isSearchTooltipOpen) {
+      return undefined;
+    }
+
+    const handleWindowKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" || event.key === "Esc") {
+        closeSearchTooltip();
+      }
+    };
+
+    window.addEventListener("keydown", handleWindowKeyDown);
+    return () => window.removeEventListener("keydown", handleWindowKeyDown);
+  }, [shouldShowEmptySearchHelper, isSearchTooltipOpen, closeSearchTooltip]);
+
   const heroSearchLabel = isLoading
     ? "Search reviews (temporarily unavailable)"
     : isErrored
       ? "Search reviews (temporarily unavailable)"
       : !hasReviews
-        ? "Search reviews (disabled until a review exists)"
+        ? "Search reviews (add a review to search)"
         : "Search reviews";
-  const heroSearchDescription = !hasReviews ? emptySearchDescriptionId : undefined;
-  const heroSearchDisabled = !allowInteractions || !hasReviews;
+  const heroSearchDescription = React.useMemo(() => {
+    const ids: string[] = [];
+    if (shouldShowEmptySearchHelper) {
+      ids.push(emptySearchTooltipId);
+    }
+    if (!hasReviews) {
+      ids.push(emptySearchDescriptionId);
+    }
+    return ids.length > 0 ? ids.join(" ") : undefined;
+  }, [shouldShowEmptySearchHelper, emptySearchTooltipId, hasReviews, emptySearchDescriptionId]);
+  const heroSearchDisabled = !allowInteractions;
+  const heroSearchTooltip = shouldShowEmptySearchHelper ? (
+    <div
+      id={emptySearchTooltipId}
+      role="tooltip"
+      className={cn(
+        "pointer-events-none absolute left-1/2 top-full z-20 w-max max-w-[min(22rem,calc(100vw-var(--space-6)))] -translate-x-1/2",
+        "rounded-[var(--radius-lg)] border border-card-hairline bg-[hsl(var(--surface-2))] px-[var(--space-3)] py-[var(--space-2)]",
+        "text-label font-medium text-foreground shadow-depth-soft",
+        "transition-[opacity,transform] duration-motion-sm ease-out motion-reduce:transition-none motion-reduce:transform-none",
+        isSearchTooltipOpen
+          ? "opacity-100 translate-y-[var(--space-2)]"
+          : "pointer-events-none opacity-0 -translate-y-[var(--space-1)]",
+      )}
+      aria-hidden={isSearchTooltipOpen ? undefined : "true"}
+    >
+      <span className="block text-balance text-center leading-tight">
+        Add a review to search.
+      </span>
+    </div>
+  ) : null;
 
   return (
     <>
-      <Hero
-        as="section"
+      <PageShell
+        as="header"
+        grid
+        aria-labelledby={heroHeadingId}
         className="py-[var(--space-6)]"
-        topClassName="top-[var(--header-stack)]"
-        title={<span id={heroHeadingId}>Reviews</span>}
-        subtitle="Capture and learn from your past sprints."
-        glitch="default"
-        frame
-        icon={<BookOpen className="opacity-80" />}
-        search={
+      >
+        <Hero
+          as="section"
+          className="col-span-full md:col-span-12"
+          topClassName="top-[var(--header-stack)]"
+          title={<span id={heroHeadingId}>Reviews</span>}
+          subtitle="Capture and learn from your past sprints."
+          glitch="default"
+          frame
+          icon={<BookOpen className="opacity-80" />}
+          search={
           {
             value: q,
             onValueChange: setQ,
@@ -175,32 +282,46 @@ export function ReviewsPage({
             variant: "sunken",
             loading: isLoading,
             disabled: heroSearchDisabled,
+            className: shouldShowEmptySearchHelper
+              ? "relative"
+              : undefined,
+            right: heroSearchTooltip ?? undefined,
+            onFocus: shouldShowEmptySearchHelper ? handleSearchFocus : undefined,
+            onBlur: shouldShowEmptySearchHelper ? handleSearchBlur : undefined,
+            onMouseEnter: shouldShowEmptySearchHelper
+              ? handleSearchMouseEnter
+              : undefined,
+            onMouseLeave: shouldShowEmptySearchHelper
+              ? handleSearchMouseLeave
+              : undefined,
+            onKeyDown: shouldShowEmptySearchHelper ? handleSearchKeyDown : undefined,
           }
-        }
-        actions={
-          <Button
-            type="button"
-            variant="default"
-            size="md"
-            className={cn("btn-glitch", "whitespace-nowrap")}
-            onClick={commitCreateReview}
-            disabled={!allowInteractions}
-          >
-            <Plus />
-            <span>New review</span>
-          </Button>
-        }
-        illustration={
-          <Image
-            src="/images/agnes.svg"
-            alt="Agnes watching over review browsing"
-            fill
-            sizes="(min-width: 1280px) 38vw, (min-width: 768px) 56vw, 100vw"
-            priority={false}
-            className="object-contain object-right md:object-center"
-          />
-        }
-      />
+          }
+          actions={
+            <Button
+              type="button"
+              variant="default"
+              size="md"
+              className={cn("btn-glitch", "whitespace-nowrap")}
+              onClick={commitCreateReview}
+              disabled={!allowInteractions}
+            >
+              <Plus />
+              <span>New review</span>
+            </Button>
+          }
+          illustration={
+            <Image
+              src="/images/agnes.svg"
+              alt="Agnes watching over review browsing"
+              fill
+              sizes="(min-width: 1280px) 38vw, (min-width: 768px) 56vw, 100vw"
+              priority={false}
+              className="object-contain object-right md:object-center"
+            />
+          }
+        />
+      </PageShell>
 
       <PageShell
         as="main"
