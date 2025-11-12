@@ -23,8 +23,6 @@ import {
   Clipboard,
   Plus,
 } from "lucide-react";
-import type { HeaderTab } from "@/components/ui/layout/Header";
-import type { HeroProps } from "@/components/ui/layout/Hero";
 import {
   type BuilderHandle,
   type LaneKey,
@@ -39,7 +37,6 @@ import { Button } from "@/components/ui/primitives/Button";
 import { Hero, PageShell, Badge, TabBar } from "@/components/ui";
 import type { BadgeProps } from "@/components/ui";
 import type { ClearSpeed } from "./data";
-import { cn } from "@/lib/utils";
 
 type Tab = "cheat" | "builder" | "clears";
 type SubTab = "sheet" | "comps";
@@ -125,36 +122,43 @@ export function TeamCompPage() {
       }) satisfies Record<Tab, { tab: string; panel: string }>,
     [tabBaseId],
   );
-  const subTabs = React.useMemo<HeaderTab<SubTab>[]>(
-    () => [
-      {
-        key: "sheet",
-        label: "Cheat Sheet",
-        icon: <BookOpen />,
-        id: "sheet-tab",
-        controls: "sheet-panel",
-      },
-      {
-        key: "comps",
-        label: "My Comps",
-        icon: <Users2 />,
-        id: "comps-tab",
-        controls: "comps-panel",
-      },
-    ],
+  const subTabItems = React.useMemo(
+    () =>
+      [
+        {
+          key: "sheet" as const,
+          label: "Cheat Sheet",
+          icon: <BookOpen />,
+          id: "sheet-tab",
+          controls: "sheet-panel",
+        },
+        {
+          key: "comps" as const,
+          label: "My Comps",
+          icon: <Users2 />,
+          id: "comps-tab",
+          controls: "comps-panel",
+        },
+      ] satisfies Array<{
+        key: SubTab;
+        label: string;
+        icon: React.ReactNode;
+        id: string;
+        controls: string;
+      }>,
     [],
   );
   const subTabIds = React.useMemo(
     () =>
-      subTabs.reduce((acc, item) => {
-        const key = item.key as SubTab;
+      subTabItems.reduce((acc, item) => {
+        const key = item.key;
         acc[key] = {
           tab: `${subTabBaseId}-${item.id ?? `${item.key}-tab`}`,
           panel: `${subTabBaseId}-${item.controls ?? `${item.key}-panel`}`,
         };
         return acc;
       }, {} as Record<SubTab, { tab: string; panel: string }>),
-    [subTabBaseId, subTabs],
+    [subTabBaseId, subTabItems],
   );
   const [editing, setEditing] = React.useState({
     cheatSheet: false,
@@ -275,51 +279,71 @@ export function TeamCompPage() {
     clearsRef.current?.focus();
   }, [tab]);
 
-  const hero = React.useMemo<HeroProps<SubTab>>(() => {
+  const heroSearchBar = React.useMemo(() => {
+    if (tab === "cheat") {
+      return {
+        value: query,
+        onValueChange: setQuery,
+        placeholder: "Search…",
+        round: true,
+        debounceMs: 300,
+        "aria-label":
+          subTab === "sheet"
+            ? "Search cheat sheet entries"
+            : "Search saved comps",
+      } as const;
+    }
+    if (tab === "clears") {
+      return {
+        value: clearsQuery,
+        onValueChange: setClearsQuery,
+        placeholder: "Filter by champion, type, or note...",
+        round: true,
+        debounceMs: 300,
+        "aria-label": "Search jungle clear buckets",
+        right: <span className="text-label opacity-80">{clearsCount} shown</span>,
+      } as const;
+    }
+    return null;
+  }, [tab, query, subTab, setQuery, clearsQuery, clearsCount, setClearsQuery]);
+
+  const heroContent = React.useMemo(() => {
     if (tab === "cheat") {
       const editingKey: keyof typeof editing =
         subTab === "sheet" ? "cheatSheet" : "myComps";
-      return {
-        as: "section",
-        sticky: true,
-        topClassName: "top-[var(--header-stack)]",
-        eyebrow: active?.label,
-        title: "Comps",
-        subtitle:
-          subTab === "sheet"
-            ? "Archetypes & tips"
-            : "Your saved compositions",
-        subTabs: {
-          items: subTabs,
-          value: subTab,
-          onChange: (next: string) => setSubTab(next as SubTab),
-          ariaLabel: "Cheat sheet sections",
-          showBaseline: true,
-          idBase: subTabBaseId,
-        },
-        searchBar: {
-          value: query,
-          onValueChange: setQuery,
-          placeholder: "Search…",
-          round: true,
-          debounceMs: 300,
-          "aria-label":
-            subTab === "sheet"
-              ? "Search cheat sheet entries"
-            : "Search saved comps",
-        },
-        actions: (
-          <Button
-            size="md"
-            variant="quiet"
-            onClick={() => toggleEditing(editingKey)}
-            aria-pressed={editing[editingKey]}
-          >
-            {editing[editingKey] ? "Done" : "Edit"}
-          </Button>
-        ),
-      };
+      return (
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <div className="flex w-full flex-wrap items-center gap-[var(--space-3)]">
+            <TabBar<SubTab>
+              items={subTabItems}
+              value={subTab}
+              onValueChange={(next) => setSubTab(next as SubTab)}
+              ariaLabel="Cheat sheet sections"
+              showBaseline
+              align="start"
+              className="min-w-0 flex-1"
+              tablistClassName="w-full"
+              variant="neo"
+              idBase={subTabBaseId}
+            />
+            <Button
+              size="md"
+              variant="quiet"
+              onClick={() => toggleEditing(editingKey)}
+              aria-pressed={editing[editingKey]}
+            >
+              {editing[editingKey] ? "Done" : "Edit"}
+            </Button>
+          </div>
+          <p className="text-ui text-muted-foreground">
+            {subTab === "sheet"
+              ? "Archetypes, counters, and sample lanes at a glance."
+              : "Organize, edit, and export your saved team compositions."}
+          </p>
+        </div>
+      );
     }
+
     if (tab === "builder") {
       const laneSummaries = BUILDER_LANES.map((lane) => {
         const ally = (builderState.allies[lane.key] ?? "").trim();
@@ -336,16 +360,6 @@ export function TeamCompPage() {
       const enemiesFilled = laneSummaries.filter((lane) => lane.enemy.length > 0).length;
       const openLanes = laneSummaries.filter((lane) => lane.isOpen);
       const contestedLanes = laneSummaries.filter((lane) => lane.isContested);
-      const subtitleParts = [
-        `Allies ${alliesFilled}/5 locked`,
-        `Enemies ${enemiesFilled}/5 scouted`,
-      ];
-      subtitleParts.push(
-        openLanes.length === 0
-          ? "All lanes accounted"
-          : `${openLanes.length} lane${openLanes.length > 1 ? "s" : ""} open`,
-      );
-      const subtitle = subtitleParts.join(" • ");
       const openLabel =
         openLanes.length === 0
           ? "No lane gaps"
@@ -357,62 +371,9 @@ export function TeamCompPage() {
       const gapTone: BadgeProps["tone"] = openLanes.length ? "accent" : "neutral";
       const clashTone: BadgeProps["tone"] = contestedLanes.length ? "primary" : "neutral";
 
-      return {
-        as: "section",
-        frame: true,
-        sticky: true,
-        topClassName: "top-[var(--header-stack)]",
-        eyebrow: active?.label ?? "Comps",
-        title: "Builder",
-        subtitle,
-        children: (
-          <div className="flex flex-col gap-[var(--space-4)]">
-            <div className="flex flex-col gap-[var(--space-2)]">
-              <span className="text-label font-semibold uppercase tracking-[0.02em] text-muted-foreground">
-                Lane coverage
-              </span>
-              <div className="flex flex-wrap gap-[var(--space-2)]">
-                {laneSummaries.map((lane) => (
-                  <Badge
-                    key={lane.key}
-                    size="sm"
-                    tone={lane.key as LaneTone}
-                    className="min-w-[calc(var(--space-8)+var(--space-3))] whitespace-normal text-left text-balance"
-                  >
-                    {`${lane.label}: ${lane.ally || "Open"} / ${lane.enemy || "Open"}`}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-2)]">
-              <Badge
-                size="sm"
-                tone={gapTone}
-                className="whitespace-normal text-left text-balance"
-              >
-                {openLabel}
-              </Badge>
-              <Badge
-                size="sm"
-                tone={clashTone}
-                className="whitespace-normal text-left text-balance"
-              >
-                {clashLabel}
-              </Badge>
-              {active?.hint ? (
-                <Badge
-                  size="sm"
-                  tone="accent"
-                  className="whitespace-normal text-left text-balance"
-                >
-                  {active.hint}
-                </Badge>
-              ) : null}
-            </div>
-          </div>
-        ),
-        actions: (
-          <div className="flex flex-wrap items-center gap-[var(--space-3)] md:gap-[var(--space-4)]">
+      return (
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <div className="flex flex-wrap items-center gap-[var(--space-3)]">
             <IconButton
               title="Swap Allies ↔ Enemies"
               aria-label="Swap Allies and Enemies"
@@ -437,52 +398,84 @@ export function TeamCompPage() {
             >
               {editing.builder ? "Done" : "Edit"}
             </Button>
-          </div>
-        ),
-      };
-    }
-    return {
-      as: "section",
-      sticky: false,
-      topClassName: "top-[var(--header-stack)]",
-      rail: true,
-      title: "Clear Speed Buckets",
-      dividerTint: "primary",
-      searchBar: {
-        value: clearsQuery,
-        onValueChange: setClearsQuery,
-        placeholder: "Filter by champion, type, or note...",
-        round: true,
-        debounceMs: 300,
-        "aria-label": "Search jungle clear buckets",
-        right: (
-          <span className="text-label opacity-80">{clearsCount} shown</span>
-        ),
-      },
-      actions: (
-        <div className="flex flex-wrap items-center gap-[var(--space-2)]">
-          <div className="flex flex-col items-start gap-[var(--space-1)]">
-            <Button
-              variant="default"
-              size="md"
-              className="whitespace-nowrap"
-              title={`Add row to ${targetBucket} bucket`}
-              aria-label={`Add row to ${targetBucket} bucket`}
-              onClick={() => clearsApi.current?.addRow(targetBucket)}
-            >
-              <Plus />
-              <span>New Row</span>
-            </Button>
-            <div className="flex items-center gap-[var(--space-1)] text-label text-muted-foreground">
-              <span>Sends to</span>
+            {active?.hint ? (
               <Badge
                 size="sm"
                 tone="accent"
                 className="whitespace-normal text-left text-balance"
               >
-                {targetBucket}
+                {active.hint}
               </Badge>
+            ) : null}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-[var(--space-2)] text-ui text-muted-foreground">
+            <span>{`Allies ${alliesFilled}/5 locked`}</span>
+            <span aria-hidden>•</span>
+            <span>{`Enemies ${enemiesFilled}/5 scouted`}</span>
+          </div>
+
+          <div className="flex flex-col gap-[var(--space-2)]">
+            <span className="text-label font-semibold uppercase tracking-[0.02em] text-muted-foreground">
+              Lane coverage
+            </span>
+            <div className="flex flex-wrap gap-[var(--space-2)]">
+              {laneSummaries.map((lane) => (
+                <Badge
+                  key={lane.key}
+                  size="sm"
+                  tone={lane.key as LaneTone}
+                  className="min-w-[calc(var(--space-8)+var(--space-3))] whitespace-normal text-left text-balance"
+                >
+                  {`${lane.label}: ${lane.ally || "Open"} / ${lane.enemy || "Open"}`}
+                </Badge>
+              ))}
             </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+            <Badge
+              size="sm"
+              tone={gapTone}
+              className="whitespace-normal text-left text-balance"
+            >
+              {openLabel}
+            </Badge>
+            <Badge
+              size="sm"
+              tone={clashTone}
+              className="whitespace-normal text-left text-balance"
+            >
+              {clashLabel}
+            </Badge>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex flex-col gap-[var(--space-4)]">
+        <div className="flex flex-wrap items-center gap-[var(--space-3)]">
+          <Button
+            variant="default"
+            size="md"
+            className="whitespace-nowrap"
+            title={`Add row to ${targetBucket} bucket`}
+            aria-label={`Add row to ${targetBucket} bucket`}
+            onClick={() => clearsApi.current?.addRow(targetBucket)}
+          >
+            <Plus />
+            <span>New Row</span>
+          </Button>
+          <div className="flex items-center gap-[var(--space-1)] text-label text-muted-foreground">
+            <span>Sends to</span>
+            <Badge
+              size="sm"
+              tone="accent"
+              className="whitespace-normal text-left text-balance"
+            >
+              {targetBucket}
+            </Badge>
           </div>
           <Button
             size="md"
@@ -493,39 +486,31 @@ export function TeamCompPage() {
             {editing.clears ? "Done" : "Edit"}
           </Button>
         </div>
-      ),
-      children: (
         <p className="text-ui text-muted-foreground">
-          If you’re on a <em>Medium</em> champ, don’t race farm vs <em>Very Fast</em>.
-          Path for fights, ganks, or cross-map trades.
+          If you’re on a <em>Medium</em> champ, don’t race farm vs <em>Very Fast</em>. Path for fights,
+          ganks, or cross-map trades.
         </p>
-      ),
-    };
+      </div>
+    );
   }, [
     tab,
-    active,
-    builderState,
     subTab,
-    subTabs,
-    subTabBaseId,
-    query,
-    clearsQuery,
-    clearsCount,
-    targetBucket,
-    editing,
-    setQuery,
+    subTabItems,
     setSubTab,
+    subTabBaseId,
     toggleEditing,
+    editing,
+    builderState,
+    active,
+    targetBucket,
+    builderApi,
+    clearsApi,
   ]);
 
-  const {
-    eyebrow: heroEyebrow,
-    title: heroTitle,
-    subtitle: heroSubtitle,
-    children: heroChildren,
-    className: heroClassName,
-    ...heroRest
-  } = hero;
+  const handleOpenMyComps = React.useCallback(() => {
+    setTab("cheat");
+    setSubTab("comps");
+  }, [setTab, setSubTab]);
 
   return (
     <>
@@ -540,28 +525,64 @@ export function TeamCompPage() {
           id="teamcomp-header"
           icon={<Users2 className="opacity-80" />}
           eyebrow="Comps"
-          title="Team Comps"
-          subtitle="Readable. Fast. On brand."
+          title="Team Compositions"
+          subtitle="Explore archetypes, build your comp, and master jungle clears."
           glitch="subtle"
-          className={cn("col-span-full md:col-span-12", heroClassName)}
-          {...heroRest}
+          className="col-span-full md:col-span-12"
+          sticky
+          topClassName="top-[var(--header-stack)]"
+          searchBar={heroSearchBar ?? undefined}
+          actions={
+            <>
+              <span id={`${tabBaseId}-tabs-label`} className="sr-only">
+                Team comps mode
+              </span>
+              <TabBar<Tab>
+                ariaLabelledBy={`${tabBaseId}-tabs-label`}
+                value={tab}
+                onValueChange={(next) => setTab(next as Tab)}
+                className="min-w-0 flex-1"
+                tablistClassName="w-full"
+                variant="neo"
+                align="start"
+                items={[
+                  {
+                    key: "cheat" as const,
+                    label: "Cheat Sheet",
+                    icon: <BookOpenText />,
+                    id: "cheat-tab",
+                    controls: "cheat-panel",
+                  },
+                  {
+                    key: "builder" as const,
+                    label: "Builder",
+                    icon: <Hammer />,
+                    id: "builder-tab",
+                    controls: "builder-panel",
+                  },
+                  {
+                    key: "clears" as const,
+                    label: "Jungle Clears",
+                    icon: <Timer />,
+                    id: "clears-tab",
+                    controls: "clears-panel",
+                  },
+                ]}
+                idBase={tabBaseId}
+              />
+              <Button
+                variant="default"
+                size="md"
+                className="whitespace-nowrap"
+                onClick={handleOpenMyComps}
+              >
+                <Users2 className="mr-[var(--space-2)] h-[var(--space-4)] w-[var(--space-4)]" />
+                <span>My Comps</span>
+              </Button>
+            </>
+          }
         >
-          <div className="space-y-[var(--space-3)]">
-            {heroEyebrow ? (
-              <span className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
-                {heroEyebrow}
-              </span>
-            ) : null}
-            {heroTitle ? (
-              <span className="text-title font-semibold tracking-[-0.01em]">
-                {heroTitle}
-              </span>
-            ) : null}
-            {heroSubtitle ? (
-              <div className="text-ui text-muted-foreground">{heroSubtitle}</div>
-            ) : null}
-            {heroChildren}
-          </div>
+          {heroContent}
         </Hero>
       </PageShell>
 
@@ -574,47 +595,6 @@ export function TeamCompPage() {
         contentClassName="gap-y-[var(--space-6)]"
         aria-labelledby="teamcomp-header"
       >
-        <div className="col-span-full">
-          <span id={`${tabBaseId}-tabs-label`} className="sr-only">
-            Team comps mode
-          </span>
-          <TabBar<Tab>
-            ariaLabelledBy={`${tabBaseId}-tabs-label`}
-            value={tab}
-            onValueChange={(next) => setTab(next as Tab)}
-            className="w-full"
-            tablistClassName="w-full"
-            variant="neo"
-            items={[
-              {
-                key: "cheat",
-                label: "Cheat Sheet",
-                icon: <BookOpenText />,
-                id: "cheat-tab",
-                controls: "cheat-panel",
-                className: "flex-1",
-              },
-              {
-                key: "builder",
-                label: "Builder",
-                icon: <Hammer />,
-                id: "builder-tab",
-                controls: "builder-panel",
-                className: "flex-1",
-              },
-              {
-                key: "clears",
-                label: "Jungle Clears",
-                icon: <Timer />,
-                id: "clears-tab",
-                controls: "clears-panel",
-                className: "flex-1",
-              },
-            ]}
-            idBase={tabBaseId}
-          />
-        </div>
-
         <section className="col-span-full grid gap-[var(--space-4)] md:grid-cols-12">
           {TABS.map((t) => {
             const ids = tabIds[t.key];

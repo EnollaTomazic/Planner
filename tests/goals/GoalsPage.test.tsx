@@ -84,21 +84,36 @@ describe("GoalsPage", () => {
 
   it("renders dynamic subtitle with counts", () => {
     render(<GoalsPage />);
-    const headerHeading = screen.getByRole("heading", {
-      name: "Today’s Goals",
-    });
-    const summaryList = headerHeading.parentElement?.querySelector(
-      ":scope > span ul",
-    );
-    if (!(summaryList instanceof HTMLElement)) {
-      throw new Error("Expected header summary list to render");
+
+    const goalsHeading = screen.getByRole("heading", { name: "Your Goals" });
+    const card = goalsHeading.closest("[data-depth]");
+    if (!(card instanceof HTMLElement)) {
+      throw new Error("Expected goals card to render");
     }
-    const items = within(summaryList).getAllByRole("listitem");
-    expect(items).toHaveLength(4);
-    expect(items[0]).toHaveTextContent(/Cap\s*3\s*active/);
-    expect(items[1]).toHaveTextContent(/Remaining\s*3/);
-    expect(items[2]).toHaveTextContent(/Complete\s*0%/);
-    expect(items[3]).toHaveTextContent(/Total\s*0/);
+
+    const completedBlock = within(card)
+      .getByText("Completed", { selector: "dt" })
+      .closest("div") as HTMLElement;
+    const activeBlock = within(card)
+      .getByText("Active", { selector: "dt" })
+      .closest("div") as HTMLElement;
+    const remainingBlock = within(card)
+      .getByText("Remaining", { selector: "dt" })
+      .closest("div") as HTMLElement;
+
+    const completedDefinition = completedBlock.querySelector("dd");
+    const activeDefinition = activeBlock.querySelector("dd");
+    const remainingDefinition = remainingBlock.querySelector("dd");
+
+    expect(completedDefinition?.querySelector(".sr-only")?.textContent).toMatch(
+      /Completed 0 of 0 goals/,
+    );
+    expect(activeDefinition?.querySelector(".sr-only")?.textContent).toMatch(
+      /Active 0 of 3 slots used/,
+    );
+    expect(remainingDefinition?.querySelector(".sr-only")?.textContent).toMatch(
+      /3 active slots remaining/,
+    );
   });
 
   it("shows domain in reminders hero and updates on change", () => {
@@ -110,17 +125,15 @@ describe("GoalsPage", () => {
     const heroSection = screen
       .getByRole("heading", { name: "Reminders" })
       .closest("section") as HTMLElement;
-    expect(
-      within(heroSection).getByText("League", { selector: "div" }),
-    ).toBeInTheDocument();
-
-    const domainTabs = screen.getByRole("tablist", {
+    const domainTabs = within(heroSection).getByRole("tablist", {
       name: "Reminder domain",
     });
-    fireEvent.click(within(domainTabs).getByRole("tab", { name: "Life" }));
-    expect(
-      within(heroSection).getByText("Life", { selector: "div" }),
-    ).toBeInTheDocument();
+    const leagueTab = within(domainTabs).getByRole("tab", { name: "League" });
+    expect(leagueTab).toHaveAttribute("aria-selected", "true");
+
+    const lifeTab = within(domainTabs).getByRole("tab", { name: "Life" });
+    fireEvent.click(lifeTab);
+    expect(lifeTab).toHaveAttribute("aria-selected", "true");
   });
 
   it("shows timer hero with profile tabs", () => {
