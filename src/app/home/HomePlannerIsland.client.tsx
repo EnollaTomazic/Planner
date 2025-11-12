@@ -37,15 +37,34 @@ function HomePlannerIslandFallback() {
     getFallbackProps()
   const dataState = glitchLandingEnabled ? "splash" : "ready"
   const heroActions = (
-    <Button
-      asChild
-      variant="default"
-      size="md"
-      tactile
-      className="whitespace-nowrap"
-    >
-      <Link href={withBasePath("/planner", { skipForNextLink: true })}>Plan Week</Link>
-    </Button>
+    <>
+      <Button
+        asChild
+        variant="default"
+        size="md"
+        tactile
+        tone="accent"
+        className="whitespace-nowrap shadow-depth-soft"
+      >
+        <Link
+          href={`${withBasePath("/goals", { skipForNextLink: true })}?tab=goals&intent=create-goal#goal-form`}
+        >
+          New Goal
+        </Link>
+      </Button>
+      <Button
+        asChild
+        variant="default"
+        size="md"
+        tactile
+        tone="primary"
+        className="whitespace-nowrap shadow-depth-soft"
+      >
+        <Link href={`${withBasePath("/reviews", { skipForNextLink: true })}?intent=create-review`}>
+          New Review
+        </Link>
+      </Button>
+    </>
   )
 
   return (
