@@ -21,6 +21,7 @@ export { WelcomeHeroFigure as WelcomeHeroFigure } from "./WelcomeHeroFigure";
 export { HomeSplash as HomeSplash } from "./HomeSplash";
 export { useGlitchLandingSplash, useHydratedCallback } from "./hooks";
 export {
+  Hero,
   HomeHeroSection,
   PlannerOverview,
   CalendarCard,
@@ -31,6 +32,7 @@ export {
 } from "./home-landing";
 export type { HeroPlannerCardsProps, HeroPlannerHighlight } from "./HeroPlannerCards";
 export type {
+  HeroProps,
   PlannerOverviewProps,
   PlannerOverviewSummaryProps,
   PlannerOverviewFocusProps,
