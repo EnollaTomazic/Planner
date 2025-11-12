@@ -446,6 +446,7 @@ export function ReviewsPage({
                     : undefined
                 }
                 hasAnyReviews={allowInteractions && totalCount > 0}
+                onCreate={allowInteractions ? commitCreateReview : undefined}
                 hoverRing
               />
           </nav>

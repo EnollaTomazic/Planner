@@ -235,6 +235,7 @@ function ReviewsStateMatrix() {
               reviews={[]}
               selectedId={null}
               onSelect={noop}
+              onCreate={noop}
             />
           </figure>
           <figure className="space-y-[var(--space-2)]">
