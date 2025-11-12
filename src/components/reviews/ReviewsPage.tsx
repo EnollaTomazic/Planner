@@ -133,6 +133,7 @@ export function ReviewsPage({
   const heroHeadingId = React.useId();
   const sortLabelId = React.useId();
   const emptySearchDescriptionId = React.useId();
+  const emptySearchTooltipId = React.useId();
   const sortItems = React.useMemo(
     () => [
       { value: "newest", label: "Newest" },
@@ -142,15 +143,115 @@ export function ReviewsPage({
     [],
   );
 
+  const shouldShowEmptySearchHelper = allowInteractions && totalCount === 0;
+  const [isSearchTooltipOpen, setIsSearchTooltipOpen] = React.useState(false);
+
+  const closeSearchTooltip = React.useCallback(() => {
+    setIsSearchTooltipOpen(false);
+  }, []);
+
+  const openSearchTooltip = React.useCallback(() => {
+    if (!shouldShowEmptySearchHelper) return;
+    setIsSearchTooltipOpen(true);
+  }, [shouldShowEmptySearchHelper]);
+
+  const handleSearchFocus = React.useCallback<
+    React.FocusEventHandler<HTMLInputElement>
+  >(() => {
+    openSearchTooltip();
+  }, [openSearchTooltip]);
+
+  const handleSearchBlur = React.useCallback<
+    React.FocusEventHandler<HTMLInputElement>
+  >(() => {
+    closeSearchTooltip();
+  }, [closeSearchTooltip]);
+
+  const handleSearchMouseEnter = React.useCallback<
+    React.MouseEventHandler<HTMLInputElement>
+  >(() => {
+    openSearchTooltip();
+  }, [openSearchTooltip]);
+
+  const handleSearchMouseLeave = React.useCallback<
+    React.MouseEventHandler<HTMLInputElement>
+  >((event) => {
+      const target = event.currentTarget;
+      if (target instanceof HTMLElement && target === document.activeElement) {
+        return;
+      }
+      closeSearchTooltip();
+    },
+    [closeSearchTooltip],
+  );
+
+  const handleSearchKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "Escape" || event.key === "Esc") {
+        closeSearchTooltip();
+      }
+    },
+    [closeSearchTooltip],
+  );
+
+  React.useEffect(() => {
+    if (!shouldShowEmptySearchHelper) {
+      setIsSearchTooltipOpen(false);
+      return undefined;
+    }
+
+    if (!isSearchTooltipOpen) {
+      return undefined;
+    }
+
+    const handleWindowKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" || event.key === "Esc") {
+        closeSearchTooltip();
+      }
+    };
+
+    window.addEventListener("keydown", handleWindowKeyDown);
+    return () => window.removeEventListener("keydown", handleWindowKeyDown);
+  }, [shouldShowEmptySearchHelper, isSearchTooltipOpen, closeSearchTooltip]);
+
   const heroSearchLabel = isLoading
     ? "Search reviews (temporarily unavailable)"
     : isErrored
       ? "Search reviews (temporarily unavailable)"
       : !hasReviews
-        ? "Search reviews (disabled until a review exists)"
+        ? "Search reviews (add a review to search)"
         : "Search reviews";
-  const heroSearchDescription = !hasReviews ? emptySearchDescriptionId : undefined;
-  const heroSearchDisabled = !allowInteractions || !hasReviews;
+  const heroSearchDescription = React.useMemo(() => {
+    const ids: string[] = [];
+    if (shouldShowEmptySearchHelper) {
+      ids.push(emptySearchTooltipId);
+    }
+    if (!hasReviews) {
+      ids.push(emptySearchDescriptionId);
+    }
+    return ids.length > 0 ? ids.join(" ") : undefined;
+  }, [shouldShowEmptySearchHelper, emptySearchTooltipId, hasReviews, emptySearchDescriptionId]);
+  const heroSearchDisabled = !allowInteractions;
+  const heroSearchTooltip = shouldShowEmptySearchHelper ? (
+    <div
+      id={emptySearchTooltipId}
+      role="tooltip"
+      className={cn(
+        "pointer-events-none absolute left-1/2 top-full z-20 w-max max-w-[min(22rem,calc(100vw-var(--space-6)))] -translate-x-1/2",
+        "rounded-[var(--radius-lg)] border border-card-hairline bg-[hsl(var(--surface-2))] px-[var(--space-3)] py-[var(--space-2)]",
+        "text-label font-medium text-foreground shadow-depth-soft",
+        "transition-[opacity,transform] duration-motion-sm ease-out motion-reduce:transition-none motion-reduce:transform-none",
+        isSearchTooltipOpen
+          ? "opacity-100 translate-y-[var(--space-2)]"
+          : "pointer-events-none opacity-0 -translate-y-[var(--space-1)]",
+      )}
+      aria-hidden={isSearchTooltipOpen ? undefined : "true"}
+    >
+      <span className="block text-balance text-center leading-tight">
+        Add a review to search.
+      </span>
+    </div>
+  ) : null;
 
   return (
     <>
@@ -175,6 +276,19 @@ export function ReviewsPage({
             variant: "sunken",
             loading: isLoading,
             disabled: heroSearchDisabled,
+            className: shouldShowEmptySearchHelper
+              ? "relative"
+              : undefined,
+            right: heroSearchTooltip ?? undefined,
+            onFocus: shouldShowEmptySearchHelper ? handleSearchFocus : undefined,
+            onBlur: shouldShowEmptySearchHelper ? handleSearchBlur : undefined,
+            onMouseEnter: shouldShowEmptySearchHelper
+              ? handleSearchMouseEnter
+              : undefined,
+            onMouseLeave: shouldShowEmptySearchHelper
+              ? handleSearchMouseLeave
+              : undefined,
+            onKeyDown: shouldShowEmptySearchHelper ? handleSearchKeyDown : undefined,
           }
         }
         actions={
