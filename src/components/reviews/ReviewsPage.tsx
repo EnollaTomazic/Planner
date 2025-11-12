@@ -255,16 +255,22 @@ export function ReviewsPage({
 
   return (
     <>
-      <Hero
-        as="section"
+      <PageShell
+        as="header"
+        grid
+        aria-labelledby={heroHeadingId}
         className="py-[var(--space-6)]"
-        topClassName="top-[var(--header-stack)]"
-        title={<span id={heroHeadingId}>Reviews</span>}
-        subtitle="Capture and learn from your past sprints."
-        glitch="default"
-        frame
-        icon={<BookOpen className="opacity-80" />}
-        search={
+      >
+        <Hero
+          as="section"
+          className="col-span-full md:col-span-12"
+          topClassName="top-[var(--header-stack)]"
+          title={<span id={heroHeadingId}>Reviews</span>}
+          subtitle="Capture and learn from your past sprints."
+          glitch="default"
+          frame
+          icon={<BookOpen className="opacity-80" />}
+          search={
           {
             value: q,
             onValueChange: setQ,
@@ -290,31 +296,32 @@ export function ReviewsPage({
               : undefined,
             onKeyDown: shouldShowEmptySearchHelper ? handleSearchKeyDown : undefined,
           }
-        }
-        actions={
-          <Button
-            type="button"
-            variant="default"
-            size="md"
-            className={cn("btn-glitch", "whitespace-nowrap")}
-            onClick={commitCreateReview}
-            disabled={!allowInteractions}
-          >
-            <Plus />
-            <span>New review</span>
-          </Button>
-        }
-        illustration={
-          <Image
-            src="/images/agnes.svg"
-            alt="Agnes watching over review browsing"
-            fill
-            sizes="(min-width: 1280px) 38vw, (min-width: 768px) 56vw, 100vw"
-            priority={false}
-            className="object-contain object-right md:object-center"
-          />
-        }
-      />
+          }
+          actions={
+            <Button
+              type="button"
+              variant="default"
+              size="md"
+              className={cn("btn-glitch", "whitespace-nowrap")}
+              onClick={commitCreateReview}
+              disabled={!allowInteractions}
+            >
+              <Plus />
+              <span>New review</span>
+            </Button>
+          }
+          illustration={
+            <Image
+              src="/images/agnes.svg"
+              alt="Agnes watching over review browsing"
+              fill
+              sizes="(min-width: 1280px) 38vw, (min-width: 768px) 56vw, 100vw"
+              priority={false}
+              className="object-contain object-right md:object-center"
+            />
+          }
+        />
+      </PageShell>
 
       <PageShell
         as="main"
