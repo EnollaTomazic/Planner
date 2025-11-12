@@ -8,6 +8,10 @@ import { PageHero } from "@/components/ui/layout/PageHero";
 
 import ThemeCycleControl from "./ThemeCycleControl";
 
+const navPreviewShellStyle = {
+  "--shell-max": "min(var(--shell-width), 56rem)",
+} as React.CSSProperties;
+
 export const metadata: Metadata = {
   title: "Navigation & background preview",
   description:
@@ -61,9 +65,13 @@ export default function NavAndBackgroundPreviewPage() {
             className="min-h-[60vh] pb-[var(--space-8)]"
           >
             <section className="col-span-full rounded-[var(--radius-2xl)] border border-border/80 bg-surface/90 p-[var(--space-6)] shadow-[var(--shadow-outline-subtle)] backdrop-blur-md">
-              <div className="mx-auto max-w-4xl">
+              <PageShell
+                as="div"
+                className="space-y-0 px-0"
+                style={navPreviewShellStyle}
+              >
                 <NavBar />
-              </div>
+              </PageShell>
             </section>
           </PageShell>
         </div>

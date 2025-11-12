@@ -18,12 +18,18 @@ import { cn } from "@/lib/utils";
 
 const DEFAULT_STATE_KEY = "__default__";
 
+type PreviewStateToggle = {
+  readonly key: string;
+  readonly label: string;
+  readonly stateId: string | null;
+};
+
 type ComponentPreviewProps = {
   readonly entry: GallerySerializableEntry;
   readonly onCodeChange?: (code: string | null) => void;
 };
 
-const previewStateToggles = [
+const previewStateToggles: readonly PreviewStateToggle[] = [
   { key: DEFAULT_STATE_KEY, label: "Default", stateId: null },
   { key: "hover", label: "Hover", stateId: "hover" },
   { key: "focus", label: "Focus", stateId: "focus" },
@@ -51,12 +57,6 @@ export function ComponentPreviewFallback(): JSX.Element {
       Loading preview…
     </div>
   );
-}
-
-function getToggleLabel(stateId: string | null): string {
-  return stateId === null
-    ? "Default"
-    : previewStateToggles.find((toggle) => toggle.stateId === stateId)?.label ?? "State";
 }
 
 export function ComponentPreview({ entry, onCodeChange }: ComponentPreviewProps): JSX.Element {
@@ -118,9 +118,39 @@ export function ComponentPreview({ entry, onCodeChange }: ComponentPreviewProps)
     [themeContext],
   );
 
+  const stateLabelOverrides = React.useMemo(() => {
+    return new Map(stateDefinitions.map((state) => [state.id, state.name]));
+  }, [stateDefinitions]);
+
+  const stateToggles = React.useMemo(() => {
+    const baseToggles = previewStateToggles.map((toggle) => {
+      if (toggle.stateId === null) {
+        return toggle;
+      }
+      const override = stateLabelOverrides.get(toggle.stateId);
+      if (!override) {
+        return toggle;
+      }
+      return { ...toggle, label: override };
+    });
+    const knownKeys = new Set<string>(
+      baseToggles.map((toggle) => toggle.stateId ?? toggle.key),
+    );
+    const additionalToggles = stateDefinitions
+      .filter((state) => !knownKeys.has(state.id))
+      .map((state) => ({ key: state.id, label: state.name, stateId: state.id }));
+    return [...baseToggles, ...additionalToggles];
+  }, [stateDefinitions, stateLabelOverrides]);
+
+  const stateLabelLookup = React.useMemo(() => {
+    return new Map(
+      stateToggles.map((toggle) => [toggle.stateId ?? DEFAULT_STATE_KEY, toggle.label]),
+    );
+  }, [stateToggles]);
+
   const activeState = activeStateId ? stateLookup.get(activeStateId) ?? null : null;
   const activeStateKey = activeStateId ?? DEFAULT_STATE_KEY;
-  const activeStateLabel = getToggleLabel(activeStateId);
+  const activeStateLabel = stateLabelLookup.get(activeStateKey) ?? "State";
 
   const previewId = activeState?.preview.id ?? entry.preview.id;
   const previewRenderer = React.useMemo(
@@ -234,13 +264,13 @@ export function ComponentPreview({ entry, onCodeChange }: ComponentPreviewProps)
   );
 
   const enabledStateToggles = React.useMemo(() => {
-    return previewStateToggles.filter((toggle) => {
+    return stateToggles.filter((toggle) => {
       if (toggle.stateId === null) {
         return true;
       }
       return availableStateIds.has(toggle.stateId);
     });
-  }, [availableStateIds]);
+  }, [availableStateIds, stateToggles]);
 
   const handleStateKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -285,7 +315,7 @@ export function ComponentPreview({ entry, onCodeChange }: ComponentPreviewProps)
             className="flex flex-wrap gap-[var(--space-2)]"
             onKeyDown={handleStateKeyDown}
           >
-            {previewStateToggles.map((toggle) => {
+            {stateToggles.map((toggle) => {
               const key = toggle.key;
               const disabled =
                 toggle.stateId !== null && !availableStateIds.has(toggle.stateId);
