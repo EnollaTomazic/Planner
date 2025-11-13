@@ -11,6 +11,7 @@
 import * as React from "react";
 import { Hero } from "@/components/ui/layout/Hero";
 import { Button } from "@/components/ui/primitives/Button";
+import { IconButton } from "@/components/ui/primitives/IconButton";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import type { ISODate } from "./plannerTypes";
 import { useWeekData } from "./useWeekData";
@@ -421,15 +422,16 @@ export function WeekPicker() {
             aria-label="Week navigation"
             className="flex flex-wrap items-center chip-gap-x-tight chip-gap-y-tight"
           >
-            <Button
+            <IconButton
+              type="button"
               variant="quiet"
+              tone="primary"
               size="sm"
               aria-label="Go to previous week"
               onClick={prevWeek}
             >
               <ChevronLeft />
-              <span>Prev</span>
-            </Button>
+            </IconButton>
             <Button
               size="sm"
               aria-label="Jump to today"
@@ -438,15 +440,16 @@ export function WeekPicker() {
             >
               Today
             </Button>
-            <Button
+            <IconButton
+              type="button"
               variant="quiet"
+              tone="primary"
               size="sm"
               aria-label="Go to next week"
               onClick={nextWeek}
             >
-              <span>Next</span>
               <ChevronRight />
-            </Button>
+            </IconButton>
           </div>
         </WeekPickerShell.Controls>
         <WeekPickerShell.Totals slotId="week-range">
