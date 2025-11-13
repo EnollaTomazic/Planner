@@ -21,7 +21,7 @@ import {
   ProgressRing,
   SegmentedControl,
 } from "@/components/ui";
-import { Slider } from "@/components/ui/primitives/Slider";
+import { RangeSlider } from "@/components/ui/primitives/RangeSlider";
 import { NoiseOverlay } from "@/components/ui/patterns/NoiseOverlay";
 import { cn } from "@/lib/utils";
 import styles from "./PlannerPage.module.css";
@@ -360,7 +360,7 @@ function Inner() {
                 </div>
                 <span className={focusDialNeedle} />
               </div>
-              <Slider
+              <RangeSlider
                 className={focusDialSlider}
                 label="Adjust energy"
                 min={20}

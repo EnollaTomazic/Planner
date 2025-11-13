@@ -105,6 +105,8 @@ export type { IssueBadgeProps, IssueBadgeSeverity } from "./primitives/IssueBadg
 export { NeoCard, neoCardOverlayClassName } from "./primitives/NeoCard";
 export type { NeoCardProps } from "./primitives/NeoCard";
 export { neuInset, neuRaised } from "./primitives/Neu";
+export { RangeSlider } from "./primitives/RangeSlider";
+export type { RangeSliderProps } from "./primitives/RangeSlider";
 export { SearchBar } from "./primitives/SearchBar";
 export type { SearchBarProps } from "./primitives/SearchBar";
 export { SegmentedButton } from "./primitives/SegmentedButton";
