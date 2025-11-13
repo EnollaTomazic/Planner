@@ -47,7 +47,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/primitives/Card";
-import { FilterKey, GoalsTabs } from "./GoalsTabs";
+import { FilterKey, SegmentFilterKey, GoalsTabs } from "./GoalsTabs";
 import {
   type EntityFormSubmitResult,
   type EntityFormValues,
@@ -83,8 +83,10 @@ type GoalsInsetFormProps = {
 const isTabValue = (value: unknown): value is Tab =>
   value === "goals" || value === "reminders" || value === "timer";
 
-const isFilterKey = (value: unknown): value is FilterKey =>
+const isSegmentFilterKey = (value: unknown): value is SegmentFilterKey =>
   value === "All" || value === "Active" || value === "Done";
+
+const NEW_GOAL_FILTER: FilterKey = "New goal";
 
 const TABS: HeaderTab<Tab>[] = [
   {
@@ -156,11 +158,11 @@ function GoalsPageContent() {
     decode: (value) => (isTabValue(value) ? value : null),
   });
 
-  const [filter, setFilter] = usePersistentState<FilterKey>(
+  const [filter, setFilter] = usePersistentState<SegmentFilterKey>(
     "goals.filter.v1",
     "All",
     {
-      decode: (value) => (isFilterKey(value) ? value : null),
+      decode: (value) => (isSegmentFilterKey(value) ? value : null),
     },
   );
   const [shouldFocusGoalForm, setShouldFocusGoalForm] = React.useState(false);
@@ -269,7 +271,12 @@ function GoalsPageContent() {
   React.useEffect(() => {
     if (filterParam === null) return;
 
-    if (isFilterKey(filterParam)) {
+    if (filterParam === NEW_GOAL_FILTER) {
+      startGoalCreation();
+      return;
+    }
+
+    if (isSegmentFilterKey(filterParam)) {
       if (filterParam !== filter) {
         setFilter(filterParam);
       }
@@ -279,7 +286,7 @@ function GoalsPageContent() {
     if (filter !== "All") {
       setFilter("All");
     }
-  }, [filterParam, filter, setFilter]);
+  }, [filterParam, filter, setFilter, startGoalCreation]);
 
   const handleTabChange = React.useCallback(
     (value: string) => {

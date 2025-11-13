@@ -4,24 +4,24 @@ import * as React from "react";
 import { type TabItem, TabBar } from "@/components/ui/layout/TabBar";
 import { Circle, CircleDot, CircleCheck, Plus } from "lucide-react";
 
-export type FilterKey = "All" | "Active" | "Done";
+export type FilterKey = "All" | "Active" | "Done" | "New goal";
 
-type GoalsTabKey = FilterKey | "NewGoal";
+export type SegmentFilterKey = Exclude<FilterKey, "New goal">;
 
-const FILTER_ITEMS: TabItem<GoalsTabKey>[] = [
+const FILTER_ITEMS: TabItem<FilterKey>[] = [
   { key: "All", label: "All", icon: <Circle aria-hidden="true" /> },
   { key: "Active", label: "Active", icon: <CircleDot aria-hidden="true" /> },
   { key: "Done", label: "Done", icon: <CircleCheck aria-hidden="true" /> },
   {
-    key: "NewGoal",
+    key: "New goal",
     label: "New goal",
     icon: <Plus aria-hidden="true" />,
   },
 ];
 
 interface GoalsTabsProps {
-  value: FilterKey;
-  onChange: (val: FilterKey) => void;
+  value: SegmentFilterKey;
+  onChange: (val: SegmentFilterKey) => void;
   onNewGoal: () => void;
   newGoalDisabled?: boolean;
 }
@@ -30,14 +30,14 @@ export function GoalsTabs({ value, onChange, onNewGoal, newGoalDisabled = false 
   const items = React.useMemo(
     () =>
       FILTER_ITEMS.map((item) =>
-        item.key === "NewGoal" ? { ...item, disabled: newGoalDisabled } : item,
+        item.key === "New goal" ? { ...item, disabled: newGoalDisabled } : item,
       ),
     [newGoalDisabled],
   );
 
   const handleChange = React.useCallback(
-    (next: GoalsTabKey) => {
-      if (next === "NewGoal") {
+    (next: FilterKey) => {
+      if (next === "New goal") {
         if (!newGoalDisabled) {
           onNewGoal();
         }
@@ -49,7 +49,7 @@ export function GoalsTabs({ value, onChange, onNewGoal, newGoalDisabled = false 
   );
 
   return (
-    <TabBar<GoalsTabKey>
+    <TabBar<FilterKey>
       items={items}
       value={value}
       onValueChange={handleChange}
