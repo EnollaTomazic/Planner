@@ -49,10 +49,12 @@
   color: hsl(var(--muted-foreground));
 }
 
-.focusDialBody {
-  font-size: var(--font-body);
-  color: hsl(var(--muted-foreground));
+.focusDialAlert {
+  --alert-accent: var(--status-info, var(--accent-2));
+  --alert-surface: hsl(var(--surface) / 0.94);
+  --alert-foreground: hsl(var(--muted-foreground));
   max-width: 52ch;
+  text-wrap: pretty;
 }
 
 .heroActionButtons {
