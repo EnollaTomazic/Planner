@@ -52,6 +52,8 @@ export type ReviewListProps = {
   onRetry?: (() => void) | null;
   hasAnyReviews?: boolean;
   onCreate?: () => void;
+  onRename?: (id: string, nextTitle: string) => void;
+  onDelete?: (id: string) => void;
 };
 
 export function ReviewList({
@@ -66,6 +68,8 @@ export function ReviewList({
   onRetry = null,
   hasAnyReviews = false,
   onCreate,
+  onRename,
+  onDelete,
 }: ReviewListProps) {
   const count = reviews.length;
   const isLoading = Boolean(loading);
@@ -408,7 +412,11 @@ export function ReviewList({
           <ReviewListItem
             review={review}
             selected={review.id === selectedId}
-            onClick={onSelect ? () => onSelect(review.id) : undefined}
+            onSelect={onSelect ? () => onSelect(review.id) : undefined}
+            onRename={
+              onRename ? (nextTitle) => onRename(review.id, nextTitle) : undefined
+            }
+            onDelete={onDelete ? () => onDelete(review.id) : undefined}
           />
         )}
       />
