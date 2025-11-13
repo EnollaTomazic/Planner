@@ -14,6 +14,7 @@ import type {
   PlannerOverviewGoalsProps,
   PlannerOverviewGoalItem,
   PlannerOverviewProps,
+  PlannerOverviewRangeKey,
   PlannerOverviewSummaryItem,
 } from "./types";
 
@@ -31,6 +32,11 @@ const calendarDayFormatter = new Intl.DateTimeFormat(LOCALE, {
   day: "2-digit",
 });
 
+const calendarMonthFormatter = new Intl.DateTimeFormat(LOCALE, {
+  month: "long",
+  year: "numeric",
+});
+
 type PlannerCalendarDayState = ReturnType<typeof useWeekData>["per"][number] & {
   disabled?: boolean;
   loading?: boolean;
@@ -39,6 +45,7 @@ type PlannerCalendarDayState = ReturnType<typeof useWeekData>["per"][number] & {
 export function useHomePlannerOverview(): PlannerOverviewProps {
   const { iso, setIso, hydrated } = useFocusDate();
   const hydrating = !hydrated;
+  const [range, setRange] = React.useState<PlannerOverviewRangeKey>("week");
   const { projects, tasks, toggleTask, doneCount, totalCount } = useDay(iso);
   const tasksPreview = React.useMemo(() => tasks.slice(0, 4), [tasks]);
   const remainingTasks = Math.max(tasks.length - tasksPreview.length, 0);
@@ -60,6 +67,12 @@ export function useHomePlannerOverview(): PlannerOverviewProps {
     if (!focusDate) return iso;
     return focusDayFormatter.format(focusDate);
   }, [focusDate, hydrating, iso]);
+
+  const focusMonthLabel = React.useMemo(() => {
+    if (hydrating) return "Loading…";
+    if (!focusDate) return "This month";
+    return calendarMonthFormatter.format(focusDate);
+  }, [focusDate, hydrating]);
 
   const handleToggleTask = React.useCallback(
     (taskId: string) => {
@@ -132,7 +145,7 @@ export function useHomePlannerOverview(): PlannerOverviewProps {
     return [
       {
         key: "focus",
-        label: "Next focus",
+        label: "Planner focus",
         value: focusLabel,
         href: "/planner",
         cta: "Open planner",
@@ -171,6 +184,26 @@ export function useHomePlannerOverview(): PlannerOverviewProps {
     }
     return "No tasks scheduled this week";
   }, [hydrating, weekDone, weekTotal]);
+
+  const daySummary = React.useMemo(() => {
+    if (hydrating) {
+      return "Planner day will load after setup.";
+    }
+    if (totalCount > 0) {
+      return `${doneCount}/${totalCount}`;
+    }
+    return "No tasks scheduled today";
+  }, [doneCount, hydrating, totalCount]);
+
+  const monthSummary = React.useMemo(() => {
+    if (hydrating) {
+      return "Monthly overview loading…";
+    }
+    if (weekTotal > 0) {
+      return `${weekTotal} scheduled this week`;
+    }
+    return "Schedule your month in the planner";
+  }, [hydrating, weekTotal]);
 
   const calendarDays: PlannerOverviewCalendarDay[] = React.useMemo(() => {
     return per.map((day) => {
@@ -252,8 +285,34 @@ export function useHomePlannerOverview(): PlannerOverviewProps {
     [goalPct, goalStats.active, goalStats.completed, goalStats.total],
   );
 
-  const calendarCard = React.useMemo(
-    () => ({
+  const calendarCard = React.useMemo(() => {
+    if (range === "day") {
+      return {
+        label: "Focus day",
+        title: focusLabel,
+        summary: daySummary,
+        doneCount: hydrating ? 0 : doneCount,
+        totalCount: hydrating ? 0 : totalCount,
+        hasPlannedTasks: !hydrating && totalCount > 0,
+        days: calendarDays,
+        onSelectDay: handleSelectDay,
+      };
+    }
+
+    if (range === "month") {
+      return {
+        label: "Monthly outlook",
+        title: focusMonthLabel,
+        summary: monthSummary,
+        doneCount: hydrating ? 0 : weekDone,
+        totalCount: hydrating ? 0 : weekTotal,
+        hasPlannedTasks: !hydrating && weekTotal > 0,
+        days: calendarDays,
+        onSelectDay: handleSelectDay,
+      };
+    }
+
+    return {
       label: "Weekly calendar",
       title: weekLabel,
       summary: weekSummary,
@@ -262,26 +321,57 @@ export function useHomePlannerOverview(): PlannerOverviewProps {
       hasPlannedTasks: !hydrating && weekTotal > 0,
       days: calendarDays,
       onSelectDay: handleSelectDay,
-    }),
-    [
-      calendarDays,
-      handleSelectDay,
-      hydrating,
-      weekDone,
-      weekLabel,
-      weekSummary,
-      weekTotal,
-    ],
-  );
+    };
+  }, [
+    calendarDays,
+    daySummary,
+    doneCount,
+    focusLabel,
+    focusMonthLabel,
+    handleSelectDay,
+    hydrating,
+    monthSummary,
+    range,
+    totalCount,
+    weekDone,
+    weekLabel,
+    weekSummary,
+    weekTotal,
+  ]);
 
-  const summary = React.useMemo(
-    () => ({
-      label: "Highlights",
+  const summary = React.useMemo(() => {
+    if (range === "day") {
+      return {
+        label: "Today",
+        title: "Immediate focus",
+        items: summaryItems.map((item) =>
+          item.key === "focus"
+            ? { ...item, label: "Today's focus", value: focusLabel }
+            : item,
+        ),
+      };
+    }
+
+    if (range === "month") {
+      return {
+        label: "This month",
+        title: "Momentum outlook",
+        items: summaryItems.map((item) =>
+          item.key === "focus"
+            ? { ...item, label: "Monthly focus", value: focusMonthLabel }
+            : item,
+        ),
+      };
+    }
+
+    return {
+      label: "This week",
       title: "Quick summary",
-      items: summaryItems,
-    }),
-    [summaryItems],
-  );
+      items: summaryItems.map((item) =>
+        item.key === "focus" ? { ...item, label: "Weekly focus", value: weekLabel } : item,
+      ),
+    };
+  }, [focusLabel, focusMonthLabel, range, summaryItems, weekLabel]);
 
   const activity = React.useMemo(
     () => ({
@@ -294,6 +384,23 @@ export function useHomePlannerOverview(): PlannerOverviewProps {
     [activityHasData, activityPoints, hydrating, weekDone, weekTotal],
   );
 
+  const ranges = React.useMemo(
+    () =>
+      [
+        { key: "day", label: "Day" },
+        { key: "week", label: "Week" },
+        { key: "month", label: "Month" },
+      ] as const,
+    [],
+  );
+
+  const handleSelectRange = React.useCallback(
+    (nextRange: PlannerOverviewRangeKey) => {
+      setRange(nextRange);
+    },
+    [],
+  );
+
   return React.useMemo(
     () => ({
       hydrating,
@@ -303,7 +410,21 @@ export function useHomePlannerOverview(): PlannerOverviewProps {
       goals: goalsCard,
       calendar: calendarCard,
       activity,
+      range,
+      ranges,
+      onSelectRange: handleSelectRange,
     }),
-    [activity, calendarCard, focusCard, goalsCard, hydrating, hydrated, summary],
+    [
+      activity,
+      calendarCard,
+      focusCard,
+      goalsCard,
+      handleSelectRange,
+      hydrating,
+      hydrated,
+      range,
+      ranges,
+      summary,
+    ],
   );
 }

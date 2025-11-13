@@ -142,19 +142,78 @@
   color: hsl(var(--muted-foreground));
 }
 
-.miniGrid {
+.plannerGrid {
   display: grid;
-  gap: var(--space-6);
+  gap: var(--space-5);
+}
+
+@media (min-width: 48rem) {
+  .plannerGrid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+}
+
+.plannerGridCard {
+  grid-column: span 12;
+}
+
+@media (min-width: 48rem) {
+  .plannerGridCard {
+    grid-column: span 6;
+  }
 }
 
 @media (min-width: 64rem) {
-  .miniGrid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-  }
-
-  .miniGrid > :global(*) {
+  .plannerGridCard {
     grid-column: span 4;
   }
+}
+
+.plannerGridCardWide {
+  grid-column: span 12;
+}
+
+@media (min-width: 64rem) {
+  .plannerGridCardWide {
+    grid-column: span 8;
+  }
+}
+
+.rangeTabsRow {
+  grid-column: span 12;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.rangeTabs {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1);
+  border-radius: var(--radius-full);
+  border: 1px solid hsl(var(--card-hairline) / 0.55);
+  background: hsl(var(--panel) / 0.7);
+  box-shadow: 0 1px 2px hsl(var(--surface) / 0.2);
+}
+
+.rangeTab {
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  transition: color 160ms ease, background 160ms ease;
+}
+
+.rangeTab[data-active="true"] {
+  background: hsl(var(--accent-1) / 0.2);
+  color: hsl(var(--foreground));
+}
+
+.rangeTab:focus-visible {
+  outline: 2px solid hsl(var(--accent-1) / 0.5);
+  outline-offset: 2px;
 }
 
 .tabPanelCard {

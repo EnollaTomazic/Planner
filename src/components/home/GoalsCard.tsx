@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { DashboardListCard } from "./DashboardListCard";
+import { DashboardListCard, type DashboardListCardFooterAction } from "./DashboardListCard";
 import { useGoals } from "@/components/goals";
 import type { Goal } from "@/lib/types";
 import { Progress } from "@/components/ui";
@@ -119,7 +119,23 @@ function getGoalStatus(goal: Goal): string {
   return goal.metric?.trim() || goal.notes?.trim() || "No metric yet";
 }
 
-export function GoalsCard() {
+export interface GoalsCardProps {
+  title?: string;
+  emptyMessage?: string;
+  listCta?: { label: string; href: string };
+  footerAction?: DashboardListCardFooterAction;
+  headerAction?: DashboardListCardFooterAction;
+  cardClassName?: string;
+}
+
+export function GoalsCard({
+  title = "Active goals",
+  emptyMessage = "No active goals",
+  listCta = { label: "Create", href: "/goals" },
+  footerAction = { label: "Manage Goals", href: "/goals/" },
+  headerAction,
+  cardClassName,
+}: GoalsCardProps = {}) {
   const { goals } = useGoals();
   const activeGoals = React.useMemo(
     () => goals.filter((g) => !g.done).slice(0, 3),
@@ -128,11 +144,12 @@ export function GoalsCard() {
 
   return (
     <DashboardListCard
-      title="Active goals"
+      title={title}
       items={activeGoals}
       getKey={(goal) => goal.id}
-      emptyMessage="No active goals"
-      listCta={{ label: "Create", href: "/goals" }}
+      emptyMessage={emptyMessage}
+      listCta={listCta}
+      headerAction={headerAction}
       renderItem={(goal) => {
         const progress = deriveGoalProgress(goal);
         const statusText = getGoalStatus(goal);
@@ -157,10 +174,8 @@ export function GoalsCard() {
           </div>
         );
       }}
-      footerAction={{
-        label: "Manage Goals",
-        href: "/goals",
-      }}
+      footerAction={footerAction}
+      cardProps={{ className: cardClassName }}
     />
   );
 }

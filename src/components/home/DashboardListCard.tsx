@@ -33,6 +33,7 @@ interface DashboardListCardProps<Item> {
   headerProps?: React.ComponentProps<typeof Card.Header>;
   footerProps?: React.ComponentProps<typeof Card.Footer>;
   footerAction?: DashboardListCardFooterAction;
+  headerAction?: DashboardListCardFooterAction;
   cardProps?: Omit<CardProps, "children">;
 }
 
@@ -49,22 +50,45 @@ function DashboardListCard<Item>({
   headerProps,
   footerProps,
   footerAction,
+  headerAction,
   cardProps,
 }: DashboardListCardProps<Item>): React.ReactElement {
   const {
     className: headerClassName,
     title: headerTitle,
+    actions: headerPropActions,
+    actionsClassName: headerPropActionsClassName,
     ...restHeaderProps
   } = headerProps ?? {};
   const { className: footerClassName, ...restFooterProps } = footerProps ?? {};
   const { className: cardClassName, ...restCardProps } = cardProps ?? {};
   const resolvedTitle = headerTitle ?? title;
+  const headerHref = headerAction
+    ? withBasePath(headerAction.href, { skipForNextLink: true })
+    : undefined;
+  const headerButton =
+    headerPropActions ??
+    (headerAction && headerHref ? (
+      <Button
+        asChild
+        size={headerAction.size ?? "sm"}
+        tone={headerAction.tone}
+        variant={headerAction.variant ?? "quiet"}
+      >
+        <Link href={headerHref}>{headerAction.label}</Link>
+      </Button>
+    ) : undefined);
+  const headerActionsClassName =
+    headerPropActionsClassName ??
+    (headerAction ? "justify-end" : undefined);
 
   return (
     <Card className={cardClassName} {...restCardProps}>
       <Card.Header
         title={resolvedTitle}
         className={headerClassName}
+        actions={headerButton}
+        actionsClassName={headerActionsClassName}
         {...restHeaderProps}
       />
       <Card.Body className={cn("text-card-foreground", bodyClassName)}>
@@ -100,4 +124,4 @@ function DashboardListCard<Item>({
 }
 
 export { DashboardListCard };
-export type { DashboardListCardProps };
+export type { DashboardListCardProps, DashboardListCardFooterAction };

@@ -390,6 +390,13 @@ const heroPlannerOverviewDemo = {
       { iso: "2024-04-28", label: "Sun", completed: 0, total: 1 },
     ],
   },
+  range: "week",
+  ranges: [
+    { key: "day", label: "Day" },
+    { key: "week", label: "Week" },
+    { key: "month", label: "Month" },
+  ],
+  onSelectRange: () => {},
 } satisfies PlannerOverviewProps;
 
 const FIELD_HOVER_SHADOW =
