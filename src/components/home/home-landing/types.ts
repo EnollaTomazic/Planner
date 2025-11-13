@@ -3,6 +3,13 @@ import type { Variant } from "@/lib/theme";
 
 export type PlannerOverviewSummaryKey = "focus" | "reviews" | "prompts";
 
+export type PlannerOverviewRangeKey = "day" | "week" | "month";
+
+export interface PlannerOverviewRangeOption {
+  key: PlannerOverviewRangeKey;
+  label: string;
+}
+
 export interface PlannerOverviewSummaryItem {
   key: PlannerOverviewSummaryKey;
   label: string;
@@ -98,6 +105,9 @@ export interface PlannerOverviewProps {
   goals: PlannerOverviewGoalsProps;
   calendar: PlannerOverviewCalendarProps;
   activity: PlannerOverviewActivityProps;
+  range: PlannerOverviewRangeKey;
+  ranges: readonly PlannerOverviewRangeOption[];
+  onSelectRange: (range: PlannerOverviewRangeKey) => void;
 }
 
 export interface HomeHeroSectionProps {

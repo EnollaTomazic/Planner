@@ -33,13 +33,53 @@ export interface HeroPlannerCardsProps {
   className?: string;
 }
 
+type PlannerRangeKey = PlannerOverviewProps["range"];
+type PlannerRangeOption = PlannerOverviewProps["ranges"][number];
+
+interface PlannerRangeTabsProps {
+  activeRange: PlannerRangeKey;
+  options: readonly PlannerRangeOption[];
+  onSelectRange: PlannerOverviewProps["onSelectRange"];
+}
+
+const PlannerRangeTabs = React.memo(function PlannerRangeTabs({
+  activeRange,
+  options,
+  onSelectRange,
+}: PlannerRangeTabsProps) {
+  return (
+    <div role="group" aria-label="Planner range" className={styles.rangeTabs}>
+      {options.map((option) => {
+        const isActive = option.key === activeRange;
+        return (
+          <button
+            key={option.key}
+            type="button"
+            className={styles.rangeTab}
+            data-active={isActive ? "true" : undefined}
+            aria-pressed={isActive}
+            onClick={() => {
+              if (isActive) return;
+              onSelectRange(option.key);
+            }}
+          >
+            {option.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+});
+PlannerRangeTabs.displayName = "PlannerRangeTabs";
+
 const HeroPlannerCards = React.memo(function HeroPlannerCards({
   variant,
   plannerOverviewProps,
   highlights,
   className,
 }: HeroPlannerCardsProps) {
-  const { summary, goals, calendar, activity } = plannerOverviewProps;
+  const { summary, goals, calendar, activity, range, ranges, onSelectRange } =
+    plannerOverviewProps;
   const { days, onSelectDay } = calendar;
   type InsightTabKey = "activity" | "prompts" | "calendar";
 
@@ -175,6 +215,15 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
             </Card>
           </div>
         </div>
+        {ranges.length > 1 ? (
+          <div className={cn("col-span-full", styles.rangeTabsRow)}>
+            <PlannerRangeTabs
+              activeRange={range}
+              options={ranges}
+              onSelectRange={onSelectRange}
+            />
+          </div>
+        ) : null}
         <div className={cn("col-span-full", styles.overviewRow)}>
           <Card>
             <Card.Header
@@ -308,13 +357,50 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
             </Card.Body>
           </Card>
         </div>
-        <div className={cn("col-span-full", styles.miniGrid)}>
-          <TodayCard />
-          <GoalsCard />
+        <div className={cn("col-span-full", styles.plannerGrid)}>
+          <TodayCard
+            title="Today's plan"
+            emptyMessage="No tasks scheduled today"
+            listCta={{ label: "Add task", href: "/planner?intent=create-task" }}
+            headerAction={{
+              label: "Add task",
+              href: "/planner?intent=create-task",
+              variant: "default",
+              tone: "primary",
+            }}
+            footerAction={{
+              label: "Open planner",
+              href: "/planner",
+              variant: "default",
+              tone: "primary",
+            }}
+            cardClassName={styles.plannerGridCard}
+          />
+          <GoalsCard
+            title="Active goals"
+            emptyMessage="No active goals yet"
+            listCta={{ label: "Add goal", href: "/goals?intent=create-goal" }}
+            headerAction={{
+              label: "Add goal",
+              href: "/goals?intent=create-goal",
+              variant: "default",
+            }}
+            footerAction={{ label: "Manage goals", href: "/goals", variant: "quiet" }}
+            cardClassName={styles.plannerGridCard}
+          />
           <DashboardListCard
-            title="Highlights"
+            title="Upcoming & highlights"
             items={highlights}
-            emptyMessage="No highlights"
+            emptyMessage="No highlights yet"
+            listCta={{ label: "Add highlight", href: "/planner" }}
+            headerAction={{ label: "See calendar", href: "/planner", variant: "quiet" }}
+            footerAction={{
+              label: "Open planner",
+              href: "/planner",
+              variant: "default",
+              tone: "primary",
+            }}
+            cardProps={{ className: styles.plannerGridCardWide }}
             getKey={(highlight) => highlight.id}
             renderItem={(highlight) => (
               <article className="space-y-[var(--space-2)]">
