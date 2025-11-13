@@ -109,6 +109,19 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
     [onSelectDay],
   );
 
+  const calendarRangeControls = React.useMemo(() => {
+    if (ranges.length <= 1) {
+      return null;
+    }
+    return (
+      <PlannerRangeTabs
+        activeRange={range}
+        options={ranges}
+        onSelectRange={onSelectRange}
+      />
+    );
+  }, [onSelectRange, range, ranges]);
+
   const insightTabs = React.useMemo(
     () =>
       [
@@ -165,13 +178,40 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
               </ul>
             </div>
           ),
+          headerActions: calendarRangeControls,
         },
       ] satisfies readonly {
         key: InsightTabKey;
         label: string;
         render: () => React.ReactNode;
+        headerActions?: React.ReactNode;
       }[],
-    [activity, calendar.label, calendarSummary, days, handleSelectDay],
+    [
+      activity,
+      calendar.label,
+      calendarRangeControls,
+      calendarSummary,
+      days,
+      handleSelectDay,
+    ],
+  );
+
+  React.useEffect(() => {
+    if (insightTabs.some((tab) => tab.key === activeTab)) {
+      return;
+    }
+
+    const fallbackTab = insightTabs[0];
+    if (!fallbackTab) {
+      return;
+    }
+
+    setActiveTab(fallbackTab.key);
+  }, [activeTab, insightTabs]);
+
+  const activeTabDefinition = React.useMemo(
+    () => insightTabs.find((tab) => tab.key === activeTab),
+    [activeTab, insightTabs],
   );
 
   const trimmedActiveGoals = React.useMemo(
@@ -215,15 +255,6 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
             </Card>
           </div>
         </div>
-        {ranges.length > 1 ? (
-          <div className={cn("col-span-full", styles.rangeTabsRow)}>
-            <PlannerRangeTabs
-              activeRange={range}
-              options={ranges}
-              onSelectRange={onSelectRange}
-            />
-          </div>
-        ) : null}
         <div className={cn("col-span-full", styles.overviewRow)}>
           <Card>
             <Card.Header
@@ -413,29 +444,34 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
             )}
           />
         </div>
-        <div className={cn("col-span-full", styles.tabPanelCard)}>
-          <div className={styles.tabHeader} role="tablist" aria-label="Planner insights">
-            {insightTabs.map((tab) => {
-              const tabId = `${tabBaseId}-tab-${tab.key}`;
-              const panelId = `${tabBaseId}-panel-${tab.key}`;
-              const isActive = activeTab === tab.key;
-              return (
-                <button
-                  key={tab.key}
-                  id={tabId}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  aria-controls={panelId}
-                  className={cn(styles.tabButton, isActive && styles.tabButtonActive)}
-                  onClick={() => setActiveTab(tab.key)}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
-          <div className={styles.tabPanels}>
+        <Card className="col-span-full">
+          <Card.Header className={styles.tabHeader}>
+            <div className={styles.tabList} role="tablist" aria-label="Planner insights">
+              {insightTabs.map((tab) => {
+                const tabId = `${tabBaseId}-tab-${tab.key}`;
+                const panelId = `${tabBaseId}-panel-${tab.key}`;
+                const isActive = activeTab === tab.key;
+                return (
+                  <button
+                    key={tab.key}
+                    id={tabId}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-controls={panelId}
+                    className={cn(styles.tabButton, isActive && styles.tabButtonActive)}
+                    onClick={() => setActiveTab(tab.key)}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </div>
+            {activeTabDefinition?.headerActions ? (
+              <div className={styles.tabActions}>{activeTabDefinition.headerActions}</div>
+            ) : null}
+          </Card.Header>
+          <Card.Body className={cn(styles.tabPanels, "text-card-foreground")}>
             {insightTabs.map((tab) => {
               const panelId = `${tabBaseId}-panel-${tab.key}`;
               const tabId = `${tabBaseId}-tab-${tab.key}`;
@@ -453,8 +489,8 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
                 </div>
               );
             })}
-          </div>
-        </div>
+          </Card.Body>
+        </Card>
         <div className="col-span-full">
           <div className={styles.aiPanel}>
             <div className={styles.aiHeader}>
