@@ -19,7 +19,7 @@ import {
   Hero,
   PageShell,
   ProgressRing,
-  SegmentedControl,
+  TabBar,
 } from "@/components/ui";
 import { RangeSlider } from "@/components/ui/primitives/RangeSlider";
 import { NoiseOverlay } from "@/components/ui/patterns/NoiseOverlay";
@@ -83,11 +83,11 @@ const LazyAgendaView = React.lazy(async () => ({
   default: (await import("./views/AgendaView")).AgendaView,
 }));
 
-const VIEW_MODE_OPTIONS: Array<{ value: PlannerViewMode; label: string }> = [
-  { value: "day", label: "Day" },
-  { value: "week", label: "Week" },
-  { value: "month", label: "Month" },
-  { value: "agenda", label: "Agenda" },
+const VIEW_MODE_TABS: Array<{ key: PlannerViewMode; label: string }> = [
+  { key: "day", label: "Day" },
+  { key: "week", label: "Week" },
+  { key: "month", label: "Month" },
+  { key: "agenda", label: "Agenda" },
 ];
 
 const VIEW_TAB_ID_BASE = "planner-view";
@@ -441,12 +441,20 @@ function Inner() {
         >
           <WeekPicker />
         </PlannerIslandBoundary>
-        <div className="flex flex-col gap-[var(--space-2)]">
-          <span id={labelId} className="text-label font-medium text-muted-foreground">
-            View
-          </span>
-          <SegmentedControl<PlannerViewMode>
-            options={VIEW_MODE_OPTIONS}
+        <div className="flex flex-col gap-[var(--space-3)]">
+          <div className="flex flex-wrap items-baseline justify-between gap-[var(--space-2)]">
+            <span id={labelId} className="text-label font-medium text-muted-foreground">
+              View
+            </span>
+            <span
+              aria-live="polite"
+              className="text-label text-muted-foreground"
+            >
+              {weekAnnouncement}
+            </span>
+          </div>
+          <TabBar<PlannerViewMode>
+            items={VIEW_MODE_TABS}
             value={viewMode}
             onValueChange={handleViewModeChange}
             ariaLabelledBy={labelId}
@@ -455,9 +463,6 @@ function Inner() {
             className="w-full"
             idBase={VIEW_TAB_ID_BASE}
           />
-        </div>
-        <div aria-live="polite" className="sr-only">
-          {weekAnnouncement}
         </div>
         </Hero>
       </PageShell>
@@ -469,15 +474,15 @@ function Inner() {
         aria-labelledby="planner-header"
         className="py-[var(--space-6)]"
       >
-        {VIEW_MODE_OPTIONS.map((option) => {
-          const tabId = `${VIEW_TAB_ID_BASE}-${option.value}-tab`;
-          const panelId = `${VIEW_TAB_ID_BASE}-${option.value}-panel`;
-          const isActive = viewMode === option.value;
-          const ViewComponent = VIEW_COMPONENTS[option.value];
+        {VIEW_MODE_TABS.map((option) => {
+          const tabId = `${VIEW_TAB_ID_BASE}-${option.key}-tab`;
+          const panelId = `${VIEW_TAB_ID_BASE}-${option.key}-panel`;
+          const isActive = viewMode === option.key;
+          const ViewComponent = VIEW_COMPONENTS[option.key];
 
           return (
             <div
-              key={option.value}
+              key={option.key}
               role="tabpanel"
               id={panelId}
               aria-labelledby={tabId}
@@ -485,7 +490,7 @@ function Inner() {
               tabIndex={isActive ? 0 : -1}
             >
               {isActive ? (
-                <React.Suspense fallback={<PlannerViewFallback mode={option.value} />}>
+                <React.Suspense fallback={<PlannerViewFallback mode={option.key} />}>
                   <ViewComponent />
                 </React.Suspense>
               ) : null}
