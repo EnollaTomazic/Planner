@@ -19,45 +19,52 @@ describe("GoalsPage", () => {
     window.localStorage.clear();
   });
 
-  it("renders hero heading and subtitle", () => {
+  it("renders hero heading, subtitle, and summary ring", () => {
     render(<GoalsPage />);
     const heroRegion = screen.getByRole("region", {
-      name: "Goals overview",
+      name: "Goals",
     });
     expect(
-      within(heroRegion).getByRole("heading", { name: "Goals overview" }),
+      within(heroRegion).getByRole("heading", { name: "Goals" }),
     ).toBeInTheDocument();
-    const heroSummary = within(heroRegion).getByText((_, node) => {
-      if (!(node instanceof HTMLElement)) {
-        return false;
-      }
-      return node.id === "goals-hero-summary";
-    });
-    const capSegment = within(heroSummary)
-      .getByText("Cap", { selector: "span" })
-      .parentElement as HTMLElement;
-    const activeSegment = within(heroSummary)
-      .getByText("Active", { selector: "span" })
-      .parentElement as HTMLElement;
-    const remainingSegment = within(heroSummary)
-      .getByText("Remaining", { selector: "span" })
-      .parentElement as HTMLElement;
-    const doneSegment = within(heroSummary)
-      .getByText("Done", { selector: "span" })
-      .parentElement as HTMLElement;
+    const subtitle = within(heroRegion).getByText((_, node) =>
+      node instanceof HTMLElement && node.id === "goals-hero-summary",
+    );
+    expect(subtitle).toHaveTextContent("Set and achieve your objectives.");
 
-    expect(capSegment).toHaveTextContent(/Cap\s*3/);
-    expect(activeSegment).toHaveTextContent(/Active\s*0/);
-    expect(remainingSegment).toHaveTextContent(/Remaining\s*3/);
-    expect(doneSegment).toHaveTextContent(/Done\s*0\s*\(0%\)/);
+    const progressRing = within(heroRegion).getByRole("img", {
+      name: "0% of goals complete",
+    });
+    expect(progressRing).toBeInTheDocument();
+
+    const summaryDetails = within(heroRegion).getByText((content, node) => {
+      if (!(node instanceof HTMLElement)) return false;
+      if (node.tagName.toLowerCase() !== "p") return false;
+      const text = node.textContent ?? "";
+      return text.includes("0 completed") && text.includes("3 slots left");
+    });
+    expect(summaryDetails).toBeInTheDocument();
   });
 
   it("allows editing goal fields", async () => {
     render(<GoalsPage />);
 
-    const titleInput = screen.getByRole("textbox", { name: "Title" });
-    const metricInput = screen.getByRole("textbox", { name: "Metric (optional)" });
-    const addButton = screen.getByRole("button", { name: /add goal/i });
+    const submitButton = screen
+      .getAllByRole("button", { name: /^add goal$/i })
+      .find((button) => button.getAttribute("type") === "submit");
+    if (!submitButton) {
+      throw new Error("Expected to find submit button for adding goals");
+    }
+    const goalForm = submitButton.closest("form");
+    if (!(goalForm instanceof HTMLFormElement)) {
+      throw new Error("Expected add goal submit button to be inside a form");
+    }
+
+    const titleInput = within(goalForm).getByRole("textbox", { name: "Title" });
+    const metricInput = within(goalForm).getByRole("textbox", {
+      name: "Metric (optional)",
+    });
+    const addButton = within(goalForm).getByRole("button", { name: /^add goal$/i });
 
     fireEvent.change(titleInput, { target: { value: "Initial" } });
     fireEvent.change(metricInput, { target: { value: "5" } });
@@ -151,8 +158,19 @@ describe("GoalsPage", () => {
   it("handles adding goals, cap enforcement, completion toggles, and undo", async () => {
     render(<GoalsPage />);
 
-    const titleInput = screen.getByRole("textbox", { name: "Title" });
-    const addButton = screen.getByRole("button", { name: /add goal/i });
+    const submitButton = screen
+      .getAllByRole("button", { name: /^add goal$/i })
+      .find((button) => button.getAttribute("type") === "submit");
+    if (!submitButton) {
+      throw new Error("Expected to find submit button for adding goals");
+    }
+    const goalForm = submitButton.closest("form");
+    if (!(goalForm instanceof HTMLFormElement)) {
+      throw new Error("Expected add goal submit button to be inside a form");
+    }
+
+    const titleInput = within(goalForm).getByRole("textbox", { name: "Title" });
+    const addButton = within(goalForm).getByRole("button", { name: /^add goal$/i });
 
     // Add three goals up to the active cap
     const goalCreationPromises = [];
@@ -191,7 +209,7 @@ describe("GoalsPage", () => {
     fireEvent.change(titleInput, { target: { value: "Goal 4" } });
     await waitFor(() => expect(addButton).not.toBeDisabled());
     await waitFor(() =>
-      expect(screen.getByText(/1 active slot left/)).toBeInTheDocument(),
+      expect(screen.getByText(/1 active slot left/i)).toBeInTheDocument(),
     );
     fireEvent.click(addButton);
     const goal4 = await screen.findByText("Goal 4");

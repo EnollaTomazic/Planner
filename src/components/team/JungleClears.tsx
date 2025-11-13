@@ -305,6 +305,8 @@ const ChampionItem = React.memo(function ChampionItem({
   onDeleteRow,
 }: ChampionItemProps) {
   const initials = React.useMemo(() => getInitials(row.champ), [row.champ]);
+  const editDescriptionId = React.useId();
+  const deleteDescriptionId = React.useId();
 
   return (
     <figure
@@ -333,7 +335,8 @@ const ChampionItem = React.memo(function ChampionItem({
           <IconButton
             size="sm"
             iconSize="xs"
-            aria-label={`Edit ${row.champ}`}
+            aria-label="Edit"
+            aria-describedby={editDescriptionId}
             onClick={() => onStartEdit(row)}
           >
             <Pencil />
@@ -342,11 +345,18 @@ const ChampionItem = React.memo(function ChampionItem({
             size="sm"
             iconSize="xs"
             tone="danger"
-            aria-label={`Delete ${row.champ}`}
+            aria-label="Delete"
+            aria-describedby={deleteDescriptionId}
             onClick={() => onDeleteRow(row.id)}
           >
             <Trash2 />
           </IconButton>
+          <span id={editDescriptionId} className="sr-only">
+            Edit details for {row.champ}
+          </span>
+          <span id={deleteDescriptionId} className="sr-only">
+            Delete {row.champ} from the list
+          </span>
         </div>
       ) : null}
     </figure>
@@ -367,6 +377,7 @@ const BucketSection = React.memo(function BucketSection({
   onCancelEdit,
   setEditingRow,
 }: BucketSectionProps) {
+  const addRowDescriptionId = React.useId();
   const handleAddRow = React.useCallback(() => {
     onAddRow(bucket);
   }, [onAddRow, bucket]);
@@ -405,14 +416,20 @@ const BucketSection = React.memo(function BucketSection({
             Champions
           </span>
           {editing && (
-            <IconButton
-              size="sm"
-              iconSize="xs"
-              aria-label={`Add champion to ${bucket}`}
-              onClick={handleAddRow}
-            >
-              <Plus />
-            </IconButton>
+            <>
+              <IconButton
+                size="sm"
+                iconSize="xs"
+                aria-label="Add row"
+                aria-describedby={addRowDescriptionId}
+                onClick={handleAddRow}
+              >
+                <Plus />
+              </IconButton>
+              <span id={addRowDescriptionId} className="sr-only">
+                Add a champion to the {bucket} bucket
+              </span>
+            </>
           )}
         </div>
       </div>

@@ -13,6 +13,7 @@ import { useSelectedProject, useSelectedTask } from "./useSelection";
 import type { ISODate, TaskReminder } from "./plannerTypes";
 import { useDay } from "./useDay";
 import { cn } from "@/lib/utils";
+import { NoiseOverlay } from "@/components/ui/patterns/NoiseOverlay";
 import { DayCardHeader } from "./DayCardHeader";
 import { ProjectList } from "./ProjectList";
 import { TaskList } from "./TaskList";
@@ -73,13 +74,11 @@ export function DayCard({ iso, isToday }: Props) {
   return (
     <section
       className={cn(
-        "daycard relative overflow-hidden card-neo-soft rounded-card r-card-lg border card-pad",
+        "daycard relative isolate overflow-hidden rounded-card r-card-lg border border-card-hairline/60 bg-panel/65 card-pad",
+        "shadow-neo-soft",
         "grid gap-[var(--space-4)] lg:gap-[var(--space-6)]",
         "grid-cols-1 lg:grid-cols-12",
-        isToday && "ring-1 ring-ring/65 title-glow",
-        "before:pointer-events-none before:absolute before:inset-x-[var(--space-4)] before:top-0 before:h-px before:bg-gradient-to-r",
-        "before:from-transparent before:via-ring/45 before:to-transparent",
-        "after:pointer-events-none after:absolute after:-inset-px after:[border-radius:var(--radius-card)] after:bg-[radial-gradient(60%_40%_at_100%_0%,hsl(var(--ring)/.12),transparent_60%)]",
+        isToday && "ring-1 ring-ring/60",
       )}
       aria-label={`Planner for ${iso}`}
     >
@@ -134,6 +133,7 @@ export function DayCard({ iso, isToday }: Props) {
       <div className="col-span-full">
         <TaskReminderSettings task={selectedTask} onChange={handleReminderChange} />
       </div>
+      <NoiseOverlay level="subtle" />
     </section>
   );
 }

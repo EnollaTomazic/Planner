@@ -71,16 +71,15 @@ describe("ReviewList", () => {
   });
 
   it("shows onboarding copy when no reviews exist", () => {
-    render(<ReviewList reviews={[]} selectedId={null} />);
+    render(<ReviewList reviews={[]} selectedId={null} onCreate={() => {}} />);
 
     expect(
-      screen.getByText("You haven’t captured any reviews yet."),
+      screen.getByText("No reviews yet."),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
-        "Start a match recap to unlock filtering, tagging, and summaries. Use the New Review button above to get started.",
-      ),
+      screen.getByText("Start by capturing your first match."),
     ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Start a review" })).toBeInTheDocument();
   });
 
   it("shows filtered empty message when reviews exist elsewhere", () => {

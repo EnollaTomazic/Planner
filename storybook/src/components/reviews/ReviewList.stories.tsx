@@ -45,6 +45,7 @@ const reviewListSeed: Review[] = [
 type ReviewListComponentProps = React.ComponentProps<typeof ReviewList>;
 
 const noopSelect: NonNullable<ReviewListComponentProps["onSelect"]> = () => undefined;
+const noopCreate: NonNullable<ReviewListComponentProps["onCreate"]> = () => undefined;
 
 const meta: Meta<typeof ReviewList> = {
   title: "Reviews/ReviewList",
@@ -54,7 +55,7 @@ const meta: Meta<typeof ReviewList> = {
     docs: {
       description: {
         component:
-          "`ReviewList` renders a vertical stack of `ReviewListItem` shells. Provide the current review collection, the selected id, and a callback for row selection so QA can confirm sidebar flows. When the collection is empty, the component swaps to the glitch ghost call to action while the hero search and sort controls remain disabled until data exists.",
+          "`ReviewList` renders a vertical stack of `ReviewListItem` shells. Provide the current review collection, the selected id, and callbacks for row selection and creation so QA can confirm sidebar flows. The empty state now leans on the Agnes & Noxi primer card to prompt the first recap while filters remain disabled until data exists.",
       },
     },
     chromatic: { pauseAnimationAtEnd: true },
@@ -78,6 +79,7 @@ const meta: Meta<typeof ReviewList> = {
       description: "Handler invoked when a row is clicked or activated via keyboard.",
     },
     className: { control: false },
+    onCreate: { control: false },
   },
 };
 
@@ -116,13 +118,14 @@ export const Empty: Story = {
     docs: {
       description: {
         story:
-          "Empty state showcasing the glitch ghost treatment. The list invites the user to start a review from the surrounding page while the search controls stay disabled until at least one review lands.",
+          "Empty state featuring the Agnes & Noxi duo illustration. The call to action lets teams open their first recap directly from the list rail.",
       },
     },
   },
   args: {
     reviews: [],
     selectedId: null,
+    onCreate: noopCreate,
   },
   render: (args) => (
     <StorySurface>
@@ -136,7 +139,7 @@ export const FilteredEmpty: Story = {
     docs: {
       description: {
         story:
-          "Empty state when filters hide the available reviews. The component nudges users to clear filters to return to the full collection.",
+          "Empty state when filters hide the available reviews. The component nudges users to clear filters to return to the full collection while the create button remains hidden.",
       },
     },
   },
