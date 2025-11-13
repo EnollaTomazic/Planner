@@ -179,12 +179,6 @@
   }
 }
 
-.rangeTabsRow {
-  grid-column: span 12;
-  display: flex;
-  justify-content: flex-end;
-}
-
 .rangeTabs {
   display: inline-flex;
   align-items: center;
@@ -216,19 +210,28 @@
   outline-offset: 2px;
 }
 
-.tabPanelCard {
-  padding: clamp(var(--space-5), 3vw, var(--space-6));
-  border-radius: var(--radius-xl);
-  border: 1px solid hsl(var(--card-hairline) / 0.55);
-  background: hsl(var(--panel) / 0.65);
-  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.24);
+.tabHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid hsl(var(--card-hairline) / 0.55);
 }
 
-.tabHeader {
+.tabList {
   display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: var(--space-4);
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid hsl(var(--card-hairline) / 0.55);
+}
+
+.tabActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: auto;
 }
 
 .tabButton {
@@ -260,7 +263,9 @@
 }
 
 .tabPanels {
-  margin-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .tabPanel {
