@@ -13,6 +13,7 @@ import "./style.css";
 import * as React from "react";
 import Image from "next/image";
 import {
+  Alert,
   Button,
   GlitchProgress,
   Hero,
@@ -44,7 +45,7 @@ const {
   heroDialColumn,
   focusDialCard,
   focusDialLabel,
-  focusDialBody,
+  focusDialAlert,
   focusDialControls,
   focusDialKnob,
   focusDialFace,
@@ -331,7 +332,15 @@ function Inner() {
           <div className={heroDialColumn}>
             <div className={focusDialCard}>
               <span className={focusDialLabel}>Focus dial</span>
-              <p className={focusDialBody}>{autopilotSummary}</p>
+              <Alert
+                className={focusDialAlert}
+                tone="info"
+                variant="subtle"
+                liveRegion="polite"
+                aria-atomic="true"
+              >
+                {autopilotSummary}
+              </Alert>
               <div className={heroActionButtons}>
                 <Button size="sm" variant="quiet" tone="accent">
                   Retry suggestions
