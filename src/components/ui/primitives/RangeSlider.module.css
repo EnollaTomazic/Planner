@@ -1,0 +1,136 @@
+.root {
+  display: grid;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.label {
+  font-size: var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+.control {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.track {
+  --range-progress: 50%;
+  appearance: none;
+  width: 100%;
+  height: calc(var(--space-1) * 1.6);
+  border-radius: var(--radius-full);
+  background:
+    linear-gradient(90deg, hsl(var(--accent-2)) 0%, hsl(var(--accent-1)) 100%),
+    linear-gradient(90deg, hsl(var(--surface-3) / 0.72) 0%, hsl(var(--surface-1) / 0.72) 100%);
+  background-size: var(--range-progress) 100%, 100% 100%;
+  background-repeat: no-repeat;
+  box-shadow:
+    inset 0 0 0 calc(var(--hairline-w) * 1.2) hsl(var(--card-hairline) / 0.5),
+    inset 0 calc(var(--space-1) * -0.35) calc(var(--space-2)) hsl(var(--shadow-color) / 0.28);
+  outline: none;
+  transition:
+    background-size var(--motion-duration-sm) var(--ease-out),
+    box-shadow var(--motion-duration-sm) var(--ease-out);
+  cursor: pointer;
+}
+
+.control:focus-within .track {
+  box-shadow:
+    inset 0 0 0 calc(var(--hairline-w) * 1.4) hsl(var(--accent-1) / 0.65),
+    inset 0 0 0 calc(var(--hairline-w) * 2.4) hsl(var(--accent-2) / 0.35),
+    0 0 0 calc(var(--hairline-w) * 2.8) hsl(var(--accent-1) / 0.18);
+}
+
+.track::-webkit-slider-thumb {
+  appearance: none;
+  width: calc(var(--space-4) * 1.1);
+  height: calc(var(--space-4) * 1.1);
+  border-radius: calc(var(--radius-lg) * 1.1);
+  background:
+    linear-gradient(135deg, hsl(var(--accent-1)) 0%, hsl(var(--accent-2)) 55%, hsl(var(--accent-3)) 100%);
+  border: calc(var(--hairline-w) * 1.4) solid hsl(var(--surface) / 0.9);
+  box-shadow:
+    0 0 calc(var(--space-2) * 0.9) hsl(var(--accent-1) / 0.48),
+    0 0 0 calc(var(--hairline-w) * 2.6) hsl(var(--accent-2) / 0.4),
+    0 0 0 calc(var(--hairline-w) * 3.6) hsl(var(--accent-3) / 0.32);
+  transition:
+    transform var(--motion-duration-sm) var(--ease-out),
+    box-shadow var(--motion-duration-sm) var(--ease-out);
+  cursor: grab;
+}
+
+.track:active::-webkit-slider-thumb {
+  cursor: grabbing;
+}
+
+.track::-moz-range-thumb {
+  width: calc(var(--space-4) * 1.1);
+  height: calc(var(--space-4) * 1.1);
+  border-radius: calc(var(--radius-lg) * 1.1);
+  background:
+    linear-gradient(135deg, hsl(var(--accent-1)) 0%, hsl(var(--accent-2)) 55%, hsl(var(--accent-3)) 100%);
+  border: calc(var(--hairline-w) * 1.4) solid hsl(var(--surface) / 0.9);
+  box-shadow:
+    0 0 calc(var(--space-2) * 0.9) hsl(var(--accent-1) / 0.48),
+    0 0 0 calc(var(--hairline-w) * 2.6) hsl(var(--accent-2) / 0.4),
+    0 0 0 calc(var(--hairline-w) * 3.6) hsl(var(--accent-3) / 0.32);
+  transition:
+    transform var(--motion-duration-sm) var(--ease-out),
+    box-shadow var(--motion-duration-sm) var(--ease-out);
+  cursor: grab;
+}
+
+.track:active::-moz-range-thumb {
+  cursor: grabbing;
+}
+
+.track::-moz-range-track {
+  height: calc(var(--space-1) * 1.6);
+  border-radius: var(--radius-full);
+  background:
+    linear-gradient(90deg, hsl(var(--surface-3) / 0.72) 0%, hsl(var(--surface-1) / 0.72) 100%);
+}
+
+.track::-moz-range-progress {
+  height: calc(var(--space-1) * 1.6);
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, hsl(var(--accent-2)) 0%, hsl(var(--accent-1)) 100%);
+}
+
+.track:focus-visible::-webkit-slider-thumb,
+.track:focus-visible::-moz-range-thumb,
+.track:hover::-webkit-slider-thumb,
+.track:hover::-moz-range-thumb {
+  transform: scale(1.06) rotate(-1deg);
+  box-shadow:
+    0 0 var(--space-3) hsl(var(--accent-1) / 0.55),
+    0 0 0 calc(var(--hairline-w) * 3) hsl(var(--accent-2) / 0.45),
+    0 0 0 calc(var(--hairline-w) * 4.4) hsl(var(--accent-3) / 0.32);
+}
+
+.boundLabel {
+  font-size: var(--font-subtle);
+  color: hsl(var(--muted-foreground));
+  font-variant-numeric: tabular-nums;
+}
+
+.description {
+  font-size: var(--font-subtle);
+  color: hsl(var(--muted-foreground));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    transition: none;
+  }
+
+  .track::-webkit-slider-thumb,
+  .track::-moz-range-thumb {
+    transition: none;
+  }
+}

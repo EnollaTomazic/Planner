@@ -439,6 +439,8 @@ export function ReviewsPage({
                       }
                     : undefined
                 }
+                onRename={allowInteractions ? onRename : undefined}
+                onDelete={allowInteractions ? onDelete : undefined}
                 className="h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
                 header={
                   allowInteractions && filteredCount > 0
