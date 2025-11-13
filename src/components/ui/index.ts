@@ -70,6 +70,8 @@ export { Modal } from "./Modal";
 export type { ModalProps } from "./Modal";
 export { GlitchNeoCard } from "./patterns/GlitchNeoCard";
 export type { GlitchNeoCardProps } from "./patterns/GlitchNeoCard";
+export { NoiseOverlay } from "./patterns/NoiseOverlay";
+export type { NoiseLevel, NoiseOverlayProps } from "./patterns/NoiseOverlay";
 export { AvatarFrame } from "./primitives/AvatarFrame";
 export type { AvatarFrameProps } from "./primitives/AvatarFrame";
 export { Badge } from "./primitives/Badge";
@@ -101,6 +103,8 @@ export type { IssueBadgeProps, IssueBadgeSeverity } from "./primitives/IssueBadg
 export { NeoCard, neoCardOverlayClassName } from "./primitives/NeoCard";
 export type { NeoCardProps } from "./primitives/NeoCard";
 export { neuInset, neuRaised } from "./primitives/Neu";
+export { RangeSlider } from "./primitives/RangeSlider";
+export type { RangeSliderProps } from "./primitives/RangeSlider";
 export { SearchBar } from "./primitives/SearchBar";
 export type { SearchBarProps } from "./primitives/SearchBar";
 export { SegmentedButton } from "./primitives/SegmentedButton";
