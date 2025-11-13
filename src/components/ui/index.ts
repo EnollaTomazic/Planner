@@ -18,6 +18,8 @@ export { AnimationToggle } from "./AnimationToggle";
 export { CatCompanion } from "./CatCompanion";
 export { Cluster } from "./Cluster";
 export type { ClusterProps } from "./Cluster";
+export { Alert } from "./feedback/Alert";
+export type { AlertProps } from "./feedback/Alert";
 export { Progress } from "./feedback/Progress";
 export { ProgressRing } from "./feedback/ProgressRing";
 export type { ProgressRingProps } from "./feedback/ProgressRing";
