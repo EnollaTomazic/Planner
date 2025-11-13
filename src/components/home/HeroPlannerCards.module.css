@@ -157,19 +157,21 @@
   }
 }
 
-.tabPanelCard {
-  padding: clamp(var(--space-5), 3vw, var(--space-6));
-  border-radius: var(--radius-xl);
-  border: 1px solid hsl(var(--card-hairline) / 0.55);
-  background: hsl(var(--panel) / 0.65);
-  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.24);
-}
-
 .tabHeader {
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--space-4);
   padding-bottom: var(--space-4);
   border-bottom: 1px solid hsl(var(--card-hairline) / 0.55);
+}
+
+.tabList {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-4);
 }
 
 .tabButton {
@@ -201,7 +203,7 @@
 }
 
 .tabPanels {
-  margin-top: var(--space-5);
+  gap: var(--space-5);
 }
 
 .tabPanel {
