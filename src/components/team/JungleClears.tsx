@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/primitives/Input";
 import { usePersistentState, uid } from "@/lib/db";
 import { isRecord, isStringArray } from "@/lib/validators";
 import { Timer, Pencil, Trash2, Check, X, Plus } from "lucide-react";
-import { JUNGLE_ROWS, SPEED_HINT, type ClearSpeed } from "./data";
+import { JUNGLE_ROWS, type ClearSpeed } from "./data";
 
 type JunglerRow = {
   id: string;
