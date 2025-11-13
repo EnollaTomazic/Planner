@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, screen } from '@testing-library/react';
 import { describe, it, expect, afterEach } from 'vitest';
 import { ReviewListItem } from '../../src/components/reviews/ReviewListItem';
 import type { Review } from '../../src/lib/types';
@@ -38,13 +38,9 @@ describe('ReviewListItem', () => {
   });
 
   it('renders disabled state', () => {
-    const { container } = render(
-      <ReviewListItem disabled review={baseReview} />,
-    );
-    expect(container.firstChild).toHaveClass(
-      'disabled:opacity-disabled',
-      'disabled:pointer-events-none',
-    );
+    const { container } = render(<ReviewListItem disabled review={baseReview} />);
+    expect(screen.getByRole('button')).toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByRole('button')).toHaveAttribute('data-disabled', 'true');
     expect(container).toMatchSnapshot();
   });
 

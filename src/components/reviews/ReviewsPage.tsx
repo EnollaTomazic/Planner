@@ -219,7 +219,7 @@ export function ReviewsPage({
     : isErrored
       ? "Search reviews (temporarily unavailable)"
       : !hasReviews
-        ? "Search reviews (add a review to search)"
+        ? "Search reviews (disabled until a review exists)"
         : "Search reviews";
   const heroSearchDescription = React.useMemo(() => {
     const ids: string[] = [];
@@ -231,7 +231,7 @@ export function ReviewsPage({
     }
     return ids.length > 0 ? ids.join(" ") : undefined;
   }, [shouldShowEmptySearchHelper, emptySearchTooltipId, hasReviews, emptySearchDescriptionId]);
-  const heroSearchDisabled = !allowInteractions;
+  const heroSearchDisabled = !allowInteractions || totalCount === 0;
   const heroSearchTooltip = shouldShowEmptySearchHelper ? (
     <div
       id={emptySearchTooltipId}
@@ -439,6 +439,8 @@ export function ReviewsPage({
                       }
                     : undefined
                 }
+                onRename={allowInteractions ? onRename : undefined}
+                onDelete={allowInteractions ? onDelete : undefined}
                 className="h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
                 header={
                   allowInteractions && filteredCount > 0
@@ -446,6 +448,7 @@ export function ReviewsPage({
                     : undefined
                 }
                 hasAnyReviews={allowInteractions && totalCount > 0}
+                onCreate={allowInteractions ? commitCreateReview : undefined}
                 hoverRing
               />
           </nav>

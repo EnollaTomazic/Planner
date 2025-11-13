@@ -11,6 +11,12 @@ export const GITHUB_PAGES_REDIRECT_STORAGE_KEY = createStorageKey(
 
 const ABSOLUTE_URL_PATTERN = /^[a-zA-Z][a-zA-Z\d+.-]*:/u;
 const GITHUB_PAGES_DEPLOY_ALIAS_PATTERN = /^[0-9a-f]{7,40}$/iu;
+const GITHUB_PAGES_BRANCH_ALIASES = new Set([
+  "current",
+  "main",
+  "master",
+  "pages",
+]);
 
 function normalizeGitHubPagesDeploymentAlias(
   target: string,
@@ -53,7 +59,7 @@ function normalizeGitHubPagesDeploymentAlias(
   const [alias, ...rest] = segments;
   const normalizedAlias = alias.toLowerCase();
   const isCommitAlias = GITHUB_PAGES_DEPLOY_ALIAS_PATTERN.test(alias);
-  const isAlias = normalizedAlias === "current" || isCommitAlias;
+  const isAlias = GITHUB_PAGES_BRANCH_ALIASES.has(normalizedAlias) || isCommitAlias;
 
   if (!isAlias) {
     return target;

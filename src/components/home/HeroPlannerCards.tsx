@@ -8,12 +8,12 @@ import { ActivityCard } from "./ActivityCard";
 import { GoalsCard } from "./GoalsCard";
 import { IsometricRoom } from "./IsometricRoom";
 import type { PlannerOverviewProps } from "./home-landing";
+import { ProgressCard } from "./ProgressCard";
 import { QuickActions } from "./QuickActions";
 import { TeamPromptsCard } from "./TeamPromptsCard";
 import { TodayCard } from "./TodayCard";
-import { DashboardList } from "./DashboardList";
+import { DashboardListCard } from "./DashboardListCard";
 import { Button } from "@/components/ui";
-import { Progress } from "@/components/ui/feedback/Progress";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import type { Variant } from "@/lib/theme";
 import { cn, withBasePath } from "@/lib/utils";
@@ -134,6 +134,14 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
     [activity, calendar.label, calendarSummary, days, handleSelectDay],
   );
 
+  const trimmedActiveGoals = React.useMemo(
+    () => goals.active.slice(0, 3),
+    [goals.active],
+  );
+  const hasGoals = goals.total > 0;
+  const hasActiveGoals = trimmedActiveGoals.length > 0;
+  const momentumRingLabel = hasGoals ? `${goals.percentage}%` : "0%";
+
   return (
     <section className={cn(styles.root, className)}>
       <div
@@ -145,90 +153,121 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
       >
         <div className={cn("col-span-full", styles.widgetRow)}>
           <div className={cn("md:col-span-6", styles.splitHalf)}>
-            <div className={styles.section}>
-              <p className={styles.sectionHeading}>Quick calibrations</p>
-              <QuickActions />
-            </div>
+            <Card className={styles.widgetCard}>
+              <Card.Header
+                title="Quick calibrations"
+                titleClassName="text-ui font-semibold text-card-foreground tracking-[-0.01em]"
+              />
+              <Card.Body className="text-card-foreground">
+                <QuickActions />
+              </Card.Body>
+            </Card>
           </div>
           <div className={cn("md:col-span-6", styles.splitHalf)}>
-            <div className={styles.section}>
-              <p className={styles.sectionHeading}>Ambient room</p>
-              <IsometricRoom variant={variant} />
-            </div>
+            <Card className={cn(styles.widgetCard, styles.roomCard)}>
+              <Card.Header
+                title="Ambient room"
+                titleClassName="text-ui font-semibold text-card-foreground tracking-[-0.01em]"
+              />
+              <Card.Body className={cn("flex justify-center", styles.roomBody)}>
+                <IsometricRoom variant={variant} />
+              </Card.Body>
+            </Card>
           </div>
         </div>
         <div className={cn("col-span-full", styles.overviewRow)}>
-          <Card className={styles.overviewCard} noiseLevel="none">
+          <Card>
             <Card.Header
-              className={styles.overviewHeader}
               eyebrow={summary.label}
+              eyebrowClassName="text-label font-medium uppercase tracking-[0.08em] text-muted-foreground"
               title={summary.title}
-              eyebrowClassName={styles.cardLabel}
-              titleClassName={styles.cardTitle}
+              titleClassName="text-title font-semibold text-card-foreground tracking-[-0.01em]"
             />
             <Card.Body className="text-card-foreground">
-              <ul className={styles.metricList} role="list">
+              <ul className="grid gap-[var(--space-2)]" role="list">
                 {upcomingItems.map((item) => (
-                  <li key={item.key} className={styles.metricItem}>
+                  <li key={item.key}>
                     <Link
                       href={withBasePath(item.href, { skipForNextLink: true })}
-                      className={styles.metricLink}
+                      className={cn(
+                        "group flex items-center justify-between gap-[var(--space-3)] rounded-[var(--control-radius)] border border-card-hairline/60 bg-card/70 px-[var(--space-3)] py-[var(--space-2)] transition",
+                        "hover:border-primary/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0",
+                        "active:border-primary/60 active:bg-card/80",
+                      )}
                     >
-                      <span className={styles.metricLabel}>{item.label}</span>
-                      <span className={styles.metricValue}>{item.value}</span>
-                      <span className={styles.metricCta}>{item.cta}</span>
+                      <div className="flex min-w-0 flex-col gap-[var(--space-1)]">
+                        <span className="text-label text-muted-foreground">{item.label}</span>
+                        <span className="text-ui font-semibold text-card-foreground text-balance">
+                          {item.value}
+                        </span>
+                      </div>
+                      <span className="shrink-0 text-label font-medium text-primary transition-colors group-hover:text-primary-foreground group-active:text-primary-foreground">
+                        {item.cta}
+                      </span>
                     </Link>
                   </li>
                 ))}
               </ul>
             </Card.Body>
-            <Card.Actions className={styles.cardActions}>
+            <Card.Actions className="justify-end">
               <Button
                 asChild
                 size="sm"
                 variant="default"
                 className={styles.primaryButton}
               >
-                <Link href={withBasePath("/planner", { skipForNextLink: true })}>
-                  Open planner
-                </Link>
+                <Link href={withBasePath("/planner", { skipForNextLink: true })}>Open planner</Link>
               </Button>
             </Card.Actions>
           </Card>
-          <Card className={styles.overviewCard} noiseLevel="none">
+          <Card>
             <Card.Header
-              className={styles.overviewHeader}
               eyebrow={goals.label}
+              eyebrowClassName="text-label font-medium uppercase tracking-[0.08em] text-muted-foreground"
               title={goals.title}
-              eyebrowClassName={styles.cardLabel}
-              titleClassName={styles.cardTitle}
-              description={`${goals.completed}/${goals.total} complete`}
-              descriptionClassName={styles.cardHint}
+              titleClassName="text-title font-semibold text-card-foreground tracking-[-0.01em]"
+              actions={
+                <div className="text-right">
+                  <p className="text-label text-muted-foreground">Completed</p>
+                  <p className="text-ui font-medium tabular-nums text-card-foreground">
+                    {goals.completed}/{goals.total}
+                  </p>
+                </div>
+              }
             />
-            <Card.Body className="text-card-foreground">
-              <div className={styles.progressBlock}>
-                <Progress value={goals.percentage} label="Goals completion" />
-                <span className={styles.progressValue}>{goals.percentage}%</span>
-              </div>
-              <div className={styles.goalList}>
-                {goals.total === 0 ? (
-                  <p className={styles.emptyGoal}>{goals.emptyMessage}</p>
-                ) : goals.active.length > 0 ? (
-                  goals.active.slice(0, 3).map((goal) => (
-                    <div key={goal.id} className={styles.goalItem}>
-                      <p className={styles.goalTitle}>{goal.title}</p>
+            <Card.Body className="space-y-[var(--space-5)] text-card-foreground">
+              <ProgressCard
+                label="Goals completion"
+                metric={
+                  hasGoals ? (
+                    <span className="tabular-nums">
+                      {goals.completed}/{goals.total} complete
+                    </span>
+                  ) : undefined
+                }
+                percentage={hasGoals ? goals.percentage : 0}
+                ringLabel={momentumRingLabel}
+              >
+                {!hasGoals ? (
+                  <p className="text-label text-muted-foreground">{goals.emptyMessage}</p>
+                ) : hasActiveGoals ? (
+                  trimmedActiveGoals.map((goal) => (
+                    <div key={goal.id} className="space-y-[var(--space-1)]">
+                      <p className="text-ui font-medium text-card-foreground">{goal.title}</p>
                       {goal.detail ? (
-                        <p className={styles.goalDetail}>{goal.detail}</p>
+                        <p className="text-label text-muted-foreground">{goal.detail}</p>
                       ) : null}
                     </div>
                   ))
                 ) : (
-                  <p className={styles.emptyGoal}>{goals.allCompleteMessage}</p>
+                  <p className="text-label text-muted-foreground">{goals.allCompleteMessage}</p>
                 )}
-              </div>
+              </ProgressCard>
               <div className={styles.calendarStrip}>
                 <div className={styles.calendarMeta}>
-                  <p className={styles.cardLabel}>{calendar.label}</p>
+                  <p className="text-label font-medium uppercase tracking-[0.08em] text-muted-foreground">
+                    {calendar.label}
+                  </p>
                   <p className={styles.calendarSummary}>{calendarSummary}</p>
                 </div>
                 <ul className={styles.calendarDays} role="list">
@@ -270,33 +309,23 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
           </Card>
         </div>
         <div className={cn("col-span-full", styles.miniGrid)}>
-          <div className={styles.section}>
-            <p className={styles.sectionHeading}>Today focus</p>
-            <TodayCard />
-          </div>
-          <div className={styles.section}>
-            <p className={styles.sectionHeading}>Goals pulse</p>
-            <GoalsCard />
-          </div>
-          <div className={styles.section}>
-            <p className={styles.sectionHeading}>Highlights</p>
-            <DashboardList
-              items={highlights}
-              getKey={(highlight) => highlight.id}
-              className={styles.highlightList}
-              itemClassName={styles.highlightListItem}
-              empty="No highlights"
-              renderItem={(highlight) => (
-                <article className={styles.highlightEntry}>
-                  <header className={styles.highlightHeader}>
-                    <p className={styles.highlightTitle}>{highlight.title}</p>
-                    <p className={styles.highlightSchedule}>{highlight.schedule}</p>
-                  </header>
-                  <p className={styles.highlightSummary}>{highlight.summary}</p>
-                </article>
-              )}
-            />
-          </div>
+          <TodayCard />
+          <GoalsCard />
+          <DashboardListCard
+            title="Highlights"
+            items={highlights}
+            emptyMessage="No highlights"
+            getKey={(highlight) => highlight.id}
+            renderItem={(highlight) => (
+              <article className="space-y-[var(--space-2)]">
+                <header className="flex flex-wrap items-baseline justify-between gap-[var(--space-2)]">
+                  <p className="text-ui font-semibold text-card-foreground">{highlight.title}</p>
+                  <p className="text-label text-muted-foreground">{highlight.schedule}</p>
+                </header>
+                <p className="text-label text-muted-foreground">{highlight.summary}</p>
+              </article>
+            )}
+          />
         </div>
         <div className={cn("col-span-full", styles.tabPanelCard)}>
           <div className={styles.tabHeader} role="tablist" aria-label="Planner insights">

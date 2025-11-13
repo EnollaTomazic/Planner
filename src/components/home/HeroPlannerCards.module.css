@@ -1,15 +1,5 @@
 .root {
-  --panel-surface: color-mix(in oklab, hsl(var(--card)) 88%, hsl(var(--surface-2)) 12%);
-  --panel-surface-soft: color-mix(in oklab, hsl(var(--panel-surface)) 82%, hsl(var(--surface)) 18%);
-  --panel-border: hsl(var(--border) / 0.45);
   margin-top: clamp(var(--space-6), 6vh, var(--space-8));
-  border-radius: var(--radius-2xl);
-  padding: clamp(var(--space-6), 4vw, var(--space-7));
-  background: var(--panel-surface);
-  border: 1px solid var(--panel-border);
-  box-shadow: 0 var(--space-2) var(--space-6) hsl(var(--surface) / 0.32);
-  overflow: hidden;
-  isolation: isolate;
 }
 
 .shell {
@@ -29,26 +19,27 @@
     grid-template-columns: repeat(12, minmax(0, 1fr));
     align-items: stretch;
   }
+
   .splitHalf {
     grid-column: span 6;
   }
 }
 
-.section {
-  position: relative;
-  padding: clamp(var(--space-5), 3vw, var(--space-6));
-  border-radius: var(--radius-xl);
-  background: var(--panel-surface-soft);
-  border: 1px solid hsl(var(--border) / 0.35);
-  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.28);
+.widgetCard {
+  height: 100%;
 }
 
-.sectionHeading {
-  font-size: var(--font-label);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: hsl(var(--muted-foreground));
-  margin-bottom: var(--space-2);
+.roomCard {
+  height: 100%;
+}
+
+.roomCard :global(canvas) {
+  width: 100%;
+  height: auto;
+}
+
+.roomBody {
+  min-height: clamp(240px, 40vh, 360px);
 }
 
 .overviewRow {
@@ -62,145 +53,10 @@
   }
 }
 
-.overviewCard {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-}
-
-.overviewHeader {
-  display: grid;
-  gap: var(--space-4);
-}
-
 .cardLabel {
   font-size: var(--font-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: hsl(var(--muted-foreground));
-}
-
-.cardTitle {
-  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: hsl(var(--foreground));
-}
-
-.cardHint {
-  font-size: var(--font-small);
-  color: hsl(var(--muted-foreground));
-}
-
-.metricList {
-  display: grid;
-  gap: var(--space-4);
-}
-
-.metricItem {
-  list-style: none;
-}
-
-.metricLink {
-  display: grid;
-  gap: var(--space-2);
-  padding: var(--space-4);
-  border-radius: var(--radius-xl);
-  background: color-mix(in oklab, hsl(var(--panel-surface)) 90%, hsl(var(--surface)) 10%);
-  border: 1px solid hsl(var(--border) / 0.35);
-  text-decoration: none;
-  transition: transform 160ms ease, box-shadow 160ms ease;
-}
-
-.metricLink:hover,
-.metricLink:focus-visible {
-  transform: translateY(calc(var(--space-2) * -0.5));
-  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.32);
-}
-
-.metricLink:focus-visible {
-  outline: 2px solid hsl(var(--accent-1) / 0.55);
-  outline-offset: 2px;
-}
-
-.metricLabel {
-  font-size: var(--font-label);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: hsl(var(--muted-foreground));
-}
-
-.metricValue {
-  font-size: var(--font-title-sm);
-  font-weight: 600;
-  color: hsl(var(--foreground));
-  letter-spacing: -0.005em;
-}
-
-.metricCta {
-  font-size: var(--font-small);
-  color: hsl(var(--muted-foreground));
-}
-
-.cardActions {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.primaryButton {
-  box-shadow: var(--shadow-depth-soft) !important;
-}
-
-.primaryButton:hover,
-.primaryButton:focus-visible {
-  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.32) !important;
-}
-
-.progressBlock {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-4);
-  border-radius: var(--radius-xl);
-  background: color-mix(in oklab, hsl(var(--panel-surface)) 88%, hsl(var(--surface)) 12%);
-  border: 1px solid hsl(var(--border) / 0.35);
-}
-
-.progressBlock :global(.progress-fill) {
-  background: hsl(var(--accent-1));
-}
-
-.progressValue {
-  font-size: var(--font-title-sm);
-  font-weight: 600;
-  color: hsl(var(--foreground));
-  min-width: 3ch;
-}
-
-.goalList {
-  display: grid;
-  gap: var(--space-4);
-}
-
-.goalItem {
-  display: grid;
-  gap: var(--space-2);
-}
-
-.goalTitle {
-  font-size: var(--font-body);
-  font-weight: 600;
-  color: hsl(var(--foreground));
-}
-
-.goalDetail {
-  font-size: var(--font-small);
-  color: hsl(var(--muted-foreground));
-}
-
-.emptyGoal {
-  font-size: var(--font-small);
   color: hsl(var(--muted-foreground));
 }
 
@@ -237,16 +93,16 @@
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-xl);
-  border: 1px solid hsl(var(--border) / 0.35);
-  background: color-mix(in oklab, hsl(var(--panel-surface)) 84%, hsl(var(--surface)) 16%);
+  border: 1px solid hsl(var(--card-hairline) / 0.55);
+  background: hsl(var(--panel) / 0.68);
   min-width: 96px;
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
 
 .calendarDay:hover:not(.calendarDayDisabled),
 .calendarDay:focus-visible:not(.calendarDayDisabled) {
   transform: translateY(calc(var(--space-2) * -0.5));
-  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.32);
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.24);
 }
 
 .calendarDay:focus-visible {
@@ -255,11 +111,12 @@
 }
 
 .calendarDayToday {
-  border-color: hsl(var(--accent-1) / 0.5);
+  border-color: hsl(var(--accent-1) / 0.55);
 }
 
 .calendarDaySelected {
-  background: color-mix(in oklab, hsl(var(--accent-1) / 0.25), hsl(var(--panel-surface)) 70%);
+  background: color-mix(in oklab, hsl(var(--accent-1) / 0.22), hsl(var(--panel) / 0.72) 70%);
+  border-color: hsl(var(--accent-1) / 0.45);
 }
 
 .calendarDayDisabled {
@@ -294,77 +151,32 @@
   .miniGrid {
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
+
   .miniGrid > :global(*) {
     grid-column: span 4;
   }
 }
 
-.highlightList {
-  margin-top: var(--space-4);
-}
-
-.highlightList :global(li:first-child) {
-  padding-block-start: 0;
-}
-
-.highlightList :global(li:last-child) {
-  padding-block-end: 0;
-}
-
-.highlightListItem {
-  display: grid;
-  gap: var(--space-4);
-}
-
-.highlightEntry {
-  display: grid;
-  gap: var(--space-2);
-}
-
-.highlightHeader {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-2);
-}
-
-.highlightTitle {
-  font-size: var(--font-title-sm);
-  font-weight: 600;
-  color: hsl(var(--foreground));
-}
-
-.highlightSchedule {
-  font-size: var(--font-small);
-  color: hsl(var(--muted-foreground));
-}
-
-.highlightSummary {
-  font-size: var(--font-small);
-  color: hsl(var(--muted-foreground));
-}
-
 .tabPanelCard {
   padding: clamp(var(--space-5), 3vw, var(--space-6));
   border-radius: var(--radius-xl);
-  background: var(--panel-surface-soft);
-  border: 1px solid hsl(var(--border) / 0.35);
-  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.28);
+  border: 1px solid hsl(var(--card-hairline) / 0.55);
+  background: hsl(var(--panel) / 0.65);
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.24);
 }
 
 .tabHeader {
   display: inline-flex;
   gap: var(--space-4);
   padding-bottom: var(--space-4);
-  border-bottom: 1px solid hsl(var(--border) / 0.35);
+  border-bottom: 1px solid hsl(var(--card-hairline) / 0.55);
 }
 
 .tabButton {
   position: relative;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
-  background: color-mix(in oklab, hsl(var(--panel-surface)) 86%, hsl(var(--surface)) 14%);
+  background: hsl(var(--panel) / 0.6);
   color: hsl(var(--muted-foreground));
   font-size: var(--font-label);
   letter-spacing: 0.16em;
@@ -375,7 +187,7 @@
 .tabButton:hover,
 .tabButton:focus-visible {
   transform: translateY(calc(var(--space-2) * -0.5));
-  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.32);
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.24);
 }
 
 .tabButton:focus-visible {
@@ -384,7 +196,7 @@
 }
 
 .tabButtonActive {
-  background: hsl(var(--accent-1) / 0.25);
+  background: hsl(var(--accent-1) / 0.22);
   color: hsl(var(--foreground));
 }
 
@@ -411,9 +223,9 @@
   gap: var(--space-4);
   padding: clamp(var(--space-5), 3vw, var(--space-6));
   border-radius: var(--radius-xl);
-  background: var(--panel-surface-soft);
-  border: 1px solid hsl(var(--border) / 0.35);
-  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.28);
+  border: 1px solid hsl(var(--card-hairline) / 0.55);
+  background: hsl(var(--panel) / 0.65);
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.24);
 }
 
 .aiHeader {
@@ -448,15 +260,24 @@
   gap: var(--space-4);
 }
 
+.primaryButton {
+  box-shadow: var(--shadow-depth-soft) !important;
+}
+
+.primaryButton:hover,
+.primaryButton:focus-visible {
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.24) !important;
+}
+
 .secondaryButton {
-  background: color-mix(in oklab, hsl(var(--panel-surface)) 86%, hsl(var(--surface)) 14%) !important;
+  background: hsl(var(--panel) / 0.6) !important;
   color: hsl(var(--foreground)) !important;
   box-shadow: none !important;
 }
 
 .secondaryButton:hover,
 .secondaryButton:focus-visible {
-  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.28) !important;
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.24) !important;
 }
 
 .aiHint {

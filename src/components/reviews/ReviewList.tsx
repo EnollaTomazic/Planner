@@ -5,9 +5,10 @@ import * as React from "react";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { ReviewListItem } from "./ReviewListItem";
-import { Button, Skeleton, AIErrorCard } from "@/components/ui";
+import { Button, Skeleton, AIErrorCard, Card } from "@/components/ui";
 import { GenericList } from "@/components/lists/GenericList";
 import { BookOpen } from "lucide-react";
+import { SmallAgnesNoxiImage } from "@/components/planner";
 
 const PAGE_SIZE = 40;
 const REVIEW_SCROLL_STORAGE_KEY = "planner:reviews:list-scroll";
@@ -50,6 +51,9 @@ export type ReviewListProps = {
   error?: Error | string | null;
   onRetry?: (() => void) | null;
   hasAnyReviews?: boolean;
+  onCreate?: () => void;
+  onRename?: (id: string, nextTitle: string) => void;
+  onDelete?: (id: string) => void;
 };
 
 export function ReviewList({
@@ -63,6 +67,9 @@ export function ReviewList({
   error = null,
   onRetry = null,
   hasAnyReviews = false,
+  onCreate,
+  onRename,
+  onDelete,
 }: ReviewListProps) {
   const count = reviews.length;
   const isLoading = Boolean(loading);
@@ -313,56 +320,76 @@ export function ReviewList({
   }
 
   if (count === 0) {
-    const emptyStateContent = hasAnyReviews ? (
-      <div className="flex flex-col items-center justify-center gap-[var(--space-3)] text-center text-ui text-muted-foreground">
-        <span
-          aria-hidden
-          data-text=""
-          className="glitch-anim inline-flex items-center justify-center rounded-full border border-border/40 bg-card/70 p-[var(--space-3)] text-muted-foreground motion-reduce:animate-none"
-        >
-          <BookOpen
-            aria-hidden
-            focusable="false"
-            className="size-[var(--space-6)]"
-          />
-        </span>
-        <div className="space-y-[var(--space-1)]">
-          <p className="text-card-foreground">No reviews match your search.</p>
-          <p>Clear filters to see everything.</p>
-        </div>
-      </div>
-    ) : (
-      <div className="flex flex-col items-center justify-center gap-[var(--space-3)] text-center text-ui text-muted-foreground">
-        <span
-          aria-hidden
-          data-text=""
-          className="glitch-anim inline-flex items-center justify-center rounded-full border border-border/40 bg-card/70 p-[var(--space-3)] text-muted-foreground motion-reduce:animate-none"
-        >
-          <BookOpen
-            aria-hidden
-            focusable="false"
-            className="size-[var(--space-6)]"
-          />
-        </span>
-        <div className="space-y-[var(--space-1)]">
-          <p className="text-card-foreground">You haven&rsquo;t captured any reviews yet.</p>
-          <p>
-            Start a match recap to unlock filtering, tagging, and summaries. Use the
-            New Review button above to get started.
-          </p>
-        </div>
-      </div>
+    const baseCardClass = cn(
+      "relative isolate overflow-hidden bg-card/80 text-card-foreground",
+      interactiveRingClass,
     );
 
     return (
       <section
         data-scope="reviews"
         data-state="empty"
-        className={emptyContainerClass}
+        className="mx-auto w-full space-y-[var(--space-3)]"
         aria-live="polite"
       >
         {headerNode}
-        {emptyStateContent}
+        {hasAnyReviews ? (
+          <Card
+            depth="raised"
+            className={cn(
+              baseCardClass,
+              className,
+              "flex flex-col items-center justify-center gap-[var(--space-4)] text-center text-ui text-muted-foreground",
+            )}
+          >
+            <span
+              aria-hidden
+              className="inline-flex items-center justify-center rounded-full border border-border/40 bg-card/70 p-[var(--space-3)] text-muted-foreground"
+            >
+              <BookOpen
+                aria-hidden
+                focusable="false"
+                className="size-[var(--space-6)]"
+              />
+            </span>
+            <div className="space-y-[var(--space-1)]">
+              <p className="text-card-foreground">No reviews match your search.</p>
+              <p>Clear filters to see everything.</p>
+            </div>
+          </Card>
+        ) : (
+          <Card
+            depth="raised"
+            className={cn(
+              baseCardClass,
+              className,
+              "grid gap-[var(--space-4)] text-ui text-muted-foreground",
+              "sm:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] sm:items-center",
+            )}
+          >
+            <div className="relative mx-auto aspect-[4/3] w-full max-w-[min(100%,var(--space-15))] overflow-hidden rounded-[calc(var(--radius-card)*0.9)] border border-border/35 bg-gradient-blob-primary/30 sm:mx-0">
+              <SmallAgnesNoxiImage className="rounded-[inherit]" />
+            </div>
+            <div className="flex flex-col items-center gap-[var(--space-3)] text-center sm:items-start sm:text-left">
+              <div className="space-y-[var(--space-1)]">
+                <p className="text-title font-semibold tracking-[-0.01em] text-card-foreground">
+                  No reviews yet.
+                </p>
+                <p className="max-w-[28ch]">Start by capturing your first match.</p>
+              </div>
+              {onCreate ? (
+                <Button
+                  type="button"
+                  size="lg"
+                  onClick={onCreate}
+                  className="w-full sm:w-auto"
+                >
+                  Start a review
+                </Button>
+              ) : null}
+            </div>
+          </Card>
+        )}
       </section>
     );
   }
@@ -385,7 +412,11 @@ export function ReviewList({
           <ReviewListItem
             review={review}
             selected={review.id === selectedId}
-            onClick={onSelect ? () => onSelect(review.id) : undefined}
+            onSelect={onSelect ? () => onSelect(review.id) : undefined}
+            onRename={
+              onRename ? (nextTitle) => onRename(review.id, nextTitle) : undefined
+            }
+            onDelete={onDelete ? () => onDelete(review.id) : undefined}
           />
         )}
       />
