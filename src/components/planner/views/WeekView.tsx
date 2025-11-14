@@ -6,6 +6,8 @@ import { WeekSummary } from "../WeekSummary";
 import { WeekNotes } from "../WeekNotes";
 import { DayCard } from "../DayCard";
 import { useWeek, useFocusDate } from "../useFocusDate";
+import { useDayCardController } from "../useDayCardController";
+import type { ISODate } from "../plannerTypes";
 import { PlannerIslandBoundary } from "../PlannerIslandBoundary";
 
 export function WeekView() {
@@ -68,10 +70,15 @@ export function WeekView() {
       >
         <div className="col-span-full grid gap-[var(--space-4)] md:grid-cols-2">
           {days.map((dayIso) => (
-            <DayCard key={dayIso} iso={dayIso} isToday={isToday(dayIso)} />
+            <WeekDayCard key={dayIso} iso={dayIso} isToday={isToday(dayIso)} />
           ))}
         </div>
       </PlannerIslandBoundary>
     </PageShell>
   );
+}
+
+function WeekDayCard({ iso, isToday }: { iso: ISODate; isToday: boolean }) {
+  const dayCardProps = useDayCardController({ iso, isToday });
+  return <DayCard {...dayCardProps} />;
 }

@@ -2,6 +2,12 @@
 // Do not edit directly.
 export { createDayTextFieldHook } from "./createDayTextFieldHook";
 export { DayCard } from "./DayCard";
+export type {
+  DayCardActions,
+  DayCardDay,
+  DayCardProps,
+  DayCardSelection,
+} from "./DayCard";
 export { DayCardHeader } from "./DayCardHeader";
 export { addProject, addTask, addTaskImage, removeProject, removeTask, removeTaskImage, renameProject, renameTask, toggleProject, toggleTask, updateTaskReminder } from "./dayCrud";
 export { DayRow } from "./DayRow";
@@ -34,6 +40,7 @@ export type { TodayHeroProjectsProps } from "./TodayHeroProjects";
 export { TodayHeroTasks } from "./TodayHeroTasks";
 export type { TodayHeroTasksProps } from "./TodayHeroTasks";
 export { useDay } from "./useDay";
+export { useDayCardController } from "./useDayCardController";
 export { useDayFocus } from "./useDayFocus";
 export { useDayNotes } from "./useDayNotes";
 export { useFocusDate, useWeek } from "./useFocusDate";

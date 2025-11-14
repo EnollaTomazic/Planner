@@ -133,6 +133,7 @@ export function ProjectList({
             placeholder="> new project…"
             value={draftProject}
             onChange={(e) => setDraftProject(e.target.value)}
+            variant="sunken"
           />
         </form>
       )}

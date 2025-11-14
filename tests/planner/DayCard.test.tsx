@@ -2,7 +2,7 @@ import * as React from "react";
 import { render, act, waitFor } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import {
-  DayCard,
+  DayRow,
   PlannerProvider,
   useDay,
   useSelectedProject,
@@ -25,7 +25,7 @@ const TestHarness = React.forwardRef((_, ref: React.Ref<TestHandle>) => {
     selectedProjectId,
     setSelectedProjectId,
   }));
-  return <DayCard iso={iso} />;
+  return <DayRow iso={iso} isToday={false} />;
 });
 
 TestHarness.displayName = "TestHarness";
