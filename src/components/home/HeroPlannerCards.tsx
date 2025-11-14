@@ -13,7 +13,7 @@ import { QuickActions } from "./QuickActions";
 import { TeamPromptsCard } from "./TeamPromptsCard";
 import { TodayCard } from "./TodayCard";
 import { DashboardListCard } from "./DashboardListCard";
-import { Button } from "@/components/ui";
+import { Button, Field } from "@/components/ui";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import type { Variant } from "@/lib/theme";
 import { cn, withBasePath } from "@/lib/utils";
@@ -85,6 +85,7 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
 
   const [activeTab, setActiveTab] = React.useState<InsightTabKey>("activity");
   const tabBaseId = React.useId();
+  const aiDraftHelperId = React.useId();
 
   const summaryItems = React.useMemo(() => {
     return new Map(summary.items.map((item) => [item.key, item]));
@@ -108,6 +109,19 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
     },
     [onSelectDay],
   );
+
+  const calendarRangeControls = React.useMemo(() => {
+    if (ranges.length <= 1) {
+      return null;
+    }
+    return (
+      <PlannerRangeTabs
+        activeRange={range}
+        options={ranges}
+        onSelectRange={onSelectRange}
+      />
+    );
+  }, [onSelectRange, range, ranges]);
 
   const insightTabs = React.useMemo(
     () =>
@@ -165,13 +179,40 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
               </ul>
             </div>
           ),
+          headerActions: calendarRangeControls,
         },
       ] satisfies readonly {
         key: InsightTabKey;
         label: string;
         render: () => React.ReactNode;
+        headerActions?: React.ReactNode;
       }[],
-    [activity, calendar.label, calendarSummary, days, handleSelectDay],
+    [
+      activity,
+      calendar.label,
+      calendarRangeControls,
+      calendarSummary,
+      days,
+      handleSelectDay,
+    ],
+  );
+
+  React.useEffect(() => {
+    if (insightTabs.some((tab) => tab.key === activeTab)) {
+      return;
+    }
+
+    const fallbackTab = insightTabs[0];
+    if (!fallbackTab) {
+      return;
+    }
+
+    setActiveTab(fallbackTab.key);
+  }, [activeTab, insightTabs]);
+
+  const activeTabDefinition = React.useMemo(
+    () => insightTabs.find((tab) => tab.key === activeTab),
+    [activeTab, insightTabs],
   );
 
   const trimmedActiveGoals = React.useMemo(
@@ -215,15 +256,6 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
             </Card>
           </div>
         </div>
-        {ranges.length > 1 ? (
-          <div className={cn("col-span-full", styles.rangeTabsRow)}>
-            <PlannerRangeTabs
-              activeRange={range}
-              options={ranges}
-              onSelectRange={onSelectRange}
-            />
-          </div>
-        ) : null}
         <div className={cn("col-span-full", styles.overviewRow)}>
           <Card>
             <Card.Header
@@ -413,29 +445,34 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
             )}
           />
         </div>
-        <div className={cn("col-span-full", styles.tabPanelCard)}>
-          <div className={styles.tabHeader} role="tablist" aria-label="Planner insights">
-            {insightTabs.map((tab) => {
-              const tabId = `${tabBaseId}-tab-${tab.key}`;
-              const panelId = `${tabBaseId}-panel-${tab.key}`;
-              const isActive = activeTab === tab.key;
-              return (
-                <button
-                  key={tab.key}
-                  id={tabId}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  aria-controls={panelId}
-                  className={cn(styles.tabButton, isActive && styles.tabButtonActive)}
-                  onClick={() => setActiveTab(tab.key)}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
-          <div className={styles.tabPanels}>
+        <Card className="col-span-full">
+          <Card.Header className={styles.tabHeader}>
+            <div className={styles.tabList} role="tablist" aria-label="Planner insights">
+              {insightTabs.map((tab) => {
+                const tabId = `${tabBaseId}-tab-${tab.key}`;
+                const panelId = `${tabBaseId}-panel-${tab.key}`;
+                const isActive = activeTab === tab.key;
+                return (
+                  <button
+                    key={tab.key}
+                    id={tabId}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-controls={panelId}
+                    className={cn(styles.tabButton, isActive && styles.tabButtonActive)}
+                    onClick={() => setActiveTab(tab.key)}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </div>
+            {activeTabDefinition?.headerActions ? (
+              <div className={styles.tabActions}>{activeTabDefinition.headerActions}</div>
+            ) : null}
+          </Card.Header>
+          <Card.Body className={cn(styles.tabPanels, "text-card-foreground")}>
             {insightTabs.map((tab) => {
               const panelId = `${tabBaseId}-panel-${tab.key}`;
               const tabId = `${tabBaseId}-tab-${tab.key}`;
@@ -453,32 +490,38 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
                 </div>
               );
             })}
-          </div>
-        </div>
-        <div className="col-span-full">
-          <div className={styles.aiPanel}>
-            <div className={styles.aiHeader}>
-              <span className={styles.aiChip}>AI draft</span>
-              <p className={styles.aiCopy}>
-                Agnes and Noxi surfaced three momentum bets. Everything stays editable, retryable, and dismissible.
-              </p>
-            </div>
-            <div className={styles.aiActions}>
-              <Button size="sm" variant="quiet" className={styles.secondaryButton}>
-                Retry
-              </Button>
-              <Button size="sm" variant="default" className={styles.primaryButton}>
-                Edit draft
-              </Button>
-              <Button size="sm" variant="quiet" className={styles.secondaryButton}>
-                Cancel
-              </Button>
-            </div>
-            <p className={styles.aiHint}>
-              Confidence: medium. Suggestions will adapt once you complete today’s plan or dismiss items manually.
+          </Card.Body>
+        </Card>
+        <Card className="col-span-full">
+          <Card.Header title="AI Draft" />
+          <Card.Body className="space-y-[var(--space-4)] text-card-foreground">
+            <p className="text-label text-muted-foreground">
+              Agnes and Noxi surfaced three momentum bets. Everything stays editable, retryable, and dismissible.
             </p>
-          </div>
-        </div>
+            <Field.Root
+              variant="sunken"
+              helper="Confidence: medium. Suggestions will adapt once you complete today’s plan or dismiss items manually."
+              helperId={aiDraftHelperId}
+            >
+              <Field.Textarea
+                aria-describedby={aiDraftHelperId}
+                placeholder="Review and refine the draft before sharing with your team…"
+                rows={4}
+              />
+            </Field.Root>
+          </Card.Body>
+          <Card.Actions className="justify-end">
+            <Button size="sm" variant="quiet" className={styles.secondaryButton}>
+              Retry suggestions
+            </Button>
+            <Button size="sm" variant="default" className={styles.primaryButton}>
+              Edit draft
+            </Button>
+            <Button size="sm" variant="quiet" className={styles.secondaryButton}>
+              Cancel
+            </Button>
+          </Card.Actions>
+        </Card>
       </div>
     </section>
   );
