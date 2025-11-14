@@ -1,11 +1,13 @@
 import * as React from "react";
 import { DayCard } from "./DayCard";
+import { useDayCardController } from "./useDayCardController";
 import type { ISODate } from "./plannerTypes";
 
 type DayRowProps = { iso: ISODate; isToday: boolean };
 
 const DayRow = React.memo(
   function DayRow({ iso, isToday }: DayRowProps) {
+    const dayCardProps = useDayCardController({ iso, isToday });
     return (
       <li
         id={`day-${iso}`}
@@ -13,7 +15,7 @@ const DayRow = React.memo(
         className="w-full scroll-m-[calc(var(--space-8)+var(--space-6))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         tabIndex={0}
       >
-        <DayCard iso={iso} isToday={isToday} />
+        <DayCard {...dayCardProps} />
       </li>
     );
   },
