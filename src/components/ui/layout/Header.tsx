@@ -420,8 +420,7 @@ export function Header<Key extends string = string>({
       <header
         className={cx(
           "z-[999] relative isolate",
-          isNeo &&
-            "rounded-card r-card-lg bg-card/70 backdrop-blur-md hero2-neomorph",
+          isNeo && "veil-soft r-card-lg hero2-neomorph",
           isNeo && "overflow-hidden",
           translucentSurfaceClasses,
 
