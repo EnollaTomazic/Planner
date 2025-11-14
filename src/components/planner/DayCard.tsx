@@ -9,59 +9,95 @@
 
 import "./style.css";
 import * as React from "react";
-import { useSelectedProject, useSelectedTask } from "./useSelection";
-import type { ISODate, TaskReminder } from "./plannerTypes";
-import { useDay } from "./useDay";
 import { cn } from "@/lib/utils";
 import { NoiseOverlay } from "@/components/ui/patterns/NoiseOverlay";
 import { DayCardHeader } from "./DayCardHeader";
 import { ProjectList } from "./ProjectList";
 import { TaskList } from "./TaskList";
-import { usePlannerActions } from "./usePlannerStore";
 import { TaskReminderSettings } from "./TaskReminderSettings";
+import type {
+  DayTask,
+  ISODate,
+  Project,
+  TaskReminder,
+} from "./plannerTypes";
 
-type Props = { iso: ISODate; isToday?: boolean };
+export type DayCardSelection = {
+  projectId: string;
+  taskId: string;
+  onProjectChange: (id: string) => void;
+  onTaskChange: (id: string) => void;
+};
 
-export function DayCard({ iso, isToday }: Props) {
+export type DayCardActions = {
+  createProject: (name: string) => string | undefined;
+  renameProject: (id: string, name: string) => void;
+  deleteProject: (id: string) => void;
+  toggleProject: (id: string) => void;
+  createTask: (title: string) => string | undefined;
+  renameTask: (id: string, title: string) => void;
+  toggleTask: (id: string) => void;
+  deleteTask: (id: string) => void;
+  addTaskImage: (id: string, url: string) => void;
+  removeTaskImage: (id: string, url: string, index: number) => void;
+  updateTaskReminder: (id: string, partial: Partial<TaskReminder> | null) => void;
+};
+
+export type DayCardDay = {
+  iso: ISODate;
+  isToday?: boolean;
+  doneCount: number;
+  totalCount: number;
+};
+
+export type DayCardProps = {
+  day: DayCardDay;
+  date: Date;
+  projects: Project[];
+  tasks: DayTask[];
+  tasksById: Record<string, DayTask>;
+  tasksByProject: Record<string, string[]>;
+  selection: DayCardSelection;
+  actions: DayCardActions;
+};
+
+export function DayCard({
+  day,
+  projects,
+  tasks,
+  tasksById,
+  tasksByProject,
+  selection,
+  actions,
+}: DayCardProps) {
+  const { iso, isToday, doneCount, totalCount } = day;
   const {
-    projects,
+    projectId: selectedProjectId,
+    taskId: selectedTaskId,
+    onProjectChange,
+    onTaskChange,
+  } = selection;
+  const {
+    createProject,
     renameProject,
     deleteProject,
     toggleProject,
-    tasksById,
-    tasksByProject,
+    createTask,
     renameTask,
     toggleTask,
     deleteTask,
     addTaskImage,
-    removeTaskImage: removeTaskImageForDay,
-    doneCount,
-    totalCount,
+    removeTaskImage,
     updateTaskReminder,
-  } = useDay(iso);
+  } = actions;
 
-  const [selectedProjectId, setSelectedProjectId] = useSelectedProject(iso);
-  const [selectedTaskId, setSelectedTaskId] = useSelectedTask(iso);
-  const { createProject, createTask } = usePlannerActions();
-
-  const selectedTask = selectedTaskId ? tasksById[selectedTaskId] : undefined;
-
-  const handleCreateProject = React.useCallback(
-    (name: string) =>
-      createProject({ iso, name, select: setSelectedProjectId }),
-    [createProject, iso, setSelectedProjectId],
-  );
-
-  const handleCreateTask = React.useCallback(
-    (title: string) =>
-      createTask({
-        iso,
-        projectId: selectedProjectId,
-        title,
-        select: setSelectedTaskId,
-      }),
-    [createTask, iso, selectedProjectId, setSelectedTaskId],
-  );
+  const selectedTask = React.useMemo(() => {
+    if (!selectedTaskId) return undefined;
+    return (
+      tasksById[selectedTaskId] ??
+      tasks.find((candidate) => candidate.id === selectedTaskId)
+    );
+  }, [selectedTaskId, tasksById, tasks]);
 
   const handleReminderChange = React.useCallback(
     (partial: Partial<TaskReminder> | null) => {
@@ -95,12 +131,12 @@ export function DayCard({ iso, isToday }: Props) {
         <ProjectList
           projects={projects}
           selectedProjectId={selectedProjectId}
-          setSelectedProjectId={setSelectedProjectId}
-          setSelectedTaskId={setSelectedTaskId}
+          setSelectedProjectId={onProjectChange}
+          setSelectedTaskId={onTaskChange}
           toggleProject={toggleProject}
           renameProject={renameProject}
           deleteProject={deleteProject}
-          createProject={handleCreateProject}
+          createProject={createProject}
         />
       </div>
       {selectedProjectId && (
@@ -116,15 +152,13 @@ export function DayCard({ iso, isToday }: Props) {
               tasksByProject={tasksByProject}
               selectedProjectId={selectedProjectId}
               selectedTaskId={selectedTaskId}
-              createTask={handleCreateTask}
+              createTask={createTask}
               renameTask={renameTask}
               toggleTask={toggleTask}
               deleteTask={deleteTask}
               addTaskImage={addTaskImage}
-              removeTaskImage={(id, url, index) =>
-                removeTaskImageForDay(id, url, index)
-              }
-              setSelectedTaskId={setSelectedTaskId}
+              removeTaskImage={removeTaskImage}
+              setSelectedTaskId={onTaskChange}
             />
           </div>
         </React.Fragment>

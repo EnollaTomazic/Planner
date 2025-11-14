@@ -219,7 +219,7 @@ export function ReviewsPage({
     : isErrored
       ? "Search reviews (temporarily unavailable)"
       : !hasReviews
-        ? "Search reviews (disabled until a review exists)"
+        ? "Search reviews (add a review to start searching)"
         : "Search reviews";
   const heroSearchDescription = React.useMemo(() => {
     const ids: string[] = [];
@@ -231,7 +231,7 @@ export function ReviewsPage({
     }
     return ids.length > 0 ? ids.join(" ") : undefined;
   }, [shouldShowEmptySearchHelper, emptySearchTooltipId, hasReviews, emptySearchDescriptionId]);
-  const heroSearchDisabled = !allowInteractions || totalCount === 0;
+  const heroSearchDisabled = !allowInteractions;
   const heroSearchTooltip = shouldShowEmptySearchHelper ? (
     <div
       id={emptySearchTooltipId}
