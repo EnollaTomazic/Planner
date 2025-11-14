@@ -5,7 +5,6 @@ export type { GoalFormHandle } from "./GoalForm";
 export { GoalQueue as GoalQueue } from "./GoalQueue";
 export type { WaitItem } from "./GoalQueue";
 export { GoalSlot as GoalSlot } from "./GoalSlot";
-export { GoalsPage as GoalsPage } from "./GoalsPage";
 export { GoalsProgress as GoalsProgress } from "./GoalsProgress";
 export { GoalList as GoalList } from "./GoalList";
 export { GoalsTabs as GoalsTabs } from "./GoalsTabs";

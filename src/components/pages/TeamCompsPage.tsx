@@ -1,15 +1,15 @@
-// src/components/team/TeamCompPage.tsx
+// src/components/pages/TeamCompsPage.tsx
 "use client";
 
 /**
- * TeamCompPage — top-level shell with tabs:
+ * TeamCompsPage — top-level shell with tabs:
  * - Cheat Sheet (archetypes + sub-tabs: Cheat Sheet | My Comps)
  * - Builder (ally vs enemy)
  * - Jungle Clears (speed buckets)
  *
  * Header hosts the main tabs; a top-level Hero summarizes the active tab.
  */
-import "./style.css";
+import "../team/style.css";
 
 import * as React from "react";
 import { useSearchParams } from "next/navigation";
@@ -27,16 +27,18 @@ import {
   type BuilderHandle,
   type LaneKey,
   useTeamBuilderState,
-  LANES as BUILDER_LANES, Builder } from "./Builder";
-import { type JungleClearsHandle, JungleClears } from "./JungleClears";
-import { CheatSheet } from "./CheatSheet";
-import { MyComps } from "./MyComps";
+  LANES as BUILDER_LANES,
+  Builder,
+} from "../team/Builder";
+import { type JungleClearsHandle, JungleClears } from "../team/JungleClears";
+import { CheatSheet } from "../team/CheatSheet";
+import { MyComps } from "../team/MyComps";
 import { usePersistentState } from "@/lib/db";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Button } from "@/components/ui/primitives/Button";
 import { Hero, PageShell, Badge, TabBar } from "@/components/ui";
 import type { BadgeProps } from "@/components/ui";
-import type { ClearSpeed } from "./data";
+import type { ClearSpeed } from "../team/data";
 
 type Tab = "cheat" | "builder" | "clears";
 type SubTab = "sheet" | "comps";
@@ -70,7 +72,7 @@ const decodeSubTab = (value: unknown): SubTab | null => {
   return null;
 };
 
-export function TeamCompPage() {
+export function TeamCompsPage() {
   const searchParams = useSearchParams();
   const [tab, setTab] = usePersistentState<Tab>(TAB_KEY, "cheat", {
     decode: decodeTab,

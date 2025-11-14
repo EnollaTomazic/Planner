@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
-import HomePageContent from '@/app/home/HomePageContent.client'
-import HomePageFallback from '@/app/home/HomePageFallback.server'
+import { HomePage } from '@/components/pages'
 
 export const dynamic = 'force-static'
 
@@ -12,22 +10,5 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-  const heroHeadingId = 'home-hero-heading'
-  const overviewHeadingId = 'home-overview-heading'
-
-  return (
-    <Suspense
-      fallback={
-        <HomePageFallback
-          heroHeadingId={heroHeadingId}
-          overviewHeadingId={overviewHeadingId}
-        />
-      }
-    >
-      <HomePageContent
-        heroHeadingId={heroHeadingId}
-        overviewHeadingId={overviewHeadingId}
-      />
-    </Suspense>
-  )
+  return <HomePage />
 }

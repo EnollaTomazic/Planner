@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Review } from "@/lib/types";
 import { uid } from "@/lib/db";
-import { ReviewsPage } from "./ReviewsPage";
+import { ReviewsPage } from "@/components/pages";
 import { primeReviewSearch } from "./reviewSearch";
 import { useReviews } from "./useReviews";
 

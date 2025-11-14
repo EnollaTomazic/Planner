@@ -9,20 +9,20 @@ import {
 } from "@/components/ui/primitives/SegmentedControl";
 import { usePersistentState } from "@/lib/db";
 import { cn } from "@/lib/utils";
-import { ChatPromptsTab } from "./ChatPromptsTab";
-import { PromptsHeader } from "./PromptsHeader";
-import type { Persona, PromptWithTitle } from "./types";
-import { useChatPrompts } from "./useChatPrompts";
-import { useCodexPrompts } from "./useCodexPrompts";
-import { useNotes } from "./useNotes";
-import { usePersonas } from "./usePersonas";
+import { ChatPromptsTab } from "../prompts/ChatPromptsTab";
+import { PromptsHeader } from "../prompts/PromptsHeader";
+import type { Persona, PromptWithTitle } from "../prompts/types";
+import { useChatPrompts } from "../prompts/useChatPrompts";
+import { useCodexPrompts } from "../prompts/useCodexPrompts";
+import { useNotes } from "../prompts/useNotes";
+import { usePersonas } from "../prompts/usePersonas";
 
 const CodexPromptsTab = React.lazy(async () => ({
-  default: (await import("./CodexPromptsTab")).CodexPromptsTab,
+  default: (await import("../prompts/CodexPromptsTab")).CodexPromptsTab,
 }));
 
 const NotesTab = React.lazy(async () => ({
-  default: (await import("./NotesTab")).NotesTab,
+  default: (await import("../prompts/NotesTab")).NotesTab,
 }));
 
 const TAB_STORAGE_KEY = "prompts.tab.v1" as const;

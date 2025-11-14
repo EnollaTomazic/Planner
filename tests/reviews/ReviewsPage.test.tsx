@@ -8,7 +8,7 @@ import {
   act,
 } from "@testing-library/react";
 import { describe, it, expect, afterEach, vi } from "vitest";
-import { ReviewsPage } from "@/components/reviews";
+import { ReviewsPage } from "@/components/pages";
 import type { Review } from "@/lib/types";
 
 afterEach(() => {

@@ -23,7 +23,6 @@ export { WeekPickerDemo } from "./previews/WeekPickerDemo";
 export { PromptsComposePanel } from "./PromptsComposePanel";
 export { PromptsDemos } from "./PromptsDemos";
 export { PromptsHeader } from "./PromptsHeader";
-export { PromptsPage } from "./PromptsPage";
 export { RadioIconGroupShowcase } from "./RadioIconGroupShowcase";
 export { SavedPromptList } from "./SavedPromptList";
 export type { SavedPromptListProps } from "./SavedPromptList";

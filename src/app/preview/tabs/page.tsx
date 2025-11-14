@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import {
   DESIGN_TOKEN_GROUPS,
   buildGalleryNavigation,
-} from "@/components/gallery-page/ComponentsPage";
+} from "@/components/pages";
 import { PageShell, PageHeader, SectionCard, SectionCardBody } from "@/components/ui";
 
 import TabsPreviewMatrixClient from "./TabsPreviewMatrixClient";

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { TeamCompPage } from "@/components/team/TeamCompPage";
+import { TeamCompsPage } from "@/components/pages";
 import * as BuilderModule from "@/components/team/Builder";
 import type { TeamState } from "@/components/team/Builder";
 import { createStorageKey } from "@/lib/db";
@@ -16,9 +16,9 @@ afterEach(() => {
   window.localStorage.clear();
 });
 
-describe("TeamCompPage builder tab", () => {
+describe("TeamCompsPage builder tab", () => {
   it("shows builder hero with spacing", () => {
-    render(<TeamCompPage />);
+    render(<TeamCompsPage />);
     const builderTab = screen.getByRole("tab", { name: "Builder" });
     fireEvent.click(builderTab);
     const heroHeading = screen.getByRole("heading", { name: "Builder" });
@@ -36,7 +36,7 @@ describe("TeamCompPage builder tab", () => {
       .spyOn(BuilderModule, "createInitialTeamState")
       .mockReturnValue(partialState);
     try {
-      render(<TeamCompPage />);
+      render(<TeamCompsPage />);
       const builderTab = screen.getByRole("tab", { name: "Builder" });
       fireEvent.click(builderTab);
       expect(screen.getAllByText("Lane coverage").length).toBeGreaterThan(0);
@@ -47,9 +47,9 @@ describe("TeamCompPage builder tab", () => {
   });
 });
 
-describe("TeamCompPage jungle clears tab", () => {
+describe("TeamCompsPage jungle clears tab", () => {
   it("shows clears hero with search and count", () => {
-    render(<TeamCompPage />);
+    render(<TeamCompsPage />);
     const clearsTab = screen.getByRole("tab", { name: "Jungle Clears" });
     fireEvent.click(clearsTab);
     expect(
@@ -64,12 +64,12 @@ describe("TeamCompPage jungle clears tab", () => {
   });
 });
 
-describe("TeamCompPage cheat sheet sub-tab", () => {
+describe("TeamCompsPage cheat sheet sub-tab", () => {
   it("falls back to sheet when cached value is invalid", () => {
     const storageKey = createStorageKey("team:cheatsheet:activeSubTab.v1");
     window.localStorage.setItem(storageKey, JSON.stringify("invalid"));
 
-    render(<TeamCompPage />);
+    render(<TeamCompsPage />);
 
     const sheetPanel = screen.getByRole("tabpanel", { name: "Cheat Sheet" });
     expect(sheetPanel).not.toHaveAttribute("hidden");

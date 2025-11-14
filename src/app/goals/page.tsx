@@ -1,5 +1,5 @@
 import { type Metadata } from "next";
-import { GoalsPage } from "@/components/goals";
+import { GoalsPage } from "@/components/pages";
 
 export const dynamic = "force-static";
 

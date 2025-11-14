@@ -8,7 +8,7 @@ import {
   act,
 } from "@testing-library/react";
 import { describe, it, beforeEach, expect, afterEach, vi } from "vitest";
-import { PromptsPage } from "@/components/prompts";
+import { PromptsPage } from "@/components/pages";
 import { ThemeProvider } from "@/lib/theme-context";
 import { flushWriteLocal, createStorageKey } from "@/lib/db";
 import { CHAT_PROMPTS_STORAGE_KEY } from "@/components/prompts/useChatPrompts";

@@ -8,7 +8,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
-import { GoalsPage } from "@/components/goals";
+import { GoalsPage } from "@/components/pages";
 import { createStorageKey } from "@/lib/db";
 
 // Clean up DOM after each test

@@ -1,7 +1,7 @@
-// src/components/planner/PlannerPage.tsx
+// src/components/pages/PlannerPage.tsx
 "use client";
 
-import "./style.css";
+import "../planner/style.css";
 
 /**
  * PlannerPage — Week header + TodayHero + Focus/Notes + Day list.
@@ -25,19 +25,19 @@ import { RangeSlider } from "@/components/ui/primitives/RangeSlider";
 import { NoiseOverlay } from "@/components/ui/patterns/NoiseOverlay";
 import { cn } from "@/lib/utils";
 import styles from "./PlannerPage.module.css";
-import { useFocusDate, useWeek } from "./useFocusDate";
-import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
-import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
-import { WeekPicker } from "./WeekPicker";
+import { useFocusDate, useWeek } from "../planner/useFocusDate";
+import { PlannerProvider, usePlanner, type PlannerViewMode } from "../planner/plannerContext";
+import { FOCUS_PLACEHOLDER } from "../planner/plannerSerialization";
+import { WeekPicker } from "../planner/WeekPicker";
 import { CalendarDays } from "lucide-react";
 import { formatWeekDay, formatWeekRangeLabel } from "@/lib/date";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
-import { PlannerIslandBoundary } from "./PlannerIslandBoundary";
-import { useWeekData } from "./useWeekData";
+import { PlannerIslandBoundary } from "../planner/PlannerIslandBoundary";
+import { useWeekData } from "../planner/useWeekData";
 import useBasePath from "@/lib/useBasePath";
-import { PlannerStatChip } from "./PlannerStatChip";
-import { useDay } from "./useDay";
-import { SmallAgnesNoxiImage } from "./SmallAgnesNoxiImage";
+import { PlannerStatChip } from "../planner/PlannerStatChip";
+import { useDay } from "../planner/useDay";
+import { SmallAgnesNoxiImage } from "../planner/SmallAgnesNoxiImage";
 
 const {
   autopilotHero,
@@ -71,16 +71,16 @@ const {
 } = styles;
 
 const LazyDayView = React.lazy(async () => ({
-  default: (await import("./views/DayView")).DayView,
+  default: (await import("../planner/views/DayView")).DayView,
 }));
 const LazyWeekView = React.lazy(async () => ({
-  default: (await import("./views/WeekView")).WeekView,
+  default: (await import("../planner/views/WeekView")).WeekView,
 }));
 const LazyMonthView = React.lazy(async () => ({
-  default: (await import("./views/MonthView")).MonthView,
+  default: (await import("../planner/views/MonthView")).MonthView,
 }));
 const LazyAgendaView = React.lazy(async () => ({
-  default: (await import("./views/AgendaView")).AgendaView,
+  default: (await import("../planner/views/AgendaView")).AgendaView,
 }));
 
 const VIEW_MODE_TABS: Array<{ key: PlannerViewMode; label: string }> = [

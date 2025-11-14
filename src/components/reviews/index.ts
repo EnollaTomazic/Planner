@@ -1,6 +1,5 @@
 // src/components/reviews/index.ts
 export { ReviewPage as ReviewPage } from "./ReviewPage";
-export { ReviewsPage as ReviewsPage } from "./ReviewsPage";
 export { ReviewEditor as ReviewEditor } from "./ReviewEditor";
 export { ReviewList as ReviewList } from "./ReviewList";
 export { ReviewListItem as ReviewListItem } from "./ReviewListItem";

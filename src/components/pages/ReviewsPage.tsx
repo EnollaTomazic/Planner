@@ -6,10 +6,10 @@ import { useSearchParams } from "next/navigation";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useReviewFilter } from "@/components/reviews";
-import { ReviewList } from "./ReviewList";
-import { ReviewEditor } from "./ReviewEditor";
-import { ReviewSummary } from "./ReviewSummary";
-import { ReviewPanel } from "./ReviewPanel";
+import { ReviewList } from "../reviews/ReviewList";
+import { ReviewEditor } from "../reviews/ReviewEditor";
+import { ReviewSummary } from "../reviews/ReviewSummary";
+import { ReviewPanel } from "../reviews/ReviewPanel";
 import { BookOpen, Ghost, Plus } from "lucide-react";
 
 import {

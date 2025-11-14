@@ -1,8 +1,5 @@
-// src/app/planner/page.tsx
-// Server wrapper for the client PlannerPage
-
 import type { Metadata } from "next";
-import { PlannerPage } from "@/components/planner";
+import { PlannerPage } from "@/components/pages";
 
 export const dynamic = "force-static";
 

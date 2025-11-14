@@ -1,4 +1,4 @@
-// src/components/goals/GoalsPage.tsx
+// src/components/pages/GoalsPage.tsx
 "use client";
 
 /**
@@ -47,23 +47,23 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/primitives/Card";
-import { FilterKey, SegmentFilterKey, GoalsTabs } from "./GoalsTabs";
+import { FilterKey, SegmentFilterKey, GoalsTabs } from "../goals/GoalsTabs";
 import {
   type EntityFormSubmitResult,
   type EntityFormValues,
 } from "@/components/forms/EntityForm";
-import { GoalsProgress } from "./GoalsProgress";
-import { GoalList } from "./GoalList";
-import { GOALS_STICKY_TOP_CLASS } from "./constants";
+import { GoalsProgress } from "../goals/GoalsProgress";
+import { GoalList } from "../goals/GoalList";
+import { GOALS_STICKY_TOP_CLASS } from "../goals/constants";
 
 import { usePersistentState } from "@/lib/db";
-import { useGoals, ACTIVE_CAP } from "./useGoals";
+import { useGoals, ACTIVE_CAP } from "../goals/useGoals";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 /* Tabs */
-import { RemindersTab } from "./RemindersTab";
-import { TimerTab } from "./TimerTab";
-import { useReminders, type Domain } from "./reminders/useReminders";
+import { RemindersTab } from "../goals/RemindersTab";
+import { TimerTab } from "../goals/TimerTab";
+import { useReminders, type Domain } from "../goals/reminders/useReminders";
 
 /* ---------- Types & constants ---------- */
 type Tab = "goals" | "reminders" | "timer";

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { TeamCompPage } from "@/components/team/TeamCompPage";
+import { TeamCompsPage } from "@/components/pages";
 
 export const dynamic = "force-static";
 
@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <TeamCompPage />;
+  return <TeamCompsPage />;
 }

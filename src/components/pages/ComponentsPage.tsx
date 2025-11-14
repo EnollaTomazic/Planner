@@ -1,4 +1,4 @@
-import { ComponentsPageClient } from "./ComponentsPageClient";
+import { ComponentsPageClient } from "../gallery-page/ComponentsPageClient";
 import tokens from "../../../tokens/tokens.js";
 import {
   GALLERY_SECTION_GROUPS,
