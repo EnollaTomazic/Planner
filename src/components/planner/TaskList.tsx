@@ -67,19 +67,20 @@ export function TaskList({
         hasSelectedProject
           ? () => (
               <form onSubmit={onSubmit} className="grid gap-[var(--space-2)]">
-                <Label htmlFor={newTaskInputId} className="mb-0">
-                  New task
-                </Label>
-                <Input
-                  id={newTaskInputId}
-                  className="w-full"
-                  placeholder="> add task…"
-                  value={draftTask}
-                  onChange={(e) => setDraftTask(e.target.value)}
-                />
-              </form>
-            )
-          : undefined
+              <Label htmlFor={newTaskInputId} className="mb-0">
+                New task
+              </Label>
+              <Input
+                id={newTaskInputId}
+                className="w-full"
+                placeholder="> add task…"
+                value={draftTask}
+                onChange={(e) => setDraftTask(e.target.value)}
+                variant="sunken"
+              />
+            </form>
+          )
+        : undefined
       }
       isEmpty={isEmpty}
       renderEmpty={() => (
