@@ -158,11 +158,20 @@ describe("ReviewsPage", () => {
     expect(buttons).toHaveLength(1);
     expect(buttons[0]).toBeEnabled();
     const searchInput = screen.getByRole("searchbox");
-    expect(searchInput).toBeDisabled();
+    expect(searchInput).toBeEnabled();
     expect(searchInput).toHaveAttribute(
       "aria-label",
-      "Search reviews (disabled until a review exists)",
+      "Search reviews (add a review to start searching)",
     );
+    const tooltip = screen.getByText("Add a review to search.").closest("div");
+    expect(tooltip).toHaveAttribute("role", "tooltip");
+    expect(tooltip).toHaveAttribute("aria-hidden", "true");
+
+    fireEvent.focus(searchInput);
+    expect(tooltip).not.toHaveAttribute("aria-hidden");
+
+    fireEvent.change(searchInput, { target: { value: "alpha" } });
+    expect(searchInput).toHaveValue("alpha");
   });
 
   it("filters reviews by search query", async () => {
