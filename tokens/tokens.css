@@ -225,8 +225,10 @@
     inset calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) var(--spacing-3)
       hsl(var(--foreground) / 0.08);
   --shadow-ring: 0 0 var(--spacing-3) hsl(var(--ring));
-  --shadow-depth-soft: 0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1)
-      hsl(var(--shadow-color));
+  --shadow-depth-soft: calc(var(--spacing-2)) calc(var(--spacing-2))
+      var(--spacing-4) hsl(var(--panel) / 0.6),
+    calc(var(--spacing-2) * -1) calc(var(--spacing-2) * -1)
+      var(--spacing-4) hsl(var(--foreground) / 0.07);
   --shadow-glow-sm: 0 0 var(--spacing-2) var(--glow-active);
   --shadow-glow-md: 0 0 var(--spacing-4) var(--glow-active);
   --shadow-glow-lg: 0 0 var(--spacing-5) var(--glow-active);
