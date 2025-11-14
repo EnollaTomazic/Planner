@@ -126,6 +126,13 @@ const mockPlannerOverview: PlannerOverviewProps = {
       total: 4,
     })),
   },
+  range: "week",
+  ranges: [
+    { key: "day", label: "Day" },
+    { key: "week", label: "Week" },
+    { key: "month", label: "Month" },
+  ],
+  onSelectRange: () => {},
 };
 
 const mockHighlights = [
