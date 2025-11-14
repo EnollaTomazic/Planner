@@ -584,7 +584,7 @@
       "value": "0 0 var(--spacing-3) hsl(var(--ring))"
     },
     "shadowDepthSoft": {
-      "value": "0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1)\n      hsl(var(--shadow-color))"
+      "value": "calc(var(--spacing-2)) calc(var(--spacing-2)) var(--spacing-4)\n      hsl(var(--panel) / 0.6),\n    calc(var(--spacing-2) * -1) calc(var(--spacing-2) * -1) var(--spacing-4)\n      hsl(var(--foreground) / 0.07)"
     },
     "shadowGlowSm": {
       "value": "0 0 var(--spacing-2) var(--glow-active)"
