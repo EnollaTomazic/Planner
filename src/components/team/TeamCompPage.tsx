@@ -34,8 +34,8 @@ import { MyComps } from "./MyComps";
 import { usePersistentState } from "@/lib/db";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Button } from "@/components/ui/primitives/Button";
-import { Hero, PageShell, Badge, TabBar } from "@/components/ui";
-import type { BadgeProps } from "@/components/ui";
+import { Hero, HeroSearchBar, PageShell, Badge, TabBar } from "@/components/ui";
+import type { BadgeProps, HeroSearchBarProps } from "@/components/ui";
 import type { ClearSpeed } from "./data";
 
 type Tab = "cheat" | "builder" | "clears";
@@ -279,7 +279,7 @@ export function TeamCompPage() {
     clearsRef.current?.focus();
   }, [tab]);
 
-  const heroSearchBar = React.useMemo(() => {
+  const heroSearchConfig = React.useMemo<HeroSearchBarProps | null>(() => {
     if (tab === "cheat") {
       return {
         value: query,
@@ -291,7 +291,7 @@ export function TeamCompPage() {
           subTab === "sheet"
             ? "Search cheat sheet entries"
             : "Search saved comps",
-      } as const;
+      } satisfies HeroSearchBarProps;
     }
     if (tab === "clears") {
       return {
@@ -302,7 +302,7 @@ export function TeamCompPage() {
         debounceMs: 300,
         "aria-label": "Search jungle clear buckets",
         right: <span className="text-label opacity-80">{clearsCount} shown</span>,
-      } as const;
+      } satisfies HeroSearchBarProps;
     }
     return null;
   }, [tab, query, subTab, setQuery, clearsQuery, clearsCount, setClearsQuery]);
@@ -528,12 +528,13 @@ export function TeamCompPage() {
           title="Team Compositions"
           subtitle="Explore archetypes, build your comp, and master jungle clears."
           glitch="subtle"
+          noiseLevel="subtle"
           className="col-span-full md:col-span-12"
           sticky
           topClassName="top-[var(--header-stack)]"
-          searchBar={heroSearchBar ?? undefined}
-          actions={
-            <>
+        >
+          <div className="flex flex-col gap-[var(--space-4)]">
+            <div className="flex flex-wrap items-center gap-[var(--space-3)]">
               <span id={`${tabBaseId}-tabs-label`} className="sr-only">
                 Team comps mode
               </span>
@@ -570,8 +571,14 @@ export function TeamCompPage() {
                 ]}
                 idBase={tabBaseId}
               />
+              {heroSearchConfig ? (
+                <HeroSearchBar
+                  {...heroSearchConfig}
+                  className="min-w-[14rem] flex-1 basis-full sm:basis-[18rem]"
+                />
+              ) : null}
               <Button
-                variant="default"
+                variant="neo"
                 size="md"
                 className="whitespace-nowrap"
                 onClick={handleOpenMyComps}
@@ -579,10 +586,10 @@ export function TeamCompPage() {
                 <Users2 className="mr-[var(--space-2)] h-[var(--space-4)] w-[var(--space-4)]" />
                 <span>My Comps</span>
               </Button>
-            </>
-          }
-        >
-          {heroContent}
+            </div>
+
+            {heroContent}
+          </div>
         </Hero>
       </PageShell>
 
