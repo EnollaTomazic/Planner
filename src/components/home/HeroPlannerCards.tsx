@@ -13,7 +13,7 @@ import { QuickActions } from "./QuickActions";
 import { TeamPromptsCard } from "./TeamPromptsCard";
 import { TodayCard } from "./TodayCard";
 import { DashboardListCard } from "./DashboardListCard";
-import { Button } from "@/components/ui";
+import { Button, Field } from "@/components/ui";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import type { Variant } from "@/lib/theme";
 import { cn, withBasePath } from "@/lib/utils";
@@ -85,6 +85,7 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
 
   const [activeTab, setActiveTab] = React.useState<InsightTabKey>("activity");
   const tabBaseId = React.useId();
+  const aiDraftHelperId = React.useId();
 
   const summaryItems = React.useMemo(() => {
     return new Map(summary.items.map((item) => [item.key, item]));
@@ -491,30 +492,36 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
             })}
           </Card.Body>
         </Card>
-        <div className="col-span-full">
-          <div className={styles.aiPanel}>
-            <div className={styles.aiHeader}>
-              <span className={styles.aiChip}>AI draft</span>
-              <p className={styles.aiCopy}>
-                Agnes and Noxi surfaced three momentum bets. Everything stays editable, retryable, and dismissible.
-              </p>
-            </div>
-            <div className={styles.aiActions}>
-              <Button size="sm" variant="quiet" className={styles.secondaryButton}>
-                Retry
-              </Button>
-              <Button size="sm" variant="default" className={styles.primaryButton}>
-                Edit draft
-              </Button>
-              <Button size="sm" variant="quiet" className={styles.secondaryButton}>
-                Cancel
-              </Button>
-            </div>
-            <p className={styles.aiHint}>
-              Confidence: medium. Suggestions will adapt once you complete today’s plan or dismiss items manually.
+        <Card className="col-span-full">
+          <Card.Header title="AI Draft" />
+          <Card.Body className="space-y-[var(--space-4)] text-card-foreground">
+            <p className="text-label text-muted-foreground">
+              Agnes and Noxi surfaced three momentum bets. Everything stays editable, retryable, and dismissible.
             </p>
-          </div>
-        </div>
+            <Field.Root
+              variant="sunken"
+              helper="Confidence: medium. Suggestions will adapt once you complete today’s plan or dismiss items manually."
+              helperId={aiDraftHelperId}
+            >
+              <Field.Textarea
+                aria-describedby={aiDraftHelperId}
+                placeholder="Review and refine the draft before sharing with your team…"
+                rows={4}
+              />
+            </Field.Root>
+          </Card.Body>
+          <Card.Actions className="justify-end">
+            <Button size="sm" variant="quiet" className={styles.secondaryButton}>
+              Retry suggestions
+            </Button>
+            <Button size="sm" variant="default" className={styles.primaryButton}>
+              Edit draft
+            </Button>
+            <Button size="sm" variant="quiet" className={styles.secondaryButton}>
+              Cancel
+            </Button>
+          </Card.Actions>
+        </Card>
       </div>
     </section>
   );
