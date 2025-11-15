@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Button, PageShell, PageHeader, SectionCard, SectionCardBody } from "@/components/ui";
+import { Button, Hero, PageShell, SectionCard, SectionCardBody } from "@/components/ui";
 import { HeroPortraitFrame } from "@/components/home/HeroPortraitFrame";
 import { getBasePath, withBasePath } from "@/lib/utils";
 
@@ -22,7 +22,8 @@ export default function PagesCheckPage() {
       aria-labelledby="pages-check-heading"
       className="py-[var(--space-6)] md:py-[var(--space-8)]"
     >
-      <PageHeader
+      <Hero
+        variant="panel"
         as="header"
         className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3"
         title="GitHub Pages routing check"

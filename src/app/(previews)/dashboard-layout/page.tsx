@@ -17,13 +17,13 @@ import {
   Button,
   Grid,
   type GridTemplate,
+  Hero,
   NeoCard,
   PageShell,
   Skeleton,
   Stack,
   Switcher,
 } from "@/components/ui";
-import { PageHero } from "@/components/ui/layout/PageHero";
 
 import styles from "./page.module.css";
 
@@ -213,11 +213,13 @@ export default function DashboardLayoutPreviewPage() {
   return (
     <>
       <PageShell as="header" grid className="py-[var(--space-7)]">
-        <PageHero
+        <Hero
           id={pageTitleId}
-          accent="supportive"
+          className="col-span-full"
+          pageAccent="supportive"
           frame={false}
           glitch="off"
+          sticky={false}
           eyebrow={<span className="normal-case">Planner previews</span>}
           title="Dashboard layout preview"
         >
@@ -231,7 +233,7 @@ export default function DashboardLayoutPreviewPage() {
               drive the responsive flow from mobile through desktop without sacrificing neumorphic depth or accessibility.
             </p>
           </div>
-        </PageHero>
+        </Hero>
       </PageShell>
 
       <PageShell

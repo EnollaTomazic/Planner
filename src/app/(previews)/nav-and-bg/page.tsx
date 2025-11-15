@@ -3,8 +3,7 @@ import type { Metadata } from "next";
 
 import { SiteChrome } from "@/components/chrome/SiteChrome";
 import { NavBar } from "@/components/chrome/NavBar";
-import { DecorLayer, PageShell } from "@/components/ui";
-import { PageHero } from "@/components/ui/layout/PageHero";
+import { DecorLayer, Hero, PageShell } from "@/components/ui";
 
 import ThemeCycleControl from "./ThemeCycleControl";
 
@@ -39,11 +38,13 @@ export default function NavAndBackgroundPreviewPage() {
       <SiteChrome>
         <div className="relative z-10">
           <PageShell as="header" grid className="py-[var(--space-8)]">
-            <PageHero
+            <Hero
               id={headingId}
-              accent="supportive"
+              className="col-span-full"
+              pageAccent="supportive"
               frame={false}
               glitch="off"
+              sticky={false}
               eyebrow={<span className="normal-case text-accent-foreground/80">Theme preview</span>}
               title="Navigation & background layering"
             >
@@ -53,7 +54,7 @@ export default function NavAndBackgroundPreviewPage() {
                 </p>
                 <ThemeCycleControl />
               </div>
-            </PageHero>
+            </Hero>
           </PageShell>
 
           <PageShell
