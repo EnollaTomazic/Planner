@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { PageShell, PageHeader, SectionCard, SectionCardBody } from "@/components/ui";
+import { Hero, PageShell, SectionCard, SectionCardBody } from "@/components/ui";
 
 import AIPreviewClient from "./AIPreviewClient";
 
@@ -23,7 +23,8 @@ export default function AIPreviewPage() {
       className="py-[var(--space-6)] md:py-[var(--space-8)]"
       contentClassName="gap-y-[var(--space-6)] md:gap-y-[var(--space-7)]"
     >
-      <PageHeader
+      <Hero
+        variant="panel"
         as="header"
         className="col-span-full"
         title="AI conversation states"

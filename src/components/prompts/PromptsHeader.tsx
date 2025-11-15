@@ -1,29 +1,48 @@
 "use client";
 
 import * as React from "react";
-import { Hero } from "@/components/ui";
+import { Button, Hero } from "@/components/ui";
 import { Badge } from "@/components/ui/primitives/Badge";
 import { cn } from "@/lib/utils";
+import {
+  PROMPTS_TAB_ID_BASE,
+  PROMPTS_TAB_ITEMS,
+  type PromptsTabKey,
+} from "./tabs";
 
 const chips = ["hover", "focus", "active", "disabled", "loading"];
 
 interface PromptsHeaderProps {
   id?: string;
-  count: number;
   query: string;
   onQueryChange: (value: string) => void;
+  activeTab: PromptsTabKey;
+  onTabChange: (tab: PromptsTabKey) => void;
+  onNewPrompt: () => void;
+  onNewPersona: () => void;
+  tabCounts?: Partial<Record<PromptsTabKey, number>>;
 }
 
 export function PromptsHeader({
   id = "prompts-header",
-  count,
   query,
   onQueryChange,
+  activeTab,
+  onTabChange,
+  onNewPrompt,
+  onNewPersona,
+  tabCounts,
 }: PromptsHeaderProps) {
-  const savedLabel = React.useMemo(() => {
-    const formatted = new Intl.NumberFormat().format(count);
-    return `${formatted} saved`;
-  }, [count]);
+  const tabs = React.useMemo(() => {
+    return PROMPTS_TAB_ITEMS.map((item) => {
+      const badge = tabCounts?.[item.key];
+      return {
+        key: item.key,
+        label: item.label,
+        badge: badge && badge > 0 ? badge : undefined,
+      };
+    });
+  }, [tabCounts]);
 
   const handleChip = React.useCallback(
     (chip: string) => {
@@ -39,16 +58,29 @@ export function PromptsHeader({
     <Hero
       id={id}
       className="col-span-full"
-      title={<span id={id}>Prompts</span>}
+      title="Prompts"
+      subtitle="Compose, save, and reuse AI prompts."
       sticky={false}
       frame={false}
       tone="heroic"
       padding="none"
       barClassName="flex flex-col items-start gap-[var(--space-2)] sm:flex-row sm:items-center sm:justify-between"
+      tabs={{
+        items: tabs,
+        value: activeTab,
+        onChange: onTabChange,
+        ariaLabel: "Prompt workspaces",
+        idBase: PROMPTS_TAB_ID_BASE,
+      }}
       actions={
-        <span className="whitespace-nowrap text-label font-medium tracking-[0.02em] text-muted-foreground">
-          {savedLabel}
-        </span>
+        <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+          <Button size="sm" onClick={onNewPrompt}>
+            New prompt
+          </Button>
+          <Button size="sm" variant="quiet" onClick={onNewPersona}>
+            New persona
+          </Button>
+        </div>
       }
       bodyClassName="px-[var(--space-2)] sm:px-[var(--space-1)] md:px-0"
       searchBar={{

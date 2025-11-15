@@ -16,8 +16,8 @@ import type {
   HeroPlannerHighlight,
   PlannerOverviewProps,
 } from "@/components/home"
-import { PageHeader, PageShell, Button, SectionCard } from "@/components/ui"
-import type { PageHeaderAction } from "@/components/ui"
+import { Hero, PageShell, Button, SectionCard } from "@/components/ui"
+import type { HeroAction } from "@/components/ui"
 import { PlannerProvider } from "@/components/planner"
 import { useTheme } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
@@ -133,45 +133,46 @@ const glitchHeroMetrics = [
   },
 ] as const
 
-type GlitchLandingHeroContentProps = {
+function GlitchLandingHeroMetrics() {
+  return (
+    <div className={cn(heroContentStyles.heroBody, heroContentStyles.copyColumn)}>
+      <div className={heroContentStyles.metricGrid}>
+        {glitchHeroMetrics.map((metric) => (
+          <div key={metric.id} className={heroContentStyles.metricCard}>
+            <p className={heroContentStyles.metricLabel}>{metric.label}</p>
+            <p className={heroContentStyles.metricValue}>{metric.value}</p>
+            <p className={heroContentStyles.metricHint}>{metric.hint}</p>
+          </div>
+        ))}
+      </div>
+      <div className={heroContentStyles.focusCard}>
+        <div className={heroContentStyles.focusRing}>
+          <ProgressRingIcon pct={68} size="l" />
+          <span className={heroContentStyles.focusValue}>68%</span>
+        </div>
+        <p className={heroContentStyles.focusLabel}>Focus locked</p>
+        <p className={heroContentStyles.focusHint}>
+          Flow stabilized for the current sprint window.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+type GlitchLandingHeroFigureProps = {
   themeVariant: Variant
 }
 
-function GlitchLandingHeroContent({
+function GlitchLandingHeroFigure({
   themeVariant,
-}: GlitchLandingHeroContentProps) {
+}: GlitchLandingHeroFigureProps) {
   return (
-    <div className={heroContentStyles.root}>
-      <div className={heroContentStyles.copyColumn}>
-        <div className={heroContentStyles.metricGrid}>
-          {glitchHeroMetrics.map((metric) => (
-            <div key={metric.id} className={heroContentStyles.metricCard}>
-              <p className={heroContentStyles.metricLabel}>{metric.label}</p>
-              <p className={heroContentStyles.metricValue}>{metric.value}</p>
-              <p className={heroContentStyles.metricHint}>{metric.hint}</p>
-            </div>
-          ))}
-        </div>
-        <div className={heroContentStyles.focusCard}>
-          <div className={heroContentStyles.focusRing}>
-            <ProgressRingIcon pct={68} size="l" />
-            <span className={heroContentStyles.focusValue}>68%</span>
-          </div>
-          <p className={heroContentStyles.focusLabel}>Focus locked</p>
-          <p className={heroContentStyles.focusHint}>
-            Flow stabilized for the current sprint window.
-          </p>
-        </div>
-      </div>
-      <div className={heroContentStyles.figureColumn}>
-        <div className={heroContentStyles.figureWell}>
-          <WelcomeHeroFigure
-            variant={themeVariant}
-            haloTone="subtle"
-            showGlitchRail={false}
-          />
-        </div>
-      </div>
+    <div className={heroContentStyles.figureWell}>
+      <WelcomeHeroFigure
+        variant={themeVariant}
+        haloTone="subtle"
+        showGlitchRail={false}
+      />
     </div>
   )
 }
@@ -290,7 +291,7 @@ function HomePageBody({
   overviewHeadingId,
 }: HomePageBodyProps) {
   const { hydrated } = plannerOverviewProps
-  const heroActions = React.useMemo<ReadonlyArray<PageHeaderAction>>(() => {
+  const heroActions = React.useMemo<ReadonlyArray<HeroAction>>(() => {
     const createGoalHref = `${withBasePath("/goals", { skipForNextLink: true })}?tab=goals&intent=create-goal#goal-form`
     const createReviewHref = `${withBasePath("/reviews", { skipForNextLink: true })}?intent=create-review`
 
@@ -315,7 +316,7 @@ function HomePageBody({
         className: "whitespace-nowrap shadow-depth-soft",
         label: <Link href={createGoalHref}>New Goal</Link>,
       },
-    ] satisfies ReadonlyArray<PageHeaderAction>
+    ] satisfies ReadonlyArray<HeroAction>
   }, [])
 
   useHydratedCallback(hydrated, onClientReady)
@@ -343,7 +344,7 @@ function HomePageBody({
 }
 
 type GlitchLandingLayoutProps = {
-  heroActions: ReadonlyArray<PageHeaderAction>
+  heroActions: ReadonlyArray<HeroAction>
   plannerOverviewProps: PlannerOverviewProps
   themeVariant: Variant
   heroHeadingId: string
@@ -367,7 +368,8 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <PageHeader
+        <Hero
+          variant="panel"
           className={cn(
             "col-span-full md:col-span-12",
             heroContentStyles.heroCard,
@@ -382,9 +384,11 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
           subtitle="Track your goals, activities, and drafts."
           actions={heroActions}
           actionsLabel="Home hero actions"
-          hero={<GlitchLandingHeroContent themeVariant={themeVariant} />}
-          heroClassName={heroContentStyles.hero}
-        />
+          hero={<GlitchLandingHeroFigure themeVariant={themeVariant} />}
+          heroClassName={heroContentStyles.figureColumn}
+        >
+          <GlitchLandingHeroMetrics />
+        </Hero>
       </PageShell>
       <PageShell
         as="main"
@@ -441,7 +445,7 @@ export default function HomePlannerIslandPlanner({
 
 type LegacyHomePageBodyProps = {
   plannerOverviewProps: PlannerOverviewProps
-  heroActions: ReadonlyArray<PageHeaderAction>
+  heroActions: ReadonlyArray<HeroAction>
   heroHeadingId: string
   overviewHeadingId: string
 }
@@ -466,7 +470,7 @@ LegacyHomePageBody.displayName = "LegacyHomePageBody"
 
 type LegacyLandingLayoutProps = {
   plannerOverviewProps: PlannerOverviewProps
-  heroActions: ReadonlyArray<PageHeaderAction>
+  heroActions: ReadonlyArray<HeroAction>
   heroHeadingId: string
   overviewHeadingId: string
 }
@@ -488,7 +492,8 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <PageHeader
+        <Hero
+          variant="panel"
           className="col-span-full md:col-span-12"
           headingId={heroHeadingId}
           title={

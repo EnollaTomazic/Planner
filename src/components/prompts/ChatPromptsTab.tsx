@@ -5,6 +5,7 @@ import * as React from "react";
 import { Card, GlitchNeoCard } from "@/components/ui";
 import {
   EntityForm,
+  type EntityFormHandle,
   type EntityFormOption,
   type EntityFormValues,
 } from "@/components/forms/EntityForm";
@@ -17,6 +18,11 @@ const PROMPT_CATEGORY_OPTIONS = [
   { value: "Codex review", label: "Codex review" },
   { value: "Notes", label: "Notes" },
 ] satisfies ReadonlyArray<EntityFormOption>;
+
+export interface ChatPromptsTabHandle {
+  focusCompose: (options?: FocusOptions) => void;
+  focusPersonas: (options?: FocusOptions) => void;
+}
 
 interface ChatPromptsTabProps {
   prompts: PromptWithTitle[];
@@ -33,14 +39,13 @@ const createChatComposeDefaults = (): EntityFormValues => ({
   category: "ChatGPT",
 });
 
-export function ChatPromptsTab({
-  prompts,
-  query,
-  personas,
-  savePrompt,
-  updatePrompt,
-  deletePrompt,
-}: ChatPromptsTabProps) {
+export const ChatPromptsTab = React.forwardRef<
+  ChatPromptsTabHandle,
+  ChatPromptsTabProps
+>(function ChatPromptsTab(
+  { prompts, query, personas, savePrompt, updatePrompt, deletePrompt },
+  ref,
+) {
   const composeHeadingId = React.useId();
   const personasHeadingId = React.useId();
   const libraryHeadingId = React.useId();
@@ -55,6 +60,8 @@ export function ChatPromptsTab({
   const [editingPromptId, setEditingPromptId] = React.useState<string | null>(
     null,
   );
+  const composeFormRef = React.useRef<EntityFormHandle | null>(null);
+  const personasHeadingRef = React.useRef<HTMLHeadingElement | null>(null);
 
   const resetComposeValues = React.useCallback(() => {
     const nextState = createChatComposeDefaults();
@@ -146,6 +153,19 @@ export function ChatPromptsTab({
 
   const submitLabel = editingPromptId ? "Update" : "Save";
 
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      focusCompose: (options) => {
+        composeFormRef.current?.focus(options);
+      },
+      focusPersonas: () => {
+        personasHeadingRef.current?.focus();
+      },
+    }),
+    [],
+  );
+
   return (
     <div className="flex flex-col gap-[var(--space-6)]">
       <section
@@ -164,6 +184,7 @@ export function ChatPromptsTab({
           <EntityForm
             id={`chat-prompts-form-${formId}`}
             title="New ChatGPT prompt"
+            ref={composeFormRef}
             fields={[
               {
                 id: "title",
@@ -201,7 +222,12 @@ export function ChatPromptsTab({
         className="flex flex-col gap-[var(--space-3)]"
       >
         <div className="space-y-[var(--space-1)]">
-          <h3 id={personasHeadingId} className="type-title">
+          <h3
+            id={personasHeadingId}
+            ref={personasHeadingRef}
+            className="type-title"
+            tabIndex={-1}
+          >
             Personas
           </h3>
           <p className="text-ui text-muted-foreground">
@@ -263,4 +289,6 @@ export function ChatPromptsTab({
       </section>
     </div>
   );
-}
+});
+
+ChatPromptsTab.displayName = "ChatPromptsTab";

@@ -39,6 +39,18 @@
     "segActiveBase": {
       "value": "hsl(var(--card))"
     },
+    "gradientChromeDivider": {
+      "value": "linear-gradient(\n    90deg,\n    hsl(var(--glow) / 0.75),\n    hsl(var(--accent-2)),\n    hsl(var(--glow) / 0.75)\n  )"
+    },
+    "gradientBrandmarkHalo": {
+      "value": "radial-gradient(circle at 50% 50%, hsl(var(--glow) / 0.7), transparent 70%)"
+    },
+    "gradientBrandmarkFill": {
+      "value": "linear-gradient(180deg, hsl(var(--accent-1)), hsl(var(--accent-2)))"
+    },
+    "gradientNavUnderlineGlow": {
+      "value": "linear-gradient(\n    90deg,\n    hsl(var(--glow) / 0.6),\n    hsl(var(--accent-2)),\n    hsl(var(--glow) / 0.6)\n  )"
+    },
     "lgViolet": {
       "value": "var(--ring)"
     },
@@ -701,6 +713,9 @@
       "value": "0.1"
     },
     "gradientNoiseOverlayOpacity": {
+      "value": "0.06"
+    },
+    "cardNoiseOpacity": {
       "value": "0.06"
     },
     "textureGrainOpacity": {

@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-  cleanup,
-  act,
-} from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, act } from "@testing-library/react";
 import { describe, it, beforeEach, expect, afterEach, vi } from "vitest";
 import { PromptsPage } from "@/components/prompts";
 import { ThemeProvider } from "@/lib/theme-context";
@@ -43,13 +36,14 @@ describe("PromptsPage", () => {
     fireEvent.change(textArea, { target: { value: "one" } });
     fireEvent.click(saveButton);
     await screen.findByText("First");
-    expect(screen.getByText("1 saved")).toBeInTheDocument();
+    const chatTab = screen.getByRole("tab", { name: /ChatGPT/ });
+    expect(chatTab).toHaveTextContent(/ChatGPT\s*1/);
 
     fireEvent.change(titleInput, { target: { value: "Second line" } });
     fireEvent.change(textArea, { target: { value: "Second line\nmore" } });
     fireEvent.click(saveButton);
     await screen.findByText("Second line");
-    expect(screen.getByText("2 saved")).toBeInTheDocument();
+    expect(chatTab).toHaveTextContent(/ChatGPT\s*2/);
 
     const search = screen.getByPlaceholderText("Search prompts…");
     vi.useFakeTimers();
@@ -77,9 +71,6 @@ describe("PromptsPage", () => {
     );
     const saveButton = screen.getByRole("button", { name: "Save" });
     fireEvent.click(saveButton);
-    await waitFor(() =>
-      expect(screen.getByText("0 saved")).toBeInTheDocument(),
-    );
     expect(screen.getByText("No prompts saved yet")).toBeInTheDocument();
   });
 
@@ -132,7 +123,8 @@ describe("PromptsPage", () => {
     flushWriteLocal();
 
     await screen.findByText(title);
-    expect(screen.getByText("1 saved")).toBeInTheDocument();
+    const chatTab = screen.getByRole("tab", { name: /ChatGPT/ });
+    expect(chatTab).toHaveTextContent(/ChatGPT\s*1/);
 
     const stored = window.localStorage.getItem(storageKey);
     expect(stored).toBeTruthy();
@@ -149,6 +141,8 @@ describe("PromptsPage", () => {
     );
 
     await screen.findByText(title);
-    expect(screen.getByText("1 saved")).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: /ChatGPT/ })).toHaveTextContent(
+      /ChatGPT\s*1/,
+    );
   });
 });

@@ -13,7 +13,7 @@ import type { DesignTokenGroup, GalleryNavigationData } from "@/components/galle
 import { ColorsView } from "@/components/prompts/ColorsView";
 import { ComponentsView as ComponentSpecView } from "@/components/prompts/ComponentsView";
 import {
-  PageHero,
+  Hero,
   type HeroTab,
   PageShell,
   SegmentedControl,
@@ -29,6 +29,7 @@ import { useThemeQuerySync } from "@/lib/theme-hooks";
 
 import {
   COMPONENTS_PANEL_ID,
+  COMPONENTS_PANEL_CONTROLS_ID,
   COMPONENTS_SECTION_TAB_ID_BASE,
   COMPONENTS_VIEW_TAB_ID_BASE,
   type ComponentsView,
@@ -112,6 +113,7 @@ export function ComponentsPageClient({
     sectionLabel,
     countLabel,
     countDescriptionId,
+    componentsPanelLabelledBy,
     componentsPanelRef,
     tokensPanelRef,
     handleViewChange,
@@ -159,11 +161,9 @@ export function ComponentsPageClient({
     if (categoryId) {
       ids.push(categoryId);
     }
-    if (showSectionTabs) {
-      ids.push(`${COMPONENTS_SECTION_TAB_ID_BASE}-${section}-tab`);
-    }
+    ids.push(componentsPanelLabelledBy);
     return ids.join(" ");
-  }, [categoryLabelIds, section, showSectionTabs, view]);
+  }, [categoryLabelIds, componentsPanelLabelledBy, view]);
 
   const tokensPanelLabelledBy = React.useMemo(() => {
     const ids = ["components-header"];
@@ -183,7 +183,8 @@ export function ComponentsPageClient({
           label: card.label,
           icon: <Icon className="size-[var(--space-4)]" aria-hidden />,
           id: `category-${card.id}`,
-          controls: card.id === "tokens" ? "tokens-panel" : "components-panel",
+          controls:
+            card.id === "tokens" ? "tokens-panel" : COMPONENTS_PANEL_CONTROLS_ID,
           className: "min-w-[calc(var(--space-8)*3.5)]",
         } satisfies HeroTab<ComponentsView>;
       }),
@@ -237,8 +238,11 @@ export function ComponentsPageClient({
         grid
         className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
       >
-        <PageHero
+        <Hero
+          className="col-span-full md:col-span-12"
           sticky={false}
+          glitch="subtle"
+          pageAccent="primary"
           title={
             <span
               id="components-header"
@@ -301,23 +305,22 @@ export function ComponentsPageClient({
               }
             : undefined
         }
-          searchBar={{
-            id: "components-search",
-            value: query,
-            onValueChange: setQuery,
-            debounceMs: 300,
-            label: searchLabel,
-            placeholder: searchPlaceholder,
-            round: true,
-            fieldClassName: cn(
-              "bg-[hsl(var(--surface-3)/0.82)]",
-              "border border-card-hairline-60",
-              "shadow-depth-soft",
-              "focus-within:shadow-depth-soft",
-            ),
-          }}
-          className="col-span-full"
-        >
+        searchBar={{
+          id: "components-search",
+          value: query,
+          onValueChange: setQuery,
+          debounceMs: 300,
+          label: searchLabel,
+          placeholder: searchPlaceholder,
+          round: true,
+          fieldClassName: cn(
+            "bg-[hsl(var(--surface-3)/0.82)]",
+            "border border-card-hairline-60",
+            "shadow-depth-soft",
+            "focus-within:shadow-depth-soft",
+          ),
+        }}
+      >
           {activeCategoryMeta ? (
             <div className="flex items-start gap-[var(--space-3)] text-muted-foreground">
               {ActiveCategoryIcon ? (
@@ -331,7 +334,7 @@ export function ComponentsPageClient({
               </p>
             </div>
           ) : null}
-        </PageHero>
+        </Hero>
       </PageShell>
 
       <PageShell

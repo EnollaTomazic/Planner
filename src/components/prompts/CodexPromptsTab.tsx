@@ -5,6 +5,7 @@ import * as React from "react";
 import { GlitchNeoCard } from "@/components/ui";
 import {
   EntityForm,
+  type EntityFormHandle,
   type EntityFormOption,
   type EntityFormValues,
 } from "@/components/forms/EntityForm";
@@ -17,7 +18,11 @@ const PROMPT_CATEGORY_OPTIONS = [
   { value: "Notes", label: "Notes" },
 ] satisfies ReadonlyArray<EntityFormOption>;
 
-interface CodexPromptsTabProps {
+export interface CodexPromptsTabHandle {
+  focusCompose: (options?: FocusOptions) => void;
+}
+
+export interface CodexPromptsTabProps {
   prompts: PromptWithTitle[];
   query: string;
   savePrompt: (title: string, text: string, category: string) => boolean;
@@ -31,13 +36,13 @@ const createCodexComposeDefaults = (): EntityFormValues => ({
   category: "Codex review",
 });
 
-export function CodexPromptsTab({
-  prompts,
-  query,
-  savePrompt,
-  updatePrompt,
-  deletePrompt,
-}: CodexPromptsTabProps) {
+export const CodexPromptsTab = React.forwardRef<
+  CodexPromptsTabHandle,
+  CodexPromptsTabProps
+>(function CodexPromptsTab(
+  { prompts, query, savePrompt, updatePrompt, deletePrompt },
+  ref,
+) {
   const composeHeadingId = React.useId();
   const libraryHeadingId = React.useId();
   const formId = React.useId();
@@ -51,6 +56,7 @@ export function CodexPromptsTab({
   const [editingPromptId, setEditingPromptId] = React.useState<string | null>(
     null,
   );
+  const composeFormRef = React.useRef<EntityFormHandle | null>(null);
 
   const resetComposeValues = React.useCallback(() => {
     const nextState = createCodexComposeDefaults();
@@ -142,6 +148,16 @@ export function CodexPromptsTab({
 
   const submitLabel = editingPromptId ? "Update" : "Save";
 
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      focusCompose: (options) => {
+        composeFormRef.current?.focus(options);
+      },
+    }),
+    [],
+  );
+
   return (
     <div className="flex flex-col gap-[var(--space-6)]">
       <section
@@ -161,6 +177,7 @@ export function CodexPromptsTab({
           <EntityForm
             id={`codex-prompts-form-${formId}`}
             title="New Codex prompt"
+            ref={composeFormRef}
             fields={[
               {
                 id: "title",
@@ -215,4 +232,6 @@ export function CodexPromptsTab({
       </section>
     </div>
   );
-}
+});
+
+CodexPromptsTab.displayName = "CodexPromptsTab";
