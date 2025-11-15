@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { PageShell, PageHeader, SectionCard, SectionCardBody } from "@/components/ui";
+import { Hero, PageShell, SectionCard, SectionCardBody } from "@/components/ui";
 
 import A11yPreviewClient from "./A11yPreviewClient";
 
@@ -19,7 +19,8 @@ export default function A11yPreviewPage() {
       aria-labelledby="a11y-preview-heading"
       className="py-[var(--space-6)] md:py-[var(--space-8)]"
     >
-      <PageHeader
+      <Hero
+        variant="panel"
         as="header"
         className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3"
         title="Accessibility guard rails"

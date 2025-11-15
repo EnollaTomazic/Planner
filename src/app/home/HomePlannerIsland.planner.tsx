@@ -21,8 +21,8 @@ import type {
   HeroPlannerHighlight,
   PlannerOverviewProps,
 } from "@/components/home"
-import { PageHeader, PageShell, Button, SectionCard } from "@/components/ui"
-import type { PageHeaderAction } from "@/components/ui"
+import { Hero, PageShell, Button, SectionCard } from "@/components/ui"
+import type { HeroAction } from "@/components/ui"
 import { PlannerProvider } from "@/components/planner"
 import { useTheme } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
@@ -387,7 +387,7 @@ function HomePageBody({
   overviewHeadingId,
 }: HomePageBodyProps) {
   const { hydrated } = plannerOverviewProps
-  const heroActions = React.useMemo<ReadonlyArray<PageHeaderAction>>(() => {
+  const heroActions = React.useMemo<ReadonlyArray<HeroAction>>(() => {
     const createGoalHref = `${withBasePath("/goals", { skipForNextLink: true })}?tab=goals&intent=create-goal#goal-form`
     const createReviewHref = `${withBasePath("/reviews", { skipForNextLink: true })}?intent=create-review`
 
@@ -412,7 +412,7 @@ function HomePageBody({
         className: "whitespace-nowrap shadow-depth-soft",
         label: <Link href={createGoalHref}>New Goal</Link>,
       },
-    ] satisfies ReadonlyArray<PageHeaderAction>
+    ] satisfies ReadonlyArray<HeroAction>
   }, [])
 
   useHydratedCallback(hydrated, onClientReady)
@@ -440,7 +440,7 @@ function HomePageBody({
 }
 
 type GlitchLandingLayoutProps = {
-  heroActions: ReadonlyArray<PageHeaderAction>
+  heroActions: ReadonlyArray<HeroAction>
   plannerOverviewProps: PlannerOverviewProps
   themeVariant: Variant
   heroHeadingId: string
@@ -464,7 +464,8 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <PageHeader
+        <Hero
+          variant="panel"
           className={cn(
             "col-span-full md:col-span-12",
             heroContentStyles.heroCard,
@@ -483,7 +484,7 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
           heroClassName={heroContentStyles.figureColumn}
         >
           <GlitchLandingHeroMetrics />
-        </PageHeader>
+        </Hero>
       </PageShell>
       <PageShell
         as="main"
@@ -540,7 +541,7 @@ export default function HomePlannerIslandPlanner({
 
 type LegacyHomePageBodyProps = {
   plannerOverviewProps: PlannerOverviewProps
-  heroActions: ReadonlyArray<PageHeaderAction>
+  heroActions: ReadonlyArray<HeroAction>
   heroHeadingId: string
   overviewHeadingId: string
 }
@@ -565,7 +566,7 @@ LegacyHomePageBody.displayName = "LegacyHomePageBody"
 
 type LegacyLandingLayoutProps = {
   plannerOverviewProps: PlannerOverviewProps
-  heroActions: ReadonlyArray<PageHeaderAction>
+  heroActions: ReadonlyArray<HeroAction>
   heroHeadingId: string
   overviewHeadingId: string
 }
@@ -587,7 +588,8 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <PageHeader
+        <Hero
+          variant="panel"
           className="col-span-full md:col-span-12"
           headingId={heroHeadingId}
           title={
