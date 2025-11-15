@@ -57,6 +57,8 @@ export interface PageHeaderProps extends PageHeaderElementProps {
   title: React.ReactNode;
   /** Optional supporting text beneath the title. */
   subtitle?: React.ReactNode;
+  /** Optional content rendered below the subtitle. */
+  children?: React.ReactNode;
   /** Optional collection of action buttons rendered to the right. */
   actions?: ReadonlyArray<PageHeaderAction>;
   /** Optional hero artwork displayed on either side of the copy. */
@@ -83,6 +85,7 @@ const PageHeaderInner = (
   {
     title,
     subtitle,
+    children,
     actions,
     hero,
     heroPlacement = "right",
@@ -228,6 +231,7 @@ const PageHeaderInner = (
               {subtitle}
             </p>
           ) : null}
+          {children}
         </div>
 
         {actionButtons && actionButtons.length > 0 ? (
