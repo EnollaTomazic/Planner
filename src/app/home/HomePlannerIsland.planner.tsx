@@ -16,7 +16,8 @@ import type {
   HeroPlannerHighlight,
   PlannerOverviewProps,
 } from "@/components/home"
-import { Hero, PageShell, Button, SectionCard } from "@/components/ui"
+import { PageHeader, PageShell, Button, SectionCard } from "@/components/ui"
+import type { PageHeaderAction } from "@/components/ui"
 import { PlannerProvider } from "@/components/planner"
 import { useTheme } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
@@ -133,12 +134,10 @@ const glitchHeroMetrics = [
 ] as const
 
 type GlitchLandingHeroContentProps = {
-  actions: React.ReactNode
   themeVariant: Variant
 }
 
 function GlitchLandingHeroContent({
-  actions,
   themeVariant,
 }: GlitchLandingHeroContentProps) {
   return (
@@ -163,15 +162,6 @@ function GlitchLandingHeroContent({
             Flow stabilized for the current sprint window.
           </p>
         </div>
-        {actions ? (
-          <div
-            role="group"
-            aria-label="Home hero actions"
-            className={heroContentStyles.actions}
-          >
-            {actions}
-          </div>
-        ) : null}
       </div>
       <div className={heroContentStyles.figureColumn}>
         <div className={heroContentStyles.figureWell}>
@@ -300,34 +290,32 @@ function HomePageBody({
   overviewHeadingId,
 }: HomePageBodyProps) {
   const { hydrated } = plannerOverviewProps
-  const heroActions = React.useMemo<React.ReactNode>(() => {
+  const heroActions = React.useMemo<ReadonlyArray<PageHeaderAction>>(() => {
     const createGoalHref = `${withBasePath("/goals", { skipForNextLink: true })}?tab=goals&intent=create-goal#goal-form`
     const createReviewHref = `${withBasePath("/reviews", { skipForNextLink: true })}?intent=create-review`
 
-    return (
-      <>
-        <Button
-          asChild
-          variant="default"
-          size="md"
-          tactile
-          tone="primary"
-          className="whitespace-nowrap shadow-depth-soft"
-        >
-          <Link href={createReviewHref}>New Review</Link>
-        </Button>
-        <Button
-          asChild
-          variant="default"
-          size="md"
-          tactile
-          tone="accent"
-          className="whitespace-nowrap shadow-depth-soft"
-        >
-          <Link href={createGoalHref}>New Goal</Link>
-        </Button>
-      </>
-    )
+    return [
+      {
+        id: "new-review",
+        asChild: true,
+        variant: "default",
+        size: "md",
+        tactile: true,
+        tone: "primary",
+        className: "whitespace-nowrap shadow-depth-soft",
+        label: <Link href={createReviewHref}>New Review</Link>,
+      },
+      {
+        id: "new-goal",
+        asChild: true,
+        variant: "default",
+        size: "md",
+        tactile: true,
+        tone: "accent",
+        className: "whitespace-nowrap shadow-depth-soft",
+        label: <Link href={createGoalHref}>New Goal</Link>,
+      },
+    ] satisfies ReadonlyArray<PageHeaderAction>
   }, [])
 
   useHydratedCallback(hydrated, onClientReady)
@@ -355,7 +343,7 @@ function HomePageBody({
 }
 
 type GlitchLandingLayoutProps = {
-  heroActions: React.ReactNode
+  heroActions: ReadonlyArray<PageHeaderAction>
   plannerOverviewProps: PlannerOverviewProps
   themeVariant: Variant
   heroHeadingId: string
@@ -379,25 +367,24 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <div className={cn("col-span-full md:col-span-12", heroContentStyles.heroCard)}>
-          <Hero
-            icon={<HomeIcon className="h-5 w-5" aria-hidden />}
-            title={<span id={heroHeadingId}>Planner Control Hub</span>}
-            subtitle="Track your goals, activities, and drafts."
-            frame={false}
-            glitch="off"
-            noiseLevel="none"
-            sticky={false}
-            padding="none"
-            className={heroContentStyles.hero}
-            bodyClassName={heroContentStyles.heroBody}
-          >
-            <GlitchLandingHeroContent
-              actions={heroActions}
-              themeVariant={themeVariant}
-            />
-          </Hero>
-        </div>
+        <PageHeader
+          className={cn(
+            "col-span-full md:col-span-12",
+            heroContentStyles.heroCard,
+          )}
+          headingId={heroHeadingId}
+          title={
+            <span className="inline-flex items-center gap-[var(--space-2)]">
+              <HomeIcon className="h-5 w-5" aria-hidden />
+              <span>Planner Control Hub</span>
+            </span>
+          }
+          subtitle="Track your goals, activities, and drafts."
+          actions={heroActions}
+          actionsLabel="Home hero actions"
+          hero={<GlitchLandingHeroContent themeVariant={themeVariant} />}
+          heroClassName={heroContentStyles.hero}
+        />
       </PageShell>
       <PageShell
         as="main"
@@ -454,7 +441,7 @@ export default function HomePlannerIslandPlanner({
 
 type LegacyHomePageBodyProps = {
   plannerOverviewProps: PlannerOverviewProps
-  heroActions: React.ReactNode
+  heroActions: ReadonlyArray<PageHeaderAction>
   heroHeadingId: string
   overviewHeadingId: string
 }
@@ -479,7 +466,7 @@ LegacyHomePageBody.displayName = "LegacyHomePageBody"
 
 type LegacyLandingLayoutProps = {
   plannerOverviewProps: PlannerOverviewProps
-  heroActions: React.ReactNode
+  heroActions: ReadonlyArray<PageHeaderAction>
   heroHeadingId: string
   overviewHeadingId: string
 }
@@ -501,23 +488,27 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <Hero
-          icon={<HomeIcon className="h-5 w-5" aria-hidden />}
-          title={<span id={heroHeadingId}>Planner Control Hub</span>}
-          subtitle="Track your goals, activities, and drafts."
-          tone="supportive"
-          frame={false}
-          sticky={false}
-          actions={heroActions}
-          glitch="subtle"
-          bodyClassName="space-y-[var(--space-3)] text-muted-foreground"
+        <PageHeader
           className="col-span-full md:col-span-12"
-        >
-          <p className="text-body">
-            Create goals, kick off reviews, or jump into the planner without the glitch
-            visuals.
-          </p>
-        </Hero>
+          headingId={heroHeadingId}
+          title={
+            <span className="inline-flex items-center gap-[var(--space-2)]">
+              <HomeIcon className="h-5 w-5" aria-hidden />
+              <span>Planner Control Hub</span>
+            </span>
+          }
+          subtitle={
+            <>
+              <span className="block">Track your goals, activities, and drafts.</span>
+              <span className="mt-[var(--space-2)] block text-body text-muted-foreground">
+                Create goals, kick off reviews, or jump into the planner without the
+                glitch visuals.
+              </span>
+            </>
+          }
+          actions={heroActions}
+          actionsLabel="Home hero actions"
+        />
       </PageShell>
       <PageShell
         as="main"
