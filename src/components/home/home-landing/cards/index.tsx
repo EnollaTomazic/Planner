@@ -3,17 +3,89 @@
 import * as React from "react"
 import Link from "next/link"
 
-import { Card } from "../../Card"
+import { CardContent as CardBody, CardHeader } from "@/components/ui/primitives/Card"
 import { CheckCircle } from "@/components/ui"
 import ProgressRingIcon from "@/icons/ProgressRingIcon"
 import { cn, withBasePath } from "@/lib/utils"
-
 import type {
   PlannerOverviewCalendarProps,
   PlannerOverviewFocusProps,
   PlannerOverviewGoalsProps,
   PlannerOverviewSummaryProps,
 } from "../types"
+
+type OverviewCardHeaderProps = {
+  label?: React.ReactNode
+  title?: React.ReactNode
+  description?: React.ReactNode
+  actions?: React.ReactNode
+  className?: string
+  labelClassName?: string
+  titleClassName?: string
+  descriptionClassName?: string
+  actionsClassName?: string
+}
+
+function OverviewCardHeader({
+  label,
+  title,
+  description,
+  actions,
+  className,
+  labelClassName,
+  titleClassName,
+  descriptionClassName,
+  actionsClassName,
+}: OverviewCardHeaderProps) {
+  return (
+    <CardHeader className={cn("space-y-[var(--space-3)]", className)}>
+      <div className="flex flex-wrap items-start justify-between gap-[var(--space-3)]">
+        <div className="space-y-[var(--space-1)]">
+          {label ? (
+            <p
+              className={cn(
+                "text-label text-muted-foreground",
+                labelClassName,
+              )}
+            >
+              {label}
+            </p>
+          ) : null}
+          {title ? (
+            <h3
+              className={cn(
+                "text-body font-semibold text-card-foreground tracking-[-0.01em]",
+                titleClassName,
+              )}
+            >
+              {title}
+            </h3>
+          ) : null}
+          {description ? (
+            <p
+              className={cn(
+                "text-label text-muted-foreground",
+                descriptionClassName,
+              )}
+            >
+              {description}
+            </p>
+          ) : null}
+        </div>
+        {actions ? (
+          <div
+            className={cn(
+              "flex flex-wrap items-center gap-[var(--space-2)] text-right",
+              actionsClassName,
+            )}
+          >
+            {actions}
+          </div>
+        ) : null}
+      </div>
+    </CardHeader>
+  )
+}
 
 export const SummaryCard = React.memo(function SummaryCardComponent({
   label,
@@ -22,13 +94,12 @@ export const SummaryCard = React.memo(function SummaryCardComponent({
 }: PlannerOverviewSummaryProps) {
   return (
     <>
-      <Card.Header
-        eyebrow={label}
-        eyebrowClassName="text-label text-muted-foreground"
+      <OverviewCardHeader
+        label={label}
+        labelClassName="text-label text-muted-foreground"
         title={title}
-        titleClassName="text-body font-semibold text-card-foreground tracking-[-0.01em]"
       />
-      <Card.Body className="gap-[var(--space-3)] text-card-foreground">
+      <CardBody className="flex flex-col gap-[var(--space-3)] text-card-foreground">
         <ul className="grid gap-[var(--space-2)]" role="list">
           {items.map((item) => (
             <li key={item.key}>
@@ -53,7 +124,7 @@ export const SummaryCard = React.memo(function SummaryCardComponent({
             </li>
           ))}
         </ul>
-      </Card.Body>
+      </CardBody>
     </>
   )
 })
@@ -70,12 +141,10 @@ export const FocusCard = React.memo(function FocusCardComponent({
 }: PlannerOverviewFocusProps) {
   return (
     <>
-      <Card.Header
-        eyebrow={label}
-        eyebrowClassName="text-label text-muted-foreground"
+      <OverviewCardHeader
+        label={label}
+        labelClassName="text-label text-muted-foreground"
         title={title}
-        titleClassName="text-body font-semibold text-card-foreground tracking-[-0.01em]"
-        actionsClassName="justify-end"
         actions={
           <div className="text-right">
             <p className="text-label text-muted-foreground">Progress</p>
@@ -84,8 +153,9 @@ export const FocusCard = React.memo(function FocusCardComponent({
             </p>
           </div>
         }
+        actionsClassName="justify-end"
       />
-      <Card.Body className="gap-[var(--space-3)] text-card-foreground">
+      <CardBody className="flex flex-col gap-[var(--space-3)] text-card-foreground">
         <ul className="flex flex-col gap-[var(--space-3)]" aria-live="polite">
           {tasks.length > 0 ? (
             tasks.map((task) => (
@@ -133,7 +203,7 @@ export const FocusCard = React.memo(function FocusCardComponent({
             +{remainingTasks} more task{remainingTasks === 1 ? "" : "s"} in planner
           </p>
         ) : null}
-      </Card.Body>
+      </CardBody>
     </>
   )
 })
@@ -154,12 +224,10 @@ export const MomentumCard = React.memo(function MomentumCardComponent({
 
   return (
     <>
-      <Card.Header
-        eyebrow={label}
-        eyebrowClassName="text-label text-muted-foreground"
+      <OverviewCardHeader
+        label={label}
+        labelClassName="text-label text-muted-foreground"
         title={title}
-        titleClassName="text-body font-semibold text-card-foreground tracking-[-0.01em]"
-        actionsClassName="justify-end"
         actions={
           <div className="text-right">
             <p className="text-label text-muted-foreground">Completed</p>
@@ -168,8 +236,9 @@ export const MomentumCard = React.memo(function MomentumCardComponent({
             </p>
           </div>
         }
+        actionsClassName="justify-end"
       />
-      <Card.Body className="gap-[var(--space-4)] text-card-foreground md:flex-row md:items-center md:gap-[var(--space-5)]">
+      <CardBody className="flex flex-col gap-[var(--space-4)] text-card-foreground md:flex-row md:items-center md:gap-[var(--space-5)]">
         <div className="flex items-center justify-center">
           <div className="relative flex size-[var(--ring-diameter-m)] items-center justify-center">
             <ProgressRingIcon pct={percentage} size="m" />
@@ -194,7 +263,7 @@ export const MomentumCard = React.memo(function MomentumCardComponent({
             <p className="text-label text-muted-foreground">{allCompleteMessage}</p>
           )}
         </div>
-      </Card.Body>
+      </CardBody>
     </>
   )
 })
@@ -220,15 +289,14 @@ export const CalendarCard = React.memo(function CalendarCardComponent({
 
   return (
     <>
-      <Card.Header
-        eyebrow={label}
-        eyebrowClassName="text-label text-muted-foreground"
+      <OverviewCardHeader
+        label={label}
+        labelClassName="text-label text-muted-foreground"
         title={title}
-        titleClassName="text-body font-semibold text-card-foreground tracking-[-0.01em]"
         description={description}
         descriptionClassName="text-label text-muted-foreground"
       />
-      <Card.Body className="text-card-foreground">
+      <CardBody className="text-card-foreground">
         <div className="flex overflow-x-auto rounded-card r-card-lg border border-border/60 p-[var(--space-2)]">
           <ul className="flex w-full min-w-0 gap-[var(--space-2)]" aria-label="Select focus day">
             {days.map((day) => {
@@ -276,7 +344,7 @@ export const CalendarCard = React.memo(function CalendarCardComponent({
             })}
           </ul>
         </div>
-      </Card.Body>
+      </CardBody>
     </>
   )
 })

@@ -86,7 +86,6 @@ import {
   CalendarPreview as PlannerCalendarPreview,
 } from "./previews/CalendarLayoutPreview";
 import {
-  Card as HomeCard,
   DashboardList,
   HeroPlannerCards,
   IsometricRoom,
@@ -4495,12 +4494,14 @@ const [value, setValue] = React.useState(options[0].value);
       id: "card",
       name: "Card",
       element: (
-        <HomeCard>
-          <HomeCard.Header title="Demo" />
-          <HomeCard.Body>
+        <Card>
+          <CardHeader className="space-y-[var(--space-2)]">
+            <h3 className="text-body font-semibold text-card-foreground">Demo</h3>
+          </CardHeader>
+          <CardContent>
             <p className="text-ui">Body</p>
-          </HomeCard.Body>
-        </HomeCard>
+          </CardContent>
+        </Card>
       ),
       tags: ["dashboard", "card"],
       code: `<Card>
