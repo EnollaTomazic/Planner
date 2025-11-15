@@ -58,14 +58,14 @@ const BUTTON_STATES: readonly ButtonStateSpec[] = [
     code: "<Button loading>Loading</Button>",
   },
   {
-    id: "glitch",
-    name: "Glitch overlay",
+    id: "static",
+    name: "Static overlay",
     props: {
-      children: "Glitch overlay",
-      glitch: true,
+      children: "Static overlay",
+      glitch: false,
       glitchIntensity: "glitch-overlay-button-opacity",
     },
-    code: `<Button glitch glitchIntensity="glitch-overlay-button-opacity">Glitch overlay</Button>`,
+    code: `<Button glitch={false} glitchIntensity="glitch-overlay-button-opacity">Static overlay</Button>`,
   },
 ];
 
@@ -91,8 +91,8 @@ function ButtonStatePreview({ state }: { state: ButtonStateSpec }) {
 }
 
 function ButtonGalleryPreview() {
-  const glitchState = BUTTON_STATES.find((state) => state.id === "glitch");
-  const standardStates = BUTTON_STATES.filter((state) => state.id !== "glitch");
+  const staticState = BUTTON_STATES.find((state) => state.id === "static");
+  const standardStates = BUTTON_STATES.filter((state) => state.id !== "static");
 
   return (
     <div className="flex flex-col gap-[var(--space-4)]">
@@ -141,14 +141,15 @@ function ButtonGalleryPreview() {
           <ButtonStatePreview key={state.id} state={state} />
         ))}
       </div>
-      {glitchState ? (
+      {staticState ? (
         <div className="space-y-[var(--space-1)]">
           <div className="flex flex-wrap gap-[var(--space-2)]">
-            <ButtonStatePreview state={glitchState} />
+            <ButtonStatePreview state={staticState} />
           </div>
           <p className="text-caption text-muted-foreground">
-            Glitch overlay uses theme noise tokens so Noir and Hardstuck clamp
-            the static mix for ≥3:1 contrast—keep copy on the default{" "}
+            Buttons render glitch overlays by default. Disable the overlay for
+            static captures or long-running recordings—theme noise tokens clamp
+            contrast in Noir and Hardstuck, so copy should stay on the default
             <code className="ml-[var(--space-1)]">text-foreground</code> tone.
           </p>
         </div>
@@ -186,6 +187,11 @@ export const ButtonGallery = defineGallerySection({
           type: "boolean",
           defaultValue: "false",
         },
+        {
+          name: "glitch",
+          type: "boolean",
+          defaultValue: "true",
+        },
       ],
       axes: [
         {
@@ -215,8 +221,8 @@ export const ButtonGallery = defineGallerySection({
           values: BUTTON_STATES.map(({ name, id }) => ({
             value: name,
             description:
-              id === "glitch"
-                ? "Glitch overlay relies on --glitch-overlay-button-opacity and theme noise tokens; Noir + Hardstuck clamp intensity for ≥3:1 contrast."
+              id === "static"
+                ? "Disable the glitch overlay for static captures; default buttons render with overlay noise driven by --glitch-overlay-button-opacity."
                 : undefined,
           })),
         },

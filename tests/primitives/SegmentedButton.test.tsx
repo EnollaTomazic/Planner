@@ -20,6 +20,24 @@ afterEach(() => {
 });
 
 describe("SegmentedButton", () => {
+  it("glitches by default and allows disabling the overlay", async () => {
+    const { SegmentedButton } = await import(
+      "../../src/components/ui/primitives/SegmentedButton"
+    );
+
+    const { getByRole, rerender } = render(
+      <SegmentedButton>Attack</SegmentedButton>,
+    );
+
+    expect(getByRole("button")).toHaveAttribute("data-glitch", "true");
+
+    rerender(
+      <SegmentedButton glitch={false}>Attack</SegmentedButton>,
+    );
+
+    expect(getByRole("button")).not.toHaveAttribute("data-glitch");
+  });
+
   it("prefixes the configured base path when rendered as an anchor", async () => {
     process.env.NEXT_PUBLIC_BASE_PATH = "/beta";
     vi.resetModules();

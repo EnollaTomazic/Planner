@@ -305,7 +305,7 @@ export const Button = React.forwardRef<
     children,
     loading,
     tactile = false,
-    glitch = false,
+    glitch = true,
     glitchIntensity = "glitch-overlay-button-opacity",
   } = props;
   const asChild = props.asChild ?? false;
