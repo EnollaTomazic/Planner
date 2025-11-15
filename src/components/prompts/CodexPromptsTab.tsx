@@ -4,10 +4,10 @@ import * as React from "react";
 
 import { GlitchNeoCard } from "@/components/ui";
 import {
-  EntityForm,
-  type EntityFormOption,
-  type EntityFormValues,
-} from "@/components/forms/EntityForm";
+  PromptForm,
+  type PromptCategoryOption,
+  type PromptFormValues,
+} from "./PromptForm";
 import { SavedPromptList } from "./SavedPromptList";
 import type { PromptWithTitle } from "./types";
 
@@ -15,7 +15,7 @@ const PROMPT_CATEGORY_OPTIONS = [
   { value: "ChatGPT", label: "ChatGPT" },
   { value: "Codex review", label: "Codex review" },
   { value: "Notes", label: "Notes" },
-] satisfies ReadonlyArray<EntityFormOption>;
+] satisfies ReadonlyArray<PromptCategoryOption>;
 
 interface CodexPromptsTabProps {
   prompts: PromptWithTitle[];
@@ -25,9 +25,9 @@ interface CodexPromptsTabProps {
   deletePrompt: (id: string) => boolean;
 }
 
-const createCodexComposeDefaults = (): EntityFormValues => ({
+const createCodexComposeDefaults = (): PromptFormValues => ({
   title: "",
-  prompt: "",
+  body: "",
   category: "Codex review",
 });
 
@@ -41,10 +41,11 @@ export function CodexPromptsTab({
   const composeHeadingId = React.useId();
   const libraryHeadingId = React.useId();
   const formId = React.useId();
-  const [composeValues, setComposeValues] = React.useState<EntityFormValues>(
+  const [composeValues, setComposeValues] = React.useState<PromptFormValues>(
     createCodexComposeDefaults,
   );
-  const composeValuesRef = React.useRef(composeValues);
+  const [formResetToken, setFormResetToken] = React.useState(0);
+  const composeValuesRef = React.useRef<PromptFormValues>(composeValues);
   React.useEffect(() => {
     composeValuesRef.current = composeValues;
   }, [composeValues]);
@@ -57,25 +58,26 @@ export function CodexPromptsTab({
     composeValuesRef.current = nextState;
     setComposeValues(nextState);
     setEditingPromptId(null);
+    setFormResetToken((token) => token + 1);
   }, []);
 
   const handleSave = React.useCallback(
-    (values: EntityFormValues) => {
-      const title = values.title?.trim() ?? "";
-      const prompt = values.prompt?.trim() ?? "";
-      if (!title || !prompt) {
+    (values: PromptFormValues) => {
+      const title = values.title.trim();
+      const body = values.body.trim();
+      if (!title || !body) {
         return false;
       }
 
-      const category = values.category ?? "Codex review";
+      const category = values.category || "Codex review";
       if (editingPromptId) {
-        const success = updatePrompt(editingPromptId, title, prompt);
+        const success = updatePrompt(editingPromptId, title, body);
         if (success) {
           resetComposeValues();
         }
         return success;
       }
-      const success = savePrompt(title, prompt, category);
+      const success = savePrompt(title, body, category);
       if (success) {
         resetComposeValues();
       }
@@ -84,15 +86,15 @@ export function CodexPromptsTab({
     [editingPromptId, resetComposeValues, savePrompt, updatePrompt],
   );
 
-  const handleValuesChange = React.useCallback((values: EntityFormValues) => {
+  const handleValuesChange = React.useCallback((values: PromptFormValues) => {
     const nextTitle = values.title ?? "";
-    const nextPrompt = values.prompt ?? "";
+    const nextBody = values.body ?? "";
     const nextCategory = values.category ?? "Codex review";
 
     const previous = composeValuesRef.current;
     if (
       previous.title === nextTitle &&
-      previous.prompt === nextPrompt &&
+      previous.body === nextBody &&
       previous.category === nextCategory
     ) {
       return;
@@ -100,9 +102,9 @@ export function CodexPromptsTab({
 
     const nextState = {
       title: nextTitle,
-      prompt: nextPrompt,
+      body: nextBody,
       category: nextCategory,
-    } satisfies EntityFormValues;
+    } satisfies PromptFormValues;
 
     React.startTransition(() => {
       composeValuesRef.current = nextState;
@@ -114,12 +116,13 @@ export function CodexPromptsTab({
     (prompt: PromptWithTitle) => {
       const nextState = {
         title: prompt.title,
-        prompt: prompt.text,
+        body: prompt.text,
         category: composeValuesRef.current.category ?? "Codex review",
-      } satisfies EntityFormValues;
+      } satisfies PromptFormValues;
       composeValuesRef.current = nextState;
       setComposeValues(nextState);
       setEditingPromptId(prompt.id);
+      setFormResetToken((token) => token + 1);
     },
     [],
   );
@@ -133,12 +136,6 @@ export function CodexPromptsTab({
     },
     [deletePrompt, editingPromptId, resetComposeValues],
   );
-
-  const submitDisabled = React.useMemo(() => {
-    const title = composeValues.title?.trim() ?? "";
-    const prompt = composeValues.prompt?.trim() ?? "";
-    return title.length === 0 || prompt.length === 0;
-  }, [composeValues.prompt, composeValues.title]);
 
   const submitLabel = editingPromptId ? "Update" : "Save";
 
@@ -158,37 +155,18 @@ export function CodexPromptsTab({
           </p>
         </div>
         <GlitchNeoCard className="p-[var(--space-4)]">
-          <EntityForm
+          <PromptForm
             id={`codex-prompts-form-${formId}`}
-            title="New Codex prompt"
-            fields={[
-              {
-                id: "title",
-                label: "Title",
-                placeholder: "Audit deployment plan",
-                required: true,
-              },
-              {
-                id: "category",
-                label: "Category",
-                type: "select",
-                options: PROMPT_CATEGORY_OPTIONS,
-                defaultValue: "Codex review",
-              },
-              {
-                id: "prompt",
-                label: "Prompt",
-                placeholder: "Outline review checklist…",
-                type: "textarea",
-                rows: 6,
-                required: true,
-              },
-            ]}
-            initialValues={composeValues}
+            heading="New Codex prompt"
+            values={composeValues}
+            defaultCategory="Codex review"
+            categoryOptions={PROMPT_CATEGORY_OPTIONS}
             submitLabel={submitLabel}
-            submitDisabled={submitDisabled}
             onSubmit={handleSave}
             onValuesChange={handleValuesChange}
+            titlePlaceholder="Audit deployment plan"
+            bodyPlaceholder="Outline review checklist…"
+            resetSignal={formResetToken}
           />
         </GlitchNeoCard>
       </section>

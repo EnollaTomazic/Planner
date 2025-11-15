@@ -4,10 +4,10 @@ import * as React from "react";
 
 import { Card, GlitchNeoCard } from "@/components/ui";
 import {
-  EntityForm,
-  type EntityFormOption,
-  type EntityFormValues,
-} from "@/components/forms/EntityForm";
+  PromptForm,
+  type PromptCategoryOption,
+  type PromptFormValues,
+} from "./PromptForm";
 import { SavedPromptList } from "./SavedPromptList";
 import type { Persona, PromptWithTitle } from "./types";
 import { LOCALE } from "@/lib/utils";
@@ -16,7 +16,7 @@ const PROMPT_CATEGORY_OPTIONS = [
   { value: "ChatGPT", label: "ChatGPT" },
   { value: "Codex review", label: "Codex review" },
   { value: "Notes", label: "Notes" },
-] satisfies ReadonlyArray<EntityFormOption>;
+] satisfies ReadonlyArray<PromptCategoryOption>;
 
 interface ChatPromptsTabProps {
   prompts: PromptWithTitle[];
@@ -27,9 +27,9 @@ interface ChatPromptsTabProps {
   deletePrompt: (id: string) => boolean;
 }
 
-const createChatComposeDefaults = (): EntityFormValues => ({
+const createChatComposeDefaults = (): PromptFormValues => ({
   title: "",
-  prompt: "",
+  body: "",
   category: "ChatGPT",
 });
 
@@ -45,10 +45,11 @@ export function ChatPromptsTab({
   const personasHeadingId = React.useId();
   const libraryHeadingId = React.useId();
   const formId = React.useId();
-  const [composeValues, setComposeValues] = React.useState<EntityFormValues>(
+  const [composeValues, setComposeValues] = React.useState<PromptFormValues>(
     createChatComposeDefaults,
   );
-  const composeValuesRef = React.useRef(composeValues);
+  const [formResetToken, setFormResetToken] = React.useState(0);
+  const composeValuesRef = React.useRef<PromptFormValues>(composeValues);
   React.useEffect(() => {
     composeValuesRef.current = composeValues;
   }, [composeValues]);
@@ -61,25 +62,26 @@ export function ChatPromptsTab({
     composeValuesRef.current = nextState;
     setComposeValues(nextState);
     setEditingPromptId(null);
+    setFormResetToken((token) => token + 1);
   }, []);
 
   const handleSave = React.useCallback(
-    (values: EntityFormValues) => {
-      const title = values.title?.trim() ?? "";
-      const prompt = values.prompt?.trim() ?? "";
-      if (!title || !prompt) {
+    (values: PromptFormValues) => {
+      const title = values.title.trim();
+      const body = values.body.trim();
+      if (!title || !body) {
         return false;
       }
 
-      const category = values.category ?? "ChatGPT";
+      const category = values.category || "ChatGPT";
       if (editingPromptId) {
-        const success = updatePrompt(editingPromptId, title, prompt);
+        const success = updatePrompt(editingPromptId, title, body);
         if (success) {
           resetComposeValues();
         }
         return success;
       }
-      const success = savePrompt(title, prompt, category);
+      const success = savePrompt(title, body, category);
       if (success) {
         resetComposeValues();
       }
@@ -88,15 +90,15 @@ export function ChatPromptsTab({
     [editingPromptId, resetComposeValues, savePrompt, updatePrompt],
   );
 
-  const handleValuesChange = React.useCallback((values: EntityFormValues) => {
+  const handleValuesChange = React.useCallback((values: PromptFormValues) => {
     const nextTitle = values.title ?? "";
-    const nextPrompt = values.prompt ?? "";
+    const nextBody = values.body ?? "";
     const nextCategory = values.category ?? "ChatGPT";
 
     const previous = composeValuesRef.current;
     if (
       previous.title === nextTitle &&
-      previous.prompt === nextPrompt &&
+      previous.body === nextBody &&
       previous.category === nextCategory
     ) {
       return;
@@ -104,9 +106,9 @@ export function ChatPromptsTab({
 
     const nextState = {
       title: nextTitle,
-      prompt: nextPrompt,
+      body: nextBody,
       category: nextCategory,
-    } satisfies EntityFormValues;
+    } satisfies PromptFormValues;
 
     React.startTransition(() => {
       composeValuesRef.current = nextState;
@@ -118,12 +120,13 @@ export function ChatPromptsTab({
     (prompt: PromptWithTitle) => {
       const nextState = {
         title: prompt.title,
-        prompt: prompt.text,
+        body: prompt.text,
         category: composeValuesRef.current.category ?? "ChatGPT",
-      } satisfies EntityFormValues;
+      } satisfies PromptFormValues;
       composeValuesRef.current = nextState;
       setComposeValues(nextState);
       setEditingPromptId(prompt.id);
+      setFormResetToken((token) => token + 1);
     },
     [],
   );
@@ -137,12 +140,6 @@ export function ChatPromptsTab({
     },
     [deletePrompt, editingPromptId, resetComposeValues],
   );
-
-  const submitDisabled = React.useMemo(() => {
-    const title = composeValues.title?.trim() ?? "";
-    const prompt = composeValues.prompt?.trim() ?? "";
-    return title.length === 0 || prompt.length === 0;
-  }, [composeValues.prompt, composeValues.title]);
 
   const submitLabel = editingPromptId ? "Update" : "Save";
 
@@ -161,37 +158,18 @@ export function ChatPromptsTab({
           </p>
         </div>
         <GlitchNeoCard className="p-[var(--space-4)]">
-          <EntityForm
+          <PromptForm
             id={`chat-prompts-form-${formId}`}
-            title="New ChatGPT prompt"
-            fields={[
-              {
-                id: "title",
-                label: "Title",
-                placeholder: "Review macro calls",
-                required: true,
-              },
-              {
-                id: "category",
-                label: "Category",
-                type: "select",
-                options: PROMPT_CATEGORY_OPTIONS,
-                defaultValue: "ChatGPT",
-              },
-              {
-                id: "prompt",
-                label: "Prompt",
-                placeholder: "Write your prompt or snippet…",
-                type: "textarea",
-                rows: 6,
-                required: true,
-              },
-            ]}
-            initialValues={composeValues}
+            heading="New ChatGPT prompt"
+            values={composeValues}
+            defaultCategory="ChatGPT"
+            categoryOptions={PROMPT_CATEGORY_OPTIONS}
             submitLabel={submitLabel}
-            submitDisabled={submitDisabled}
             onSubmit={handleSave}
             onValuesChange={handleValuesChange}
+            titlePlaceholder="Review macro calls"
+            bodyPlaceholder="Write your prompt or snippet…"
+            resetSignal={formResetToken}
           />
         </GlitchNeoCard>
       </section>
