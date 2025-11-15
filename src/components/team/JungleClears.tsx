@@ -243,7 +243,7 @@ const EditingRow = React.memo(function EditingRow({
   );
 
   return (
-    <div className="flex min-w-[18rem] max-w-[20rem] flex-col gap-[var(--space-2)] rounded-lg border border-dashed border-primary/40 bg-surface/90 p-[var(--space-3)]">
+    <div className="flex min-w-[18rem] max-w-[20rem] flex-col gap-[var(--space-2)] rounded-[var(--radius-xl)] border border-dashed border-primary/40 bg-surface/90 p-[var(--space-3)]">
       <Input
         aria-label="Champion"
         name="champion"
@@ -311,7 +311,7 @@ const ChampionItem = React.memo(function ChampionItem({
   return (
     <figure
       data-testid="jungle-card"
-      className="flex min-w-[8rem] max-w-[10rem] flex-col items-center gap-[var(--space-2)] rounded-lg border border-border/60 bg-surface/90 p-[var(--space-3)] text-center"
+      className="flex min-w-[8rem] max-w-[10rem] flex-col items-center gap-[var(--space-2)] rounded-[var(--radius-xl)] border border-border/60 bg-surface/90 p-[var(--space-3)] text-center"
       title={row.notes ?? undefined}
     >
       <AvatarFrame
@@ -435,7 +435,7 @@ const BucketSection = React.memo(function BucketSection({
       </div>
       <div className="flex gap-[var(--space-3)] overflow-x-auto pb-[var(--space-1)]">
         {visibleRows.length === 0 ? (
-          <div className="flex min-h-[var(--space-8)] min-w-[16rem] items-center justify-center rounded-lg border border-dashed border-border/60 bg-surface/90 px-[var(--space-3)] py-[var(--space-4)] text-sm text-muted-foreground">
+          <div className="flex min-h-[var(--space-8)] min-w-[16rem] items-center justify-center rounded-[var(--radius-xl)] border border-dashed border-border/60 bg-surface/90 px-[var(--space-3)] py-[var(--space-4)] text-sm text-muted-foreground">
             {editing ? "Add a champion to get started" : "No champions yet"}
           </div>
         ) : (
