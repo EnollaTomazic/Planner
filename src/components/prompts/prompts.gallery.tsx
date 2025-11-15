@@ -110,6 +110,7 @@ import {
 } from "@/components/reviews";
 import type { HeroPlannerHighlight, PlannerOverviewProps } from "@/components/home";
 import type { Persona, PromptWithTitle } from "./types";
+import type { PromptsTabKey } from "./tabs";
 import type { Review, Role, Pillar } from "@/lib/types";
 import { VARIANTS, defaultTheme } from "@/lib/theme";
 import type { Background, Variant } from "@/lib/theme";
@@ -1949,12 +1950,25 @@ function ToastDemo() {
 function PromptsHeaderDemo() {
   const [saved] = React.useState(6);
   const [query, setQuery] = React.useState("focus");
+  const [activeTab, setActiveTab] = React.useState<PromptsTabKey>("chat");
+  const tabCounts = React.useMemo(
+    () => ({
+      chat: saved,
+      codex: 2,
+      notes: 1,
+    }),
+    [saved],
+  );
 
   return (
     <PromptsHeader
-      count={saved}
       query={query}
       onQueryChange={setQuery}
+      activeTab={activeTab}
+      onTabChange={setActiveTab}
+      onNewPrompt={() => {}}
+      onNewPersona={() => {}}
+      tabCounts={tabCounts}
     />
   );
 }
@@ -2233,12 +2247,25 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       code: `function PromptsHeaderDemo() {
   const [saved] = React.useState(6);
   const [query, setQuery] = React.useState("focus");
+  const [activeTab, setActiveTab] = React.useState<'chat' | 'codex' | 'notes'>("chat");
+  const tabCounts = React.useMemo(
+    () => ({
+      chat: saved,
+      codex: 2,
+      notes: 1,
+    }),
+    [saved],
+  );
 
   return (
     <PromptsHeader
-      count={saved}
       query={query}
       onQueryChange={setQuery}
+      activeTab={activeTab}
+      onTabChange={setActiveTab}
+      onNewPrompt={() => {}}
+      onNewPersona={() => {}}
+      tabCounts={tabCounts}
     />
   );
 }`,
