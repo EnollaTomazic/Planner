@@ -8,6 +8,7 @@ import {
   useGlitchLandingSplash,
   useHomePlannerOverview,
   useHydratedCallback,
+  WelcomeHeroFigure,
 } from "@/components/home"
 import { Card } from "@/components/home/Card"
 import type {
@@ -16,7 +17,6 @@ import type {
   PlannerOverviewProps,
 } from "@/components/home"
 import { Hero, PageShell, Button, SectionCard } from "@/components/ui"
-import { GlitchNeoCard } from "@/components/ui/patterns"
 import { PlannerProvider } from "@/components/planner"
 import { useTheme } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
@@ -27,6 +27,7 @@ import {
   type HeroPlannerCardsFallbackContentProps,
 } from "./fallback-content"
 import styles from "../page-client.module.css"
+import heroContentStyles from "./GlitchLandingHeroContent.module.css"
 import { Home as HomeIcon } from "lucide-react"
 import ProgressRingIcon from "@/icons/ProgressRingIcon"
 
@@ -131,45 +132,56 @@ const glitchHeroMetrics = [
   },
 ] as const
 
-function GlitchLandingHeroContent() {
+type GlitchLandingHeroContentProps = {
+  actions: React.ReactNode
+  themeVariant: Variant
+}
+
+function GlitchLandingHeroContent({
+  actions,
+  themeVariant,
+}: GlitchLandingHeroContentProps) {
   return (
-    <div className="grid gap-[var(--space-4)] lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-      <div className="space-y-[var(--space-4)]">
-        <div className="grid gap-[var(--space-3)] sm:grid-cols-2">
+    <div className={heroContentStyles.root}>
+      <div className={heroContentStyles.copyColumn}>
+        <div className={heroContentStyles.metricGrid}>
           {glitchHeroMetrics.map((metric) => (
-            <GlitchNeoCard
-              key={metric.id}
-              padding="var(--space-4)"
-              className="space-y-[var(--space-2)] text-left"
-              noiseLevel="none"
-            >
-              <p className="text-label font-semibold uppercase tracking-[0.02em] text-muted-foreground">
-                {metric.label}
-              </p>
-              <p className="text-title font-semibold text-foreground">
-                {metric.value}
-              </p>
-              <p className="text-label text-muted-foreground">{metric.hint}</p>
-            </GlitchNeoCard>
+            <div key={metric.id} className={heroContentStyles.metricCard}>
+              <p className={heroContentStyles.metricLabel}>{metric.label}</p>
+              <p className={heroContentStyles.metricValue}>{metric.value}</p>
+              <p className={heroContentStyles.metricHint}>{metric.hint}</p>
+            </div>
           ))}
         </div>
-      </div>
-      <GlitchNeoCard
-        className="flex flex-col items-center gap-[var(--space-3)] text-center"
-        padding="var(--space-5)"
-        noiseLevel="subtle"
-      >
-        <div className="relative flex items-center justify-center">
-          <ProgressRingIcon pct={68} size="l" />
-          <span className="absolute text-title-lg font-semibold text-primary">
-            68%
-          </span>
+        <div className={heroContentStyles.focusCard}>
+          <div className={heroContentStyles.focusRing}>
+            <ProgressRingIcon pct={68} size="l" />
+            <span className={heroContentStyles.focusValue}>68%</span>
+          </div>
+          <p className={heroContentStyles.focusLabel}>Focus locked</p>
+          <p className={heroContentStyles.focusHint}>
+            Flow stabilized for the current sprint window.
+          </p>
         </div>
-        <p className="text-label font-semibold text-muted-foreground">Focus locked</p>
-        <p className="text-body text-muted-foreground">
-          Flow stabilized for the current sprint window.
-        </p>
-      </GlitchNeoCard>
+        {actions ? (
+          <div
+            role="group"
+            aria-label="Home hero actions"
+            className={heroContentStyles.actions}
+          >
+            {actions}
+          </div>
+        ) : null}
+      </div>
+      <div className={heroContentStyles.figureColumn}>
+        <div className={heroContentStyles.figureWell}>
+          <WelcomeHeroFigure
+            variant={themeVariant}
+            haloTone="subtle"
+            showGlitchRail={false}
+          />
+        </div>
+      </div>
     </div>
   )
 }
@@ -299,20 +311,20 @@ function HomePageBody({
           variant="default"
           size="md"
           tactile
-          tone="accent"
+          tone="primary"
           className="whitespace-nowrap shadow-depth-soft"
         >
-          <Link href={createGoalHref}>New Goal</Link>
+          <Link href={createReviewHref}>New Review</Link>
         </Button>
         <Button
           asChild
           variant="default"
           size="md"
           tactile
-          tone="primary"
+          tone="accent"
           className="whitespace-nowrap shadow-depth-soft"
         >
-          <Link href={createReviewHref}>New Review</Link>
+          <Link href={createGoalHref}>New Goal</Link>
         </Button>
       </>
     )
@@ -367,19 +379,25 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <Hero
-          icon={<HomeIcon className="h-5 w-5" aria-hidden />}
-          title={<span id={heroHeadingId}>Planner Control Hub</span>}
-          subtitle="Track your goals, activities, and drafts."
-          frame
-          glitch="subtle"
-          noiseLevel="subtle"
-          sticky={false}
-          actions={heroActions}
-          className="col-span-full md:col-span-12"
-        >
-          <GlitchLandingHeroContent />
-        </Hero>
+        <div className={cn("col-span-full md:col-span-12", heroContentStyles.heroCard)}>
+          <Hero
+            icon={<HomeIcon className="h-5 w-5" aria-hidden />}
+            title={<span id={heroHeadingId}>Planner Control Hub</span>}
+            subtitle="Track your goals, activities, and drafts."
+            frame={false}
+            glitch="off"
+            noiseLevel="none"
+            sticky={false}
+            padding="none"
+            className={heroContentStyles.hero}
+            bodyClassName={heroContentStyles.heroBody}
+          >
+            <GlitchLandingHeroContent
+              actions={heroActions}
+              themeVariant={themeVariant}
+            />
+          </Hero>
+        </div>
       </PageShell>
       <PageShell
         as="main"
