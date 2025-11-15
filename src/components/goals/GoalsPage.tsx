@@ -56,7 +56,7 @@ import { GoalsProgress } from "./GoalsProgress";
 import { GoalList } from "./GoalList";
 import { GOALS_STICKY_TOP_CLASS } from "./constants";
 
-import { usePersistentState } from "@/lib/db";
+import { usePersistentState, readLocal, removeLocal } from "@/lib/db";
 import { useGoals, ACTIVE_CAP } from "./useGoals";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
@@ -141,6 +141,19 @@ const HERO_REGION_ID = "goals-hero-region";
 const GOALS_TABS_ID_BASE = "goals-tabs";
 const getGoalsTabId = (key: Tab) => `${GOALS_TABS_ID_BASE}-${key}-tab`;
 const getGoalsPanelId = (key: Tab) => `${GOALS_TABS_ID_BASE}-${key}-panel`;
+const GOALS_TAB_STORAGE_KEY = "goals.tab.v2";
+const GOALS_TAB_SESSION_SCOPE_KEY = "goals.tab.session-scope.v1";
+
+function buildSessionScopedTabKey(sessionId: string) {
+  return `${GOALS_TAB_STORAGE_KEY}::${sessionId}`;
+}
+
+function createGoalsTabSessionId(): string {
+  if (typeof window !== "undefined" && window.crypto?.randomUUID) {
+    return window.crypto.randomUUID();
+  }
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
 
 /* ====================================================================== */
 
@@ -154,9 +167,50 @@ export function GoalsPage() {
 
 function GoalsPageContent() {
   const searchParams = useSearchParams();
-  const [tab, setTab] = usePersistentState<Tab>("goals.tab.v2", "goals", {
+  const [tabStorageKey, setTabStorageKey] = React.useState<string>(
+    GOALS_TAB_STORAGE_KEY,
+  );
+  const [tab, setTab] = usePersistentState<Tab>(tabStorageKey, "goals", {
     decode: (value) => (isTabValue(value) ? value : null),
   });
+  const hasMigratedTabKeyRef = React.useRef(false);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    try {
+      const scopeStorage = window.sessionStorage;
+      let sessionId = scopeStorage.getItem(GOALS_TAB_SESSION_SCOPE_KEY);
+      if (!sessionId || sessionId.trim().length === 0) {
+        sessionId = createGoalsTabSessionId();
+        scopeStorage.setItem(GOALS_TAB_SESSION_SCOPE_KEY, sessionId);
+      }
+      const scopedKey = buildSessionScopedTabKey(sessionId);
+      setTabStorageKey((prev) => (prev === scopedKey ? prev : scopedKey));
+    } catch {
+      setTabStorageKey(GOALS_TAB_STORAGE_KEY);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (hasMigratedTabKeyRef.current) return;
+    if (tabStorageKey === GOALS_TAB_STORAGE_KEY) return;
+    hasMigratedTabKeyRef.current = true;
+
+    const existingScoped = readLocal<Tab>(tabStorageKey);
+    if (existingScoped !== null && isTabValue(existingScoped)) {
+      if (existingScoped !== tab) {
+        setTab(existingScoped);
+      }
+    } else {
+      const legacy = readLocal<Tab>(GOALS_TAB_STORAGE_KEY);
+      if (legacy !== null && isTabValue(legacy) && legacy !== tab) {
+        setTab(legacy);
+      }
+    }
+
+    removeLocal(GOALS_TAB_STORAGE_KEY);
+  }, [tabStorageKey, tab, setTab]);
 
   const [filter, setFilter] = usePersistentState<SegmentFilterKey>(
     "goals.filter.v1",
