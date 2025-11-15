@@ -33,7 +33,7 @@ const SegmentedButton = React.forwardRef<
       href,
       onClick,
       tabIndex,
-      glitch = false,
+      glitch = true,
       depth = "flat",
       children,
       ...restProps
