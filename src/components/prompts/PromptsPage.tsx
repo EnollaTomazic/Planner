@@ -3,39 +3,46 @@
 import * as React from "react";
 
 import { PageShell } from "@/components/ui";
-import {
-  SegmentedControl,
-  type SegmentedControlOption,
-} from "@/components/ui/primitives/SegmentedControl";
 import { usePersistentState } from "@/lib/db";
 import { cn } from "@/lib/utils";
-import { ChatPromptsTab } from "./ChatPromptsTab";
+import {
+  ChatPromptsTab,
+  type ChatPromptsTabHandle,
+} from "./ChatPromptsTab";
 import { PromptsHeader } from "./PromptsHeader";
 import type { Persona, PromptWithTitle } from "./types";
 import { useChatPrompts } from "./useChatPrompts";
 import { useCodexPrompts } from "./useCodexPrompts";
+import type {
+  CodexPromptsTabHandle,
+  CodexPromptsTabProps,
+} from "./CodexPromptsTab";
 import { useNotes } from "./useNotes";
+import type { NotesTabHandle, NotesTabProps } from "./NotesTab";
 import { usePersonas } from "./usePersonas";
-
-const CodexPromptsTab = React.lazy(async () => ({
-  default: (await import("./CodexPromptsTab")).CodexPromptsTab,
-}));
-
-const NotesTab = React.lazy(async () => ({
-  default: (await import("./NotesTab")).NotesTab,
-}));
+import {
+  PROMPTS_TAB_ID_BASE,
+  PROMPTS_TAB_ITEMS,
+  type PromptsTabKey,
+} from "./tabs";
 
 const TAB_STORAGE_KEY = "prompts.tab.v1" as const;
 
-const BASE_TAB_ITEMS = [
-  { key: "chat", label: "ChatGPT" },
-  { key: "codex", label: "Codex review" },
-  { key: "notes", label: "Notes" },
-] as const;
+const LazyCodexPromptsTab = React.lazy(async () => ({
+  default: (await import("./CodexPromptsTab")).CodexPromptsTab,
+})) as React.LazyExoticComponent<
+  React.ForwardRefExoticComponent<
+    CodexPromptsTabProps & React.RefAttributes<CodexPromptsTabHandle>
+  >
+>;
 
-const PROMPTS_TAB_ID_BASE = "prompts-tabs";
-
-type PromptsTabKey = (typeof BASE_TAB_ITEMS)[number]["key"];
+const LazyNotesTab = React.lazy(async () => ({
+  default: (await import("./NotesTab")).NotesTab,
+})) as React.LazyExoticComponent<
+  React.ForwardRefExoticComponent<
+    NotesTabProps & React.RefAttributes<NotesTabHandle>
+  >
+>;
 
 export function PromptsPage() {
   const {
@@ -64,30 +71,14 @@ export function PromptsPage() {
     "chat",
   );
 
-  const tabOptions = React.useMemo<SegmentedControlOption<PromptsTabKey>[]>(() => {
-    return BASE_TAB_ITEMS.map<SegmentedControlOption<PromptsTabKey>>((item) => {
-      if (item.key === "chat") {
-        return {
-          value: item.key,
-          label: item.label,
-          badge: chatPrompts.length > 0 ? chatPrompts.length : undefined,
-        };
-      }
-      if (item.key === "codex") {
-        return {
-          value: item.key,
-          label: item.label,
-          badge: codexPrompts.length > 0 ? codexPrompts.length : undefined,
-        };
-      }
-      const hasNotes = notes.trim().length > 0;
-      return {
-        value: item.key,
-        label: item.label,
-        badge: hasNotes ? 1 : undefined,
-      };
-    });
-  }, [chatPrompts.length, codexPrompts.length, notes]);
+  const tabCounts = React.useMemo(
+    () => ({
+      chat: chatPrompts.length,
+      codex: codexPrompts.length,
+      notes: notes.trim().length > 0 ? 1 : 0,
+    }),
+    [chatPrompts.length, codexPrompts.length, notes],
+  );
 
   const activeQuery = React.useMemo(() => {
     if (activeTab === "chat") return chatQuery;
@@ -108,20 +99,120 @@ export function PromptsPage() {
     [activeTab, setChatQuery, setCodexQuery],
   );
 
-  const activeCount = React.useMemo(() => {
-    if (activeTab === "chat") return chatPrompts.length;
-    if (activeTab === "codex") return codexPrompts.length;
-    return notes.trim().length > 0 ? 1 : 0;
-  }, [activeTab, chatPrompts.length, codexPrompts.length, notes]);
+  const chatTabRef = React.useRef<ChatPromptsTabHandle | null>(null);
+  const codexTabRef = React.useRef<CodexPromptsTabHandle | null>(null);
+  const notesTabRef = React.useRef<NotesTabHandle | null>(null);
+  const pendingFocusRef = React.useRef<
+    | { type: "prompt" | "persona"; tab: PromptsTabKey }
+    | null
+  >(null);
+  const focusLoopRef = React.useRef<number | null>(null);
+  const activeTabRef = React.useRef(activeTab);
+
+  const tryFocus = React.useCallback(
+    (pending: { type: "prompt" | "persona"; tab: PromptsTabKey }) => {
+      if (pending.tab === "chat") {
+        const handle = chatTabRef.current;
+        if (!handle) return false;
+        if (pending.type === "prompt") {
+          handle.focusCompose();
+        } else {
+          handle.focusPersonas();
+        }
+        return true;
+      }
+      if (pending.tab === "codex") {
+        const handle = codexTabRef.current;
+        if (!handle) return false;
+        handle.focusCompose();
+        return true;
+      }
+      const handle = notesTabRef.current;
+      if (!handle) return false;
+      handle.focusScratchpad();
+      return true;
+    },
+    [chatTabRef, codexTabRef, notesTabRef],
+  );
+
+  const ensureFocusLoop = React.useCallback(() => {
+    if (focusLoopRef.current != null) {
+      return;
+    }
+
+    const step = () => {
+      const pending = pendingFocusRef.current;
+      if (!pending) {
+        focusLoopRef.current = null;
+        return;
+      }
+
+      if (pending.tab === activeTabRef.current && tryFocus(pending)) {
+        pendingFocusRef.current = null;
+        focusLoopRef.current = null;
+        return;
+      }
+
+      focusLoopRef.current = window.requestAnimationFrame(step);
+    };
+
+    focusLoopRef.current = window.requestAnimationFrame(step);
+  }, [tryFocus]);
+
+  React.useEffect(() => {
+    activeTabRef.current = activeTab;
+    if (pendingFocusRef.current && focusLoopRef.current == null) {
+      ensureFocusLoop();
+    }
+  }, [activeTab, ensureFocusLoop]);
+
+  React.useEffect(() => {
+    return () => {
+      if (focusLoopRef.current != null) {
+        window.cancelAnimationFrame(focusLoopRef.current);
+        focusLoopRef.current = null;
+      }
+    };
+  }, []);
+
+  const handleNewPrompt = React.useCallback(() => {
+    const target: PromptsTabKey = activeTab;
+    const action = { type: "prompt" as const, tab: target };
+    if (tryFocus(action)) {
+      pendingFocusRef.current = null;
+      return;
+    }
+
+    pendingFocusRef.current = action;
+    ensureFocusLoop();
+  }, [activeTab, ensureFocusLoop, tryFocus]);
+
+  const handleNewPersona = React.useCallback(() => {
+    const action = { type: "persona" as const, tab: "chat" as const };
+    if (activeTab === "chat" && tryFocus(action)) {
+      pendingFocusRef.current = null;
+      return;
+    }
+
+    pendingFocusRef.current = action;
+    ensureFocusLoop();
+    if (activeTab !== "chat") {
+      setActiveTab("chat");
+    }
+  }, [activeTab, ensureFocusLoop, setActiveTab, tryFocus]);
 
   return (
     <>
       <PageShell as="header" className="py-[var(--space-6)]">
         <PromptsHeader
           id="prompts-header"
-          count={activeCount}
           query={activeQuery}
           onQueryChange={handleQueryChange}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          onNewPrompt={handleNewPrompt}
+          onNewPersona={handleNewPersona}
+          tabCounts={tabCounts}
         />
       </PageShell>
 
@@ -132,17 +223,7 @@ export function PromptsPage() {
         className="space-y-[var(--space-6)] py-[var(--space-6)]"
         aria-labelledby="prompts-header"
       >
-        <SegmentedControl<PromptsTabKey>
-          options={tabOptions}
-          value={activeTab}
-          onValueChange={setActiveTab}
-          ariaLabel="Prompt workspaces"
-          size="md"
-          className="w-full"
-          idBase={PROMPTS_TAB_ID_BASE}
-        />
-
-        {BASE_TAB_ITEMS.map((item) => {
+        {PROMPTS_TAB_ITEMS.map((item) => {
           const isActive = activeTab === item.key;
           const tabId = `${PROMPTS_TAB_ID_BASE}-${item.key}-tab`;
           const panelId = `${PROMPTS_TAB_ID_BASE}-${item.key}-panel`;
@@ -151,6 +232,7 @@ export function PromptsPage() {
           if (item.key === "chat") {
             panelContent = (
               <ChatTabPanel
+                ref={chatTabRef}
                 prompts={chatFiltered}
                 query={chatQuery}
                 personas={personas}
@@ -163,6 +245,7 @@ export function PromptsPage() {
             panelContent = (
               <React.Suspense fallback={<TabFallback>Loading Codex checklist…</TabFallback>}>
                 <CodexTabPanel
+                  ref={codexTabRef}
                   prompts={codexFiltered}
                   query={codexQuery}
                   savePrompt={saveCodexPrompt}
@@ -174,7 +257,11 @@ export function PromptsPage() {
           } else {
             panelContent = (
               <React.Suspense fallback={<TabFallback>Preparing notes…</TabFallback>}>
-                <NotesTab value={notes} onChange={setNotes} />
+                <LazyNotesTab
+                  ref={notesTabRef}
+                  value={notes}
+                  onChange={setNotes}
+                />
               </React.Suspense>
             );
           }
@@ -211,14 +298,13 @@ interface ChatTabPanelProps {
   deletePrompt: (id: string) => boolean;
 }
 
-function ChatTabPanel({
-  prompts,
-  query,
-  personas,
-  savePrompt,
-  updatePrompt,
-  deletePrompt,
-}: ChatTabPanelProps) {
+const ChatTabPanel = React.forwardRef<
+  ChatPromptsTabHandle,
+  ChatTabPanelProps
+>(function ChatTabPanel(
+  { prompts, query, personas, savePrompt, updatePrompt, deletePrompt },
+  ref,
+) {
   const handleSave = React.useCallback(
     (title: string, text: string, _category: string) => savePrompt(title, text),
     [savePrompt],
@@ -226,6 +312,7 @@ function ChatTabPanel({
 
   return (
     <ChatPromptsTab
+      ref={ref}
       prompts={prompts}
       query={query}
       personas={personas}
@@ -234,7 +321,9 @@ function ChatTabPanel({
       deletePrompt={deletePrompt}
     />
   );
-}
+});
+
+ChatTabPanel.displayName = "ChatTabPanel";
 
 interface CodexTabPanelProps {
   prompts: PromptWithTitle[];
@@ -244,20 +333,21 @@ interface CodexTabPanelProps {
   deletePrompt: (id: string) => boolean;
 }
 
-function CodexTabPanel({
-  prompts,
-  query,
-  savePrompt,
-  updatePrompt,
-  deletePrompt,
-}: CodexTabPanelProps) {
+const CodexTabPanel = React.forwardRef<
+  CodexPromptsTabHandle,
+  CodexTabPanelProps
+>(function CodexTabPanel(
+  { prompts, query, savePrompt, updatePrompt, deletePrompt },
+  ref,
+) {
   const handleSave = React.useCallback(
     (title: string, text: string, _category: string) => savePrompt(title, text),
     [savePrompt],
   );
 
   return (
-    <CodexPromptsTab
+    <LazyCodexPromptsTab
+      ref={ref}
       prompts={prompts}
       query={query}
       savePrompt={handleSave}
@@ -265,7 +355,9 @@ function CodexTabPanel({
       deletePrompt={deletePrompt}
     />
   );
-}
+});
+
+CodexTabPanel.displayName = "CodexTabPanel";
 
 function TabFallback({ children }: { children: React.ReactNode }) {
   return (

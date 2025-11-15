@@ -9,7 +9,7 @@
  */
 
 import * as React from "react";
-import { Hero } from "@/components/ui/layout/Hero";
+import { Hero } from "@/components/ui";
 import { Button } from "@/components/ui/primitives/Button";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { useFocusDate, useWeek } from "./useFocusDate";

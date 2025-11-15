@@ -7,7 +7,7 @@ import {
   formatGallerySectionLabel,
   type GalleryPreviewRoute,
 } from "@/components/gallery";
-import { PageShell, PageHeader } from "@/components/ui";
+import { Hero, PageShell } from "@/components/ui";
 import {
   VARIANTS,
   VARIANT_LABELS,
@@ -285,7 +285,8 @@ export default function ThemeMatrixPage() {
       className="py-[var(--space-6)] md:py-[var(--space-8)]"
       contentClassName="md:gap-y-[var(--space-7)]"
     >
-      <PageHeader
+      <Hero
+        variant="panel"
         as="header"
         className="col-span-full"
         title="Theme matrix"

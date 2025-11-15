@@ -48,7 +48,7 @@ export function SiteChrome({ children }: SiteChromeProps) {
         >
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,hsl(var(--glow)/0.75),hsl(var(--accent-2)),hsl(var(--glow)/0.75))] opacity-80"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-chrome-divider opacity-80"
           />
 
           <Link
@@ -60,8 +60,8 @@ export function SiteChrome({ children }: SiteChromeProps) {
               aria-hidden="true"
               className="relative flex size-[var(--space-4)] items-center justify-center"
             >
-              <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_50%,hsl(var(--glow)/0.7),transparent_70%)] opacity-80" />
-              <span className="relative size-[calc(var(--space-2)+var(--spacing-0-5))] rounded-full bg-[linear-gradient(180deg,hsl(var(--accent-1)),hsl(var(--accent-2)))] shadow-[var(--shadow-glow-sm)]" />
+              <span className="absolute inset-0 rounded-full bg-brandmark-halo opacity-80" />
+              <span className="relative size-[calc(var(--space-2)+var(--spacing-0-5))] rounded-full bg-brandmark-fill shadow-glow-sm" />
             </span>
             <BrandWordmark />
           </Link>
@@ -80,7 +80,7 @@ export function SiteChrome({ children }: SiteChromeProps) {
                 variant="neo"
                 size="md"
                 onClick={openMobileNav}
-                className="shadow-[var(--shadow-glow-sm)]"
+                className="shadow-glow-sm"
               >
                 <Menu aria-hidden="true" className="size-[calc(var(--control-h-md)/2)]" />
               </IconButton>
