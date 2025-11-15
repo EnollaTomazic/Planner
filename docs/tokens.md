@@ -25,6 +25,20 @@
     hsl(var(--accent-2) / 0.8)
   ) |
 | seg-active-base | hsl(var(--card)) |
+| gradient-chrome-divider | linear-gradient(
+    90deg,
+    hsl(var(--glow) / 0.75),
+    hsl(var(--accent-2)),
+    hsl(var(--glow) / 0.75)
+  ) |
+| gradient-brandmark-halo | radial-gradient(circle at 50% 50%, hsl(var(--glow) / 0.7), transparent 70%) |
+| gradient-brandmark-fill | linear-gradient(180deg, hsl(var(--accent-1)), hsl(var(--accent-2))) |
+| gradient-nav-underline-glow | linear-gradient(
+    90deg,
+    hsl(var(--glow) / 0.6),
+    hsl(var(--accent-2)),
+    hsl(var(--glow) / 0.6)
+  ) |
 | lg-violet | var(--ring) |
 | lg-cyan | var(--accent-2) |
 | lg-pink | var(--lav-deep) |
@@ -222,8 +236,10 @@
     inset calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) var(--spacing-3)
       hsl(var(--foreground) / 0.08) |
 | shadow-ring | 0 0 var(--spacing-3) hsl(var(--ring)) |
-| shadow-depth-soft | 0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1)
-      hsl(var(--shadow-color)) |
+| shadow-depth-soft | calc(var(--spacing-2)) calc(var(--spacing-2)) var(--spacing-4)
+      hsl(var(--panel) / 0.6),
+    calc(var(--spacing-2) * -1) calc(var(--spacing-2) * -1) var(--spacing-4)
+      hsl(var(--foreground) / 0.07) |
 | shadow-glow-sm | 0 0 var(--spacing-2) var(--glow-active) |
 | shadow-glow-md | 0 0 var(--spacing-4) var(--glow-active) |
 | shadow-glow-lg | 0 0 var(--spacing-5) var(--glow-active) |
