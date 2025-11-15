@@ -2,7 +2,7 @@ import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   Header,
-  ThemeToggle,
+  ThemeSelector,
   type HeaderTab,
   type HeaderTabsProps,
 } from "@/components/ui";
@@ -32,7 +32,7 @@ const meta: Meta<typeof Header> = {
         <div className="bg-background text-foreground">
           <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-4)] px-[var(--space-6)] py-[var(--space-6)]">
             <div className="flex justify-end">
-              <ThemeToggle ariaLabel="Toggle theme" />
+              <ThemeSelector aria-label="Select theme" size="sm" />
             </div>
             <Story />
           </div>

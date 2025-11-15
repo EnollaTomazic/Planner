@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Flame, MoonStar, ShieldHalf, Sun } from "lucide-react";
 
-import { ThemeToggle } from "@/components/ui/theme/ThemeToggle";
+import { ThemeSelector } from "@/components/ui/theme/ThemeSelector";
 import { createGalleryPreview, defineGallerySection } from "@/components/gallery/registry";
 import { cn } from "@/lib/utils";
 
@@ -209,7 +209,7 @@ function RadioIconGroupGalleryPreview() {
         <p className="max-w-xl text-caption text-muted-foreground">
           Press Tab to enter the group, use arrow keys to move focus, and press Space to select the highlighted icon.
         </p>
-        <ThemeToggle ariaLabel="Preview theme" className="shrink-0" />
+        <ThemeSelector aria-label="Preview theme" size="sm" className="shrink-0" />
       </div>
       <RadioIconGroupMatrix value={value} onChange={handleValueChange} instanceId={instanceId} />
       <div className="grid gap-[var(--space-3)] md:grid-cols-2">
@@ -347,7 +347,7 @@ export const RadioIconGroupGallery = defineGallerySection({
         {
           title: "Theme parity",
           description:
-            "Pair with ThemeToggle when QA-ing to confirm glow spacing, contrast, and motion across Glitch, Aurora, Kitten, Oceanic, Citrus, Noir, and Hardstuck themes.",
+            "Pair with ThemeSelector when QA-ing to confirm glow spacing, contrast, and motion across Glitch, Aurora, Kitten, Oceanic, Citrus, Noir, and Hardstuck themes.",
           kind: "do",
         },
       ],
