@@ -133,45 +133,46 @@ const glitchHeroMetrics = [
   },
 ] as const
 
-type GlitchLandingHeroContentProps = {
+function GlitchLandingHeroMetrics() {
+  return (
+    <div className={cn(heroContentStyles.heroBody, heroContentStyles.copyColumn)}>
+      <div className={heroContentStyles.metricGrid}>
+        {glitchHeroMetrics.map((metric) => (
+          <div key={metric.id} className={heroContentStyles.metricCard}>
+            <p className={heroContentStyles.metricLabel}>{metric.label}</p>
+            <p className={heroContentStyles.metricValue}>{metric.value}</p>
+            <p className={heroContentStyles.metricHint}>{metric.hint}</p>
+          </div>
+        ))}
+      </div>
+      <div className={heroContentStyles.focusCard}>
+        <div className={heroContentStyles.focusRing}>
+          <ProgressRingIcon pct={68} size="l" />
+          <span className={heroContentStyles.focusValue}>68%</span>
+        </div>
+        <p className={heroContentStyles.focusLabel}>Focus locked</p>
+        <p className={heroContentStyles.focusHint}>
+          Flow stabilized for the current sprint window.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+type GlitchLandingHeroFigureProps = {
   themeVariant: Variant
 }
 
-function GlitchLandingHeroContent({
+function GlitchLandingHeroFigure({
   themeVariant,
-}: GlitchLandingHeroContentProps) {
+}: GlitchLandingHeroFigureProps) {
   return (
-    <div className={heroContentStyles.root}>
-      <div className={heroContentStyles.copyColumn}>
-        <div className={heroContentStyles.metricGrid}>
-          {glitchHeroMetrics.map((metric) => (
-            <div key={metric.id} className={heroContentStyles.metricCard}>
-              <p className={heroContentStyles.metricLabel}>{metric.label}</p>
-              <p className={heroContentStyles.metricValue}>{metric.value}</p>
-              <p className={heroContentStyles.metricHint}>{metric.hint}</p>
-            </div>
-          ))}
-        </div>
-        <div className={heroContentStyles.focusCard}>
-          <div className={heroContentStyles.focusRing}>
-            <ProgressRingIcon pct={68} size="l" />
-            <span className={heroContentStyles.focusValue}>68%</span>
-          </div>
-          <p className={heroContentStyles.focusLabel}>Focus locked</p>
-          <p className={heroContentStyles.focusHint}>
-            Flow stabilized for the current sprint window.
-          </p>
-        </div>
-      </div>
-      <div className={heroContentStyles.figureColumn}>
-        <div className={heroContentStyles.figureWell}>
-          <WelcomeHeroFigure
-            variant={themeVariant}
-            haloTone="subtle"
-            showGlitchRail={false}
-          />
-        </div>
-      </div>
+    <div className={heroContentStyles.figureWell}>
+      <WelcomeHeroFigure
+        variant={themeVariant}
+        haloTone="subtle"
+        showGlitchRail={false}
+      />
     </div>
   )
 }
@@ -382,9 +383,11 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
           subtitle="Track your goals, activities, and drafts."
           actions={heroActions}
           actionsLabel="Home hero actions"
-          hero={<GlitchLandingHeroContent themeVariant={themeVariant} />}
-          heroClassName={heroContentStyles.hero}
-        />
+          hero={<GlitchLandingHeroFigure themeVariant={themeVariant} />}
+          heroClassName={heroContentStyles.figureColumn}
+        >
+          <GlitchLandingHeroMetrics />
+        </PageHeader>
       </PageShell>
       <PageShell
         as="main"
