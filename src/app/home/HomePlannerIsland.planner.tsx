@@ -3,6 +3,7 @@
 import * as React from "react"
 import type { CSSProperties } from "react"
 import dynamic from "next/dynamic"
+import Image from "next/image"
 import Link from "next/link"
 import {
   useGlitchLandingSplash,
@@ -380,6 +381,38 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
         <div className={cn("col-span-full md:col-span-12", heroContentStyles.heroCard)}>
+          <div className={heroContentStyles.heroDecorations} aria-hidden>
+            <div
+              className={cn(
+                heroContentStyles.heroDecoration,
+                heroContentStyles.heroDecorationAgnes,
+              )}
+            >
+              <Image
+                src="/images/agnes.svg"
+                alt=""
+                width={320}
+                height={320}
+                sizes="(min-width: 1024px) 260px, (min-width: 768px) 200px, 0px"
+                aria-hidden
+              />
+            </div>
+            <div
+              className={cn(
+                heroContentStyles.heroDecoration,
+                heroContentStyles.heroDecorationNoxi,
+              )}
+            >
+              <Image
+                src="/images/noxi.svg"
+                alt=""
+                width={300}
+                height={300}
+                sizes="(min-width: 1024px) 240px, (min-width: 768px) 180px, 0px"
+                aria-hidden
+              />
+            </div>
+          </div>
           <Hero
             icon={<HomeIcon className="h-5 w-5" aria-hidden />}
             title={<span id={heroHeadingId}>Planner Control Hub</span>}

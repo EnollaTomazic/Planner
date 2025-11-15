@@ -8,6 +8,65 @@
   overflow: hidden;
 }
 
+.heroDecorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heroDecoration {
+  position: absolute;
+  display: none;
+  width: min(240px, 42vw);
+  filter: drop-shadow(0 var(--space-2) var(--space-4) hsl(var(--surface) / 0.25));
+  animation: heroPlannerFloat 9s ease-in-out infinite;
+}
+
+.heroDecoration :global(img) {
+  width: 100%;
+  height: auto;
+}
+
+.heroDecorationAgnes {
+  top: clamp(-6rem, -8vw, -4rem);
+  left: clamp(-1rem, 8vw, 6rem);
+}
+
+.heroDecorationNoxi {
+  bottom: clamp(-5rem, -8vw, -3rem);
+  right: clamp(-1rem, 6vw, 5rem);
+  width: min(220px, 36vw);
+}
+
+@media (min-width: 48rem) {
+  .heroDecoration {
+    display: block;
+  }
+}
+
+@media (min-width: 64rem) {
+  .heroDecorationAgnes {
+    top: clamp(-5rem, -6vw, -2.5rem);
+    left: clamp(-2rem, 6vw, 4rem);
+  }
+
+  .heroDecorationNoxi {
+    bottom: clamp(-4rem, -6vw, -1rem);
+    right: clamp(-2rem, 4vw, 2rem);
+  }
+}
+
+@media (min-width: 80rem) {
+  .heroDecorationAgnes {
+    left: clamp(0rem, 5vw, 6rem);
+  }
+
+  .heroDecorationNoxi {
+    right: clamp(0rem, 4vw, 3rem);
+  }
+}
+
 .heroCard::after {
   content: "";
   position: absolute;
@@ -26,6 +85,17 @@
   position: relative;
   z-index: 1;
   width: 100%;
+}
+
+@keyframes heroPlannerFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
 }
 
 .hero {
