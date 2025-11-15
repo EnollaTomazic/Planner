@@ -70,15 +70,15 @@ const ICON_BUTTON_STATES: readonly IconButtonStateSpec[] = [
     code: "<IconButton loading aria-label=\"Loading\">\n  <Plus />\n</IconButton>",
   },
   {
-    id: "glitch",
-    name: "Glitch overlay",
+    id: "static",
+    name: "Static overlay",
     props: {
-      "aria-label": "Glitch overlay",
+      "aria-label": "Static overlay",
       children: <Plus aria-hidden />,
-      glitch: true,
+      glitch: false,
       glitchIntensity: "glitch-overlay-button-opacity",
     },
-    code: "<IconButton glitch glitchIntensity=\"glitch-overlay-button-opacity\" aria-label=\"Glitch overlay\">\n  <Plus />\n</IconButton>",
+    code: "<IconButton glitch={false} glitchIntensity=\"glitch-overlay-button-opacity\" aria-label=\"Static overlay\">\n  <Plus />\n</IconButton>",
   },
 ];
 
@@ -130,9 +130,9 @@ function IconButtonStatePreview({ state }: { state: IconButtonStateSpec }) {
 const ICON_BUTTON_SIZES = ["sm", "md", "lg", "xl"] as const;
 
 function IconButtonGalleryPreview() {
-  const glitchState = ICON_BUTTON_STATES.find((state) => state.id === "glitch");
+  const staticState = ICON_BUTTON_STATES.find((state) => state.id === "static");
   const standardIconStates = ICON_BUTTON_STATES.filter(
-    (state) => state.id !== "glitch",
+    (state) => state.id !== "static",
   );
 
   return (
@@ -168,15 +168,15 @@ function IconButtonGalleryPreview() {
           <IconButtonStatePreview key={state.id} state={state} />
         ))}
       </div>
-      {glitchState ? (
+      {staticState ? (
         <div className="space-y-[var(--space-1)]">
           <div className="flex flex-wrap gap-[var(--space-2)]">
-            <IconButtonStatePreview state={glitchState} />
+            <IconButtonStatePreview state={staticState} />
           </div>
           <p className="text-caption text-muted-foreground">
-            Default variant glitch tokens hue-shift per theme; Noir and
-            Hardstuck thin the ring/halo alpha to hold ≥3:1 contrast around the
-            control silhouette.
+            Icon buttons ship with glitch overlays enabled. Disable them for
+            static captures or long recordings—the hue-shifted tokens keep Noir
+            and Hardstuck above ≥3:1 contrast along the control silhouette.
           </p>
         </div>
       ) : null}
@@ -214,6 +214,11 @@ export const IconButtonGallery = defineGallerySection({
           type: "boolean",
           defaultValue: "false",
         },
+        {
+          name: "glitch",
+          type: "boolean",
+          defaultValue: "true",
+        },
       ],
       axes: [
         {
@@ -235,8 +240,8 @@ export const IconButtonGallery = defineGallerySection({
             ({ name, id }) => ({
               value: name,
               description:
-                id === "glitch"
-                  ? "Glitch overlay uses theme hue + alpha adjustments so Noir and Hardstuck keep the halo readable."
+                id === "static"
+                  ? "Disable the glitch overlay for still captures; icon buttons default to the hue-shifted overlay tokens."
                   : undefined,
             }),
           ),

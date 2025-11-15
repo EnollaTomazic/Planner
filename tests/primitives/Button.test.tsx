@@ -116,14 +116,18 @@ describe("Button", () => {
     expect(content).not.toMatch(/\bpx-(5|6)\b/);
   });
 
-  it("passes data-glitch through", () => {
-    const { getByRole } = render(
-      <Button glitch>
-        Glitched
-      </Button>,
-    );
+  it("glitches by default", () => {
+    const { getByRole } = render(<Button>Glitched</Button>);
 
     expect(getByRole("button")).toHaveAttribute("data-glitch", "true");
+  });
+
+  it("allows disabling the glitch overlay", () => {
+    const { getByRole } = render(
+      <Button glitch={false}>Static</Button>,
+    );
+
+    expect(getByRole("button")).not.toHaveAttribute("data-glitch");
   });
 
   it("references glitch overlay tokens", () => {

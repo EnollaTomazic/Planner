@@ -41,6 +41,26 @@ describe("IconButton", () => {
     });
   });
 
+  it("glitches by default", () => {
+    const { getByRole } = render(
+      <IconButton aria-label="Default glitch">
+        <svg />
+      </IconButton>,
+    );
+
+    expect(getByRole("button")).toHaveAttribute("data-glitch", "true");
+  });
+
+  it("allows disabling the glitch overlay", () => {
+    const { getByRole } = render(
+      <IconButton glitch={false} aria-label="No glitch">
+        <svg />
+      </IconButton>,
+    );
+
+    expect(getByRole("button")).not.toHaveAttribute("data-glitch");
+  });
+
   const iconCases = [
     ["xs", "[&_svg]:size-[calc(var(--control-h-xs)/2)]"],
     ["sm", "[&_svg]:size-[calc(var(--control-h-sm)/2)]"],
