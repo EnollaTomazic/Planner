@@ -1,18 +1,19 @@
 import React from "react";
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
-import { PageHeader, type PageHeaderAction } from "@/components/ui/layout/PageHeader";
+import { Hero, type HeroAction, type HeroPanelProps } from "@/components/ui";
 
 afterEach(cleanup);
 
-describe("PageHeader", () => {
-  const baseProps = {
+describe("Hero panel variant", () => {
+  const baseProps: HeroPanelProps = {
+    variant: "panel",
     title: "Planner overview",
     subtitle: "Keep your team synced with goals and reviews",
-  } as const;
+  };
 
   it("renders title and subtitle with the expected typography", () => {
-    render(<PageHeader {...baseProps} />);
+    render(<Hero {...baseProps} />);
 
     const heading = screen.getByRole("heading", { name: baseProps.title });
     expect(heading.tagName.toLowerCase()).toBe("h1");
@@ -25,12 +26,12 @@ describe("PageHeader", () => {
   });
 
   it("renders provided actions using the shared button component", () => {
-    const actions: PageHeaderAction[] = [
+    const actions: HeroAction[] = [
       { id: "primary", label: "New goal" },
       { id: "secondary", label: "View reports", variant: "quiet" },
     ];
 
-    render(<PageHeader {...baseProps} actions={actions} />);
+    render(<Hero {...baseProps} actions={actions} />);
 
     const buttons = actions.map((action) =>
       screen.getByRole("button", { name: action.label }),
@@ -44,7 +45,7 @@ describe("PageHeader", () => {
 
   it("supports placing hero artwork on the left side", () => {
     render(
-      <PageHeader
+      <Hero
         {...baseProps}
         hero={<div data-testid="hero-art" />}
         heroPlacement="left"
@@ -58,7 +59,7 @@ describe("PageHeader", () => {
   });
 
   it("allows customizing the heading level", () => {
-    render(<PageHeader {...baseProps} headingLevel={3} />);
+    render(<Hero {...baseProps} headingLevel={3} />);
 
     const heading = screen.getByRole("heading", { level: 3, name: baseProps.title });
     expect(heading.tagName.toLowerCase()).toBe("h3");

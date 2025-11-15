@@ -4,7 +4,7 @@
 import * as React from "react";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
 import { IconButton } from "@/components/ui/primitives/IconButton";
-import { Hero } from "@/components/ui/layout/Hero";
+import { Hero } from "@/components/ui";
 import { SegmentedButton } from "@/components/ui/primitives/SegmentedButton";
 import { useScopedCssVars } from "@/components/ui/hooks/useScopedCssVars";
 import { TimerRing } from "./TimerRing";

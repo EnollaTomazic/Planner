@@ -13,7 +13,7 @@ import type { DesignTokenGroup, GalleryNavigationData } from "@/components/galle
 import { ColorsView } from "@/components/prompts/ColorsView";
 import { ComponentsView as ComponentSpecView } from "@/components/prompts/ComponentsView";
 import {
-  PageHero,
+  Hero,
   type HeroTab,
   PageShell,
   SegmentedControl,
@@ -237,8 +237,11 @@ export function ComponentsPageClient({
         grid
         className="py-[var(--space-6)] md:py-[var(--space-7)] lg:py-[var(--space-8)]"
       >
-        <PageHero
+        <Hero
+          className="col-span-full md:col-span-12"
           sticky={false}
+          glitch="subtle"
+          pageAccent="primary"
           title={
             <span
               id="components-header"
@@ -301,23 +304,22 @@ export function ComponentsPageClient({
               }
             : undefined
         }
-          searchBar={{
-            id: "components-search",
-            value: query,
-            onValueChange: setQuery,
-            debounceMs: 300,
-            label: searchLabel,
-            placeholder: searchPlaceholder,
-            round: true,
-            fieldClassName: cn(
-              "bg-[hsl(var(--surface-3)/0.82)]",
-              "border border-card-hairline-60",
-              "shadow-depth-soft",
-              "focus-within:shadow-depth-soft",
-            ),
-          }}
-          className="col-span-full"
-        >
+        searchBar={{
+          id: "components-search",
+          value: query,
+          onValueChange: setQuery,
+          debounceMs: 300,
+          label: searchLabel,
+          placeholder: searchPlaceholder,
+          round: true,
+          fieldClassName: cn(
+            "bg-[hsl(var(--surface-3)/0.82)]",
+            "border border-card-hairline-60",
+            "shadow-depth-soft",
+            "focus-within:shadow-depth-soft",
+          ),
+        }}
+      >
           {activeCategoryMeta ? (
             <div className="flex items-start gap-[var(--space-3)] text-muted-foreground">
               {ActiveCategoryIcon ? (
@@ -331,7 +333,7 @@ export function ComponentsPageClient({
               </p>
             </div>
           ) : null}
-        </PageHero>
+        </Hero>
       </PageShell>
 
       <PageShell
