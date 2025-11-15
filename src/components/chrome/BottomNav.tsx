@@ -105,15 +105,15 @@ export function BottomNav({
                   data-state={derivedState}
                   data-busy={ariaBusy || undefined}
                   className={cn(
-                  "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-[var(--ring-size-2)] focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
-                  "data-[state=default]:text-[hsl(var(--fg-muted))] data-[state=default]:hover:text-[hsl(var(--accent-1))]",
-                  "data-[state=active]:text-[hsl(var(--accent-1-contrast))] data-[state=active]:ring-[var(--ring-size-2)] data-[state=active]:ring-[var(--theme-ring)]",
-                  "data-[state=hover]:text-[hsl(var(--accent-1))] motion-safe:data-[state=hover]:-translate-y-0.5 motion-reduce:data-[state=hover]:transform-none",
-                  "data-[state=focus-visible]:text-[hsl(var(--accent-1))] data-[state=focus-visible]:ring-[var(--ring-size-2)] data-[state=focus-visible]:ring-[var(--theme-ring)]",
-                  "data-[state=disabled]:text-[hsl(var(--fg-muted))] data-[state=disabled]:pointer-events-none data-[state=disabled]:opacity-disabled",
-                  "data-[state=syncing]:text-[hsl(var(--accent-1-contrast))]",
-                  ariaDisabled && "pointer-events-none"
-                )}
+                    "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-[var(--ring-size-2)] focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
+                    "data-[state=default]:text-muted-foreground data-[state=default]:hover:text-accent",
+                    "data-[state=active]:text-accent-contrast data-[state=active]:ring-[var(--ring-size-2)] data-[state=active]:ring-[var(--theme-ring)]",
+                    "data-[state=hover]:text-accent motion-safe:data-[state=hover]:-translate-y-0.5 motion-reduce:data-[state=hover]:transform-none",
+                    "data-[state=focus-visible]:text-accent data-[state=focus-visible]:ring-[var(--ring-size-2)] data-[state=focus-visible]:ring-[var(--theme-ring)]",
+                    "data-[state=disabled]:text-muted-foreground data-[state=disabled]:pointer-events-none data-[state=disabled]:opacity-disabled",
+                    "data-[state=syncing]:text-accent-contrast",
+                    ariaDisabled && "pointer-events-none"
+                  )}
               >
                 <span className="[&_svg]:size-[var(--space-4)] [&_svg]:stroke-[var(--icon-stroke-150)]">
                   <Icon aria-hidden="true" />
