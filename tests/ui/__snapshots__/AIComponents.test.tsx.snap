@@ -153,12 +153,25 @@ exports[`AIRetryErrorBubble > invokes retry handler and snapshots the layout 1`]
       class="pt-[var(--space-1-5)]"
     >
       <button
-        class="_neu_0e7b1b _root_2452a7 relative inline-flex items-center justify-center rounded-card r-card-md border font-medium tracking-[0.02em] transition-all duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none [--neu-radius:var(--radius-card)] h-[var(--control-h-sm)] text-label [&_svg]:size-[var(--space-4)] gap-[var(--space-2)] px-[var(--space-3)] [--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)] text-danger [--neu-surface:hsl(var(--danger)/0.12)] border-danger/35"
+        class="_neu_0e7b1b _root_2452a7 group/glitch isolate overflow-hidden relative inline-flex items-center justify-center rounded-card r-card-md border font-medium tracking-[0.02em] transition-all duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] data-[disabled=true]:opacity-disabled data-[disabled=true]:pointer-events-none [--neu-radius:var(--radius-card)] h-[var(--control-h-sm)] text-label [&_svg]:size-[var(--space-4)] gap-[var(--space-2)] px-[var(--space-3)] [--hover:hsl(var(--danger)/0.1)] [--active:hsl(var(--danger)/0.2)] text-danger [--neu-surface:hsl(var(--danger)/0.12)] border-danger/35"
+        data-glitch="true"
         data-tone="danger"
         data-variant="quiet"
         tabindex="0"
         type="button"
       >
+        <span
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
+          style="--blob-overlay-hover: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity-subtle, 1)); --blob-overlay-target: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity-default, 1)); --blob-overlay-active: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity, var(--glitch-intensity-default, 1))); --blob-noise-hover: calc(var(--glitch-noise-level) * var(--glitch-intensity-subtle, 1)); --blob-noise-target: calc(var(--glitch-noise-level) * var(--glitch-intensity-default, 1)); --blob-noise-active-target: calc(var(--glitch-noise-level) * var(--glitch-intensity, var(--glitch-intensity-default, 1)));"
+        >
+          <span
+            class="absolute inset-0 rounded-[inherit] bg-gradient-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-blob-drift group-hover/glitch:opacity-[var(--blob-overlay-hover,var(--blob-overlay-target))] group-focus-visible/glitch:opacity-[var(--blob-overlay-target)] group-focus-within/glitch:opacity-[var(--blob-overlay-target)] group-active/glitch:opacity-[var(--blob-overlay-active,var(--blob-overlay-target))]"
+          />
+          <span
+            class="absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-glitch-noise group-hover/glitch:opacity-[var(--blob-noise-hover,var(--blob-noise-target))] group-focus-visible/glitch:opacity-[var(--blob-noise-target)] group-focus-within/glitch:opacity-[var(--blob-noise-target)] group-active/glitch:opacity-[var(--blob-noise-active-target,var(--blob-noise-target))]"
+          />
+        </span>
         <span
           class="relative z-10 inline-flex items-center gap-[var(--space-1)]"
         >

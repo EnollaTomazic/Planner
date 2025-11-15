@@ -3,8 +3,8 @@
 import type { CSSProperties } from 'react'
 
 import { PageShell, Skeleton } from '@/app/_loading'
-import { PageHeader, SectionCard, SectionCardBody, SectionCardHeader } from '@/components/ui'
-import type { PageHeaderAction } from '@/components/ui'
+import { Hero, SectionCard, SectionCardBody, SectionCardHeader } from '@/components/ui'
+import type { HeroAction } from '@/components/ui'
 import { cn } from '@/lib/utils'
 import styles from '../page-client.module.css'
 
@@ -84,7 +84,8 @@ function GlitchLandingFallback({
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
         aria-labelledby={heroHeadingId}
       >
-        <PageHeader
+        <Hero
+          variant="panel"
           as="section"
           className={cn('col-span-full', sectionCardOverlayClassName)}
           headingId={heroHeadingId}
@@ -138,7 +139,8 @@ function LegacyHomeFallback({
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
         aria-labelledby={heroHeadingId}
       >
-        <PageHeader
+        <Hero
+          variant="panel"
           as="section"
           className={cn('col-span-full', sectionCardOverlayClassName)}
           headingId={heroHeadingId}
@@ -307,7 +309,7 @@ function LegacyHomeFallback({
   )
 }
 
-function createHeroActionSkeletons(): ReadonlyArray<PageHeaderAction> {
+function createHeroActionSkeletons(): ReadonlyArray<HeroAction> {
   return [
     {
       id: 'hero-action-skeleton-primary',

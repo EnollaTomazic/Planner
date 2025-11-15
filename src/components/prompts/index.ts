@@ -17,7 +17,6 @@ export { NeomorphicHeroFrameDemo } from "./NeomorphicHeroFrameDemo";
 export { NotesTab } from "./NotesTab";
 export { OnboardingTabs } from "./OnboardingTabs";
 export { OutlineGlowDemo } from "./OutlineGlowDemo";
-export { PageHeaderDemo } from "./PageHeaderDemo";
 export { CalendarPreview, CalendarPreviewError, CalendarPreviewLoading } from "./previews/CalendarLayoutPreview";
 export { WeekPickerDemo } from "./previews/WeekPickerDemo";
 export { PromptsComposePanel } from "./PromptsComposePanel";
