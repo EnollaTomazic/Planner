@@ -703,8 +703,11 @@
     "gradientNoiseOverlayOpacity": {
       "value": "0.06"
     },
+    "textureNoiseOpacity": {
+      "value": "0.05"
+    },
     "textureGrainOpacity": {
-      "value": "0.04"
+      "value": "var(--texture-noise-opacity)"
     },
     "textureScanlineOpacity": {
       "value": "0.06"

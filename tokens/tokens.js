@@ -206,7 +206,7 @@ export default {
     "inset var(--spacing-1) var(--spacing-1) var(--spacing-3)\n      hsl(var(--panel) / 0.85),\n    inset calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) var(--spacing-3)\n      hsl(var(--foreground) / 0.08)",
   shadowRing: "0 0 var(--spacing-3) hsl(var(--ring))",
   shadowDepthSoft:
-    "calc(var(--spacing-2)) calc(var(--spacing-2)) var(--spacing-4) hsl(var(--panel) / 0.6),\n    calc(var(--spacing-2) * -1) calc(var(--spacing-2) * -1) var(--spacing-4) hsl(var(--foreground) / 0.07)",
+    "calc(var(--spacing-2)) calc(var(--spacing-2)) var(--spacing-4)\n      hsl(var(--panel) / 0.6),\n    calc(var(--spacing-2) * -1) calc(var(--spacing-2) * -1) var(--spacing-4)\n      hsl(var(--foreground) / 0.07)",
   shadowGlowSm: "0 0 var(--spacing-2) var(--glow-active)",
   shadowGlowMd: "0 0 var(--spacing-4) var(--glow-active)",
   shadowGlowLg: "0 0 var(--spacing-5) var(--glow-active)",
@@ -260,7 +260,8 @@ export default {
   skeletonFill: "hsl(var(--foreground) / 0.08)",
   gradientNoiseOpacity: "0.1",
   gradientNoiseOverlayOpacity: "0.06",
-  textureGrainOpacity: "0.04",
+  textureNoiseOpacity: "0.05",
+  textureGrainOpacity: "var(--texture-noise-opacity)",
   textureScanlineOpacity: "0.06",
   shadowInnerSm:
     "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)",

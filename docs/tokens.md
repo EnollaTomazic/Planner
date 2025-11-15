@@ -222,8 +222,10 @@
     inset calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) var(--spacing-3)
       hsl(var(--foreground) / 0.08) |
 | shadow-ring | 0 0 var(--spacing-3) hsl(var(--ring)) |
-| shadow-depth-soft | 0 var(--spacing-1) var(--spacing-3) calc(var(--spacing-1) * -1)
-      hsl(var(--shadow-color)) |
+| shadow-depth-soft | calc(var(--spacing-2)) calc(var(--spacing-2)) var(--spacing-4)
+      hsl(var(--panel) / 0.6),
+    calc(var(--spacing-2) * -1) calc(var(--spacing-2) * -1) var(--spacing-4)
+      hsl(var(--foreground) / 0.07) |
 | shadow-glow-sm | 0 0 var(--spacing-2) var(--glow-active) |
 | shadow-glow-md | 0 0 var(--spacing-4) var(--glow-active) |
 | shadow-glow-lg | 0 0 var(--spacing-5) var(--glow-active) |
@@ -275,8 +277,8 @@
 | skeleton-fill | hsl(var(--foreground) / 0.08) |
 | gradient-noise-opacity | 0.1 |
 | gradient-noise-overlay-opacity | 0.06 |
-| card-noise-opacity | 0.06 |
-| texture-grain-opacity | 0.04 |
+| texture-noise-opacity | 0.05 |
+| texture-grain-opacity | var(--texture-noise-opacity) |
 | texture-scanline-opacity | 0.06 |
 | shadow-inner-sm | inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18) |
 | shadow-inner-md | inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28) |

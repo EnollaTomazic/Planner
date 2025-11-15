@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 export type NoiseLevel = "none" | "subtle" | "moderate";
 
 const noiseOverlayOpacity: Record<Exclude<NoiseLevel, "none">, string> = {
-  subtle: "opacity-[var(--card-noise-opacity,0.06)]",
-  moderate: "opacity-[calc(var(--card-noise-opacity,0.06)*1.3333)]",
+  subtle: "opacity-[var(--texture-noise-opacity,0.05)]",
+  moderate: "opacity-[calc(var(--texture-noise-opacity,0.05)*1.3333)]",
 };
 
 export interface NoiseOverlayProps
@@ -27,6 +27,7 @@ export function NoiseOverlay({ level = "subtle", className, ...props }: NoiseOve
     <span
       aria-hidden
       data-noise-overlay="true"
+      data-noise-level={level}
       className={cn(
         "pointer-events-none absolute inset-0 z-[-1] overflow-hidden rounded-[inherit]",
         className,

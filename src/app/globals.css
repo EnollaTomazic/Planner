@@ -92,6 +92,8 @@
     --team-glitch-accent-color: var(--glitch-accent-color);
     --team-glitch-accent-blur: var(--glitch-accent-blur);
     --team-glitch-accent-shadow: var(--glitch-accent-shadow);
+    --texture-noise-opacity: 0.05;
+    --texture-grain-opacity: var(--texture-noise-opacity);
     --texture-grain-strength: 1;
     --texture-scanline-strength: 1;
     --theme-noise-level-none: 0;
@@ -101,7 +103,10 @@
     --theme-scanline-opacity-subtle: 0.045;
     --theme-scanline-opacity-moderate: 0.06;
     --glitch-noise-level: calc(
-      var(--glitch-static-opacity, var(--texture-grain-opacity, 0.04)) *
+      var(
+          --glitch-static-opacity,
+          var(--texture-noise-opacity, var(--texture-grain-opacity, 0.04))
+        ) *
         var(--texture-grain-strength, 1)
     );
     --font-sans-fallback: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
@@ -153,6 +158,12 @@
   html[data-texture-scanlines='off'],
   body[data-texture-scanlines='off'] {
     --texture-scanline-strength: 0;
+  }
+
+  html.bg-vhs,
+  html.bg-vhs body {
+    --texture-noise-opacity: 0.04;
+    --texture-grain-strength: 0.5;
   }
 
   html[data-texture='minimal'] .bg-noise,
@@ -290,7 +301,10 @@
     background-size: 160px 160px;
     background-repeat: repeat;
     opacity: calc(
-      var(--texture-grain-opacity, 0.04) * var(--texture-grain-strength, 1)
+      var(
+          --texture-noise-opacity,
+          var(--texture-grain-opacity, 0.04)
+        ) * var(--texture-grain-strength, 1)
     );
     mix-blend-mode: soft-light;
   }
@@ -341,7 +355,10 @@
     );
     background-size: 140px 140px;
     opacity: calc(
-      var(--texture-grain-opacity, 0.04) * var(--texture-grain-strength, 1)
+      var(
+          --texture-noise-opacity,
+          var(--texture-grain-opacity, 0.04)
+        ) * var(--texture-grain-strength, 1)
     );
   }
 
@@ -702,8 +719,10 @@ html.bg-intense body::after {
     var(--asset-noise-url-default)
   );
   opacity: calc(
-    var(--gradient-noise-opacity, var(--texture-grain-opacity, 0.04)) *
-      var(--texture-grain-strength, 1)
+    var(
+        --gradient-noise-opacity,
+        var(--texture-noise-opacity, var(--texture-grain-opacity, 0.04))
+      ) * var(--texture-grain-strength, 1)
   );
 }
 
