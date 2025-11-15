@@ -2,7 +2,11 @@
 
 import * as React from "react";
 
-import { Card } from "./Card";
+import {
+  Card,
+  CardContent as CardBody,
+  CardHeader,
+} from "@/components/ui/primitives/Card";
 import type {
   PlannerOverviewActivityPoint,
   PlannerOverviewActivityProps,
@@ -17,6 +21,23 @@ interface ActivityCardProps extends PlannerOverviewActivityProps {
 const CHART_HEIGHT = 72;
 const CHART_WIDTH = 100;
 
+function ActivityCardHeader({ loading }: { loading?: boolean }) {
+  return (
+    <CardHeader className="space-y-[var(--space-2)]">
+      {loading ? (
+        <Skeleton
+          ariaHidden={false}
+          className="h-[var(--space-4)] w-[min(50%,var(--space-20))]"
+        />
+      ) : (
+        <h3 className="text-body font-semibold text-card-foreground">
+          Weekly activity
+        </h3>
+      )}
+    </CardHeader>
+  );
+}
+
 export function ActivityCard({
   loading,
   hasData,
@@ -28,8 +49,8 @@ export function ActivityCard({
   if (loading) {
     return (
       <Card>
-        <Card.Header title="Weekly activity" loading />
-        <Card.Body className={cn("space-y-[var(--space-4)]", className)}>
+        <ActivityCardHeader loading />
+        <CardBody className={cn("space-y-[var(--space-4)]", className)}>
           <div className="space-y-[var(--space-2)]">
             <Skeleton className="h-[var(--space-4)] w-1/3" ariaHidden={false} />
             <Skeleton className="h-[var(--space-8)] w-1/2" ariaHidden={false} />
@@ -40,7 +61,7 @@ export function ActivityCard({
             radius="card"
             ariaHidden={false}
           />
-        </Card.Body>
+        </CardBody>
       </Card>
     );
   }
@@ -55,8 +76,8 @@ export function ActivityCard({
 
   return (
     <Card>
-      <Card.Header title="Weekly activity" />
-      <Card.Body
+      <ActivityCardHeader />
+      <CardBody
         className={cn(
           "grid gap-[var(--space-4)]",
           hasData ? "grid-rows-[auto_auto]" : "grid-rows-[auto]",
@@ -84,7 +105,7 @@ export function ActivityCard({
           )}
         </div>
         {hasData ? <ActivityChart points={points} /> : null}
-      </Card.Body>
+      </CardBody>
     </Card>
   );
 }

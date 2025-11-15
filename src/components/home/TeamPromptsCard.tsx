@@ -3,7 +3,12 @@
 import * as React from "react";
 import Link from "next/link";
 
-import { Card } from "./Card";
+import {
+  Card,
+  CardContent as CardBody,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/primitives/Card";
 import { Button } from "@/components/ui";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn, withBasePath } from "@/lib/utils";
@@ -66,16 +71,24 @@ export function TeamPromptsCard() {
     <div className={cn(layoutGridClassName, styles.root, "md:grid-cols-12")}>
       <div className={cn("md:col-span-6", styles.column)}>
         <Card>
-          <Card.Header title="Team quick actions" />
-          <Card.Body className="text-card-foreground">
+          <CardHeader className="space-y-[var(--space-2)]">
+            <h3 className="text-body font-semibold text-card-foreground">
+              Team quick actions
+            </h3>
+          </CardHeader>
+          <CardBody className="text-card-foreground">
             <TeamQuickActions actions={teamQuickActions} />
-          </Card.Body>
+          </CardBody>
         </Card>
       </div>
       <div className={cn("md:col-span-6", styles.column)}>
         <Card>
-          <Card.Header title="Prompts cockpit" />
-          <Card.Body className={cn(styles.stack, "text-card-foreground")}>
+          <CardHeader className="space-y-[var(--space-2)]">
+            <h3 className="text-body font-semibold text-card-foreground">
+              Prompts cockpit
+            </h3>
+          </CardHeader>
+          <CardBody className={cn(styles.stack, "text-card-foreground")}>
             {suggestions.map((suggestion) => {
               if (suggestion.status === "draft") {
                 return (
@@ -146,14 +159,14 @@ export function TeamPromptsCard() {
                 </article>
               );
             })}
-          </Card.Body>
-          <Card.Footer className="flex justify-end text-card-foreground">
+          </CardBody>
+          <CardFooter className="flex justify-end border-t border-card-hairline/60 text-card-foreground">
             <Button asChild size="sm" variant="default">
               <Link href={withBasePath("/prompts", { skipForNextLink: true })}>
                 Explore Prompts
               </Link>
             </Button>
-          </Card.Footer>
+          </CardFooter>
         </Card>
       </div>
     </div>
