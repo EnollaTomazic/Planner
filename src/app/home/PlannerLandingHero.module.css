@@ -1,0 +1,128 @@
+.card {
+  position: relative;
+  display: grid;
+  gap: clamp(var(--space-6), 4vw, var(--space-8));
+  border-radius: var(--radius-3xl);
+  border: 1px solid hsl(var(--border) / 0.38);
+  padding: clamp(var(--space-6), 4vw, var(--space-8));
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 120% at 15% 10%, hsl(var(--accent-1) / 0.18), transparent 70%),
+    radial-gradient(120% 150% at 85% 15%, hsl(var(--accent-2) / 0.14), transparent 70%),
+    linear-gradient(180deg, hsl(var(--surface) / 0.35), transparent 65%);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  z-index: 0;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(var(--space-6), 4vw, var(--space-7));
+}
+
+@media (min-width: 64rem) {
+  .content {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: center;
+  }
+}
+
+.copyColumn {
+  display: grid;
+  gap: clamp(var(--space-4), 2.5vw, var(--space-6));
+  max-width: 60ch;
+}
+
+@media (min-width: 64rem) {
+  .copyColumn {
+    grid-column: span 7;
+  }
+}
+
+.iconBadge {
+  width: var(--space-10);
+  height: var(--space-10);
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-2xl);
+  background: color-mix(in oklab, hsl(var(--surface)) 70%, hsl(var(--surface-2)) 30%);
+  border: 1px solid hsl(var(--border) / 0.4);
+  box-shadow: 0 var(--space-2) var(--space-5) hsl(var(--surface) / 0.35);
+}
+
+.labelStack {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.eyebrow {
+  font-size: var(--font-label);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+.headline {
+  font-size: clamp(2.4rem, 4vw, 3.1rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  color: hsl(var(--foreground));
+}
+
+.body {
+  font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+  line-height: 1.6;
+  color: hsl(var(--muted-foreground));
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+@media (min-width: 48rem) {
+  .actions {
+    justify-content: flex-start;
+  }
+}
+
+.illustrationColumn {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 64rem) {
+  .illustrationColumn {
+    grid-column: span 5;
+    justify-content: flex-end;
+  }
+}
+
+.illustrationWell {
+  width: min(420px, 100%);
+  filter: drop-shadow(0 var(--space-4) var(--space-10) hsl(var(--surface) / 0.35));
+}
+
+@media (min-width: 80rem) {
+  .illustrationWell {
+    width: min(480px, 100%);
+  }
+}
+
+.illustrationWell :global(img) {
+  display: block;
+  width: 100%;
+  height: auto;
+}

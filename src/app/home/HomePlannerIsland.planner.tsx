@@ -3,12 +3,12 @@
 import * as React from "react"
 import type { CSSProperties } from "react"
 import dynamic from "next/dynamic"
+import Image from "next/image"
 import Link from "next/link"
 import {
   useGlitchLandingSplash,
   useHomePlannerOverview,
   useHydratedCallback,
-  WelcomeHeroFigure,
 } from "@/components/home"
 import { Card } from "@/components/home/Card"
 import type {
@@ -16,7 +16,7 @@ import type {
   HeroPlannerHighlight,
   PlannerOverviewProps,
 } from "@/components/home"
-import { Hero, PageShell, Button, SectionCard } from "@/components/ui"
+import { PageShell, Button, SectionCard } from "@/components/ui"
 import { PlannerProvider } from "@/components/planner"
 import { useTheme } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
@@ -27,9 +27,8 @@ import {
   type HeroPlannerCardsFallbackContentProps,
 } from "./fallback-content"
 import styles from "../page-client.module.css"
-import heroContentStyles from "./GlitchLandingHeroContent.module.css"
+import heroStyles from "./PlannerLandingHero.module.css"
 import { Home as HomeIcon } from "lucide-react"
-import ProgressRingIcon from "@/icons/ProgressRingIcon"
 
 type HomeSplashProps = {
   active: boolean
@@ -117,69 +116,64 @@ const homeBackdropNoiseStyle = {
 } as CSSProperties
 const sectionCardOverlayClassName = 'relative'
 
-const glitchHeroMetrics = [
-  {
-    id: "next-pulse",
-    label: "Next pulse",
-    value: "Retro sync · 3:00 PM",
-    hint: "Confidence steady at medium.",
-  },
-  {
-    id: "ambient-streak",
-    label: "Ambient streak",
-    value: "4 days",
-    hint: "Signals hold — keep logging highlights.",
-  },
-] as const
-
-type GlitchLandingHeroContentProps = {
+type PlannerLandingHeroProps = {
   actions: React.ReactNode
-  themeVariant: Variant
+  heroHeadingId: string
 }
 
-function GlitchLandingHeroContent({
-  actions,
-  themeVariant,
-}: GlitchLandingHeroContentProps) {
+function PlannerHeroIllustration() {
   return (
-    <div className={heroContentStyles.root}>
-      <div className={heroContentStyles.copyColumn}>
-        <div className={heroContentStyles.metricGrid}>
-          {glitchHeroMetrics.map((metric) => (
-            <div key={metric.id} className={heroContentStyles.metricCard}>
-              <p className={heroContentStyles.metricLabel}>{metric.label}</p>
-              <p className={heroContentStyles.metricValue}>{metric.value}</p>
-              <p className={heroContentStyles.metricHint}>{metric.hint}</p>
+    <div className={heroStyles.illustrationWell} aria-hidden>
+      <Image
+        src="/images/planner-hero-illustration.svg"
+        alt=""
+        width={640}
+        height={480}
+        priority
+      />
+    </div>
+  )
+}
+
+function PlannerLandingHero({ actions, heroHeadingId }: PlannerLandingHeroProps) {
+  return (
+    <div
+      className={cn(
+        "col-span-full md:col-span-12",
+        "bg-panel-tilt-strong shadow-depth-soft shadow-inner-sm",
+        heroStyles.card,
+      )}
+    >
+      <div className={heroStyles.content}>
+        <div className={heroStyles.copyColumn}>
+          <div className="flex items-start gap-[var(--space-4)]">
+            <span className={heroStyles.iconBadge}>
+              <HomeIcon className="h-5 w-5" aria-hidden />
+            </span>
+            <div className={heroStyles.labelStack}>
+              <span className={heroStyles.eyebrow}>Planner control hub</span>
+              <h1 id={heroHeadingId} className={heroStyles.headline}>
+                Plan your day, track goals, and review games
+              </h1>
             </div>
-          ))}
-        </div>
-        <div className={heroContentStyles.focusCard}>
-          <div className={heroContentStyles.focusRing}>
-            <ProgressRingIcon pct={68} size="l" />
-            <span className={heroContentStyles.focusValue}>68%</span>
           </div>
-          <p className={heroContentStyles.focusLabel}>Focus locked</p>
-          <p className={heroContentStyles.focusHint}>
-            Flow stabilized for the current sprint window.
+          <p className={heroStyles.body}>
+            Build momentum with the same dashboard in both the glitch and legacy
+            planners. Capture highlights, pin goals, and line up the next review
+            in one place.
           </p>
+          {actions ? (
+            <div
+              role="group"
+              aria-label="Planner hero actions"
+              className={heroStyles.actions}
+            >
+              {actions}
+            </div>
+          ) : null}
         </div>
-        {actions ? (
-          <div
-            role="group"
-            aria-label="Home hero actions"
-            className={heroContentStyles.actions}
-          >
-            {actions}
-          </div>
-        ) : null}
-      </div>
-      <div className={heroContentStyles.figureColumn}>
-        <div className={heroContentStyles.figureWell}>
-          <WelcomeHeroFigure
-            variant={themeVariant}
-            haloTone="subtle"
-            showGlitchRail={false}
-          />
+        <div className={heroStyles.illustrationColumn}>
+          <PlannerHeroIllustration />
         </div>
       </div>
     </div>
@@ -379,25 +373,10 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <div className={cn("col-span-full md:col-span-12", heroContentStyles.heroCard)}>
-          <Hero
-            icon={<HomeIcon className="h-5 w-5" aria-hidden />}
-            title={<span id={heroHeadingId}>Planner Control Hub</span>}
-            subtitle="Track your goals, activities, and drafts."
-            frame={false}
-            glitch="off"
-            noiseLevel="none"
-            sticky={false}
-            padding="none"
-            className={heroContentStyles.hero}
-            bodyClassName={heroContentStyles.heroBody}
-          >
-            <GlitchLandingHeroContent
-              actions={heroActions}
-              themeVariant={themeVariant}
-            />
-          </Hero>
-        </div>
+        <PlannerLandingHero
+          actions={heroActions}
+          heroHeadingId={heroHeadingId}
+        />
       </PageShell>
       <PageShell
         as="main"
@@ -501,23 +480,10 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <Hero
-          icon={<HomeIcon className="h-5 w-5" aria-hidden />}
-          title={<span id={heroHeadingId}>Planner Control Hub</span>}
-          subtitle="Track your goals, activities, and drafts."
-          tone="supportive"
-          frame={false}
-          sticky={false}
+        <PlannerLandingHero
           actions={heroActions}
-          glitch="subtle"
-          bodyClassName="space-y-[var(--space-3)] text-muted-foreground"
-          className="col-span-full md:col-span-12"
-        >
-          <p className="text-body">
-            Create goals, kick off reviews, or jump into the planner without the glitch
-            visuals.
-          </p>
-        </Hero>
+          heroHeadingId={heroHeadingId}
+        />
       </PageShell>
       <PageShell
         as="main"
