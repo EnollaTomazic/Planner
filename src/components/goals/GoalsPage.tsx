@@ -961,6 +961,7 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
     const titleId = React.useId();
     const metricId = React.useId();
     const notesId = React.useId();
+    const metricHelpId = React.useId();
 
     const resetValues = React.useCallback(() => {
       setValues(createDefaultGoalFormValues());
@@ -1054,10 +1055,13 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
               </Label>
               <AIExplainTooltip
                 triggerLabel="How metrics help"
-                explanation="Metrics surface on each goal card so you can track progress against a specific target. Leave it blank if a number doesn't help."
+                explanation="Metrics surface on each goal card so you can track progress against a specific target. Enter the value you want to hit—type just the number for percentages, like 75 for 75%. Leave it blank if a number doesn't help."
                 tone="neutral"
               />
             </div>
+            <p id={metricHelpId} className="sr-only">
+              Optional metric for tracking progress. Enter the value only; for percentages, type the number such as 75 for seventy-five percent.
+            </p>
             <Input
               id={metricId}
               type="text"
@@ -1065,15 +1069,8 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
               placeholder="75"
               value={values.metric}
               onChange={handleInputChange("metric")}
-              hasEndSlot
-            >
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute right-[var(--space-4)] top-1/2 -translate-y-1/2 text-label text-muted-foreground"
-              >
-                %
-              </span>
-            </Input>
+              aria-describedby={metricHelpId}
+            />
           </div>
 
           <div className="space-y-[var(--space-2)]">
