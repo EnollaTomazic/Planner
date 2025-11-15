@@ -78,7 +78,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
       "mx-auto w-full",
       frame
         ? cn(
-            "group/hero relative z-0 isolate overflow-hidden rounded-card r-card-lg border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph",
+            "group/hero relative z-0 isolate overflow-hidden veil-soft r-card-lg border border-border/55 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph",
             "before:pointer-events-none before:absolute before:inset-0 before:z-[1] before:rounded-[inherit] before:content-['']",
             "before:bg-glitch-overlay before:opacity-[var(--hero-glitch-overlay-opacity,0.08)] before:mix-blend-soft-light",
             "motion-reduce:before:opacity-[calc(var(--hero-glitch-overlay-opacity,0.08)*0.75)]",
@@ -94,7 +94,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
       : "relative z-[2] grid grid-cols-1 md:grid-cols-12 items-start md:items-center gap-y-[var(--space-2)] md:gap-y-0 md:gap-x-[var(--space-4)] lg:gap-x-[var(--space-5)] py-[var(--space-4)] md:py-[var(--space-5)]";
 
     const slotWellSurface = cn(
-      "group/hero-slot relative isolate flex w-full min-w-0 flex-col gap-[var(--space-2)] overflow-hidden rounded-card r-card-lg border border-border/45 bg-card/70 px-[var(--space-4)] py-[var(--space-3)] text-foreground",
+      "group/hero-slot relative isolate flex w-full min-w-0 flex-col gap-[var(--space-2)] overflow-hidden veil-soft r-card-lg border border-border/45 px-[var(--space-4)] py-[var(--space-3)] text-foreground",
       "[--neo-inset-shadow:var(--depth-shadow-inner)] neo-inset hero-focus transition-[box-shadow,transform] duration-motion-md ease-out",
       "motion-reduce:transform-none motion-reduce:transition-none focus-within:ring-1 focus-within:ring-ring/60",
       "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:content-[''] before:rounded-[inherit] before:bg-hero-slot-highlight before:opacity-70 before:mix-blend-screen",
@@ -138,7 +138,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     const raisedLabelBar = cn(
       "flex w-full min-w-0 flex-wrap items-start md:flex-nowrap md:items-center",
       clusterGapClass,
-      "z-0 overflow-hidden rounded-card r-card-lg border border-border/45 bg-card/70 px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-4)] text-foreground shadow-depth-soft backdrop-blur-md hero2-frame hero2-neomorph",
+      "z-0 overflow-hidden veil-soft r-card-lg border border-border/45 px-[var(--space-4)] py-[var(--space-4)] md:px-[var(--space-4)] text-foreground shadow-depth-soft hero2-frame hero2-neomorph",
     );
 
     const utilities = cn(
