@@ -5,7 +5,7 @@ import {
   TabBar,
   SearchBar,
   Button,
-  ThemeToggle,
+  ThemeSelector,
   type TabItem,
 } from "@/components/ui";
 import type {
@@ -117,7 +117,7 @@ function HeroPreview({
         actions: {
           node: (
             <div className="flex flex-wrap items-center gap-[var(--space-2)]">
-              <ThemeToggle ariaLabel="Toggle theme" className="shrink-0" />
+              <ThemeSelector aria-label="Select theme" size="sm" className="shrink-0" />
               <Button size="sm" variant="neo">
                 Save view
               </Button>
@@ -166,7 +166,7 @@ function HeroPreview({
               Actions
             </dt>
             <dd className="text-ui text-foreground">
-              Buttons and ThemeToggle showcase hover, pressed, loading, and disabled feedback.
+              Buttons and ThemeSelector showcase hover, pressed, loading, and disabled feedback.
             </dd>
           </div>
         </dl>

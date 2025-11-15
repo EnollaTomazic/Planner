@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Badge, Button, Hero } from "@/components/ui";
+import { Badge, Button, Hero, ThemeSelector } from "@/components/ui";
 import {
   HERO_ILLUSTRATION_STATES,
   type HeroIllustrationState,
@@ -63,6 +63,7 @@ export default function HeroImagesPreviewClient({
   const [autoPlayEnabled, setAutoPlayEnabled] = React.useState(
     autoplay && !reduceMotion,
   );
+  const themeSelectorLabelId = React.useId();
 
   React.useEffect(() => {
     setIndex(targetIndex);
@@ -178,24 +179,19 @@ export default function HeroImagesPreviewClient({
 
       <div className="space-y-[var(--space-4)]">
         <div className="space-y-[var(--space-2)]">
-          <p className="text-caption font-medium uppercase tracking-[0.2em] text-muted-foreground">
+          <p
+            id={themeSelectorLabelId}
+            className="text-caption font-medium uppercase tracking-[0.2em] text-muted-foreground"
+          >
             Theme variants
           </p>
-          <div className="flex flex-wrap gap-[var(--space-2)]">
-            {VARIANTS.map(({ id, label }) => (
-              <Button
-                key={id}
-                size="sm"
-                type="button"
-                variant={currentCombo.variant === id ? "default" : "neo"}
-                tone={currentCombo.variant === id ? "accent" : "primary"}
-                aria-pressed={currentCombo.variant === id}
-                onClick={() => handleVariantClick(id)}
-              >
-                {label}
-              </Button>
-            ))}
-          </div>
+          <ThemeSelector
+            aria-labelledby={themeSelectorLabelId}
+            value={currentCombo.variant}
+            onValueChange={handleVariantClick}
+            size="sm"
+            syncTheme={false}
+          />
         </div>
 
         <div className="space-y-[var(--space-2)]">

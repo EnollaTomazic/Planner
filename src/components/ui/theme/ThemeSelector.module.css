@@ -1,0 +1,105 @@
+.root {
+  width: 100%;
+}
+
+.option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.preview {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  justify-content: center;
+  width: calc(var(--space-6) + var(--space-1));
+  height: calc(var(--space-3) * 1.6);
+  border-radius: calc(var(--radius-lg) * 0.85);
+  overflow: hidden;
+  border: 1px solid hsl(var(--card-hairline) / 0.75);
+  background:
+    linear-gradient(
+      135deg,
+      hsl(var(--surface) / 0.92),
+      hsl(var(--surface-2) / 0.86)
+    );
+  box-shadow:
+    inset 0 0 0 1px hsl(var(--surface) / 0.28),
+    inset 0 12px 22px hsl(var(--shadow-color) / 0.18);
+}
+
+.previewAccent {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      120deg,
+      hsl(var(--accent-1) / 0.75),
+      hsl(var(--accent-2) / 0.7)
+    );
+  mix-blend-mode: screen;
+  opacity: 0.75;
+}
+
+.previewSheen {
+  position: absolute;
+  inset: -30% -45%;
+  background:
+    linear-gradient(
+      120deg,
+      transparent 0%,
+      hsl(var(--highlight) / 0.25) 45%,
+      transparent 70%
+    );
+  transform: rotate(8deg);
+  mix-blend-mode: screen;
+  opacity: 0.6;
+}
+
+.previewNoise {
+  position: absolute;
+  inset: 0;
+  background:
+    var(
+      --glitch-noise-image,
+      var(--asset-noise-url, var(--asset-noise-url-default))
+    );
+  background-size: cover;
+  mix-blend-mode: screen;
+  opacity: calc(var(--glitch-noise-level, 0.05) * 2.4);
+  animation: theme-selector-noise 2.8s steps(7, end) infinite;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  color: inherit;
+}
+
+@keyframes theme-selector-noise {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  25% {
+    transform: translate3d(-4%, 2%, 0);
+  }
+  50% {
+    transform: translate3d(3%, -3%, 0);
+  }
+  75% {
+    transform: translate3d(-2%, -4%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .previewNoise {
+    animation: none;
+  }
+}

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { IssueBadge } from "@/components/ui";
+import { IssueBadge, ThemeSelector } from "@/components/ui";
 import { Badge } from "@/components/ui/primitives/Badge";
 import type { IssueBadgeSeverity } from "@/components/ui/primitives/IssueBadge";
 import {
@@ -30,8 +30,6 @@ import {
   type ComponentIssueSeverity,
   type ComponentIssueStatus,
 } from "@/components/gallery-page/component-issues";
-
-import segmentedButtonStyles from "@/components/ui/primitives/SegmentedButton.module.css";
 
 import { getGalleryPreview } from "./constants";
 
@@ -112,56 +110,9 @@ export function ThemeMatrix({
   );
   const headingId = `${entryId}-themes-heading`;
   const controlLabelId = `${entryId}-themes-control-label`;
-  const buttonRefs = React.useRef(new Map<Variant, HTMLButtonElement>());
-
-  const registerButton = React.useCallback(
-    (variantId: Variant, node: HTMLButtonElement | null) => {
-      const refs = buttonRefs.current;
-      if (!node) {
-        refs.delete(variantId);
-        return;
-      }
-      refs.set(variantId, node);
-    },
-    [],
-  );
-
   React.useEffect(() => {
     setActiveVariant(baseTheme.variant);
   }, [baseTheme.variant, entryId]);
-
-  const handleControlKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
-      const key = event.key;
-      if (!VARIANTS.length) {
-        return;
-      }
-      if (key !== "ArrowRight" && key !== "ArrowLeft" && key !== "ArrowUp" && key !== "ArrowDown") {
-        return;
-      }
-      event.preventDefault();
-      const currentIndex = VARIANTS.findIndex(
-        ({ id }) => id === activeVariant,
-      );
-      if (currentIndex === -1) {
-        const nextVariant = VARIANTS[0];
-        if (nextVariant) {
-          setActiveVariant(nextVariant.id);
-          buttonRefs.current.get(nextVariant.id)?.focus();
-        }
-        return;
-      }
-      const delta = key === "ArrowRight" || key === "ArrowDown" ? 1 : -1;
-      const nextIndex =
-        (currentIndex + delta + VARIANTS.length) % VARIANTS.length;
-      const nextVariant = VARIANTS[nextIndex];
-      if (nextVariant) {
-        setActiveVariant(nextVariant.id);
-        buttonRefs.current.get(nextVariant.id)?.focus();
-      }
-    },
-    [activeVariant],
-  );
 
   const previewNode = React.useMemo(() => {
     if (!previewRenderer) {
@@ -198,37 +149,14 @@ export function ThemeMatrix({
         >
           Preview this component across Planner themes.
         </p>
-        <div
-          role="radiogroup"
+        <ThemeSelector
           aria-labelledby={controlLabelId}
-          className="flex flex-wrap gap-[var(--space-2)]"
-          onKeyDown={handleControlKeyDown}
-        >
-          {VARIANTS.map((variant) => {
-            const selected = variant.id === activeVariant;
-            return (
-              <button
-                key={variant.id}
-                type="button"
-                role="radio"
-                aria-checked={selected}
-                className={cn(
-                  segmentedButtonStyles.root,
-                  "min-h-[var(--control-h-md)] px-[var(--space-4)] py-[var(--space-2)] text-ui",
-                  "text-muted-foreground",
-                  selected && "is-active text-foreground",
-                )}
-                tabIndex={selected ? 0 : -1}
-                onClick={() => setActiveVariant(variant.id)}
-                data-selected={selected ? "true" : undefined}
-                data-depth="raised"
-                ref={(node) => registerButton(variant.id, node)}
-              >
-                {variant.label}
-              </button>
-            );
-          })}
-        </div>
+          value={activeVariant}
+          onValueChange={setActiveVariant}
+          size="sm"
+          syncTheme={false}
+          className="max-w-full"
+        />
       </div>
       <ThemePreviewSurface variant={activeVariant} baseTheme={baseTheme}>
         {previewNode}

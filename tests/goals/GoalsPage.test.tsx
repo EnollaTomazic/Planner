@@ -11,12 +11,17 @@ import { describe, it, beforeEach, afterEach, expect } from "vitest";
 import { GoalsPage } from "@/components/goals";
 import { createStorageKey } from "@/lib/db";
 
+const GOALS_TAB_SESSION_SCOPE_KEY = "goals.tab.session-scope.v1";
+const TEST_TAB_SESSION_ID = "test-session";
+
 // Clean up DOM after each test
 afterEach(cleanup);
 
 describe("GoalsPage", () => {
   beforeEach(() => {
     window.localStorage.clear();
+    window.sessionStorage.clear();
+    window.sessionStorage.setItem(GOALS_TAB_SESSION_SCOPE_KEY, TEST_TAB_SESSION_ID);
   });
 
   it("renders hero heading, subtitle, and summary ring", () => {
@@ -233,7 +238,9 @@ describe("GoalsPage", () => {
   });
 
   it("resets persisted tab and filter when storage contains invalid values", async () => {
-    const tabKey = createStorageKey("goals.tab.v2");
+    const tabKey = createStorageKey(
+      `goals.tab.v2::${TEST_TAB_SESSION_ID}`,
+    );
     const filterKey = createStorageKey("goals.filter.v1");
     window.localStorage.setItem(tabKey, JSON.stringify("invalid"));
     window.localStorage.setItem(filterKey, JSON.stringify("weird"));

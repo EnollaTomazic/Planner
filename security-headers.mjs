@@ -25,8 +25,32 @@ const VERCEL_FEEDBACK_HTTP_ORIGINS = Object.freeze([
 
 const VERCEL_FEEDBACK_WS_ORIGINS = Object.freeze(["wss://vercel.live"]);
 
+const parseAbsoluteUrlOrigin = (url) => {
+  if (typeof url !== "string") {
+    return undefined;
+  }
+
+  const trimmed = url.trim();
+
+  if (!trimmed || trimmed.startsWith("//")) {
+    return undefined;
+  }
+
+  try {
+    const parsed = new URL(trimmed);
+    return parsed.origin;
+  } catch {
+    return undefined;
+  }
+};
+
+const metricsEndpointOrigin = parseAbsoluteUrlOrigin(
+  process.env.NEXT_PUBLIC_METRICS_ENDPOINT,
+);
+
 /**
- * @typedef {Readonly<{ allowVercelFeedback?: boolean }>} SecurityPolicyOptions
+ * @typedef {Readonly<{ allowVercelFeedback?: boolean; metricsEndpointOrigin?: string }>}
+ * SecurityPolicyOptions
  */
 
 /**
@@ -35,6 +59,7 @@ const VERCEL_FEEDBACK_WS_ORIGINS = Object.freeze(["wss://vercel.live"]);
  */
 export const createContentSecurityPolicy = (options) => {
   const allowVercelFeedback = options?.allowVercelFeedback === true;
+  const metricsOrigin = options?.metricsEndpointOrigin ?? metricsEndpointOrigin;
 
   const scriptSrc = ["'self'", "'unsafe-inline'"];
   const evalRelaxations = ["'unsafe-eval'", "'wasm-unsafe-eval'"];
@@ -50,13 +75,29 @@ export const createContentSecurityPolicy = (options) => {
 
   const imgSrc = [...imgSrcBase];
   const connectSrc = ["'self'"];
+  const connectSrcSet = new Set(connectSrc);
+  const appendConnectSrc = (...sources) => {
+    for (const source of sources) {
+      if (!source || connectSrcSet.has(source)) {
+        continue;
+      }
+
+      connectSrc.push(source);
+      connectSrcSet.add(source);
+    }
+  };
 
   if (allowVercelFeedback) {
     styleSrc.push(...VERCEL_FEEDBACK_HTTP_ORIGINS);
     styleSrcElem.push(...VERCEL_FEEDBACK_HTTP_ORIGINS);
     imgSrc.push(...VERCEL_FEEDBACK_HTTP_ORIGINS);
-    connectSrc.push(...VERCEL_FEEDBACK_HTTP_ORIGINS, ...VERCEL_FEEDBACK_WS_ORIGINS);
+    appendConnectSrc(
+      ...VERCEL_FEEDBACK_HTTP_ORIGINS,
+      ...VERCEL_FEEDBACK_WS_ORIGINS,
+    );
   }
+
+  appendConnectSrc(metricsOrigin);
 
   const frameSrc = allowVercelFeedback
     ? [...VERCEL_FEEDBACK_HTTP_ORIGINS]
@@ -120,4 +161,5 @@ export const defaultSecurityPolicyOptions = Object.freeze({
     process.env.VERCEL === "1" ||
     process.env.VERCEL_ENV === "preview" ||
     process.env.VERCEL_ENV === "production",
+  metricsEndpointOrigin,
 });
