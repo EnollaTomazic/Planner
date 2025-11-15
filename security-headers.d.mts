@@ -5,6 +5,7 @@ export interface SecurityHeader {
 
 export interface SecurityPolicyOptions {
   readonly allowVercelFeedback?: boolean;
+  readonly metricsEndpointOrigin?: string;
 }
 
 export declare const baseSecurityHeadersMap: Readonly<Record<string, string>>;
