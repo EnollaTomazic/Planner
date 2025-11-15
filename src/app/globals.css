@@ -363,6 +363,10 @@ body.fx-gifbars::before {
 }
 
 @layer utilities {
+  .veil-soft {
+    @apply bg-surface/30 backdrop-blur-[2px] rounded-card;
+  }
+
   .cq-sm {
     width: min(100%, var(--preview-cq-sm));
     inline-size: min(100%, var(--preview-cq-sm));
