@@ -80,7 +80,9 @@ describe("PromptsPage", () => {
     await waitFor(() =>
       expect(screen.getByText("0 saved")).toBeInTheDocument(),
     );
-    expect(screen.getByText("No prompts saved yet")).toBeInTheDocument();
+    expect(
+      screen.getByText("Your prompt library is empty"),
+    ).toBeInTheDocument();
   });
 
   it("keeps prompts saved before hydration completes", async () => {
