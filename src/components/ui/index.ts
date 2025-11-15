@@ -30,7 +30,6 @@ export { Spinner } from "./feedback/Spinner";
 export type { SpinnerSize, SpinnerTone } from "./feedback/Spinner";
 export { Grid } from "./Grid";
 export type { GridCollapseMode, GridProps, GridTemplate, GridTemplateCell, GridTemplateRow, SpacingToken } from "./Grid";
-export { HeroImage } from "./HeroImage";
 export { useDialogTrap } from "./hooks/useDialogTrap";
 export type { UseDialogTrapOptions } from "./hooks/useDialogTrap";
 export { useFloatingStyleClass } from "./hooks/useFloatingStyleClass";
@@ -44,6 +43,7 @@ export type { HeaderActionsConfig, HeaderNavItem, HeaderProps, HeaderTab, Header
 export { Hero } from "./layout/Hero";
 export type { HeroProps, HeroTab, HeroTabsProps } from "./layout/Hero";
 export { HeroGlitchStyles } from "./layout/hero/HeroGlitchStyles";
+export { HeroImage } from "./layout/hero/HeroImage";
 export type { HeroImageProps } from "./layout/hero/HeroImage";
 export { HeroSearchBar } from "./layout/hero/HeroSearchBar";
 export type { HeroSearchBarProps } from "./layout/hero/HeroSearchBar";
