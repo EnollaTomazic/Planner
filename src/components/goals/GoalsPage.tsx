@@ -31,11 +31,10 @@ import {
   PageShell,
   Modal,
   ProgressRing,
-  InsetRow,
   Label,
   Input,
-  Textarea,
   AIExplainTooltip,
+  Field,
 } from "@/components/ui";
 import { PlannerProvider, SmallAgnesNoxiImage } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
@@ -1030,83 +1029,88 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
 
     return (
       <form className="space-y-[var(--space-4)]" onSubmit={handleSubmit}>
-        <InsetRow
-          label="Add goal"
-          description="Capture focused, finishable targets for your next session."
-          contentClassName="space-y-[var(--space-4)]"
-        >
-          <div className="space-y-[var(--space-2)]">
-            <Label htmlFor={titleId}>Title</Label>
-            <Input
-              id={titleId}
-              ref={titleInputRef}
-              placeholder="Review lane states"
-              value={values.title}
-              onChange={handleInputChange("title")}
-              required
-            />
-          </div>
-
-          <div className="space-y-[var(--space-2)]">
-            <div className="flex items-center justify-between gap-[var(--space-2)]">
-              <Label htmlFor={metricId} className="mb-0">
-                Metric (optional)
-              </Label>
-              <AIExplainTooltip
-                triggerLabel="How metrics help"
-                explanation="Metrics surface on each goal card so you can track progress against a specific target. Leave it blank if a number doesn't help."
-                tone="neutral"
+        <Card className="space-y-[var(--space-4)] shadow-[var(--depth-shadow-soft)]">
+          <CardHeader className="space-y-[var(--space-2)]">
+            <CardTitle>Add goal</CardTitle>
+            <CardDescription>
+              Capture focused, finishable targets for your next session.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-[var(--space-4)]">
+            <div className="space-y-[var(--space-2)]">
+              <Label htmlFor={titleId}>Title</Label>
+              <Input
+                id={titleId}
+                ref={titleInputRef}
+                placeholder="Review lane states"
+                value={values.title}
+                onChange={handleInputChange("title")}
+                required
+                variant="sunken"
               />
             </div>
-            <Input
-              id={metricId}
-              type="text"
-              inputMode="decimal"
-              placeholder="75"
-              value={values.metric}
-              onChange={handleInputChange("metric")}
-              hasEndSlot
-            >
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute right-[var(--space-4)] top-1/2 -translate-y-1/2 text-label text-muted-foreground"
+
+            <div className="space-y-[var(--space-2)]">
+              <div className="flex items-center justify-between gap-[var(--space-2)]">
+                <Label htmlFor={metricId} className="mb-0">
+                  Metric (optional)
+                </Label>
+                <AIExplainTooltip
+                  triggerLabel="How metrics help"
+                  explanation="Metrics surface on each goal card so you can track progress against a specific target. Leave it blank if a number doesn't help."
+                  tone="neutral"
+                />
+              </div>
+              <Input
+                id={metricId}
+                type="text"
+                inputMode="decimal"
+                placeholder="75"
+                value={values.metric}
+                onChange={handleInputChange("metric")}
+                hasEndSlot
+                variant="sunken"
               >
-                %
-              </span>
-            </Input>
-          </div>
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute right-[var(--space-4)] top-1/2 -translate-y-1/2 text-label text-muted-foreground"
+                >
+                  %
+                </span>
+              </Input>
+            </div>
 
-          <div className="space-y-[var(--space-2)]">
-            <Label htmlFor={notesId}>Notes (optional)</Label>
-            <Textarea
-              id={notesId}
-              placeholder="Add context, blockers, or reminders"
-              value={values.notes}
-              onChange={handleNotesChange}
-              resize="resize-y"
-              className="border border-card-hairline/70"
-              textareaClassName="min-h-[var(--space-20)]"
-            />
-          </div>
-        </InsetRow>
-
-        <div className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-label font-medium tracking-[0.02em] text-muted-foreground">
-            {isAtCap ? (
-              <span className="text-danger">{remainingMessage}</span>
-            ) : (
-              <span>{remainingMessage}</span>
-            )}
-          </p>
-          <div className="flex items-center gap-[var(--space-2)]">
-            <Button type="submit" size="sm" variant="default" disabled={isAtCap}>
-              Add Goal
-            </Button>
-            <Button type="button" size="sm" variant="quiet" onClick={handleCancel}>
-              Cancel
-            </Button>
-          </div>
-        </div>
+            <div className="space-y-[var(--space-2)]">
+              <Label htmlFor={notesId}>Notes (optional)</Label>
+              <Field.Root variant="sunken" className="items-start">
+                <Field.Textarea
+                  id={notesId}
+                  placeholder="Add context, blockers, or reminders"
+                  value={values.notes}
+                  onChange={handleNotesChange}
+                  className="min-h-[var(--space-20)] resize-y"
+                />
+              </Field.Root>
+            </div>
+          </CardContent>
+          <CardFooter className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-label font-medium tracking-[0.02em] text-muted-foreground">
+              {isAtCap ? (
+                <span className="text-danger">{remainingMessage}</span>
+              ) : (
+                <span>{remainingMessage}</span>
+              )}
+            </p>
+            <div className="flex items-center gap-[var(--space-2)]">
+              <Button type="submit" size="sm" variant="default" disabled={isAtCap}>
+                Add Goal
+              </Button>
+              <Button type="button" size="sm" variant="quiet" onClick={handleCancel}>
+                Cancel
+              </Button>
+            </div>
+          </CardFooter>
+        </Card>
 
         {errorMessage ? (
           <p
