@@ -12,7 +12,7 @@
 import * as React from "react";
 import { AIExplainTooltip } from "@/components/ui/ai/AIExplainTooltip";
 import { AvatarFrame } from "@/components/ui/primitives/AvatarFrame";
-import { Card, CardContent } from "@/components/ui/primitives/Card";
+import { Card, CardContent, CardHeader } from "@/components/ui/primitives/Card";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Input } from "@/components/ui/primitives/Input";
 import { usePersistentState, uid } from "@/lib/db";
@@ -626,6 +626,11 @@ export const JungleClears = React.forwardRef<
 
   return (
     <Card depth="base" className="p-0">
+      <CardHeader className="px-[var(--space-4)] pt-[var(--space-4)] pb-[var(--space-3)]">
+        <h2 className="text-title font-semibold tracking-[-0.01em]">
+          Clear Speed Buckets
+        </h2>
+      </CardHeader>
       <CardContent className="p-0">
         <ul className="divide-y divide-border/60">
           {BUCKETS.map((bucket) => (
