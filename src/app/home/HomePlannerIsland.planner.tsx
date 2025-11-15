@@ -3,6 +3,7 @@
 import * as React from "react"
 import type { CSSProperties } from "react"
 import dynamic from "next/dynamic"
+import Image from "next/image"
 import Link from "next/link"
 import {
   useGlitchLandingSplash,
@@ -142,6 +143,47 @@ function GlitchLandingHeroContent({
 }: GlitchLandingHeroContentProps) {
   return (
     <div className={heroContentStyles.root}>
+      <div className={heroContentStyles.decorations} aria-hidden>
+        <div
+          className={cn(
+            heroContentStyles.decoration,
+            heroContentStyles.decorationAgnes,
+          )}
+        >
+          <div className={heroContentStyles.decorationInner}>
+            <Image
+              src="/images/agnes.svg"
+              alt=""
+              aria-hidden
+              fill
+              sizes="(min-width: 80rem) 220px, (min-width: 64rem) 18vw, (min-width: 48rem) 26vw, 40vw"
+              priority={false}
+            />
+          </div>
+        </div>
+        <div
+          className={cn(
+            heroContentStyles.decoration,
+            heroContentStyles.decorationNoxi,
+          )}
+        >
+          <div
+            className={cn(
+              heroContentStyles.decorationInner,
+              heroContentStyles.decorationInnerAlt,
+            )}
+          >
+            <Image
+              src="/images/noxi.svg"
+              alt=""
+              aria-hidden
+              fill
+              sizes="(min-width: 80rem) 240px, (min-width: 64rem) 20vw, (min-width: 48rem) 32vw, 48vw"
+              priority={false}
+            />
+          </div>
+        </div>
+      </div>
       <div className={heroContentStyles.copyColumn}>
         <div className={heroContentStyles.metricGrid}>
           {glitchHeroMetrics.map((metric) => (

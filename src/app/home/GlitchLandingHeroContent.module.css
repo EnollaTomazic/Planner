@@ -47,8 +47,88 @@
 }
 
 .root {
+  position: relative;
   display: grid;
   gap: clamp(var(--space-5), 3vw, var(--space-6));
+}
+
+.decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.decoration {
+  position: absolute;
+  opacity: 0.78;
+  filter: drop-shadow(0 var(--space-4) var(--space-6) hsl(var(--surface) / 0.4));
+}
+
+.decorationInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  animation: heroFloat 14s ease-in-out infinite;
+}
+
+.decorationInnerAlt {
+  animation-name: heroFloatAlt;
+  animation-duration: 18s;
+}
+
+.decorationInner :global(img) {
+  object-fit: contain;
+}
+
+.decorationAgnes {
+  top: clamp(-3.5rem, -6vw, -1.5rem);
+  left: clamp(-3rem, -5vw, -1.5rem);
+  width: clamp(12rem, 22vw, 14rem);
+}
+
+.decorationNoxi {
+  bottom: clamp(-3rem, -5vw, -1rem);
+  right: clamp(-3.5rem, -6vw, -1.5rem);
+  width: clamp(13.5rem, 24vw, 15rem);
+}
+
+@media (max-width: 48rem) {
+  .decorationAgnes {
+    top: clamp(-2rem, -6vw, -1rem);
+    left: 48%;
+    width: min(52vw, 12rem);
+    transform: translateX(-60%);
+  }
+
+  .decorationNoxi {
+    bottom: clamp(-2rem, -5vw, -1rem);
+    right: 46%;
+    width: min(64vw, 14.5rem);
+    transform: translateX(58%);
+  }
+}
+
+@keyframes heroFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+@keyframes heroFloatAlt {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 10px, 0);
+  }
 }
 
 @media (min-width: 64rem) {
@@ -62,6 +142,8 @@
   display: grid;
   gap: clamp(var(--space-5), 3vw, var(--space-6));
   max-width: 60ch;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 64rem) {
@@ -182,6 +264,8 @@
 .figureColumn {
   display: flex;
   justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 64rem) {
