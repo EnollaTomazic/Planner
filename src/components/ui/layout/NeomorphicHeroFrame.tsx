@@ -506,7 +506,7 @@ const NeomorphicHeroFrame = React.forwardRef<HTMLElement, NeomorphicHeroFramePro
             "group/hero-frame relative z-0 isolate flex flex-col overflow-visible hero-focus",
             variantStyles
               ? cn(
-                  "border border-border/55 bg-card/70 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph",
+                  "border border-border/55 veil-soft text-foreground shadow-outline-subtle hero2-frame hero2-neomorph",
                   haloClasses,
                   "has-[:focus-visible]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)]",
                   "data-[has-focus=true]:before:[--hero2-focus-ring:var(--hero2-focus-ring-active)]",

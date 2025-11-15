@@ -280,6 +280,7 @@
   --skeleton-fill: hsl(var(--foreground) / 0.08);
   --gradient-noise-opacity: 0.1;
   --gradient-noise-overlay-opacity: 0.06;
+  --card-noise-opacity: 0.06;
   --texture-grain-opacity: 0.04;
   --texture-scanline-opacity: 0.06;
   --shadow-inner-sm: inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18);

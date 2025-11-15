@@ -24,7 +24,7 @@ export type ReviewSurfaceProps<T extends React.ElementType = "div"> =
 const toneClassNames: Record<ReviewSurfaceTone, string> = {
   default: "border border-border bg-card",
   muted: "border border-border/80 bg-muted/40",
-  translucent: "border border-border/70 bg-card/80 backdrop-blur-md",
+  translucent: "border border-border/70 veil-soft",
 };
 
 const paddingClassNames: Record<ReviewSurfacePadding, string> = {
