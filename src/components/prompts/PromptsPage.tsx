@@ -2,11 +2,7 @@
 
 import * as React from "react";
 
-import { PageShell } from "@/components/ui";
-import {
-  SegmentedControl,
-  type SegmentedControlOption,
-} from "@/components/ui/primitives/SegmentedControl";
+import { PageShell, TabBar, type TabItem } from "@/components/ui";
 import { usePersistentState } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import { ChatPromptsTab } from "./ChatPromptsTab";
@@ -64,25 +60,25 @@ export function PromptsPage() {
     "chat",
   );
 
-  const tabOptions = React.useMemo<SegmentedControlOption<PromptsTabKey>[]>(() => {
-    return BASE_TAB_ITEMS.map<SegmentedControlOption<PromptsTabKey>>((item) => {
+  const tabItems = React.useMemo<TabItem<PromptsTabKey>[]>(() => {
+    return BASE_TAB_ITEMS.map<TabItem<PromptsTabKey>>((item) => {
       if (item.key === "chat") {
         return {
-          value: item.key,
+          key: item.key,
           label: item.label,
           badge: chatPrompts.length > 0 ? chatPrompts.length : undefined,
         };
       }
       if (item.key === "codex") {
         return {
-          value: item.key,
+          key: item.key,
           label: item.label,
           badge: codexPrompts.length > 0 ? codexPrompts.length : undefined,
         };
       }
       const hasNotes = notes.trim().length > 0;
       return {
-        value: item.key,
+        key: item.key,
         label: item.label,
         badge: hasNotes ? 1 : undefined,
       };
@@ -132,8 +128,8 @@ export function PromptsPage() {
         className="space-y-[var(--space-6)] py-[var(--space-6)]"
         aria-labelledby="prompts-header"
       >
-        <SegmentedControl<PromptsTabKey>
-          options={tabOptions}
+        <TabBar<PromptsTabKey>
+          items={tabItems}
           value={activeTab}
           onValueChange={setActiveTab}
           ariaLabel="Prompt workspaces"
