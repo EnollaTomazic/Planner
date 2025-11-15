@@ -150,6 +150,8 @@ export { SettingsSelect } from "./theme/SettingsSelect";
 export type { SettingsSelectProps } from "./theme/SettingsSelect";
 export { ThemePicker } from "./theme/ThemePicker";
 export type { ThemePickerProps } from "./theme/ThemePicker";
+export { ThemeSelector } from "./theme/ThemeSelector";
+export type { ThemeSelectorProps } from "./theme/ThemeSelector";
 export { ThemeToggle } from "./theme/ThemeToggle";
 export { Toast } from "./Toast";
 export type { ToastProps } from "./Toast";

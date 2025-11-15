@@ -14,7 +14,7 @@ import {
   BackgroundPicker,
   Card,
   Label,
-  ThemePicker,
+  ThemeSelector,
   Toggle,
   Spinner,
 } from "@/components/ui";
@@ -465,12 +465,15 @@ export default function PreviewContentClient({ route }: PreviewContentClientProp
                   </div>
 
                   <div className="grid gap-[var(--space-3)] md:grid-cols-2">
-                    <ThemePicker
-                      variant={controlState.variant}
-                      onVariantChange={handleVariantChange}
-                      className="w-full"
-                      disabled={!controlState.previewThemeEnabled}
-                    />
+                    <div className="md:col-span-2">
+                      <ThemeSelector
+                        aria-label="Theme"
+                        value={controlState.variant}
+                        onValueChange={handleVariantChange}
+                        disabled={!controlState.previewThemeEnabled}
+                        syncTheme={false}
+                      />
+                    </div>
                     <BackgroundPicker
                       bg={controlState.bg}
                       onBgChange={handleBackgroundChange}
