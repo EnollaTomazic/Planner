@@ -1,0 +1,70 @@
+<svg width="640" height="640" viewBox="0 0 640 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Planner icon hovering above a landscape with Agnes and Noxi</title>
+  <desc id="desc">Stylised 3D illustration of the planner crest floating over a luminous valley with Agnes and Noxi orbiting the icon.</desc>
+  <defs>
+    <radialGradient id="bgGradient" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(320 180) rotate(90) scale(420 420)">
+      <stop offset="0" stop-color="#2F2B59"/>
+      <stop offset="0.45" stop-color="#27254A"/>
+      <stop offset="1" stop-color="#121022"/>
+    </radialGradient>
+    <linearGradient id="horizonGradient" x1="120" y1="420" x2="520" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4337FF" stop-opacity="0.9"/>
+      <stop offset="0.5" stop-color="#7B4CFF" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#2CCBFF" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="plateGradient" x1="200" y1="420" x2="440" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#B7C4FF" stop-opacity="0.2"/>
+    </linearGradient>
+    <linearGradient id="crestGradient" x1="320" y1="120" x2="320" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F6F8FF"/>
+      <stop offset="0.45" stop-color="#D2DCFF"/>
+      <stop offset="1" stop-color="#9EB6FF"/>
+    </linearGradient>
+    <filter id="glow" x="0" y="0" width="640" height="640" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="36" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.35  0 0 0 0 0.38  0 0 0 0 0.9  0 0 0 0.45 0"/>
+    </filter>
+    <linearGradient id="agnesGradient" x1="140" y1="180" x2="220" y2="260" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFC7F0"/>
+      <stop offset="1" stop-color="#7F4CFF"/>
+    </linearGradient>
+    <linearGradient id="noxiGradient" x1="420" y1="140" x2="520" y2="240" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7DF9FF"/>
+      <stop offset="1" stop-color="#2A73FF"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="640" height="640" rx="56" fill="url(#bgGradient)"/>
+  <ellipse cx="320" cy="448" rx="220" ry="62" fill="#0F101F" opacity="0.65"/>
+  <ellipse cx="320" cy="456" rx="210" ry="54" fill="url(#plateGradient)" opacity="0.45"/>
+  <path d="M112 408C188 340 240 324 320 324C400 324 452 340 528 408L560 472H80L112 408Z" fill="url(#horizonGradient)" opacity="0.85"/>
+  <g filter="url(#glow)" opacity="0.8">
+    <ellipse cx="320" cy="248" rx="168" ry="120" fill="#5560FF"/>
+  </g>
+  <g transform="translate(320 240)">
+    <path d="M0 -140C77 -140 140 -77 140 0C140 77 77 140 0 140C-77 140 -140 77 -140 0C-140 -77 -77 -140 0 -140Z" fill="url(#crestGradient)"/>
+    <path d="M-60 -20C-60 -54  -32 -82 0 -82C32 -82 60 -54 60 -20V78C60 90 50 100 38 100H-38C-50 100 -60 90 -60 78V-20Z" fill="#1D2147" opacity="0.35"/>
+    <rect x="-46" y="-32" width="92" height="108" rx="28" fill="#1F2550" opacity="0.16"/>
+    <rect x="-28" y="-60" width="56" height="112" rx="20" fill="#FFFFFF" opacity="0.35"/>
+    <circle cx="0" cy="20" r="26" fill="#0F1536" opacity="0.45"/>
+    <rect x="-16" y="-8" width="32" height="48" rx="12" fill="#6E7BFF" opacity="0.6"/>
+  </g>
+  <g transform="translate(160 210)">
+    <path d="M48 -32C76 -32 96 -12 96 16C96 44 76 64 48 64C20 64 0 44 0 16C0 -12 20 -32 48 -32Z" fill="url(#agnesGradient)"/>
+    <path d="M40 -60C58 -60 72 -46 72 -28C72 -10 58 4 40 4C22 4 8 -10 8 -28C8 -46 22 -60 40 -60Z" fill="#FFE6FA" opacity="0.92"/>
+    <circle cx="32" cy="-28" r="6" fill="#1C0F32"/>
+    <circle cx="52" cy="-26" r="6" fill="#1C0F32"/>
+    <path d="M32 0C38 10 58 12 68 0" stroke="#1C0F32" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(452 188)">
+    <path d="M56 -40C82 -40 104 -18 104 8C104 34 82 56 56 56C30 56 8 34 8 8C8 -18 30 -40 56 -40Z" fill="url(#noxiGradient)"/>
+    <path d="M46 -70C64 -70 80 -54 80 -36C80 -18 64 -2 46 -2C28 -2 12 -18 12 -36C12 -54 28 -70 46 -70Z" fill="#D7FDFF" opacity="0.9"/>
+    <circle cx="38" cy="-40" r="6" fill="#10233A"/>
+    <circle cx="60" cy="-36" r="6" fill="#10233A"/>
+    <path d="M36 -12C42 -2 62 0 74 -12" stroke="#10233A" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <g opacity="0.35">
+    <path d="M120 520C160 492 212 480 320 480C428 480 480 492 520 520" stroke="#7F8AFF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+    <path d="M160 552C210 528 252 520 320 520C388 520 430 528 480 552" stroke="#56E0FF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="0.25"/>
+  </g>
+</svg>
