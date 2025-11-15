@@ -2,12 +2,7 @@
 // Do not edit directly.
 export { createDayTextFieldHook } from "./createDayTextFieldHook";
 export { DayCard } from "./DayCard";
-export type {
-  DayCardActions,
-  DayCardDay,
-  DayCardProps,
-  DayCardSelection,
-} from "./DayCard";
+export type { DayCardActions, DayCardDay, DayCardProps, DayCardSelection } from "./DayCard";
 export { DayCardHeader } from "./DayCardHeader";
 export { addProject, addTask, addTaskImage, removeProject, removeTask, removeTaskImage, renameProject, renameTask, toggleProject, toggleTask, updateTaskReminder } from "./dayCrud";
 export { DayRow } from "./DayRow";

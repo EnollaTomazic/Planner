@@ -62,7 +62,6 @@ import {
   AITypingIndicator,
 } from "@/components/ui/ai";
 import { Check as CheckIcon } from "lucide-react";
-import { DemoHeader } from "./DemoHeader";
 import { GoalListDemo } from "./GoalListDemo";
 import { OutlineGlowDemo } from "./OutlineGlowDemo";
 import { SavedPromptList } from "./SavedPromptList";
@@ -95,7 +94,6 @@ import {
   PortraitFrame,
   WelcomeHeroFigure,
 } from "@/components/home";
-import { NAV_ITEMS, type NavItem } from "@/config/nav";
 import { ChampListEditor } from "@/components/team/ChampListEditor";
 import {
   RoleSelector,
@@ -1297,162 +1295,6 @@ function ReviewSurfaceDemo() {
     </ReviewSurface>
   );
 }
-
-type BottomNavState =
-  | "default"
-  | "active"
-  | "disabled"
-  | "syncing"
-  | "hover"
-  | "focus-visible";
-type BottomNavDemoMode =
-  | "combined"
-  | "active"
-  | "disabled"
-  | "syncing"
-  | "hover"
-  | "focus-visible";
-type BottomNavDemoItem = NavItem & { state: BottomNavState };
-
-const BOTTOM_NAV_STATE_DETAILS: Array<{
-  key: Exclude<BottomNavDemoMode, "combined">;
-  title: string;
-  description: string;
-}> = [
-  {
-    key: "active",
-    title: "Active tab",
-    description:
-      "Accent typography and the theme ring token pin the current Planner route.",
-  },
-  {
-    key: "hover",
-    title: "Hover tab",
-    description:
-      "Foreground copy brightens while motion-safe elevation nudges the button for pointer feedback.",
-  },
-  {
-    key: "focus-visible",
-    title: "Keyboard focus",
-    description:
-      "Press Tab to move focus; focus-visible:ring-[var(--theme-ring)] keeps keyboard users anchored with the theme ring.",
-  },
-  {
-    key: "disabled",
-    title: "Disabled tab",
-    description:
-      "Muted foreground copy with the global disabled opacity token communicates unavailable sections.",
-  },
-  {
-    key: "syncing",
-    title: "Syncing tab",
-    description:
-      "A compact spinner uses accent border tokens to show background sync progress next to the label.",
-  },
-];
-
-function createBottomNavItems(mode: BottomNavDemoMode = "combined") {
-  const states = new Map<string, BottomNavState>();
-
-  NAV_ITEMS.forEach((item) => {
-    states.set(item.href, "default");
-  });
-
-  if (mode === "combined" || mode === "active") {
-    states.set("/planner", "active");
-  }
-
-  if (mode === "combined" || mode === "hover") {
-    states.set("/goals", "hover");
-  }
-
-  if (mode === "combined" || mode === "focus-visible") {
-    states.set("/components", "focus-visible");
-  }
-
-  if (mode === "combined" || mode === "syncing") {
-    states.set("/reviews", "syncing");
-  }
-
-  if (mode === "combined" || mode === "disabled") {
-    states.set("/team", "disabled");
-  }
-
-  return NAV_ITEMS.map<BottomNavDemoItem>((item) => ({
-    ...item,
-    state: states.get(item.href) ?? "default",
-  }));
-}
-
-function BottomNavStatesDemo({ mode = "combined" }: { mode?: BottomNavDemoMode }) {
-  const items = React.useMemo(() => createBottomNavItems(mode), [mode]);
-
-  return (
-    <div className="space-y-[var(--space-4)]">
-      <nav
-        aria-label="Planner bottom navigation"
-        className="rounded-card r-card-lg border border-border bg-surface-2 px-[var(--space-4)] py-[var(--space-3)] shadow-depth-soft"
-      >
-        <ul className="flex items-stretch justify-around gap-[var(--space-2)]">
-          {items.map(({ href, label, mobileIcon: Icon, state }) => {
-            if (!Icon) {
-              return null;
-            }
-
-            return (
-              <li key={`${mode}-${href}`}>
-                <button
-                  type="button"
-                  disabled={state === "disabled"}
-                  aria-pressed={state === "active" ? true : undefined}
-                  aria-busy={state === "syncing" ? true : undefined}
-                  data-state={state}
-                  className={cn(
-                    "group flex min-h-[var(--control-h-lg)] flex-col items-center gap-[var(--space-1)] rounded-card r-card-md px-[var(--space-5)] py-[var(--space-3)] text-label font-medium transition focus-visible:outline-none focus-visible:ring-[var(--ring-size-2)] focus-visible:ring-[var(--theme-ring)] focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-disabled motion-safe:hover:-translate-y-0.5 motion-reduce:transform-none",
-                    state === "active" &&
-                      "text-accent-3 ring-[var(--ring-size-2)] ring-[var(--theme-ring)]",
-                    state === "hover" &&
-                      "text-foreground motion-safe:-translate-y-0.5 motion-reduce:transform-none",
-                    state === "focus-visible" &&
-                      "text-foreground ring-[var(--ring-size-2)] ring-[var(--theme-ring)] ring-offset-0",
-                    state === "default" &&
-                      "text-muted-foreground hover:text-foreground",
-                    state === "disabled" && "text-muted-foreground/70",
-                    state === "syncing" && "text-foreground",
-                  )}
-                >
-                  <span className="[&_svg]:size-[var(--space-4)] [&_svg]:stroke-[var(--icon-stroke-150)]">
-                    <Icon aria-hidden="true" />
-                  </span>
-                  <span className="flex items-center gap-[var(--space-1)]">
-                    {label}
-                    {state === "syncing" ? (
-                      <Spinner
-                        size="xs"
-                        className="border-[var(--ring-stroke-m)] border-t-transparent [--spinner-size:calc(var(--ring-diameter-m)/4)]"
-                      />
-                    ) : null}
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-      {mode === "combined" ? (
-        <dl className="grid gap-[var(--space-3)] text-label text-muted-foreground">
-          {BOTTOM_NAV_STATE_DETAILS.map(({ key, title, description }) => (
-            <div key={key} className="space-y-[var(--space-1)]">
-              <dt className="text-ui font-semibold text-foreground">{title}</dt>
-              <dd>{description}</dd>
-            </div>
-          ))}
-        </dl>
-      ) : null}
-    </div>
-  );
-}
-
 function ReviewSliderTrackDemo() {
   return (
     <div className="flex flex-col gap-[var(--space-3)]">
@@ -2121,19 +1963,6 @@ function NotesTabDemo() {
   return <NotesTab value={notes} onChange={setNotes} />;
 }
 
-function DemoHeaderShowcase() {
-  const [role, setRole] = React.useState<Role>("MID");
-  const [fruit, setFruit] = React.useState<string>("apple");
-
-  return (
-    <DemoHeader
-      role={role}
-      onRoleChange={setRole}
-      fruit={fruit}
-      onFruitChange={setFruit}
-    />
-  );
-}
 const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   buttons: [
     {
@@ -2877,57 +2706,6 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
           title: "Highlight today's chip",
           description:
             "Use the accent token on the current day to anchor focus while other chips mock mixed completion states.",
-        },
-      ],
-    },
-    {
-      id: "bottom-nav",
-      name: "BottomNav",
-      description:
-        "Mobile Planner nav demo showing active, hover, focus-visible, disabled, and syncing tabs styled with tokens.",
-      element: <BottomNavStatesDemo />,
-      tags: ["nav", "bottom"],
-      code: `<BottomNavStatesDemo />`,
-      states: [
-        {
-          id: "active",
-          name: "Active tab",
-          description:
-            "Accent text plus the theme ring token anchor the current Planner route.",
-          element: <BottomNavStatesDemo mode="active" />,
-          code: `<BottomNavStatesDemo mode="active" />`,
-        },
-        {
-          id: "hover",
-          name: "Hover tab",
-          description:
-            "Cursor hover brightens the label and nudges the button using motion-safe elevation cues.",
-          element: <BottomNavStatesDemo mode="hover" />,
-          code: `<BottomNavStatesDemo mode="hover" />`,
-        },
-        {
-          id: "focus-visible",
-          name: "Keyboard focus",
-          description:
-            "Press Tab to cycle across tabs; focus-visible:ring-[var(--theme-ring)] draws the accessible theme ring for keyboard travelers.",
-          element: <BottomNavStatesDemo mode="focus-visible" />,
-          code: `<BottomNavStatesDemo mode="focus-visible" />`,
-        },
-        {
-          id: "disabled",
-          name: "Disabled tab",
-          description:
-            "Muted foreground copy and the global disabled opacity token signal unavailable sections.",
-          element: <BottomNavStatesDemo mode="disabled" />,
-          code: `<BottomNavStatesDemo mode="disabled" />`,
-        },
-        {
-          id: "syncing",
-          name: "Syncing tab",
-          description:
-            "A compact spinner with accent borders communicates background sync progress beside the label.",
-          element: <BottomNavStatesDemo mode="syncing" />,
-          code: `<BottomNavStatesDemo mode="syncing" />`,
         },
       ],
     },
@@ -3822,109 +3600,6 @@ React.useEffect(() => {
     disabled
     fieldClassName="!shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft"
   />
-</div>`,
-        },
-      ],
-    },
-    {
-      id: "demo-header",
-      name: "DemoHeader",
-      description:
-        "Composite header, hero, banner, and review highlights wired together for hand-off demos.",
-      element: <DemoHeaderShowcase />,
-      tags: ["header", "hero", "layout"],
-      code: `function DemoHeaderShowcase() {
-  const [role, setRole] = React.useState("MID");
-  const [fruit, setFruit] = React.useState("apple");
-
-  return (
-    <DemoHeader
-      role={role}
-      onRoleChange={setRole}
-      fruit={fruit}
-      onFruitChange={setFruit}
-    />
-  );
-}`,
-      states: [
-        {
-          id: "demo-header-cta-hover",
-          name: "Primary CTA — Hover",
-          description:
-            "Primary action lifts with shadow-depth-soft to reflect the hover state used across hero quick actions.",
-          element: (
-            <div className="flex items-center gap-[var(--space-2)]">
-              <Button size="sm" variant="default" className="shadow-depth-soft">
-                Launch event
-              </Button>
-            </div>
-          ),
-          code: `<div className="flex items-center gap-[var(--space-2)]">
-  <Button size="sm" variant="default" className="shadow-depth-soft">
-    Launch event
-  </Button>
-</div>`,
-        },
-        {
-          id: "demo-header-cta-focus",
-          name: "Primary CTA — Focus-visible",
-          description:
-            "Focus-visible styling adds the shared neon ring on top of shadow-depth-soft so keyboard users get parity with hover.",
-          element: (
-            <div className="flex items-center gap-[var(--space-2)]">
-              <Button
-                size="sm"
-                variant="default"
-                className="shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
-              >
-                Focused deploy
-              </Button>
-            </div>
-          ),
-          code: `<div className="flex items-center gap-[var(--space-2)]">
-  <Button
-    size="sm"
-    variant="default"
-    className="shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--card)/0.7)]"
-  >
-    Focused deploy
-  </Button>
-</div>`,
-        },
-        {
-          id: "demo-header-cta-loading",
-          name: "Primary CTA — Loading",
-          description:
-            "Loading CTA keeps the raised hover shadow while dimming interactions so progress reads instantly.",
-          element: (
-            <div className="flex items-center gap-[var(--space-2)]">
-              <Button size="sm" variant="default" loading className="shadow-depth-soft">
-                Saving
-              </Button>
-            </div>
-          ),
-          code: `<div className="flex items-center gap-[var(--space-2)]">
-  <Button size="sm" variant="default" loading className="shadow-depth-soft">
-    Saving
-  </Button>
-</div>`,
-        },
-        {
-          id: "demo-header-cta-disabled",
-          name: "Quiet CTA — Disabled",
-          description:
-            "Disabled secondary action leans on the built-in opacity tokens so the hero still communicates availability clearly.",
-          element: (
-            <div className="flex items-center gap-[var(--space-2)]">
-              <Button size="sm" variant="quiet" disabled className="shadow-depth-soft">
-                Disabled action
-              </Button>
-            </div>
-          ),
-          code: `<div className="flex items-center gap-[var(--space-2)]">
-  <Button size="sm" variant="quiet" disabled className="shadow-depth-soft">
-    Disabled action
-  </Button>
 </div>`,
         },
       ],
