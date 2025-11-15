@@ -1,12 +1,28 @@
 import "./check-node-version.js";
+import { execSync } from "node:child_process";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import ts from "typescript";
 import { MultiBar, Presets } from "cli-progress";
+import { ensureGalleryManifestIntegrity } from "./regen-if-needed.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+async function ensureGeneratedAssets(projectDir: string): Promise<void> {
+  await ensureGalleryManifestIntegrity();
+
+  const themePath = path.resolve(projectDir, "src/app/themes.css");
+  const themeExists = await fs.promises
+    .access(themePath, fs.constants.F_OK)
+    .then(() => true)
+    .catch(() => false);
+
+  if (!themeExists) {
+    execSync("pnpm run generate-themes", { stdio: "inherit" });
+  }
+}
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
@@ -25,6 +41,8 @@ async function main(): Promise<void> {
     return !process.env.CI;
   })();
   const projectDir = path.resolve(__dirname, "..");
+  await ensureGeneratedAssets(projectDir);
+
   const configPath = path.resolve(projectDir, "tsconfig.build.json");
   const configFile = ts.readConfigFile(configPath, ts.sys.readFile);
   const parsed = ts.parseJsonConfigFileContent(
