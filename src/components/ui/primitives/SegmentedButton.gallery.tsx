@@ -68,6 +68,12 @@ const SEGMENTED_BUTTON_STATES: readonly SegmentedButtonStateSpec[] = [
     props: { children: "Loading", loading: true },
     code: "<SegmentedButton loading>Loading</SegmentedButton>",
   },
+  {
+    id: "static",
+    name: "Static overlay",
+    props: { children: "Static overlay", glitch: false },
+    code: "<SegmentedButton glitch={false}>Static overlay</SegmentedButton>",
+  },
 ];
 
 export const SEGMENTED_BUTTON_STATE_SPECS: readonly SegmentedButtonStateSpec[] =
@@ -106,6 +112,7 @@ export const SegmentedButtonGallery = defineGallerySection({
         { name: "selected", type: "boolean", defaultValue: "false" },
         { name: "loading", type: "boolean", defaultValue: "false" },
         { name: "disabled", type: "boolean", defaultValue: "false" },
+        { name: "glitch", type: "boolean", defaultValue: "true" },
       ],
       axes: [
         {
@@ -136,6 +143,7 @@ export const SegmentedButtonGallery = defineGallerySection({
   <SegmentedButton disabled>Disabled</SegmentedButton>
   <SegmentedButton as="a" href="#" disabled>Disabled link</SegmentedButton>
   <SegmentedButton loading>Loading</SegmentedButton>
+  <SegmentedButton glitch={false}>Static overlay</SegmentedButton>
 </div>`,
     },
   ],

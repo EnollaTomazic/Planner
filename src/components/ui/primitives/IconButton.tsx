@@ -237,7 +237,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       title,
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
-      glitch = false,
+      glitch = true,
       glitchIntensity = "glitch-overlay-button-opacity",
       ...rest
     },
