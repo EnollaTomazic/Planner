@@ -4,14 +4,20 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { TeamCompPage } from "@/components/team/TeamCompPage";
 import * as BuilderModule from "@/components/team/Builder";
 import type { TeamState } from "@/components/team/Builder";
-import { createStorageKey } from "@/lib/db";
+import { createStorageKey, flushWriteLocal, setWriteLocalDelay, writeLocalDelay } from "@/lib/db";
+
+const ORIGINAL_DELAY = writeLocalDelay;
 
 beforeEach(() => {
   vi.useFakeTimers();
+  setWriteLocalDelay(0);
+  window.localStorage.clear();
 });
 
 afterEach(() => {
+  flushWriteLocal();
   vi.runAllTimers();
+  setWriteLocalDelay(ORIGINAL_DELAY);
   vi.useRealTimers();
   window.localStorage.clear();
 });

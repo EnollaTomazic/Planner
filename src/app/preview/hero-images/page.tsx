@@ -6,7 +6,7 @@ import {
   HERO_ILLUSTRATION_STATES,
   type HeroIllustrationState,
 } from "@/data/heroImages";
-import { PageShell, PageHeader, SectionCard, SectionCardBody } from "@/components/ui";
+import { Hero, PageShell, SectionCard, SectionCardBody } from "@/components/ui";
 import { VARIANTS, type Variant } from "@/lib/theme";
 
 import HeroImagesPreviewClient from "./HeroImagesPreviewClient";
@@ -82,7 +82,8 @@ export default async function HeroImagesPreviewPage({
       className="py-[var(--space-6)] md:py-[var(--space-8)]"
       contentClassName="gap-y-[var(--space-6)] md:gap-y-[var(--space-7)]"
     >
-      <PageHeader
+      <Hero
+        variant="panel"
         as="header"
         className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3"
         title="Hero illustrations"

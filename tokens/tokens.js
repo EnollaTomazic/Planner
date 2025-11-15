@@ -18,6 +18,14 @@ export default {
   segActiveGrad:
     "linear-gradient(\n    90deg,\n    hsl(var(--primary-soft) / 0.85),\n    hsl(var(--accent-1-soft) / 0.85),\n    hsl(var(--accent-2) / 0.8)\n  )",
   segActiveBase: "hsl(var(--card))",
+  gradientChromeDivider:
+    "linear-gradient(\n    90deg,\n    hsl(var(--glow) / 0.75),\n    hsl(var(--accent-2)),\n    hsl(var(--glow) / 0.75)\n  )",
+  gradientBrandmarkHalo:
+    "radial-gradient(circle at 50% 50%, hsl(var(--glow) / 0.7), transparent 70%)",
+  gradientBrandmarkFill:
+    "linear-gradient(180deg, hsl(var(--accent-1)), hsl(var(--accent-2)))",
+  gradientNavUnderlineGlow:
+    "linear-gradient(\n    90deg,\n    hsl(var(--glow) / 0.6),\n    hsl(var(--accent-2)),\n    hsl(var(--glow) / 0.6)\n  )",
   lgViolet: "var(--ring)",
   lgCyan: "var(--accent-2)",
   lgPink: "var(--lav-deep)",
@@ -206,7 +214,7 @@ export default {
     "inset var(--spacing-1) var(--spacing-1) var(--spacing-3)\n      hsl(var(--panel) / 0.85),\n    inset calc(var(--spacing-1) * -1) calc(var(--spacing-1) * -1) var(--spacing-3)\n      hsl(var(--foreground) / 0.08)",
   shadowRing: "0 0 var(--spacing-3) hsl(var(--ring))",
   shadowDepthSoft:
-    "calc(var(--spacing-2)) calc(var(--spacing-2)) var(--spacing-4) hsl(var(--panel) / 0.6),\n    calc(var(--spacing-2) * -1) calc(var(--spacing-2) * -1) var(--spacing-4) hsl(var(--foreground) / 0.07)",
+    "calc(var(--spacing-2)) calc(var(--spacing-2)) var(--spacing-4)\n      hsl(var(--panel) / 0.6),\n    calc(var(--spacing-2) * -1) calc(var(--spacing-2) * -1) var(--spacing-4)\n      hsl(var(--foreground) / 0.07)",
   shadowGlowSm: "0 0 var(--spacing-2) var(--glow-active)",
   shadowGlowMd: "0 0 var(--spacing-4) var(--glow-active)",
   shadowGlowLg: "0 0 var(--spacing-5) var(--glow-active)",
@@ -260,6 +268,7 @@ export default {
   skeletonFill: "hsl(var(--foreground) / 0.08)",
   gradientNoiseOpacity: "0.1",
   gradientNoiseOverlayOpacity: "0.06",
+  cardNoiseOpacity: "0.06",
   textureGrainOpacity: "0.04",
   textureScanlineOpacity: "0.06",
   shadowInnerSm:
