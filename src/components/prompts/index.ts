@@ -2,7 +2,9 @@
 // Do not edit directly.
 export { ButtonShowcase } from "./ButtonShowcase";
 export { ChatPromptsTab } from "./ChatPromptsTab";
+export type { ChatPromptsTabHandle } from "./ChatPromptsTab";
 export { CodexPromptsTab } from "./CodexPromptsTab";
+export type { CodexPromptsTabHandle, CodexPromptsTabProps } from "./CodexPromptsTab";
 export { ColorGallery } from "./ColorGallery";
 export { ColorsView } from "./ColorsView";
 export { ComponentsView, PROPS_DISCLOSURE_COLLAPSE_THRESHOLD, ThemeMatrix, ThemeMatrixPreview } from "./ComponentsView";
@@ -15,6 +17,7 @@ export { GoalListDemo } from "./GoalListDemo";
 export { IconButtonShowcase } from "./IconButtonShowcase";
 export { NeomorphicHeroFrameDemo } from "./NeomorphicHeroFrameDemo";
 export { NotesTab } from "./NotesTab";
+export type { NotesTabHandle, NotesTabProps } from "./NotesTab";
 export { OnboardingTabs } from "./OnboardingTabs";
 export { OutlineGlowDemo } from "./OutlineGlowDemo";
 export { CalendarPreview, CalendarPreviewError, CalendarPreviewLoading } from "./previews/CalendarLayoutPreview";
@@ -30,6 +33,8 @@ export { SelectShowcase } from "./SelectShowcase";
 export { SkeletonShowcase } from "./SkeletonShowcase";
 export { SnackbarShowcase } from "./SnackbarShowcase";
 export { SpinnerShowcase } from "./SpinnerShowcase";
+export { PROMPTS_TAB_ID_BASE, PROMPTS_TAB_ITEMS } from "./tabs";
+export type { PromptsTabKey } from "./tabs";
 export { ToggleShowcase } from "./ToggleShowcase";
 export { derivePromptTitle } from "./types";
 export type { Persona, Prompt, PromptWithTitle } from "./types";

@@ -5,6 +5,7 @@ export interface SecurityHeader {
 
 export interface SecurityPolicyOptions {
   readonly allowVercelFeedback?: boolean;
+  readonly metricsEndpoint?: string;
   readonly metricsEndpointOrigin?: string;
 }
 

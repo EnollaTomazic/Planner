@@ -3,7 +3,11 @@
 import Link from "next/link";
 import * as React from "react";
 
-import { Card } from "./Card";
+import {
+  Card,
+  CardContent as CardBody,
+  CardHeader,
+} from "@/components/ui/primitives/Card";
 import { ActivityCard } from "./ActivityCard";
 import { GoalsCard } from "./GoalsCard";
 import { IsometricRoom } from "./IsometricRoom";
@@ -40,6 +44,84 @@ interface PlannerRangeTabsProps {
   activeRange: PlannerRangeKey;
   options: readonly PlannerRangeOption[];
   onSelectRange: PlannerOverviewProps["onSelectRange"];
+}
+
+const cardActionsBaseClass =
+  "flex flex-wrap items-center gap-[var(--space-2)]";
+
+type HeroCardHeaderProps = Omit<
+  React.ComponentProps<typeof CardHeader>,
+  "title"
+> & {
+  eyebrow?: React.ReactNode;
+  eyebrowClassName?: string;
+  title?: React.ReactNode;
+  titleClassName?: string;
+  actions?: React.ReactNode;
+  actionsClassName?: string;
+};
+
+function HeroCardHeader({
+  eyebrow,
+  eyebrowClassName,
+  title,
+  titleClassName,
+  actions,
+  actionsClassName,
+  className,
+  children,
+  ...props
+}: HeroCardHeaderProps) {
+  if (children) {
+    return (
+      <CardHeader className={className} {...props}>
+        {children}
+      </CardHeader>
+    );
+  }
+
+  return (
+    <CardHeader
+      {...props}
+      className={cn("space-y-[var(--space-3)]", className)}
+    >
+      <div className="flex flex-wrap items-start justify-between gap-[var(--space-3)]">
+        <div className="space-y-[var(--space-1)]">
+          {eyebrow ? (
+            <p
+              className={cn(
+                "text-label font-medium uppercase tracking-[0.08em] text-muted-foreground",
+                eyebrowClassName,
+              )}
+            >
+              {eyebrow}
+            </p>
+          ) : null}
+          {title ? (
+            <h3
+              className={cn(
+                "text-title font-semibold text-card-foreground tracking-[-0.01em]",
+                titleClassName,
+              )}
+            >
+              {title}
+            </h3>
+          ) : null}
+        </div>
+        {actions ? (
+          <div
+            className={cn(
+              cardActionsBaseClass,
+              "justify-end text-right",
+              actionsClassName,
+            )}
+          >
+            {actions}
+          </div>
+        ) : null}
+      </div>
+    </CardHeader>
+  );
 }
 
 const PlannerRangeTabs = React.memo(function PlannerRangeTabs({
@@ -235,36 +317,36 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
         <div className={cn("col-span-full", styles.widgetRow)}>
           <div className={cn("md:col-span-6", styles.splitHalf)}>
             <Card className={styles.widgetCard}>
-              <Card.Header
+              <HeroCardHeader
                 title="Quick calibrations"
                 titleClassName="text-ui font-semibold text-card-foreground tracking-[-0.01em]"
               />
-              <Card.Body className="text-card-foreground">
+              <CardBody className="text-card-foreground">
                 <QuickActions />
-              </Card.Body>
+              </CardBody>
             </Card>
           </div>
           <div className={cn("md:col-span-6", styles.splitHalf)}>
             <Card className={cn(styles.widgetCard, styles.roomCard)}>
-              <Card.Header
+              <HeroCardHeader
                 title="Ambient room"
                 titleClassName="text-ui font-semibold text-card-foreground tracking-[-0.01em]"
               />
-              <Card.Body className={cn("flex justify-center", styles.roomBody)}>
+              <CardBody className={cn("flex justify-center", styles.roomBody)}>
                 <IsometricRoom variant={variant} />
-              </Card.Body>
+              </CardBody>
             </Card>
           </div>
         </div>
         <div className={cn("col-span-full", styles.overviewRow)}>
           <Card>
-            <Card.Header
+            <HeroCardHeader
               eyebrow={summary.label}
               eyebrowClassName="text-label font-medium uppercase tracking-[0.08em] text-muted-foreground"
               title={summary.title}
               titleClassName="text-title font-semibold text-card-foreground tracking-[-0.01em]"
             />
-            <Card.Body className="text-card-foreground">
+            <CardBody className="text-card-foreground">
               <ul className="grid gap-[var(--space-2)]" role="list">
                 {upcomingItems.map((item) => (
                   <li key={item.key}>
@@ -289,8 +371,8 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
                   </li>
                 ))}
               </ul>
-            </Card.Body>
-            <Card.Actions className="justify-end">
+            </CardBody>
+            <div className={cn(cardActionsBaseClass, "justify-end")}> 
               <Button
                 asChild
                 size="sm"
@@ -299,10 +381,10 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
               >
                 <Link href={withBasePath("/planner", { skipForNextLink: true })}>Open planner</Link>
               </Button>
-            </Card.Actions>
+            </div>
           </Card>
           <Card>
-            <Card.Header
+            <HeroCardHeader
               eyebrow={goals.label}
               eyebrowClassName="text-label font-medium uppercase tracking-[0.08em] text-muted-foreground"
               title={goals.title}
@@ -316,7 +398,7 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
                 </div>
               }
             />
-            <Card.Body className="space-y-[var(--space-5)] text-card-foreground">
+            <CardBody className="space-y-[var(--space-5)] text-card-foreground">
               <ProgressCard
                 label="Goals completion"
                 metric={
@@ -386,7 +468,7 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
                   })}
                 </ul>
               </div>
-            </Card.Body>
+            </CardBody>
           </Card>
         </div>
         <div className={cn("col-span-full", styles.plannerGrid)}>
@@ -446,7 +528,7 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
           />
         </div>
         <Card className="col-span-full">
-          <Card.Header className={styles.tabHeader}>
+          <HeroCardHeader className={styles.tabHeader}>
             <div className={styles.tabList} role="tablist" aria-label="Planner insights">
               {insightTabs.map((tab) => {
                 const tabId = `${tabBaseId}-tab-${tab.key}`;
@@ -471,8 +553,8 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
             {activeTabDefinition?.headerActions ? (
               <div className={styles.tabActions}>{activeTabDefinition.headerActions}</div>
             ) : null}
-          </Card.Header>
-          <Card.Body className={cn(styles.tabPanels, "text-card-foreground")}>
+          </HeroCardHeader>
+          <CardBody className={cn(styles.tabPanels, "text-card-foreground")}>
             {insightTabs.map((tab) => {
               const panelId = `${tabBaseId}-panel-${tab.key}`;
               const tabId = `${tabBaseId}-tab-${tab.key}`;
@@ -490,11 +572,11 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
                 </div>
               );
             })}
-          </Card.Body>
+          </CardBody>
         </Card>
         <Card className="col-span-full">
-          <Card.Header title="AI Draft" />
-          <Card.Body className="space-y-[var(--space-4)] text-card-foreground">
+          <HeroCardHeader title="AI Draft" />
+          <CardBody className="space-y-[var(--space-4)] text-card-foreground">
             <p className="text-label text-muted-foreground">
               Agnes and Noxi surfaced three momentum bets. Everything stays editable, retryable, and dismissible.
             </p>
@@ -509,8 +591,8 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
                 rows={4}
               />
             </Field.Root>
-          </Card.Body>
-          <Card.Actions className="justify-end">
+          </CardBody>
+          <div className={cn(cardActionsBaseClass, "justify-end")}> 
             <Button size="sm" variant="quiet" className={styles.secondaryButton}>
               Retry suggestions
             </Button>
@@ -520,7 +602,7 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
             <Button size="sm" variant="quiet" className={styles.secondaryButton}>
               Cancel
             </Button>
-          </Card.Actions>
+          </div>
         </Card>
       </div>
     </section>

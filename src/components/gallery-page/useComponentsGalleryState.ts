@@ -18,8 +18,12 @@ export type Section = GalleryNavigationSection["id"];
 export type ComponentsView = GallerySectionGroupKey;
 
 export const COMPONENTS_VIEW_TAB_ID_BASE = "components";
-export const COMPONENTS_SECTION_TAB_ID_BASE = "components-section";
-export const COMPONENTS_PANEL_ID = "components-components-panel";
+export const COMPONENTS_PANEL_ID = `${COMPONENTS_VIEW_TAB_ID_BASE}-components-panel`;
+export const COMPONENTS_SECTION_TAB_ID_BASE = COMPONENTS_VIEW_TAB_ID_BASE;
+export const COMPONENTS_PANEL_CONTROLS_ID = COMPONENTS_PANEL_ID.replace(
+  `${COMPONENTS_VIEW_TAB_ID_BASE}-`,
+  "",
+);
 
 function matchesEntryQuery(
   entry: GallerySerializableEntry,
@@ -215,10 +219,10 @@ export function useComponentsGalleryState({
 
   const groups = navigation.groups;
 
-  const viewOrder = React.useMemo<ComponentsView[]>(
-    () => groups.map((group) => group.id as ComponentsView),
-    [groups],
-  );
+  const viewOrder = React.useMemo<ComponentsView[]>(() => {
+    const ids = groups.map((group) => group.id as ComponentsView);
+    return ids.includes("tokens") ? ids : [...ids, "tokens"];
+  }, [groups]);
 
   const defaultView = React.useMemo<ComponentsView>(
     () => (viewOrder[0] ?? "primitives") as ComponentsView,
@@ -238,6 +242,9 @@ export function useComponentsGalleryState({
         return "primitives";
       }
       if (normalized === "styles" || normalized === "colors") {
+        return "tokens";
+      }
+      if (normalized === "tokens") {
         return "tokens";
       }
       if (normalized === "components") {
@@ -449,7 +456,7 @@ export function useComponentsGalleryState({
         ? currentGroup.sections.map((section) => ({
             key: section.id,
             label: section.label,
-            controls: "components-panel",
+            controls: COMPONENTS_PANEL_CONTROLS_ID,
           }))
         : [],
     [currentGroup],
@@ -598,7 +605,7 @@ export function useComponentsGalleryState({
     const groupTabs = groups.map((group) => ({
       key: group.id,
       label: group.label,
-      controls: "components-panel",
+      controls: COMPONENTS_PANEL_CONTROLS_ID,
     }));
     return [
       ...groupTabs,

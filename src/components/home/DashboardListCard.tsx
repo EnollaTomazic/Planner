@@ -3,7 +3,12 @@
 import * as React from "react";
 import Link from "next/link";
 
-import { Card, type CardProps } from "./Card";
+import {
+  Card,
+  CardContent as CardBody,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/primitives/Card";
 import {
   DashboardList,
   type DashboardListProps,
@@ -20,8 +25,22 @@ interface DashboardListCardFooterAction {
   variant?: React.ComponentProps<typeof Button>["variant"];
 }
 
+type DashboardListCardHeaderProps = Omit<
+  React.ComponentProps<typeof CardHeader>,
+  "title"
+> & {
+  eyebrow?: React.ReactNode;
+  eyebrowClassName?: string;
+  title?: React.ReactNode;
+  titleClassName?: string;
+  description?: React.ReactNode;
+  descriptionClassName?: string;
+  actions?: React.ReactNode;
+  actionsClassName?: string;
+};
+
 interface DashboardListCardProps<Item> {
-  title?: React.ComponentProps<typeof Card.Header>["title"];
+  title?: React.ReactNode;
   items: readonly Item[];
   emptyMessage: DashboardListProps<Item>["empty"];
   renderItem: DashboardListRenderItem<Item>;
@@ -30,11 +49,76 @@ interface DashboardListCardProps<Item> {
   itemClassName?: DashboardListProps<Item>["itemClassName"];
   listClassName?: DashboardListProps<Item>["className"];
   bodyClassName?: string;
-  headerProps?: React.ComponentProps<typeof Card.Header>;
-  footerProps?: React.ComponentProps<typeof Card.Footer>;
+  headerProps?: DashboardListCardHeaderProps;
+  footerProps?: React.ComponentProps<typeof CardFooter>;
   footerAction?: DashboardListCardFooterAction;
   headerAction?: DashboardListCardFooterAction;
-  cardProps?: Omit<CardProps, "children">;
+  cardProps?: Omit<React.ComponentProps<typeof Card>, "children">;
+}
+
+function DashboardListHeader({
+  eyebrow,
+  eyebrowClassName,
+  title,
+  titleClassName,
+  description,
+  descriptionClassName,
+  actions,
+  actionsClassName,
+  className,
+  ...props
+}: DashboardListCardHeaderProps) {
+  return (
+    <CardHeader
+      {...props}
+      className={cn("space-y-[var(--space-3)]", className)}
+    >
+      <div className="flex flex-wrap items-start justify-between gap-[var(--space-3)]">
+        <div className="space-y-[var(--space-1)]">
+          {eyebrow ? (
+            <p
+              className={cn(
+                "text-label text-muted-foreground",
+                eyebrowClassName,
+              )}
+            >
+              {eyebrow}
+            </p>
+          ) : null}
+          {title ? (
+            <h3
+              className={cn(
+                "text-body font-semibold text-card-foreground tracking-[-0.01em]",
+                titleClassName,
+              )}
+            >
+              {title}
+            </h3>
+          ) : null}
+          {description ? (
+            <p
+              className={cn(
+                "text-label text-muted-foreground",
+                descriptionClassName,
+              )}
+            >
+              {description}
+            </p>
+          ) : null}
+        </div>
+        {actions ? (
+          <div
+            className={cn(
+              "flex flex-wrap items-center gap-[var(--space-2)] text-right",
+              actionsClassName,
+            )}
+          >
+            {actions}
+          </div>
+        ) : null}
+      </div>
+    </CardHeader>
+  );
 }
 
 function DashboardListCard<Item>({
@@ -56,6 +140,11 @@ function DashboardListCard<Item>({
   const {
     className: headerClassName,
     title: headerTitle,
+    eyebrow,
+    eyebrowClassName,
+    titleClassName,
+    description,
+    descriptionClassName,
     actions: headerPropActions,
     actionsClassName: headerPropActionsClassName,
     ...restHeaderProps
@@ -84,14 +173,19 @@ function DashboardListCard<Item>({
 
   return (
     <Card className={cardClassName} {...restCardProps}>
-      <Card.Header
-        title={resolvedTitle}
+      <DashboardListHeader
+        {...restHeaderProps}
         className={headerClassName}
+        eyebrow={eyebrow}
+        eyebrowClassName={eyebrowClassName}
+        title={resolvedTitle}
+        titleClassName={titleClassName}
+        description={description}
+        descriptionClassName={descriptionClassName}
         actions={headerButton}
         actionsClassName={headerActionsClassName}
-        {...restHeaderProps}
       />
-      <Card.Body className={cn("text-card-foreground", bodyClassName)}>
+      <CardBody className={cn("text-card-foreground", bodyClassName)}>
         <DashboardList
           items={items}
           renderItem={renderItem}
@@ -101,10 +195,13 @@ function DashboardListCard<Item>({
           itemClassName={itemClassName}
           className={listClassName}
         />
-      </Card.Body>
+      </CardBody>
       {footerAction ? (
-        <Card.Footer
-          className={cn("flex justify-end text-card-foreground", footerClassName)}
+        <CardFooter
+          className={cn(
+            "flex justify-end border-t border-card-hairline/60 text-card-foreground",
+            footerClassName,
+          )}
           {...restFooterProps}
         >
           <Button
@@ -117,7 +214,7 @@ function DashboardListCard<Item>({
               {footerAction.label}
             </Link>
           </Button>
-        </Card.Footer>
+        </CardFooter>
       ) : null}
     </Card>
   );
