@@ -92,11 +92,18 @@
     --team-glitch-accent-color: var(--glitch-accent-color);
     --team-glitch-accent-blur: var(--glitch-accent-blur);
     --team-glitch-accent-shadow: var(--glitch-accent-shadow);
+    --texture-noise-opacity: 0.05;
     --texture-grain-strength: 1;
     --texture-scanline-strength: 1;
     --theme-noise-level-none: 0;
-    --theme-noise-level-subtle: 0.03;
-    --theme-noise-level-moderate: 0.04;
+    --texture-grain-opacity: var(--texture-noise-opacity);
+    --theme-noise-level-subtle: var(
+      --texture-noise-opacity,
+      var(--texture-grain-opacity)
+    );
+    --theme-noise-level-moderate: calc(
+      var(--texture-noise-opacity, var(--texture-grain-opacity, 0.05)) * 1.2
+    );
     --theme-scanline-opacity-none: 0;
     --theme-scanline-opacity-subtle: 0.045;
     --theme-scanline-opacity-moderate: 0.06;
@@ -148,6 +155,10 @@
   html[data-texture-grain='off'],
   body[data-texture-grain='off'] {
     --texture-grain-strength: 0;
+  }
+
+  html.bg-vhs [data-noise-overlay='true'] .noise-overlay__tint {
+    display: none;
   }
 
   html[data-texture-scanlines='off'],
