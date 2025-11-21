@@ -106,10 +106,8 @@ export function CodexPromptsTab({
       category: nextCategory,
     } satisfies PromptFormValues;
 
-    React.startTransition(() => {
-      composeValuesRef.current = nextState;
-      setComposeValues(nextState);
-    });
+    composeValuesRef.current = nextState;
+    setComposeValues(nextState);
   }, []);
 
   const handleEditPrompt = React.useCallback(
