@@ -244,6 +244,9 @@ export function useComponentsGalleryState({
       if (normalized === "styles" || normalized === "colors") {
         return "tokens";
       }
+      if (normalized === "tokens") {
+        return "tokens";
+      }
       if (normalized === "components") {
         return "patterns";
       }
