@@ -44,14 +44,35 @@ const parseAbsoluteUrlOrigin = (url) => {
   }
 };
 
-const metricsEndpointOrigin = parseAbsoluteUrlOrigin(
-  process.env.NEXT_PUBLIC_METRICS_ENDPOINT,
-);
+const metricsEndpoint = process.env.NEXT_PUBLIC_METRICS_ENDPOINT;
+const metricsEndpointOrigin = parseAbsoluteUrlOrigin(metricsEndpoint);
 
 /**
- * @typedef {Readonly<{ allowVercelFeedback?: boolean; metricsEndpointOrigin?: string }>}
+ * @typedef {Readonly<{
+ *   allowVercelFeedback?: boolean;
+ *   metricsEndpoint?: string;
+ *   metricsEndpointOrigin?: string;
+ * }>}
  * SecurityPolicyOptions
  */
+
+const resolveMetricsOrigin = (options) => {
+  if (options) {
+    const candidates = [
+      options.metricsEndpoint,
+      options.metricsEndpointOrigin,
+    ];
+
+    for (const candidate of candidates) {
+      const origin = parseAbsoluteUrlOrigin(candidate);
+      if (origin) {
+        return origin;
+      }
+    }
+  }
+
+  return metricsEndpointOrigin;
+};
 
 /**
  * @param {string} nonce
@@ -59,7 +80,7 @@ const metricsEndpointOrigin = parseAbsoluteUrlOrigin(
  */
 export const createContentSecurityPolicy = (options) => {
   const allowVercelFeedback = options?.allowVercelFeedback === true;
-  const metricsOrigin = options?.metricsEndpointOrigin ?? metricsEndpointOrigin;
+  const metricsOrigin = resolveMetricsOrigin(options);
 
   const scriptSrc = ["'self'", "'unsafe-inline'"];
   const evalRelaxations = ["'unsafe-eval'", "'wasm-unsafe-eval'"];

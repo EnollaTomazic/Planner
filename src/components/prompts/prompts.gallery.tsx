@@ -76,7 +76,6 @@ import { SpinnerShowcase } from "./SpinnerShowcase";
 import { SnackbarShowcase } from "./SnackbarShowcase";
 import { SkeletonShowcase } from "./SkeletonShowcase";
 import { ToggleShowcase } from "./ToggleShowcase";
-import { PageHeaderDemo } from "./PageHeaderDemo";
 import { NeomorphicHeroFrameDemo } from "./NeomorphicHeroFrameDemo";
 import { RadioIconGroupShowcase } from "./RadioIconGroupShowcase";
 import { WeekPickerDemo } from "./previews/WeekPickerDemo";
@@ -86,7 +85,6 @@ import {
   CalendarPreview as PlannerCalendarPreview,
 } from "./previews/CalendarLayoutPreview";
 import {
-  Card as HomeCard,
   DashboardList,
   HeroPlannerCards,
   IsometricRoom,
@@ -3761,99 +3759,6 @@ React.useEffect(() => {
       ],
     },
     {
-      id: "page-header-demo",
-      name: "PageHeader",
-      description:
-        "Neomorphic hero header that defaults to a calm single-frame layout, forwards standard HTML attributes, and can be remapped with the as prop.",
-      element: <PageHeaderDemo />,
-      tags: ["hero", "header"],
-      code: `<PageHeaderDemo />`,
-      states: [
-        {
-          id: "page-header-search-focus",
-          name: "Search — Focus-visible",
-          description:
-            "Focus ring pairs with shadow-depth-soft on the search field so keyboard focus mirrors the hero shell.",
-          element: (
-            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
-              <SearchBar
-                value="mission intel"
-                onValueChange={() => {}}
-                placeholder="Search mission intel…"
-                aria-label="Search mission intel"
-                fieldClassName="!shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
-              />
-            </div>
-          ),
-          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
-  <SearchBar
-    value="mission intel"
-    onValueChange={() => {}}
-    placeholder="Search mission intel…"
-    aria-label="Search mission intel"
-    fieldClassName="!shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft ring-2 ring-[hsl(var(--ring))] ring-offset-2 ring-offset-[hsl(var(--bg))]"
-  />
-</div>`,
-        },
-        {
-          id: "page-header-search-loading",
-          name: "Search — Loading",
-          description:
-            "Loading state mutes interactions and keeps the neo hover glow so progress is obvious without jitter.",
-          element: (
-            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
-              <SearchBar
-                value="briefings"
-                onValueChange={() => {}}
-                placeholder="Search mission intel…"
-                aria-label="Search mission intel"
-                loading
-                fieldClassName="!shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft"
-              />
-            </div>
-          ),
-          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
-  <SearchBar
-    value="briefings"
-    onValueChange={() => {}}
-    placeholder="Search mission intel…"
-    aria-label="Search mission intel"
-    loading
-    fieldClassName="!shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft"
-  />
-</div>`,
-        },
-        {
-          id: "page-header-search-disabled",
-          name: "Search — Disabled",
-          description:
-            "Disabled search keeps the field readable with reduced contrast while preserving the rounded neo shell.",
-          element: (
-            <div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
-              <SearchBar
-                value=""
-                onValueChange={() => {}}
-                placeholder="Search mission intel…"
-                aria-label="Search mission intel"
-                disabled
-                fieldClassName="!shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft"
-              />
-            </div>
-          ),
-          code: `<div className="rounded-card r-card-lg border border-border/45 bg-card/70 p-[var(--space-3)] shadow-depth-soft">
-  <SearchBar
-    value=""
-    onValueChange={() => {}}
-    placeholder="Search mission intel…"
-    aria-label="Search mission intel"
-    disabled
-    fieldClassName="!shadow-depth-soft hover:!shadow-depth-soft active:!shadow-depth-soft"
-  />
-</div>`,
-        },
-      ],
-    },
-    {
       id: "demo-header",
       name: "DemoHeader",
       description:
@@ -4495,12 +4400,14 @@ const [value, setValue] = React.useState(options[0].value);
       id: "card",
       name: "Card",
       element: (
-        <HomeCard>
-          <HomeCard.Header title="Demo" />
-          <HomeCard.Body>
+        <Card>
+          <CardHeader className="space-y-[var(--space-2)]">
+            <h3 className="text-body font-semibold text-card-foreground">Demo</h3>
+          </CardHeader>
+          <CardContent>
             <p className="text-ui">Body</p>
-          </HomeCard.Body>
-        </HomeCard>
+          </CardContent>
+        </Card>
       ),
       tags: ["dashboard", "card"],
       code: `<Card>

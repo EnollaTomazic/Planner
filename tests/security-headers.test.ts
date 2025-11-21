@@ -45,11 +45,39 @@ describe("content security policy variants", () => {
       .split("; ")
       .find((directive) => directive.startsWith("connect-src "));
 
-    expect(connectDirective).toContain("https://metrics.example.com");
+    expect(connectDirective).toBe(
+      "connect-src 'self' https://metrics.example.com",
+    );
   });
 
   it("ignores same-origin metrics endpoints", async () => {
     process.env.NEXT_PUBLIC_METRICS_ENDPOINT = "/api/metrics";
+
+    const { createContentSecurityPolicy } = await reloadSecurityHeaders();
+    const policy = createContentSecurityPolicy();
+    const connectDirective = policy
+      .split("; ")
+      .find((directive) => directive.startsWith("connect-src "));
+
+    expect(connectDirective).toBe("connect-src 'self'");
+  });
+
+  it("normalizes metrics endpoints passed via options", async () => {
+    const { createContentSecurityPolicy } = await reloadSecurityHeaders();
+    const policy = createContentSecurityPolicy({
+      metricsEndpoint: "https://metrics.example.net/v2/collect",
+    });
+    const connectDirective = policy
+      .split("; ")
+      .find((directive) => directive.startsWith("connect-src "));
+
+    expect(connectDirective).toBe(
+      "connect-src 'self' https://metrics.example.net",
+    );
+  });
+
+  it("ignores protocol-relative metrics endpoints", async () => {
+    process.env.NEXT_PUBLIC_METRICS_ENDPOINT = "//metrics.example.org";
 
     const { createContentSecurityPolicy } = await reloadSecurityHeaders();
     const policy = createContentSecurityPolicy();

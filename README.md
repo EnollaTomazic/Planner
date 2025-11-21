@@ -213,7 +213,7 @@ below before introducing custom utility stacks or ad-hoc CSS.
 
 #### Hero
 
-- Import from `@/components/ui/layout/Hero` to render page-level intros with
+- Import from `@/components/ui` to render page-level intros with
   built-in tabs, search, and glitch overlays.【F:src/components/ui/layout/Hero.tsx†L12-L116】【F:docs/design-system.md†L93-L123】
 - Pair `<Hero>` with `<PageShell as="header">` so the hero respects the shared
   shell padding and landmarks; follow with `<PageShell as="main">` for the body

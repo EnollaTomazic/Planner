@@ -10,14 +10,19 @@ import {
   useHydratedCallback,
   WelcomeHeroFigure,
 } from "@/components/home"
-import { Card } from "@/components/home/Card"
+import {
+  Card,
+  CardContent as CardBody,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/primitives/Card"
 import type {
   HeroPlannerCardsProps,
   HeroPlannerHighlight,
   PlannerOverviewProps,
 } from "@/components/home"
-import { PageHeader, PageShell, Button, SectionCard } from "@/components/ui"
-import type { PageHeaderAction } from "@/components/ui"
+import { Hero, PageShell, Button, SectionCard } from "@/components/ui"
+import type { HeroAction } from "@/components/ui"
 import { PlannerProvider } from "@/components/planner"
 import { useTheme } from "@/lib/theme-context"
 import { useThemeQuerySync } from "@/lib/theme-hooks"
@@ -110,13 +115,104 @@ const weeklyHighlights = [
   },
 ] as const satisfies readonly HeroPlannerHighlight[]
 
+const cardActionsBaseClass =
+  "flex flex-wrap items-center gap-[var(--space-2)]"
+
+type LegacyCardHeaderProps = Omit<
+  React.ComponentProps<typeof CardHeader>,
+  "title"
+> & {
+  eyebrow?: React.ReactNode
+  eyebrowClassName?: string
+  title?: React.ReactNode
+  titleClassName?: string
+  description?: React.ReactNode
+  descriptionClassName?: string
+  actions?: React.ReactNode
+  actionsClassName?: string
+}
+
+function LegacyCardHeader({
+  eyebrow,
+  eyebrowClassName,
+  title,
+  titleClassName,
+  description,
+  descriptionClassName,
+  actions,
+  actionsClassName,
+  className,
+  children,
+  ...props
+}: LegacyCardHeaderProps) {
+  if (children) {
+    return (
+      <CardHeader className={className} {...props}>
+        {children}
+      </CardHeader>
+    )
+  }
+
+  return (
+    <CardHeader
+      {...props}
+      className={cn("space-y-[var(--space-3)]", className)}
+    >
+      <div className="flex flex-wrap items-start justify-between gap-[var(--space-3)]">
+        <div className="space-y-[var(--space-1)]">
+          {eyebrow ? (
+            <p
+              className={cn(
+                "text-label font-medium uppercase tracking-[0.08em] text-muted-foreground",
+                eyebrowClassName,
+              )}
+            >
+              {eyebrow}
+            </p>
+          ) : null}
+          {title ? (
+            <h3
+              className={cn(
+                "text-title font-semibold text-foreground tracking-[-0.01em]",
+                titleClassName,
+              )}
+            >
+              {title}
+            </h3>
+          ) : null}
+          {description ? (
+            <p
+              className={cn(
+                "text-label text-muted-foreground",
+                descriptionClassName,
+              )}
+            >
+              {description}
+            </p>
+          ) : null}
+        </div>
+        {actions ? (
+          <div
+            className={cn(
+              cardActionsBaseClass,
+              "justify-end text-right",
+              actionsClassName,
+            )}
+          >
+            {actions}
+          </div>
+        ) : null}
+      </div>
+    </CardHeader>
+  )
+}
+
 const homeBackdropClassName =
   'relative isolate overflow-hidden bg-[color-mix(in_oklab,hsl(var(--surface))_88%,hsl(var(--surface-2)))] shadow-inner-sm bg-glitch-noise-primary'
 const homeBackdropNoiseStyle = {
   "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.03)",
   "--texture-grain-strength": "1",
 } as CSSProperties
-const sectionCardOverlayClassName = 'relative'
 
 const glitchHeroMetrics = [
   {
@@ -291,7 +387,7 @@ function HomePageBody({
   overviewHeadingId,
 }: HomePageBodyProps) {
   const { hydrated } = plannerOverviewProps
-  const heroActions = React.useMemo<ReadonlyArray<PageHeaderAction>>(() => {
+  const heroActions = React.useMemo<ReadonlyArray<HeroAction>>(() => {
     const createGoalHref = `${withBasePath("/goals", { skipForNextLink: true })}?tab=goals&intent=create-goal#goal-form`
     const createReviewHref = `${withBasePath("/reviews", { skipForNextLink: true })}?intent=create-review`
 
@@ -316,7 +412,7 @@ function HomePageBody({
         className: "whitespace-nowrap shadow-depth-soft",
         label: <Link href={createGoalHref}>New Goal</Link>,
       },
-    ] satisfies ReadonlyArray<PageHeaderAction>
+    ] satisfies ReadonlyArray<HeroAction>
   }, [])
 
   useHydratedCallback(hydrated, onClientReady)
@@ -344,7 +440,7 @@ function HomePageBody({
 }
 
 type GlitchLandingLayoutProps = {
-  heroActions: ReadonlyArray<PageHeaderAction>
+  heroActions: ReadonlyArray<HeroAction>
   plannerOverviewProps: PlannerOverviewProps
   themeVariant: Variant
   heroHeadingId: string
@@ -368,7 +464,8 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <PageHeader
+        <Hero
+          variant="panel"
           className={cn(
             "col-span-full md:col-span-12",
             heroContentStyles.heroCard,
@@ -387,7 +484,7 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
           heroClassName={heroContentStyles.figureColumn}
         >
           <GlitchLandingHeroMetrics />
-        </PageHeader>
+        </Hero>
       </PageShell>
       <PageShell
         as="main"
@@ -400,7 +497,7 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
       >
         <SectionCard
           aria-labelledby={overviewHeadingId}
-          className={cn('col-span-full', sectionCardOverlayClassName)}
+          className="col-span-full"
         >
           <SectionCard.Header
             id={overviewHeadingId}
@@ -444,7 +541,7 @@ export default function HomePlannerIslandPlanner({
 
 type LegacyHomePageBodyProps = {
   plannerOverviewProps: PlannerOverviewProps
-  heroActions: ReadonlyArray<PageHeaderAction>
+  heroActions: ReadonlyArray<HeroAction>
   heroHeadingId: string
   overviewHeadingId: string
 }
@@ -469,7 +566,7 @@ LegacyHomePageBody.displayName = "LegacyHomePageBody"
 
 type LegacyLandingLayoutProps = {
   plannerOverviewProps: PlannerOverviewProps
-  heroActions: ReadonlyArray<PageHeaderAction>
+  heroActions: ReadonlyArray<HeroAction>
   heroHeadingId: string
   overviewHeadingId: string
 }
@@ -491,7 +588,8 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
         aria-labelledby={heroHeadingId}
         className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
       >
-        <PageHeader
+        <Hero
+          variant="panel"
           className="col-span-full md:col-span-12"
           headingId={heroHeadingId}
           title={
@@ -524,7 +622,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
       >
         <SectionCard
           aria-labelledby={overviewHeadingId}
-          className={cn('col-span-full', sectionCardOverlayClassName)}
+          className="col-span-full"
         >
           <SectionCard.Header
             id={overviewHeadingId}
@@ -540,134 +638,137 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
           >
             <div className="grid grid-cols-1 gap-[var(--space-3)] sm:grid-cols-2 md:grid-cols-3" role="list">
               {summary.items.map((item) => (
-                <Card
-                  key={item.key}
-                  as="article"
-                  role="listitem"
-                  className="h-full"
-                >
-                  <Card.Header
-                    eyebrow={item.label}
-                    title={item.value}
-                    eyebrowClassName="text-label text-muted-foreground uppercase tracking-[0.08em]"
-                    titleClassName="text-ui font-semibold text-foreground text-balance"
-                  />
-                  <Card.Actions className="mt-auto justify-start">
-                    <Button asChild size="sm" variant="quiet">
-                      <Link href={withBasePath(item.href, { skipForNextLink: true })}>
-                        {item.cta}
-                      </Link>
-                    </Button>
-                  </Card.Actions>
+                <Card key={item.key} asChild className="h-full">
+                  <article
+                    role="listitem"
+                    className="flex h-full flex-col gap-[var(--space-4)]"
+                  >
+                    <LegacyCardHeader
+                      eyebrow={item.label}
+                      title={item.value}
+                      eyebrowClassName="text-label text-muted-foreground uppercase tracking-[0.08em]"
+                      titleClassName="text-ui font-semibold text-foreground text-balance"
+                    />
+                    <div className={cn(cardActionsBaseClass, "mt-auto justify-start")}>
+                      <Button asChild size="sm" variant="quiet">
+                        <Link href={withBasePath(item.href, { skipForNextLink: true })}>
+                          {item.cta}
+                        </Link>
+                      </Button>
+                    </div>
+                  </article>
                 </Card>
               ))}
             </div>
             <div className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-2">
-              <Card
-                as="section"
-                aria-labelledby="legacy-focus-heading"
-                className="h-full"
-              >
-                <Card.Header
-                  id="legacy-focus-heading"
-                  title={focus.label}
-                  titleClassName="text-body font-semibold text-foreground"
-                  actions={
-                    <p className="text-label text-muted-foreground">
-                      {hydrating ? "—" : `${focus.doneCount}/${focus.totalCount} done`}
-                    </p>
-                  }
-                />
-                <Card.Body className="text-card-foreground">
-                  <ul className="grid gap-[var(--space-2)]" role="list">
-                    {focus.tasks.map((task) => (
-                      <li
-                        key={task.id}
-                        className="flex flex-col gap-[var(--space-1)] rounded-[var(--radius-md)] border border-border/80 bg-card/70 px-[var(--space-3)] py-[var(--space-2)]"
-                      >
-                        <span className="text-ui font-medium text-foreground">{task.title}</span>
-                        {task.projectName ? (
-                          <span className="text-label text-muted-foreground">{task.projectName}</span>
-                        ) : null}
-                      </li>
-                    ))}
-                  </ul>
-                </Card.Body>
-                {focus.remainingTasks > 0 ? (
-                  <Card.Footer className="text-label text-muted-foreground">
-                    +{focus.remainingTasks} additional task{focus.remainingTasks === 1 ? "" : "s"} scheduled for the day
-                  </Card.Footer>
-                ) : null}
-              </Card>
-              <Card
-                as="section"
-                aria-labelledby="legacy-goals-heading"
-                className="h-full"
-              >
-                <Card.Header
-                  id="legacy-goals-heading"
-                  title={goals.label ?? "Goals"}
-                  titleClassName="text-body font-semibold text-foreground"
-                  actions={
-                    <p className="text-label text-muted-foreground">
-                      {hydrating ? "—" : `${goals.completed}/${goals.total} complete`}
-                    </p>
-                  }
-                />
-                <Card.Body className="text-card-foreground">
-                  {activeGoals.length > 0 ? (
+              <Card asChild className="h-full">
+                <section
+                  aria-labelledby="legacy-focus-heading"
+                  className="flex h-full flex-col gap-[var(--space-4)]"
+                >
+                  <LegacyCardHeader
+                    id="legacy-focus-heading"
+                    title={focus.label}
+                    titleClassName="text-body font-semibold text-foreground"
+                    actions={
+                      <p className="text-label text-muted-foreground">
+                        {hydrating ? "—" : `${focus.doneCount}/${focus.totalCount} done`}
+                      </p>
+                    }
+                  />
+                  <CardBody className="text-card-foreground">
                     <ul className="grid gap-[var(--space-2)]" role="list">
-                      {activeGoals.map((goal) => (
-                        <li key={goal.id} className="flex flex-col gap-[var(--space-1)]">
-                          <span className="text-ui font-medium text-foreground">{goal.title}</span>
-                          {goal.detail ? (
-                            <span className="text-label text-muted-foreground">{goal.detail}</span>
+                      {focus.tasks.map((task) => (
+                        <li
+                          key={task.id}
+                          className="flex flex-col gap-[var(--space-1)] rounded-[var(--radius-md)] border border-border/80 bg-card/70 px-[var(--space-3)] py-[var(--space-2)]"
+                        >
+                          <span className="text-ui font-medium text-foreground">{task.title}</span>
+                          {task.projectName ? (
+                            <span className="text-label text-muted-foreground">{task.projectName}</span>
                           ) : null}
                         </li>
                       ))}
                     </ul>
-                  ) : (
-                    <p className="text-label text-muted-foreground">
-                      {hydrating ? "Loading goals…" : goals.emptyMessage}
-                    </p>
-                  )}
-                </Card.Body>
-                <Card.Footer className="text-label text-muted-foreground">
-                  {hydrating
-                    ? "Momentum updates after data loads."
-                    : goals.total === goals.completed && goals.total > 0
-                      ? goals.allCompleteMessage
-                      : "Track progress without the glitch visuals."}
-                </Card.Footer>
+                  </CardBody>
+                  {focus.remainingTasks > 0 ? (
+                    <CardFooter className="border-t border-card-hairline/60 text-label text-muted-foreground">
+                      +{focus.remainingTasks} additional task{focus.remainingTasks === 1 ? "" : "s"} scheduled for the day
+                    </CardFooter>
+                  ) : null}
+                </section>
+              </Card>
+              <Card asChild className="h-full">
+                <section
+                  aria-labelledby="legacy-goals-heading"
+                  className="flex h-full flex-col gap-[var(--space-4)]"
+                >
+                  <LegacyCardHeader
+                    id="legacy-goals-heading"
+                    title={goals.label ?? "Goals"}
+                    titleClassName="text-body font-semibold text-foreground"
+                    actions={
+                      <p className="text-label text-muted-foreground">
+                        {hydrating ? "—" : `${goals.completed}/${goals.total} complete`}
+                      </p>
+                    }
+                  />
+                  <CardBody className="text-card-foreground">
+                    {activeGoals.length > 0 ? (
+                      <ul className="grid gap-[var(--space-2)]" role="list">
+                        {activeGoals.map((goal) => (
+                          <li key={goal.id} className="flex flex-col gap-[var(--space-1)]">
+                            <span className="text-ui font-medium text-foreground">{goal.title}</span>
+                            {goal.detail ? (
+                              <span className="text-label text-muted-foreground">{goal.detail}</span>
+                            ) : null}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-label text-muted-foreground">
+                        {hydrating ? "Loading goals…" : goals.emptyMessage}
+                      </p>
+                    )}
+                  </CardBody>
+                  <CardFooter className="border-t border-card-hairline/60 text-label text-muted-foreground">
+                    {hydrating
+                      ? "Momentum updates after data loads."
+                      : goals.total === goals.completed && goals.total > 0
+                        ? goals.allCompleteMessage
+                        : "Track progress without the glitch visuals."}
+                  </CardFooter>
+                </section>
               </Card>
             </div>
-            <Card
-              as="section"
-              aria-labelledby="legacy-calendar-heading"
-              className="h-full"
-            >
-              <Card.Header
-                id="legacy-calendar-heading"
-                title={calendar.label}
-                titleClassName="text-body font-semibold text-foreground"
-                description={calendar.summary}
-                descriptionClassName="text-label text-muted-foreground"
-              />
-              <Card.Body className="text-card-foreground">
-                <div className="flex flex-wrap gap-[var(--space-2)]">
-                  {calendar.days.map((day) => (
-                    <span
-                      key={day.iso}
-                      className="inline-flex min-w-[var(--space-8)] items-center justify-center rounded-full border border-border bg-card/60 px-[var(--space-2)] py-[var(--space-1)] text-label text-muted-foreground"
-                      data-state={day.selected ? "selected" : undefined}
-                      aria-current={day.selected ? "date" : undefined}
-                    >
-                      <span className="font-semibold text-foreground">{day.weekday}</span>
-                      <span className="ml-[var(--space-1)] text-label text-muted-foreground">{day.dayNumber}</span>
-                    </span>
-                  ))}
-                </div>
-              </Card.Body>
+            <Card asChild className="h-full">
+              <section
+                aria-labelledby="legacy-calendar-heading"
+                className="flex h-full flex-col gap-[var(--space-4)]"
+              >
+                <LegacyCardHeader
+                  id="legacy-calendar-heading"
+                  title={calendar.label}
+                  titleClassName="text-body font-semibold text-foreground"
+                  description={calendar.summary}
+                  descriptionClassName="text-label text-muted-foreground"
+                />
+                <CardBody className="text-card-foreground">
+                  <div className="flex flex-wrap gap-[var(--space-2)]">
+                    {calendar.days.map((day) => (
+                      <span
+                        key={day.iso}
+                        className="inline-flex min-w-[var(--space-8)] items-center justify-center rounded-full border border-border bg-card/60 px-[var(--space-2)] py-[var(--space-1)] text-label text-muted-foreground"
+                        data-state={day.selected ? "selected" : undefined}
+                        aria-current={day.selected ? "date" : undefined}
+                      >
+                        <span className="font-semibold text-foreground">{day.weekday}</span>
+                        <span className="ml-[var(--space-1)] text-label text-muted-foreground">{day.dayNumber}</span>
+                      </span>
+                    ))}
+                  </div>
+                </CardBody>
+              </section>
             </Card>
           </SectionCard.Body>
         </SectionCard>

@@ -2,12 +2,7 @@
 // Do not edit directly.
 export { createDayTextFieldHook } from "./createDayTextFieldHook";
 export { DayCard } from "./DayCard";
-export type {
-  DayCardActions,
-  DayCardDay,
-  DayCardProps,
-  DayCardSelection,
-} from "./DayCard";
+export type { DayCardActions, DayCardDay, DayCardProps, DayCardSelection } from "./DayCard";
 export { DayCardHeader } from "./DayCardHeader";
 export { addProject, addTask, addTaskImage, removeProject, removeTask, removeTaskImage, renameProject, renameTask, toggleProject, toggleTask, updateTaskReminder } from "./dayCrud";
 export { DayRow } from "./DayRow";
@@ -18,6 +13,7 @@ export type { PlannerViewMode } from "./plannerContext";
 export { makeCrud, setFocus, setNotes } from "./plannerCrud";
 export type { UpsertDay } from "./plannerCrud";
 export { PlannerFab } from "./PlannerFab";
+export { PlannerHero } from "./PlannerHero";
 export { PlannerIslandBoundary } from "./PlannerIslandBoundary";
 export { PlannerListPanel } from "./PlannerListPanel";
 export { PlannerPage } from "./PlannerPage";
