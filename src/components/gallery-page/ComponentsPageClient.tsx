@@ -29,6 +29,7 @@ import { useThemeQuerySync } from "@/lib/theme-hooks";
 
 import {
   COMPONENTS_PANEL_ID,
+  COMPONENTS_PANEL_CONTROLS_ID,
   COMPONENTS_SECTION_TAB_ID_BASE,
   COMPONENTS_VIEW_TAB_ID_BASE,
   type ComponentsView,
@@ -112,6 +113,7 @@ export function ComponentsPageClient({
     sectionLabel,
     countLabel,
     countDescriptionId,
+    componentsPanelLabelledBy,
     componentsPanelRef,
     tokensPanelRef,
     handleViewChange,
@@ -159,11 +161,9 @@ export function ComponentsPageClient({
     if (categoryId) {
       ids.push(categoryId);
     }
-    if (showSectionTabs) {
-      ids.push(`${COMPONENTS_SECTION_TAB_ID_BASE}-${section}-tab`);
-    }
+    ids.push(componentsPanelLabelledBy);
     return ids.join(" ");
-  }, [categoryLabelIds, section, showSectionTabs, view]);
+  }, [categoryLabelIds, componentsPanelLabelledBy, view]);
 
   const tokensPanelLabelledBy = React.useMemo(() => {
     const ids = ["components-header"];
@@ -183,7 +183,8 @@ export function ComponentsPageClient({
           label: card.label,
           icon: <Icon className="size-[var(--space-4)]" aria-hidden />,
           id: `category-${card.id}`,
-          controls: card.id === "tokens" ? "tokens-panel" : "components-panel",
+          controls:
+            card.id === "tokens" ? "tokens-panel" : COMPONENTS_PANEL_CONTROLS_ID,
           className: "min-w-[calc(var(--space-8)*3.5)]",
         } satisfies HeroTab<ComponentsView>;
       }),
