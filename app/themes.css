@@ -1,1 +1,8 @@
 @import "../src/app/themes.css";
+
+:root {
+  --spacing-0-125: var(--spacing-0125);
+  --spacing-0-25: var(--spacing-025);
+  --spacing-0-5: var(--spacing-05);
+  --spacing-0-75: var(--spacing-075);
+}
