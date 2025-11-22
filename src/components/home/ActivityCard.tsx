@@ -2,11 +2,7 @@
 
 import * as React from "react";
 
-import {
-  Card,
-  CardContent as CardBody,
-  CardHeader,
-} from "@/components/ui/primitives/Card";
+import { Card, CardBody, CardHeader } from "@/components/ui/primitives/Card";
 import type {
   PlannerOverviewActivityPoint,
   PlannerOverviewActivityProps,

@@ -188,4 +188,6 @@ export const CardFooter = React.forwardRef<
   />
 ));
 CardFooter.displayName = "CardFooter";
-export { Card };
+const CardBody = CardContent;
+
+export { Card, CardBody };

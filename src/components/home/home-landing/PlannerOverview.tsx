@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { Card } from "@/components/ui/primitives/Card";
 import { CalendarCard, FocusCard, MomentumCard, SummaryCard } from "./cards";
 import type { PlannerOverviewProps } from "./types";
 import { cn } from "@/lib/utils";
@@ -26,38 +25,22 @@ export function PlannerOverview({
           className,
         )}
       >
-        <Card
-          asChild
-          className="col-span-12 h-full md:col-span-6 lg:col-span-4"
-        >
-          <section className="h-full">
-            <SummaryCard {...summary} />
-          </section>
-        </Card>
-        <Card
-          asChild
-          className="col-span-12 h-full md:col-span-6 lg:col-span-4"
-        >
-          <section className="h-full">
-            <FocusCard {...focus} />
-          </section>
-        </Card>
-        <Card
-          asChild
-          className="col-span-12 h-full md:col-span-6 lg:col-span-4"
-        >
-          <section className="h-full">
-            <MomentumCard {...goals} />
-          </section>
-        </Card>
-        <Card
-          asChild
-          className="col-span-12 h-full md:col-span-6 lg:col-span-4"
-        >
-          <section className="h-full">
-            <CalendarCard {...calendar} />
-          </section>
-        </Card>
+        <SummaryCard
+          {...summary}
+          cardProps={{ className: "col-span-12 h-full md:col-span-6 lg:col-span-4" }}
+        />
+        <FocusCard
+          {...focus}
+          cardProps={{ className: "col-span-12 h-full md:col-span-6 lg:col-span-4" }}
+        />
+        <MomentumCard
+          {...goals}
+          cardProps={{ className: "col-span-12 h-full md:col-span-6 lg:col-span-4" }}
+        />
+        <CalendarCard
+          {...calendar}
+          cardProps={{ className: "col-span-12 h-full md:col-span-6 lg:col-span-4" }}
+        />
       </div>
     ),
     [calendar, className, focus, goals, summary],

@@ -3,12 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 
-import {
-  Card,
-  CardContent as CardBody,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/primitives/Card";
+import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui/primitives/Card";
 import { Button } from "@/components/ui";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import { cn, withBasePath } from "@/lib/utils";
