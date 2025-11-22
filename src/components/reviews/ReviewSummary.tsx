@@ -6,11 +6,14 @@ import { cn } from "@/lib/utils";
 import {
   SCORE_POOLS,
   FOCUS_POOLS,
+  ROLE_OPTIONS,
   pickIndex,
   scoreIcon,
 } from "@/components/reviews/reviewData";
+import { Hero } from "@/components/ui";
+import { IconButton } from "@/components/ui/primitives/IconButton";
+import { Pencil } from "lucide-react";
 import { SectionCard } from "@/components/ui/layout/SectionCard";
-import { ReviewSummaryHeader } from "@/components/reviews/ReviewSummaryHeader";
 import { ReviewSummaryScore } from "@/components/reviews/ReviewSummaryScore";
 import { ReviewSummaryPillars } from "@/components/reviews/ReviewSummaryPillars";
 import { ReviewSummaryTimestamps } from "@/components/reviews/ReviewSummaryTimestamps";
@@ -48,12 +51,74 @@ export function ReviewSummary({ review, onEdit, className }: Props) {
   );
   const focusMsg = focusPool[focusMsgIndex % focusPool.length];
 
+  const roleOption = ROLE_OPTIONS.find((r) => r.value === role);
+  const RoleIcon = roleOption?.Icon;
+  const roleLabel = roleOption?.label;
+
+  const resultBadge = result && (
+    <span
+      className={cn(
+        "inline-flex h-[var(--control-h-md)] items-center rounded-card r-card-lg border px-[var(--space-3)] text-ui font-medium",
+        "border-border bg-card",
+        result === "Win"
+          ? "shadow-[0_0_0_var(--hairline-w)_hsl(var(--ring)/.35)_inset] [background-image:var(--review-result-win-gradient)]"
+          : "[background-image:var(--review-result-loss-gradient)]",
+      )}
+      aria-label={`Result: ${result}`}
+      title={`Result: ${result}`}
+    >
+      {result}
+    </span>
+  );
+
+  const metaRow = roleLabel || resultBadge;
+  const headerActions = onEdit ? (
+    <IconButton
+      variant="quiet"
+      size="md"
+      aria-label="Edit review"
+      title="Edit review"
+      onClick={onEdit}
+    >
+      <Pencil className="h-[var(--icon-size-sm)] w-[var(--icon-size-sm)]" />
+    </IconButton>
+  ) : null;
+
   return (
     <SectionCard
       variant="plain"
       className={cn("transition-none shadow-none", className)}
     >
-      <ReviewSummaryHeader title={laneTitle} role={role} result={result} onEdit={onEdit} />
+      <Hero
+        variant="panel"
+        as="header"
+        className="section-h sticky"
+        title={laneTitle || "Untitled review"}
+        subtitle={roleLabel}
+        headingLevel={2}
+        actions={headerActions}
+        accent="accent"
+      >
+        {metaRow ? (
+          <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+            {roleLabel ? (
+              <span
+                className={cn(
+                  "inline-flex h-[var(--control-h-md)] items-center gap-[var(--space-2)] rounded-card r-card-lg border border-border",
+                  "bg-card px-[var(--space-3)] text-ui font-medium",
+                )}
+                title={roleLabel}
+              >
+                {RoleIcon ? (
+                  <RoleIcon className="h-[var(--icon-size-sm)] w-[var(--icon-size-sm)]" />
+                ) : null}
+                {roleLabel}
+              </span>
+            ) : null}
+            {resultBadge}
+          </div>
+        ) : null}
+      </Hero>
       <ReviewSummaryScore
         score={score}
         msg={msg}
