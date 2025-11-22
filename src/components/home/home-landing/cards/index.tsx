@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 
-import { CardContent as CardBody, CardHeader } from "@/components/ui/primitives/Card"
+import { Card, CardBody, CardFooter, CardHeader } from "@/components/ui/primitives/Card"
 import { CheckCircle } from "@/components/ui"
 import ProgressRingIcon from "@/icons/ProgressRingIcon"
 import { cn, withBasePath } from "@/lib/utils"
@@ -13,6 +13,10 @@ import type {
   PlannerOverviewGoalsProps,
   PlannerOverviewSummaryProps,
 } from "../types"
+
+type OverviewCardProps = {
+  cardProps?: React.ComponentProps<typeof Card>
+}
 
 type OverviewCardHeaderProps = {
   label?: React.ReactNode
@@ -91,9 +95,15 @@ export const SummaryCard = React.memo(function SummaryCardComponent({
   label,
   title,
   items,
-}: PlannerOverviewSummaryProps) {
+  cardProps,
+}: PlannerOverviewSummaryProps & OverviewCardProps) {
+  const { className, ...restCardProps } = cardProps ?? {}
+
   return (
-    <>
+    <Card
+      className={cn("h-full", className)}
+      {...restCardProps}
+    >
       <OverviewCardHeader
         label={label}
         labelClassName="text-label text-muted-foreground"
@@ -125,7 +135,7 @@ export const SummaryCard = React.memo(function SummaryCardComponent({
           ))}
         </ul>
       </CardBody>
-    </>
+    </Card>
   )
 })
 SummaryCard.displayName = "SummaryCard"
@@ -138,9 +148,15 @@ export const FocusCard = React.memo(function FocusCardComponent({
   tasks,
   remainingTasks,
   onToggleTask,
-}: PlannerOverviewFocusProps) {
+  cardProps,
+}: PlannerOverviewFocusProps & OverviewCardProps) {
+  const { className, ...restCardProps } = cardProps ?? {}
+
   return (
-    <>
+    <Card
+      className={cn("flex h-full flex-col", className)}
+      {...restCardProps}
+    >
       <OverviewCardHeader
         label={label}
         labelClassName="text-label text-muted-foreground"
@@ -155,7 +171,7 @@ export const FocusCard = React.memo(function FocusCardComponent({
         }
         actionsClassName="justify-end"
       />
-      <CardBody className="flex flex-col gap-[var(--space-3)] text-card-foreground">
+      <CardBody className="flex flex-1 flex-col gap-[var(--space-3)] text-card-foreground">
         <ul className="flex flex-col gap-[var(--space-3)]" aria-live="polite">
           {tasks.length > 0 ? (
             tasks.map((task) => (
@@ -198,13 +214,13 @@ export const FocusCard = React.memo(function FocusCardComponent({
             </li>
           )}
         </ul>
-        {remainingTasks > 0 ? (
-          <p className="text-label text-muted-foreground">
-            +{remainingTasks} more task{remainingTasks === 1 ? "" : "s"} in planner
-          </p>
-        ) : null}
       </CardBody>
-    </>
+      {remainingTasks > 0 ? (
+        <CardFooter className="border-t border-card-hairline/60 pt-[var(--space-3)] text-label text-muted-foreground">
+          +{remainingTasks} more task{remainingTasks === 1 ? "" : "s"} in planner
+        </CardFooter>
+      ) : null}
+    </Card>
   )
 })
 FocusCard.displayName = "FocusCard"
@@ -218,12 +234,17 @@ export const MomentumCard = React.memo(function MomentumCardComponent({
   active,
   emptyMessage,
   allCompleteMessage,
-}: PlannerOverviewGoalsProps) {
+  cardProps,
+}: PlannerOverviewGoalsProps & OverviewCardProps) {
   const hasGoals = total > 0
   const hasActiveGoals = active.length > 0
+  const { className, ...restCardProps } = cardProps ?? {}
 
   return (
-    <>
+    <Card
+      className={cn("flex h-full flex-col", className)}
+      {...restCardProps}
+    >
       <OverviewCardHeader
         label={label}
         labelClassName="text-label text-muted-foreground"
@@ -264,7 +285,7 @@ export const MomentumCard = React.memo(function MomentumCardComponent({
           )}
         </div>
       </CardBody>
-    </>
+    </Card>
   )
 })
 MomentumCard.displayName = "MomentumCard"
@@ -278,7 +299,9 @@ export const CalendarCard = React.memo(function CalendarCardComponent({
   hasPlannedTasks,
   days,
   onSelectDay,
-}: PlannerOverviewCalendarProps) {
+  cardProps,
+}: PlannerOverviewCalendarProps & OverviewCardProps) {
+  const { className, ...restCardProps } = cardProps ?? {}
   const description = hasPlannedTasks ? (
     <span className="tabular-nums text-card-foreground">
       {doneCount}/{totalCount}
@@ -288,7 +311,10 @@ export const CalendarCard = React.memo(function CalendarCardComponent({
   )
 
   return (
-    <>
+    <Card
+      className={cn("flex h-full flex-col", className)}
+      {...restCardProps}
+    >
       <OverviewCardHeader
         label={label}
         labelClassName="text-label text-muted-foreground"
@@ -345,7 +371,7 @@ export const CalendarCard = React.memo(function CalendarCardComponent({
           </ul>
         </div>
       </CardBody>
-    </>
+    </Card>
   )
 })
 CalendarCard.displayName = "CalendarCard"

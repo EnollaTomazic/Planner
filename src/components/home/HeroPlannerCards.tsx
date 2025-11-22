@@ -3,11 +3,7 @@
 import Link from "next/link";
 import * as React from "react";
 
-import {
-  Card,
-  CardContent as CardBody,
-  CardHeader,
-} from "@/components/ui/primitives/Card";
+import { Card, CardBody, CardHeader } from "@/components/ui/primitives/Card";
 import { ActivityCard } from "./ActivityCard";
 import { GoalsCard } from "./GoalsCard";
 import { IsometricRoom } from "./IsometricRoom";
