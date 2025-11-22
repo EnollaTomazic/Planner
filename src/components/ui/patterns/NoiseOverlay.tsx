@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 export type NoiseLevel = "none" | "subtle" | "moderate";
 
 const noiseOverlayOpacity: Record<Exclude<NoiseLevel, "none">, string> = {
-  subtle: "opacity-[var(--card-noise-opacity,0.06)]",
-  moderate: "opacity-[calc(var(--card-noise-opacity,0.06)*1.3333)]",
+  subtle: "opacity-[var(--texture-noise-opacity,0.05)]",
+  moderate: "opacity-[calc(var(--texture-noise-opacity,0.05)*1.2)]",
 };
 
 export interface NoiseOverlayProps
@@ -36,14 +36,14 @@ export function NoiseOverlay({ level = "subtle", className, ...props }: NoiseOve
       <span
         aria-hidden
         className={cn(
-          "absolute inset-0 rounded-[inherit] bg-[radial-gradient(180deg_at_16%_8%,hsl(var(--accent-1)/0.22),transparent_62%),radial-gradient(160deg_at_80%_-6%,hsl(var(--accent-2)/0.2),transparent_60%),linear-gradient(180deg,hsl(var(--card)/0.18),transparent_70%))]",
+          "noise-overlay__tint absolute inset-0 rounded-[inherit] bg-[radial-gradient(180deg_at_16%_8%,hsl(var(--accent-1)/0.22),transparent_62%),radial-gradient(160deg_at_80%_-6%,hsl(var(--accent-2)/0.2),transparent_60%),linear-gradient(180deg,hsl(var(--card)/0.18),transparent_70%))]",
           opacityClass,
         )}
       />
       <span
         aria-hidden
         className={cn(
-          "absolute inset-0 rounded-[inherit] bg-glitch-noise-primary mix-blend-soft-light",
+          "noise-overlay__grain absolute inset-0 rounded-[inherit] bg-glitch-noise-primary mix-blend-soft-light",
           opacityClass,
         )}
       />
