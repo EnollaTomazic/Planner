@@ -27,8 +27,9 @@ describe("TeamCompPage builder tab", () => {
     render(<TeamCompPage />);
     const builderTab = screen.getByRole("tab", { name: "Builder" });
     fireEvent.click(builderTab);
-    const heroHeading = screen.getByRole("heading", { name: "Builder" });
-    expect(heroHeading).toBeInTheDocument();
+    expect(screen.getByText("Allies 0/5 locked")).toBeInTheDocument();
+    expect(screen.getByText("Lane coverage")).toBeInTheDocument();
+    expect(screen.getAllByText("Top: Open / Open").length).toBeGreaterThan(0);
     const cardParent = screen.getByText("Allies").closest("section")?.parentElement;
     expect(cardParent).toHaveClass("mt-[var(--space-6)]");
   });

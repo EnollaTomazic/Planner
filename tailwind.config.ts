@@ -124,6 +124,7 @@ const config: Config = {
         "chrome-divider": "var(--gradient-chrome-divider)",
         "brandmark-halo": "var(--gradient-brandmark-halo)",
         "brandmark-fill": "var(--gradient-brandmark-fill)",
+        "nav-underline": "var(--gradient-nav-underline)",
         "nav-underline-glow": "var(--gradient-nav-underline-glow)",
         "panel-tilt-strong": "var(--gradient-panel-tilt-strong)",
         "panel-tilt-bright": "var(--gradient-panel-tilt-bright)",
