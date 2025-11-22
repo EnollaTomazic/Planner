@@ -19,6 +19,8 @@ export { NotesTab } from "./NotesTab";
 export type { NotesTabHandle, NotesTabProps } from "./NotesTab";
 export { OnboardingTabs } from "./OnboardingTabs";
 export { OutlineGlowDemo } from "./OutlineGlowDemo";
+export { PersonaCard } from "./PersonaCard";
+export type { PersonaCardProps } from "./PersonaCard";
 export { CalendarPreview, CalendarPreviewError, CalendarPreviewLoading } from "./previews/CalendarLayoutPreview";
 export { WeekPickerDemo } from "./previews/WeekPickerDemo";
 export { PromptCard } from "./PromptCard";
