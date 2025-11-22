@@ -1051,6 +1051,20 @@ async function main(): Promise<void> {
   const usage = await buildUsage(registry.payload.sections);
   const previewRoutes = buildPreviewRoutes(registry.payload.sections);
 
+  const availablePreviewIds = new Set(
+    modules.flatMap((module) => module.previewIds),
+  );
+  const missingPreviewIds = previewRoutes
+    .filter((route) => !availablePreviewIds.has(route.previewId))
+    .map((route) => route.previewId);
+
+  if (missingPreviewIds.length > 0) {
+    const missingIdList = [...new Set(missingPreviewIds)].join("\n - ");
+    throw new Error(
+      `Generated gallery manifest references previews that are not exported by any module:\n - ${missingIdList}`,
+    );
+  }
+
   ManifestPayloadSchema.parse(registry.payload);
   ManifestRouteSchema.array().parse(previewRoutes);
 
