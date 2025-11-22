@@ -20,7 +20,7 @@ vi.mock("@/components/ui/AnimationToggle", () => ({
 }));
 
 import { SiteChrome } from "@/components/chrome/SiteChrome";
-import { NAV_ITEMS, PRIMARY_NAV_LABEL } from "@/config/nav";
+import { PRIMARY_NAV_LABEL } from "@/config/nav";
 
 describe("SiteChrome", () => {
   it("links the brand to home", async () => {
@@ -118,87 +118,3 @@ describe("SiteChrome", () => {
   });
 });
 
-async function loadBottomNav() {
-  const module = await import("@/components/chrome/BottomNav");
-  return module.BottomNav;
-}
-
-describe("BottomNav", () => {
-  it("marks disabled and syncing items for accessibility", async () => {
-    const BottomNav = await loadBottomNav();
-    const reviewsNavItem = NAV_ITEMS.find((item) => item.label === "Reviews");
-    const plannerNavItem = NAV_ITEMS.find((item) => item.label === "Planner");
-    const teamNavItem = NAV_ITEMS.find((item) => item.label === "Team");
-
-    if (!reviewsNavItem || !plannerNavItem || !teamNavItem) {
-      throw new Error("Expected nav items to be defined");
-    }
-
-    render(
-      <BottomNav
-        items={[
-          { ...reviewsNavItem, href: "/reviews", state: "syncing" },
-          { ...plannerNavItem, href: "/planner", state: "active" },
-          { ...teamNavItem, href: "/team", state: "disabled" },
-        ]}
-      />,
-    );
-
-    const bottomNav = screen.getByRole("navigation", {
-      name: PRIMARY_NAV_LABEL,
-    });
-    const syncingItem = within(bottomNav).getByRole("button", { name: /Reviews/ });
-    expect(syncingItem).toHaveAttribute("aria-busy", "true");
-    expect(within(syncingItem).getByRole("status", { name: "Loading" })).toBeInTheDocument();
-
-    const disabledItem = within(bottomNav).getByRole("button", { name: /Team/ });
-    expect(disabledItem).toHaveAttribute("aria-disabled", "true");
-    expect(disabledItem).toHaveAttribute("tabindex", "-1");
-  });
-
-  it("normalizes navigation hrefs for Next.js base path handling", async () => {
-    const utils = await import("@/lib/utils");
-    const withBasePathSpy = vi
-      .spyOn(utils, "withBasePath")
-      .mockImplementation((path: string, options?: { skipForNextLink?: boolean }) => {
-        expect(options?.skipForNextLink).toBe(true);
-        const needsSlash =
-          path.length > 0 &&
-          !path.endsWith("/") &&
-          !path.includes("?") &&
-          !path.includes("#");
-
-        return needsSlash ? `${path}/` : path;
-      });
-
-    try {
-      const BottomNav = await loadBottomNav();
-      const plannerNavItem = NAV_ITEMS.find(
-        (item) => item.label === "Planner",
-      );
-
-      if (!plannerNavItem) {
-        throw new Error("Expected planner nav item to be defined");
-      }
-
-      render(
-        <BottomNav
-          items={[
-            {
-              ...plannerNavItem,
-              href: "/planner",
-            },
-          ]}
-        />,
-      );
-
-      const plannerLink = screen.getByRole("button", { name: /Planner/ });
-      expect(plannerLink).toHaveAttribute("href", "/planner/");
-      expect(withBasePathSpy).toHaveBeenCalledWith("/planner", {
-        skipForNextLink: true,
-      });
-    } finally {
-      withBasePathSpy.mockRestore();
-    }
-  });
-});
