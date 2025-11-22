@@ -112,7 +112,7 @@ function Inner() {
   const { tasks } = useDay(iso);
   const hydrating = today === FOCUS_PLACEHOLDER;
   const [planningEnergy, setPlanningEnergy] = React.useState(72);
-  const { per, weekDone, weekTotal } = useWeekData(days ?? []);
+  const { weekDone, weekTotal } = useWeekData(days ?? []);
   const sliderFeedback = React.useMemo(() => {
     if (planningEnergy >= 75) return "High-intensity push queued.";
     if (planningEnergy <= 40) return "Keeping a low-impact tempo.";
