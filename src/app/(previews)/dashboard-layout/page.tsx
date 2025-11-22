@@ -15,15 +15,17 @@ import { ProgressRingIcon } from "@/icons";
 import {
   Badge,
   Button,
+  Card,
   Grid,
   type GridTemplate,
   Hero,
-  NeoCard,
   PageShell,
   Skeleton,
   Stack,
   Switcher,
+  cardSurfaceClassName,
 } from "@/components/ui";
+import { cn } from "@/lib/utils";
 
 import styles from "./page.module.css";
 
@@ -248,7 +250,11 @@ export default function DashboardLayoutPreviewPage() {
           template={MOBILE_TEMPLATE}
           areas={{
             summary: (
-              <NeoCard asChild className={styles.summaryCard}>
+              <Card
+                depth="raised"
+                asChild
+                className={cn(cardSurfaceClassName, styles.summaryCard)}
+              >
                 <section
                   role="region"
                   aria-labelledby={summaryHeadingId}
@@ -302,7 +308,7 @@ export default function DashboardLayoutPreviewPage() {
                   </dl>
                 </div>
               </section>
-              </NeoCard>
+              </Card>
             ),
             switcher: (
               <section
@@ -332,7 +338,12 @@ export default function DashboardLayoutPreviewPage() {
                     {QUICK_PANELS.map((panel) => {
                       const Icon = panel.icon;
                       return (
-                        <NeoCard key={panel.id} asChild className={styles.switcherCard}>
+                        <Card
+                          key={panel.id}
+                          depth="raised"
+                          asChild
+                          className={cn(cardSurfaceClassName, styles.switcherCard)}
+                        >
                           <article aria-labelledby={`${panel.id}-title`}>
                             <header className="flex items-start justify-between gap-[var(--space-3)]">
                               <span className="inline-flex items-center gap-[var(--space-2)] text-title font-semibold tracking-[-0.01em]">
@@ -351,7 +362,7 @@ export default function DashboardLayoutPreviewPage() {
                               Upcoming review window locked
                             </div>
                           </article>
-                        </NeoCard>
+                        </Card>
                       );
                     })}
                   </Switcher>
@@ -359,7 +370,11 @@ export default function DashboardLayoutPreviewPage() {
               </section>
             ),
             tasks: (
-              <NeoCard asChild className={styles.tasksCard}>
+              <Card
+                depth="raised"
+                asChild
+                className={cn(cardSurfaceClassName, styles.tasksCard)}
+              >
                 <section
                   role="region"
                   aria-labelledby={tasksHeadingId}
@@ -416,10 +431,14 @@ export default function DashboardLayoutPreviewPage() {
                     </div>
                   </Stack>
               </section>
-              </NeoCard>
+              </Card>
             ),
             calendar: (
-              <NeoCard asChild className={styles.calendarCard}>
+              <Card
+                depth="raised"
+                asChild
+                className={cn(cardSurfaceClassName, styles.calendarCard)}
+              >
                 <section
                   role="region"
                   aria-labelledby={calendarHeadingId}
@@ -486,10 +505,14 @@ export default function DashboardLayoutPreviewPage() {
                     </div>
                   </Stack>
               </section>
-              </NeoCard>
+              </Card>
             ),
             cta: (
-              <NeoCard asChild className={styles.ctaCard}>
+              <Card
+                depth="raised"
+                asChild
+                className={cn(cardSurfaceClassName, styles.ctaCard)}
+              >
                 <aside
                   id="upgrade"
                   role="complementary"
@@ -524,7 +547,7 @@ export default function DashboardLayoutPreviewPage() {
                     <p className="text-label text-muted-foreground">Team invites remaining: 3</p>
                   </Stack>
               </aside>
-              </NeoCard>
+              </Card>
             ),
           }}
           style={GRID_STYLE}

@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { NeoCard } from "@/components/ui/primitives/NeoCard";
+import { Card, cardSurfaceClassName } from "@/components/ui/Card";
 import { Label } from "@/components/ui/Label";
 import { Input } from "@/components/ui/primitives/Input";
 import { Select } from "@/components/ui/Select";
 import { Toggle } from "@/components/ui/toggles/Toggle";
 import { AnimatedSelect } from "@/components/ui";
+import { cn } from "@/lib/utils";
 import { usePersistentState } from "@/lib/db";
 import { usePlannerReminders } from "./plannerContext";
 import type { DayTask, TaskReminder } from "./plannerTypes";
@@ -262,7 +263,13 @@ export function TaskReminderSettings({
   const noReminders = availableReminders.length === 0;
 
   return (
-    <NeoCard className="col-span-full card-pad space-y-[var(--space-4)]">
+    <Card
+      depth="raised"
+      className={cn(
+        cardSurfaceClassName,
+        "col-span-full card-pad space-y-[var(--space-4)]",
+      )}
+    >
       <header className="flex flex-col gap-[var(--space-1)]">
         <h3 className="text-title-sm font-semibold">Task reminders</h3>
         <p className="text-ui text-muted-foreground">{selectedTaskLabel}</p>
@@ -360,6 +367,6 @@ export function TaskReminderSettings({
           </div>
         </div>
       )}
-    </NeoCard>
+    </Card>
   );
 }

@@ -10,12 +10,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-  NeoCard,
   SectionCard,
   SectionCardBody,
   SectionCardHeader,
   Skeleton,
   Button,
+  cardSurfaceClassName,
 } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
@@ -144,16 +144,18 @@ const standardCardStates: readonly CardPreviewState[] = [
   },
 ];
 
-const createNeoCard = (
+const createNeoSurface = (
   className: string,
   options?: { disabled?: boolean; loading?: boolean },
 ) => {
   const { disabled = false, loading = false } = options ?? {};
   return (
-    <NeoCard
+    <Card
+      depth="raised"
       aria-disabled={disabled ? true : undefined}
       aria-busy={loading ? true : undefined}
       className={cn(
+        cardSurfaceClassName,
         "space-y-[var(--space-3)] p-[var(--space-4)]",
         className,
       )}
@@ -181,7 +183,7 @@ const createNeoCard = (
           </Button>
         </div>
       )}
-    </NeoCard>
+    </Card>
   );
 };
 
@@ -190,13 +192,13 @@ const neoCardStates: readonly CardPreviewState[] = [
     id: "default",
     name: "Default",
     render: () =>
-      createNeoCard("[box-shadow:var(--depth-shadow-soft)] border-card-hairline/70"),
+      createNeoSurface("[box-shadow:var(--depth-shadow-soft)] border-card-hairline/70"),
   },
   {
     id: "hover",
     name: "Hover",
     render: () =>
-      createNeoCard(
+      createNeoSurface(
         "shadow-ring border-ring/60 bg-card/95",
       ),
   },
@@ -204,7 +206,7 @@ const neoCardStates: readonly CardPreviewState[] = [
     id: "active",
     name: "Active",
     render: () =>
-      createNeoCard(
+      createNeoSurface(
         "shadow-depth-outer-strong border-ring ring-2 ring-accent/80",
       ),
   },
@@ -212,7 +214,7 @@ const neoCardStates: readonly CardPreviewState[] = [
     id: "disabled",
     name: "Disabled",
     render: () =>
-      createNeoCard(
+      createNeoSurface(
         "pointer-events-none border-border/50 bg-muted/30 opacity-55 shadow-none",
         { disabled: true },
       ),
@@ -221,7 +223,7 @@ const neoCardStates: readonly CardPreviewState[] = [
     id: "loading",
     name: "Loading",
     render: () =>
-      createNeoCard(
+      createNeoSurface(
         "border-ring/40 bg-card/90 shadow-outline-faint",
         { loading: true },
       ),

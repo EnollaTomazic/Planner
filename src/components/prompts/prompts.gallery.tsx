@@ -14,8 +14,6 @@ import {
   Badge,
   Button,
   Card,
-  NeoCard,
-  neoCardOverlayClassName,
   CardHeader,
   CardTitle,
   CardDescription,
@@ -38,6 +36,7 @@ import {
   CatCompanion,
   ThemeToggle,
   CheckCircle,
+  cardSurfaceClassName,
   Snackbar,
   Skeleton,
   SideSelector,
@@ -1408,21 +1407,27 @@ function CardErrorState() {
   );
 }
 
-function NeoCardDemo() {
+function CardSurfaceDemo() {
   return (
-    <NeoCard
+    <Card
+      depth="raised"
+      glitch
+      className={cardSurfaceClassName}
       overlay={
-        <div className={neoCardOverlayClassName} />
+        <div
+          data-card-overlay="true"
+          className="pointer-events-none absolute inset-0 rounded-[inherit] border border-ring/50"
+        />
       }
     >
       <p className="text-ui">Body</p>
-    </NeoCard>
+    </Card>
   );
 }
 
-function NeoCardLoadingState() {
+function CardSurfaceLoadingState() {
   return (
-    <NeoCard>
+    <Card depth="raised" className={cardSurfaceClassName}>
       <div className="stack-lg">
         <div className="stack-sm">
           <Skeleton
@@ -1446,13 +1451,13 @@ function NeoCardLoadingState() {
           </div>
         </div>
       </div>
-    </NeoCard>
+    </Card>
   );
 }
 
-function NeoCardErrorState() {
+function CardSurfaceErrorState() {
   return (
-    <NeoCard>
+    <Card depth="raised" className={cardSurfaceClassName}>
       <div className="stack-md">
         <div className="stack-xs">
           <h4 className="text-ui font-semibold tracking-[-0.01em]">
@@ -1470,7 +1475,7 @@ function NeoCardErrorState() {
           width="full"
         />
       </div>
-    </NeoCard>
+    </Card>
   );
 }
 
@@ -2765,7 +2770,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
   ],
   cards: [
     {
-      id: "card-demo",
+      id: "card-surface-demo",
       name: "Card",
       description:
         "Standard card surface with header spacing set to the space-2 token for consistent vertical rhythm.",
@@ -2789,7 +2794,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
           name: "Loading",
           description:
             "Skeleton placeholders mirror card layout to communicate asynchronous loading.",
-          element: <CardLoadingState />,
+          element: <CardSurfaceLoadingState />,
           code: `<Card>
   <CardContent className="space-y-[var(--space-4)]">
     <div className="space-y-[var(--space-2)]">
@@ -2821,7 +2826,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
           name: "Error",
           description:
             "Snackbar feedback surfaces failure messaging with a retry action inside the card shell.",
-          element: <CardErrorState />,
+          element: <CardSurfaceErrorState />,
           code: `<Card>
   <CardContent className="space-y-[var(--space-3)]">
     <div className="space-y-[var(--space-1)]">
@@ -2865,23 +2870,26 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       ],
     },
     {
-      id: "neo-card-demo",
-      name: "NeoCard",
-      element: <NeoCardDemo />,
+      id: "card-demo",
+      name: "Card",
+      element: <CardSurfaceDemo />,
       tags: ["card", "overlay", "layout"],
-      code: `<NeoCard
-  overlay={<div className="neo-card__overlay" />}
+      code: `<Card
+  depth="raised"
+  glitch
+  className="card-neo-soft border border-card-hairline [box-shadow:var(--depth-shadow-soft)]"
+  overlay={<div data-card-overlay="true" className="pointer-events-none absolute inset-0 rounded-[inherit] border border-ring/50" />}
 >
   <p className="text-ui">Body</p>
-</NeoCard>`,
+</Card>`,
       states: [
         {
           id: "loading",
           name: "Loading",
           description:
-            "Neo shell supports skeletons while preserving raised lighting cues.",
-          element: <NeoCardLoadingState />,
-          code: `<NeoCard className="p-[var(--space-4)]">
+            "Cards support skeletons while preserving raised lighting cues.",
+          element: <CardLoadingState />,
+          code: `<Card depth="raised" className="card-neo-soft border border-card-hairline">
   <div className="space-y-[var(--space-4)]">
     <div className="space-y-[var(--space-2)]">
       <Skeleton
@@ -2905,15 +2913,15 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       </div>
     </div>
   </div>
-</NeoCard>`,
+</Card>`,
         },
         {
           id: "error",
           name: "Error",
           description:
-            "Surface retry messaging within the Neo overlay while maintaining blend effects.",
-          element: <NeoCardErrorState />,
-          code: `<NeoCard className="p-[var(--space-4)]">
+            "Surface retry messaging within the raised overlay while maintaining blend effects.",
+          element: <CardErrorState />,
+          code: `<Card depth="raised" className="card-neo-soft border border-card-hairline">
   <div className="space-y-[var(--space-3)]">
     <div className="space-y-[var(--space-1)]">
       <h4 className="text-ui font-semibold tracking-[-0.01em]">
@@ -2931,7 +2939,7 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       width="full"
     />
   </div>
-</NeoCard>`,
+</Card>`,
         },
       ],
       usage: [
@@ -2939,13 +2947,13 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
           kind: "do",
           title: "Use overlays for featured content",
           description:
-            "Neo cards work best when highlighting premium or hero content that benefits from glow and depth.",
+            "Cards work best when highlighting premium or hero content that benefits from glow and depth.",
         },
         {
           kind: "dont",
           title: "Avoid dense layouts",
           description:
-            "Do not overload Neo cards with complex forms; reserve them for concise summaries or highlights.",
+            "Do not overload cards with complex forms; reserve them for concise summaries or highlights.",
         },
       ],
     },
