@@ -5,7 +5,6 @@ export { ReviewEditor as ReviewEditor } from "./ReviewEditor";
 export { ReviewList as ReviewList } from "./ReviewList";
 export { ReviewListItem as ReviewListItem } from "./ReviewListItem";
 export { ReviewSummary as ReviewSummary } from "./ReviewSummary";
-export { ReviewSummaryHeader as ReviewSummaryHeader } from "./ReviewSummaryHeader";
 export { ReviewSummaryScore as ReviewSummaryScore } from "./ReviewSummaryScore";
 export { ReviewSummaryPillars as ReviewSummaryPillars } from "./ReviewSummaryPillars";
 export { ReviewSummaryTimestamps as ReviewSummaryTimestamps } from "./ReviewSummaryTimestamps";
