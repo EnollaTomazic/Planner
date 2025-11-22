@@ -113,16 +113,16 @@ export function NavBar({ items = NAV_ITEMS }: NavBarProps = {}) {
                 <span className="relative z-10">{label}</span>
 
                 {/* animated underline shared across tabs */}
-                {active && (
-                  <motion.span
-                    data-testid="nav-underline"
-                    layoutId="nav-underline"
-                    className="absolute left-[var(--space-2)] right-[var(--space-2)] -bottom-[var(--space-1)] h-px rounded-full nav-underline shadow-glow-sm"
-                    transition={{
-                      type: "tween",
-                      duration: reduceMotion ? 0 : 0.25,
-                      ease: "easeOut",
-                    }}
+                  {active && (
+                    <motion.span
+                      data-testid="nav-underline"
+                      layoutId="nav-underline"
+                    className="absolute left-[var(--space-2)] right-[var(--space-2)] -bottom-[var(--space-1)] h-px rounded-full bg-nav-underline shadow-glow-sm"
+                      transition={{
+                        type: "tween",
+                        duration: reduceMotion ? 0 : 0.25,
+                        ease: "easeOut",
+                      }}
                   />
                 )}
               </Link>
