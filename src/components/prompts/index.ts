@@ -36,6 +36,7 @@ export { SelectShowcase } from "./SelectShowcase";
 export { SkeletonShowcase } from "./SkeletonShowcase";
 export { SnackbarShowcase } from "./SnackbarShowcase";
 export { SpinnerShowcase } from "./SpinnerShowcase";
+export { StateTester } from "./StateTester";
 export { PROMPTS_TAB_ID_BASE, PROMPTS_TAB_ITEMS } from "./tabs";
 export type { PromptsTabKey } from "./tabs";
 export { ToggleShowcase } from "./ToggleShowcase";

@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import { Button, Hero } from "@/components/ui";
-import { Badge } from "@/components/ui/primitives/Badge";
 import { cn } from "@/lib/utils";
 import {
   PROMPTS_TAB_ID_BASE,
   PROMPTS_TAB_ITEMS,
   type PromptsTabKey,
 } from "./tabs";
+import { StateTester } from "./StateTester";
 
 const chips = ["hover", "focus", "active", "disabled", "loading"];
 
@@ -94,45 +94,12 @@ export function PromptsHeader({
         round: true,
       }}
     >
-      <div
-        role="group"
-        aria-label="Prompt chip filters"
-        className={cn(
-          "flex items-center gap-[var(--space-2)]",
-          "overflow-x-auto",
-          "pb-[var(--space-1)]",
-          "[-webkit-overflow-scrolling:touch]",
-          "-mx-[var(--space-2)] sm:-mx-[var(--space-1)] md:mx-0",
-          "px-[var(--space-2)] sm:px-[var(--space-1)] md:px-0",
-        )}
-      >
-        {chips.map((chip) => {
-          const isSelected = query === chip;
-
-          return (
-            <Badge
-              key={chip}
-              interactive
-              selected={isSelected}
-              aria-pressed={isSelected}
-              onClick={() => handleChip(chip)}
-              tone="accent"
-              className={cn(
-                "[--badge-surface:transparent]",
-                "border-[theme('colors.interaction.accent.surfaceHover')]",
-                "text-muted-foreground",
-                "hover:text-foreground",
-                "focus-visible:text-foreground",
-                "data-[selected=true]:!bg-[theme('colors.interaction.accent.tintActive')]",
-                "data-[selected=true]:!text-on-accent",
-                "data-[selected=true]:!border-[theme('colors.interaction.accent.surfaceActive')]",
-              )}
-            >
-              {chip}
-            </Badge>
-          );
-        })}
-      </div>
+      <StateTester
+        chips={chips}
+        selectedChip={query}
+        onSelect={handleChip}
+        className={cn("-mx-[var(--space-2)] sm:-mx-[var(--space-1)] md:mx-0")}
+      />
     </Hero>
   );
 }
