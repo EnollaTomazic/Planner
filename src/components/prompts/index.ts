@@ -11,7 +11,6 @@ export { ComponentsView, PROPS_DISCLOSURE_COLLAPSE_THRESHOLD, ThemeMatrix, Theme
 export { COMPONENTS_VIEW_TABS, getGalleryPreview, getGallerySectionEntries, SECTION_TABS, SECTIONS } from "./constants";
 export type { GallerySpec, Section } from "./constants";
 export { colorTokens, focusRingToken, FRUIT_ITEMS, glowTokens, GOAL_DEMO_ITEMS, NEON_ICONS, radiusClasses, radiusTokens, spacingTokens, typeRamp } from "./demoData";
-export { DemoHeader } from "./DemoHeader";
 export { GalleryItem } from "./GalleryItem";
 export { GoalListDemo } from "./GoalListDemo";
 export { IconButtonShowcase } from "./IconButtonShowcase";
@@ -22,6 +21,8 @@ export { OnboardingTabs } from "./OnboardingTabs";
 export { OutlineGlowDemo } from "./OutlineGlowDemo";
 export { CalendarPreview, CalendarPreviewError, CalendarPreviewLoading } from "./previews/CalendarLayoutPreview";
 export { WeekPickerDemo } from "./previews/WeekPickerDemo";
+export { PromptCard } from "./PromptCard";
+export type { PromptCardData, PromptCardProps } from "./PromptCard";
 export { PromptsComposePanel } from "./PromptsComposePanel";
 export { PromptsDemos } from "./PromptsDemos";
 export { PromptsHeader } from "./PromptsHeader";
