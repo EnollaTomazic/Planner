@@ -1,0 +1,54 @@
+<svg width="640" height="480" viewBox="0 0 640 480" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Agnes writing notes</title>
+  <desc id="desc">A friendly owl-inspired character taking notes in a journal.</desc>
+  <defs>
+    <linearGradient id="page" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F9FBFF" />
+      <stop offset="100%" stop-color="#E7ECF8" />
+    </linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F3F6FF" />
+      <stop offset="100%" stop-color="#E5F2FF" />
+    </linearGradient>
+    <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#D1E3FF" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#B6CCFF" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow" x="0" y="0" width="200%" height="200%" color-interpolation-filters="sRGB">
+      <feOffset dy="6" in="SourceAlpha" result="offset" />
+      <feGaussianBlur in="offset" stdDeviation="12" result="blur" />
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0   0 0 0 0.18 0" result="shadow" />
+      <feBlend in="SourceGraphic" in2="shadow" mode="normal" />
+    </filter>
+  </defs>
+  <rect x="0" y="0" width="640" height="480" rx="32" fill="url(#bg)" />
+  <rect x="52" y="42" width="536" height="396" rx="28" fill="url(#glow)" />
+  <path d="M320 126c-74 0-134 46-134 114 0 68 60 114 134 114 32.5 0 54-5 74-18 32-20 53-59 53-96 0-68-53-114-127-114z" fill="#0F172A" opacity="0.08" />
+  <g filter="url(#shadow)">
+    <path d="M230 150c-4 23 4 46 22 62 6 6 9 15 8 24l-1 15c-1 17 12 31 30 31h60c18 0 32-14 30-31l-1-11c-1-9 3-18 9-24 14-13 22-32 22-52 0-48-43-87-96-87s-92 29-101 73z" fill="#14192C"/>
+  </g>
+  <path d="M236 166c-7 35 18 66 52 66h68c34 0 59-31 52-66-8-39-35-62-86-62-51 0-83 26-86 62z" fill="#F8FBFF" />
+  <path d="M274 144c0 10-8 18-18 18-9 0-17-8-17-18 0-9 8-17 17-17 10 0 18 8 18 17z" fill="#0F172A"/>
+  <path d="M398 144c0 10-8 18-18 18-9 0-17-8-17-18 0-9 8-17 17-17 10 0 18 8 18 17z" fill="#0F172A"/>
+  <path d="M302 226c0 9 10 16 22 16h24c12 0 22-7 22-16s-10-16-22-16h-24c-12 0-22 7-22 16z" fill="#E1E8F7" />
+  <path d="M338 221c0 4-3 7-7 7s-7-3-7-7c0-5 3-8 7-8s7 3 7 8z" fill="#111827"/>
+  <rect x="182" y="262" width="276" height="128" rx="22" fill="url(#page)" stroke="#CBD5E1" stroke-width="4" />
+  <path d="M210 284h156" stroke="#CBD5E1" stroke-width="6" stroke-linecap="round" />
+  <path d="M210 314h188" stroke="#CBD5E1" stroke-width="6" stroke-linecap="round" />
+  <path d="M210 344h120" stroke="#CBD5E1" stroke-width="6" stroke-linecap="round" />
+  <path d="M356 344h72" stroke="#A5B4FC" stroke-width="6" stroke-linecap="round" stroke-dasharray="12 10" />
+  <path d="M402 270c24 8 34 20 46 44" stroke="#94A3B8" stroke-width="5" stroke-linecap="round" />
+  <path d="M314 310c18 16 30 22 42 22 10 0 18-5 24-13l34-50c6-9 5-21-3-28-8-7-21-5-28 4l-26 35c-3 4-8 6-13 6-9 0-16 5-30 24z" fill="url(#ink)" />
+  <circle cx="262" cy="142" r="14" fill="#FDF2F8" stroke="#C084FC" stroke-width="4" />
+  <circle cx="340" cy="118" r="10" fill="#DBEAFE" />
+  <circle cx="372" cy="112" r="6" fill="#E0F2FE" />
+  <path d="M250 120c8-22 33-38 62-38 29 0 54 16 62 38" stroke="#0F172A" stroke-width="8" stroke-linecap="round" />
+  <path d="M328 156c-4 8-14 14-24 14s-20-6-24-14" stroke="#0F172A" stroke-width="8" stroke-linecap="round" />
+  <path d="M292 180c3 8 14 14 24 14s21-6 24-14" stroke="#0F172A" stroke-width="6" stroke-linecap="round" />
+  <path d="M292 192c3 7 14 12 24 12s21-5 24-12" stroke="#0F172A" stroke-width="5" stroke-linecap="round" />
+  <ellipse cx="320" cy="402" rx="126" ry="18" fill="#0F172A" opacity="0.08" />
+</svg>
