@@ -31,10 +31,8 @@ import {
   PageShell,
   Modal,
   ProgressRing,
-  InsetRow,
   Label,
   Input,
-  Textarea,
   AIExplainTooltip,
 } from "@/components/ui";
 import { PlannerProvider, SmallAgnesNoxiImage } from "@/components/planner";
@@ -47,6 +45,10 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/primitives/Card";
+import { Field } from "@/components/ui/primitives/Field";
+import { type TextareaProps } from "@/components/ui/primitives/Textarea";
+import { useFieldIds } from "@/lib/useFieldIds";
+import { cn } from "@/lib/utils";
 import { FilterKey, SegmentFilterKey, GoalsTabs } from "./GoalsTabs";
 import {
   type EntityFormSubmitResult,
@@ -953,6 +955,49 @@ const createDefaultGoalFormValues = () => ({
   notes: "",
 });
 
+const InsetTextarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  function InsetTextarea(
+    { className, textareaClassName, resize, id, name, "aria-label": ariaLabel, ...props },
+    ref,
+  ) {
+    const { id: finalId, name: finalName, isInvalid } = useFieldIds(
+      ariaLabel as string | undefined,
+      id,
+      name,
+      {
+        ariaInvalid: props["aria-invalid"],
+        slugifyFallback: true,
+      },
+    );
+    const loadingAttr = props["data-loading"];
+    const loading =
+      loadingAttr === "" ||
+      loadingAttr === true ||
+      loadingAttr === "true" ||
+      loadingAttr === 1;
+
+    return (
+      <Field.Root
+        variant="sunken"
+        invalid={isInvalid}
+        disabled={props.disabled}
+        readOnly={props.readOnly}
+        loading={loading}
+        className={cn("items-start", className)}
+      >
+        <Field.Textarea
+          ref={ref}
+          id={finalId}
+          name={finalName}
+          aria-label={ariaLabel}
+          className={cn(resize, textareaClassName)}
+          {...props}
+        />
+      </Field.Root>
+    );
+  },
+);
+
 const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProps>(
   ({ isAtCap, remaining, errorMessage, onSubmit }, ref) => {
     const [values, setValues] = React.useState(createDefaultGoalFormValues);
@@ -1031,79 +1076,84 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
 
     return (
       <form className="space-y-[var(--space-4)]" onSubmit={handleSubmit}>
-        <InsetRow
-          label="Add goal"
-          description="Capture focused, finishable targets for your next session."
-          contentClassName="space-y-[var(--space-4)]"
-        >
-          <div className="space-y-[var(--space-2)]">
-            <Label htmlFor={titleId}>Title</Label>
-            <Input
-              id={titleId}
-              ref={titleInputRef}
-              placeholder="Review lane states"
-              value={values.title}
-              onChange={handleInputChange("title")}
-              required
-            />
-          </div>
-
-          <div className="space-y-[var(--space-2)]">
-            <div className="flex items-center justify-between gap-[var(--space-2)]">
-              <Label htmlFor={metricId} className="mb-0">
-                Metric (optional)
-              </Label>
-              <AIExplainTooltip
-                triggerLabel="How metrics help"
-                explanation="Metrics surface on each goal card so you can track progress against a specific target. Enter the value you want to hit—type just the number for percentages, like 75 for 75%. Leave it blank if a number doesn't help."
-                tone="neutral"
+        <Card className="shadow-[var(--depth-shadow-soft)]">
+          <CardHeader className="space-y-[var(--space-2)]">
+            <CardTitle>Add Goal</CardTitle>
+            <CardDescription>
+              Capture focused, finishable targets for your next session.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-[var(--space-4)]">
+            <div className="space-y-[var(--space-2)]">
+              <Label htmlFor={titleId}>Title</Label>
+              <Input
+                id={titleId}
+                ref={titleInputRef}
+                placeholder="Review lane states"
+                value={values.title}
+                onChange={handleInputChange("title")}
+                required
+                variant="sunken"
               />
             </div>
-            <p id={metricHelpId} className="sr-only">
-              Optional metric for tracking progress. Enter the value only; for percentages, type the number such as 75 for seventy-five percent.
+
+            <div className="space-y-[var(--space-2)]">
+              <div className="flex items-center justify-between gap-[var(--space-2)]">
+                <Label htmlFor={metricId} className="mb-0">
+                  Metric (optional)
+                </Label>
+                <AIExplainTooltip
+                  triggerLabel="How metrics help"
+                  explanation="Metrics surface on each goal card so you can track progress against a specific target. Enter the value you want to hit—type just the number for percentages, like 75 for 75%. Leave it blank if a number doesn't help."
+                  tone="neutral"
+                />
+              </div>
+              <p id={metricHelpId} className="sr-only">
+                Optional metric for tracking progress. Enter the value only; for percentages, type the number such as 75 for seventy-five percent.
+              </p>
+              <Input
+                id={metricId}
+                type="text"
+                inputMode="decimal"
+                placeholder="75"
+                value={values.metric}
+                onChange={handleInputChange("metric")}
+                aria-describedby={metricHelpId}
+                variant="sunken"
+              />
+            </div>
+
+            <div className="space-y-[var(--space-2)]">
+              <Label htmlFor={notesId}>Notes (optional)</Label>
+              <InsetTextarea
+                id={notesId}
+                placeholder="Add context, blockers, or reminders"
+                value={values.notes}
+                onChange={handleNotesChange}
+                resize="resize-y"
+                className="border border-card-hairline/70"
+                textareaClassName="min-h-[var(--space-20)]"
+              />
+            </div>
+          </CardContent>
+          <CardFooter className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-label font-medium tracking-[0.02em] text-muted-foreground">
+              {isAtCap ? (
+                <span className="text-danger">{remainingMessage}</span>
+              ) : (
+                <span>{remainingMessage}</span>
+              )}
             </p>
-            <Input
-              id={metricId}
-              type="text"
-              inputMode="decimal"
-              placeholder="75"
-              value={values.metric}
-              onChange={handleInputChange("metric")}
-              aria-describedby={metricHelpId}
-            />
-          </div>
-
-          <div className="space-y-[var(--space-2)]">
-            <Label htmlFor={notesId}>Notes (optional)</Label>
-            <Textarea
-              id={notesId}
-              placeholder="Add context, blockers, or reminders"
-              value={values.notes}
-              onChange={handleNotesChange}
-              resize="resize-y"
-              className="border border-card-hairline/70"
-              textareaClassName="min-h-[var(--space-20)]"
-            />
-          </div>
-        </InsetRow>
-
-        <div className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-label font-medium tracking-[0.02em] text-muted-foreground">
-            {isAtCap ? (
-              <span className="text-danger">{remainingMessage}</span>
-            ) : (
-              <span>{remainingMessage}</span>
-            )}
-          </p>
-          <div className="flex items-center gap-[var(--space-2)]">
-            <Button type="submit" size="sm" variant="default" disabled={isAtCap}>
-              Add Goal
-            </Button>
-            <Button type="button" size="sm" variant="quiet" onClick={handleCancel}>
-              Cancel
-            </Button>
-          </div>
-        </div>
+            <div className="flex items-center gap-[var(--space-2)]">
+              <Button type="submit" size="sm" variant="default" disabled={isAtCap}>
+                Add Goal
+              </Button>
+              <Button type="button" size="sm" variant="quiet" onClick={handleCancel}>
+                Cancel
+              </Button>
+            </div>
+          </CardFooter>
+        </Card>
 
         {errorMessage ? (
           <p
