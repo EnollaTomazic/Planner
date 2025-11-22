@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { SectionLabel } from "@/components/reviews/SectionLabel";
-import { Input } from "@/components/ui/primitives/Input";
+import { InsetInput } from "@/components/ui/primitives/InsetInput";
 import { Target, Shield } from "lucide-react";
 import type { Review } from "@/lib/types";
 
@@ -72,7 +72,7 @@ function LaneOpponentForm(
       <div className="mb-[var(--space-2)]">
         <div className="relative">
           <Target className="pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--icon-size-sm)] -translate-y-1/2 text-muted-foreground" />
-          <Input
+          <InsetInput
             ref={laneRef}
             name="lane"
             value={lane}
@@ -85,7 +85,7 @@ function LaneOpponentForm(
                 go(opponentRef);
               }
             }}
-            className="pl-[var(--space-6)]"
+            indent
             placeholder="Ashe/Lulu"
             aria-label="Lane (used as Title)"
           />
@@ -96,7 +96,7 @@ function LaneOpponentForm(
         <SectionLabel id={opponentLabelId}>Opponent</SectionLabel>
         <div className="relative">
           <Shield className="pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--icon-size-sm)] -translate-y-1/2 text-muted-foreground" />
-          <Input
+          <InsetInput
             ref={opponentRef}
             name="opponent"
             value={opponent}
@@ -109,7 +109,7 @@ function LaneOpponentForm(
               }
             }}
             placeholder="Draven/Thresh"
-            className="pl-[var(--space-6)]"
+            indent
             aria-labelledby={opponentLabelId}
           />
         </div>

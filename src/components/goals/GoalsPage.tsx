@@ -33,8 +33,8 @@ import {
   ProgressRing,
   InsetRow,
   Label,
-  Input,
-  Textarea,
+  InsetInput,
+  InsetTextarea,
   AIExplainTooltip,
 } from "@/components/ui";
 import { PlannerProvider, SmallAgnesNoxiImage } from "@/components/planner";
@@ -1038,7 +1038,7 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
         >
           <div className="space-y-[var(--space-2)]">
             <Label htmlFor={titleId}>Title</Label>
-            <Input
+            <InsetInput
               id={titleId}
               ref={titleInputRef}
               placeholder="Review lane states"
@@ -1062,7 +1062,7 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
             <p id={metricHelpId} className="sr-only">
               Optional metric for tracking progress. Enter the value only; for percentages, type the number such as 75 for seventy-five percent.
             </p>
-            <Input
+            <InsetInput
               id={metricId}
               type="text"
               inputMode="decimal"
@@ -1075,13 +1075,12 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
 
           <div className="space-y-[var(--space-2)]">
             <Label htmlFor={notesId}>Notes (optional)</Label>
-            <Textarea
+            <InsetTextarea
               id={notesId}
               placeholder="Add context, blockers, or reminders"
               value={values.notes}
               onChange={handleNotesChange}
               resize="resize-y"
-              className="border border-card-hairline/70"
               textareaClassName="min-h-[var(--space-20)]"
             />
           </div>

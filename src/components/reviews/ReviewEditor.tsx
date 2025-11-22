@@ -3,15 +3,19 @@
 // Full Review Editor with icon-only header actions and RoleSelector rail control.
 import { RoleSelector } from "@/components/reviews";
 import { SectionLabel } from "@/components/reviews/SectionLabel";
-import { SectionCard } from "@/components/ui/layout/SectionCard";
+import {
+  Card,
+  CardContent as CardBody,
+  CardHeader,
+} from "@/components/ui/primitives/Card";
 import { NeonIcon } from "@/components/reviews/NeonIcon";
 import { ReviewSurface } from "./ReviewSurface";
 import { ReviewSliderTrack } from "./ReviewSliderTrack";
 
 import * as React from "react";
 import type { Review, Role } from "@/lib/types";
-import { Input } from "@/components/ui/primitives/Input";
-import { Textarea } from "@/components/ui/primitives/Textarea";
+import { InsetInput } from "@/components/ui/primitives/InsetInput";
+import { InsetTextarea } from "@/components/ui/primitives/InsetTextarea";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Badge } from "@/components/ui/primitives/Badge";
 import { Tag, Trash2, Check, Plus } from "lucide-react";
@@ -56,7 +60,7 @@ export function ReviewEditor({
   );
   const [draftTag, setDraftTag] = React.useState("");
 
-  const rootRef = React.useRef<HTMLElement>(null);
+  const rootRef = React.useRef<HTMLDivElement>(null);
   const laneFormRef = React.useRef<LaneOpponentFormHandle>(null);
   const resultScoreRef = React.useRef<ResultScoreSectionHandle>(null);
   const pillarsRef = React.useRef<PillarsSelectorHandle>(null);
@@ -155,15 +159,11 @@ export function ReviewEditor({
   }
 
   return (
-    <SectionCard
-      ref={rootRef}
-      variant="plain"
-      className={cn("transition-none shadow-none", className)}
-    >
-      <div className="section-h sticky">
-        <div className="grid w-full grid-cols-[1fr_auto] items-center gap-[var(--space-4)]">
-          <div className="min-w-0">
-            <div className="mb-[var(--space-2)]">
+    <Card ref={rootRef} depth="sunken" className={cn("text-card-foreground", className)}>
+      <CardHeader className="section-h sticky">
+        <div className="grid w-full grid-cols-[1fr_auto] items-start gap-[var(--space-4)]">
+          <div className="min-w-0 space-y-[var(--space-3)]">
+            <div>
               <SectionLabel id={laneLabelId}>Lane</SectionLabel>
               <RoleSelector
                 value={role}
@@ -182,7 +182,7 @@ export function ReviewEditor({
             />
           </div>
 
-          <div className="ml-[var(--space-2)] flex shrink-0 items-center justify-end gap-[var(--space-2)] self-start">
+          <div className="ml-[var(--space-2)] flex shrink-0 items-center justify-end gap-[var(--space-2)]">
             {onDelete ? (
               <IconButton
                 aria-label="Delete review"
@@ -213,9 +213,9 @@ export function ReviewEditor({
             ) : null}
           </div>
         </div>
-      </div>
+      </CardHeader>
 
-      <div className="section-b ds-card-pad space-y-[var(--space-6)]">
+      <CardBody className="section-b ds-card-pad space-y-[var(--space-6)]">
         <ResultScoreSection
           ref={resultScoreRef}
           result={review.result ?? "Win"}
@@ -303,12 +303,12 @@ export function ReviewEditor({
           <div className="mt-[var(--space-1)] flex items-center gap-[var(--space-2)]">
             <div className="relative flex-1">
               <Tag className="pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground" />
-              <Input
+              <InsetInput
                 name="tag-input"
                 value={draftTag}
                 onChange={(e) => setDraftTag(e.target.value)}
                 placeholder="Add tag and press Enter"
-                className="pl-[var(--space-6)]"
+                indent
                 aria-labelledby={tagsLabelId}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
@@ -362,18 +362,17 @@ export function ReviewEditor({
         {/* Notes */}
         <div>
           <SectionLabel id={notesLabelId}>Notes</SectionLabel>
-          <Textarea
+          <InsetTextarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             onBlur={commitNotes}
             placeholder="Key moments, mistakes to fix, drills to run…"
-            className="rounded-[var(--control-radius)]"
             resize="resize-y"
             textareaClassName="min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
             aria-labelledby={notesLabelId}
           />
         </div>
-      </div>
-    </SectionCard>
+      </CardBody>
+    </Card>
   );
 }

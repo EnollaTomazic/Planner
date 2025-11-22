@@ -1,11 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { Input } from "@/components/ui/primitives/Input";
-import { Textarea } from "@/components/ui/primitives/Textarea";
-import { Button } from "@/components/ui/primitives/Button";
-import { SectionCard } from "@/components/ui/layout/SectionCard";
-import { Label } from "@/components/ui/Label";
+import {
+  Button,
+  Card,
+  CardContent as CardBody,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  InsetInput,
+  InsetTextarea,
+  Label,
+} from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { GOAL_TEXTAREA_MIN_HEIGHT_CLASS } from "./constants";
 
@@ -66,16 +72,14 @@ export const GoalForm = React.forwardRef<GoalFormHandle, GoalFormProps>(function
         onSubmit();
       }}
     >
-      <SectionCard className="card-neo-soft bg-panel-tilt shadow-inner-md">
-        <SectionCard.Header
-          className="flex items-center justify-between"
-          title="Add Goal"
-          titleClassName="text-title font-semibold tracking-[-0.01em]"
-        />
-        <SectionCard.Body className="grid gap-[var(--space-6)]">
+      <Card depth="sunken" className="text-card-foreground">
+        <CardHeader className="flex flex-col gap-[var(--space-2)]">
+          <CardTitle className="tracking-[-0.01em]">Add Goal</CardTitle>
+        </CardHeader>
+        <CardBody className="grid gap-[var(--space-6)]">
           <Label htmlFor={titleId} className="mb-0 grid gap-[var(--space-2)]">
             Title
-            <Input
+            <InsetInput
               ref={titleRef}
               id={titleId}
               height="md"
@@ -91,7 +95,7 @@ export const GoalForm = React.forwardRef<GoalFormHandle, GoalFormProps>(function
 
           <Label htmlFor={metricId} className="mb-0 grid gap-[var(--space-2)]">
             Metric (optional)
-            <Input
+            <InsetInput
               id={metricId}
               height="md"
               inputClassName="font-medium tabular-nums"
@@ -103,7 +107,7 @@ export const GoalForm = React.forwardRef<GoalFormHandle, GoalFormProps>(function
 
           <Label htmlFor={notesId} className="mb-0 grid gap-[var(--space-2)]">
             Notes (optional)
-            <Textarea
+            <InsetTextarea
               id={notesId}
               textareaClassName={cn(
                 GOAL_TEXTAREA_MIN_HEIGHT_CLASS,
@@ -138,14 +142,13 @@ export const GoalForm = React.forwardRef<GoalFormHandle, GoalFormProps>(function
               {err}
             </p>
           ) : null}
-
-          <div className="flex justify-end">
-            <Button type="submit" size="sm" disabled={!canSubmit}>
-              Add Goal
-            </Button>
-          </div>
-        </SectionCard.Body>
-      </SectionCard>
+        </CardBody>
+        <CardFooter className="justify-end">
+          <Button type="submit" size="sm" disabled={!canSubmit}>
+            Add Goal
+          </Button>
+        </CardFooter>
+      </Card>
     </form>
   );
 });

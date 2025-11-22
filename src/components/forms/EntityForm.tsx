@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import { Badge, Button } from "@/components/ui";
-import { Field } from "@/components/ui";
+import { Field, InsetInput, InsetTextarea } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 export type EntityFormFieldType =
@@ -318,24 +318,19 @@ export const EntityForm = React.forwardRef<EntityFormHandle, EntityFormProps>(
                       </span>
                     ) : null}
                   </div>
-                  <Field.Root
-                    helper={helperContent}
-                    helperId={helperId}
-                    className="bg-card/60"
-                  >
-                      {renderFieldControl({
-                        field,
-                        commonProps,
-                        descriptionId,
-                        helperId,
-                        setFirstFieldRef:
-                          index === 0
-                            ? (element) => {
-                                firstFieldRef.current = element;
-                              }
-                            : undefined,
-                      })}
-                  </Field.Root>
+                  {renderFieldControl({
+                    field,
+                    commonProps,
+                    descriptionId,
+                    helperId,
+                    helper: helperContent,
+                    setFirstFieldRef:
+                      index === 0
+                        ? (element) => {
+                            firstFieldRef.current = element;
+                          }
+                        : undefined,
+                  })}
                 </div>
               );
             })}
@@ -377,6 +372,7 @@ interface RenderFieldControlArgs {
   };
   descriptionId?: string;
   helperId?: string;
+  helper?: React.ReactNode;
   setFirstFieldRef?: (
     element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null,
   ) => void;
@@ -387,6 +383,7 @@ function renderFieldControl({
   commonProps,
   descriptionId,
   helperId,
+  helper,
   setFirstFieldRef,
 }: RenderFieldControlArgs) {
   const fieldType = field.type ?? "text";
@@ -401,35 +398,41 @@ function renderFieldControl({
   switch (fieldType) {
     case "textarea":
       return (
-        <Field.Textarea
+        <InsetTextarea
           {...inputProps}
           rows={field.rows}
+          helper={helper}
+          helperId={helperId}
           ref={setFirstFieldRef as React.Ref<HTMLTextAreaElement> | undefined}
         />
       );
     case "select":
       return (
-        <Field.Select
-          {...inputProps}
-          ref={setFirstFieldRef as React.Ref<HTMLSelectElement> | undefined}
-        >
-          <option value="" disabled hidden>
-            {field.placeholder ?? "Select"}
-          </option>
-          {(field.options ?? []).map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
+        <Field.Root helper={helper} helperId={helperId} variant="sunken">
+          <Field.Select
+            {...inputProps}
+            ref={setFirstFieldRef as React.Ref<HTMLSelectElement> | undefined}
+          >
+            <option value="" disabled hidden>
+              {field.placeholder ?? "Select"}
             </option>
-          ))}
-        </Field.Select>
+            {(field.options ?? []).map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </Field.Select>
+        </Field.Root>
       );
     case "text":
     default:
       return (
-        <Field.Input
+        <InsetInput
           {...inputProps}
           type={field.inputType}
           inputMode={field.inputMode}
+          helper={helper}
+          helperId={helperId}
           ref={setFirstFieldRef as React.Ref<HTMLInputElement> | undefined}
         />
       );

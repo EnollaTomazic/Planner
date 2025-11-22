@@ -3,7 +3,7 @@
 import * as React from "react";
 import { SectionLabel } from "@/components/reviews/SectionLabel";
 import { NeonIcon } from "@/components/reviews/NeonIcon";
-import { Input } from "@/components/ui/primitives/Input";
+import { InsetInput } from "@/components/ui/primitives/InsetInput";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Badge } from "@/components/ui/primitives/Badge";
 import { Plus, FileText, Trash2 } from "lucide-react";
@@ -158,7 +158,7 @@ function TimestampMarkers(
       <div className="mt-[var(--space-3)] grid gap-[var(--space-2)]">
         <div className="grid grid-cols-[auto_1fr_auto] items-center gap-[var(--space-2)]">
           {useTimestamp ? (
-            <Input
+            <InsetInput
               ref={timeRef}
               name="timestamp-time"
               value={tTime}
@@ -190,7 +190,7 @@ function TimestampMarkers(
             </Badge>
           )}
 
-          <Input
+          <InsetInput
             ref={noteRef}
             name="timestamp-note"
             value={tNote}

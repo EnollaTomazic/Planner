@@ -4,7 +4,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useFieldIds } from "@/lib/useFieldIds";
-import { Field, type FieldVariant } from "./Field";
+import { Field, type FieldVariant, type FieldRootProps } from "./Field";
 import { type GlitchOverlayToken } from "./BlobContainer";
 import styles from "./Input.module.css";
 
@@ -52,6 +52,14 @@ export type InputProps = Omit<
   variant?: FieldVariant;
   /** Overrides the glitch overlay intensity */
   glitchIntensity?: GlitchOverlayToken;
+  /** Optional helper text rendered below the field */
+  helper?: FieldRootProps["helper"];
+  helperId?: FieldRootProps["helperId"];
+  helperTone?: FieldRootProps["helperTone"];
+  counter?: FieldRootProps["counter"];
+  counterId?: FieldRootProps["counterId"];
+  wrapperClassName?: FieldRootProps["wrapperClassName"];
+  spinner?: FieldRootProps["spinner"];
 };
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
@@ -70,6 +78,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
     glitchText,
     variant = "surface",
     glitchIntensity,
+    helper,
+    helperId,
+    helperTone,
+    counter,
+    counterId,
+    wrapperClassName,
+    spinner,
     ...props
   },
   ref,
@@ -114,6 +129,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
       glitchText={resolvedGlitchText}
       glitchIntensity={glitchIntensity}
       variant={variant}
+      helper={helper}
+      helperId={helperId}
+      helperTone={helperTone}
+      counter={counter}
+      counterId={counterId}
+      wrapperClassName={wrapperClassName}
+      spinner={spinner}
       className={cn(ringTone ? RING_TONE_CLASS_MAP[ringTone] : undefined, className)}
     >
       <Field.Input
