@@ -27,8 +27,9 @@ describe("TeamCompPage builder tab", () => {
     render(<TeamCompPage />);
     const builderTab = screen.getByRole("tab", { name: "Builder" });
     fireEvent.click(builderTab);
-    const heroHeading = screen.getByRole("heading", { name: "Builder" });
-    expect(heroHeading).toBeInTheDocument();
+    expect(screen.getByText("Allies 0/5 locked")).toBeInTheDocument();
+    expect(screen.getByText("Lane coverage")).toBeInTheDocument();
+    expect(screen.getAllByText("Top: Open / Open").length).toBeGreaterThan(0);
     const cardParent = screen.getByText("Allies").closest("section")?.parentElement;
     expect(cardParent).toHaveClass("mt-[var(--space-6)]");
   });
@@ -58,9 +59,13 @@ describe("TeamCompPage jungle clears tab", () => {
     render(<TeamCompPage />);
     const clearsTab = screen.getByRole("tab", { name: "Jungle Clears" });
     fireEvent.click(clearsTab);
-    expect(
-      screen.getByRole("heading", { name: "Clear Speed Buckets" })
-    ).toBeInTheDocument();
+    const heading = screen.getByRole("heading", { name: "Clear Speed Buckets" });
+    expect(heading).toBeInTheDocument();
+    const toggleEdit = screen.getByRole("button", { name: "Edit" });
+    fireEvent.click(toggleEdit);
+    expect(heading).toBeVisible();
+    fireEvent.click(screen.getByRole("button", { name: "Done" }));
+    expect(heading).toBeVisible();
     expect(
       screen.getByPlaceholderText(
         "Filter by champion, type, or note..."
