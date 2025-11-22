@@ -12,7 +12,7 @@ import "./style.css";
 
 import * as React from "react";
 import Image from "next/image";
-import { Hero, PageShell, TabBar } from "@/components/ui";
+import { Hero, PageShell } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
@@ -254,6 +254,7 @@ function Inner() {
         quickLinks={quickLinks}
         nudgesStat={nudgesStat}
       />
+
       <PageShell
         as="header"
         grid
@@ -269,6 +270,34 @@ function Inner() {
           sticky={false}
           glitch="subtle"
           className={cn("col-span-full md:col-span-12", "planner-header__hero")}
+          tabs={{
+            items: VIEW_MODE_TABS,
+            value: viewMode,
+            onChange: handleViewModeChange,
+            ariaLabelledBy: labelId,
+            size: "lg",
+            align: "start",
+            className: "w-full",
+            idBase: VIEW_TAB_ID_BASE,
+            right: (
+              <div className="flex flex-wrap items-center justify-end gap-[var(--space-3)]">
+                <span
+                  aria-live="polite"
+                  className="text-label text-muted-foreground"
+                >
+                  {weekAnnouncement}
+                </span>
+                <PlannerIslandBoundary
+                  name="planner:week-picker"
+                  title="Week controls unavailable"
+                  description="We hit an error loading the planner controls. Retry to restore the week picker."
+                  retryLabel="Retry controls"
+                >
+                  <WeekPicker />
+                </PlannerIslandBoundary>
+              </div>
+            ),
+          }}
           illustration={
             <Image
               src="/images/noxi.svg"
@@ -280,38 +309,9 @@ function Inner() {
             />
           }
         >
-          <span className="sr-only">Week controls</span>
-          <PlannerIslandBoundary
-            name="planner:week-picker"
-            title="Week controls unavailable"
-            description="We hit an error loading the planner controls. Retry to restore the week picker."
-          retryLabel="Retry controls"
-        >
-          <WeekPicker />
-        </PlannerIslandBoundary>
-        <div className="flex flex-col gap-[var(--space-3)]">
-          <div className="flex flex-wrap items-baseline justify-between gap-[var(--space-2)]">
-            <span id={labelId} className="text-label font-medium text-muted-foreground">
-              View
-            </span>
-            <span
-              aria-live="polite"
-              className="text-label text-muted-foreground"
-            >
-              {weekAnnouncement}
-            </span>
-          </div>
-          <TabBar<PlannerViewMode>
-            items={VIEW_MODE_TABS}
-            value={viewMode}
-            onValueChange={handleViewModeChange}
-            ariaLabelledBy={labelId}
-            size="lg"
-            align="start"
-            className="w-full"
-            idBase={VIEW_TAB_ID_BASE}
-          />
-        </div>
+          <span id={labelId} className="sr-only">
+            View
+          </span>
         </Hero>
       </PageShell>
 
