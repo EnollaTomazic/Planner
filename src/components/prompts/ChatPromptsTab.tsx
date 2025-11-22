@@ -3,13 +3,13 @@
 import * as React from "react";
 
 import { Card, cardSurfaceClassName } from "@/components/ui";
-import {
-  EntityForm,
-  type EntityFormHandle,
-  type EntityFormOption,
-  type EntityFormValues,
-} from "@/components/forms/EntityForm";
 import { SavedPromptList } from "./SavedPromptList";
+import {
+  PromptForm,
+  type PromptFormHandle,
+  type PromptFormOption,
+  type PromptFormValues,
+} from "./PromptForm";
 import type { Persona, PromptWithTitle } from "./types";
 import { LOCALE } from "@/lib/utils";
 
@@ -17,7 +17,7 @@ const PROMPT_CATEGORY_OPTIONS = [
   { value: "ChatGPT", label: "ChatGPT" },
   { value: "Codex review", label: "Codex review" },
   { value: "Notes", label: "Notes" },
-] satisfies ReadonlyArray<EntityFormOption>;
+] satisfies ReadonlyArray<PromptFormOption>;
 
 export interface ChatPromptsTabHandle {
   focusCompose: (options?: FocusOptions) => void;
@@ -38,7 +38,7 @@ interface ChatPromptsTabProps {
   deletePrompt: (id: string) => boolean;
 }
 
-const createChatComposeDefaults = (): EntityFormValues => ({
+const createChatComposeDefaults = (): PromptFormValues => ({
   title: "",
   prompt: "",
   category: "ChatGPT",
@@ -55,7 +55,7 @@ export const ChatPromptsTab = React.forwardRef<
   const personasHeadingId = React.useId();
   const libraryHeadingId = React.useId();
   const formId = React.useId();
-  const [composeValues, setComposeValues] = React.useState<EntityFormValues>(
+  const [composeValues, setComposeValues] = React.useState<PromptFormValues>(
     createChatComposeDefaults,
   );
   const composeValuesRef = React.useRef(composeValues);
@@ -65,7 +65,7 @@ export const ChatPromptsTab = React.forwardRef<
   const [editingPromptId, setEditingPromptId] = React.useState<string | null>(
     null,
   );
-  const composeFormRef = React.useRef<EntityFormHandle | null>(null);
+  const composeFormRef = React.useRef<PromptFormHandle | null>(null);
   const personasHeadingRef = React.useRef<HTMLHeadingElement | null>(null);
 
   const resetComposeValues = React.useCallback(() => {
@@ -76,7 +76,7 @@ export const ChatPromptsTab = React.forwardRef<
   }, []);
 
   const handleSave = React.useCallback(
-    (values: EntityFormValues) => {
+    (values: PromptFormValues) => {
       const title = values.title?.trim() ?? "";
       const prompt = values.prompt?.trim() ?? "";
       if (!title || !prompt) {
@@ -100,7 +100,7 @@ export const ChatPromptsTab = React.forwardRef<
     [editingPromptId, resetComposeValues, savePrompt, updatePrompt],
   );
 
-  const handleValuesChange = React.useCallback((values: EntityFormValues) => {
+  const handleValuesChange = React.useCallback((values: PromptFormValues) => {
     const nextTitle = values.title ?? "";
     const nextPrompt = values.prompt ?? "";
     const nextCategory = values.category ?? "ChatGPT";
@@ -118,7 +118,7 @@ export const ChatPromptsTab = React.forwardRef<
       title: nextTitle,
       prompt: nextPrompt,
       category: nextCategory,
-    } satisfies EntityFormValues;
+    } satisfies PromptFormValues;
 
     React.startTransition(() => {
       composeValuesRef.current = nextState;
@@ -132,7 +132,7 @@ export const ChatPromptsTab = React.forwardRef<
         title: prompt.title,
         prompt: prompt.text,
         category: prompt.category ?? "ChatGPT",
-      } satisfies EntityFormValues;
+      } satisfies PromptFormValues;
       composeValuesRef.current = nextState;
       setComposeValues(nextState);
       setEditingPromptId(prompt.id);
@@ -186,38 +186,16 @@ export const ChatPromptsTab = React.forwardRef<
           </p>
         </div>
         <Card depth="raised" glitch className={cardSurfaceClassName}>
-          <EntityForm
+          <PromptForm
             id={`chat-prompts-form-${formId}`}
-            title="New ChatGPT prompt"
             ref={composeFormRef}
-            fields={[
-              {
-                id: "title",
-                label: "Title",
-                placeholder: "Review macro calls",
-                required: true,
-              },
-              {
-                id: "category",
-                label: "Category",
-                type: "select",
-                options: PROMPT_CATEGORY_OPTIONS,
-                defaultValue: "ChatGPT",
-              },
-              {
-                id: "prompt",
-                label: "Prompt",
-                placeholder: "Write your prompt or snippet…",
-                type: "textarea",
-                rows: 6,
-                required: true,
-              },
-            ]}
-            initialValues={composeValues}
+            title="New ChatGPT prompt"
             submitLabel={submitLabel}
             submitDisabled={submitDisabled}
+            values={composeValues}
+            categories={PROMPT_CATEGORY_OPTIONS}
             onSubmit={handleSave}
-            onValuesChange={handleValuesChange}
+            onChange={handleValuesChange}
           />
         </Card>
       </section>

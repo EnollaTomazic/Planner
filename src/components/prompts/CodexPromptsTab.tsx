@@ -3,20 +3,20 @@
 import * as React from "react";
 
 import { Card, cardSurfaceClassName } from "@/components/ui";
-import {
-  EntityForm,
-  type EntityFormHandle,
-  type EntityFormOption,
-  type EntityFormValues,
-} from "@/components/forms/EntityForm";
 import { SavedPromptList } from "./SavedPromptList";
+import {
+  PromptForm,
+  type PromptFormHandle,
+  type PromptFormOption,
+  type PromptFormValues,
+} from "./PromptForm";
 import type { PromptWithTitle } from "./types";
 
 const PROMPT_CATEGORY_OPTIONS = [
   { value: "ChatGPT", label: "ChatGPT" },
   { value: "Codex review", label: "Codex review" },
   { value: "Notes", label: "Notes" },
-] satisfies ReadonlyArray<EntityFormOption>;
+] satisfies ReadonlyArray<PromptFormOption>;
 
 export interface CodexPromptsTabHandle {
   focusCompose: (options?: FocusOptions) => void;
@@ -35,7 +35,7 @@ export interface CodexPromptsTabProps {
   deletePrompt: (id: string) => boolean;
 }
 
-const createCodexComposeDefaults = (): EntityFormValues => ({
+const createCodexComposeDefaults = (): PromptFormValues => ({
   title: "",
   prompt: "",
   category: "Codex review",
@@ -51,7 +51,7 @@ export const CodexPromptsTab = React.forwardRef<
   const composeHeadingId = React.useId();
   const libraryHeadingId = React.useId();
   const formId = React.useId();
-  const [composeValues, setComposeValues] = React.useState<EntityFormValues>(
+  const [composeValues, setComposeValues] = React.useState<PromptFormValues>(
     createCodexComposeDefaults,
   );
   const composeValuesRef = React.useRef(composeValues);
@@ -61,7 +61,7 @@ export const CodexPromptsTab = React.forwardRef<
   const [editingPromptId, setEditingPromptId] = React.useState<string | null>(
     null,
   );
-  const composeFormRef = React.useRef<EntityFormHandle | null>(null);
+  const composeFormRef = React.useRef<PromptFormHandle | null>(null);
 
   const resetComposeValues = React.useCallback(() => {
     const nextState = createCodexComposeDefaults();
@@ -71,7 +71,7 @@ export const CodexPromptsTab = React.forwardRef<
   }, []);
 
   const handleSave = React.useCallback(
-    (values: EntityFormValues) => {
+    (values: PromptFormValues) => {
       const title = values.title?.trim() ?? "";
       const prompt = values.prompt?.trim() ?? "";
       if (!title || !prompt) {
@@ -95,7 +95,7 @@ export const CodexPromptsTab = React.forwardRef<
     [editingPromptId, resetComposeValues, savePrompt, updatePrompt],
   );
 
-  const handleValuesChange = React.useCallback((values: EntityFormValues) => {
+  const handleValuesChange = React.useCallback((values: PromptFormValues) => {
     const nextTitle = values.title ?? "";
     const nextPrompt = values.prompt ?? "";
     const nextCategory = values.category ?? "Codex review";
@@ -113,7 +113,7 @@ export const CodexPromptsTab = React.forwardRef<
       title: nextTitle,
       prompt: nextPrompt,
       category: nextCategory,
-    } satisfies EntityFormValues;
+    } satisfies PromptFormValues;
 
     React.startTransition(() => {
       composeValuesRef.current = nextState;
@@ -127,7 +127,7 @@ export const CodexPromptsTab = React.forwardRef<
         title: prompt.title,
         prompt: prompt.text,
         category: prompt.category ?? "Codex review",
-      } satisfies EntityFormValues;
+      } satisfies PromptFormValues;
       composeValuesRef.current = nextState;
       setComposeValues(nextState);
       setEditingPromptId(prompt.id);
@@ -179,38 +179,16 @@ export const CodexPromptsTab = React.forwardRef<
           </p>
         </div>
         <Card depth="raised" glitch className={cardSurfaceClassName}>
-          <EntityForm
+          <PromptForm
             id={`codex-prompts-form-${formId}`}
-            title="New Codex prompt"
             ref={composeFormRef}
-            fields={[
-              {
-                id: "title",
-                label: "Title",
-                placeholder: "Audit deployment plan",
-                required: true,
-              },
-              {
-                id: "category",
-                label: "Category",
-                type: "select",
-                options: PROMPT_CATEGORY_OPTIONS,
-                defaultValue: "Codex review",
-              },
-              {
-                id: "prompt",
-                label: "Prompt",
-                placeholder: "Outline review checklist…",
-                type: "textarea",
-                rows: 6,
-                required: true,
-              },
-            ]}
-            initialValues={composeValues}
+            title="New Codex prompt"
             submitLabel={submitLabel}
             submitDisabled={submitDisabled}
+            values={composeValues}
+            categories={PROMPT_CATEGORY_OPTIONS}
             onSubmit={handleSave}
-            onValuesChange={handleValuesChange}
+            onChange={handleValuesChange}
           />
         </Card>
       </section>

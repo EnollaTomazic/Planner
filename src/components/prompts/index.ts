@@ -23,6 +23,8 @@ export { CalendarPreview, CalendarPreviewError, CalendarPreviewLoading } from ".
 export { WeekPickerDemo } from "./previews/WeekPickerDemo";
 export { PromptCard } from "./PromptCard";
 export type { PromptCardData, PromptCardProps } from "./PromptCard";
+export { PromptForm } from "./PromptForm";
+export type { PromptFormHandle, PromptFormOption, PromptFormProps, PromptFormValues } from "./PromptForm";
 export { PromptsComposePanel } from "./PromptsComposePanel";
 export { PromptsDemos } from "./PromptsDemos";
 export { PromptsHeader } from "./PromptsHeader";
