@@ -10,11 +10,11 @@ import { ReviewSliderTrack } from "./ReviewSliderTrack";
 
 import * as React from "react";
 import type { Review, Role } from "@/lib/types";
-import { Input } from "@/components/ui/primitives/Input";
+import { Badge } from "@/components/ui/primitives/Badge";
 import { Textarea } from "@/components/ui/primitives/Textarea";
 import { IconButton } from "@/components/ui/primitives/IconButton";
-import { Badge } from "@/components/ui/primitives/Badge";
-import { Tag, Trash2, Check, Plus } from "lucide-react";
+import { TagInput } from "@/components/ui/primitives/TagInput";
+import { Trash2, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePersistentState } from "@/lib/db";
 import {
@@ -54,7 +54,6 @@ export function ReviewEditor({
   const [tags, setTags] = React.useState<string[]>(
     Array.isArray(review.tags) ? review.tags : [],
   );
-  const [draftTag, setDraftTag] = React.useState("");
 
   const rootRef = React.useRef<HTMLElement>(null);
   const laneFormRef = React.useRef<LaneOpponentFormHandle>(null);
@@ -86,7 +85,6 @@ export function ReviewEditor({
 
   React.useEffect(() => {
     setTags(Array.isArray(review.tags) ? review.tags : []);
-    setDraftTag("");
   }, [review.id, review.tags]);
 
   React.useEffect(() => {
@@ -129,18 +127,13 @@ export function ReviewEditor({
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [onDone]);
 
-  function addTag(tagRaw: string) {
-    const t = tagRaw.trim().replace(/^#/, "");
-    if (!t || tags.includes(t)) return;
-    const next = [...tags, t];
-    setTags(next);
-    onChangeTags?.(next);
-  }
-  function removeTag(t: string) {
-    const next = tags.filter((x) => x !== t);
-    setTags(next);
-    onChangeTags?.(next);
-  }
+  const handleChangeTags = React.useCallback(
+    (next: string[]) => {
+      setTags(next);
+      onChangeTags?.(next);
+    },
+    [onChangeTags],
+  );
 
   const focusMsgIndex = pickIndex(
     String(review.id ?? "seed-focus") + String(focus),
@@ -300,63 +293,14 @@ export function ReviewEditor({
         {/* Tags */}
         <div>
           <SectionLabel id={tagsLabelId}>Tags</SectionLabel>
-          <div className="mt-[var(--space-1)] flex items-center gap-[var(--space-2)]">
-            <div className="relative flex-1">
-              <Tag className="pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground" />
-              <Input
-                name="tag-input"
-                value={draftTag}
-                onChange={(e) => setDraftTag(e.target.value)}
-                placeholder="Add tag and press Enter"
-                className="pl-[var(--space-6)]"
-                aria-labelledby={tagsLabelId}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    addTag(draftTag);
-                    setDraftTag("");
-                  }
-                }}
-              />
-            </div>
-
-            <IconButton
-              aria-label="Add tag"
-              title="Add tag"
-              size="md"
-              iconSize="sm"
-              variant="default"
-              onClick={() => {
-                addTag(draftTag);
-                setDraftTag("");
-              }}
-            >
-              <Plus />
-            </IconButton>
-          </div>
-
-          {tags.length === 0 ? (
-            <div className="mt-[var(--space-2)] text-ui text-muted-foreground/80">
-              No tags yet.
-            </div>
-          ) : (
-            <div className="mt-[var(--space-2)] flex flex-wrap items-center gap-[var(--space-2)]">
-              {tags.map((t) => (
-                <Badge
-                  key={t}
-                  interactive
-                  className="group text-ui"
-                  title="Remove tag"
-                  onClick={() => removeTag(t)}
-                >
-                  <span>#{t}</span>
-                  <span className="opacity-0 transition-opacity group-hover:opacity-100">
-                    ✕
-                  </span>
-                </Badge>
-              ))}
-            </div>
-          )}
+          <TagInput
+            className="mt-[var(--space-1)]"
+            value={tags}
+            onChange={handleChangeTags}
+            placeholder="Add tag and press Enter"
+            ariaLabelledby={tagsLabelId}
+            helper="Press Enter to add a tag; click a tag to remove it."
+          />
         </div>
 
         {/* Notes */}

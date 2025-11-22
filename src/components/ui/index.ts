@@ -109,6 +109,8 @@ export { Slider } from "./primitives/Slider";
 export type { SliderProps } from "./primitives/Slider";
 export { TabList, TabPanel, Tabs } from "./primitives/Tabs";
 export type { TabListItem, TabListProps, TabPanelProps, TabsProps } from "./primitives/Tabs";
+export { TagInput } from "./primitives/TagInput";
+export type { TagInputProps } from "./primitives/TagInput";
 export { Textarea } from "./primitives/Textarea";
 export type { TextareaProps } from "./primitives/Textarea";
 export { VirtualizedList, VirtualizedSpacer } from "./primitives/VirtualizedList";
