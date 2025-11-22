@@ -201,7 +201,7 @@ function Inner() {
             items: VIEW_MODE_TABS,
             value: viewMode,
             onChange: handleViewModeChange,
-            ariaLabel: "Planner view mode",
+            ariaLabel: "View",
             size: "lg",
             align: "start",
             idBase: VIEW_TAB_ID_BASE,
