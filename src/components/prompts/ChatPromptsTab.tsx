@@ -1,8 +1,10 @@
 "use client";
 
 import * as React from "react";
+import { Sparkles } from "lucide-react";
 
 import { Card, cardSurfaceClassName } from "@/components/ui";
+import { PersonaCard } from "./PersonaCard";
 import { SavedPromptList } from "./SavedPromptList";
 import {
   PromptForm,
@@ -11,7 +13,6 @@ import {
   type PromptFormValues,
 } from "./PromptForm";
 import type { Persona, PromptWithTitle } from "./types";
-import { LOCALE } from "@/lib/utils";
 
 const PROMPT_CATEGORY_OPTIONS = [
   { value: "ChatGPT", label: "ChatGPT" },
@@ -221,32 +222,12 @@ export const ChatPromptsTab = React.forwardRef<
           <ul className="grid gap-[var(--space-3)] md:grid-cols-2">
             {personas.map((persona) => (
               <li key={persona.id}>
-                <Card className="flex h-full flex-col gap-[var(--space-3)] p-[var(--space-4)]">
-                  <header className="space-y-[var(--space-1)]">
-                    <h4 className="font-semibold text-body">{persona.name}</h4>
-                    {persona.description ? (
-                      <p className="text-ui text-muted-foreground">
-                        {persona.description}
-                      </p>
-                    ) : null}
-                    <time
-                      dateTime={new Date(persona.createdAt).toISOString()}
-                      className="block text-label text-muted-foreground"
-                    >
-                      Added {new Date(persona.createdAt).toLocaleString(LOCALE)}
-                    </time>
-                  </header>
-                  <p className="whitespace-pre-wrap rounded-[var(--radius-md)] bg-card/60 p-[var(--space-3)] text-ui">
-                    {persona.prompt}
-                  </p>
-                </Card>
+                <PersonaCard persona={persona} />
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-ui text-muted-foreground">
-            No personas yet. Start a collection to keep favorite tones handy.
-          </p>
+          <PersonaEmptyStateCard />
         )}
       </section>
 
@@ -275,3 +256,30 @@ export const ChatPromptsTab = React.forwardRef<
 });
 
 ChatPromptsTab.displayName = "ChatPromptsTab";
+
+function PersonaEmptyStateCard() {
+  return (
+    <Card
+      aria-live="polite"
+      className="relative isolate flex items-start gap-[var(--space-3)] overflow-hidden border border-dashed border-border/70 bg-card/70 p-[var(--space-4)] shadow-neo-soft before:absolute before:inset-0 before:-z-10 before:bg-gradient-to-br before:from-primary/5 before:via-transparent before:to-accent/5"
+    >
+      <div className="flex items-center justify-center rounded-full bg-card/80 p-[var(--space-3)] ring-1 ring-inset ring-border/50">
+        <Sparkles aria-hidden className="size-[var(--space-6)] text-primary" />
+      </div>
+      <div className="space-y-[var(--space-2)]">
+        <div className="space-y-[var(--space-1)]">
+          <p className="text-body font-semibold text-card-foreground">
+            Start your first persona
+          </p>
+          <p className="text-ui text-muted-foreground">
+            Capture tone-setting instructions you want to reuse at the start of chats.
+          </p>
+        </div>
+        <ul className="list-inside list-disc space-y-[var(--space-1)] text-ui text-muted-foreground">
+          <li>Name the persona and give a short description.</li>
+          <li>Save the prompt text you want to drop into new conversations.</li>
+        </ul>
+      </div>
+    </Card>
+  );
+}
