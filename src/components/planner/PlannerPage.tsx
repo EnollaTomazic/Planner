@@ -12,7 +12,7 @@ import "./style.css";
 
 import * as React from "react";
 import Image from "next/image";
-import { Hero, PageShell, TabBar } from "@/components/ui";
+import { Hero, PageShell } from "@/components/ui";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
 import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
@@ -158,7 +158,6 @@ function Inner() {
       } as const),
     [reminderStat],
   );
-  const labelId = React.useId();
   const handleViewModeChange = React.useCallback(
     (value: PlannerViewMode) => {
       if (value === viewMode) return;
@@ -192,15 +191,43 @@ function Inner() {
           id="planner-header"
           tabIndex={-1}
           eyebrow="Planner"
-        title="Planner for Today"
-        subtitle="Plan your week"
-        icon={<CalendarDays className="opacity-80" />}
-        sticky={false}
-        glitch="subtle"
-        className="col-span-full md:col-span-12"
-        illustration={
-          <Image
-            src="/images/noxi.svg"
+          title="Planner for Today"
+          subtitle="Plan your week"
+          icon={<CalendarDays className="opacity-80" />}
+          sticky={false}
+          glitch="subtle"
+          className="col-span-full md:col-span-12"
+          tabs={{
+            items: VIEW_MODE_TABS,
+            value: viewMode,
+            onChange: handleViewModeChange,
+            ariaLabel: "Planner view mode",
+            size: "lg",
+            align: "start",
+            idBase: VIEW_TAB_ID_BASE,
+            right: (
+              <div className="flex flex-col gap-[var(--space-2)] md:flex-row md:items-center md:gap-[var(--space-3)]">
+                <span className="sr-only">Week controls</span>
+                <PlannerIslandBoundary
+                  name="planner:week-picker"
+                  title="Week controls unavailable"
+                  description="We hit an error loading the planner controls. Retry to restore the week picker."
+                  retryLabel="Retry controls"
+                >
+                  <WeekPicker />
+                </PlannerIslandBoundary>
+                <span
+                  aria-live="polite"
+                  className="text-label text-muted-foreground md:text-right"
+                >
+                  {weekAnnouncement}
+                </span>
+              </div>
+            ),
+          }}
+          illustration={
+            <Image
+              src="/images/noxi.svg"
               alt="Noxi guiding weekly planning"
               fill
               sizes="(min-width: 1280px) 40vw, (min-width: 768px) 60vw, 100vw"
@@ -208,40 +235,7 @@ function Inner() {
               className="object-contain object-right md:object-center"
             />
           }
-        >
-          <span className="sr-only">Week controls</span>
-          <PlannerIslandBoundary
-            name="planner:week-picker"
-            title="Week controls unavailable"
-            description="We hit an error loading the planner controls. Retry to restore the week picker."
-          retryLabel="Retry controls"
-        >
-          <WeekPicker />
-        </PlannerIslandBoundary>
-        <div className="flex flex-col gap-[var(--space-3)]">
-          <div className="flex flex-wrap items-baseline justify-between gap-[var(--space-2)]">
-            <span id={labelId} className="text-label font-medium text-muted-foreground">
-              View
-            </span>
-            <span
-              aria-live="polite"
-              className="text-label text-muted-foreground"
-            >
-              {weekAnnouncement}
-            </span>
-          </div>
-          <TabBar<PlannerViewMode>
-            items={VIEW_MODE_TABS}
-            value={viewMode}
-            onValueChange={handleViewModeChange}
-            ariaLabelledBy={labelId}
-            size="lg"
-            align="start"
-            className="w-full"
-            idBase={VIEW_TAB_ID_BASE}
-          />
-        </div>
-        </Hero>
+        />
       </PageShell>
 
       <PageShell
