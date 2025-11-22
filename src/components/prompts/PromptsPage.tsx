@@ -293,8 +293,13 @@ interface ChatTabPanelProps {
   prompts: PromptWithTitle[];
   query: string;
   personas: Persona[];
-  savePrompt: (title: string, text: string) => boolean;
-  updatePrompt: (id: string, title: string, text: string) => boolean;
+  savePrompt: (title: string, text: string, category: string) => boolean;
+  updatePrompt: (
+    id: string,
+    title: string,
+    text: string,
+    category: string,
+  ) => boolean;
   deletePrompt: (id: string) => boolean;
 }
 
@@ -306,7 +311,8 @@ const ChatTabPanel = React.forwardRef<
   ref,
 ) {
   const handleSave = React.useCallback(
-    (title: string, text: string, _category: string) => savePrompt(title, text),
+    (title: string, text: string, category: string) =>
+      savePrompt(title, text, category),
     [savePrompt],
   );
 
@@ -328,8 +334,13 @@ ChatTabPanel.displayName = "ChatTabPanel";
 interface CodexTabPanelProps {
   prompts: PromptWithTitle[];
   query: string;
-  savePrompt: (title: string, text: string) => boolean;
-  updatePrompt: (id: string, title: string, text: string) => boolean;
+  savePrompt: (title: string, text: string, category: string) => boolean;
+  updatePrompt: (
+    id: string,
+    title: string,
+    text: string,
+    category: string,
+  ) => boolean;
   deletePrompt: (id: string) => boolean;
 }
 
@@ -341,7 +352,8 @@ const CodexTabPanel = React.forwardRef<
   ref,
 ) {
   const handleSave = React.useCallback(
-    (title: string, text: string, _category: string) => savePrompt(title, text),
+    (title: string, text: string, category: string) =>
+      savePrompt(title, text, category),
     [savePrompt],
   );
 

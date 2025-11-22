@@ -4,6 +4,7 @@ import * as React from "react";
 import { Pencil, Trash2 } from "lucide-react";
 
 import { Card, IconButton } from "@/components/ui";
+import { Badge } from "@/components/ui/primitives/Badge";
 import { cn } from "@/lib/utils";
 import type { PromptWithTitle } from "./types";
 
@@ -87,6 +88,11 @@ export function PromptCard({
             <h3 className="truncate font-semibold text-body">{prompt.title}</h3>
             {statusBadge}
           </div>
+          {prompt.category ? (
+            <Badge tone="neutral" size="sm">
+              {prompt.category}
+            </Badge>
+          ) : null}
           <time
             dateTime={prompt.createdAtDateTime}
             className="flex items-center gap-[var(--space-1)] text-label text-muted-foreground"
