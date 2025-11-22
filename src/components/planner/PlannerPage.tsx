@@ -13,17 +13,15 @@ import "./style.css";
 import * as React from "react";
 import Image from "next/image";
 import { Hero, PageShell, TabBar } from "@/components/ui";
-import { cn } from "@/lib/utils";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
 import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
 import { WeekPicker } from "./WeekPicker";
 import { CalendarDays } from "lucide-react";
-import { formatWeekDay, formatWeekRangeLabel } from "@/lib/date";
+import { formatWeekRangeLabel } from "@/lib/date";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 import { PlannerIslandBoundary } from "./PlannerIslandBoundary";
 import { useWeekData } from "./useWeekData";
-import useBasePath from "@/lib/useBasePath";
 import { useDay } from "./useDay";
 import { PlannerHero } from "./PlannerHero";
 
@@ -115,7 +113,6 @@ function Inner() {
   const hydrating = today === FOCUS_PLACEHOLDER;
   const [planningEnergy, setPlanningEnergy] = React.useState(72);
   const { per, weekDone, weekTotal } = useWeekData(days ?? []);
-  const { withBasePath } = useBasePath();
   const sliderFeedback = React.useMemo(() => {
     if (planningEnergy >= 75) return "High-intensity push queued.";
     if (planningEnergy <= 40) return "Keeping a low-impact tempo.";
@@ -170,73 +167,6 @@ function Inner() {
     [setViewMode, viewMode],
   );
 
-  type QuickLink = {
-    id: string;
-    label: string;
-    description?: string;
-    href: string;
-  };
-
-  const quickLinks = React.useMemo<QuickLink[]>(() => {
-    if (!per.length) {
-      return [];
-    }
-    const plannerRoot = withBasePath("/planner/");
-    const completionPct = weekTotal > 0 ? Math.round((weekDone / weekTotal) * 100) : 0;
-    const catchUpTarget = per.find((day) => day.total > day.done) ?? per[0];
-    const leadingDay = per.reduce((winner, candidate) => {
-      if (!winner) return candidate;
-      const winnerRate = winner.total ? winner.done / winner.total : 0;
-      const candidateRate = candidate.total ? candidate.done / candidate.total : 0;
-      if (candidateRate === winnerRate) {
-        return candidate.done > winner.done ? candidate : winner;
-      }
-      return candidateRate > winnerRate ? candidate : winner;
-    }, per[0]);
-
-    const items: QuickLink[] = [
-      {
-        id: "progress",
-        label: `${completionPct}% synced`,
-        description:
-          weekTotal > 0
-            ? `${weekDone} of ${weekTotal} tasks locked`
-            : "Draft your first tasks",
-        href: `${plannerRoot}#planner-view-week-panel`,
-      },
-    ];
-
-    if (catchUpTarget) {
-      items.push({
-        id: "focus",
-        label: `Focus ${formatWeekDay(catchUpTarget.iso)}`,
-        description: `${catchUpTarget.done}/${catchUpTarget.total} tasks cleared`,
-        href: `${plannerRoot}#planner-view-day-panel`,
-      });
-    }
-
-    if (leadingDay) {
-      items.push({
-        id: `streak-${leadingDay.iso}`,
-        label: `${formatWeekDay(leadingDay.iso)} streak`,
-        description:
-          leadingDay.done > 0
-            ? `${leadingDay.done} tasks complete`
-            : "Kick off the streak",
-        href: `${plannerRoot}#planner-view-month-panel`,
-      });
-    }
-
-    items.push({
-      id: "agenda",
-      label: "Review agenda",
-      description: "See reminders and open loops",
-      href: `${plannerRoot}#planner-view-agenda-panel`,
-    });
-
-    return items;
-  }, [per, weekDone, weekTotal, withBasePath]);
-
   const handlePlanningEnergyChange = React.useCallback(
     (value: number) => {
       setPlanningEnergy(value);
@@ -251,7 +181,6 @@ function Inner() {
         onPlanningEnergyChange={handlePlanningEnergyChange}
         sliderFeedback={sliderFeedback}
         autopilotSummary={autopilotSummary}
-        quickLinks={quickLinks}
         nudgesStat={nudgesStat}
       />
       <PageShell
@@ -263,15 +192,15 @@ function Inner() {
           id="planner-header"
           tabIndex={-1}
           eyebrow="Planner"
-          title="Planner for Today"
-          subtitle="Plan your week"
-          icon={<CalendarDays className="opacity-80" />}
-          sticky={false}
-          glitch="subtle"
-          className={cn("col-span-full md:col-span-12", "planner-header__hero")}
-          illustration={
-            <Image
-              src="/images/noxi.svg"
+        title="Planner for Today"
+        subtitle="Plan your week"
+        icon={<CalendarDays className="opacity-80" />}
+        sticky={false}
+        glitch="subtle"
+        className="col-span-full md:col-span-12"
+        illustration={
+          <Image
+            src="/images/noxi.svg"
               alt="Noxi guiding weekly planning"
               fill
               sizes="(min-width: 1280px) 40vw, (min-width: 768px) 60vw, 100vw"
