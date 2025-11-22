@@ -71,7 +71,7 @@ describe("PromptsPage", () => {
     );
     const saveButton = screen.getByRole("button", { name: "Save" });
     fireEvent.click(saveButton);
-    expect(screen.getByText("No prompts saved yet")).toBeInTheDocument();
+    expect(screen.getByText("Save your first prompt")).toBeInTheDocument();
   });
 
   it("keeps prompts saved before hydration completes", async () => {
