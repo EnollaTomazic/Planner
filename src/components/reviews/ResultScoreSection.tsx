@@ -5,8 +5,8 @@ import { SectionLabel } from "@/components/reviews/SectionLabel";
 import { cn } from "@/lib/utils";
 import type { Review } from "@/lib/types";
 import { SCORE_POOLS, pickIndex, scoreIcon } from "@/components/reviews/reviewData";
-import { ScoreMeter } from "./ScoreMeter";
-import styles from "./ResultScoreSection.module.css";
+import { RangeSlider as ScoreSlider } from "@/components/ui/primitives/RangeSlider";
+import { Toggle as ToggleButton } from "@/components/ui/toggles/Toggle";
 
 export type ResultScoreSectionHandle = {
   save: () => void;
@@ -36,6 +36,7 @@ function ResultScoreSection(
   const resultRef = React.useRef<HTMLButtonElement>(null);
   const scoreRangeRef = React.useRef<HTMLInputElement>(null);
   const resultLabelId = React.useId();
+  const scoreLabelId = React.useId();
 
   React.useEffect(() => {
     setResult(result0);
@@ -66,98 +67,56 @@ function ResultScoreSection(
     <>
       <div>
         <SectionLabel id={resultLabelId}>Result</SectionLabel>
-        <button
+        <ToggleButton
           ref={resultRef}
-          type="button"
-          role="switch"
-          aria-checked={result === "Win"}
-          aria-labelledby={resultLabelId}
-          onClick={() => {
-            const next = result === "Win" ? "Loss" : "Win";
+          ariaLabelledBy={resultLabelId}
+          leftLabel="Win"
+          rightLabel="Loss"
+          value={result === "Win" ? "Left" : "Right"}
+          onChange={(value) => {
+            const next = value === "Left" ? "Win" : "Loss";
             setResult(next);
             commitMeta({ result: next });
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              e.preventDefault();
-              const next = result === "Win" ? "Loss" : "Win";
-              setResult(next);
-              commitMeta({ result: next });
               scoreRangeRef.current?.focus();
             }
           }}
-          className={cn(
-            "relative inline-flex h-[var(--control-h-md)] w-[calc(var(--space-8)*3)] select-none items-center overflow-hidden rounded-card r-card-lg",
-            "border border-border bg-card",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-          )}
-          title="Toggle Win/Loss"
-        >
-          <span
-            aria-hidden
-            data-result={result}
-            className={cn(
-              styles.indicator,
-              "absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-motion-md motion-reduce:transition-none shadow-[var(--depth-shadow-soft)]",
-            )}
-          />
-          <div className="relative z-10 grid w-full grid-cols-2 text-ui font-mono">
-            <div
-              className={cn(
-                "py-[var(--space-2)] text-center",
-                result === "Win" ? "text-foreground" : "text-muted-foreground",
-              )}
-            >
-              Win
-            </div>
-            <div
-              className={cn(
-                "py-[var(--space-2)] text-center",
-                result === "Loss" ? "text-foreground" : "text-muted-foreground",
-              )}
-            >
-              Loss
-            </div>
-          </div>
-        </button>
+          className="w-full max-w-[calc(var(--space-8)*4)]"
+          aria-label="Toggle Win or Loss"
+        />
       </div>
 
-      <ScoreMeter
-        label="Score"
-        value={score}
-        tone="score"
-        variant="input"
-        surfaceProps={{ focusWithin: true }}
-        control={
-          <input
-            ref={scoreRangeRef}
-            type="range"
-            min={0}
-            max={10}
-            step={1}
-            value={score}
-            onChange={(e) => {
-              const v = Number(e.target.value);
-              setScore(v);
-              commitMeta({ score: v });
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                onScoreEnter?.();
-              }
-            }}
-            className="absolute inset-0 z-10 cursor-pointer rounded-card r-card-lg opacity-0 [appearance:none]"
-            aria-label="Score from 0 to 10"
-          />
-        }
-        detail={
-          <>
-            <ScoreIcon className={cn("h-[var(--space-4)] w-[var(--space-4)]", scoreIconCls)} />
-            <span>{msg}</span>
-          </>
-        }
-      />
+      <div className="space-y-[var(--space-2)]">
+        <SectionLabel id={scoreLabelId}>Score</SectionLabel>
+        <ScoreSlider
+          ref={scoreRangeRef}
+          min={0}
+          max={10}
+          step={1}
+          value={score}
+          aria-labelledby={scoreLabelId}
+          aria-label="Score from 0 to 10"
+          controlClassName="rounded-card r-card-lg"
+          trackClassName="cursor-pointer"
+          onChange={(e) => {
+            const v = Number(e.target.value);
+            setScore(v);
+            commitMeta({ score: v });
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              onScoreEnter?.();
+            }
+          }}
+        />
+        <div className="flex items-center gap-[var(--space-2)] text-ui text-muted-foreground" aria-live="polite">
+          <ScoreIcon className={cn("h-[var(--space-4)] w-[var(--space-4)]", scoreIconCls)} />
+          <span>{msg}</span>
+        </div>
+      </div>
     </>
   );
 }
