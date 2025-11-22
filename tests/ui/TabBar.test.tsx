@@ -87,7 +87,9 @@ describe("TabBar", () => {
       </ThemeProvider>,
     );
 
-    const tablist = await screen.findByRole("tablist", { name: "View" });
+    const tablist = await screen.findByRole("tablist", {
+      name: "Planner view mode",
+    });
     const tabs = within(tablist).getAllByRole("tab");
     const [dayTab, weekTab, monthTab] = tabs;
 

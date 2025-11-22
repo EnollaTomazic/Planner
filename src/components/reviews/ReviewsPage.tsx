@@ -14,6 +14,12 @@ import { BookOpen, Ghost, Plus } from "lucide-react";
 
 import {
   Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
   Hero,
   PageShell,
   Select,
@@ -507,37 +513,62 @@ export function ReviewsPage({
                 />
               </ReviewPanel>
             ) : !hasReviews ? (
-              <ReviewPanel
+              <Card
+                role="status"
                 aria-live="polite"
                 className={cn(
                   panelClass,
-                  "relative flex flex-col items-center justify-center gap-[var(--space-4)] overflow-hidden",
-                  "text-center text-ui text-muted-foreground",
+                  "relative isolate overflow-hidden border-none bg-[hsl(var(--surface-2))] text-left shadow-neo",
                 )}
+                depth="raised"
               >
                 <span
                   aria-hidden
-                  className="glitch-rail pointer-events-none absolute inset-y-[var(--space-2)] left-1/2 hidden w-[var(--spacing-1)] -translate-x-1/2 rounded-full opacity-80 mix-blend-screen sm:block"
+                  className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[color-mix(in_srgb,hsl(var(--surface-2))_70%,hsl(var(--primary-2))_15%)] via-[hsl(var(--surface-2))] to-[color-mix(in_srgb,hsl(var(--surface-2))_70%,hsl(var(--primary-3))_20%)]"
                 />
-                <span
-                  aria-hidden
-                  data-text=""
-                  className="glitch-anim inline-flex items-center justify-center rounded-full border border-border/40 bg-card/70 p-[var(--space-3)] text-muted-foreground motion-reduce:animate-none"
-                >
-                  <BookOpen
-                    aria-hidden
-                    focusable="false"
-                    className="size-[var(--space-6)]"
-                  />
-                </span>
-                <div className="space-y-[var(--space-1)]">
-                  <p className="text-card-foreground">You&rsquo;re ready to capture your first review.</p>
-                  <p>
-                    Log a match recap to unlock summaries, tagging, and focus tracking.
-                    Use the New review button above to begin.
-                  </p>
+                <div className="grid items-center gap-[var(--space-4)] md:grid-cols-[1.2fr_auto]">
+                  <div className="space-y-[var(--space-3)]">
+                    <CardHeader className="space-y-[var(--space-2)] p-0">
+                      <CardTitle className="text-balance">Capture your first review</CardTitle>
+                      <CardDescription className="text-pretty">
+                        Agnes has a fresh page ready. Log your latest match to unlock summaries, tagging, and focus tracking.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                      <div className="flex flex-wrap items-center gap-[var(--space-2)] text-muted-foreground">
+                        <span className="rounded-full bg-[hsl(var(--surface-3))] px-[var(--space-2)] py-[var(--space-1)] text-label font-medium text-foreground">
+                          Guidance
+                        </span>
+                        <span className="text-ui">
+                          Capture notes to see AI summaries and track what to improve next time.
+                        </span>
+                      </div>
+                    </CardContent>
+                    <CardFooter className="flex flex-wrap gap-[var(--space-2)] p-0">
+                      <Button
+                        type="button"
+                        variant="default"
+                        size="md"
+                        className="btn-glitch"
+                        onClick={commitCreateReview}
+                        disabled={!allowInteractions}
+                      >
+                        Capture first review
+                      </Button>
+                    </CardFooter>
+                  </div>
+                  <div className="relative mx-auto h-[min(16rem,40vw)] w-full max-w-[18rem]">
+                    <Image
+                      src="/images/agnes-writing-notes.svg"
+                      alt="Agnes writing review notes"
+                      fill
+                      sizes="(min-width: 1024px) 18rem, 60vw"
+                      className="object-contain"
+                      priority={false}
+                    />
+                  </div>
                 </div>
-              </ReviewPanel>
+              </Card>
             ) : !active ? (
               <ReviewPanel
                 aria-live="polite"
