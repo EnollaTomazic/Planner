@@ -3,6 +3,7 @@ export type Prompt = {
   title?: string;
   text: string;
   createdAt: number;
+  category?: string;
 };
 
 export type PromptWithTitle = Prompt & { title: string };

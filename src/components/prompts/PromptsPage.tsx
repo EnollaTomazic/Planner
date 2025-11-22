@@ -3,7 +3,6 @@
 import * as React from "react";
 
 import { PageShell } from "@/components/ui";
-import { TabBar } from "@/components/ui/layout/TabBar";
 import { usePersistentState } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import {
@@ -79,20 +78,6 @@ export function PromptsPage() {
       notes: notes.trim().length > 0 ? 1 : 0,
     }),
     [chatPrompts.length, codexPrompts.length, notes],
-  );
-
-  const tabItems = React.useMemo(
-    () =>
-      PROMPTS_TAB_ITEMS.map((item) => {
-        const badge = tabCounts[item.key];
-        return {
-          key: item.key,
-          label: item.label,
-          badge: badge && badge > 0 ? badge : undefined,
-          controls: `${item.key}-panel`,
-        };
-      }),
-    [tabCounts],
   );
 
   const activeQuery = React.useMemo(() => {
@@ -238,14 +223,6 @@ export function PromptsPage() {
         className="space-y-[var(--space-6)] py-[var(--space-6)]"
         aria-labelledby="prompts-header"
       >
-        <TabBar<PromptsTabKey>
-          items={tabItems}
-          value={activeTab}
-          onValueChange={setActiveTab}
-          ariaLabel="Prompt workspaces"
-          ariaLabelledBy="prompts-header"
-          idBase={PROMPTS_TAB_ID_BASE}
-        />
         {PROMPTS_TAB_ITEMS.map((item) => {
           const isActive = activeTab === item.key;
           const tabId = `${PROMPTS_TAB_ID_BASE}-${item.key}-tab`;
@@ -316,8 +293,13 @@ interface ChatTabPanelProps {
   prompts: PromptWithTitle[];
   query: string;
   personas: Persona[];
-  savePrompt: (title: string, text: string) => boolean;
-  updatePrompt: (id: string, title: string, text: string) => boolean;
+  savePrompt: (title: string, text: string, category: string) => boolean;
+  updatePrompt: (
+    id: string,
+    title: string,
+    text: string,
+    category: string,
+  ) => boolean;
   deletePrompt: (id: string) => boolean;
 }
 
@@ -329,7 +311,8 @@ const ChatTabPanel = React.forwardRef<
   ref,
 ) {
   const handleSave = React.useCallback(
-    (title: string, text: string, _category: string) => savePrompt(title, text),
+    (title: string, text: string, category: string) =>
+      savePrompt(title, text, category),
     [savePrompt],
   );
 
@@ -351,8 +334,13 @@ ChatTabPanel.displayName = "ChatTabPanel";
 interface CodexTabPanelProps {
   prompts: PromptWithTitle[];
   query: string;
-  savePrompt: (title: string, text: string) => boolean;
-  updatePrompt: (id: string, title: string, text: string) => boolean;
+  savePrompt: (title: string, text: string, category: string) => boolean;
+  updatePrompt: (
+    id: string,
+    title: string,
+    text: string,
+    category: string,
+  ) => boolean;
   deletePrompt: (id: string) => boolean;
 }
 
@@ -364,7 +352,8 @@ const CodexTabPanel = React.forwardRef<
   ref,
 ) {
   const handleSave = React.useCallback(
-    (title: string, text: string, _category: string) => savePrompt(title, text),
+    (title: string, text: string, category: string) =>
+      savePrompt(title, text, category),
     [savePrompt],
   );
 
