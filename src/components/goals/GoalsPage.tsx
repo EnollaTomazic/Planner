@@ -32,11 +32,11 @@ import {
   Modal,
   ProgressRing,
   Label,
-  Input,
   AIExplainTooltip,
 } from "@/components/ui";
 import { PlannerProvider, SmallAgnesNoxiImage } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
+import { Input, type InputProps } from "@/components/ui/primitives/Input";
 import {
   Card,
   CardHeader,
@@ -955,6 +955,12 @@ const createDefaultGoalFormValues = () => ({
   notes: "",
 });
 
+const InsetInput = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ variant: _variant, ...props }, ref) => (
+    <Input ref={ref} variant="sunken" {...props} />
+  ),
+);
+
 const InsetTextarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   function InsetTextarea(
     { className, textareaClassName, resize, id, name, "aria-label": ariaLabel, ...props },
@@ -997,6 +1003,9 @@ const InsetTextarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     );
   },
 );
+
+InsetInput.displayName = "InsetInput";
+InsetTextarea.displayName = "InsetTextarea";
 
 const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProps>(
   ({ isAtCap, remaining, errorMessage, onSubmit }, ref) => {
@@ -1086,14 +1095,13 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
           <CardContent className="space-y-[var(--space-4)]">
             <div className="space-y-[var(--space-2)]">
               <Label htmlFor={titleId}>Title</Label>
-              <Input
+              <InsetInput
                 id={titleId}
                 ref={titleInputRef}
                 placeholder="Review lane states"
                 value={values.title}
                 onChange={handleInputChange("title")}
                 required
-                variant="sunken"
               />
             </div>
 
@@ -1111,7 +1119,7 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
               <p id={metricHelpId} className="sr-only">
                 Optional metric for tracking progress. Enter the target value only; for percentages, type the number such as 75 for seventy-five percent so the field stays free of extra symbols.
               </p>
-              <Input
+              <InsetInput
                 id={metricId}
                 type="text"
                 inputMode="decimal"
@@ -1119,7 +1127,6 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
                 value={values.metric}
                 onChange={handleInputChange("metric")}
                 aria-describedby={metricHelpId}
-                variant="sunken"
               />
             </div>
 
