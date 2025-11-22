@@ -1124,6 +1124,7 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
                 type="text"
                 inputMode="decimal"
                 placeholder="75"
+                aria-label="Metric (optional)"
                 value={values.metric}
                 onChange={handleInputChange("metric")}
                 aria-describedby={metricHelpId}
