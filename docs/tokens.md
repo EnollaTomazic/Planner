@@ -290,9 +290,10 @@
 | skeleton-bg | hsl(var(--muted) / 0.6) |
 | skeleton-fill | hsl(var(--foreground) / 0.08) |
 | gradient-noise-opacity | 0.1 |
-| gradient-noise-overlay-opacity | 0.06 |
-| card-noise-opacity | 0.06 |
-| texture-grain-opacity | 0.04 |
+| gradient-noise-overlay-opacity | var(--texture-noise-opacity, 0.05) |
+| card-noise-opacity | var(--texture-noise-opacity, 0.05) |
+| texture-noise-opacity | 0.05 |
+| texture-grain-opacity | var(--texture-noise-opacity, 0.05) |
 | texture-scanline-opacity | 0.06 |
 | shadow-inner-sm | inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18) |
 | shadow-inner-md | inset 0 var(--spacing-0-25) var(--spacing-1) hsl(var(--shadow-color) / 0.28) |

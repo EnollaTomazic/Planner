@@ -7,8 +7,10 @@ import { cn } from "@/lib/utils";
 export type NoiseLevel = "none" | "subtle" | "moderate";
 
 const noiseOverlayOpacity: Record<Exclude<NoiseLevel, "none">, string> = {
-  subtle: "opacity-[var(--card-noise-opacity,0.06)]",
-  moderate: "opacity-[calc(var(--card-noise-opacity,0.06)*1.3333)]",
+  subtle:
+    "opacity-[clamp(0.04,calc(var(--texture-noise-opacity,0.05)*0.9),0.06)]",
+  moderate:
+    "opacity-[clamp(0.04,calc(var(--texture-noise-opacity,0.05)*1.2),0.06)]",
 };
 
 export interface NoiseOverlayProps

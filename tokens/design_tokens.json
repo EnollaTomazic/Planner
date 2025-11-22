@@ -713,13 +713,16 @@
       "value": "0.1"
     },
     "gradientNoiseOverlayOpacity": {
-      "value": "0.06"
+      "value": "var(--texture-noise-opacity, 0.05)"
     },
     "cardNoiseOpacity": {
-      "value": "0.06"
+      "value": "var(--texture-noise-opacity, 0.05)"
+    },
+    "textureNoiseOpacity": {
+      "value": "0.05"
     },
     "textureGrainOpacity": {
-      "value": "0.04"
+      "value": "var(--texture-noise-opacity, 0.05)"
     },
     "textureScanlineOpacity": {
       "value": "0.06"

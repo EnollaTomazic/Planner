@@ -181,6 +181,7 @@ function mapTabs<Key extends string>(
 const HERO_NOISE_STYLES: Record<HeroNoiseLevel, HeroNoiseStyle> = {
   none: {
     "--hero-glitch-overlay-opacity": "var(--theme-scanline-opacity-none, 0)",
+    "--texture-noise-opacity": "var(--theme-noise-level-none, 0)",
     "--texture-grain-opacity": "var(--theme-noise-level-none, 0)",
     "--texture-grain-strength": "0",
     "--texture-scanline-opacity": "var(--theme-scanline-opacity-none, 0)",
@@ -189,7 +190,8 @@ const HERO_NOISE_STYLES: Record<HeroNoiseLevel, HeroNoiseStyle> = {
   subtle: {
     "--hero-glitch-overlay-opacity":
       "var(--theme-scanline-opacity-subtle, 0.045)",
-    "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.03)",
+    "--texture-noise-opacity": "var(--theme-noise-level-subtle, 0.04)",
+    "--texture-grain-opacity": "var(--texture-noise-opacity)",
     "--texture-grain-strength": "1",
     "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.045)",
     "--texture-scanline-strength": "1",
@@ -197,7 +199,8 @@ const HERO_NOISE_STYLES: Record<HeroNoiseLevel, HeroNoiseStyle> = {
   moderate: {
     "--hero-glitch-overlay-opacity":
       "var(--theme-scanline-opacity-moderate, 0.06)",
-    "--texture-grain-opacity": "var(--theme-noise-level-moderate, 0.04)",
+    "--texture-noise-opacity": "var(--theme-noise-level-moderate, 0.06)",
+    "--texture-grain-opacity": "var(--texture-noise-opacity)",
     "--texture-grain-strength": "1",
     "--texture-scanline-opacity": "var(--theme-scanline-opacity-moderate, 0.06)",
     "--texture-scanline-strength": "1",

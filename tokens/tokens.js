@@ -267,9 +267,10 @@ export default {
   skeletonBg: "hsl(var(--muted) / 0.6)",
   skeletonFill: "hsl(var(--foreground) / 0.08)",
   gradientNoiseOpacity: "0.1",
-  gradientNoiseOverlayOpacity: "0.06",
-  cardNoiseOpacity: "0.06",
-  textureGrainOpacity: "0.04",
+  gradientNoiseOverlayOpacity: "var(--texture-noise-opacity, 0.05)",
+  cardNoiseOpacity: "var(--texture-noise-opacity, 0.05)",
+  textureNoiseOpacity: "0.05",
+  textureGrainOpacity: "var(--texture-noise-opacity, 0.05)",
   textureScanlineOpacity: "0.06",
   shadowInnerSm:
     "inset 0 var(--spacing-0-125) var(--spacing-0-5) hsl(var(--shadow-color) / 0.18)",

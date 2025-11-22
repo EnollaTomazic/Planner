@@ -644,6 +644,9 @@ html.bg-alt2 body::after {
 }
 
 html.bg-vhs body {
+  --texture-noise-opacity: var(--theme-noise-level-subtle, 0.04);
+  --texture-grain-strength: 0.85;
+  --texture-scanline-strength: 0.85;
   background-color: hsl(var(--surface-vhs));
   background-image:
     radial-gradient(

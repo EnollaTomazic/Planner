@@ -15,8 +15,10 @@ import type { HomePlannerIslandPlannerProps } from "./HomePlannerIsland.planner"
 const homeBackdropClassName =
   'relative isolate overflow-hidden bg-[color-mix(in_oklab,hsl(var(--surface))_88%,hsl(var(--surface-2)))] shadow-inner-sm bg-glitch-noise-primary'
 const homeBackdropNoiseStyle = {
-  "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.03)",
+  "--texture-noise-opacity": "var(--theme-noise-level-subtle, 0.04)",
+  "--texture-grain-opacity": "var(--texture-noise-opacity)",
   "--texture-grain-strength": "1",
+  "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.045)",
 } as CSSProperties
 const sectionCardOverlayClassName = 'relative'
 
