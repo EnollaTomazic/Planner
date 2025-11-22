@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { Card, GlitchNeoCard } from "@/components/ui";
+import { Card, cardSurfaceClassName } from "@/components/ui";
 import {
   EntityForm,
   type EntityFormHandle,
@@ -180,7 +180,7 @@ export const ChatPromptsTab = React.forwardRef<
             Draft a ChatGPT request and save it for future reuse.
           </p>
         </div>
-        <GlitchNeoCard className="p-[var(--space-4)]">
+        <Card depth="raised" glitch className={cardSurfaceClassName}>
           <EntityForm
             id={`chat-prompts-form-${formId}`}
             title="New ChatGPT prompt"
@@ -214,7 +214,7 @@ export const ChatPromptsTab = React.forwardRef<
             onSubmit={handleSave}
             onValuesChange={handleValuesChange}
           />
-        </GlitchNeoCard>
+        </Card>
       </section>
 
       <section

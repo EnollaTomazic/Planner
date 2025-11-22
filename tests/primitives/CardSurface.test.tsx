@@ -2,22 +2,22 @@ import * as React from "react";
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
-import { NeoCard } from "@/components/ui/primitives/NeoCard";
+import { Card, cardSurfaceClassName } from "@/components/ui/Card";
 
 afterEach(cleanup);
 
-describe("NeoCard", () => {
-  it("applies the semantic shadow token bundle", () => {
+describe("Card (neo surface)", () => {
+  it("applies the shared neo surface helpers", () => {
     const { container } = render(
-      <NeoCard>
+      <Card depth="raised" className={cardSurfaceClassName}>
         <p>Token audit</p>
-      </NeoCard>,
+      </Card>,
     );
 
     const root = container.firstElementChild as HTMLElement | null;
     expect(root).not.toBeNull();
     if (!root) {
-      throw new Error("NeoCard root not rendered");
+      throw new Error("Card root not rendered");
     }
 
     expect(root.className).toContain("card-neo-soft");
@@ -26,21 +26,23 @@ describe("NeoCard", () => {
     expect(root.className).toContain(
       "[--neo-card-overlay-opacity:var(--surface-overlay-strong,0.2)]",
     );
+    expect(root.dataset.depth).toBe("raised");
   });
 
-  it("renders overlay content after children for layering", () => {
+  it("renders user overlays after content for layering", () => {
     const { container } = render(
-      <NeoCard overlay={<div data-testid="overlay" />}>content</NeoCard>,
+      <Card glitch overlay={<div data-testid="overlay" />}>content</Card>,
     );
 
     const root = container.firstElementChild as HTMLElement | null;
     expect(root).not.toBeNull();
     if (!root) {
-      throw new Error("NeoCard root not rendered");
+      throw new Error("Card root not rendered");
     }
 
     const overlay = root.lastElementChild as HTMLElement | null;
     expect(overlay).not.toBeNull();
     expect(overlay?.dataset.testid).toBe("overlay");
+    expect(root.dataset.glitch).toBe("true");
   });
 });

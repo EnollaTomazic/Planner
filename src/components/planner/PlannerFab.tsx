@@ -5,13 +5,14 @@ import { createPortal } from "react-dom";
 import { Bot, Loader2, Plus, CalendarClock, Sparkles } from "lucide-react";
 import {
   Button,
+  Card,
   IconButton,
   Label,
-  NeoCard,
   Select,
   TabBar,
   Textarea,
   useDialogTrap,
+  cardSurfaceClassName,
 } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import {
@@ -125,14 +126,18 @@ function PlannerCreationDialog({
         className="absolute inset-0"
         onClick={onClose}
       />
-      <NeoCard
+      <Card
+        depth="raised"
+        className={cn(
+          cardSurfaceClassName,
+          "relative w-full max-w-[min(calc(var(--space-16)*3+var(--space-8)),calc(var(--shell-width)*0.9))] card-pad space-y-[var(--space-5)]",
+        )}
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         aria-details={summaryId}
-        className="relative w-full max-w-[min(calc(var(--space-16)*3+var(--space-8)),calc(var(--shell-width)*0.9))] card-pad space-y-[var(--space-5)]"
       >
         <IconButton
           aria-label="Close creation sheet"
@@ -147,7 +152,7 @@ function PlannerCreationDialog({
           <Plus className="rotate-45" />
         </IconButton>
         {children}
-      </NeoCard>
+      </Card>
     </div>,
     document.body,
   );

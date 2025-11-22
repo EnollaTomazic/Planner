@@ -9,6 +9,7 @@ export type CardProps = React.HTMLAttributes<HTMLDivElement> & {
   asChild?: boolean;
   depth?: CardDepth;
   glitch?: boolean;
+  overlay?: React.ReactNode;
 };
 
 const depthShadowClasses: Record<CardDepth, string> = {
@@ -47,6 +48,7 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
       depth = "base",
       glitch = false,
       children,
+      overlay,
       ...props
     },
     ref,
@@ -66,7 +68,7 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
     );
 
     const overlayEnabled = glitch && !hasCardOverlay(children);
-    const overlay = overlayEnabled ? (
+    const glitchOverlay = overlayEnabled ? (
       <span
         aria-hidden
         data-card-overlay="true"
@@ -100,13 +102,12 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
       }
 
       const child = React.Children.only(children) as React.ReactElement<{ children?: React.ReactNode }>;
-      const content = overlay ? (
+      const content = (
         <>
-          {overlay}
+          {glitchOverlay}
           {child.props.children}
+          {overlay}
         </>
-      ) : (
-        <>{child.props.children}</>
       );
 
       return (
@@ -118,8 +119,9 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
 
     return (
       <div ref={ref} {...baseProps}>
-        {overlay}
+        {glitchOverlay}
         {children}
+        {overlay}
       </div>
     );
   },
