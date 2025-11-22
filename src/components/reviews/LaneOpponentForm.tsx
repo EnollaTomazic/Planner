@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { SectionLabel } from "@/components/reviews/SectionLabel";
+import { Label } from "@/components/ui";
 import { Input } from "@/components/ui/primitives/Input";
 import { Target, Shield } from "lucide-react";
 import type { Review } from "@/lib/types";
@@ -32,6 +32,8 @@ function LaneOpponentForm(
   const [opponent, setOpponent] = React.useState(opponent0);
   const laneRef = React.useRef<HTMLInputElement>(null);
   const opponentRef = React.useRef<HTMLInputElement>(null);
+  const laneInputId = React.useId();
+  const opponentInputId = React.useId();
   const opponentLabelId = React.useId();
 
   React.useEffect(() => {
@@ -69,12 +71,14 @@ function LaneOpponentForm(
 
   return (
     <div className="flex flex-col gap-[var(--space-2)]">
-      <div className="mb-[var(--space-2)]">
+      <div className="mb-[var(--space-2)] space-y-[var(--space-2)]">
+        <Label htmlFor={laneInputId}>Lane</Label>
         <div className="relative">
           <Target className="pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--icon-size-sm)] -translate-y-1/2 text-muted-foreground" />
           <Input
             ref={laneRef}
             name="lane"
+            id={laneInputId}
             value={lane}
             onChange={(e) => setLane(e.target.value)}
             onBlur={commitLane}
@@ -87,18 +91,27 @@ function LaneOpponentForm(
             }}
             className="pl-[var(--space-6)]"
             placeholder="Ashe/Lulu"
-            aria-label="Lane (used as Title)"
           />
         </div>
       </div>
 
-      <div>
-        <SectionLabel id={opponentLabelId}>Opponent</SectionLabel>
+      <div className="space-y-[var(--space-2)]">
+        <Label
+          htmlFor={opponentInputId}
+          className="flex items-center gap-[var(--space-2)]"
+        >
+          <span id={opponentLabelId}>Opponent</span>
+          <span
+            aria-hidden
+            className="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
+          />
+        </Label>
         <div className="relative">
           <Shield className="pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--icon-size-sm)] -translate-y-1/2 text-muted-foreground" />
           <Input
             ref={opponentRef}
             name="opponent"
+            id={opponentInputId}
             value={opponent}
             onChange={(e) => setOpponent(e.target.value)}
             onBlur={commitOpponent}
