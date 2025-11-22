@@ -21,6 +21,8 @@ export { OnboardingTabs } from "./OnboardingTabs";
 export { OutlineGlowDemo } from "./OutlineGlowDemo";
 export { CalendarPreview, CalendarPreviewError, CalendarPreviewLoading } from "./previews/CalendarLayoutPreview";
 export { WeekPickerDemo } from "./previews/WeekPickerDemo";
+export { PromptCard } from "./PromptCard";
+export type { PromptCardData, PromptCardProps } from "./PromptCard";
 export { PromptsComposePanel } from "./PromptsComposePanel";
 export { PromptsDemos } from "./PromptsDemos";
 export { PromptsHeader } from "./PromptsHeader";
