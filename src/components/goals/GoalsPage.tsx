@@ -1100,16 +1100,16 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
             <div className="space-y-[var(--space-2)]">
               <div className="flex items-center justify-between gap-[var(--space-2)]">
                 <Label htmlFor={metricId} className="mb-0">
-                  Metric (optional)
+                  Metric (optional — enter the target value; for percentages, type the number like 75)
                 </Label>
                 <AIExplainTooltip
                   triggerLabel="How metrics help"
-                  explanation="Metrics surface on each goal card so you can track progress against a specific target. Enter the value you want to hit—type just the number for percentages, like 75 for 75%. Leave it blank if a number doesn't help."
+                  explanation="Metrics surface on each goal card so you can track progress against a specific target. Enter the value you want to hit, and for percentages, type only the number—for example, 75 instead of adding a percent sign. Leave it blank if a number doesn't help."
                   tone="neutral"
                 />
               </div>
               <p id={metricHelpId} className="sr-only">
-                Optional metric for tracking progress. Enter the value only; for percentages, type the number such as 75 for seventy-five percent.
+                Optional metric for tracking progress. Enter the target value only; for percentages, type the number such as 75 for seventy-five percent so the field stays free of extra symbols.
               </p>
               <Input
                 id={metricId}
