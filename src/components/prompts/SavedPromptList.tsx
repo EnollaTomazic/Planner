@@ -1,14 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { SearchX, Sparkles } from "lucide-react";
 
 import { GenericList } from "@/components/lists/GenericList";
-import type { GenericListEmptyState } from "@/components/lists/GenericList";
-import { Card, IconButton } from "@/components/ui";
+import { Card } from "@/components/ui";
 import { Badge } from "@/components/ui/primitives/Badge";
 import { cn, LOCALE } from "@/lib/utils";
 import type { PromptWithTitle } from "./types";
+import { PromptCard, type PromptCardData } from "./PromptCard";
 
 export interface SavedPromptListProps {
   prompts: PromptWithTitle[];
@@ -17,11 +17,6 @@ export interface SavedPromptListProps {
   onEditPrompt?: (prompt: PromptWithTitle) => void;
   onDeletePrompt?: (prompt: PromptWithTitle) => void;
 }
-
-type FormattedPrompt = PromptWithTitle & {
-  createdAtDateTime: string;
-  createdAtLabel: string;
-};
 
 export function SavedPromptList({
   prompts,
@@ -32,7 +27,7 @@ export function SavedPromptList({
 }: SavedPromptListProps) {
   const trimmedQuery = query.trim();
 
-  const formattedPrompts = React.useMemo<FormattedPrompt[]>(
+  const formattedPrompts = React.useMemo<PromptCardData[]>(
     () =>
       prompts.map((prompt) => {
         const createdAt = new Date(prompt.createdAt);
@@ -40,118 +35,83 @@ export function SavedPromptList({
           ...prompt,
           createdAtDateTime: createdAt.toISOString(),
           createdAtLabel: createdAt.toLocaleString(LOCALE),
-        } satisfies FormattedPrompt;
+        } satisfies PromptCardData;
       }),
     [prompts],
   );
 
-  const emptyState: GenericListEmptyState | undefined = React.useMemo(() => {
-    if (prompts.length === 0) {
-      if (trimmedQuery) {
-        return {
-          title: "No prompts found",
-          description: (
-            <span className="inline-flex items-center gap-[var(--space-1)]">
-              No prompts match <Badge size="sm" tone="neutral">{trimmedQuery}</Badge>
-            </span>
-          ),
-        } satisfies GenericListEmptyState;
-      }
-      return {
-        title: "No prompts saved yet",
-        description: "Create a prompt to build your library.",
-      } satisfies GenericListEmptyState;
-    }
-    return undefined;
-  }, [prompts.length, trimmedQuery]);
+  const renderEmptyState = React.useCallback(() => {
+    if (formattedPrompts.length > 0) return null;
+    return <SavedPromptEmptyState query={trimmedQuery} />;
+  }, [formattedPrompts.length, trimmedQuery]);
+
+  const emptyState = renderEmptyState();
+  if (emptyState) {
+    return <div className="mt-[var(--space-4)]">{emptyState}</div>;
+  }
 
   return (
     <GenericList
       items={formattedPrompts}
       getKey={(prompt) => prompt.id}
       listClassName="mt-[var(--space-4)] space-y-[var(--space-3)]"
-      emptyState={emptyState}
-      renderItem={(prompt) => {
-        const handleSelect = () => {
-          onSelectPrompt?.(prompt);
-        };
-
-        const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (
-          event,
-        ) => {
-          if (!onSelectPrompt) return;
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            onSelectPrompt(prompt);
-          }
-        };
-
-        const handleEditClick: React.MouseEventHandler<HTMLButtonElement> = (
-          event,
-        ) => {
-          event.stopPropagation();
-          onEditPrompt?.(prompt);
-        };
-
-        const handleDeleteClick: React.MouseEventHandler<HTMLButtonElement> = (
-          event,
-        ) => {
-          event.stopPropagation();
-          onDeletePrompt?.(prompt);
-        };
-
-        return (
-          <Card
-            role={onSelectPrompt ? "button" : undefined}
-            tabIndex={onSelectPrompt ? 0 : undefined}
-            onClick={onSelectPrompt ? handleSelect : undefined}
-            onKeyDown={handleKeyDown}
-            className={cn(
-              "group flex flex-col gap-[var(--space-2)] rounded-card border border-border bg-card/80 p-[var(--space-3)] shadow-neo transition-all",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-              onSelectPrompt &&
-                "cursor-pointer hover:ring-2 hover:ring-ring hover:ring-offset-2 hover:ring-offset-background",
-            )}
-          >
-            <header className="flex items-start justify-between gap-[var(--space-3)]">
-              <div className="min-w-0 space-y-[var(--space-1)]">
-                <h3 className="truncate font-semibold text-body">{prompt.title}</h3>
-                <time
-                  dateTime={prompt.createdAtDateTime}
-                  className="block text-label text-muted-foreground"
-                >
-                  Saved {prompt.createdAtLabel}
-                </time>
-              </div>
-              <div className="flex shrink-0 items-center gap-[var(--space-1-5)]">
-                <IconButton
-                  aria-label={`Edit ${prompt.title}`}
-                  size="sm"
-                  variant="quiet"
-                  tone="primary"
-                  onClick={handleEditClick}
-                >
-                  <Pencil aria-hidden="true" />
-                </IconButton>
-                <IconButton
-                  aria-label={`Delete ${prompt.title}`}
-                  size="sm"
-                  variant="quiet"
-                  tone="danger"
-                  onClick={handleDeleteClick}
-                >
-                  <Trash2 aria-hidden="true" />
-                </IconButton>
-              </div>
-            </header>
-            {prompt.text ? (
-              <p className="line-clamp-3 whitespace-pre-line text-ui text-muted-foreground">
-                {prompt.text}
-              </p>
-            ) : null}
-          </Card>
-        );
-      }}
+      renderItem={(prompt, { statusBadge }) => (
+        <PromptCard
+          prompt={prompt}
+          statusBadge={statusBadge}
+          onSelect={onSelectPrompt ? () => onSelectPrompt(prompt) : undefined}
+          onEdit={onEditPrompt ? () => onEditPrompt(prompt) : undefined}
+          onDelete={onDeletePrompt ? () => onDeletePrompt(prompt) : undefined}
+        />
+      )}
     />
+  );
+}
+
+function SavedPromptEmptyState({ query }: { query: string }) {
+  const trimmed = query.trim();
+  const isFiltered = trimmed.length > 0;
+
+  return (
+    <Card
+      className={cn(
+        "relative isolate flex items-start gap-[var(--space-3)] overflow-hidden border border-dashed border-border/70 bg-card/70 p-[var(--space-4)] shadow-neo-soft",
+        "before:absolute before:inset-0 before:-z-10 before:bg-gradient-to-br before:from-primary/5 before:via-transparent before:to-accent/5",
+      )}
+      aria-live="polite"
+    >
+      <div className="flex items-center justify-center rounded-full bg-card/80 p-[var(--space-3)] ring-1 ring-inset ring-border/50">
+        {isFiltered ? (
+          <SearchX aria-hidden className="size-[var(--space-6)] text-muted-foreground" />
+        ) : (
+          <Sparkles aria-hidden className="size-[var(--space-6)] text-primary" />
+        )}
+      </div>
+      <div className="space-y-[var(--space-2)]">
+        <div className="space-y-[var(--space-1)]">
+          <p className="text-body font-semibold text-card-foreground">
+            {isFiltered ? "No prompts match" : "Save your first prompt"}
+          </p>
+          <p className="text-ui text-muted-foreground">
+            {isFiltered
+              ? "Try different keywords or clear the search filter."
+              : "Keep favorite instructions ready to reuse whenever inspiration hits."}
+          </p>
+        </div>
+        {isFiltered ? (
+          <div className="flex flex-wrap items-center gap-[var(--space-1)]">
+            <span className="text-label text-muted-foreground">Searching for</span>
+            <Badge size="sm" tone="neutral">
+              {trimmed}
+            </Badge>
+          </div>
+        ) : (
+          <ul className="list-inside list-disc space-y-[var(--space-1)] text-ui text-muted-foreground">
+            <li>Give your prompt a clear title so it is easy to scan.</li>
+            <li>Include the full text you want to reuse, then hit Save.</li>
+          </ul>
+        )}
+      </div>
+    </Card>
   );
 }

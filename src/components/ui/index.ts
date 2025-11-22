@@ -78,7 +78,7 @@ export { BlobContainer } from "./primitives/BlobContainer";
 export type { BlobContainerProps, GlitchNoiseToken, GlitchOverlayToken } from "./primitives/BlobContainer";
 export { Button, BUTTON_VARIANTS, buttonSizes, colorVar, toneClasses, variants } from "./primitives/Button";
 export type { ButtonProps, ButtonSize, ButtonVariant } from "./primitives/Button";
-export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./primitives/Card";
+export { Card, CardBody, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./primitives/Card";
 export type { CardDepth, CardProps } from "./primitives/Card";
 export { DripEdge } from "./primitives/DripEdge";
 export type { DripEdgeProps } from "./primitives/DripEdge";
