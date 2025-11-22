@@ -59,9 +59,13 @@ describe("TeamCompPage jungle clears tab", () => {
     render(<TeamCompPage />);
     const clearsTab = screen.getByRole("tab", { name: "Jungle Clears" });
     fireEvent.click(clearsTab);
-    expect(
-      screen.getByRole("heading", { name: "Clear Speed Buckets" })
-    ).toBeInTheDocument();
+    const heading = screen.getByRole("heading", { name: "Clear Speed Buckets" });
+    expect(heading).toBeInTheDocument();
+    const toggleEdit = screen.getByRole("button", { name: "Edit" });
+    fireEvent.click(toggleEdit);
+    expect(heading).toBeVisible();
+    fireEvent.click(screen.getByRole("button", { name: "Done" }));
+    expect(heading).toBeVisible();
     expect(
       screen.getByPlaceholderText(
         "Filter by champion, type, or note..."

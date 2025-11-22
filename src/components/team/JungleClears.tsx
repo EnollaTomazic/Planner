@@ -484,6 +484,7 @@ export const JungleClears = React.forwardRef<
     decode: decodeRows,
   });
   const [editingRow, setEditingRow] = React.useState<EditingDraft | null>(null);
+  const headingId = React.useId();
 
   React.useEffect(() => {
     if (!needsPersist(items)) return;
@@ -625,9 +626,9 @@ export const JungleClears = React.forwardRef<
   React.useImperativeHandle(ref, () => ({ addRow }), [addRow]);
 
   return (
-    <Card depth="base" className="p-0">
+    <Card depth="base" className="p-0" aria-labelledby={headingId}>
       <CardHeader className="px-[var(--space-4)] pt-[var(--space-4)] pb-[var(--space-3)]">
-        <h2 className="text-title font-semibold tracking-[-0.01em]">
+        <h2 id={headingId} className="text-title font-semibold tracking-[-0.01em]">
           Clear Speed Buckets
         </h2>
       </CardHeader>
