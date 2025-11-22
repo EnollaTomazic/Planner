@@ -152,11 +152,11 @@ describe("ReviewsPage", () => {
     );
 
     expect(
-      screen.getByText("You’re ready to capture your first review."),
+      screen.getByRole("heading", { name: "Capture your first review" }),
     ).toBeInTheDocument();
-    const buttons = screen.getAllByRole("button", { name: "New review" });
-    expect(buttons).toHaveLength(1);
-    expect(buttons[0]).toBeEnabled();
+    expect(
+      screen.getByRole("button", { name: "Capture first review" }),
+    ).toBeEnabled();
     const searchInput = screen.getByRole("searchbox");
     expect(searchInput).toBeEnabled();
     expect(searchInput).toHaveAttribute(
