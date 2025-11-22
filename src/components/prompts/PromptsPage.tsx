@@ -28,6 +28,7 @@ import {
 } from "./tabs";
 
 const TAB_STORAGE_KEY = "prompts.tab.v1" as const;
+const PROMPTS_PAGE_TAB_ID_BASE = `${PROMPTS_TAB_ID_BASE}-page` as const;
 
 const LazyCodexPromptsTab = React.lazy(async () => ({
   default: (await import("./CodexPromptsTab")).CodexPromptsTab,
@@ -241,15 +242,15 @@ export function PromptsPage() {
         <TabBar<PromptsTabKey>
           items={tabItems}
           value={activeTab}
-          onValueChange={setActiveTab}
-          ariaLabel="Prompt workspaces"
-          ariaLabelledBy="prompts-header"
-          idBase={PROMPTS_TAB_ID_BASE}
-        />
-        {PROMPTS_TAB_ITEMS.map((item) => {
-          const isActive = activeTab === item.key;
-          const tabId = `${PROMPTS_TAB_ID_BASE}-${item.key}-tab`;
-          const panelId = `${PROMPTS_TAB_ID_BASE}-${item.key}-panel`;
+        onValueChange={setActiveTab}
+        ariaLabel="Prompt workspaces"
+        ariaLabelledBy="prompts-header"
+        idBase={PROMPTS_PAGE_TAB_ID_BASE}
+      />
+      {PROMPTS_TAB_ITEMS.map((item) => {
+        const isActive = activeTab === item.key;
+        const tabId = `${PROMPTS_PAGE_TAB_ID_BASE}-${item.key}-tab`;
+        const panelId = `${PROMPTS_PAGE_TAB_ID_BASE}-${item.key}-panel`;
 
           let panelContent: React.ReactNode;
           if (item.key === "chat") {
