@@ -38,11 +38,11 @@ describe("PromptsHeader", () => {
       screen.getByText("Compose, save, and reuse AI prompts."),
     ).toBeInTheDocument();
 
-    const chatTab = screen.getByRole("tab", { name: /ChatGPT2/ });
+    const chatTab = screen.getByRole("tab", { name: /ChatGPT\s*2/ });
     expect(chatTab).toBeInTheDocument();
     expect(within(chatTab).getByText("2")).toBeInTheDocument();
     expect(screen.getByRole("tab", { name: "Codex review" })).toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: /Notes5/ })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: /Notes\s*5/ })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "New prompt" }));
     fireEvent.click(screen.getByRole("button", { name: "New persona" }));
