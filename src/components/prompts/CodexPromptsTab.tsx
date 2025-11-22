@@ -26,7 +26,12 @@ export interface CodexPromptsTabProps {
   prompts: PromptWithTitle[];
   query: string;
   savePrompt: (title: string, text: string, category: string) => boolean;
-  updatePrompt: (id: string, title: string, text: string) => boolean;
+  updatePrompt: (
+    id: string,
+    title: string,
+    text: string,
+    category: string,
+  ) => boolean;
   deletePrompt: (id: string) => boolean;
 }
 
@@ -75,7 +80,7 @@ export const CodexPromptsTab = React.forwardRef<
 
       const category = values.category ?? "Codex review";
       if (editingPromptId) {
-        const success = updatePrompt(editingPromptId, title, prompt);
+        const success = updatePrompt(editingPromptId, title, prompt, category);
         if (success) {
           resetComposeValues();
         }
@@ -121,7 +126,7 @@ export const CodexPromptsTab = React.forwardRef<
       const nextState = {
         title: prompt.title,
         prompt: prompt.text,
-        category: composeValuesRef.current.category ?? "Codex review",
+        category: prompt.category ?? "Codex review",
       } satisfies EntityFormValues;
       composeValuesRef.current = nextState;
       setComposeValues(nextState);

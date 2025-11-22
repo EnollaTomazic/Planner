@@ -29,7 +29,12 @@ interface ChatPromptsTabProps {
   query: string;
   personas: Persona[];
   savePrompt: (title: string, text: string, category: string) => boolean;
-  updatePrompt: (id: string, title: string, text: string) => boolean;
+  updatePrompt: (
+    id: string,
+    title: string,
+    text: string,
+    category: string,
+  ) => boolean;
   deletePrompt: (id: string) => boolean;
 }
 
@@ -80,7 +85,7 @@ export const ChatPromptsTab = React.forwardRef<
 
       const category = values.category ?? "ChatGPT";
       if (editingPromptId) {
-        const success = updatePrompt(editingPromptId, title, prompt);
+        const success = updatePrompt(editingPromptId, title, prompt, category);
         if (success) {
           resetComposeValues();
         }
@@ -126,7 +131,7 @@ export const ChatPromptsTab = React.forwardRef<
       const nextState = {
         title: prompt.title,
         prompt: prompt.text,
-        category: composeValuesRef.current.category ?? "ChatGPT",
+        category: prompt.category ?? "ChatGPT",
       } satisfies EntityFormValues;
       composeValuesRef.current = nextState;
       setComposeValues(nextState);

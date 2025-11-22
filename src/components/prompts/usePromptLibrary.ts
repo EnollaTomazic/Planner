@@ -26,6 +26,10 @@ function decodePrompt(value: unknown): Prompt | null {
   if (typeof title === "string") {
     prompt.title = title;
   }
+  const category = value["category"];
+  if (typeof category === "string") {
+    prompt.category = category;
+  }
   return prompt;
 }
 
@@ -71,7 +75,7 @@ export function usePromptLibrary(storageKey: string) {
       return fuseRef.current;
     }
     const instance = new FuseModule<PromptWithTitle>(withTitles, {
-      keys: ["title", "text"],
+      keys: ["title", "text", "category"],
       threshold: 0.3,
     });
     fuseRef.current = instance;
@@ -115,16 +119,18 @@ export function usePromptLibrary(storageKey: string) {
   }, [ensureFuse, query, withTitles]);
 
   const save = React.useCallback(
-    (titleDraft: string, textDraft: string) => {
+    (titleDraft: string, textDraft: string, category?: string) => {
       const text = textDraft.trim();
       const title =
         titleDraft.trim() || text.split(/\r?\n/)[0]?.trim() || "Untitled";
       if (!text && !titleDraft.trim()) return false;
+      const categoryValue = category?.trim();
       const next: Prompt = {
         id: uid("p"),
         title,
         text,
         createdAt: Date.now(),
+        category: categoryValue || undefined,
       };
       setPrompts((prev) => [next, ...prev]);
       return true;
@@ -133,17 +139,23 @@ export function usePromptLibrary(storageKey: string) {
   );
 
   const update = React.useCallback(
-    (id: string, titleDraft: string, textDraft: string) => {
+    (id: string, titleDraft: string, textDraft: string, category?: string) => {
       const text = textDraft.trim();
       const title =
         titleDraft.trim() || text.split(/\r?\n/)[0]?.trim() || "Untitled";
       if (!text && !titleDraft.trim()) return false;
+      const categoryValue = category?.trim();
       let didUpdate = false;
       setPrompts((prev) =>
         prev.map((prompt) => {
           if (prompt.id !== id) return prompt;
           didUpdate = true;
-          return { ...prompt, title, text } satisfies Prompt;
+          return {
+            ...prompt,
+            title,
+            text,
+            category: categoryValue || prompt.category,
+          } satisfies Prompt;
         }),
       );
       return didUpdate;
