@@ -1,8 +1,17 @@
 import React from "react";
-import { render, screen, cleanup, fireEvent } from "@testing-library/react";
+import {
+  render,
+  screen,
+  cleanup,
+  fireEvent,
+  within,
+} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, it, expect, afterEach } from "vitest";
 import { Header } from "@/components/ui/layout/Header";
 import { Hero } from "@/components/ui";
+import { PlannerPage } from "@/components/planner/PlannerPage";
+import { ThemeProvider } from "@/lib/theme-context";
 
 afterEach(cleanup);
 
@@ -67,5 +76,36 @@ describe("TabBar", () => {
 
     rerender(<Hero heading="Components" rail />);
     expect(container.querySelector(".header-rail")).toBeNull();
+  });
+
+  it("keeps hero tabs and panels linked when arrowing across planner views", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ThemeProvider>
+        <PlannerPage />
+      </ThemeProvider>,
+    );
+
+    const tablist = await screen.findByRole("tablist", { name: "View" });
+    const tabs = within(tablist).getAllByRole("tab");
+    const [dayTab, weekTab, monthTab] = tabs;
+
+    dayTab.focus();
+    await user.keyboard("{arrowright}");
+    expect(weekTab).toHaveFocus();
+    expect(weekTab).toHaveAttribute("aria-selected", "true");
+    expect(weekTab).toHaveAttribute(
+      "aria-controls",
+      "planner-view-week-panel",
+    );
+
+    await user.keyboard("{arrowright}");
+    expect(monthTab).toHaveFocus();
+    expect(monthTab).toHaveAttribute("aria-controls", "planner-view-month-panel");
+
+    await screen.findByRole("tabpanel", { name: /month/i });
+    const activePanel = screen.getByRole("tabpanel", { name: /month/i });
+    expect(activePanel).not.toHaveAttribute("hidden");
   });
 });
