@@ -252,9 +252,6 @@ function GoalsPageContent() {
 
   const [confirmClearOpen, setConfirmClearOpen] = React.useState(false);
   const [clearedCount, setClearedCount] = React.useState(0);
-  const nukeDialogId = React.useId();
-  const nukeHeadingId = React.useId();
-  const nukeDescriptionId = React.useId();
   const confirmButtonRef = React.useRef<HTMLButtonElement | null>(null);
 
   React.useEffect(() => {
@@ -669,7 +666,6 @@ function GoalsPageContent() {
             onClick={handleOpenNuke}
             disabled={totalCount === 0}
             aria-haspopup="dialog"
-            aria-controls={confirmClearOpen ? nukeDialogId : undefined}
             title="Delete all goals"
           >
             <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
@@ -685,8 +681,6 @@ function GoalsPageContent() {
     handleAddReminder,
     handleOpenNuke,
     totalCount,
-    confirmClearOpen,
-    nukeDialogId,
     startGoalCreation,
   ]);
 
@@ -897,53 +891,45 @@ function GoalsPageContent() {
         </div>
 
         <Modal
-          id={nukeDialogId}
           open={confirmClearOpen}
-          onClose={handleCloseNuke}
-          aria-labelledby={nukeHeadingId}
-          aria-describedby={nukeDescriptionId}
-          className="shadow-[var(--depth-shadow-soft)]"
+          onOpenChange={setConfirmClearOpen}
+          title="Delete all goals?"
+          description="This action permanently removes every goal, including completed history."
+          actions={(
+            <>
+              <Button
+                ref={confirmButtonRef}
+                type="button"
+                size="sm"
+                variant="default"
+                tone="danger"
+                tactile
+                onClick={handleConfirmNuke}
+                className="shrink-0"
+              >
+                <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
+                <span className="font-semibold tracking-[0.01em]">Delete all goals</span>
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="quiet"
+                onClick={handleCloseNuke}
+                className="shrink-0"
+              >
+                Cancel
+              </Button>
+            </>
+          )}
         >
-          <CardHeader className="space-y-[var(--space-2)]">
-            <CardTitle id={nukeHeadingId}>Delete all goals?</CardTitle>
-            <CardDescription id={nukeDescriptionId}>
-              This action permanently removes every goal, including completed history.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-[var(--space-3)]">
-            <div className="rounded-card border border-danger/40 bg-danger/10 px-[var(--space-4)] py-[var(--space-3)] text-left shadow-neo">
-              <p className="text-ui font-medium text-danger">
-                You are about to nuke {totalCount} {totalCount === 1 ? "goal" : "goals"}.
-              </p>
-              <p className="text-label text-muted-foreground">
-                There is no automatic undo. Export anything important before continuing.
-              </p>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-end gap-[var(--space-2)]">
-            <Button
-              ref={confirmButtonRef}
-              type="button"
-              size="sm"
-              variant="default"
-              tone="danger"
-              tactile
-              onClick={handleConfirmNuke}
-              className="shrink-0"
-            >
-              <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
-              <span className="font-semibold tracking-[0.01em]">Delete all goals</span>
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              variant="quiet"
-              onClick={handleCloseNuke}
-              className="shrink-0"
-            >
-              Cancel
-            </Button>
-          </CardFooter>
+          <div className="rounded-card border border-danger/40 bg-danger/10 px-[var(--space-4)] py-[var(--space-3)] text-left shadow-neo">
+            <p className="text-ui font-medium text-danger">
+              You are about to nuke {totalCount} {totalCount === 1 ? "goal" : "goals"}.
+            </p>
+            <p className="text-label text-muted-foreground">
+              There is no automatic undo. Export anything important before continuing.
+            </p>
+          </div>
         </Modal>
 
       </PageShell>
