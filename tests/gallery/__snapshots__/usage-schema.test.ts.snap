@@ -67,26 +67,16 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
     "routes": 5,
     "states": [],
   },
-  "bottom-nav": {
-    "routes": 0,
-    "states": [
-      "active",
-      "disabled",
-      "focus-visible",
-      "hover",
-      "syncing",
-    ],
-  },
   "button": {
-    "routes": 10,
+    "routes": 9,
     "states": [
       "active",
       "default",
       "disabled",
       "focus",
-      "glitch",
       "hover",
       "loading",
+      "static",
     ],
   },
   "calendar": {
@@ -96,8 +86,19 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
       "loading",
     ],
   },
+  "card": {
+    "routes": 5,
+    "states": [],
+  },
   "card-demo": {
-    "routes": 3,
+    "routes": 5,
+    "states": [
+      "error",
+      "loading",
+    ],
+  },
+  "card-surface-demo": {
+    "routes": 5,
     "states": [
       "error",
       "loading",
@@ -128,22 +129,9 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
     "routes": 0,
     "states": [],
   },
-  "dashboard-card": {
-    "routes": 0,
-    "states": [],
-  },
   "dashboard-list": {
     "routes": 0,
     "states": [],
-  },
-  "demo-header": {
-    "routes": 0,
-    "states": [
-      "demo-header-cta-disabled",
-      "demo-header-cta-focus",
-      "demo-header-cta-hover",
-      "demo-header-cta-loading",
-    ],
   },
   "field": {
     "routes": 2,
@@ -168,7 +156,7 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
     "states": [],
   },
   "header": {
-    "routes": 0,
+    "routes": 3,
     "states": [],
   },
   "header-tabs": {
@@ -176,7 +164,7 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
     "states": [],
   },
   "hero": {
-    "routes": 2,
+    "routes": 15,
     "states": [
       "hero-tabs-disabled",
       "hero-tabs-selected",
@@ -195,7 +183,7 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
     "states": [],
   },
   "icon-button": {
-    "routes": 2,
+    "routes": 0,
     "states": [
       "active",
       "default",
@@ -204,9 +192,9 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
       "default-variant",
       "disabled",
       "focus",
-      "glitch",
       "hover",
       "loading",
+      "static",
     ],
   },
   "input": {
@@ -220,6 +208,7 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
       "glitch",
       "hover",
       "loading",
+      "sunken",
     ],
   },
   "isometric-room": {
@@ -227,7 +216,7 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
     "states": [],
   },
   "label": {
-    "routes": 2,
+    "routes": 3,
     "states": [
       "default",
       "disabled",
@@ -245,13 +234,6 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
       "closed",
       "confirm-disabled",
       "focus-trap",
-      "loading",
-    ],
-  },
-  "neo-card-demo": {
-    "routes": 3,
-    "states": [
-      "error",
       "loading",
     ],
   },
@@ -280,35 +262,9 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
     "routes": 0,
     "states": [],
   },
-  "page-header-demo": {
-    "routes": 1,
-    "states": [
-      "page-header-search-disabled",
-      "page-header-search-focus",
-      "page-header-search-loading",
-    ],
-  },
   "page-shell": {
-    "routes": 21,
+    "routes": 23,
     "states": [],
-  },
-  "pillar-badge": {
-    "routes": 0,
-    "states": [
-      "active",
-      "disabled",
-      "focus",
-      "hover",
-    ],
-  },
-  "pillar-selector": {
-    "routes": 0,
-    "states": [
-      "active",
-      "disabled",
-      "focus",
-      "hover",
-    ],
   },
   "pillars-selector": {
     "routes": 0,
@@ -325,13 +281,6 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
   "progress-ring-icon": {
     "routes": 2,
     "states": [],
-  },
-  "prompt-list": {
-    "routes": 0,
-    "states": [
-      "empty",
-      "loading",
-    ],
   },
   "prompts-compose-panel": {
     "routes": 0,
@@ -411,6 +360,13 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
       "hover",
     ],
   },
+  "saved-prompt-list": {
+    "routes": 0,
+    "states": [
+      "empty",
+      "loading",
+    ],
+  },
   "score-meter": {
     "routes": 0,
     "states": [],
@@ -432,7 +388,7 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
     "states": [],
   },
   "segmented-button": {
-    "routes": 2,
+    "routes": 0,
     "states": [
       "active",
       "default",
@@ -441,6 +397,7 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
       "focus-visible",
       "hover",
       "loading",
+      "static",
     ],
   },
   "select": {
@@ -471,16 +428,6 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
       "confirm-disabled",
       "focus-trap",
       "opening",
-    ],
-  },
-  "side-selector": {
-    "routes": 0,
-    "states": [
-      "active",
-      "disabled",
-      "focus",
-      "hover",
-      "loading",
     ],
   },
   "skeleton": {
@@ -534,7 +481,7 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
     ],
   },
   "theme-picker": {
-    "routes": 2,
+    "routes": 0,
     "states": [
       "active",
       "disabled",
@@ -544,7 +491,7 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
     ],
   },
   "theme-toggle": {
-    "routes": 1,
+    "routes": 0,
     "states": [
       "active",
       "disabled",
@@ -593,7 +540,7 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
     "states": [],
   },
   "welcome-hero-figure": {
-    "routes": 0,
+    "routes": 1,
     "states": [],
   },
 }
