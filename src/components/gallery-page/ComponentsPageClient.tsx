@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import {
   LayoutPanelLeft,
   Palette,
@@ -113,6 +114,7 @@ export function ComponentsPageClient({
     sectionLabel,
     countLabel,
     countDescriptionId,
+    sectionLinks,
     componentsPanelLabelledBy,
     componentsPanelRef,
     tokensPanelRef,
@@ -359,10 +361,10 @@ export function ComponentsPageClient({
             className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             <div
-              className="grid gap-[var(--space-6)] lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]"
-              aria-describedby={countDescriptionId}
-            >
-              <aside className="space-y-[var(--space-4)]">
+            className="grid gap-[var(--space-6)] lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)_minmax(0,18rem)]"
+            aria-describedby={countDescriptionId}
+          >
+            <aside className="space-y-[var(--space-4)]">
                 <header className="space-y-[var(--space-2)]">
                   <div className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
                     <h2 className="text-[var(--font-title)] font-semibold tracking-[-0.01em] text-muted-foreground">
@@ -469,6 +471,43 @@ export function ComponentsPageClient({
                   </Card>
                 )}
               </section>
+              {sectionLinks.length > 0 ? (
+                <aside className="hidden lg:block lg:space-y-[var(--space-3)]">
+                  <header className="space-y-[var(--space-1)]">
+                    <h3 className="text-[var(--font-title-sm)] font-semibold tracking-[-0.01em] text-muted-foreground">
+                      Quick reference
+                    </h3>
+                    <p className="text-caption text-muted-foreground">
+                      Jump directly to a section anchor.
+                    </p>
+                  </header>
+                  <nav aria-label="Quick reference">
+                    <ul className="flex flex-col gap-[var(--space-2)]">
+                      {sectionLinks.map((link) => (
+                        <li key={link.id}>
+                          <Link
+                            href={link.href}
+                            className={cn(
+                              "flex items-center justify-between gap-[var(--space-2)] rounded-card border px-[var(--space-3)] py-[var(--space-2)] text-label transition",
+                              link.active
+                                ? "border-accent text-accent"
+                                : "border-card-hairline-60 text-muted-foreground hover:text-foreground",
+                              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                            )}
+                          >
+                            <span className="truncate">{link.label}</span>
+                            {link.active ? (
+                              <Badge tone="support" size="sm" className="text-muted-foreground">
+                                Active
+                              </Badge>
+                            ) : null}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                </aside>
+              ) : null}
             </div>
           </div>
           <div

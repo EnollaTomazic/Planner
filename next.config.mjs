@@ -270,6 +270,15 @@ let nextConfig = {
 
     return config;
   },
+  async redirects() {
+    return [
+      {
+        source: "/components",
+        destination: "/components/",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 if (!isExportStatic) {
