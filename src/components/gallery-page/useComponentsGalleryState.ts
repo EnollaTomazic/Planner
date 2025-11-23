@@ -19,6 +19,7 @@ export type ComponentsView = GallerySectionGroupKey;
 
 export const COMPONENTS_VIEW_TAB_ID_BASE = "components";
 export const COMPONENTS_PANEL_ID = `${COMPONENTS_VIEW_TAB_ID_BASE}-components-panel`;
+export const COMPONENTS_PANEL_HASH = `#${COMPONENTS_PANEL_ID}`;
 export const COMPONENTS_SECTION_TAB_ID_BASE = COMPONENTS_VIEW_TAB_ID_BASE;
 export const COMPONENTS_PANEL_CONTROLS_ID = COMPONENTS_PANEL_ID.replace(
   `${COMPONENTS_VIEW_TAB_ID_BASE}-`,
@@ -648,7 +649,7 @@ export function useComponentsGalleryState({
         return {
           id: tab.key as Section,
           label: tab.label,
-          href: `/components${formatQueryWithHash(params.toString(), COMPONENTS_PANEL_ID)}`,
+          href: `/components${formatQueryWithHash(params.toString(), COMPONENTS_PANEL_HASH)}`,
           active: tab.key === resolvedSection,
         } satisfies ComponentsSectionLink;
       }),
