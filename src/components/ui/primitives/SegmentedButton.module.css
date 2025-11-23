@@ -160,6 +160,12 @@
   pointer-events: none;
 }
 
+.neonInteractive:where(
+    :not(:disabled):not([disabled]):not([aria-disabled="true"]):not([data-loading="true"])
+  ):is(:hover, :focus-visible) {
+  @apply pulse-neon;
+}
+
 .root[data-depth="raised"]:where(
     :not(:disabled):not([disabled]):not([aria-disabled="true"]):not([data-loading="true"])
   ):is(:hover, :focus-visible, :focus-within) {
