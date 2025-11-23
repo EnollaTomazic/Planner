@@ -104,7 +104,7 @@ export type { SearchBarProps } from "./primitives/SearchBar";
 export { SegmentedButton } from "./primitives/SegmentedButton";
 export type { SegmentedButtonDepth, SegmentedButtonProps } from "./primitives/SegmentedButton";
 export { SegmentedControl } from "./primitives/SegmentedControl";
-export type { SegmentedControlOption, SegmentedControlProps } from "./primitives/SegmentedControl";
+export type { SegmentedControlOption, SegmentedControlProps, SegmentedOption } from "./primitives/SegmentedControl";
 export { Slider } from "./primitives/Slider";
 export type { SliderProps } from "./primitives/Slider";
 export { TabList, TabPanel, Tabs } from "./primitives/Tabs";
