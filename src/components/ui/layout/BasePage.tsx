@@ -21,7 +21,7 @@ export interface BasePageProps {
     eyebrow?: string
     title: string | ReactNode
     subtitle?: string
-    glitch?: 'off' | 'subtle' | 'default' | 'hacked'
+    glitch?: 'off' | 'subtle' | 'default'
     illustration?: ReactNode
     illustrationAlt?: string
     actions?: ReactNode
