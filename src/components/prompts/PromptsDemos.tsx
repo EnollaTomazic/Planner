@@ -15,9 +15,7 @@ import {
   Spinner,
   SectionCard,
   TitleBar,
-  SideSelector,
-  PillarBadge,
-  PillarSelector,
+  AnimatedSelect,
   SearchBar,
   ThemeToggle,
   AnimationToggle,
@@ -31,6 +29,8 @@ import {
 import { Badge } from "@/components/ui/primitives/Badge";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { cn } from "@/lib/utils";
+import type { Pillar } from "@/lib/types";
+import { PILLAR_ICONS, PILLAR_ORDER, pillarToLabel } from "@/lib/pillarDetails";
 // Prompts components: GalleryItem, PromptsComposePanel, PromptsHeader
 import { ArrowUp, Check as CheckIcon } from "lucide-react";
 import {
@@ -60,6 +60,33 @@ export function PromptsDemos() {
   const issueDemoBadgeId = `${issueDemoPanelId}-badge`;
   const [issueDemoExpanded, setIssueDemoExpanded] = React.useState(false);
   const skipLinkDemoTargetId = React.useId();
+  const [sideChoice, setSideChoice] = React.useState("Blue");
+  const [pillarChoice, setPillarChoice] = React.useState(PILLAR_ORDER[0]);
+
+  const handlePillarChange = React.useCallback((next: string) => {
+    if (!PILLAR_ORDER.includes(next as Pillar)) return;
+    setPillarChoice(next as Pillar);
+  }, []);
+
+  const pillarItems = React.useMemo(
+    () =>
+      PILLAR_ORDER.map((pillar) => {
+        const Icon = PILLAR_ICONS[pillar];
+        return {
+          value: pillar,
+          label: (
+            <span className="flex w-full items-center gap-[var(--space-2)]">
+              <Icon
+                aria-hidden
+                className="h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground"
+              />
+              <span className="flex-1 text-left">{pillarToLabel(pillar)}</span>
+            </span>
+          ),
+        };
+      }),
+    [],
+  );
 
   return (
     <>
@@ -268,14 +295,40 @@ export function PromptsDemos() {
           <ThemeToggle />
           <CheckCircle checked={false} onChange={() => {}} size="md" />
           <Toggle value="Left" onChange={() => {}} />
-          <SideSelector value="Blue" onChange={() => {}} />
+          <AnimatedSelect
+            items={[
+              { value: "Blue", label: "Blue side" },
+              { value: "Red", label: "Red side" },
+            ]}
+            value={sideChoice}
+            onChange={setSideChoice}
+            ariaLabel="Select match side"
+            matchTriggerWidth
+          />
         </div>
       </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Pillars</h3>
         <div className="flex flex-wrap items-center gap-[var(--space-4)]">
-          <PillarBadge pillar="Wave" />
-          <PillarSelector value={[]} onChange={() => {}} />
+          <AnimatedSelect
+            items={pillarItems}
+            value={pillarChoice}
+            onChange={handlePillarChange}
+            ariaLabel="Select a pillar"
+            matchTriggerWidth
+          />
+          <Badge className="gap-[var(--space-1)] bg-card/70">
+            {(() => {
+              const Icon = PILLAR_ICONS[pillarChoice];
+              return (
+                <Icon
+                  aria-hidden
+                  className="h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground"
+                />
+              );
+            })()}
+            <span>{pillarToLabel(pillarChoice)}</span>
+          </Badge>
         </div>
       </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">

@@ -39,9 +39,6 @@ import {
   cardSurfaceClassName,
   Snackbar,
   Skeleton,
-  SideSelector,
-  PillarBadge,
-  PillarSelector,
   Hero,
   HeroImage,
   SearchBar,
@@ -1045,54 +1042,6 @@ function ThemeToggleLoadingState() {
   return <ThemeToggleStatePreview cycleLoading />;
 }
 
-type SideSelectorStatePreviewProps = {
-  initialSide?: "Blue" | "Red";
-  className?: string;
-  disabled?: boolean;
-  loading?: boolean;
-};
-
-function SideSelectorStatePreview({
-  initialSide = "Blue",
-  className,
-  disabled = false,
-  loading = false,
-}: SideSelectorStatePreviewProps) {
-  const [side, setSide] = React.useState<"Blue" | "Red">(initialSide);
-
-  return (
-    <SideSelector
-      value={side}
-      onChange={setSide}
-      className={cn(className)}
-      disabled={disabled}
-      loading={loading}
-    />
-  );
-}
-
-function SideSelectorHoverState() {
-  return <SideSelectorStatePreview className="bg-[--hover]" />;
-}
-
-function SideSelectorFocusState() {
-  return (
-    <SideSelectorStatePreview className="ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]" />
-  );
-}
-
-function SideSelectorActiveState() {
-  return <SideSelectorStatePreview initialSide="Red" />;
-}
-
-function SideSelectorDisabledState() {
-  return <SideSelectorStatePreview disabled />;
-}
-
-function SideSelectorLoadingState() {
-  return <SideSelectorStatePreview loading />;
-}
-
 type ChampListEditorStatePreviewProps = {
   editing?: boolean;
   pillClassName?: string;
@@ -1150,96 +1099,6 @@ function ChampListEditorActiveState() {
 
 function ChampListEditorDisabledState() {
   return <ChampListEditorStatePreview disabled />;
-}
-
-type PillarBadgeStatePreviewProps = {
-  active?: boolean;
-  className?: string;
-  disabled?: boolean;
-};
-
-function PillarBadgeStatePreview({
-  active = false,
-  className,
-  disabled = false,
-}: PillarBadgeStatePreviewProps) {
-  return (
-    <PillarBadge
-      pillar="Vision"
-      interactive
-      active={active}
-      disabled={disabled}
-      className={cn(
-        className,
-        "transition",
-        disabled && "pointer-events-none opacity-disabled",
-      )}
-    />
-  );
-}
-
-function PillarBadgeHoverState() {
-  return <PillarBadgeStatePreview className="shadow-depth-outer-strong" />;
-}
-
-function PillarBadgeFocusState() {
-  return (
-    <PillarBadgeStatePreview className="ring-2 ring-[var(--theme-ring)] ring-offset-2 ring-offset-[var(--background)]" />
-  );
-}
-
-function PillarBadgeActiveState() {
-  return <PillarBadgeStatePreview active />;
-}
-
-function PillarBadgeDisabledState() {
-  return <PillarBadgeStatePreview disabled />;
-}
-
-type PillarSelectorStatePreviewProps = {
-  initialValue?: Pillar[];
-  className?: string;
-  disabled?: boolean;
-};
-
-function PillarSelectorStatePreview({
-  initialValue = ["Wave"],
-  className,
-  disabled = false,
-}: PillarSelectorStatePreviewProps) {
-  const [pillars, setPillars] = React.useState<Pillar[]>(initialValue);
-
-  return (
-    <PillarSelector
-      value={pillars}
-      onChange={setPillars}
-      className={cn(
-        "max-w-full",
-        className,
-        disabled && "pointer-events-none opacity-disabled",
-      )}
-    />
-  );
-}
-
-function PillarSelectorHoverState() {
-  return (
-    <PillarSelectorStatePreview className="rounded-card p-[var(--space-2)] shadow-[var(--depth-shadow-soft)]" />
-  );
-}
-
-function PillarSelectorFocusState() {
-  return (
-    <PillarSelectorStatePreview className="rounded-card p-[var(--space-2)] ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]" />
-  );
-}
-
-function PillarSelectorActiveState() {
-  return <PillarSelectorStatePreview initialValue={["Wave", "Trading"]} />;
-}
-
-function PillarSelectorDisabledState() {
-  return <PillarSelectorStatePreview disabled />;
 }
 
 type RoleSelectorStatePreviewProps = {
@@ -3570,7 +3429,6 @@ React.useEffect(() => {
               sticky={false}
               tone="supportive"
               frame={false}
-              rail={false}
               padding="none"
             >
               <div className="text-ui text-muted-foreground">Body content</div>
@@ -3598,7 +3456,6 @@ React.useEffect(() => {
     sticky={false}
     tone="supportive"
     frame={false}
-    rail={false}
     padding="none"
   >
     <div className="text-ui text-muted-foreground">Body content</div>
@@ -4516,69 +4373,6 @@ const [value, setValue] = React.useState(options[0].value);
   ],
   team: [
     {
-      id: "side-selector",
-      name: "SideSelector",
-      element: (
-        <div className="flex flex-col gap-[var(--space-4)]">
-          <SideSelector />
-          <SideSelector disabled />
-        </div>
-      ),
-      tags: ["side", "selector"],
-      code: `<SideSelector />
-<SideSelector disabled />`,
-      states: [
-        {
-          id: "hover",
-          name: "Hover",
-          description:
-            "The accent hover wash previews the flicker animation for pointer users before they commit to a side.",
-          element: <SideSelectorHoverState />,
-          code: `<SideSelector
-  value="Blue"
-  onChange={() => {}}
-  className="bg-[--hover]"
-/>`,
-        },
-        {
-          id: "focus",
-          name: "Focus-visible",
-          description:
-            "Press Tab to land on the switch. The ring token outlines the control while Space/Enter flip teams and ← → choose Blue or Red directly.",
-          element: <SideSelectorFocusState />,
-          code: `<SideSelector
-  value="Blue"
-  onChange={() => {}}
-  className="ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]"
-/>`,
-        },
-        {
-          id: "active",
-          name: "Active / selected",
-          description:
-            "Selecting Red slides the indicator and lights the right label. Space toggles sides, and the arrow keys jump the indicator without flicker.",
-          element: <SideSelectorActiveState />,
-          code: `<SideSelector value="Red" onChange={() => {}} />`,
-        },
-        {
-          id: "disabled",
-          name: "Disabled",
-          description:
-            "The disabled opacity token keeps the rail visible while blocking Space, Enter, and arrow key input during lockouts.",
-          element: <SideSelectorDisabledState />,
-          code: `<SideSelector value="Blue" onChange={() => {}} disabled />`,
-        },
-        {
-          id: "loading",
-          name: "Loading",
-          description:
-            "While matchup data syncs, loading dims the selector and ignores toggles until the request resolves.",
-          element: <SideSelectorLoadingState />,
-          code: `<SideSelector value="Blue" onChange={() => {}} loading />`,
-        },
-      ],
-    },
-    {
       id: "champ-list-editor",
       name: "ChampListEditor",
       description: "Shared champion list editor with toggleable state.",
@@ -4643,106 +4437,6 @@ const [value, setValue] = React.useState(options[0].value);
     editing
   />
 </div>`,
-        },
-      ],
-    },
-    {
-      id: "pillar-badge",
-      name: "PillarBadge",
-      element: (
-        <div className="flex gap-[var(--space-4)]">
-          <PillarBadge pillar="Wave" />
-          <PillarBadge pillar="Trading" active />
-        </div>
-      ),
-      tags: ["pillar", "badge"],
-      code: `<PillarBadge pillar="Wave" />
-<PillarBadge pillar="Trading" active />`,
-      states: [
-        {
-          id: "hover",
-          name: "Hover",
-          description:
-            "Interactive badges lift with the neo shadow token on hover so the chip reads as clickable before you tap.",
-          element: <PillarBadgeHoverState />,
-          code: `<PillarBadge
-  pillar="Vision"
-  interactive
-  className="shadow-depth-outer-strong"
-/>`,
-        },
-        {
-          id: "focus",
-          name: "Focus-visible",
-          description:
-            "Press Tab to move onto a badge; the theme ring outline appears and Space or Enter toggles its active gradient.",
-          element: <PillarBadgeFocusState />,
-          code: `<PillarBadge
-  pillar="Vision"
-  interactive
-  className="ring-2 ring-[var(--theme-ring)] ring-offset-2 ring-offset-[var(--background)]"
-/>`,
-        },
-        {
-          id: "active",
-          name: "Active / selected",
-          description:
-            "Active badges glow with the gradient overlay while `aria-pressed` stays in sync for assistive tech.",
-          element: <PillarBadgeActiveState />,
-          code: `<PillarBadge pillar="Vision" interactive active />`,
-        },
-        {
-          id: "disabled",
-          name: "Disabled",
-          description:
-            "Disable the badge when the underlying pillar cannot change; opacity and pointer locks communicate the frozen state.",
-          element: <PillarBadgeDisabledState />,
-          code: `<PillarBadge pillar="Vision" interactive disabled />`,
-        },
-      ],
-    },
-    {
-      id: "pillar-selector",
-      name: "PillarSelector",
-      element: <PillarSelector />,
-      tags: ["pillar", "selector"],
-      code: `<PillarSelector />`,
-      states: [
-        {
-          id: "hover",
-          name: "Hover",
-          description:
-            "Hovering a chip raises the group with the soft neo shadow so the upcoming selection is obvious to pointer users.",
-          element: <PillarSelectorHoverState />,
-          code: `<PillarSelector
-  className="rounded-card p-[var(--space-2)] shadow-[var(--depth-shadow-soft)]"
-/>`,
-        },
-        {
-          id: "focus",
-          name: "Focus-visible",
-          description:
-            "Press Tab to focus the selector; the ring token outlines the tray while Space toggles the focused badge and arrow keys move between pillars.",
-          element: <PillarSelectorFocusState />,
-          code: `<PillarSelector
-  className="rounded-card p-[var(--space-2)] ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]"
-/>`,
-        },
-        {
-          id: "active",
-          name: "Active / selected",
-          description:
-            "Selected pillars glow with the gradient indicator; Space toggles the highlighted badge without collapsing the row.",
-          element: <PillarSelectorActiveState />,
-          code: `<PillarSelector value={["Wave", "Trading"]} />`,
-        },
-        {
-          id: "disabled",
-          name: "Disabled",
-          description:
-            "Apply the disabled token when review notes are locked so neither pointer nor keyboard input can adjust pillars.",
-          element: <PillarSelectorDisabledState />,
-          code: `<PillarSelector className="pointer-events-none opacity-disabled" />`,
         },
       ],
     },

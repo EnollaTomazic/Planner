@@ -195,8 +195,7 @@ export function WeekPickerDemo() {
           <ArrowUpToLine />
           <span>Top</span>
         </Button>
-      }
-      rail
+      } 
       sticky
       dividerTint="primary"
     >

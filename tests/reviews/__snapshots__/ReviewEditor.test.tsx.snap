@@ -3,9 +3,14 @@
 exports[`ReviewEditor > renders default state 1`] = `
 <div>
   <section
-    class="overflow-hidden rounded-card r-card-lg text-card-foreground card-soft bg-glitch-noise-primary transition-none shadow-none"
+    class="relative overflow-hidden rounded-card r-card-lg text-card-foreground card-soft bg-glitch-noise-primary transition-none shadow-none"
     data-variant="plain"
+    style="--texture-grain-opacity: var(--theme-noise-level-subtle, 0.03); --texture-scanline-opacity: var(--theme-scanline-opacity-subtle, 0.045);"
   >
+    <span
+      aria-hidden="true"
+      class="glitch-sprite rounded-[inherit]"
+    />
     <div
       class="section-h sticky"
     >
@@ -32,9 +37,7 @@ exports[`ReviewEditor > renders default state 1`] = `
               />
             </div>
             <div
-              class="relative rounded-[var(--radius-full)] bg-[var(--btn-bg)] p-[var(--space-1)] _root_fcdb58"
-              data-count="5"
-              style="--segment-count: 5;"
+              class="w-full"
             >
               <span
                 aria-live="polite"
@@ -42,246 +45,242 @@ exports[`ReviewEditor > renders default state 1`] = `
               >
                 Mid, selected, 3 of 5
               </span>
-              <span
-                aria-hidden="true"
-                class="_indicator_fcdb58"
-                data-active-index="2"
-                style="--indicator-index: 2;"
-              />
               <div
-                aria-labelledby="_r_0_"
-                class="inline-flex rounded-card r-card-md gap-[var(--space-1)] [--hover:hsl(var(--foreground)/0.08)] [--focus:var(--ring-contrast)] [--active:hsl(var(--foreground)/0.12)] [--disabled:0.5] relative w-full bg-transparent p-0"
-                role="tablist"
+                class="relative w-full"
               >
-                <button
-                  aria-controls="top-panel"
-                  aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-card r-card-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-[var(--spacing-0-25)] motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-disabled disabled:pointer-events-none"
-                  id="top-tab"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                  value="TOP"
+                <div
+                  class="flex flex-wrap items-center justify-start gap-[var(--space-3)]"
                 >
-                  <span
-                    class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
+                  <div
+                    aria-label="Select lane/role"
+                    aria-labelledby="_r_0_"
+                    aria-orientation="horizontal"
+                    class="inline-flex max-w-full items-center overflow-x-auto gap-[var(--space-1)] rounded-card r-card-md border p-[var(--space-1)] hero2-frame border-border/45 bg-[var(--neo-tablist-bg)] shadow-[var(--neo-tablist-shadow)] [--hover:var(--neo-tab-bg)] [--active:var(--neo-tab-bg)] [--focus:var(--theme-ring)] w-full _neoTablist_da833c"
+                    data-variant="neo"
+                    role="tablist"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-flag size-[var(--icon-size-sm)]"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <button
+                      aria-selected="false"
+                      class="relative inline-flex items-center justify-center select-none rounded-card r-card-md transition-[background,box-shadow,color] duration-motion-sm ease-out h-[var(--control-h-sm)] px-[var(--space-3)] text-ui font-normal text-foreground/85 hover:text-foreground hover:bg-[--hover] active:bg-[--active] bg-[var(--neo-tab-bg)] shadow-[var(--shadow-raised)] hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] active:shadow-[var(--shadow-inset)] data-[active=true]:shadow-[var(--shadow-inset)] data-[active=true]:hover:shadow-[var(--shadow-inset)] data-[active=true]:active:shadow-[var(--shadow-inset)] data-[active=true]:ring-1 data-[active=true]:ring-ring/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none flex-1"
+                      data-variant="neo"
+                      role="tab"
+                      tabindex="-1"
+                      type="button"
                     >
-                      <path
-                        d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"
-                      />
-                    </svg>
-                  </span>
-                  <span
-                    class="truncate"
-                  >
-                    Top
-                  </span>
-                </button>
-                <button
-                  aria-controls="jungle-panel"
-                  aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-card r-card-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-[var(--spacing-0-25)] motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-disabled disabled:pointer-events-none"
-                  id="jungle-tab"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                  value="JUNGLE"
-                >
-                  <span
-                    class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-map-pin size-[var(--icon-size-sm)]"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
+                      <span
+                        class="mr-[var(--space-2)] grid place-items-center [&>svg]:h-[var(--space-4)] [&>svg]:w-[var(--space-4)]"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-flag size-[var(--icon-size-sm)]"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        class="truncate"
+                      >
+                        Top
+                      </span>
+                    </button>
+                    <button
+                      aria-selected="false"
+                      class="relative inline-flex items-center justify-center select-none rounded-card r-card-md transition-[background,box-shadow,color] duration-motion-sm ease-out h-[var(--control-h-sm)] px-[var(--space-3)] text-ui font-normal text-foreground/85 hover:text-foreground hover:bg-[--hover] active:bg-[--active] bg-[var(--neo-tab-bg)] shadow-[var(--shadow-raised)] hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] active:shadow-[var(--shadow-inset)] data-[active=true]:shadow-[var(--shadow-inset)] data-[active=true]:hover:shadow-[var(--shadow-inset)] data-[active=true]:active:shadow-[var(--shadow-inset)] data-[active=true]:ring-1 data-[active=true]:ring-ring/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none flex-1"
+                      data-variant="neo"
+                      role="tab"
+                      tabindex="-1"
+                      type="button"
                     >
-                      <path
-                        d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                      />
-                      <circle
-                        cx="12"
-                        cy="10"
-                        r="3"
-                      />
-                    </svg>
-                  </span>
-                  <span
-                    class="truncate"
-                  >
-                    Jungle
-                  </span>
-                </button>
-                <button
-                  aria-controls="mid-panel"
-                  aria-selected="true"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-card r-card-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-[var(--spacing-0-25)] motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-disabled disabled:pointer-events-none"
-                  data-selected="true"
-                  id="mid-tab"
-                  role="tab"
-                  tabindex="0"
-                  type="button"
-                  value="MID"
-                >
-                  <span
-                    class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-target size-[var(--icon-size-sm)]"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
+                      <span
+                        class="mr-[var(--space-2)] grid place-items-center [&>svg]:h-[var(--space-4)] [&>svg]:w-[var(--space-4)]"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-map-pin size-[var(--icon-size-sm)]"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
+                          />
+                          <circle
+                            cx="12"
+                            cy="10"
+                            r="3"
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        class="truncate"
+                      >
+                        Jungle
+                      </span>
+                    </button>
+                    <button
+                      aria-selected="true"
+                      class="relative inline-flex items-center justify-center select-none rounded-card r-card-md transition-[background,box-shadow,color] duration-motion-sm ease-out h-[var(--control-h-sm)] px-[var(--space-3)] text-ui font-normal text-foreground/85 hover:text-foreground hover:bg-[--hover] active:bg-[--active] bg-[var(--neo-tab-bg)] shadow-[var(--shadow-raised)] hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] active:shadow-[var(--shadow-inset)] data-[active=true]:shadow-[var(--shadow-inset)] data-[active=true]:hover:shadow-[var(--shadow-inset)] data-[active=true]:active:shadow-[var(--shadow-inset)] data-[active=true]:ring-1 data-[active=true]:ring-ring/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none flex-1"
+                      data-active="true"
+                      data-selected="true"
+                      data-variant="neo"
+                      role="tab"
+                      tabindex="0"
+                      type="button"
                     >
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="10"
-                      />
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="6"
-                      />
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="2"
-                      />
-                    </svg>
-                  </span>
-                  <span
-                    class="truncate"
-                  >
-                    Mid
-                  </span>
-                </button>
-                <button
-                  aria-controls="bot-panel"
-                  aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-card r-card-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-[var(--spacing-0-25)] motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-disabled disabled:pointer-events-none"
-                  id="bot-tab"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                  value="BOT"
-                >
-                  <span
-                    class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-crosshair size-[var(--icon-size-sm)]"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
+                      <span
+                        class="mr-[var(--space-2)] grid place-items-center [&>svg]:h-[var(--space-4)] [&>svg]:w-[var(--space-4)]"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-target size-[var(--icon-size-sm)]"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="10"
+                          />
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="6"
+                          />
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="2"
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        class="truncate"
+                      >
+                        Mid
+                      </span>
+                    </button>
+                    <button
+                      aria-selected="false"
+                      class="relative inline-flex items-center justify-center select-none rounded-card r-card-md transition-[background,box-shadow,color] duration-motion-sm ease-out h-[var(--control-h-sm)] px-[var(--space-3)] text-ui font-normal text-foreground/85 hover:text-foreground hover:bg-[--hover] active:bg-[--active] bg-[var(--neo-tab-bg)] shadow-[var(--shadow-raised)] hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] active:shadow-[var(--shadow-inset)] data-[active=true]:shadow-[var(--shadow-inset)] data-[active=true]:hover:shadow-[var(--shadow-inset)] data-[active=true]:active:shadow-[var(--shadow-inset)] data-[active=true]:ring-1 data-[active=true]:ring-ring/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none flex-1"
+                      data-variant="neo"
+                      role="tab"
+                      tabindex="-1"
+                      type="button"
                     >
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="10"
-                      />
-                      <line
-                        x1="22"
-                        x2="18"
-                        y1="12"
-                        y2="12"
-                      />
-                      <line
-                        x1="6"
-                        x2="2"
-                        y1="12"
-                        y2="12"
-                      />
-                      <line
-                        x1="12"
-                        x2="12"
-                        y1="6"
-                        y2="2"
-                      />
-                      <line
-                        x1="12"
-                        x2="12"
-                        y1="22"
-                        y2="18"
-                      />
-                    </svg>
-                  </span>
-                  <span
-                    class="truncate"
-                  >
-                    Bot
-                  </span>
-                </button>
-                <button
-                  aria-controls="support-panel"
-                  aria-selected="false"
-                  class="_glitchScanlines_ff763a flex-1 h-[var(--control-h-sm)] px-[var(--space-3)] inline-flex items-center justify-center gap-[var(--space-2)] text-ui font-medium select-none rounded-card r-card-md transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[--hover] active:bg-[--active] motion-safe:hover:-translate-y-[var(--spacing-0-25)] motion-safe:hover:shadow-neon-soft motion-safe:active:shadow-neon-soft motion-safe:active:scale-95 motion-reduce:transform-none data-[selected=true]:shadow-neon-strong data-[selected=true]:ring-1 data-[selected=true]:ring-[var(--neon-soft)] disabled:opacity-disabled disabled:pointer-events-none"
-                  id="support-tab"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                  value="SUPPORT"
-                >
-                  <span
-                    class="inline-flex h-[var(--space-4)] w-[var(--space-4)] items-center justify-center"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-shield size-[var(--icon-size-sm)]"
-                      fill="none"
-                      height="24"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      xmlns="http://www.w3.org/2000/svg"
+                      <span
+                        class="mr-[var(--space-2)] grid place-items-center [&>svg]:h-[var(--space-4)] [&>svg]:w-[var(--space-4)]"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-crosshair size-[var(--icon-size-sm)]"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="10"
+                          />
+                          <line
+                            x1="22"
+                            x2="18"
+                            y1="12"
+                            y2="12"
+                          />
+                          <line
+                            x1="6"
+                            x2="2"
+                            y1="12"
+                            y2="12"
+                          />
+                          <line
+                            x1="12"
+                            x2="12"
+                            y1="6"
+                            y2="2"
+                          />
+                          <line
+                            x1="12"
+                            x2="12"
+                            y1="22"
+                            y2="18"
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        class="truncate"
+                      >
+                        Bot
+                      </span>
+                    </button>
+                    <button
+                      aria-selected="false"
+                      class="relative inline-flex items-center justify-center select-none rounded-card r-card-md transition-[background,box-shadow,color] duration-motion-sm ease-out h-[var(--control-h-sm)] px-[var(--space-3)] text-ui font-normal text-foreground/85 hover:text-foreground hover:bg-[--hover] active:bg-[--active] bg-[var(--neo-tab-bg)] shadow-[var(--shadow-raised)] hover:shadow-[var(--shadow-raised-hover,var(--shadow-raised))] active:shadow-[var(--shadow-inset)] data-[active=true]:shadow-[var(--shadow-inset)] data-[active=true]:hover:shadow-[var(--shadow-inset)] data-[active=true]:active:shadow-[var(--shadow-inset)] data-[active=true]:ring-1 data-[active=true]:ring-ring/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] data-[active=true]:text-foreground data-[active=true]:bg-[var(--seg-active-grad)] data-[active=true]:hover:bg-[var(--seg-active-grad)] data-[active=true]:active:bg-[var(--seg-active-grad)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none flex-1"
+                      data-variant="neo"
+                      role="tab"
+                      tabindex="-1"
+                      type="button"
                     >
-                      <path
-                        d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
-                      />
-                    </svg>
-                  </span>
-                  <span
-                    class="truncate"
-                  >
-                    Support
-                  </span>
-                </button>
+                      <span
+                        class="mr-[var(--space-2)] grid place-items-center [&>svg]:h-[var(--space-4)] [&>svg]:w-[var(--space-4)]"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-shield size-[var(--icon-size-sm)]"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        class="truncate"
+                      >
+                        Support
+                      </span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -289,8 +288,14 @@ exports[`ReviewEditor > renders default state 1`] = `
             class="flex flex-col gap-[var(--space-2)]"
           >
             <div
-              class="mb-[var(--space-2)]"
+              class="mb-[var(--space-2)] space-y-[var(--space-2)]"
             >
+              <label
+                class="text-label font-medium text-muted-foreground mb-[var(--space-2)]"
+                for="_r_4_"
+              >
+                Lane
+              </label>
               <div
                 class="relative"
               >
@@ -327,12 +332,12 @@ exports[`ReviewEditor > renders default state 1`] = `
                   class="flex w-full flex-col gap-[var(--space-1)]"
                 >
                   <div
-                    class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] [--neo-shadow:var(--shadow-inner-md)] [--neo-shadow-hover:var(--shadow-inner-md)] transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156 pl-[var(--space-6)]"
+                    class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:theme('colors.background')] [--neo-shadow:var(--shadow-inner-md)] [--neo-shadow-hover:var(--shadow-inner-md)] transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-focus focus-within:ring-offset-0 focus-within:ring-offset-background hover:bg-interaction-foreground-tintHover active:bg-interaction-foreground-tintActive data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:theme('colors.card.DEFAULT')] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156 _surface_46b156 pl-[var(--space-6)]"
                     data-field-height="md"
                     data-field-state="default"
+                    data-variant="surface"
                   >
                     <input
-                      aria-label="Lane (used as Title)"
                       class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
                       id="_r_4_"
                       name="lane"
@@ -344,20 +349,23 @@ exports[`ReviewEditor > renders default state 1`] = `
                 </div>
               </div>
             </div>
-            <div>
-              <div
-                class="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]"
+            <div
+              class="space-y-[var(--space-2)]"
+            >
+              <label
+                class="text-label font-medium text-muted-foreground mb-[var(--space-2)] flex items-center gap-[var(--space-2)]"
+                for="_r_5_"
               >
-                <h3
-                  class="text-ui tracking-wide text-muted-foreground"
-                  id="_r_3_"
+                <span
+                  id="_r_6_"
                 >
                   Opponent
-                </h3>
-                <div
+                </span>
+                <span
+                  aria-hidden="true"
                   class="h-[var(--hairline-w)] flex-1 bg-gradient-to-r from-foreground/20 via-foreground/5 to-transparent"
                 />
-              </div>
+              </label>
               <div
                 class="relative"
               >
@@ -382,12 +390,13 @@ exports[`ReviewEditor > renders default state 1`] = `
                   class="flex w-full flex-col gap-[var(--space-1)]"
                 >
                   <div
-                    class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] [--neo-shadow:var(--shadow-inner-md)] [--neo-shadow-hover:var(--shadow-inner-md)] transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156 pl-[var(--space-6)]"
+                    class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:theme('colors.background')] [--neo-shadow:var(--shadow-inner-md)] [--neo-shadow-hover:var(--shadow-inner-md)] transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-focus focus-within:ring-offset-0 focus-within:ring-offset-background hover:bg-interaction-foreground-tintHover active:bg-interaction-foreground-tintActive data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:theme('colors.card.DEFAULT')] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156 _surface_46b156 pl-[var(--space-6)]"
                     data-field-height="md"
                     data-field-state="default"
+                    data-variant="surface"
                   >
                     <input
-                      aria-labelledby="_r_3_"
+                      aria-labelledby="_r_6_"
                       class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
                       id="_r_5_"
                       name="opponent"
@@ -415,7 +424,7 @@ exports[`ReviewEditor > renders default state 1`] = `
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
-            id="_r_6_"
+            id="_r_9_"
           >
             Result
           </h3>
@@ -424,41 +433,42 @@ exports[`ReviewEditor > renders default state 1`] = `
           />
         </div>
         <button
-          aria-checked="true"
-          aria-labelledby="_r_6_"
-          class="relative inline-flex h-[var(--control-h-md)] w-[calc(var(--space-8)*3)] select-none items-center overflow-hidden rounded-card r-card-lg border border-border bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          aria-checked="false"
+          aria-labelledby="_r_9_"
+          class="_root_3e3065 group relative inline-flex h-[var(--control-h-md)] items-center rounded-full border border-border bg-card overflow-hidden hover:bg-[--toggle-hover-surface] active:bg-[--toggle-active-surface] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--toggle-focus-ring)] focus-visible:shadow-[var(--toggle-focus-glow)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[loading=true]:pointer-events-none before:pointer-events-none before:absolute before:inset-[calc(var(--space-1)/2)] before:rounded-full before:bg-[var(--card-overlay-scanlines)] before:opacity-0 before:transition-opacity before:duration-motion-sm before:ease-out hover:before:opacity-70 focus-visible:before:opacity-80 active:before:opacity-90 [--toggle-hover-surface:hsl(var(--accent-1)/0.16)] [--toggle-active-surface:hsl(var(--accent-1)/0.26)] [--toggle-focus-ring:var(--ring-contrast)] [--toggle-focus-glow:var(--shadow-glow-md)] w-full max-w-[calc(var(--space-8)*4)]"
+          data-side="Left"
           role="switch"
-          title="Toggle Win/Loss"
           type="button"
         >
           <span
             aria-hidden="true"
-            class="_indicator_1d5032 absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-[inherit] transition-transform duration-motion-md motion-reduce:transition-none shadow-[var(--depth-shadow-soft)]"
-            data-result="Win"
+            class="_indicator_3e3065 absolute top-[var(--space-1)] bottom-[var(--space-1)] left-[var(--space-1)] rounded-full transition-transform duration-motion-sm ease-motion-glitch motion-reduce:transition-none group-active:scale-95 group-disabled:opacity-disabled group-data-[loading=true]:opacity-loading group-focus-visible:ring-2 group-focus-visible:ring-[var(--toggle-focus-ring)] group-hover:[--toggle-indicator-shadow:var(--shadow-glow-md)] group-active:[--toggle-indicator-shadow:var(--shadow-glow-lg)] group-focus-visible:[--toggle-indicator-shadow:var(--shadow-glow-lg)]"
           />
-          <div
-            class="relative z-10 grid w-full grid-cols-2 text-ui font-mono"
+          <span
+            class="_leftLabel_3e3065 relative z-10 flex-1 text-center font-mono text-ui transition-colors text-foreground/70"
+            data-active="true"
+            id="_r_b_-left"
           >
-            <div
-              class="py-[var(--space-2)] text-center text-foreground"
-            >
-              Win
-            </div>
-            <div
-              class="py-[var(--space-2)] text-center text-muted-foreground"
-            >
-              Loss
-            </div>
-          </div>
+            Win
+          </span>
+          <span
+            class="_rightLabel_3e3065 relative z-10 flex-1 text-center font-mono text-ui transition-colors text-muted-foreground"
+            data-active="false"
+            id="_r_b_-right"
+          >
+            Loss
+          </span>
         </button>
       </div>
-      <div>
+      <div
+        class="space-y-[var(--space-2)]"
+      >
         <div
           class="mb-[var(--space-2)] flex items-center gap-[var(--space-2)]"
         >
           <h3
             class="text-ui tracking-wide text-muted-foreground"
-            id="_r_7_"
+            id="_r_a_"
           >
             Score
           </h3>
@@ -467,44 +477,29 @@ exports[`ReviewEditor > renders default state 1`] = `
           />
         </div>
         <div
-          class="rounded-card r-card-lg border border-border bg-card px-[var(--space-4)] focus-within:ring-2 focus-within:ring-ring relative h-[var(--space-7)] group"
+          class="_root_d1aab3"
         >
-          <input
-            aria-label="Score from 0 to 10"
-            aria-labelledby="_r_7_"
-            class="absolute inset-0 z-10 cursor-pointer rounded-card r-card-lg opacity-0 [appearance:none]"
-            max="10"
-            min="0"
-            step="1"
-            type="range"
-            value="5"
-          />
           <div
-            class="group/slider absolute left-[var(--space-4)] right-[var(--space-4)] top-1/2 -translate-y-1/2 [--slider-fill-background:var(--edge-iris)] [--slider-fill-tint:hsl(var(--accent-1)/0.35)] [--slider-fill-tint-hover:hsl(var(--accent-1)/0.45)] [--slider-fill-tint-active:hsl(var(--accent-1)/0.55)] [--slider-focus-ring:var(--ring-contrast)] [--slider-knob-hover-surface:hsl(var(--accent-1)/0.28)] [--slider-knob-active-surface:hsl(var(--accent-1)/0.36)] [--slider-knob-focus-ring:var(--ring-contrast)] _root_0f1b22"
-            data-tone="score"
-            data-value="5"
-            data-variant="input"
+            class="_control_d1aab3 rounded-card r-card-lg"
           >
-            <div
-              class="relative h-[var(--space-2)] w-full overflow-hidden rounded-full bg-muted shadow-[var(--slider-track-shadow)] before:pointer-events-none before:absolute before:inset-0 before:rounded-full before:bg-[var(--card-overlay-scanlines)] before:opacity-0 before:transition-opacity before:duration-motion-sm before:ease-out group-hover/slider:before:opacity-70 group-active/slider:before:opacity-90 group-focus-visible/slider:before:opacity-80"
-            >
-              <div
-                class="absolute left-0 top-0 h-[var(--space-2)] rounded-full [background:var(--slider-fill-background)] shadow-[var(--slider-fill-shadow)] after:pointer-events-none after:absolute after:inset-0 after:rounded-full after:bg-[--slider-fill-tint] after:opacity-80 after:transition-colors after:duration-motion-sm after:ease-out _fill_0f1b22 ring-1 ring-transparent transition-[box-shadow,opacity] duration-motion-sm ease-out group-hover/slider:[--slider-fill-shadow:var(--slider-fill-shadow-hover)] group-active/slider:[--slider-fill-shadow:var(--slider-fill-shadow-active)] group-hover/slider:after:bg-[--slider-fill-tint-hover] group-active/slider:after:bg-[--slider-fill-tint-active] group-focus-visible/slider:ring-[var(--slider-focus-ring)]"
-              />
-              <div
-                class="absolute top-1/2 -translate-y-1/2 rounded-full border border-border bg-card shadow-[var(--slider-knob-shadow)] h-[calc(var(--space-4)+var(--space-1))] w-[calc(var(--space-4)+var(--space-1))] _knob_0f1b22 transition-[background-color,border-color,box-shadow] duration-motion-sm ease-out group-hover/slider:bg-[--slider-knob-hover-surface] group-active/slider:bg-[--slider-knob-active-surface] group-hover/slider:border-transparent group-active/slider:border-transparent group-hover/slider:[--slider-knob-shadow:var(--slider-knob-shadow-hover)] group-active/slider:[--slider-knob-shadow:var(--slider-knob-shadow-active)] group-focus-visible/slider:ring-2 group-focus-visible/slider:ring-[var(--slider-knob-focus-ring)] group-focus-visible/slider:shadow-[var(--slider-knob-shadow-active)]"
-              />
-            </div>
+            <input
+              aria-label="Score from 0 to 10"
+              aria-labelledby="_r_a_"
+              class="_track_d1aab3 cursor-pointer"
+              id="_r_c_"
+              max="10"
+              min="0"
+              step="1"
+              style="--range-progress: 50%;"
+              type="range"
+              value="5"
+            />
           </div>
         </div>
         <div
-          class="mt-[var(--space-1)] flex items-center gap-[var(--space-2)] text-ui text-muted-foreground"
+          aria-live="polite"
+          class="flex items-center gap-[var(--space-2)] text-ui text-muted-foreground"
         >
-          <span
-            class="pill h-[var(--space-5)] px-[var(--space-2)] text-ui"
-          >
-            5/10
-          </span>
           <svg
             aria-hidden="true"
             class="lucide lucide-meh h-[var(--space-4)] w-[var(--space-4)] text-warning"
@@ -554,13 +549,27 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Brain light off"
             aria-pressed="false"
-            class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)] border-[hsl(var(--line)/0.35)] text-foreground [--neu-surface:hsl(var(--card)/0.35)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            class="_neu_0e7b1b _root_50bc93 glitch-wrapper _glitch_50bc93 group/glitch isolate overflow-hidden inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)] border-[hsl(var(--line)/0.35)] text-foreground [--neu-surface:hsl(var(--card)/0.35)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            data-glitch="true"
+            data-text="Brain light off"
             data-tone="primary"
             data-variant="quiet"
             tabindex="0"
             title="Brain light off"
             type="button"
           >
+            <span
+              aria-hidden="true"
+              class="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
+              style="--blob-overlay-hover: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity-subtle, 1)); --blob-overlay-target: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity-default, 1)); --blob-overlay-active: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity, var(--glitch-intensity-default, 1))); --blob-noise-hover: calc(var(--glitch-noise-level) * var(--glitch-intensity-subtle, 1)); --blob-noise-target: calc(var(--glitch-noise-level) * var(--glitch-intensity-default, 1)); --blob-noise-active-target: calc(var(--glitch-noise-level) * var(--glitch-intensity, var(--glitch-intensity-default, 1)));"
+            >
+              <span
+                class="absolute inset-0 rounded-[inherit] bg-gradient-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-blob-drift group-hover/glitch:opacity-[var(--blob-overlay-hover,var(--blob-overlay-target))] group-focus-visible/glitch:opacity-[var(--blob-overlay-target)] group-focus-within/glitch:opacity-[var(--blob-overlay-target)] group-active/glitch:opacity-[var(--blob-overlay-active,var(--blob-overlay-target))]"
+              />
+              <span
+                class="absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-glitch-noise group-hover/glitch:opacity-[var(--blob-noise-hover,var(--blob-noise-target))] group-focus-visible/glitch:opacity-[var(--blob-noise-target)] group-focus-within/glitch:opacity-[var(--blob-noise-target)] group-active/glitch:opacity-[var(--blob-noise-active-target,var(--blob-noise-target))]"
+              />
+            </span>
             <span
               class="relative z-10 inline-flex items-center justify-center"
             >
@@ -717,366 +726,70 @@ exports[`ReviewEditor > renders default state 1`] = `
           />
         </div>
         <div
-          class="flex flex-wrap gap-[var(--space-2)]"
+          class="glitch-wrapper"
         >
-          <button
-            aria-pressed="false"
-            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            title="Select Wave"
-            type="button"
+          <div
+            class="group inline-flex rounded-[var(--control-radius)] border border-border-subtle shadow-neo-soft transition-shadow duration-motion-sm ease-out motion-reduce:transition-none hover:shadow-neo focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-surface focus-within:shadow-neo"
           >
-            <span
-              class="relative inline-flex _root_3098a7"
-              data-phase="off"
+            <button
+              aria-controls="_r_d_-listbox"
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-label="Select pillars"
+              class="_glitchTrigger_843152 relative flex items-center rounded-[var(--control-radius)] overflow-hidden h-[var(--control-h-md)] px-[var(--space-3)] bg-surface-muted hover:bg-surface-hover transition-shadow duration-motion-sm ease-out motion-reduce:transition-none focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+              data-lit="false"
+              data-open="false"
+              type="button"
             >
               <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _aura_3098a7"
-              />
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _neon_3098a7"
-              />
-              <span
-                class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                data-pillar="Wave"
-                title="Wave"
+                class="font-medium transition-colors duration-motion-sm ease-out motion-reduce:transition-none _glitchText_843152 text-muted-foreground group-hover:text-muted-foreground"
               >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-waves _icon_e12d15"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
-                  />
-                  <path
-                    d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
-                  />
-                  <path
-                    d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
-                  />
-                </svg>
-                <span
-                  class="_label_e12d15"
-                >
-                  Wave
-                </span>
+                Add or remove pillars
               </span>
-            </span>
-          </button>
-          <button
-            aria-pressed="false"
-            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            title="Select Trading"
-            type="button"
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-chevron-down _caret_843152 ml-auto shrink-0 opacity-75 size-[var(--space-5)]"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m6 9 6 6 6-6"
+                />
+              </svg>
+              <span
+                aria-hidden="true"
+                class="_gbIris_843152"
+              />
+              <span
+                aria-hidden="true"
+                class="_gbChroma_843152"
+              />
+              <span
+                aria-hidden="true"
+                class="_gbFlicker_843152"
+              />
+              <span
+                aria-hidden="true"
+                class="_gbScan_843152"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          class="mt-[var(--space-3)] flex flex-wrap gap-[var(--space-2)]"
+        >
+          <div
+            class="text-ui text-muted-foreground"
           >
-            <span
-              class="relative inline-flex _root_3098a7"
-              data-phase="off"
-            >
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _aura_3098a7"
-              />
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _neon_3098a7"
-              />
-              <span
-                class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                data-pillar="Trading"
-                title="Trading"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-hand-coins _icon_e12d15"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"
-                  />
-                  <path
-                    d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"
-                  />
-                  <path
-                    d="m2 16 6 6"
-                  />
-                  <circle
-                    cx="16"
-                    cy="9"
-                    r="2.9"
-                  />
-                  <circle
-                    cx="6"
-                    cy="5"
-                    r="3"
-                  />
-                </svg>
-                <span
-                  class="_label_e12d15"
-                >
-                  Trading
-                </span>
-              </span>
-            </span>
-          </button>
-          <button
-            aria-pressed="false"
-            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            title="Select Vision"
-            type="button"
-          >
-            <span
-              class="relative inline-flex _root_3098a7"
-              data-phase="off"
-            >
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _aura_3098a7"
-              />
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _neon_3098a7"
-              />
-              <span
-                class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                data-pillar="Vision"
-                title="Vision"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-eye _icon_e12d15"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
-                  />
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="3"
-                  />
-                </svg>
-                <span
-                  class="_label_e12d15"
-                >
-                  Vision
-                </span>
-              </span>
-            </span>
-          </button>
-          <button
-            aria-pressed="false"
-            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            title="Select Tempo"
-            type="button"
-          >
-            <span
-              class="relative inline-flex _root_3098a7"
-              data-phase="off"
-            >
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _aura_3098a7"
-              />
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _neon_3098a7"
-              />
-              <span
-                class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                data-pillar="Tempo"
-                title="Tempo"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-timer _icon_e12d15"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <line
-                    x1="10"
-                    x2="14"
-                    y1="2"
-                    y2="2"
-                  />
-                  <line
-                    x1="12"
-                    x2="15"
-                    y1="14"
-                    y2="11"
-                  />
-                  <circle
-                    cx="12"
-                    cy="14"
-                    r="8"
-                  />
-                </svg>
-                <span
-                  class="_label_e12d15"
-                >
-                  Tempo
-                </span>
-              </span>
-            </span>
-          </button>
-          <button
-            aria-pressed="false"
-            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            title="Select Positioning"
-            type="button"
-          >
-            <span
-              class="relative inline-flex _root_3098a7"
-              data-phase="off"
-            >
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _aura_3098a7"
-              />
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _neon_3098a7"
-              />
-              <span
-                class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                data-pillar="Positioning"
-                title="Positioning"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-crosshair _icon_e12d15"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                  />
-                  <line
-                    x1="22"
-                    x2="18"
-                    y1="12"
-                    y2="12"
-                  />
-                  <line
-                    x1="6"
-                    x2="2"
-                    y1="12"
-                    y2="12"
-                  />
-                  <line
-                    x1="12"
-                    x2="12"
-                    y1="6"
-                    y2="2"
-                  />
-                  <line
-                    x1="12"
-                    x2="12"
-                    y1="22"
-                    y2="18"
-                  />
-                </svg>
-                <span
-                  class="_label_e12d15"
-                >
-                  Positioning
-                </span>
-              </span>
-            </span>
-          </button>
-          <button
-            aria-pressed="false"
-            class="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            title="Select Comms"
-            type="button"
-          >
-            <span
-              class="relative inline-flex _root_3098a7"
-              data-phase="off"
-            >
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _aura_3098a7"
-              />
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute inset-0 rounded-card r-card-lg _layer_3098a7 _neon_3098a7"
-              />
-              <span
-                class="_root_e12d15 rounded-full h-[var(--control-h-sm)] px-[var(--space-4)] text-ui gap-[var(--space-2)]"
-                data-pillar="Comms"
-                title="Comms"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-messages-square _icon_e12d15"
-                  fill="none"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"
-                  />
-                  <path
-                    d="M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1"
-                  />
-                </svg>
-                <span
-                  class="_label_e12d15"
-                >
-                  Comms
-                </span>
-              </span>
-            </span>
-          </button>
+            No pillars selected.
+          </div>
         </div>
       </div>
       <div>
@@ -1098,13 +811,27 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Use timestamp"
             aria-pressed="true"
-            class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)] border-[hsl(var(--line)/0.35)] text-foreground [--neu-surface:hsl(var(--card)/0.35)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            class="_neu_0e7b1b _root_50bc93 glitch-wrapper _glitch_50bc93 group/glitch isolate overflow-hidden inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] [--hover:hsl(var(--foreground)/0.1)] [--active:hsl(var(--foreground)/0.2)] border-[hsl(var(--line)/0.35)] text-foreground [--neu-surface:hsl(var(--card)/0.35)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            data-glitch="true"
+            data-text="Use timestamp"
             data-tone="primary"
             data-variant="quiet"
             tabindex="0"
             title="Timestamp mode"
             type="button"
           >
+            <span
+              aria-hidden="true"
+              class="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
+              style="--blob-overlay-hover: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity-subtle, 1)); --blob-overlay-target: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity-default, 1)); --blob-overlay-active: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity, var(--glitch-intensity-default, 1))); --blob-noise-hover: calc(var(--glitch-noise-level) * var(--glitch-intensity-subtle, 1)); --blob-noise-target: calc(var(--glitch-noise-level) * var(--glitch-intensity-default, 1)); --blob-noise-active-target: calc(var(--glitch-noise-level) * var(--glitch-intensity, var(--glitch-intensity-default, 1)));"
+            >
+              <span
+                class="absolute inset-0 rounded-[inherit] bg-gradient-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-blob-drift group-hover/glitch:opacity-[var(--blob-overlay-hover,var(--blob-overlay-target))] group-focus-visible/glitch:opacity-[var(--blob-overlay-target)] group-focus-within/glitch:opacity-[var(--blob-overlay-target)] group-active/glitch:opacity-[var(--blob-overlay-active,var(--blob-overlay-target))]"
+              />
+              <span
+                class="absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-glitch-noise group-hover/glitch:opacity-[var(--blob-noise-hover,var(--blob-noise-target))] group-focus-visible/glitch:opacity-[var(--blob-noise-target)] group-focus-within/glitch:opacity-[var(--blob-noise-target)] group-active/glitch:opacity-[var(--blob-noise-active-target,var(--blob-noise-target))]"
+              />
+            </span>
             <span
               class="relative z-10 inline-flex items-center justify-center"
             >
@@ -1200,13 +927,27 @@ exports[`ReviewEditor > renders default state 1`] = `
           <button
             aria-label="Use note only"
             aria-pressed="false"
-            class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] [--hover:hsl(var(--accent-1)/0.25)] [--active:hsl(var(--accent-1)/0.35)] border-accent/35 text-on-accent [--neu-surface:hsl(var(--accent-1)/0.2)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            class="_neu_0e7b1b _root_50bc93 glitch-wrapper _glitch_50bc93 group/glitch isolate overflow-hidden inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] [--hover:hsl(var(--accent-1)/0.25)] [--active:hsl(var(--accent-1)/0.35)] border-accent/35 text-on-accent [--neu-surface:hsl(var(--accent-1)/0.2)] h-[var(--control-h-xl)] w-[var(--control-h-xl)] [&_svg]:size-[calc(var(--control-h-xl)/2)]"
+            data-glitch="true"
+            data-text="Use note only"
             data-tone="accent"
             data-variant="quiet"
             tabindex="0"
             title="Note-only mode"
             type="button"
           >
+            <span
+              aria-hidden="true"
+              class="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
+              style="--blob-overlay-hover: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity-subtle, 1)); --blob-overlay-target: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity-default, 1)); --blob-overlay-active: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity, var(--glitch-intensity-default, 1))); --blob-noise-hover: calc(var(--glitch-noise-level) * var(--glitch-intensity-subtle, 1)); --blob-noise-target: calc(var(--glitch-noise-level) * var(--glitch-intensity-default, 1)); --blob-noise-active-target: calc(var(--glitch-noise-level) * var(--glitch-intensity, var(--glitch-intensity-default, 1)));"
+            >
+              <span
+                class="absolute inset-0 rounded-[inherit] bg-gradient-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-blob-drift group-hover/glitch:opacity-[var(--blob-overlay-hover,var(--blob-overlay-target))] group-focus-visible/glitch:opacity-[var(--blob-overlay-target)] group-focus-within/glitch:opacity-[var(--blob-overlay-target)] group-active/glitch:opacity-[var(--blob-overlay-active,var(--blob-overlay-target))]"
+              />
+              <span
+                class="absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-glitch-noise group-hover/glitch:opacity-[var(--blob-noise-hover,var(--blob-noise-target))] group-focus-visible/glitch:opacity-[var(--blob-noise-target)] group-focus-within/glitch:opacity-[var(--blob-noise-target)] group-active/glitch:opacity-[var(--blob-noise-active-target,var(--blob-noise-target))]"
+              />
+            </span>
             <span
               class="relative z-10 inline-flex items-center justify-center"
             >
@@ -1232,10 +973,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                    d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
                   />
                   <path
-                    d="M14 2v4a2 2 0 0 0 2 2h4"
+                    d="M14 2v5a1 1 0 0 0 1 1h5"
                   />
                   <path
                     d="M10 9H8"
@@ -1261,10 +1002,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                    d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
                   />
                   <path
-                    d="M14 2v4a2 2 0 0 0 2 2h4"
+                    d="M14 2v5a1 1 0 0 0 1 1h5"
                   />
                   <path
                     d="M10 9H8"
@@ -1290,10 +1031,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
+                    d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
                   />
                   <path
-                    d="M14 2v4a2 2 0 0 0 2 2h4"
+                    d="M14 2v5a1 1 0 0 0 1 1h5"
                   />
                   <path
                     d="M10 9H8"
@@ -1331,17 +1072,18 @@ exports[`ReviewEditor > renders default state 1`] = `
               class="flex w-full flex-col gap-[var(--space-1)]"
             >
               <div
-                class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] [--neo-shadow:var(--shadow-inner-md)] [--neo-shadow-hover:var(--shadow-inner-md)] transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156 text-center font-mono tabular-nums min-w-[calc(5ch+var(--space-5)+(var(--space-1)*4/5))] max-w-[calc(5ch+var(--space-5)+(var(--space-1)*4/5))]"
+                class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:theme('colors.background')] [--neo-shadow:var(--shadow-inner-md)] [--neo-shadow-hover:var(--shadow-inner-md)] transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-focus focus-within:ring-offset-0 focus-within:ring-offset-background hover:bg-interaction-foreground-tintHover active:bg-interaction-foreground-tintActive data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:theme('colors.card.DEFAULT')] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156 _surface_46b156 text-center font-mono tabular-nums min-w-[calc(5ch+var(--space-5)+(var(--space-1)*4/5))] max-w-[calc(5ch+var(--space-5)+(var(--space-1)*4/5))]"
                 data-field-height="md"
                 data-field-state="invalid"
                 data-invalid="true"
+                data-variant="surface"
               >
                 <input
                   aria-describedby="tTime-error"
                   aria-invalid="true"
                   aria-label="Timestamp time in mm:ss"
                   class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-                  id="_r_8_"
+                  id="_r_e_"
                   inputmode="numeric"
                   name="timestamp-time"
                   pattern="^[0-9]?\\d:[0-5]\\d$"
@@ -1355,14 +1097,15 @@ exports[`ReviewEditor > renders default state 1`] = `
               class="flex w-full flex-col gap-[var(--space-1)]"
             >
               <div
-                class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] [--neo-shadow:var(--shadow-inner-md)] [--neo-shadow-hover:var(--shadow-inner-md)] transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156 flex-1"
+                class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:theme('colors.background')] [--neo-shadow:var(--shadow-inner-md)] [--neo-shadow-hover:var(--shadow-inner-md)] transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-focus focus-within:ring-offset-0 focus-within:ring-offset-background hover:bg-interaction-foreground-tintHover active:bg-interaction-foreground-tintActive data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:theme('colors.card.DEFAULT')] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156 _surface_46b156 flex-1"
                 data-field-height="md"
                 data-field-state="default"
+                data-variant="surface"
               >
                 <input
                   aria-label="Timestamp note"
                   class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-                  id="_r_9_"
+                  id="_r_f_"
                   name="timestamp-note"
                   placeholder="Quick note"
                   type="text"
@@ -1372,7 +1115,9 @@ exports[`ReviewEditor > renders default state 1`] = `
             </div>
             <button
               aria-label="Add timestamp"
-              class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] shadow-glow-sm hover:shadow-btn-primary-hover active:shadow-btn-primary-active [--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)] [--glow-active:hsl(var(--primary)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--primary)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--primary)/0.6)] border-[hsl(var(--primary)/0.35)] [--neu-surface:hsl(var(--primary-soft))] text-[hsl(var(--primary-foreground))] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[calc(var(--control-h-sm)/2)]"
+              class="_neu_0e7b1b _root_50bc93 glitch-wrapper _glitch_50bc93 group/glitch isolate overflow-hidden inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] shadow-glow-sm hover:shadow-btn-primary-hover active:shadow-btn-primary-active [--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)] [--glow-active:hsl(var(--primary)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--primary)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--primary)/0.6)] border-[hsl(var(--primary)/0.35)] [--neu-surface:hsl(var(--primary-soft))] text-[hsl(var(--primary-foreground))] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[calc(var(--control-h-sm)/2)]"
+              data-glitch="true"
+              data-text="Add timestamp"
               data-tone="primary"
               data-variant="default"
               disabled=""
@@ -1380,6 +1125,18 @@ exports[`ReviewEditor > renders default state 1`] = `
               title="Enter details"
               type="button"
             >
+              <span
+                aria-hidden="true"
+                class="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]"
+                style="--blob-overlay-hover: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity-subtle, 1)); --blob-overlay-target: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity-default, 1)); --blob-overlay-active: calc(var(--glitch-overlay-button-opacity) * var(--glitch-intensity, var(--glitch-intensity-default, 1))); --blob-noise-hover: calc(var(--glitch-noise-level) * var(--glitch-intensity-subtle, 1)); --blob-noise-target: calc(var(--glitch-noise-level) * var(--glitch-intensity-default, 1)); --blob-noise-active-target: calc(var(--glitch-noise-level) * var(--glitch-intensity, var(--glitch-intensity-default, 1)));"
+              >
+                <span
+                  class="absolute inset-0 rounded-[inherit] bg-gradient-blob-primary opacity-0 blur-[var(--space-4)] transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-blob-drift group-hover/glitch:opacity-[var(--blob-overlay-hover,var(--blob-overlay-target))] group-focus-visible/glitch:opacity-[var(--blob-overlay-target)] group-focus-within/glitch:opacity-[var(--blob-overlay-target)] group-active/glitch:opacity-[var(--blob-overlay-active,var(--blob-overlay-target))]"
+                />
+                <span
+                  class="absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-glitch-noise group-hover/glitch:opacity-[var(--blob-noise-hover,var(--blob-noise-target))] group-focus-visible/glitch:opacity-[var(--blob-noise-target)] group-focus-within/glitch:opacity-[var(--blob-noise-target)] group-active/glitch:opacity-[var(--blob-noise-active-target,var(--blob-noise-target))]"
+                />
+              </span>
               <span
                 aria-hidden="true"
                 class="_root_5c172b absolute inset-0 z-0"
@@ -1439,98 +1196,36 @@ exports[`ReviewEditor > renders default state 1`] = `
           />
         </div>
         <div
-          class="mt-[var(--space-1)] flex items-center gap-[var(--space-2)]"
+          class="flex w-full flex-col gap-[var(--space-1)]"
         >
           <div
-            class="relative flex-1"
+            aria-labelledby="_r_1_"
+            class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:theme('colors.background')] [--neo-shadow:var(--shadow-inner-md)] [--neo-shadow-hover:var(--shadow-inner-md)] transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-focus focus-within:ring-offset-0 focus-within:ring-offset-background hover:bg-interaction-foreground-tintHover active:bg-interaction-foreground-tintActive data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:theme('colors.card.DEFAULT')] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156 _surface_46b156 cursor-text mt-[var(--space-1)]"
+            data-field-height="md"
+            data-field-state="default"
+            data-variant="surface"
           >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-tag pointer-events-none absolute left-[var(--space-4)] top-1/2 size-[var(--space-4)] -translate-y-1/2 text-muted-foreground"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"
-              />
-              <circle
-                cx="7.5"
-                cy="7.5"
-                fill="currentColor"
-                r=".5"
-              />
-            </svg>
             <div
-              class="flex w-full flex-col gap-[var(--space-1)]"
+              class="flex min-h-[var(--control-h-md)] w-full flex-wrap items-center gap-[var(--space-2)] px-[var(--space-3)] py-[var(--space-2)]"
             >
-              <div
-                class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full items-center rounded-[var(--control-radius)] border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] [--neo-shadow:var(--shadow-inner-md)] [--neo-shadow-hover:var(--shadow-inner-md)] transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156 pl-[var(--space-6)]"
-                data-field-height="md"
-                data-field-state="default"
-              >
-                <input
-                  aria-labelledby="_r_1_"
-                  class="peer block h-[var(--field-h,var(--control-h-md))] w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] text-ui text-foreground placeholder:text-muted-foreground/70 caret-accent focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading"
-                  id="_r_a_"
-                  name="tag-input"
-                  placeholder="Add tag and press Enter"
-                  type="text"
-                  value=""
-                />
-              </div>
+              <input
+                aria-labelledby="_r_1_"
+                class="min-w-[var(--space-12)] flex-1 bg-transparent text-ui outline-none placeholder:text-muted-foreground"
+                placeholder="Add tag and press Enter"
+                value=""
+              />
             </div>
           </div>
-          <button
-            aria-label="Add tag"
-            class="_neu_0e7b1b _root_50bc93 inline-flex items-center justify-center select-none rounded-full duration-motion-sm ease-out motion-reduce:transition-none hover:bg-[--hover] active:bg-[--active] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-[var(--shadow-glow-md)] disabled:opacity-disabled disabled:pointer-events-none data-[loading=true]:opacity-loading data-[reduce-motion=true]:focus-visible:shadow-none data-[reduce-motion=true]:focus-visible:[box-shadow:none] [--neu-radius:var(--radius-full)] border transition-[box-shadow,background-color,color] shadow-glow-sm hover:shadow-btn-primary-hover active:shadow-btn-primary-active [--hover:hsl(var(--primary)/0.14)] [--active:hsl(var(--primary)/0.2)] [--glow-active:hsl(var(--primary)/0.35)] [--btn-primary-hover-shadow:0_var(--spacing-0-5)_calc(var(--space-3)/2)_calc(-1*var(--spacing-0-25))_hsl(var(--primary)/0.25)] [--btn-primary-active-shadow:inset_0_0_0_var(--spacing-0-25)_hsl(var(--primary)/0.6)] border-[hsl(var(--primary)/0.35)] [--neu-surface:hsl(var(--primary-soft))] text-[hsl(var(--primary-foreground))] h-[var(--control-h-md)] w-[var(--control-h-md)] [&_svg]:size-[calc(var(--control-h-sm)/2)]"
-            data-tone="primary"
-            data-variant="default"
-            tabindex="0"
-            title="Add tag"
-            type="button"
+          <div
+            class="flex items-start gap-[var(--space-2)] text-label leading-tight justify-start"
           >
             <span
-              aria-hidden="true"
-              class="_root_5c172b absolute inset-0 z-0"
-              style="--drip-edge-stop-1: var(--primary); --drip-edge-stop-2: var(--primary); --drip-edge-stop-3: var(--primary); --drip-edge-alpha-1: var(--glitch-overlay-button-opacity); --drip-edge-alpha-2: var(--glitch-overlay-button-opacity); --drip-edge-alpha-3: var(--glitch-overlay-button-opacity);"
-            />
-            <span
-              class="relative z-10 inline-flex items-center justify-center"
+              class="text-muted-foreground"
+              id="_r_g_"
             >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-plus"
-                fill="none"
-                height="24"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5 12h14"
-                />
-                <path
-                  d="M12 5v14"
-                />
-              </svg>
+              Press Enter to add a tag; click a tag to remove it.
             </span>
-          </button>
-        </div>
-        <div
-          class="mt-[var(--space-2)] text-ui text-muted-foreground/80"
-        >
-          No tags yet.
+          </div>
         </div>
       </div>
       <div>
@@ -1551,15 +1246,16 @@ exports[`ReviewEditor > renders default state 1`] = `
           class="flex w-full flex-col gap-[var(--space-1)]"
         >
           <div
-            class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:hsl(var(--bg))] [--neo-shadow:var(--shadow-inner-md)] [--neo-shadow-hover:var(--shadow-inner-md)] transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--theme-ring,var(--focus))] focus-within:ring-offset-0 focus-within:ring-offset-[hsl(var(--bg))] hover:bg-[--hover] active:bg-[--active] data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:hsl(var(--card))] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156 items-start rounded-[var(--control-radius)]"
+            class="_neu_0e7b1b _neu-hover_0e7b1b group/field relative inline-flex min-h-[var(--field-h,var(--control-h-md))] w-full border border-card-hairline-65 text-foreground [--neu-radius:var(--control-radius)] [--neu-surface:theme('colors.background')] [--neo-shadow:var(--shadow-inner-md)] [--neo-shadow-hover:var(--shadow-inner-md)] transition-[background,box-shadow,filter] duration-motion-sm ease-out motion-reduce:transition-none focus-within:outline-none focus-within:ring-2 focus-within:ring-focus focus-within:ring-offset-0 focus-within:ring-offset-background hover:bg-interaction-foreground-tintHover active:bg-interaction-foreground-tintActive data-[disabled=true]:pointer-events-none data-[disabled=true]:border-card-hairline-40 data-[disabled=true]:[--neu-surface:theme('colors.card.DEFAULT')] data-[disabled=true]:[--neo-shadow:var(--depth-shadow-inner)] data-[disabled=true]:text-muted-foreground/70 data-[loading=true]:pointer-events-none data-[loading=true]:opacity-loading data-[invalid=true]:border-danger/60 data-[invalid=true]:focus-within:ring-danger overflow-hidden _root_46b156 _surface_46b156 items-start rounded-[var(--control-radius)]"
             data-field-height="md"
             data-field-state="default"
+            data-variant="surface"
           >
             <textarea
               aria-labelledby="_r_2_"
               class="block w-full max-w-full rounded-[inherit] border-none bg-transparent px-[var(--space-3)] py-[var(--space-3)] text-body text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed read-only:cursor-default transition-[color,opacity] group-data-[disabled=true]/field:text-muted-foreground/70 group-data-[disabled=true]/field:placeholder:text-muted-foreground/50 group-data-[loading=true]/field:opacity-loading resize-y min-h-[calc(var(--space-8)*3_-_var(--space-3))] leading-relaxed"
-              id="_r_b_"
-              name="rb"
+              id="_r_h_"
+              name="rh"
               placeholder="Key moments, mistakes to fix, drills to run…"
             />
           </div>

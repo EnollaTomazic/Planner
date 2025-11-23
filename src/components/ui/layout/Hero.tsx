@@ -78,8 +78,6 @@ export interface HeroProps<Key extends string = string>
   as?: HeroElement;
   /** Horizontal padding for the outer shell. */
   padding?: "default" | "none";
-  /** @deprecated Decorative rails were removed. */
-  rail?: boolean;
   /** Built-in top-right segmented tabs (preferred). */
   tabs?: HeroTabsProps<Key>;
   /** Secondary segmented control support. */
@@ -236,10 +234,8 @@ function Hero<Key extends string = string>({
   className,
   as,
   padding = "default",
-  rail: _deprecatedRail,
   ...rest
 }: HeroProps<Key>) {
-  void _deprecatedRail;
   const heroHeading = title ?? heading;
   const headingStr =
     typeof heroHeading === "string" ? heroHeading : undefined;

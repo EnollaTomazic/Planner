@@ -196,14 +196,6 @@ export interface HeaderProps<Key extends string = string>
   topClassName?: string;
   barClassName?: string;
   bodyClassName?: string;
-  /** @deprecated Decorative rails were removed. */
-  rail?: boolean;
-  /** @deprecated Decorative rails were removed. */
-  railTone?: "subtle" | "loud";
-  /** @deprecated Decorative rails were removed. */
-  railVariant?: "subtle" | "loud";
-  /** @deprecated Decorative rails were removed. */
-  railClassName?: string;
   /** Reduce vertical padding and height, ideal for denser layouts. */
   compact?: boolean;
   /** Built-in top-right segmented tabs (preferred). */
@@ -236,10 +228,6 @@ export function Header<Key extends string = string>({
   className,
   barClassName,
   bodyClassName,
-  rail: _deprecatedRail = true,
-  railTone: _deprecatedRailTone,
-  railVariant: _deprecatedRailVariant,
-  railClassName: _deprecatedRailClassName,
   compact = false,
   tabs,
   variant = "default",
@@ -247,10 +235,6 @@ export function Header<Key extends string = string>({
   underlineTone = "neutral",
   ...rest
 }: HeaderProps<Key>) {
-  void _deprecatedRail;
-  void _deprecatedRailTone;
-  void _deprecatedRailVariant;
-  void _deprecatedRailClassName;
   const resolvedVariant = resolveUIVariant<HeaderVariant>(variant, {
     allowed: HEADER_VARIANTS,
     fallback: "default",

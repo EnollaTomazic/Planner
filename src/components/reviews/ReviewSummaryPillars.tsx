@@ -1,7 +1,8 @@
 import * as React from "react";
 import type { Pillar } from "@/lib/types";
 import { SectionLabel } from "@/components/reviews/SectionLabel";
-import { PillarBadge } from "@/components/ui/league/pillars/PillarBadge";
+import { Badge } from "@/components/ui";
+import { PILLAR_ICONS, pillarToLabel } from "@/lib/pillarDetails";
 
 function StaticNeonWrap({ children }: { children: React.ReactNode }) {
   return (
@@ -31,11 +32,20 @@ export function ReviewSummaryPillars({
       <SectionLabel>Pillars</SectionLabel>
       {Array.isArray(pillars) && pillars.length > 0 ? (
         <div className="flex flex-wrap gap-[var(--space-2)]">
-          {pillars.map((p) => (
-            <StaticNeonWrap key={p}>
-              <PillarBadge pillar={p} size="md" active />
-            </StaticNeonWrap>
-          ))}
+          {pillars.map((pillar) => {
+            const Icon = PILLAR_ICONS[pillar];
+            return (
+              <StaticNeonWrap key={pillar}>
+                <Badge className="gap-[var(--space-1)] bg-card/70">
+                  <Icon
+                    aria-hidden
+                    className="h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground"
+                  />
+                  <span>{pillarToLabel(pillar)}</span>
+                </Badge>
+              </StaticNeonWrap>
+            );
+          })}
         </div>
       ) : (
         <div className="text-ui text-muted-foreground">
