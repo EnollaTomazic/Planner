@@ -9,15 +9,18 @@ import {
   getHeroIllustration,
   type HeroIllustrationState,
 } from "@/data/heroImages";
+import { getHeroScene, type HeroSceneKey } from "@/data/heroScenes";
 import { useOptionalTheme } from "@/lib/theme-context";
 import type { Variant } from "@/lib/theme";
 import { cn } from "@/lib/utils";
+import sceneStyles from "./HeroScene.module.css";
 
 export interface HeroImageProps extends React.HTMLAttributes<HTMLDivElement> {
   state?: HeroIllustrationState;
   alt?: string;
   themeOverride?: Variant;
   imageProps?: Omit<ImageProps, "src" | "alt">;
+  scene?: HeroSceneKey | null;
 }
 
 export function HeroImage({
@@ -25,6 +28,7 @@ export function HeroImage({
   alt,
   themeOverride,
   imageProps,
+  scene,
   className,
   ...rest
 }: HeroImageProps) {
@@ -36,10 +40,15 @@ export function HeroImage({
     [variant, state],
   );
 
+  const sceneAsset = React.useMemo(() => getHeroScene(scene), [scene]);
+
   const normalizedAlt = React.useMemo(() => {
-    const value = typeof alt === "string" ? alt : defaultAlt ?? "";
+    const value =
+      typeof alt === "string"
+        ? alt
+        : sceneAsset?.alt ?? defaultAlt ?? "";
     return value.trim();
-  }, [alt, defaultAlt]);
+  }, [alt, defaultAlt, sceneAsset?.alt]);
 
   const resolvedAlt = normalizedAlt.length > 0 ? normalizedAlt : "";
   const ariaHidden = normalizedAlt.length === 0;
@@ -69,6 +78,25 @@ export function HeroImage({
         )}
         {...restImageProps}
       />
+      {sceneAsset ? (
+        <div className={sceneStyles.sceneLayer}>
+          <Image
+            src={sceneAsset.src}
+            alt={sceneAsset.alt}
+            width={720}
+            height={880}
+            priority={priority}
+            sizes={sizes}
+            className={cn(sceneStyles.sceneImage)}
+            data-scene={scene}
+            style={{
+              width: sceneAsset.position.width,
+              bottom: sceneAsset.position.bottom,
+            }}
+            {...restImageProps}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

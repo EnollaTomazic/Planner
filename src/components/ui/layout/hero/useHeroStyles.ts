@@ -75,7 +75,7 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
 
     const shell = cn(
       stickyClasses,
-      "mx-auto w-full",
+      "mx-auto w-full relative",
       frame
         ? cn(
             "group/hero relative z-0 isolate overflow-hidden veil-soft r-card-lg border border-border/55 text-foreground shadow-outline-subtle hero2-frame hero2-neomorph",

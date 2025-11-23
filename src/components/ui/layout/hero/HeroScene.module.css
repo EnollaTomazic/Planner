@@ -1,0 +1,53 @@
+.sceneLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 1;
+}
+
+.sceneImage {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  filter: drop-shadow(0 0 28px hsl(var(--accent-1) / 0.45))
+    drop-shadow(0 0 52px hsl(var(--ring) / 0.36));
+  mix-blend-mode: screen;
+  will-change: transform, filter;
+  transition: filter var(--motion-duration-md) var(--ease-out);
+  animation: hero-scene-bob 6.2s ease-in-out infinite;
+}
+
+.sceneImage[data-scene="noxi-hacking"],
+.sceneImage[data-scene="noxi-neutral"] {
+  filter: drop-shadow(0 0 32px hsl(var(--accent-2) / 0.45))
+    drop-shadow(0 0 56px hsl(var(--accent-1) / 0.34));
+}
+
+.sceneImage[data-scene="agnes-floating"] {
+  animation-duration: 6.6s;
+}
+
+.sceneImage[data-scene="agnes-neutral"] {
+  animation-duration: 5.8s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sceneImage {
+    animation: none;
+  }
+}
+
+@keyframes hero-scene-bob {
+  0% {
+    transform: translate(-50%, 2%);
+  }
+  50% {
+    transform: translate(-50%, -6%);
+  }
+  100% {
+    transform: translate(-50%, 2%);
+  }
+}

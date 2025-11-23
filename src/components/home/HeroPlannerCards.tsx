@@ -133,7 +133,7 @@ const PlannerRangeTabs = React.memo(function PlannerRangeTabs({
           <button
             key={option.key}
             type="button"
-            className={styles.rangeTab}
+            className={cn(styles.rangeTab, "pulse-neon")}
             data-active={isActive ? "true" : undefined}
             aria-pressed={isActive}
             onClick={() => {
@@ -373,7 +373,7 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
                 asChild
                 size="sm"
                 variant="default"
-                className={styles.primaryButton}
+                className={cn(styles.primaryButton, "pulse-neon")}
               >
                 <Link href={withBasePath("/planner", { skipForNextLink: true })}>Open planner</Link>
               </Button>
@@ -538,11 +538,11 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
                     role="tab"
                     aria-selected={isActive}
                     aria-controls={panelId}
-                    className={cn(styles.tabButton, isActive && styles.tabButtonActive)}
-                    onClick={() => setActiveTab(tab.key)}
-                  >
-                    {tab.label}
-                  </button>
+                  className={cn(styles.tabButton, isActive && styles.tabButtonActive, "pulse-neon")}
+                  onClick={() => setActiveTab(tab.key)}
+                >
+                  {tab.label}
+                </button>
                 );
               })}
             </div>
@@ -588,14 +588,26 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
               />
             </Field.Root>
           </CardBody>
-          <div className={cn(cardActionsBaseClass, "justify-end")}> 
-            <Button size="sm" variant="quiet" className={styles.secondaryButton}>
+          <div className={cn(cardActionsBaseClass, "justify-end")}>
+            <Button
+              size="sm"
+              variant="quiet"
+              className={cn(styles.secondaryButton, "pulse-neon")}
+            >
               Retry suggestions
             </Button>
-            <Button size="sm" variant="default" className={styles.primaryButton}>
+            <Button
+              size="sm"
+              variant="default"
+              className={cn(styles.primaryButton, "pulse-neon")}
+            >
               Edit draft
             </Button>
-            <Button size="sm" variant="quiet" className={styles.secondaryButton}>
+            <Button
+              size="sm"
+              variant="quiet"
+              className={cn(styles.secondaryButton, "pulse-neon")}
+            >
               Cancel
             </Button>
           </div>

@@ -50,6 +50,7 @@
     --surface-overlay-strong: 0.2;
     --bg: var(--background);
     --scanline: var(--glitch-scanline);
+    --scanlines: var(--card-overlay-scanlines);
     --glitch-pixel: var(--glitch-noise-level);
     --stat-good: var(--success);
     --stat-warn: var(--warning);
@@ -407,6 +408,60 @@ body.fx-gifbars::before {
       width var(--motion-duration-sm) var(--ease-out),
       max-inline-size var(--motion-duration-sm) var(--ease-out);
   }
+
+  .glitch-sprite {
+    position: absolute;
+    inset: auto;
+    top: 12%;
+    right: 10%;
+    width: 72px;
+    height: 72px;
+    pointer-events: none;
+    z-index: 2;
+    background:
+      radial-gradient(circle at 30% 30%, hsl(var(--accent-1) / 0.8), transparent 60%),
+      radial-gradient(circle at 70% 50%, hsl(var(--ring) / 0.75), transparent 58%),
+      radial-gradient(circle at 40% 70%, hsl(var(--accent-2) / 0.48), transparent 62%),
+      var(--scanlines, var(--card-overlay-scanlines));
+    mix-blend-mode: screen;
+    opacity: 0;
+    border-radius: var(--radius-card);
+    filter: drop-shadow(0 0 18px hsl(var(--accent-1) / 0.62))
+      drop-shadow(0 0 26px hsl(var(--ring) / 0.46));
+    animation: glitch-sprite 7.2s ease-in-out infinite;
+  }
+
+  .glitch-sprite--hero {
+    width: 92px;
+    height: 92px;
+  }
+
+  .glitch-sprite--card {
+    width: 58px;
+    height: 58px;
+    top: 14%;
+    right: 6%;
+    opacity: 0.12;
+  }
+
+  .pulse-neon {
+    --pulse-neon-color: hsl(var(--accent-1));
+    --pulse-neon-ghost: color-mix(in oklab, var(--pulse-neon-color) 60%, transparent);
+    transition:
+      box-shadow var(--motion-duration-sm) var(--ease-out),
+      border-color var(--motion-duration-sm) var(--ease-out),
+      outline-color var(--motion-duration-sm) var(--ease-out);
+  }
+
+  .pulse-neon:hover,
+  .pulse-neon:focus-visible {
+    border-color: color-mix(in oklab, var(--pulse-neon-color) 72%, transparent);
+    box-shadow:
+      0 0 0.65rem color-mix(in oklab, var(--pulse-neon-color) 52%, transparent),
+      0 0 0.18rem color-mix(in oklab, var(--pulse-neon-ghost) 70%, transparent);
+    animation: pulse-neon 1.9s ease-in-out infinite alternate;
+    outline: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -414,6 +469,17 @@ body.fx-gifbars::before {
   .cq-md,
   .cq-lg {
     transition: none;
+  }
+
+  .glitch-sprite {
+    animation: none;
+    opacity: 0.18;
+  }
+
+  .pulse-neon:hover,
+  .pulse-neon:focus-visible {
+    animation: none;
+    box-shadow: 0 0 0.4rem color-mix(in oklab, var(--pulse-neon-color) 42%, transparent);
   }
 }
 
@@ -3318,6 +3384,44 @@ a:active .lucide {
       text-shadow:
         -0.5px 0 hsl(var(--accent-1)),
         0.5px 0 hsl(var(--accent-2));
+    }
+  }
+
+  @keyframes glitch-sprite {
+    0%,
+    64%,
+    100% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    6% {
+      opacity: 0.6;
+      transform: translateX(-6px);
+    }
+    8% {
+      opacity: 0.36;
+      transform: translateX(5px);
+    }
+    12% {
+      opacity: 0.24;
+      transform: translateX(-3px);
+    }
+    16% {
+      opacity: 0.12;
+      transform: translateX(2px);
+    }
+  }
+
+  @keyframes pulse-neon {
+    0% {
+      box-shadow:
+        0 0 0.6rem color-mix(in oklab, var(--pulse-neon-color) 46%, transparent),
+        0 0 0.14rem color-mix(in oklab, var(--pulse-neon-ghost) 68%, transparent);
+    }
+    100% {
+      box-shadow:
+        0 0 1rem color-mix(in oklab, var(--pulse-neon-color) 72%, transparent),
+        0 0 0.32rem color-mix(in oklab, var(--pulse-neon-ghost) 84%, transparent);
     }
   }
 

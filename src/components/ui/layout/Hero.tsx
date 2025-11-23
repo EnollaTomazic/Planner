@@ -16,6 +16,7 @@ import { HeroImage, type HeroImageProps } from "./hero/HeroImage";
 import { HeroSearchBar, type HeroSearchBarProps } from "./hero/HeroSearchBar";
 import { useHeroStyles } from "./hero/useHeroStyles";
 import styles from "./hero/Hero.module.css";
+import type { HeroSceneKey } from "@/data/heroScenes";
 
 type HeroElement = Extract<
   keyof React.JSX.IntrinsicElements,
@@ -93,6 +94,8 @@ export interface HeroProps<Key extends string = string>
   illustrationState?: HeroImageProps["state"];
   /** Custom alt text for the hero illustration background. */
   illustrationAlt?: string;
+  /** Optional character scene rendered inside the hero blob. */
+  scene?: HeroSceneKey | null;
 }
 
 function mapTabs<Key extends string>(
@@ -185,6 +188,8 @@ const HERO_NOISE_STYLES: Record<HeroNoiseLevel, HeroNoiseStyle> = {
     "--texture-grain-strength": "0",
     "--texture-scanline-opacity": "var(--theme-scanline-opacity-none, 0)",
     "--texture-scanline-strength": "0",
+    "--hero-scanline-opacity": "var(--theme-scanline-opacity-none, 0)",
+    "--hero-scanline-strength": "0",
   },
   subtle: {
     "--hero-glitch-overlay-opacity":
@@ -193,6 +198,8 @@ const HERO_NOISE_STYLES: Record<HeroNoiseLevel, HeroNoiseStyle> = {
     "--texture-grain-strength": "1",
     "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.045)",
     "--texture-scanline-strength": "1",
+    "--hero-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.045)",
+    "--hero-scanline-strength": "1",
   },
   moderate: {
     "--hero-glitch-overlay-opacity":
@@ -201,6 +208,8 @@ const HERO_NOISE_STYLES: Record<HeroNoiseLevel, HeroNoiseStyle> = {
     "--texture-grain-strength": "1",
     "--texture-scanline-opacity": "var(--theme-scanline-opacity-moderate, 0.06)",
     "--texture-scanline-strength": "1",
+    "--hero-scanline-opacity": "var(--theme-scanline-opacity-moderate, 0.06)",
+    "--hero-scanline-strength": "1",
   },
 };
 
@@ -229,6 +238,7 @@ function Hero<Key extends string = string>({
   illustration,
   illustrationState,
   illustrationAlt,
+  scene,
   className,
   as,
   padding = "default",
@@ -321,6 +331,21 @@ function Hero<Key extends string = string>({
     return HERO_NOISE_STYLES[noiseLevel] ?? HERO_NOISE_STYLES.moderate;
   }, [noiseLevel]);
 
+  const heroIllustration = React.useMemo(
+    () => (
+      <HeroImage
+        state={illustrationState}
+        alt={heroIllustrationAlt}
+        className={cn(
+          "z-0 rounded-[inherit]",
+          "after:pointer-events-none after:absolute after:inset-0 after:z-[1] after:content-[''] after:bg-glitch-overlay after:opacity-[var(--hero-glitch-overlay-opacity,0.08)] after:mix-blend-soft-light",
+        )}
+        scene={scene}
+      />
+    ),
+    [heroIllustrationAlt, illustrationState, scene],
+  );
+
   const illustrationNode = frame
     ? illustration ? (
         <div
@@ -334,14 +359,7 @@ function Hero<Key extends string = string>({
           </div>
         </div>
       ) : (
-        <HeroImage
-          state={illustrationState}
-          alt={heroIllustrationAlt}
-          className={cn(
-            "z-0 rounded-[inherit]",
-            "after:pointer-events-none after:absolute after:inset-0 after:z-[1] after:content-[''] after:bg-glitch-overlay after:opacity-[var(--hero-glitch-overlay-opacity,0.08)] after:mix-blend-soft-light",
-          )}
-        />
+        heroIllustration
       )
     : null;
 
@@ -351,6 +369,12 @@ function Hero<Key extends string = string>({
       {frame || isRaisedBar ? <NeomorphicFrameStyles /> : null}
 
       <div className={classes.shell} style={noiseStyle}>
+        <span aria-hidden className={styles.bloom} />
+        <span aria-hidden className={styles.scanlines} />
+        <span
+          aria-hidden
+          className={cn("glitch-sprite glitch-sprite--hero", styles.heroGlitchSprite)}
+        />
         {illustrationNode}
         <div className={cn(classes.bar, barClassName)}>
           <div className={classes.labelCluster}>

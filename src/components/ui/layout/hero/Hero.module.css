@@ -4,6 +4,40 @@
   --hero-divider-neon: hsl(var(--ring));
 }
 
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: var(--scanlines, var(--card-overlay-scanlines));
+  opacity: calc(
+    var(--hero-scanline-opacity, 0.06) * var(--hero-scanline-strength, 1.12)
+  );
+  mix-blend-mode: soft-light;
+}
+
+.bloom {
+  position: absolute;
+  inset: -12% -8%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+      90% 90% at 32% 18%,
+      hsl(var(--accent-1) / 0.16),
+      transparent 65%
+    ),
+    radial-gradient(90% 100% at 82% 18%, hsl(var(--ring) / 0.18), transparent 70%),
+    radial-gradient(110% 70% at 50% 80%, hsl(var(--primary) / 0.14), transparent 76%);
+  filter: blur(calc(var(--spacing-5)));
+  opacity: 0.48;
+  mix-blend-mode: screen;
+}
+
+.heroGlitchSprite {
+  top: 10%;
+  right: 8%;
+}
+
 .divider[data-divider-tint="life"] {
   --hero-divider-neon: hsl(var(--accent-3));
 }

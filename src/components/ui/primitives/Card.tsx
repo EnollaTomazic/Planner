@@ -112,7 +112,12 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
 
       return (
         <Slot {...baseProps} ref={ref as React.ForwardedRef<HTMLElement>}>
-          {React.cloneElement(child, undefined, content)}
+          {React.cloneElement(child, undefined, (
+            <>
+              <span aria-hidden className="glitch-sprite glitch-sprite--card" />
+              {content}
+            </>
+          ))}
         </Slot>
       );
     }
@@ -120,6 +125,7 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
     return (
       <div ref={ref} {...baseProps}>
         {glitchOverlay}
+        <span aria-hidden className="glitch-sprite glitch-sprite--card" />
         {children}
         {overlay}
       </div>
