@@ -411,7 +411,6 @@ export function WeekPicker() {
       title={heading}
       subtitle={accessibleRange}
       actions={topAction}
-      rail
       sticky
       dividerTint="primary"
     >

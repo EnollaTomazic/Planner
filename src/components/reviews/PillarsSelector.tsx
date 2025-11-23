@@ -1,12 +1,12 @@
 "use client";
 
 import * as React from "react";
+import { Check, X } from "lucide-react";
 import { SectionLabel } from "@/components/reviews/SectionLabel";
-import { PillarBadge } from "@/components/ui/league/pillars/PillarBadge";
+import { AnimatedSelect, Badge, IconButton } from "@/components/ui";
 import { ALL_PILLARS } from "@/components/reviews/reviewData";
-import { cn } from "@/lib/utils";
+import { PILLAR_ICONS, pillarToLabel } from "@/lib/pillarDetails";
 import type { Pillar, Review } from "@/lib/types";
-import styles from "./NeonPillarChip.module.css";
 
 export type PillarsSelectorHandle = {
   save: () => void;
@@ -16,64 +16,6 @@ type PillarsSelectorProps = {
   pillars?: Pillar[];
   commitMeta: (patch: Partial<Review>) => void;
 };
-
-function NeonPillarChip({
-  active,
-  children,
-}: {
-  active: boolean;
-  children: React.ReactNode;
-}) {
-  const prev = React.useRef(active);
-  const [phase, setPhase] = React.useState<
-    "steady-on" | "ignite" | "off" | "powerdown"
-  >(active ? "steady-on" : "off");
-
-  React.useEffect(() => {
-    if (active !== prev.current) {
-      if (active) {
-        setPhase("ignite");
-        const t = setTimeout(() => setPhase("steady-on"), 620);
-        prev.current = active;
-        return () => clearTimeout(t);
-      } else {
-        setPhase("powerdown");
-        const t = setTimeout(() => setPhase("off"), 360);
-        prev.current = active;
-        return () => clearTimeout(t);
-      }
-    }
-    prev.current = active;
-  }, [active]);
-
-  const lit = phase === "ignite" || phase === "steady-on";
-
-  return (
-    <span
-      className={cn("relative inline-flex", styles.root)}
-      data-lit={lit ? "true" : undefined}
-      data-phase={phase}
-    >
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-card r-card-lg",
-          styles.layer,
-          styles.aura,
-        )}
-        aria-hidden
-      />
-      <span
-        className={cn(
-          "pointer-events-none absolute inset-0 rounded-card r-card-lg",
-          styles.layer,
-          styles.neon,
-        )}
-        aria-hidden
-      />
-      {children}
-    </span>
-  );
-}
 
 function PillarsSelector(
   { pillars: pillars0 = [], commitMeta }: PillarsSelectorProps,
@@ -86,10 +28,10 @@ function PillarsSelector(
   }, [pillars0]);
 
   const togglePillar = React.useCallback(
-    (p: Pillar) => {
+    (pillar: Pillar) => {
       setPillars((prev) => {
-        const has = prev.includes(p);
-        const next = has ? prev.filter((x) => x !== p) : prev.concat(p);
+        const has = prev.includes(pillar);
+        const next = has ? prev.filter((value) => value !== pillar) : prev.concat(pillar);
         commitMeta({ pillars: next });
         return next;
       });
@@ -103,35 +45,83 @@ function PillarsSelector(
 
   React.useImperativeHandle(ref, () => ({ save }), [save]);
 
-  function onIconKey(e: React.KeyboardEvent, handler: () => void) {
-    if (e.key === " " || e.key === "Enter") {
-      e.preventDefault();
-      handler();
-    }
-  }
+  const handleSelect = React.useCallback(
+    (value: string) => {
+      if (!ALL_PILLARS.includes(value as Pillar)) return;
+      togglePillar(value as Pillar);
+    },
+    [togglePillar],
+  );
+
+  const selectItems = React.useMemo(
+    () =>
+      ALL_PILLARS.map((pillar) => {
+        const Icon = PILLAR_ICONS[pillar];
+        const active = pillars.includes(pillar);
+        return {
+          value: pillar,
+          label: (
+            <span className="flex w-full items-center gap-[var(--space-2)]">
+              <Icon
+                aria-hidden
+                className="h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground"
+              />
+              <span className="flex-1 text-left">{pillarToLabel(pillar)}</span>
+              {active ? (
+                <Check
+                  aria-hidden
+                  className="h-[var(--space-4)] w-[var(--space-4)] text-accent"
+                />
+              ) : null}
+            </span>
+          ),
+        };
+      }),
+    [pillars],
+  );
+
+  const selectedPillars = pillars.length > 0 ? pillars : null;
 
   return (
     <div>
       <SectionLabel>Pillars</SectionLabel>
-      <div className="flex flex-wrap gap-[var(--space-2)]">
-        {ALL_PILLARS.map((p) => {
-          const active = pillars.includes(p);
-          return (
-            <button
-              key={p}
-              type="button"
-              onClick={() => togglePillar(p)}
-              onKeyDown={(e) => onIconKey(e, () => togglePillar(p))}
-              aria-pressed={active}
-              className="rounded-[var(--radius-2xl)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              title={active ? `${p} selected` : `Select ${p}`}
-            >
-              <NeonPillarChip active={active}>
-                <PillarBadge pillar={p} size="md" active={active} as="span" />
-              </NeonPillarChip>
-            </button>
-          );
-        })}
+      <AnimatedSelect
+        items={selectItems}
+        value={selectedPillars?.[0]}
+        onChange={handleSelect}
+        placeholder="Add or remove pillars"
+        ariaLabel="Select pillars"
+        matchTriggerWidth
+      />
+      <div className="mt-[var(--space-3)] flex flex-wrap gap-[var(--space-2)]">
+        {selectedPillars ? (
+          selectedPillars.map((pillar) => {
+            const Icon = PILLAR_ICONS[pillar];
+            return (
+              <Badge key={pillar} className="gap-[var(--space-1)] bg-card/70">
+                <Icon
+                  aria-hidden
+                  className="h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground"
+                />
+                <span>{pillarToLabel(pillar)}</span>
+                <IconButton
+                  size="sm"
+                  iconSize="sm"
+                  variant="quiet"
+                  aria-label={`Remove ${pillarToLabel(pillar)}`}
+                  onClick={() => togglePillar(pillar)}
+                  className="-mr-[var(--space-2)] text-muted-foreground hover:text-foreground"
+                >
+                  <X aria-hidden className="h-[var(--space-3)] w-[var(--space-3)]" />
+                </IconButton>
+              </Badge>
+            );
+          })
+        ) : (
+          <div className="text-ui text-muted-foreground">
+            No pillars selected.
+          </div>
+        )}
       </div>
     </div>
   );
@@ -140,8 +130,8 @@ function PillarsSelector(
 const PillarsSelectorComponent = React.forwardRef<
   PillarsSelectorHandle,
   PillarsSelectorProps
->(PillarsSelector)
+>(PillarsSelector);
 
-PillarsSelectorComponent.displayName = "PillarsSelector"
+PillarsSelectorComponent.displayName = "PillarsSelector";
 
-export { PillarsSelectorComponent as PillarsSelector }
+export { PillarsSelectorComponent as PillarsSelector };

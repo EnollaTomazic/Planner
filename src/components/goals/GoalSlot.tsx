@@ -5,7 +5,8 @@ import { Check, Pencil, Trash2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useAutoFocus from "@/lib/useAutoFocus";
 import type { Goal } from "@/lib/types";
-import { PillarBadge } from "@/components/ui";
+import { Badge } from "@/components/ui";
+import { PILLAR_ICONS, pillarToLabel } from "@/lib/pillarDetails";
 import { Input } from "@/components/ui/primitives/Input";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 
@@ -114,11 +115,18 @@ export function GoalSlot({
                   {goal.title}
                 </span>
                 {goal.pillar && (
-                  <PillarBadge
-                    pillar={goal.pillar}
-                    size="sm"
-                    as="span"
-                  />
+                  <Badge className="gap-[var(--space-1)] bg-card/70">
+                    {(() => {
+                      const Icon = PILLAR_ICONS[goal.pillar];
+                      return (
+                        <Icon
+                          aria-hidden
+                          className="h-[var(--space-4)] w-[var(--space-4)] text-muted-foreground"
+                        />
+                      );
+                    })()}
+                    <span>{pillarToLabel(goal.pillar)}</span>
+                  </Badge>
                 )}
               </div>
                 <IconButton

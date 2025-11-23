@@ -23,7 +23,6 @@ export interface HeroStyleResult {
   heroVariant: HeroTabVariant | undefined;
   shouldRenderGlitchStyles: boolean;
   isRaisedBar: boolean;
-  showRail: boolean;
   showDividerGlow: boolean;
   classes: {
     shell: string;
@@ -38,7 +37,6 @@ export interface HeroStyleResult {
     actionCluster: string;
     heading: string;
     subtitle: string;
-    rail: string;
     dividerLine: string;
     dividerGlow: string;
     divider: string;
@@ -64,7 +62,6 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
     const heroVariant: HeroTabVariant | undefined = frame ? "neo" : undefined;
     const shouldRenderGlitchStyles = frame && isGlitchDefault;
     const isRaisedBar = barVariant === "raised";
-    const showRail = false;
     const showDividerGlow = frame && !isGlitchOff;
     const stickyClasses = sticky ? cn("sticky sticky-blur", topClassName) : "";
 
@@ -167,8 +164,6 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
       tone === "supportive" ? "font-normal" : "font-medium",
     );
 
-    const railClassName = "";
-
     const dividerLine = cn(
       "block h-px",
       frame
@@ -189,7 +184,6 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
       heroVariant,
       shouldRenderGlitchStyles,
       isRaisedBar,
-      showRail,
       showDividerGlow,
       classes: {
         shell,
@@ -204,7 +198,6 @@ export function useHeroStyles(options: HeroStyleOptions): HeroStyleResult {
         actionCluster,
         heading,
         subtitle,
-        rail: railClassName,
         dividerLine,
         dividerGlow,
         divider: styles.divider,
