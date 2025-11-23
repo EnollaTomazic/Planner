@@ -40,25 +40,14 @@ export function SavedPromptList({
     [prompts],
   );
 
-  const renderEmptyState = React.useCallback(() => {
-    if (formattedPrompts.length > 0) return null;
-    return <SavedPromptEmptyState query={trimmedQuery} />;
-  }, [formattedPrompts.length, trimmedQuery]);
-
-  const emptyState = renderEmptyState();
-  if (emptyState) {
-    return <div className="mt-[var(--space-4)]">{emptyState}</div>;
-  }
-
   return (
     <GenericList
       items={formattedPrompts}
-      getKey={(prompt) => prompt.id}
-      listClassName="mt-[var(--space-4)] space-y-[var(--space-3)]"
-      renderItem={(prompt, { statusBadge }) => (
+      className="mt-[var(--space-4)] [&>ul]:space-y-[var(--space-3)] [&>ul>li]:list-none"
+      emptyState={<SavedPromptEmptyState query={trimmedQuery} />}
+      renderItem={(prompt) => (
         <PromptCard
           prompt={prompt}
-          statusBadge={statusBadge}
           onSelect={onSelectPrompt ? () => onSelectPrompt(prompt) : undefined}
           onEdit={onEditPrompt ? () => onEditPrompt(prompt) : undefined}
           onDelete={onDeletePrompt ? () => onDeletePrompt(prompt) : undefined}
