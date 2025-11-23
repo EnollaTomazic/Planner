@@ -2,7 +2,7 @@ import { Header, PRIMARY_PAGE_NAV } from '@/components/ui/layout/Header'
 import { Hero } from '@/components/ui/layout/Hero'
 import { PageShell } from '@/components/ui/layout/PageShell'
 import type { HeaderNavItem } from '@/components/ui/layout/Header'
-import type { ReactNode } from 'react'
+import type { ComponentProps, ReactNode } from 'react'
 
 /**
  * Props for building a page layout with a unified header, hero and main.
@@ -21,7 +21,7 @@ export interface BasePageProps {
     eyebrow?: string
     title: string | ReactNode
     subtitle?: string
-    glitch?: 'off' | 'subtle' | 'default' | 'hacked'
+    glitch?: ComponentProps<typeof Hero>['glitch']
     illustration?: ReactNode
     illustrationAlt?: string
     actions?: ReactNode
