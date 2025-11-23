@@ -333,21 +333,65 @@ export function ReviewsPage({
         as="main"
         id="page-main"
         tabIndex={-1}
-        className="py-[var(--space-6)] space-y-[var(--space-6)]"
+        grid
+        className="py-[var(--space-6)]"
+        contentClassName="gap-y-[var(--space-6)]"
         aria-labelledby={heroHeadingId}
       >
-        {isLoading ? (
-          <div className="flex flex-col gap-[var(--space-3)] sm:gap-[var(--space-4)] md:flex-row md:items-end md:justify-end">
-            <Skeleton
-              ariaHidden={false}
-              role="status"
-              aria-label="Loading sort control"
-              className="h-[var(--control-h-lg)] w-full md:w-[16rem]"
-              radius="md"
-            />
-          </div>
-        ) : isErrored ? (
-          <div className="space-y-[var(--space-3)]">
+        <div className="col-span-full">
+          {isLoading ? (
+            <div className="flex flex-col gap-[var(--space-3)] sm:gap-[var(--space-4)] md:flex-row md:items-end md:justify-end">
+              <Skeleton
+                ariaHidden={false}
+                role="status"
+                aria-label="Loading sort control"
+                className="h-[var(--control-h-lg)] w-full md:w-[16rem]"
+                radius="md"
+              />
+            </div>
+          ) : isErrored ? (
+            <div className="space-y-[var(--space-3)]">
+              <div className="flex flex-col gap-[var(--space-3)] sm:gap-[var(--space-4)] md:flex-row md:items-end md:justify-end">
+                <div
+                  className="flex w-full flex-col gap-[var(--space-1)] text-left md:w-[16rem]"
+                  aria-labelledby={sortLabelId}
+                >
+                  <span
+                    id={sortLabelId}
+                    className="text-ui font-medium text-muted-foreground"
+                  >
+                    Sort
+                  </span>
+                  <Select
+                    variant="animated"
+                    label="Sort reviews"
+                    hideLabel
+                    value={sort}
+                    onChange={(v) => setSort(v as SortKey)}
+                    items={sortItems}
+                    className="w-full"
+                    size="lg"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+                <Button
+                  type="button"
+                  variant="default"
+                  size="md"
+                  className={cn("btn-glitch", "whitespace-nowrap")}
+                  onClick={onRetry ?? undefined}
+                  disabled={!onRetry}
+                >
+                  Retry sync
+                </Button>
+                <p className="text-ui text-danger" role="alert">
+                  {errorMessage ?? "We couldn’t load your reviews. Retry to continue."}
+                </p>
+              </div>
+            </div>
+          ) : hasReviews ? (
             <div className="flex flex-col gap-[var(--space-3)] sm:gap-[var(--space-4)] md:flex-row md:items-end md:justify-end">
               <div
                 className="flex w-full flex-col gap-[var(--space-1)] text-left md:w-[16rem]"
@@ -368,62 +412,23 @@ export function ReviewsPage({
                   items={sortItems}
                   className="w-full"
                   size="lg"
-                  disabled
                 />
               </div>
             </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-2)]">
-              <Button
-                type="button"
-                variant="default"
-                size="md"
-                className={cn("btn-glitch", "whitespace-nowrap")}
-                onClick={onRetry ?? undefined}
-                disabled={!onRetry}
+          ) : (
+            <div className="space-y-[var(--space-2)]">
+              <p
+                id={emptySearchDescriptionId}
+                className="text-ui text-muted-foreground"
               >
-                Retry sync
-              </Button>
-              <p className="text-ui text-danger" role="alert">
-                {errorMessage ?? "We couldn’t load your reviews. Retry to continue."}
+                Once you publish your first review, smart filters, tagging, and matchup search become available.
               </p>
             </div>
-          </div>
-        ) : hasReviews ? (
-          <div className="flex flex-col gap-[var(--space-3)] sm:gap-[var(--space-4)] md:flex-row md:items-end md:justify-end">
-            <div
-              className="flex w-full flex-col gap-[var(--space-1)] text-left md:w-[16rem]"
-              aria-labelledby={sortLabelId}
-            >
-              <span
-                id={sortLabelId}
-                className="text-ui font-medium text-muted-foreground"
-              >
-                Sort
-              </span>
-              <Select
-                variant="animated"
-                label="Sort reviews"
-                hideLabel
-                value={sort}
-                onChange={(v) => setSort(v as SortKey)}
-                items={sortItems}
-                className="w-full"
-                size="lg"
-              />
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-[var(--space-2)]">
-            <p
-              id={emptySearchDescriptionId}
-              className="text-ui text-muted-foreground"
-            >
-              Once you publish your first review, smart filters, tagging, and matchup search become available.
-            </p>
-          </div>
-        )}
+          )}
+        </div>
         <div
           className={cn(
+            "col-span-full",
             "grid grid-cols-1 items-start gap-[var(--space-4)] sm:gap-[var(--space-6)] lg:gap-[var(--space-8)] md:grid-cols-6 lg:grid-cols-12",
           )}
         >
