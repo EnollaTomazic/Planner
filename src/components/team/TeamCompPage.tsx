@@ -34,7 +34,8 @@ import { MyComps } from "./MyComps";
 import { usePersistentState } from "@/lib/db";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Button } from "@/components/ui/primitives/Button";
-import { Hero, HeroSearchBar, PageShell, Badge, TabBar } from "@/components/ui";
+import { Header, PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/Header";
+import { HeroSearchBar, PageShell, Badge, TabBar } from "@/components/ui";
 import type { BadgeProps, HeroSearchBarProps } from "@/components/ui";
 import type { ClearSpeed } from "./data";
 
@@ -55,6 +56,10 @@ type TabConfig = {
 const TAB_KEY = "team:page:activeTab.v1";
 const SUB_TAB_KEY = "team:cheatsheet:activeSubTab.v1";
 const QUERY_KEY = "team:cheatsheet:query.v1";
+const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
+  ...item,
+  active: item.key === "team",
+}));
 
 const decodeTab = (value: unknown): Tab | null => {
   if (value === "cheat" || value === "builder" || value === "clears") {
@@ -512,86 +517,59 @@ export function TeamCompPage() {
     setSubTab("comps");
   }, [setTab, setSubTab]);
 
+  const headerHeadingId = "teamcomp-header";
+  const headerTabs = React.useMemo(
+    () =>
+      TABS.map((item) => ({
+        key: item.key,
+        label: item.label,
+        hint: item.hint,
+        icon: item.icon,
+      })),
+    [TABS],
+  );
+
   return (
     <>
-      <PageShell
-        as="header"
-        grid
-        className="py-[var(--space-6)]"
-        contentClassName="gap-y-[var(--space-6)]"
-        aria-labelledby="teamcomp-header"
+      <Header<Tab>
+        id={headerHeadingId}
+        heading={<span id={headerHeadingId}>Team Compositions</span>}
+        subtitle="Explore archetypes, build your comp, and master jungle clears."
+        icon={<Users2 className="opacity-80" />}
+        navItems={navItems}
+        variant="neo"
+        underlineTone="brand"
+        showThemeToggle
+        tabs={{
+          items: headerTabs,
+          value: tab,
+          onChange: (next) => setTab(next as Tab),
+          ariaLabel: "Team comps mode",
+          idBase: tabBaseId,
+        }}
+        search={
+          heroSearchConfig ? (
+            <HeroSearchBar
+              {...heroSearchConfig}
+              className="min-w-[14rem] flex-1 basis-full sm:basis-[18rem]"
+            />
+          ) : undefined
+        }
+        actions={
+          <Button
+            variant="neo"
+            size="md"
+            className="whitespace-nowrap"
+            onClick={handleOpenMyComps}
+          >
+            <Users2 className="mr-[var(--space-2)] h-[var(--space-4)] w-[var(--space-4)]" />
+            <span>My Comps</span>
+          </Button>
+        }
+        topClassName="top-[var(--header-stack)]"
       >
-        <Hero<SubTab>
-          id="teamcomp-header"
-          icon={<Users2 className="opacity-80" />}
-          eyebrow="Comps"
-          title="Team Compositions"
-          subtitle="Explore archetypes, build your comp, and master jungle clears."
-          glitch="subtle"
-          noiseLevel="subtle"
-          className="col-span-full md:col-span-12"
-          sticky
-          topClassName="top-[var(--header-stack)]"
-        >
-          <div className="flex flex-col gap-[var(--space-4)]">
-            <div className="flex flex-wrap items-center gap-[var(--space-3)]">
-              <span id={`${tabBaseId}-tabs-label`} className="sr-only">
-                Team comps mode
-              </span>
-              <TabBar<Tab>
-                ariaLabelledBy={`${tabBaseId}-tabs-label`}
-                value={tab}
-                onValueChange={(next) => setTab(next as Tab)}
-                className="min-w-0 flex-1"
-                tablistClassName="w-full"
-                variant="neo"
-                align="start"
-                items={[
-                  {
-                    key: "cheat" as const,
-                    label: "Cheat Sheet",
-                    icon: <BookOpenText />,
-                    id: "cheat-tab",
-                    controls: "cheat-panel",
-                  },
-                  {
-                    key: "builder" as const,
-                    label: "Builder",
-                    icon: <Hammer />,
-                    id: "builder-tab",
-                    controls: "builder-panel",
-                  },
-                  {
-                    key: "clears" as const,
-                    label: "Jungle Clears",
-                    icon: <Timer />,
-                    id: "clears-tab",
-                    controls: "clears-panel",
-                  },
-                ]}
-                idBase={tabBaseId}
-              />
-              {heroSearchConfig ? (
-                <HeroSearchBar
-                  {...heroSearchConfig}
-                  className="min-w-[14rem] flex-1 basis-full sm:basis-[18rem]"
-                />
-              ) : null}
-              <Button
-                variant="neo"
-                size="md"
-                className="whitespace-nowrap"
-                onClick={handleOpenMyComps}
-              >
-                <Users2 className="mr-[var(--space-2)] h-[var(--space-4)] w-[var(--space-4)]" />
-                <span>My Comps</span>
-              </Button>
-            </div>
-
-            {heroContent}
-          </div>
-        </Hero>
-      </PageShell>
+        {heroContent}
+      </Header>
 
       <PageShell
         as="main"

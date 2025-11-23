@@ -24,15 +24,20 @@ import {
   Plus,
 } from "lucide-react";
 
-import { type HeaderTab } from "@/components/ui/layout/Header";
 import {
-  Hero,
+  Header,
+  PRIMARY_PAGE_NAV,
+  type HeaderNavItem,
+  type HeaderTab,
+} from "@/components/ui/layout/Header";
+import {
   Snackbar,
   PageShell,
   Modal,
   ProgressRing,
   Label,
   AIExplainTooltip,
+  HeroSearchBar,
 } from "@/components/ui";
 import { PlannerProvider, SmallAgnesNoxiImage } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
@@ -145,6 +150,11 @@ const getGoalsTabId = (key: Tab) => `${GOALS_TABS_ID_BASE}-${key}-tab`;
 const getGoalsPanelId = (key: Tab) => `${GOALS_TABS_ID_BASE}-${key}-panel`;
 const GOALS_TAB_STORAGE_KEY = "goals.tab.v2";
 const GOALS_TAB_SESSION_SCOPE_KEY = "goals.tab.session-scope.v1";
+
+const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
+  ...item,
+  active: item.key === "goals",
+}));
 
 function buildSessionScopedTabKey(sessionId: string) {
   return `${GOALS_TAB_STORAGE_KEY}::${sessionId}`;
@@ -601,9 +611,6 @@ function GoalsPageContent() {
   const heroAriaDescribedby =
     heroSubtitle != null ? heroSubtitleId : undefined;
 
-  const heroDividerTint =
-    tab === "reminders" ? (domain === "Life" ? "life" : "primary") : undefined;
-
   const reminderHeroSubTabs = React.useMemo(() => {
     if (tab !== "reminders") return undefined;
     return {
@@ -695,42 +702,44 @@ function GoalsPageContent() {
 
   return (
     <>
-      <PageShell as="header" grid className="py-[var(--space-6)]">
-        <Hero<Tab | Domain>
-          id={HERO_REGION_ID}
-          role="region"
-          aria-labelledby={heroHeadingId}
-          aria-describedby={heroAriaDescribedby}
-          icon={<Flag className="opacity-80" />}
-          eyebrow="Goals"
-          title={heroHeading}
-          subtitle={heroSubtitle}
-          sticky={false}
-          glitch={tab === "goals" ? "off" : "subtle"}
-          topClassName={GOALS_STICKY_TOP_CLASS}
-          dividerTint={heroDividerTint}
-          tabs={{
-            items: TABS,
-            value: tab,
-            onChange: handleTabChange,
-            ariaLabel: "Goals header mode",
-            idBase: GOALS_TABS_ID_BASE,
-          }}
-          subTabs={reminderHeroSubTabs}
-          searchBar={reminderHeroSearch}
-          actions={heroActions}
-          illustration={<SmallAgnesNoxiImage />}
-          illustrationAlt="Agnes and Noxi cheering on your goal progress"
-          className="col-span-full md:col-span-12"
-        >
-          <div className="space-y-[var(--space-3)]">
-            <span className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
-              {heroEyebrow}
-            </span>
-            {summary}
-          </div>
-        </Hero>
-      </PageShell>
+      <Header<Tab | Domain>
+        id={HERO_REGION_ID}
+        role="region"
+        aria-labelledby={heroHeadingId}
+        aria-describedby={heroAriaDescribedby}
+        heading={heroHeading}
+        subtitle={heroSubtitle}
+        icon={<Flag className="opacity-80" />}
+        navItems={navItems}
+        variant="neo"
+        underlineTone="brand"
+        showThemeToggle
+        tabs={{
+          items: TABS,
+          value: tab,
+          onChange: handleTabChange,
+          ariaLabel: "Goals header mode",
+          idBase: GOALS_TABS_ID_BASE,
+        }}
+        subTabs={reminderHeroSubTabs}
+        search={
+          reminderHeroSearch ? (
+            <HeroSearchBar
+              {...reminderHeroSearch}
+              className="min-w-[16rem] flex-1"
+            />
+          ) : undefined
+        }
+        actions={heroActions}
+        topClassName={GOALS_STICKY_TOP_CLASS}
+      >
+        <div className="space-y-[var(--space-3)]">
+          <span className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
+            {heroEyebrow}
+          </span>
+          {summary}
+        </div>
+      </Header>
 
       <PageShell
         as="main"
