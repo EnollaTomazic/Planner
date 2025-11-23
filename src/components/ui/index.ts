@@ -40,6 +40,8 @@ export { useFloatingStyleClass } from "./hooks/useFloatingStyleClass";
 export { useScopedCssVars } from "./hooks/useScopedCssVars";
 export { Label } from "./Label";
 export type { LabelProps } from "./Label";
+export { BasePage } from "./layout/BasePage";
+export type { BasePageProps } from "./layout/BasePage";
 export { DecorLayer } from "./layout/DecorLayer";
 export type { DecorLayerProps, DecorLayerVariant } from "./layout/DecorLayer";
 export { Header, HeaderTabs, PRIMARY_PAGE_NAV } from "./layout/Header";
