@@ -1,13 +1,15 @@
-import * as React from "react";
-import * as Dialog from "@radix-ui/react-dialog";
+'use client'
+
+import * as React from 'react'
+import * as Dialog from '@radix-ui/react-dialog'
 
 export interface ModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-  actions: React.ReactNode;
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  title: string
+  description?: string
+  children: React.ReactNode
+  actions: React.ReactNode
 }
 
 export function Modal({ open, onOpenChange, title, description, children, actions }: ModalProps) {
@@ -27,5 +29,5 @@ export function Modal({ open, onOpenChange, title, description, children, action
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  );
+  )
 }
