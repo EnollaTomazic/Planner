@@ -245,6 +245,7 @@ export function PromptsPage() {
           onChange: setActiveTab,
           ariaLabel: "Prompt workspaces",
           idBase: PROMPTS_TAB_ID_BASE,
+          useSegmentedControl: true,
         }}
         actions={
           <div className="flex flex-wrap items-center gap-[var(--space-2)]">

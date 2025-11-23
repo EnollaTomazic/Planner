@@ -20,6 +20,7 @@ import {
   type HeaderTabItem,
 } from "@/components/tabs/HeaderTabs";
 import { type TabBarProps, TabBar } from "./TabBar";
+import { SegmentedControl } from "@/components/ui/primitives/SegmentedControl";
 import { ThemeToggle } from "@/components/ui/theme/ThemeToggle";
 import {
   resolveUIVariant,
@@ -93,6 +94,7 @@ function createTabsControl<Key extends string = string>(
     renderItem: tabRenderItem,
     idBase: tabIdBase,
     linkPanels: tabLinkPanels,
+    useSegmentedControl: useSegmentedControlTabs = false,
     ...tabDomProps
   } = tabs;
 
@@ -141,6 +143,30 @@ function createTabsControl<Key extends string = string>(
     );
   }
 
+  if (useSegmentedControlTabs) {
+    return (
+      <SegmentedControl
+        options={sanitizedItems.map((item) => ({
+          value: item.key,
+          label: item.label,
+          icon: item.icon,
+          className: item.className,
+          badge: item.badge,
+        }))}
+        value={tabValue}
+        onChange={tabOnChange}
+        ariaLabel={sanitizedTabAriaLabel ?? defaultLabel}
+        ariaLabelledBy={sanitizedTabAriaLabelledBy}
+        idBase={tabIdBase}
+        linkPanels={tabLinkPanels}
+        align={tabAlign}
+        size={tabSize}
+        className={mergedTabClassName}
+        {...tabDomProps}
+      />
+    );
+  }
+
   return (
     <HeaderTabsControl
       items={sanitizedItems}
@@ -168,6 +194,7 @@ export type HeaderTabsProps<Key extends string = string> = Omit<
   items: HeaderTab<Key>[];
   value: Key;
   onChange: (key: Key) => void;
+  useSegmentedControl?: boolean;
 };
 
 export interface HeaderProps<Key extends string = string>
