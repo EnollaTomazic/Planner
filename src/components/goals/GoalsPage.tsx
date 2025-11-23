@@ -15,8 +15,6 @@ import { useSearchParams } from "next/navigation";
 import {
   Bomb,
   Flag,
-  ListChecks,
-  Timer as TimerIcon,
   Search,
   Sparkles,
   Gamepad2,
@@ -30,6 +28,7 @@ import {
   type HeaderNavItem,
   type HeaderTab,
 } from "@/components/ui/layout/Header";
+import { TabBar, type TabItem } from "@/components/ui/layout/TabBar";
 import {
   Snackbar,
   PageShell,
@@ -54,7 +53,7 @@ import { Field } from "@/components/ui/primitives/Field";
 import { type TextareaProps } from "@/components/ui/primitives/Textarea";
 import { useFieldIds } from "@/lib/useFieldIds";
 import { cn } from "@/lib/utils";
-import { FilterKey, SegmentFilterKey, GoalsTabs } from "./GoalsTabs";
+import { GoalsTabs, type GoalsTabKey } from "./GoalsTabs";
 import {
   type EntityFormSubmitResult,
   type EntityFormValues,
@@ -73,7 +72,11 @@ import { TimerTab } from "./TimerTab";
 import { useReminders, type Domain } from "./reminders/useReminders";
 
 /* ---------- Types & constants ---------- */
-type Tab = "goals" | "reminders" | "timer";
+type Tab = GoalsTabKey;
+
+type FilterKey = "All" | "Active" | "Done" | "New goal";
+
+type SegmentFilterKey = Exclude<FilterKey, "New goal">;
 
 type GoalsInsetFormHandle = {
   focus: (options?: FocusOptions) => void;
@@ -95,25 +98,11 @@ const isSegmentFilterKey = (value: unknown): value is SegmentFilterKey =>
 
 const NEW_GOAL_FILTER: FilterKey = "New goal";
 
-const TABS: HeaderTab<Tab>[] = [
-  {
-    key: "goals",
-    label: "Goals",
-    icon: <Flag />,
-    hint: "Cap 3 active",
-  },
-  {
-    key: "reminders",
-    label: "Reminders",
-    icon: <ListChecks />,
-    hint: "Quick cues",
-  },
-  {
-    key: "timer",
-    label: "Timer",
-    icon: <TimerIcon />,
-    hint: "Focus sprints",
-  },
+const FILTER_ITEMS: TabItem<FilterKey>[] = [
+  { key: "All", label: "All" },
+  { key: "Active", label: "Active" },
+  { key: "Done", label: "Done" },
+  { key: "New goal", label: "New goal" },
 ];
 
 const DOMAIN_ITEMS: Array<{
@@ -355,7 +344,7 @@ function GoalsPageContent() {
   }, [filterParam, filter, setFilter, startGoalCreation]);
 
   const handleTabChange = React.useCallback(
-    (value: string) => {
+    (value: GoalsTabKey) => {
       if (isTabValue(value)) {
         setTab(value);
         return;
@@ -714,13 +703,6 @@ function GoalsPageContent() {
         variant="neo"
         underlineTone="brand"
         showThemeToggle
-        tabs={{
-          items: TABS,
-          value: tab,
-          onChange: handleTabChange,
-          ariaLabel: "Goals header mode",
-          idBase: GOALS_TABS_ID_BASE,
-        }}
         subTabs={reminderHeroSubTabs}
         search={
           reminderHeroSearch ? (
@@ -740,6 +722,13 @@ function GoalsPageContent() {
           {summary}
         </div>
       </Header>
+
+      <GoalsTabs
+        value={tab}
+        onChange={handleTabChange}
+        idBase={GOALS_TABS_ID_BASE}
+        className="mx-auto w-full max-w-xl"
+      />
 
       <PageShell
         as="main"
@@ -780,7 +769,7 @@ function GoalsPageContent() {
                           <Plus aria-hidden="true" className="size-[var(--space-4)]" />
                           <span className="font-semibold tracking-[0.01em]">New goal</span>
                         </Button>
-                        <GoalsTabs
+                        <GoalFilterTabs
                           value={filter}
                           onChange={setFilter}
                           onNewGoal={startGoalCreation}
@@ -1187,3 +1176,47 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
 );
 
 GoalsInsetForm.displayName = "GoalsInsetForm";
+
+function GoalFilterTabs({
+  value,
+  onChange,
+  onNewGoal,
+  newGoalDisabled,
+}: {
+  value: SegmentFilterKey;
+  onChange: (next: SegmentFilterKey) => void;
+  onNewGoal: () => void;
+  newGoalDisabled: boolean;
+}) {
+  const items = React.useMemo(
+    () =>
+      FILTER_ITEMS.map((item) =>
+        item.key === "New goal" ? { ...item, disabled: newGoalDisabled } : item,
+      ),
+    [newGoalDisabled],
+  );
+
+  const handleChange = React.useCallback(
+    (next: FilterKey) => {
+      if (next === "New goal") {
+        if (!newGoalDisabled) {
+          onNewGoal();
+        }
+        return;
+      }
+      onChange(next);
+    },
+    [newGoalDisabled, onChange, onNewGoal],
+  );
+
+  return (
+    <TabBar<FilterKey>
+      items={items}
+      value={value}
+      onValueChange={handleChange}
+      size="sm"
+      ariaLabel="Filter goals"
+      linkPanels={false}
+    />
+  );
+}
