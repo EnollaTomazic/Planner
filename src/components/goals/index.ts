@@ -9,7 +9,6 @@ export { GoalsPage as GoalsPage } from "./GoalsPage";
 export { GoalsProgress as GoalsProgress } from "./GoalsProgress";
 export { GoalList as GoalList } from "./GoalList";
 export { GoalsTabs as GoalsTabs } from "./GoalsTabs";
-export type { FilterKey } from "./GoalsTabs";
 export { Reminders as Reminders } from "./Reminders";
 export { RemindersTab as RemindersTab } from "./RemindersTab";
 export { TimerTab as TimerTab } from "./TimerTab";
