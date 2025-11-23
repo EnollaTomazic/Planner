@@ -144,26 +144,38 @@ function createTabsControl<Key extends string = string>(
   }
 
   if (useSegmentedControlTabs) {
+    const containerClassName = cx("relative w-full", defaultClassName);
+
     return (
-      <SegmentedControl
-        options={sanitizedItems.map((item) => ({
-          value: item.key,
-          label: item.label,
-          icon: item.icon,
-          className: item.className,
-          badge: item.badge,
-        }))}
-        value={tabValue}
-        onChange={tabOnChange}
-        ariaLabel={sanitizedTabAriaLabel ?? defaultLabel}
-        ariaLabelledBy={sanitizedTabAriaLabelledBy}
-        idBase={tabIdBase}
-        linkPanels={tabLinkPanels}
-        align={tabAlign}
-        size={tabSize}
-        className={mergedTabClassName}
-        {...tabDomProps}
-      />
+      <div className={containerClassName}>
+        <div className="flex items-center gap-[var(--space-3)]">
+          <SegmentedControl
+            options={sanitizedItems.map((item) => ({
+              value: item.key,
+              label: item.label,
+              icon: item.icon,
+              className: item.className,
+              badge: item.badge,
+            }))}
+            value={tabValue}
+            onChange={tabOnChange}
+            ariaLabel={sanitizedTabAriaLabel ?? defaultLabel}
+            ariaLabelledBy={sanitizedTabAriaLabelledBy}
+            idBase={tabIdBase}
+            linkPanels={tabLinkPanels}
+            align={tabAlign}
+            size={tabSize}
+            className={mergedTabClassName}
+            {...tabDomProps}
+          />
+
+          {tabRight ? (
+            <div className="ml-auto flex items-center gap-[var(--space-2)]">
+              {tabRight}
+            </div>
+          ) : null}
+        </div>
+      </div>
     );
   }
 
