@@ -83,6 +83,13 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
       </span>
     ) : null;
 
+    const glitchSprite = (
+      <span
+        aria-hidden
+        className="glitch-sprite rounded-[inherit]"
+      />
+    );
+
     const baseProps = {
       className: baseClassName,
       "data-depth": depth,
@@ -104,6 +111,7 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
       const child = React.Children.only(children) as React.ReactElement<{ children?: React.ReactNode }>;
       const content = (
         <>
+          {glitchSprite}
           {glitchOverlay}
           {child.props.children}
           {overlay}
@@ -119,6 +127,7 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
 
     return (
       <div ref={ref} {...baseProps}>
+        {glitchSprite}
         {glitchOverlay}
         {children}
         {overlay}

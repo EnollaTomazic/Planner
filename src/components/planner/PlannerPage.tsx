@@ -11,8 +11,8 @@ import "./style.css";
  */
 
 import * as React from "react";
-import Image from "next/image";
-import { Hero, PageShell } from "@/components/ui";
+import { Header, PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/Header";
+import { PageShell } from "@/components/ui";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
 import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
@@ -81,6 +81,11 @@ const VIEW_FALLBACK_CONTENT: Record<
     description: "Collecting tasks and reminders for the list…",
   },
 };
+
+const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
+  ...item,
+  active: item.key === "planner",
+}));
 
 function PlannerViewFallback({ mode }: PlannerViewFallbackProps) {
   const copy = VIEW_FALLBACK_CONTENT[mode];
@@ -173,8 +178,45 @@ function Inner() {
     [setPlanningEnergy],
   );
 
+  const headerHeadingId = "planner-header";
+
   return (
     <>
+      <Header
+        heading={<span id={headerHeadingId}>Planner</span>}
+        subtitle="Plan your week"
+        icon={<CalendarDays className="opacity-80" />}
+        navItems={navItems}
+        variant="neo"
+        underlineTone="brand"
+        showThemeToggle
+        tabs={{
+          items: VIEW_MODE_TABS,
+          value: viewMode,
+          onChange: handleViewModeChange,
+          ariaLabel: "Planner view",
+          idBase: VIEW_TAB_ID_BASE,
+          right: (
+            <div className="flex flex-col gap-[var(--space-2)] md:flex-row md:items-center md:gap-[var(--space-3)]">
+              <span className="sr-only">Week controls</span>
+              <PlannerIslandBoundary
+                name="planner:week-picker"
+                title="Week controls unavailable"
+                description="We hit an error loading the planner controls. Retry to restore the week picker."
+                retryLabel="Retry controls"
+              >
+                <WeekPicker />
+              </PlannerIslandBoundary>
+              <span
+                aria-live="polite"
+                className="text-label text-muted-foreground md:text-right"
+              >
+                {weekAnnouncement}
+              </span>
+            </div>
+          ),
+        }}
+      />
       <PlannerHero
         planningEnergy={planningEnergy}
         onPlanningEnergyChange={handlePlanningEnergyChange}
@@ -182,67 +224,12 @@ function Inner() {
         autopilotSummary={autopilotSummary}
         nudgesStat={nudgesStat}
       />
-      <PageShell
-        as="header"
-        grid
-        className="py-[var(--space-7)]"
-      >
-        <Hero
-          id="planner-header"
-          tabIndex={-1}
-          eyebrow="Planner"
-          title="Planner for Today"
-          subtitle="Plan your week"
-          icon={<CalendarDays className="opacity-80" />}
-          sticky={false}
-          glitch="subtle"
-          className="col-span-full md:col-span-12"
-          tabs={{
-            items: VIEW_MODE_TABS,
-            value: viewMode,
-            onChange: handleViewModeChange,
-            ariaLabel: "View",
-            size: "lg",
-            align: "start",
-            idBase: VIEW_TAB_ID_BASE,
-            right: (
-              <div className="flex flex-col gap-[var(--space-2)] md:flex-row md:items-center md:gap-[var(--space-3)]">
-                <span className="sr-only">Week controls</span>
-                <PlannerIslandBoundary
-                  name="planner:week-picker"
-                  title="Week controls unavailable"
-                  description="We hit an error loading the planner controls. Retry to restore the week picker."
-                  retryLabel="Retry controls"
-                >
-                  <WeekPicker />
-                </PlannerIslandBoundary>
-                <span
-                  aria-live="polite"
-                  className="text-label text-muted-foreground md:text-right"
-                >
-                  {weekAnnouncement}
-                </span>
-              </div>
-            ),
-          }}
-          illustration={
-            <Image
-              src="/images/noxi.svg"
-              alt="Noxi guiding weekly planning"
-              fill
-              sizes="(min-width: 1280px) 40vw, (min-width: 768px) 60vw, 100vw"
-              priority={false}
-              className="object-contain object-right md:object-center"
-            />
-          }
-        />
-      </PageShell>
 
       <PageShell
         as="main"
         id="page-main"
         tabIndex={-1}
-        aria-labelledby="planner-header"
+        aria-labelledby={headerHeadingId}
         className="py-[var(--space-6)]"
       >
         {VIEW_MODE_TABS.map((option) => {

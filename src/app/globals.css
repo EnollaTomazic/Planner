@@ -3017,6 +3017,107 @@ a:active .lucide {
   .glitch-text {
     animation: glitch-text 2.8s steps(2, end) infinite;
   }
+
+  .glitch-sprite {
+    position: absolute;
+    inset: -6% -2% -10% -2%;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+      radial-gradient(120% 90% at 24% 12%, hsl(var(--accent-1) / 0.18), transparent 62%),
+      radial-gradient(110% 90% at 76% 18%, hsl(var(--ring) / 0.16), transparent 62%),
+      linear-gradient(90deg, hsl(var(--accent-2) / 0.16), transparent 35%, hsl(var(--accent-3) / 0.18)),
+      var(--card-overlay-scanlines);
+    mix-blend-mode: screen;
+    opacity: 0.14;
+    transform: translateX(0);
+    animation: glitch-sprite-shift 3.6s steps(3, end) infinite;
+    z-index: 0;
+  }
+
+  .pulse-neon {
+    box-shadow:
+      0 0 calc(var(--space-3)) hsl(var(--accent-1) / 0.35),
+      0 0 calc(var(--space-2)) hsl(var(--ring) / 0.35);
+    border-color: color-mix(
+      in oklab,
+      hsl(var(--ring)) 78%,
+      hsl(var(--accent-1)) 28%
+    );
+    animation: pulse-neon 2.4s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes glitch-sprite-shift {
+  0%,
+  18% {
+    opacity: 0.1;
+    transform: translateX(0);
+  }
+  22% {
+    opacity: 0.34;
+    transform: translateX(-4px);
+  }
+  30% {
+    opacity: 0.16;
+    transform: translateX(3px);
+  }
+  60% {
+    opacity: 0.1;
+    transform: translateX(0);
+  }
+  74% {
+    opacity: 0.24;
+    transform: translateX(2px);
+  }
+  100% {
+    opacity: 0.1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-neon {
+  0% {
+    box-shadow:
+      0 0 calc(var(--space-3)) hsl(var(--accent-1) / 0.28),
+      0 0 calc(var(--space-2)) hsl(var(--ring) / 0.32);
+    border-color: color-mix(
+      in oklab,
+      hsl(var(--ring)) 82%,
+      hsl(var(--accent-1)) 24%
+    );
+  }
+  50% {
+    box-shadow:
+      0 0 calc(var(--space-4)) hsl(var(--accent-2) / 0.45),
+      0 0 calc(var(--space-2)) hsl(var(--ring) / 0.45);
+    border-color: color-mix(
+      in oklab,
+      hsl(var(--ring)) 70%,
+      hsl(var(--accent-2)) 32%
+    );
+  }
+  100% {
+    box-shadow:
+      0 0 calc(var(--space-3)) hsl(var(--accent-1) / 0.32),
+      0 0 calc(var(--space-2)) hsl(var(--ring) / 0.4);
+    border-color: color-mix(
+      in oklab,
+      hsl(var(--ring)) 76%,
+      hsl(var(--accent-1)) 32%
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch-sprite {
+    animation-duration: 0s;
+    opacity: 0.12;
+  }
+
+  .pulse-neon {
+    animation-duration: 0s;
+  }
 }
 
 @layer components {

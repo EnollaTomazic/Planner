@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { NeomorphicFrameStyles } from "./NeomorphicFrameStyles";
 import { HeroGlitchStyles } from "./hero/HeroGlitchStyles";
 import { HeroImage, type HeroImageProps } from "./hero/HeroImage";
+import { HeroScene, type HeroSceneKey } from "./hero/HeroScene";
 import { HeroSearchBar, type HeroSearchBarProps } from "./hero/HeroSearchBar";
 import { useHeroStyles } from "./hero/useHeroStyles";
 import styles from "./hero/Hero.module.css";
@@ -93,6 +94,8 @@ export interface HeroProps<Key extends string = string>
   illustrationState?: HeroImageProps["state"];
   /** Custom alt text for the hero illustration background. */
   illustrationAlt?: string;
+  /** Prebuilt neon character vignette. */
+  scene?: HeroSceneKey;
 }
 
 function mapTabs<Key extends string>(
@@ -229,6 +232,7 @@ function Hero<Key extends string = string>({
   illustration,
   illustrationState,
   illustrationAlt,
+  scene,
   className,
   as,
   padding = "default",
@@ -333,6 +337,8 @@ function Hero<Key extends string = string>({
             <div className="relative h-full w-full">{illustration}</div>
           </div>
         </div>
+      ) : scene ? (
+        <HeroScene scene={scene} alt={heroIllustrationAlt} heading={headingStr} />
       ) : (
         <HeroImage
           state={illustrationState}
@@ -351,6 +357,18 @@ function Hero<Key extends string = string>({
       {frame || isRaisedBar ? <NeomorphicFrameStyles /> : null}
 
       <div className={classes.shell} style={noiseStyle}>
+        <span
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute inset-0 rounded-[inherit]",
+            styles.scanlineOverlay,
+          )}
+        />
+        <span
+          aria-hidden
+          className={cn("pointer-events-none absolute inset-0", styles.heroBloom)}
+        />
+        <span aria-hidden className="glitch-sprite" />
         {illustrationNode}
         <div className={cn(classes.bar, barClassName)}>
           <div className={classes.labelCluster}>
