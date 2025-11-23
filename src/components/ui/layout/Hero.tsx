@@ -364,7 +364,7 @@ function Hero<Key extends string = string>({
           aria-hidden
           className={cn("pointer-events-none absolute inset-0", styles.heroBloom)}
         />
-        <span aria-hidden className="glitch-sprite" />
+        <div aria-hidden className="glitch-sprite" />
         {illustrationNode}
         <div className={cn(classes.bar, barClassName)}>
           <div className={classes.labelCluster}>

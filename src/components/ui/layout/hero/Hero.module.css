@@ -45,7 +45,7 @@
 }
 
 .scanlineOverlay {
-  background: var(--card-overlay-scanlines);
+  background: var(--scanlines, var(--card-overlay-scanlines));
   mix-blend-mode: soft-light;
   opacity: calc(0.85 * var(--texture-scanline-strength, 1));
   filter: saturate(120%);
