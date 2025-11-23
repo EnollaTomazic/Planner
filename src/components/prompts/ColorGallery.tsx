@@ -1,15 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { TabBar, type TabItem } from "@/components/ui";
+import { SegmentedControl, type SegmentedOption } from "@/components/ui";
 import { useScopedCssVars } from "@/components/ui/hooks/useScopedCssVars";
 import { COLOR_PALETTES, type ColorPalette } from "@/lib/theme";
 import styles from "./ColorGallery.module.css";
 
-const paletteTabs: TabItem<ColorPalette>[] = [
-  { key: "aurora", label: "Aurora" },
-  { key: "neutrals", label: "Neutrals" },
-  { key: "accents", label: "Accents" },
+const PALETTE_TAB_ID_BASE = "color-gallery";
+
+const paletteTabs: SegmentedOption<ColorPalette>[] = [
+  { value: "aurora", label: "Aurora" },
+  { value: "neutrals", label: "Neutrals" },
+  { value: "accents", label: "Accents" },
 ];
 
 const statusSwatches: ReadonlyArray<{
@@ -45,26 +47,27 @@ export function ColorGallery() {
 
   return (
     <div className="flex flex-col gap-[var(--space-8)]">
-      <TabBar
-        items={paletteTabs}
+      <SegmentedControl
+        options={paletteTabs}
         value={palette}
-        onValueChange={setPalette}
+        onChange={setPalette}
         ariaLabel="Color palettes"
+        idBase={PALETTE_TAB_ID_BASE}
       />
       {paletteTabs.map((p) => (
         <div
-          key={p.key}
+          key={p.value}
           role="tabpanel"
-          id={`${p.key}-panel`}
-          aria-labelledby={`${p.key}-tab`}
-          hidden={palette !== p.key}
-          tabIndex={palette === p.key ? 0 : -1}
+          id={`${PALETTE_TAB_ID_BASE}-${p.value}-panel`}
+          aria-labelledby={`${PALETTE_TAB_ID_BASE}-${p.value}-tab`}
+          hidden={palette !== p.value}
+          tabIndex={palette === p.value ? 0 : -1}
           ref={(el) => {
-            panelRefs.current[p.key] = el;
+            panelRefs.current[p.value] = el;
           }}
           className="grid gap-[var(--space-8)] sm:grid-cols-2 md:grid-cols-3"
         >
-          {p.key === "aurora" && (
+          {p.value === "aurora" && (
             <div className="flex flex-col items-center gap-[var(--space-2)] sm:col-span-2 md:col-span-3">
               <span className="text-ui font-medium">Aurora Palette</span>
               <div className="flex gap-[var(--space-2)]">
@@ -79,7 +82,7 @@ export function ColorGallery() {
               </p>
             </div>
           )}
-          {COLOR_PALETTES[p.key].map((c) => (
+          {COLOR_PALETTES[p.value].map((c) => (
             <div key={c} className="flex flex-col items-center gap-[var(--space-2)]">
               <span className="text-label uppercase tracking-wide text-accent-3">
                 {c}
@@ -87,7 +90,7 @@ export function ColorGallery() {
               <PaletteSwatch token={c} />
             </div>
           ))}
-          {p.key === "accents" && (
+          {p.value === "accents" && (
             <div className="col-span-full flex flex-col gap-[var(--space-3)]">
               <span className="text-ui font-medium text-muted-foreground">
                 Status fills rely on semantic foreground tokens:

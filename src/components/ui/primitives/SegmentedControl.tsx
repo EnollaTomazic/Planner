@@ -11,9 +11,12 @@ import {
   type GlitchSegmentedGroupProps,
 } from './GlitchSegmentedGroup';
 
-export type SegmentedControlOption<Value extends string> = {
+export interface SegmentedOption<Value> {
   value: Value;
   label: React.ReactNode;
+}
+
+export type SegmentedControlOption<Value extends string> = SegmentedOption<Value> & {
   icon?: React.ReactNode;
   badge?: React.ReactNode;
   disabled?: boolean;
@@ -24,10 +27,11 @@ export type SegmentedControlOption<Value extends string> = {
 };
 
 export interface SegmentedControlProps<Value extends string = string>
-  extends Omit<GlitchSegmentedGroupProps, 'children'> {
+  extends Omit<GlitchSegmentedGroupProps, 'children' | 'onChange'> {
   options: ReadonlyArray<SegmentedControlOption<Value>>;
   value?: Value;
   defaultValue?: Value;
+  onChange?: (value: Value) => void;
   onValueChange?: (value: Value) => void;
   idBase?: string;
   ariaLabel?: string;
@@ -45,6 +49,7 @@ export function SegmentedControl<Value extends string = string>({
   options,
   value,
   defaultValue,
+  onChange,
   onValueChange,
   size = 'md',
   align = 'start',
@@ -66,7 +71,7 @@ export function SegmentedControl<Value extends string = string>({
     })),
     value,
     defaultValue,
-    onValueChange,
+    onValueChange: onValueChange ?? onChange,
   });
 
   const handleKeyDown = React.useCallback(

@@ -12,6 +12,7 @@ export type HeaderTabItem<Key extends string = string> = {
   key: Key;
   label: React.ReactNode;
   icon?: React.ReactNode;
+  badge?: React.ReactNode;
   disabled?: boolean;
   id?: string;
   controls?: string;

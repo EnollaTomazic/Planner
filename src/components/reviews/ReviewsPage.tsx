@@ -21,6 +21,7 @@ import {
   CardHeader,
   CardTitle,
   Hero,
+  Modal,
   PageShell,
   Select,
   TabBar,
@@ -65,6 +66,7 @@ export function ReviewsPage({
   const [sort, setSort] = React.useState<SortKey>("newest");
   const [detailMode, setDetailMode] = React.useState<DetailMode>("summary");
   const [intentApplied, setIntentApplied] = React.useState(false);
+  const [deleteTargetId, setDeleteTargetId] = React.useState<string | null>(null);
 
   const isLoading = (loading ?? (typeof reviews === "undefined")) === true;
   const errorMessage = React.useMemo(() => {
@@ -126,6 +128,29 @@ export function ReviewsPage({
   const listReviews = allowInteractions ? filtered : [];
   const filteredCount = allowInteractions ? filtered.length : 0;
   const hasReviews = allowInteractions && totalCount > 0;
+  const deleteTarget = React.useMemo(
+    () => base.find((review) => review.id === deleteTargetId) ?? null,
+    [base, deleteTargetId],
+  );
+
+  const handleRequestDelete = React.useCallback(
+    (id: string) => {
+      if (!onDelete) return;
+      setDeleteTargetId(id);
+    },
+    [onDelete],
+  );
+
+  const handleConfirmDelete = React.useCallback(() => {
+    if (deleteTargetId && onDelete) {
+      onDelete(deleteTargetId);
+    }
+    setDeleteTargetId(null);
+  }, [deleteTargetId, onDelete]);
+
+  const handleDismissDelete = React.useCallback(() => {
+    setDeleteTargetId(null);
+  }, []);
 
   const active = React.useMemo(
     () => {
@@ -148,6 +173,7 @@ export function ReviewsPage({
     ],
     [],
   );
+  const deleteTitle = deleteTarget?.title?.trim() || "this review";
 
   const shouldShowEmptySearchHelper = allowInteractions && totalCount === 0;
   const [isSearchTooltipOpen, setIsSearchTooltipOpen] = React.useState(false);
@@ -451,7 +477,9 @@ export function ReviewsPage({
                     : undefined
                 }
                 onRename={allowInteractions ? onRename : undefined}
-                onDelete={allowInteractions ? onDelete : undefined}
+                onDelete={
+                  allowInteractions && onDelete ? handleRequestDelete : undefined
+                }
                 className="h-auto overflow-auto p-[var(--space-2)] md:h-[var(--content-viewport-height)]"
                 header={
                   allowInteractions && filteredCount > 0
@@ -653,7 +681,9 @@ export function ReviewsPage({
                         }
                         onDone={() => setDetailMode("summary")}
                         onDelete={
-                          onDelete ? () => onDelete(active.id) : undefined
+                          onDelete
+                            ? () => handleRequestDelete(active.id)
+                            : undefined
                         }
                       />
                     </ReviewPanel>
@@ -664,6 +694,37 @@ export function ReviewsPage({
           </div>
         </div>
       </PageShell>
+      <Modal
+        open={Boolean(deleteTargetId)}
+        onOpenChange={(open) => {
+          if (!open) {
+            handleDismissDelete();
+          }
+        }}
+        title="Delete review?"
+        description={`This permanently removes “${deleteTitle}” and its notes.`}
+        actions={(
+          <>
+            <Button
+              type="button"
+              size="sm"
+              variant="default"
+              tone="danger"
+              onClick={handleConfirmDelete}
+              disabled={!deleteTarget}
+            >
+              Delete review
+            </Button>
+            <Button type="button" variant="quiet" size="sm" onClick={handleDismissDelete}>
+              Cancel
+            </Button>
+          </>
+        )}
+      >
+        <p className="text-ui text-muted-foreground">
+          This action can’t be undone. Export or duplicate any notes you need before deleting.
+        </p>
+      </Modal>
     </>
   );
 }

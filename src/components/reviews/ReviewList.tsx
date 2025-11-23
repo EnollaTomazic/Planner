@@ -406,8 +406,7 @@ export function ReviewList({
       {headerNode}
       <GenericList
         items={visibleReviews}
-        getKey={(review) => review.id}
-        listClassName="flex flex-col gap-[var(--space-3)]"
+        className="[&>ul]:flex [&>ul]:flex-col [&>ul]:gap-[var(--space-3)] [&>ul]:space-y-0 [&>ul>li]:list-none"
         renderItem={(review) => (
           <ReviewListItem
             review={review}
