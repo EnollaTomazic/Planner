@@ -1487,20 +1487,17 @@ function ModalDemo() {
       <Button size="sm" onClick={() => setOpen(true)}>
         Open
       </Button>
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <Card>
-          <CardHeader>
-            <CardTitle>Modal</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-ui">Content</p>
-          </CardContent>
-          <CardFooter>
-            <Button size="sm" onClick={() => setOpen(false)}>
-              Close
-            </Button>
-          </CardFooter>
-        </Card>
+      <Modal
+        open={open}
+        onOpenChange={setOpen}
+        title="Modal"
+        actions={(
+          <Button size="sm" onClick={() => setOpen(false)}>
+            Close
+          </Button>
+        )}
+      >
+        <p className="text-ui">Content</p>
       </Modal>
     </>
   );
@@ -1531,19 +1528,15 @@ function ModalOpeningState() {
   return (
     <Modal
       open
-      onClose={() => {}}
-      className="shadow-[var(--depth-shadow-soft)]"
+      onOpenChange={() => {}}
+      title="Confirm selection"
+      description="Surface a loader while the dialog hydrates."
+      actions={<Button size="sm">Close</Button>}
     >
-      <CardHeader>
-        <CardTitle>Confirm selection</CardTitle>
-        <CardDescription>
-          Surface a loader while the dialog hydrates.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
+      <div className="flex items-center gap-[var(--space-3)] rounded-card border border-border/40 bg-surface-2 p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
         <Spinner size="md" />
         <span className="text-ui text-muted-foreground">Syncing choices...</span>
-      </CardContent>
+      </div>
     </Modal>
   );
 }
@@ -1558,32 +1551,29 @@ function ModalFocusTrapState() {
   return (
     <Modal
       open
-      onClose={() => {}}
-      className="shadow-[var(--depth-shadow-outer-strong)]"
+      onOpenChange={() => {}}
+      title="Keyboard locked in"
+      description="Focus moves to the primary action while the trap is active."
+      actions={(
+        <>
+          <Button
+            ref={confirmRef}
+            size="sm"
+            className="focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]"
+          >
+            Confirm
+          </Button>
+          <Button variant="quiet" size="sm" className="order-first">
+            Back
+          </Button>
+        </>
+      )}
     >
-      <CardHeader>
-        <CardTitle>Keyboard locked in</CardTitle>
-        <CardDescription>
-          Focus moves to the primary action while the trap is active.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-[var(--space-2)]">
+      <div className="space-y-[var(--space-2)]">
         <p className="text-ui text-muted-foreground">
           Tab keeps focus within the modal until it closes.
         </p>
-      </CardContent>
-      <CardFooter className="flex justify-end gap-[var(--space-2)]">
-        <Button
-          ref={confirmRef}
-          size="sm"
-          className="focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]"
-        >
-          Confirm
-        </Button>
-        <Button variant="quiet" size="sm" className="order-first">
-          Back
-        </Button>
-      </CardFooter>
+      </div>
     </Modal>
   );
 }
@@ -1594,16 +1584,25 @@ function ModalConfirmState() {
   return (
     <Modal
       open
-      onClose={() => {}}
-      className="shadow-[var(--depth-shadow-outer)]"
+      onOpenChange={() => {}}
+      title="Delete board"
+      description="Keep destructive confirmations disabled until acknowledged."
+      actions={(
+        <>
+          <Button
+            size="sm"
+            disabled={!acknowledged}
+            className="focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]"
+          >
+            Delete
+          </Button>
+          <Button variant="quiet" size="sm" className="order-first">
+            Cancel
+          </Button>
+        </>
+      )}
     >
-      <CardHeader>
-        <CardTitle>Delete board</CardTitle>
-        <CardDescription>
-          Keep destructive confirmations disabled until acknowledged.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-[var(--space-2)]">
+      <div className="space-y-[var(--space-2)]">
         <div className="rounded-card border border-border/40 bg-surface p-[var(--space-3)] shadow-[var(--shadow-outline-subtle)]">
           <p className="text-ui text-muted-foreground">
             Deleting removes all tasks and cannot be undone.
@@ -1621,19 +1620,7 @@ function ModalConfirmState() {
             I understand this action cannot be undone.
           </p>
         </div>
-      </CardContent>
-      <CardFooter className="flex justify-end gap-[var(--space-2)]">
-        <Button
-          size="sm"
-          disabled={!acknowledged}
-          className="focus-visible:ring-2 focus-visible:ring-[var(--focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--surface-2))]"
-        >
-          Delete
-        </Button>
-        <Button variant="quiet" size="sm" className="order-first">
-          Cancel
-        </Button>
-      </CardFooter>
+      </div>
     </Modal>
   );
 }
