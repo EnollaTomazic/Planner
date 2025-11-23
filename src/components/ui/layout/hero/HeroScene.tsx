@@ -9,8 +9,10 @@ type HeroSceneConfig = {
   alt?: string;
   align?: "left" | "center" | "right";
   bob?: string;
+  bobDuration?: string;
   scale?: string;
   objectPosition?: string;
+  tilt?: string;
 };
 
 const HERO_SCENES: Record<string, HeroSceneConfig> = {
@@ -19,33 +21,46 @@ const HERO_SCENES: Record<string, HeroSceneConfig> = {
     alt: "Agnes floating above a neon ring",
     align: "right",
     bob: "var(--space-4)",
-    scale: "1.02",
-    objectPosition: "62% 50%",
+    bobDuration: "9s",
+    scale: "1.04",
+    tilt: "0.6deg",
+    objectPosition: "60% 52%",
   },
   "agnes-neutral": {
     src: "/hero-art/agnes-neutral.svg",
     alt: "Agnes standing with a calm stance",
     align: "center",
+    bob: "var(--space-3)",
+    bobDuration: "10s",
+    tilt: "0.35deg",
   },
   "agnes-hacking": {
     src: "/hero-art/agnes-hacking.svg",
     alt: "Agnes leaning toward a holo terminal",
     align: "right",
-    bob: "var(--space-3)",
-    objectPosition: "58% 52%",
+    bob: "calc(var(--space-3) + var(--space-1))",
+    bobDuration: "8.5s",
+    tilt: "0.75deg",
+    objectPosition: "56% 50%",
   },
   "noxi-floating": {
     src: "/hero-art/noxi-floating.svg",
     alt: "Noxi floating with support drones",
     align: "right",
-    bob: "calc(var(--space-3) + var(--space-1))",
-    scale: "1.04",
+    bob: "calc(var(--space-4) + var(--space-1))",
+    bobDuration: "9.5s",
+    scale: "1.06",
+    tilt: "0.8deg",
+    objectPosition: "62% 54%",
   },
   "noxi-hacking": {
     src: "/hero-art/noxi-hacking.svg",
     alt: "Noxi focused on a hacking console",
     align: "left",
-    objectPosition: "48% 50%",
+    bob: "var(--space-3)",
+    bobDuration: "8.4s",
+    tilt: "0.55deg",
+    objectPosition: "46% 52%",
   },
 };
 
@@ -75,7 +90,9 @@ export function HeroScene({ scene, alt, heading, className }: HeroSceneProps) {
   }
 
   const bobAmount = config.bob ?? "var(--space-3)";
+  const bobDuration = config.bobDuration ?? "8s";
   const scale = config.scale ?? "1";
+  const tilt = config.tilt ?? "0.5deg";
   const objectPosition = config.objectPosition ?? "60% 50%";
 
   return (
@@ -84,8 +101,11 @@ export function HeroScene({ scene, alt, heading, className }: HeroSceneProps) {
       data-align={config.align ?? "right"}
       style={{
         ["--scene-bob" as string]: bobAmount,
+        ["--scene-bob-duration" as string]: bobDuration,
         ["--scene-scale" as string]: scale,
+        ["--scene-tilt" as string]: tilt,
       }}
+      data-scene={scene}
     >
       <div aria-hidden className={styles.blob} />
       <div aria-hidden className={styles.bloom} />

@@ -84,10 +84,7 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
     ) : null;
 
     const glitchSprite = (
-      <span
-        aria-hidden
-        className="glitch-sprite rounded-[inherit]"
-      />
+      <div aria-hidden className="glitch-sprite rounded-[inherit]" />
     );
 
     const baseProps = {

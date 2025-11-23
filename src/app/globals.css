@@ -50,6 +50,7 @@
     --surface-overlay-strong: 0.2;
     --bg: var(--background);
     --scanline: var(--glitch-scanline);
+    --scanlines: var(--card-overlay-scanlines);
     --glitch-pixel: var(--glitch-noise-level);
     --stat-good: var(--success);
     --stat-warn: var(--warning);
@@ -3027,12 +3028,31 @@ a:active .lucide {
       radial-gradient(120% 90% at 24% 12%, hsl(var(--accent-1) / 0.18), transparent 62%),
       radial-gradient(110% 90% at 76% 18%, hsl(var(--ring) / 0.16), transparent 62%),
       linear-gradient(90deg, hsl(var(--accent-2) / 0.16), transparent 35%, hsl(var(--accent-3) / 0.18)),
-      var(--card-overlay-scanlines);
+      var(--scanlines, var(--card-overlay-scanlines));
     mix-blend-mode: screen;
     opacity: 0.14;
     transform: translateX(0);
     animation: glitch-sprite-shift 3.6s steps(3, end) infinite;
     z-index: 0;
+  }
+
+  .glitch-sprite::before,
+  .glitch-sprite::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(120deg, hsl(var(--accent-1) / 0.14), transparent 40%, hsl(var(--accent-3) / 0.18));
+    mix-blend-mode: screen;
+    opacity: 0.18;
+    filter: drop-shadow(calc(var(--space-0-5) * -1) 0 hsl(var(--accent-1) / 0.4))
+      drop-shadow(var(--space-0-5) 0 hsl(var(--accent-3) / 0.4));
+    animation: glitch-sprite-shift 3.6s steps(3, end) infinite;
+  }
+
+  .glitch-sprite::after {
+    inset: 8%;
+    opacity: 0.12;
   }
 
   .pulse-neon {
@@ -3063,7 +3083,7 @@ a:active .lucide {
     transform: translateX(3px);
   }
   60% {
-    opacity: 0.1;
+    opacity: 0.14;
     transform: translateX(0);
   }
   74% {
