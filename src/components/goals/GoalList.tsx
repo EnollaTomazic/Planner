@@ -71,13 +71,17 @@ export function GoalList({
   return (
     <GenericList
       items={goals}
-      getKey={(goal) => goal.id}
-      listClassName="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 [grid-auto-rows:minmax(0,1fr)]"
-      itemClassName="flex"
-      emptyState={{
-        title: "No goals here.",
-        description: "Add one simple, finishable thing.",
-      }}
+      className={cn(
+        "[&>ul]:grid [&>ul]:grid-cols-1 [&>ul]:gap-[var(--space-4)] [&>ul]:space-y-0",
+        "[&>ul]:sm:grid-cols-2 [&>ul]:lg:grid-cols-3 [&>ul]:xl:grid-cols-4",
+        "[&>ul>li]:list-none [&>ul>li]:flex",
+      )}
+      emptyState={
+        <div className="rounded-[var(--radius-md)] border border-card-hairline bg-[hsl(var(--surface-2))] p-[var(--space-4)] text-center text-muted-foreground shadow-neo">
+          <p className="text-body font-semibold text-foreground">No goals here.</p>
+          <p className="text-ui">Add one simple, finishable thing.</p>
+        </div>
+      }
       renderItem={(goal) => {
         const isEditing = editingId === goal.id;
         const headingId = `goal-${goal.id}-heading`;

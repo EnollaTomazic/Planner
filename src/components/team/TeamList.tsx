@@ -6,15 +6,18 @@ import { GenericList } from "@/components/lists/GenericList";
 import type { GenericListProps } from "@/components/lists/GenericList";
 import { cn } from "@/lib/utils";
 
-const TEAM_LIST_CLASSNAME =
-  "flex flex-wrap items-start gap-x-[var(--space-2)] gap-y-[var(--space-2)] chip-gap-x-tight chip-gap-y-tight";
-
 export type TeamListProps<T> = GenericListProps<T>;
 
-export function TeamList<T>({ listClassName, ...props }: TeamListProps<T>) {
+export function TeamList<T>({ className, ...props }: TeamListProps<T>) {
   return (
     <GenericList
-      listClassName={cn(TEAM_LIST_CLASSNAME, listClassName)}
+      className={cn(
+        "[&>ul]:m-0 [&>ul]:flex [&>ul]:flex-wrap [&>ul]:items-start [&>ul]:space-y-0",
+        "[&>ul]:gap-x-[var(--space-2)] [&>ul]:gap-y-[var(--space-2)]",
+        "[&>ul>li]:list-none",
+        "chip-gap-x-tight chip-gap-y-tight",
+        className,
+      )}
       {...props}
     />
   );

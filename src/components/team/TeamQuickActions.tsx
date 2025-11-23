@@ -72,22 +72,7 @@ export function TeamQuickActions({
     <TeamList
       items={actions}
       className={className}
-      getKey={(action, index) => {
-        const { id, href } = action;
-        if (typeof href === "string") {
-          const trimmedHref = href.trim();
-          if (id) return id;
-          if (trimmedHref) return trimmedHref;
-          return `${index}`;
-        }
-        if (id) return id;
-        try {
-          return JSON.stringify(href) ?? `${index}`;
-        } catch {
-          return `${index}`;
-        }
-      }}
-      renderItem={(action, { index }) => {
+      renderItem={(action, index) => {
         const { href, label, tone = "neutral" } = action;
         const hrefIsString = typeof href === "string";
         const trimmedHref = hrefIsString ? href.trim() : "";
