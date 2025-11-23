@@ -1,61 +1,35 @@
 "use client";
 
 import * as React from "react";
-import { type TabItem, TabBar } from "@/components/ui/layout/TabBar";
-import { Circle, CircleDot, CircleCheck, Plus } from "lucide-react";
+import {
+  SegmentedControl,
+  type SegmentedControlOption,
+} from "@/components/ui/primitives/SegmentedControl";
 
-export type FilterKey = "All" | "Active" | "Done" | "New goal";
+export type GoalsTabKey = "goals" | "reminders" | "timer";
 
-export type SegmentFilterKey = Exclude<FilterKey, "New goal">;
-
-const FILTER_ITEMS: TabItem<FilterKey>[] = [
-  { key: "All", label: "All", icon: <Circle aria-hidden="true" /> },
-  { key: "Active", label: "Active", icon: <CircleDot aria-hidden="true" /> },
-  { key: "Done", label: "Done", icon: <CircleCheck aria-hidden="true" /> },
-  {
-    key: "New goal",
-    label: "New goal",
-    icon: <Plus aria-hidden="true" />,
-  },
+const OPTIONS: ReadonlyArray<SegmentedControlOption<GoalsTabKey>> = [
+  { label: "Goals", value: "goals" },
+  { label: "Reminders", value: "reminders" },
+  { label: "Timer", value: "timer" },
 ];
 
 interface GoalsTabsProps {
-  value: SegmentFilterKey;
-  onChange: (val: SegmentFilterKey) => void;
-  onNewGoal: () => void;
-  newGoalDisabled?: boolean;
+  value: GoalsTabKey;
+  onChange: (value: GoalsTabKey) => void;
+  idBase?: string;
+  className?: string;
 }
 
-export function GoalsTabs({ value, onChange, onNewGoal, newGoalDisabled = false }: GoalsTabsProps) {
-  const items = React.useMemo(
-    () =>
-      FILTER_ITEMS.map((item) =>
-        item.key === "New goal" ? { ...item, disabled: newGoalDisabled } : item,
-      ),
-    [newGoalDisabled],
-  );
-
-  const handleChange = React.useCallback(
-    (next: FilterKey) => {
-      if (next === "New goal") {
-        if (!newGoalDisabled) {
-          onNewGoal();
-        }
-        return;
-      }
-      onChange(next);
-    },
-    [newGoalDisabled, onChange, onNewGoal],
-  );
-
+export function GoalsTabs({ value, onChange, idBase, className }: GoalsTabsProps) {
   return (
-    <TabBar<FilterKey>
-      items={items}
+    <SegmentedControl<GoalsTabKey>
       value={value}
-      onValueChange={handleChange}
-      size="sm"
-      ariaLabel="Filter goals"
-      linkPanels={false}
+      onValueChange={onChange}
+      options={OPTIONS}
+      ariaLabel="Toggle goals, reminders, or timer"
+      idBase={idBase}
+      className={className}
     />
   );
 }
