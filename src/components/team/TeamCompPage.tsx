@@ -35,7 +35,13 @@ import { usePersistentState } from "@/lib/db";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Button } from "@/components/ui/primitives/Button";
 import { Header, PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/Header";
-import { HeroSearchBar, PageShell, Badge, TabBar } from "@/components/ui";
+import {
+  HeroSearchBar,
+  PageShell,
+  Badge,
+  SegmentedControl,
+  type SegmentedControlOption,
+} from "@/components/ui";
 import type { BadgeProps, HeroSearchBarProps } from "@/components/ui";
 import type { ClearSpeed } from "./data";
 
@@ -127,39 +133,32 @@ export function TeamCompPage() {
       }) satisfies Record<Tab, { tab: string; panel: string }>,
     [tabBaseId],
   );
-  const subTabItems = React.useMemo(
-    () =>
-      [
-        {
-          key: "sheet" as const,
-          label: "Cheat Sheet",
-          icon: <BookOpen />,
-          id: "sheet-tab",
-          controls: "sheet-panel",
-        },
-        {
-          key: "comps" as const,
-          label: "My Comps",
-          icon: <Users2 />,
-          id: "comps-tab",
-          controls: "comps-panel",
-        },
-      ] satisfies Array<{
-        key: SubTab;
-        label: string;
-        icon: React.ReactNode;
-        id: string;
-        controls: string;
-      }>,
+  const subTabItems: ReadonlyArray<SegmentedControlOption<SubTab>> = React.useMemo(
+    () => [
+      {
+        value: "sheet" as const,
+        label: "Cheat Sheet",
+        icon: <BookOpen />,
+        id: "sheet-tab",
+        controls: "sheet-panel",
+      },
+      {
+        value: "comps" as const,
+        label: "My Comps",
+        icon: <Users2 />,
+        id: "comps-tab",
+        controls: "comps-panel",
+      },
+    ],
     [],
   );
   const subTabIds = React.useMemo(
     () =>
       subTabItems.reduce((acc, item) => {
-        const key = item.key;
+        const key = item.value;
         acc[key] = {
-          tab: `${subTabBaseId}-${item.id ?? `${item.key}-tab`}`,
-          panel: `${subTabBaseId}-${item.controls ?? `${item.key}-panel`}`,
+          tab: `${subTabBaseId}-${item.id ?? `${item.value}-tab`}`,
+          panel: `${subTabBaseId}-${item.controls ?? `${item.value}-panel`}`,
         };
         return acc;
       }, {} as Record<SubTab, { tab: string; panel: string }>),
@@ -319,16 +318,13 @@ export function TeamCompPage() {
       return (
         <div className="flex flex-col gap-[var(--space-4)]">
           <div className="flex w-full flex-wrap items-center gap-[var(--space-3)]">
-            <TabBar<SubTab>
-              items={subTabItems}
+            <SegmentedControl<SubTab>
+              options={subTabItems}
               value={subTab}
-              onValueChange={(next) => setSubTab(next as SubTab)}
+              onChange={(next) => setSubTab(next as SubTab)}
               ariaLabel="Cheat sheet sections"
-              showBaseline
               align="start"
               className="min-w-0 flex-1"
-              tablistClassName="w-full"
-              variant="neo"
               idBase={subTabBaseId}
             />
             <Button

@@ -25,9 +25,9 @@ export function GoalsTabs({ value, onChange, idBase, className }: GoalsTabsProps
   return (
     <SegmentedControl<GoalsTabKey>
       value={value}
-      onValueChange={onChange}
+      onChange={onChange}
       options={OPTIONS}
-      ariaLabel="Toggle goals, reminders, or timer"
+      ariaLabel="Goals header mode"
       idBase={idBase}
       className={className}
     />

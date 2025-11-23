@@ -196,6 +196,7 @@ function Inner() {
           onChange: handleViewModeChange,
           ariaLabel: "Planner view",
           idBase: VIEW_TAB_ID_BASE,
+          useSegmentedControl: true,
           right: (
             <div className="flex flex-col gap-[var(--space-2)] md:flex-row md:items-center md:gap-[var(--space-3)]">
               <span className="sr-only">Week controls</span>

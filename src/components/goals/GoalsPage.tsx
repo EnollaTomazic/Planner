@@ -38,6 +38,7 @@ import {
   AIExplainTooltip,
   HeroSearchBar,
 } from "@/components/ui";
+import { ThemeProvider } from "@/lib/theme-context";
 import { PlannerProvider, SmallAgnesNoxiImage } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
 import { Input, type InputProps } from "@/components/ui/primitives/Input";
@@ -690,38 +691,41 @@ function GoalsPageContent() {
   ]);
 
   return (
-    <>
-      <Header<Tab | Domain>
+    <ThemeProvider>
+      <section
         id={HERO_REGION_ID}
         role="region"
         aria-labelledby={heroHeadingId}
         aria-describedby={heroAriaDescribedby}
-        heading={heroHeading}
-        subtitle={heroSubtitle}
-        icon={<Flag className="opacity-80" />}
-        navItems={navItems}
-        variant="neo"
-        underlineTone="brand"
-        showThemeToggle
-        subTabs={reminderHeroSubTabs}
-        search={
-          reminderHeroSearch ? (
-            <HeroSearchBar
-              {...reminderHeroSearch}
-              className="min-w-[16rem] flex-1"
-            />
-          ) : undefined
-        }
-        actions={heroActions}
-        topClassName={GOALS_STICKY_TOP_CLASS}
       >
-        <div className="space-y-[var(--space-3)]">
-          <span className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
-            {heroEyebrow}
-          </span>
-          {summary}
-        </div>
-      </Header>
+        <Header<Tab | Domain>
+          heading={heroHeading}
+          subtitle={heroSubtitle}
+          icon={<Flag className="opacity-80" />}
+          navItems={navItems}
+          variant="neo"
+          underlineTone="brand"
+          showThemeToggle
+          subTabs={reminderHeroSubTabs}
+          search={
+            reminderHeroSearch ? (
+              <HeroSearchBar
+                {...reminderHeroSearch}
+                className="min-w-[16rem] flex-1"
+              />
+            ) : undefined
+          }
+          actions={heroActions}
+          topClassName={GOALS_STICKY_TOP_CLASS}
+        >
+          <div className="space-y-[var(--space-3)]">
+            <span className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
+              {heroEyebrow}
+            </span>
+            {summary}
+          </div>
+        </Header>
+      </section>
 
       <GoalsTabs
         value={tab}
@@ -943,7 +947,7 @@ function GoalsPageContent() {
         </Modal>
 
       </PageShell>
-    </>
+    </ThemeProvider>
   );
 }
 
