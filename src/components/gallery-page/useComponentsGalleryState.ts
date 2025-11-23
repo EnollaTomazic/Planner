@@ -124,6 +124,13 @@ interface InPageNavigationItem {
   readonly href: string;
 }
 
+export interface ComponentsSectionLink {
+  readonly id: Section
+  readonly label: string
+  readonly href: string
+  readonly active: boolean
+}
+
 interface RawSpecCategory {
   readonly key?: unknown;
   readonly label?: unknown;
@@ -160,6 +167,7 @@ export interface ComponentsGalleryState {
   readonly sectionLabel: string;
   readonly countLabel: string;
   readonly countDescriptionId: string;
+  readonly sectionLinks: readonly ComponentsSectionLink[];
   readonly componentsPanelLabelledBy: string;
   readonly handleViewChange: (key: string | number) => void;
   readonly handleSectionChange: (key: string | number) => void;
@@ -627,6 +635,26 @@ export function useComponentsGalleryState({
     [groups],
   );
 
+  const sectionLinks = React.useMemo<readonly ComponentsSectionLink[]>(
+    () =>
+      heroTabs.map((tab) => {
+        const params = new URLSearchParams();
+        params.set("view", view);
+        params.set("section", String(tab.key));
+        const normalizedQuery = query.trim();
+        if (normalizedQuery) {
+          params.set("q", normalizedQuery);
+        }
+        return {
+          id: tab.key as Section,
+          label: tab.label,
+          href: `/components${formatQueryWithHash(params.toString(), COMPONENTS_PANEL_ID)}`,
+          active: tab.key === resolvedSection,
+        } satisfies ComponentsSectionLink;
+      }),
+    [heroTabs, query, resolvedSection, view],
+  );
+
   const componentsPanelLabelledBy = React.useMemo(() => {
     const viewTabId = `${COMPONENTS_VIEW_TAB_ID_BASE}-${view}-tab`;
     if (heroTabs.length > 0) {
@@ -870,6 +898,7 @@ export function useComponentsGalleryState({
     sectionLabel,
     countLabel,
     countDescriptionId,
+    sectionLinks,
     componentsPanelLabelledBy,
     handleViewChange,
     handleSectionChange,
