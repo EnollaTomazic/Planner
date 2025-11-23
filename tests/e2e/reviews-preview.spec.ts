@@ -19,7 +19,7 @@ test.describe("Reviews preview", () => {
       page.locator("text=We couldn’t load your review details."),
     ).toBeVisible();
     await expect(
-      page.locator("text=You’re ready to capture your first review."),
+      page.getByRole("heading", { name: "Capture your first review" }),
     ).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Retry sync" }).nth(0),
