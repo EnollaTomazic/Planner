@@ -2,14 +2,16 @@
 
 import * as React from "react";
 
+import { Header, PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/Header";
 import { PageShell } from "@/components/ui";
+import { Button } from "@/components/ui/primitives/Button";
+import { Input } from "@/components/ui/primitives/Input";
 import { usePersistentState } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import {
   ChatPromptsTab,
   type ChatPromptsTabHandle,
 } from "./ChatPromptsTab";
-import { PromptsHeader } from "./PromptsHeader";
 import type { Persona, PromptWithTitle } from "./types";
 import { useChatPrompts } from "./useChatPrompts";
 import { useCodexPrompts } from "./useCodexPrompts";
@@ -20,6 +22,7 @@ import type {
 import { useNotes } from "./useNotes";
 import type { NotesTabHandle, NotesTabProps } from "./NotesTab";
 import { usePersonas } from "./usePersonas";
+import { StateTester } from "./StateTester";
 import {
   PROMPTS_TAB_ID_BASE,
   PROMPTS_TAB_ITEMS,
@@ -27,6 +30,12 @@ import {
 } from "./tabs";
 
 const TAB_STORAGE_KEY = "prompts.tab.v1" as const;
+const chips = ["hover", "focus", "active", "disabled", "loading"];
+
+const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
+  ...item,
+  active: item.key === "prompts",
+}));
 
 const LazyCodexPromptsTab = React.lazy(async () => ({
   default: (await import("./CodexPromptsTab")).CodexPromptsTab,
@@ -201,27 +210,76 @@ export function PromptsPage() {
     }
   }, [activeTab, ensureFocusLoop, setActiveTab, tryFocus]);
 
+  const headerHeadingId = "prompts-header";
+  const tabs = React.useMemo(() => {
+    return PROMPTS_TAB_ITEMS.map((item) => {
+      const badge = tabCounts?.[item.key];
+      return {
+        key: item.key,
+        label: item.label,
+        badge: badge && badge > 0 ? badge : undefined,
+      };
+    });
+  }, [tabCounts]);
+
+  const handleChipSelect = React.useCallback(
+    (chip: string) => {
+      const nextQuery = activeQuery === chip ? "" : chip;
+      handleQueryChange(nextQuery);
+    },
+    [activeQuery, handleQueryChange],
+  );
+
   return (
     <>
-      <PageShell as="header" className="py-[var(--space-6)]">
-        <PromptsHeader
-          id="prompts-header"
-          query={activeQuery}
-          onQueryChange={handleQueryChange}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          onNewPrompt={handleNewPrompt}
-          onNewPersona={handleNewPersona}
-          tabCounts={tabCounts}
+      <Header<PromptsTabKey>
+        heading={<span id={headerHeadingId}>Prompts</span>}
+        subtitle="Compose, save, and reuse AI prompts."
+        navItems={navItems}
+        variant="neo"
+        underlineTone="brand"
+        showThemeToggle
+        tabs={{
+          items: tabs,
+          value: activeTab,
+          onChange: setActiveTab,
+          ariaLabel: "Prompt workspaces",
+          idBase: PROMPTS_TAB_ID_BASE,
+        }}
+        actions={
+          <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+            <Button size="sm" onClick={handleNewPrompt}>
+              New prompt
+            </Button>
+            <Button size="sm" variant="quiet" onClick={handleNewPersona}>
+              New persona
+            </Button>
+          </div>
+        }
+        search={
+          <Input
+            value={activeQuery}
+            onChange={(event) => handleQueryChange(event.target.value)}
+            placeholder="Search prompts…"
+            aria-label="Search prompts"
+            className="min-w-[16rem]"
+          />
+        }
+      >
+        <StateTester
+          chips={chips}
+          selectedChip={activeQuery}
+          onSelect={handleChipSelect}
+          className={cn("-mx-[var(--space-2)] sm:-mx-[var(--space-1)] md:mx-0")}
         />
-      </PageShell>
+      </Header>
 
       <PageShell
         as="main"
         id="page-main"
         tabIndex={-1}
         className="space-y-[var(--space-6)] py-[var(--space-6)]"
-        aria-labelledby="prompts-header"
+        aria-labelledby={headerHeadingId}
       >
         {PROMPTS_TAB_ITEMS.map((item) => {
           const isActive = activeTab === item.key;
