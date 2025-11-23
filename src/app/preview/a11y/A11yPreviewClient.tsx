@@ -3,7 +3,15 @@
 import * as React from "react";
 import { Focus, Keyboard } from "lucide-react";
 
-import { Badge, Button, SkipLink, useDialogTrap } from "@/components/ui";
+import {
+  Badge,
+  Button,
+  Cluster,
+  Label,
+  SkipLink,
+  Stack,
+  useDialogTrap,
+} from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 const FLOW_STEPS = [
@@ -31,11 +39,11 @@ const FLOW_STEPS = [
 
 export default function A11yPreviewClient() {
   return (
-    <div className="space-y-[var(--space-6)]">
+    <Stack gap="6">
       <SkipLinkDemo />
       <FocusTrapDemo />
       <KeyboardFlowDemo />
-    </div>
+    </Stack>
   );
 }
 
@@ -89,6 +97,7 @@ function FocusTrapDemo() {
   const [open, setOpen] = React.useState(false);
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const liveRef = React.useRef<HTMLDivElement>(null);
+  const dialogLabelId = React.useId();
 
   useDialogTrap({
     open,
@@ -106,8 +115,8 @@ function FocusTrapDemo() {
 
   return (
     <section aria-labelledby="a11y-focus-heading" className="space-y-[var(--space-4)]" data-a11y-panel="trap">
-      <header className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
-        <div className="space-y-[var(--space-1)]">
+      <Cluster as="header" justify="space-between" align="center" gap="3" className="flex-wrap">
+        <Stack gap="1">
           <h2 id="a11y-focus-heading" className="text-heading-sm font-semibold tracking-[-0.01em]">
             Dialog focus trap
           </h2>
@@ -115,20 +124,20 @@ function FocusTrapDemo() {
             The modal keeps keyboard focus inside until dismissed. Escape and the close button both release focus and
             restore the trigger for predictable return journeys.
           </p>
-        </div>
+        </Stack>
         <Badge tone={open ? "accent" : "neutral"} className="flex items-center gap-[var(--space-2)] uppercase tracking-[0.12em]">
           <Focus className="h-[var(--space-4)] w-[var(--space-4)]" aria-hidden="true" />
           {open ? "Trap active" : "Trap idle"}
         </Badge>
-      </header>
-      <div className="flex flex-wrap items-center gap-[var(--space-3)] text-ui">
+      </Cluster>
+      <Cluster as="div" gap="3" align="center" className="flex-wrap text-ui">
         <Button onClick={() => setOpen(true)} variant="default">
           Launch focus trap
         </Button>
         <p className="text-label text-muted-foreground">
           Tab forward/backward cycles elements. Arrow keys stay scoped to composite widgets inside the dialog.
         </p>
-      </div>
+      </Cluster>
       <div aria-live="polite" className="sr-only" ref={liveRef} />
       {open ? (
         <div
@@ -143,10 +152,8 @@ function FocusTrapDemo() {
             aria-describedby="a11y-dialog-description"
             className="w-full max-w-lg space-y-[var(--space-5)] rounded-card bg-card p-[var(--space-5)] text-card-foreground shadow-depth-soft"
           >
-            <header className="space-y-[var(--space-2)]">
-              <p className="text-caption font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                Session prep
-              </p>
+            <Stack as="header" gap="2">
+              <p className="text-caption font-medium uppercase tracking-[0.18em] text-muted-foreground">Session prep</p>
               <h3 id="a11y-dialog-title" className="text-heading-sm font-semibold tracking-[-0.01em]">
                 Keyboard loop checklist
               </h3>
@@ -154,7 +161,7 @@ function FocusTrapDemo() {
                 Confirm each modal control is focusable, labelled, and reachable via keyboard. Finish to hand the tray
                 back to the calling surface.
               </p>
-            </header>
+            </Stack>
             <form
               className="space-y-[var(--space-4)]"
               aria-describedby="a11y-dialog-description"
@@ -165,32 +172,49 @@ function FocusTrapDemo() {
             >
               <fieldset className="space-y-[var(--space-2)]">
                 <legend className="text-label font-medium text-foreground">Quick audit</legend>
-                <label className="flex items-center gap-[var(--space-2)] text-label text-muted-foreground">
-                  <input type="checkbox" defaultChecked className="h-[var(--space-4)] w-[var(--space-4)] accent-[hsl(var(--accent-1))]" />
-                  Focus trap engages when opened
-                </label>
-                <label className="flex items-center gap-[var(--space-2)] text-label text-muted-foreground">
-                  <input type="checkbox" defaultChecked className="h-[var(--space-4)] w-[var(--space-4)] accent-[hsl(var(--accent-1))]" />
-                  Escape closes without side effects
-                </label>
-                <label className="flex items-center gap-[var(--space-2)] text-label text-muted-foreground">
-                  <input type="checkbox" className="h-[var(--space-4)] w-[var(--space-4)] accent-[hsl(var(--accent-1))]" />
-                  First focus lands on the dialog heading
-                </label>
+                <Stack gap="2">
+                  <ChecklistItem id={`${dialogLabelId}-trap`} defaultChecked label="Focus trap engages when opened" />
+                  <ChecklistItem id={`${dialogLabelId}-escape`} defaultChecked label="Escape closes without side effects" />
+                  <ChecklistItem id={`${dialogLabelId}-heading`} label="First focus lands on the dialog heading" />
+                </Stack>
               </fieldset>
-              <div className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
+              <Cluster as="div" justify="space-between" align="center" gap="3" className="flex-wrap">
                 <Button type="button" variant="neo" onClick={() => setOpen(false)}>
                   Cancel
                 </Button>
                 <Button type="submit" variant="default">
                   Mark checklist complete
                 </Button>
-              </div>
+              </Cluster>
             </form>
           </div>
         </div>
       ) : null}
     </section>
+  );
+}
+
+function ChecklistItem({
+  id,
+  label,
+  defaultChecked,
+}: {
+  id: string;
+  label: string;
+  defaultChecked?: boolean;
+}) {
+  return (
+    <Cluster as="div" gap="2" align="center" className="text-label text-muted-foreground">
+      <input
+        id={id}
+        type="checkbox"
+        defaultChecked={defaultChecked}
+        className="h-[var(--space-4)] w-[var(--space-4)] accent-[hsl(var(--accent-1))]"
+      />
+      <Label htmlFor={id} className="text-label text-muted-foreground">
+        {label}
+      </Label>
+    </Cluster>
   );
 }
 
