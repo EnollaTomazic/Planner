@@ -47,6 +47,8 @@ export type { HeaderActionsConfig, HeaderNavItem, HeaderProps, HeaderTab, Header
 export { HeroGlitchStyles } from "./layout/hero/HeroGlitchStyles";
 export { HeroImage } from "./layout/hero/HeroImage";
 export type { HeroImageProps } from "./layout/hero/HeroImage";
+export { HeroScene } from "./layout/hero/HeroScene";
+export type { HeroSceneKey, HeroSceneProps } from "./layout/hero/HeroScene";
 export { HeroSearchBar } from "./layout/hero/HeroSearchBar";
 export type { HeroSearchBarProps } from "./layout/hero/HeroSearchBar";
 export { useHeroStyles } from "./layout/hero/useHeroStyles";

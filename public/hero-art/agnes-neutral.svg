@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1200" viewBox="0 0 960 1200" role="img" aria-label="Agnes standing in neutral pose with neon rim lighting">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1028"/>
+      <stop offset="100%" stop-color="#161f3f"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="0%" r="80%">
+      <stop offset="0%" stop-color="#95e6ff" stop-opacity="0.7"/>
+      <stop offset="40%" stop-color="#5dd6ff" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#37b2ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="1200" fill="url(#bg)"/>
+  <rect width="960" height="1200" fill="url(#halo)"/>
+  <ellipse cx="480" cy="1020" rx="210" ry="60" fill="#0c132e" opacity="0.6"/>
+  <ellipse cx="480" cy="1020" rx="180" ry="48" fill="#7cf2ff" opacity="0.14"/>
+  <g transform="translate(370 260)">
+    <circle cx="110" cy="136" r="90" fill="#0f182f" stroke="#86f7ff" stroke-width="10"/>
+    <circle cx="106" cy="126" r="42" fill="#131f40" stroke="#b2b9ff" stroke-width="6"/>
+    <path d="M76 152c16-12 44-12 62 2" stroke="#8df4ff" stroke-width="10" stroke-linecap="round"/>
+    <g fill="#f5fbff" opacity="0.92">
+      <circle cx="90" cy="126" r="10"/>
+      <circle cx="130" cy="130" r="10"/>
+    </g>
+  </g>
+  <g transform="translate(300 380)">
+    <path d="M64 182c12-100 74-178 180-178 118 0 164 108 150 218-6 46-30 96-64 112-44 20-114 26-162 8-64-24-118-116-104-160z" fill="#0f1c32" stroke="#9ef2ff" stroke-width="10"/>
+    <path d="M126 80c24-38 70-60 118-60 48 2 102 30 128 96" fill="none" stroke="#7df0ff" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(300 700)">
+    <path d="M80 0c-18 90-16 232 22 252 30 18 52-22 66-72l34-120" fill="#101b34" stroke="#7df0ff" stroke-width="10"/>
+    <path d="M276 0c18 90 16 232-22 252-30 18-52-22-66-72l-34-120" fill="#151f40" stroke="#c7c4ff" stroke-width="10"/>
+  </g>
+  <g transform="translate(340 886)" stroke-linecap="round" stroke-width="10" fill="none">
+    <path d="M80 0c-6 46-18 98 8 118 18 14 44-10 58-44l30-78" stroke="#7df0ff"/>
+    <path d="M210 0c6 46 18 98-8 118-18 14-44-10-58-44l-30-78" stroke="#c7c4ff"/>
+  </g>
+  <g stroke="#8cf9ff" stroke-width="8" stroke-linecap="round" opacity="0.6">
+    <path d="M240 482c-18 32-18 70 0 100"/>
+    <path d="M716 496c18 26 22 64 8 94"/>
+    <path d="M272 316c-4 40 10 74 32 92"/>
+    <path d="M690 336c-22 32-26 70-14 104"/>
+  </g>
+</svg>

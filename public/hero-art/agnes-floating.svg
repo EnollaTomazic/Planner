@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1200" viewBox="0 0 960 1200" role="img" aria-label="Agnes floating in a neon ring">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0c1024"/>
+      <stop offset="50%" stop-color="#151b3d"/>
+      <stop offset="100%" stop-color="#1b234a"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="20%" r="70%">
+      <stop offset="0%" stop-color="#9ce7ff" stop-opacity="0.75"/>
+      <stop offset="50%" stop-color="#7bd7ff" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#48c0ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="suit" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6cf3ff"/>
+      <stop offset="100%" stop-color="#9f8cff"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="1200" fill="url(#bg)"/>
+  <rect width="960" height="1200" fill="url(#halo)"/>
+  <ellipse cx="480" cy="980" rx="200" ry="58" fill="#0b132c" opacity="0.62"/>
+  <ellipse cx="480" cy="980" rx="200" ry="54" fill="#0ff3ff" opacity="0.16"/>
+  <ellipse cx="480" cy="980" rx="170" ry="40" fill="#8cf9ff" opacity="0.12"/>
+  <g fill="none" stroke="#53f5ff" stroke-width="8" opacity="0.6">
+    <ellipse cx="480" cy="520" rx="260" ry="360"/>
+    <ellipse cx="480" cy="520" rx="210" ry="300" stroke="#9d8cff"/>
+  </g>
+  <g transform="translate(400 240)">
+    <circle cx="80" cy="120" r="88" fill="#0f182f" stroke="#80f3ff" stroke-width="10"/>
+    <circle cx="74" cy="110" r="42" fill="#121c3c" stroke="#a6b6ff" stroke-width="6"/>
+    <path d="M42 136c18-14 42-14 60 0" stroke="#7df0ff" stroke-width="10" stroke-linecap="round"/>
+    <g fill="#f5fbff" opacity="0.92">
+      <circle cx="52" cy="104" r="10"/>
+      <circle cx="96" cy="108" r="10"/>
+    </g>
+  </g>
+  <g transform="translate(342 360)">
+    <path d="M70 120c32-42 134-44 172 0 24 28 22 82 18 122-3 26-36 58-52 60-44 6-68-4-106-12-30-6-58-36-64-64-8-42-2-82 12-106z" fill="url(#suit)" stroke="#b2f7ff" stroke-width="10"/>
+    <path d="M104 96c10-34 28-52 58-52 32 0 54 18 60 58" fill="none" stroke="#7df0ff" stroke-width="10" stroke-linecap="round"/>
+    <path d="M86 214c18 8 44 12 70 12s52-4 70-12" fill="none" stroke="#d5e5ff" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(300 590)">
+    <path d="M138 0c-20 58-44 136-56 186-6 22 10 46 32 46 20 0 34-12 42-30l46-116c14-34-24-102-64-86z" fill="#0f182f" stroke="#86f7ff" stroke-width="10"/>
+    <path d="M218 0c20 58 44 136 56 186 6 22-10 46-32 46-20 0-34-12-42-30l-46-116c-14-34 24-102 64-86z" fill="#121c3c" stroke="#b2b6ff" stroke-width="10"/>
+  </g>
+  <g transform="translate(320 776)">
+    <path d="M54 0c-18 52-18 140 20 162 26 16 44-6 58-34l42-94" fill="#18203d" stroke="#8efbff" stroke-width="10"/>
+    <path d="M260 0c18 52 18 140-20 162-26 16-44-6-58-34l-42-94" fill="#1c1f42" stroke="#c6c4ff" stroke-width="10"/>
+  </g>
+  <g stroke="#8cf9ff" stroke-width="8" stroke-linecap="round" opacity="0.6">
+    <path d="M270 522c-28 20-42 56-32 88"/>
+    <path d="M690 512c18 18 26 56 4 82"/>
+    <path d="M240 330c-6 40 10 74 34 92"/>
+    <path d="M726 360c-18 22-26 54-18 84"/>
+  </g>
+</svg>

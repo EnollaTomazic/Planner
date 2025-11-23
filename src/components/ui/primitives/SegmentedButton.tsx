@@ -43,6 +43,7 @@ const SegmentedButton = React.forwardRef<
   const resolvedSelected = selected ?? false;
   const cls = cn(
     styles.root,
+    styles.neonInteractive,
     glitch && styles.glitch,
     glitch && "glitch-wrapper group/glitch",
     resolvedSelected && "is-active",
