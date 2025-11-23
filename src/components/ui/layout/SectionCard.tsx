@@ -100,13 +100,14 @@ const SectionCardRoot = React.forwardRef<HTMLElement, RootProps>(
           ref={ref}
           data-variant={variant}
           className={cn(
-            "overflow-hidden rounded-card r-card-lg text-card-foreground",
+            "relative overflow-hidden rounded-card r-card-lg text-card-foreground",
             variantClassName,
             className,
           )}
           style={noiseStyle}
           {...props}
         >
+          <span aria-hidden className="glitch-sprite rounded-[inherit]" />
           {children}
         </section>
       </SectionCardContext.Provider>

@@ -46,6 +46,12 @@
     0 0 0 calc(var(--hairline-w) * 2.8) hsl(var(--accent-1) / 0.18);
 }
 
+.control:hover .track,
+.control:focus-visible .track,
+.track:focus-visible {
+  @apply pulse-neon;
+}
+
 .track::-webkit-slider-thumb {
   appearance: none;
   width: calc(var(--space-4) * 1.1);

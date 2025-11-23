@@ -43,3 +43,32 @@
     display: none;
   }
 }
+
+.scanlineOverlay {
+  background: var(--card-overlay-scanlines);
+  mix-blend-mode: soft-light;
+  opacity: calc(0.85 * var(--texture-scanline-strength, 1));
+  filter: saturate(120%);
+  z-index: 1;
+}
+
+.heroBloom {
+  background: radial-gradient(
+      circle at 20% 10%,
+      hsl(var(--accent-1) / 0.22),
+      transparent 55%
+    ),
+    radial-gradient(circle at 80% 14%, hsl(var(--ring) / 0.2), transparent 50%),
+    radial-gradient(circle at 50% 70%, hsl(var(--accent-2) / 0.16), transparent 65%);
+  filter: blur(var(--space-6));
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroBloom {
+    opacity: 0.4;
+    filter: blur(calc(var(--space-5)));
+  }
+}
