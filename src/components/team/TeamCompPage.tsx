@@ -36,7 +36,6 @@ import { useQueryParam } from "@/lib/useQueryParam";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Button } from "@/components/ui/primitives/Button";
 import { Header } from "@/components/ui/layout/Header";
-import { PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/primary-nav";
 import {
   HeroSearchBar,
   PageShell,
@@ -64,11 +63,6 @@ type TabConfig = {
 const TAB_KEY = "team:page:activeTab.v1";
 const SUB_TAB_KEY = "team:cheatsheet:activeSubTab.v1";
 const QUERY_KEY = "team:cheatsheet:query.v1";
-const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
-  ...item,
-  active: item.key === "team",
-}));
-
 const decodeTab = (value: unknown): Tab | null => {
   if (value === "cheat" || value === "builder" || value === "clears") {
     return value;
@@ -533,10 +527,8 @@ export function TeamCompPage() {
         heading={<span id={headerHeadingId}>Team Compositions</span>}
         subtitle="Explore archetypes, build your comp, and master jungle clears."
         icon={<Users2 className="opacity-80" />}
-        navItems={navItems}
         variant="neo"
         underlineTone="brand"
-        showThemeToggle
         tabs={{
           items: headerTabs,
           value: tab,
