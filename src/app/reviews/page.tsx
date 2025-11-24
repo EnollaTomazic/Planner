@@ -1,7 +1,8 @@
 // src/app/reviews/page.tsx
 import type { Metadata } from "next";
 import { ReviewPage } from "@/components/reviews";
-import { Header, PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/Header";
+import { Header } from "@/components/ui/layout/Header";
+import { PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/primary-nav";
 
 const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
   ...item,

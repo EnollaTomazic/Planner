@@ -35,7 +35,8 @@ import { usePersistentTab } from "@/lib/usePersistentTab";
 import { useQueryParam } from "@/lib/useQueryParam";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Button } from "@/components/ui/primitives/Button";
-import { Header, PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/Header";
+import { Header } from "@/components/ui/layout/Header";
+import { PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/primary-nav";
 import {
   HeroSearchBar,
   PageShell,

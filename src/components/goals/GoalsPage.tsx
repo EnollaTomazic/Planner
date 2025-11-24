@@ -21,12 +21,8 @@ import {
   Plus,
 } from "lucide-react";
 
-import {
-  Header,
-  PRIMARY_PAGE_NAV,
-  type HeaderNavItem,
-  type HeaderTab,
-} from "@/components/ui/layout/Header";
+import { Header, type HeaderTab } from "@/components/ui/layout/Header";
+import { PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/primary-nav";
 import { TabBar, type TabItem } from "@/components/ui/layout/TabBar";
 import {
   Snackbar,

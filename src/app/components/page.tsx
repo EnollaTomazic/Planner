@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ComponentsPage } from "@/components/gallery-page/ComponentsPage";
-import { Header, PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/Header";
+import { Header } from "@/components/ui/layout/Header";
+import { PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/primary-nav";
 import { PageShell, Spinner } from "@/components/ui";
 
 const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({

@@ -2,7 +2,8 @@
 
 import * as React from "react";
 
-import { Header, PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/Header";
+import { Header } from "@/components/ui/layout/Header";
+import { PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/primary-nav";
 import { PageShell } from "@/components/ui";
 import { Button } from "@/components/ui/primitives/Button";
 import { Input } from "@/components/ui/primitives/Input";
