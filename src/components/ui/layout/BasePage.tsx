@@ -1,7 +1,8 @@
-import { Header, PRIMARY_PAGE_NAV } from '@/components/ui/layout/Header'
+import { Header } from '@/components/ui/layout/Header'
 import { Hero } from '@/components/ui/layout/Hero'
 import { PageShell } from '@/components/ui/layout/PageShell'
-import type { HeaderNavItem } from '@/components/ui/layout/Header'
+import { PRIMARY_PAGE_NAV } from '@/components/ui/layout/primary-nav'
+import type { HeaderNavItem } from '@/components/ui/layout/primary-nav'
 import type { ComponentProps, ReactNode } from 'react'
 
 /**

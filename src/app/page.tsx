@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import HomePageContent from "@/app/home/HomePageContent.client";
 import HomePageFallback from "@/app/home/HomePageFallback.server";
-import { Header, PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/Header";
+import { Header } from "@/components/ui/layout/Header";
+import { PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/primary-nav";
 
 const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
   ...item,

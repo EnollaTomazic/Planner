@@ -11,7 +11,8 @@ import "./style.css";
  */
 
 import * as React from "react";
-import { Header, PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/Header";
+import { Header } from "@/components/ui/layout/Header";
+import { PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/primary-nav";
 import { PageShell } from "@/components/ui";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
