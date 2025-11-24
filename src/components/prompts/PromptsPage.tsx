@@ -3,7 +3,6 @@
 import * as React from "react";
 
 import { Header } from "@/components/ui/layout/Header";
-import { PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/primary-nav";
 import { PageShell } from "@/components/ui";
 import { Button } from "@/components/ui/primitives/Button";
 import { Input } from "@/components/ui/primitives/Input";
@@ -42,11 +41,6 @@ const decodeTab = (value: unknown): PromptsTabKey | null => {
 
 const TAB_STORAGE_KEY = "prompts.tab.v1" as const;
 const chips = ["hover", "focus", "active", "disabled", "loading"];
-
-const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
-  ...item,
-  active: item.key === "prompts",
-}));
 
 const LazyCodexPromptsTab = React.lazy(async () => ({
   default: (await import("./CodexPromptsTab")).CodexPromptsTab,
@@ -194,10 +188,8 @@ export function PromptsPage() {
       <Header<PromptsTabKey>
         heading={<span id={headerHeadingId}>Prompts</span>}
         subtitle="Compose, save, and reuse AI prompts."
-        navItems={navItems}
         variant="neo"
         underlineTone="brand"
-        showThemeToggle
         tabs={{
           items: tabs,
           value: activeTab,

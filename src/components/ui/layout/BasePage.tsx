@@ -1,8 +1,6 @@
 import { Header } from '@/components/ui/layout/Header'
 import { Hero } from '@/components/ui/layout/Hero'
 import { PageShell } from '@/components/ui/layout/PageShell'
-import { PRIMARY_PAGE_NAV } from '@/components/ui/layout/primary-nav'
-import type { HeaderNavItem } from '@/components/ui/layout/primary-nav'
 import type { ComponentProps, ReactNode } from 'react'
 
 /**
@@ -13,7 +11,6 @@ export interface BasePageProps {
     heading: ReactNode
     subtitle?: string
     icon?: ReactNode
-    navActive: string
     tabs?: Parameters<typeof Header>[0]['tabs']
     search?: ReactNode
     actions?: ReactNode
@@ -32,21 +29,14 @@ export interface BasePageProps {
 }
 
 export function BasePage({ headerProps, hero, children }: BasePageProps) {
-  const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
-    ...item,
-    active: item.key === headerProps.navActive,
-  }))
-
   return (
     <>
       <Header
         heading={headerProps.heading}
         subtitle={headerProps.subtitle}
         icon={headerProps.icon}
-        navItems={navItems}
         variant="neo"
         underlineTone="brand"
-        showThemeToggle
         tabs={headerProps.tabs}
         search={headerProps.search}
         actions={headerProps.actions}
