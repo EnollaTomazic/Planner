@@ -3,12 +3,6 @@ import { Suspense } from "react";
 import HomePageContent from "@/app/home/HomePageContent.client";
 import HomePageFallback from "@/app/home/HomePageFallback.server";
 import { Header } from "@/components/ui/layout/Header";
-import { PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/primary-nav";
-
-const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
-  ...item,
-  active: item.key === "home",
-}));
 
 export const dynamic = "force-static";
 
@@ -28,10 +22,8 @@ export default function Page() {
       <Header
         heading={<span id={headerHeadingId}>Planner</span>}
         subtitle="Your day at a glance"
-        navItems={navItems}
         variant="neo"
         underlineTone="brand"
-        showThemeToggle
       />
       <Suspense
         fallback={
