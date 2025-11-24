@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useReviewFilter } from "@/components/reviews";
@@ -28,6 +27,7 @@ import {
   Skeleton,
   AIErrorCard,
 } from "@/components/ui";
+import { useQueryParam } from "@/lib/useQueryParam";
 
 type SortKey = "newest" | "oldest" | "title";
 type DetailMode = "summary" | "edit";
@@ -61,7 +61,7 @@ export function ReviewsPage({
   onChangeTags,
   onChangeMeta,
 }: ReviewsPageProps) {
-  const searchParams = useSearchParams();
+  const intentParam = useQueryParam("intent", "");
   const [q, setQ] = React.useState("");
   const [sort, setSort] = React.useState<SortKey>("newest");
   const [detailMode, setDetailMode] = React.useState<DetailMode>("summary");
@@ -102,7 +102,6 @@ export function ReviewsPage({
     return true;
   }, [allowInteractions, commitCreateReview]);
 
-  const intentParam = searchParams?.get("intent") ?? null;
   React.useEffect(() => {
     if (intentParam === "create-review") {
       if (!intentApplied) {

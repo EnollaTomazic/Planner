@@ -6,7 +6,7 @@ import { Header, PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/la
 import { PageShell } from "@/components/ui";
 import { Button } from "@/components/ui/primitives/Button";
 import { Input } from "@/components/ui/primitives/Input";
-import { usePersistentState } from "@/lib/db";
+import { usePersistentTab } from "@/lib/usePersistentTab";
 import { cn } from "@/lib/utils";
 import {
   ChatPromptsTab,
@@ -28,6 +28,16 @@ import {
   PROMPTS_TAB_ITEMS,
   type PromptsTabKey,
 } from "./tabs";
+import { useFocusLoop } from "./useFocusLoop";
+
+type FocusTarget = { type: "prompt" | "persona"; tab: PromptsTabKey };
+
+const decodeTab = (value: unknown): PromptsTabKey | null => {
+  if (value === "chat" || value === "codex" || value === "notes") {
+    return value;
+  }
+  return null;
+};
 
 const TAB_STORAGE_KEY = "prompts.tab.v1" as const;
 const chips = ["hover", "focus", "active", "disabled", "loading"];
@@ -75,9 +85,10 @@ export function PromptsPage() {
   const [personas] = usePersonas();
   const [notes, setNotes] = useNotes();
 
-  const [activeTab, setActiveTab] = usePersistentState<PromptsTabKey>(
+  const [activeTab, setActiveTab] = usePersistentTab<PromptsTabKey>(
     TAB_STORAGE_KEY,
     "chat",
+    decodeTab,
   );
 
   const tabCounts = React.useMemo(
@@ -111,12 +122,6 @@ export function PromptsPage() {
   const chatTabRef = React.useRef<ChatPromptsTabHandle | null>(null);
   const codexTabRef = React.useRef<CodexPromptsTabHandle | null>(null);
   const notesTabRef = React.useRef<NotesTabHandle | null>(null);
-  const pendingFocusRef = React.useRef<
-    | { type: "prompt" | "persona"; tab: PromptsTabKey }
-    | null
-  >(null);
-  const focusLoopRef = React.useRef<number | null>(null);
-  const activeTabRef = React.useRef(activeTab);
 
   const tryFocus = React.useCallback(
     (pending: { type: "prompt" | "persona"; tab: PromptsTabKey }) => {
@@ -144,71 +149,24 @@ export function PromptsPage() {
     [chatTabRef, codexTabRef, notesTabRef],
   );
 
-  const ensureFocusLoop = React.useCallback(() => {
-    if (focusLoopRef.current != null) {
-      return;
-    }
-
-    const step = () => {
-      const pending = pendingFocusRef.current;
-      if (!pending) {
-        focusLoopRef.current = null;
-        return;
-      }
-
-      if (pending.tab === activeTabRef.current && tryFocus(pending)) {
-        pendingFocusRef.current = null;
-        focusLoopRef.current = null;
-        return;
-      }
-
-      focusLoopRef.current = window.requestAnimationFrame(step);
-    };
-
-    focusLoopRef.current = window.requestAnimationFrame(step);
-  }, [tryFocus]);
-
-  React.useEffect(() => {
-    activeTabRef.current = activeTab;
-    if (pendingFocusRef.current && focusLoopRef.current == null) {
-      ensureFocusLoop();
-    }
-  }, [activeTab, ensureFocusLoop]);
-
-  React.useEffect(() => {
-    return () => {
-      if (focusLoopRef.current != null) {
-        window.cancelAnimationFrame(focusLoopRef.current);
-        focusLoopRef.current = null;
-      }
-    };
-  }, []);
+  const { requestFocus } = useFocusLoop<PromptsTabKey, FocusTarget>(
+    activeTab,
+    tryFocus,
+  );
 
   const handleNewPrompt = React.useCallback(() => {
     const target: PromptsTabKey = activeTab;
     const action = { type: "prompt" as const, tab: target };
-    if (tryFocus(action)) {
-      pendingFocusRef.current = null;
-      return;
-    }
-
-    pendingFocusRef.current = action;
-    ensureFocusLoop();
-  }, [activeTab, ensureFocusLoop, tryFocus]);
+    requestFocus(action);
+  }, [activeTab, requestFocus]);
 
   const handleNewPersona = React.useCallback(() => {
     const action = { type: "persona" as const, tab: "chat" as const };
-    if (activeTab === "chat" && tryFocus(action)) {
-      pendingFocusRef.current = null;
-      return;
-    }
-
-    pendingFocusRef.current = action;
-    ensureFocusLoop();
-    if (activeTab !== "chat") {
+    const focused = requestFocus(action);
+    if (!focused && activeTab !== "chat") {
       setActiveTab("chat");
     }
-  }, [activeTab, ensureFocusLoop, setActiveTab, tryFocus]);
+  }, [activeTab, requestFocus, setActiveTab]);
 
   const headerHeadingId = "prompts-header";
   const tabs = React.useMemo(() => {
