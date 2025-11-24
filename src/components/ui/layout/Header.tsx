@@ -43,7 +43,9 @@ const deriveNavKey = (href: string) => {
     .toLowerCase();
 };
 
-export const PRIMARY_PAGE_NAV = NAV_ITEMS.map((item) => ({
+const PRIMARY_NAV_SOURCE = Array.isArray(NAV_ITEMS) ? NAV_ITEMS : [];
+
+export const PRIMARY_PAGE_NAV = PRIMARY_NAV_SOURCE.map((item) => ({
   key: deriveNavKey(item.href),
   label: item.label,
   href: item.href,

@@ -141,7 +141,9 @@ const getGoalsPanelId = (key: Tab) => `${GOALS_TABS_ID_BASE}-${key}-panel`;
 const GOALS_TAB_STORAGE_KEY = "goals.tab.v2";
 const GOALS_TAB_SESSION_SCOPE_KEY = "goals.tab.session-scope.v1";
 
-const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
+const primaryNav = Array.isArray(PRIMARY_PAGE_NAV) ? PRIMARY_PAGE_NAV : [];
+
+const navItems: HeaderNavItem[] = primaryNav.map((item) => ({
   ...item,
   active: item.key === "goals",
 }));

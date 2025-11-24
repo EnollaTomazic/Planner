@@ -82,7 +82,9 @@ const VIEW_FALLBACK_CONTENT: Record<
   },
 };
 
-const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
+const primaryNav = Array.isArray(PRIMARY_PAGE_NAV) ? PRIMARY_PAGE_NAV : [];
+
+const navItems: HeaderNavItem[] = primaryNav.map((item) => ({
   ...item,
   active: item.key === "planner",
 }));

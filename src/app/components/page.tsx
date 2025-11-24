@@ -4,7 +4,9 @@ import { ComponentsPage } from "@/components/gallery-page/ComponentsPage";
 import { Header, PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/Header";
 import { PageShell, Spinner } from "@/components/ui";
 
-const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
+const primaryNav = Array.isArray(PRIMARY_PAGE_NAV) ? PRIMARY_PAGE_NAV : [];
+
+const navItems: HeaderNavItem[] = primaryNav.map((item) => ({
   ...item,
   active: item.key === "components",
 }));

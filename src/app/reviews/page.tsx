@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 import { ReviewPage } from "@/components/reviews";
 import { Header, PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/Header";
 
-const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
+const primaryNav = Array.isArray(PRIMARY_PAGE_NAV) ? PRIMARY_PAGE_NAV : [];
+
+const navItems: HeaderNavItem[] = primaryNav.map((item) => ({
   ...item,
   active: item.key === "reviews",
 }));

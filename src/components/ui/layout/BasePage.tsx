@@ -1,5 +1,6 @@
 import { Header, PRIMARY_PAGE_NAV } from '@/components/ui/layout/Header'
 import { Hero } from '@/components/ui/layout/Hero'
+import type { HeroProps } from '@/components/ui/layout/Hero'
 import { PageShell } from '@/components/ui/layout/PageShell'
 import type { HeaderNavItem } from '@/components/ui/layout/Header'
 import type { ReactNode } from 'react'
@@ -21,7 +22,7 @@ export interface BasePageProps {
     eyebrow?: string
     title: string | ReactNode
     subtitle?: string
-    glitch?: 'off' | 'subtle' | 'default' | 'hacked'
+    glitch?: HeroProps['glitch']
     illustration?: ReactNode
     illustrationAlt?: string
     actions?: ReactNode
@@ -31,7 +32,9 @@ export interface BasePageProps {
 }
 
 export function BasePage({ headerProps, hero, children }: BasePageProps) {
-  const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
+  const primaryNav = Array.isArray(PRIMARY_PAGE_NAV) ? PRIMARY_PAGE_NAV : []
+
+  const navItems: HeaderNavItem[] = primaryNav.map((item) => ({
     ...item,
     active: item.key === headerProps.navActive,
   }))

@@ -62,7 +62,9 @@ type TabConfig = {
 const TAB_KEY = "team:page:activeTab.v1";
 const SUB_TAB_KEY = "team:cheatsheet:activeSubTab.v1";
 const QUERY_KEY = "team:cheatsheet:query.v1";
-const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
+const primaryNav = Array.isArray(PRIMARY_PAGE_NAV) ? PRIMARY_PAGE_NAV : [];
+
+const navItems: HeaderNavItem[] = primaryNav.map((item) => ({
   ...item,
   active: item.key === "team",
 }));

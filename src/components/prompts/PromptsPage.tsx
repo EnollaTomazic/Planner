@@ -32,7 +32,9 @@ import {
 const TAB_STORAGE_KEY = "prompts.tab.v1" as const;
 const chips = ["hover", "focus", "active", "disabled", "loading"];
 
-const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
+const primaryNav = Array.isArray(PRIMARY_PAGE_NAV) ? PRIMARY_PAGE_NAV : [];
+
+const navItems: HeaderNavItem[] = primaryNav.map((item) => ({
   ...item,
   active: item.key === "prompts",
 }));
