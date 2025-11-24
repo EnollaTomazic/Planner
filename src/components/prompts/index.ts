@@ -46,6 +46,7 @@ export { derivePromptTitle } from "./types";
 export type { Persona, Prompt, PromptWithTitle } from "./types";
 export { CHAT_PROMPTS_STORAGE_KEY, useChatPrompts } from "./useChatPrompts";
 export { CODEX_PROMPTS_STORAGE_KEY, useCodexPrompts } from "./useCodexPrompts";
+export { useFocusLoop } from "./useFocusLoop";
 export { PROMPT_NOTES_STORAGE_KEY, useNotes } from "./useNotes";
 export { PROMPT_PERSONAS_STORAGE_KEY, usePersonas } from "./usePersonas";
 export { decodePrompts, usePromptLibrary } from "./usePromptLibrary";

@@ -12,7 +12,6 @@
 import "./style.css";
 
 import * as React from "react";
-import { useSearchParams } from "next/navigation";
 import {
   Users2,
   BookOpenText,
@@ -32,6 +31,8 @@ import { type JungleClearsHandle, JungleClears } from "./JungleClears";
 import { CheatSheet } from "./CheatSheet";
 import { MyComps } from "./MyComps";
 import { usePersistentState } from "@/lib/db";
+import { usePersistentTab } from "@/lib/usePersistentTab";
+import { useQueryParam } from "@/lib/useQueryParam";
 import { IconButton } from "@/components/ui/primitives/IconButton";
 import { Button } from "@/components/ui/primitives/Button";
 import { Header } from "@/components/ui/layout/Header";
@@ -83,16 +84,15 @@ const decodeSubTab = (value: unknown): SubTab | null => {
 };
 
 export function TeamCompPage() {
-  const searchParams = useSearchParams();
-  const [tab, setTab] = usePersistentState<Tab>(TAB_KEY, "cheat", {
-    decode: decodeTab,
-  });
-  const [subTab, setSubTab] = usePersistentState<SubTab>(SUB_TAB_KEY, "sheet", {
-    decode: decodeSubTab,
-  });
+  const [tab, setTab] = usePersistentTab<Tab>(TAB_KEY, "cheat", decodeTab);
+  const [subTab, setSubTab] = usePersistentTab<SubTab>(
+    SUB_TAB_KEY,
+    "sheet",
+    decodeSubTab,
+  );
   const [query, setQuery] = usePersistentState<string>(QUERY_KEY, "");
-  const tabParam = searchParams?.get("tab") ?? null;
-  const subParam = searchParams?.get("sub") ?? null;
+  const tabParam = useQueryParam("tab", "");
+  const subParam = useQueryParam("sub", "");
   React.useEffect(() => {
     const next = decodeTab(tabParam);
     if (next && next !== tab) {

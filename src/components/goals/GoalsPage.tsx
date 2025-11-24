@@ -11,7 +11,6 @@
  */
 
 import * as React from "react";
-import { useSearchParams } from "next/navigation";
 import {
   Bomb,
   Flag,
@@ -59,7 +58,9 @@ import { GoalsProgress } from "./GoalsProgress";
 import { GoalList } from "./GoalList";
 import { GOALS_STICKY_TOP_CLASS } from "./constants";
 
-import { usePersistentState, readLocal, removeLocal } from "@/lib/db";
+import { readLocal, removeLocal } from "@/lib/db";
+import { usePersistentTab } from "@/lib/usePersistentTab";
+import { useQueryParam } from "@/lib/useQueryParam";
 import { useGoals, ACTIVE_CAP } from "./useGoals";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
@@ -164,13 +165,14 @@ export function GoalsPage() {
 }
 
 function GoalsPageContent() {
-  const searchParams = useSearchParams();
   const [tabStorageKey, setTabStorageKey] = React.useState<string>(
     GOALS_TAB_STORAGE_KEY,
   );
-  const [tab, setTab] = usePersistentState<Tab>(tabStorageKey, "goals", {
-    decode: (value) => (isTabValue(value) ? value : null),
-  });
+  const [tab, setTab] = usePersistentTab<Tab>(
+    tabStorageKey,
+    "goals",
+    (value) => (isTabValue(value) ? value : null),
+  );
   const hasMigratedTabKeyRef = React.useRef(false);
 
   React.useEffect(() => {
@@ -210,12 +212,10 @@ function GoalsPageContent() {
     removeLocal(GOALS_TAB_STORAGE_KEY);
   }, [tabStorageKey, tab, setTab]);
 
-  const [filter, setFilter] = usePersistentState<SegmentFilterKey>(
+  const [filter, setFilter] = usePersistentTab<SegmentFilterKey>(
     "goals.filter.v1",
     "All",
-    {
-      decode: (value) => (isSegmentFilterKey(value) ? value : null),
-    },
+    (value) => (isSegmentFilterKey(value) ? value : null),
   );
   const [shouldFocusGoalForm, setShouldFocusGoalForm] = React.useState(false);
   const [intentApplied, setIntentApplied] = React.useState(false);
@@ -300,9 +300,9 @@ function GoalsPageContent() {
     setShouldFocusGoalForm(true);
   }, [setTab]);
 
-  const tabParam = searchParams?.get("tab") ?? null;
+  const tabParam = useQueryParam("tab", "");
   React.useEffect(() => {
-    if (tabParam === null) return;
+    if (!tabParam) return;
 
     if (isTabValue(tabParam)) {
       if (tabParam !== tab) {
@@ -316,9 +316,9 @@ function GoalsPageContent() {
     }
   }, [tabParam, tab, setTab]);
 
-  const filterParam = searchParams?.get("filter") ?? null;
+  const filterParam = useQueryParam("filter", "");
   React.useEffect(() => {
-    if (filterParam === null) return;
+    if (!filterParam) return;
 
     if (filterParam === NEW_GOAL_FILTER) {
       startGoalCreation();
@@ -388,7 +388,7 @@ function GoalsPageContent() {
     undoRemove();
   }, [undoRemove]);
 
-  const intentParam = searchParams?.get("intent") ?? null;
+  const intentParam = useQueryParam("intent", "");
   React.useEffect(() => {
     if (intentParam === "create-goal") {
       if (!intentApplied) {
