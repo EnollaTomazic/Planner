@@ -12,7 +12,6 @@ import "./style.css";
 
 import * as React from "react";
 import { Header } from "@/components/ui/layout/Header";
-import { PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/primary-nav";
 import { PageShell } from "@/components/ui";
 import { useFocusDate, useWeek } from "./useFocusDate";
 import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
@@ -82,11 +81,6 @@ const VIEW_FALLBACK_CONTENT: Record<
     description: "Collecting tasks and reminders for the list…",
   },
 };
-
-const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
-  ...item,
-  active: item.key === "planner",
-}));
 
 function PlannerViewFallback({ mode }: PlannerViewFallbackProps) {
   const copy = VIEW_FALLBACK_CONTENT[mode];
@@ -187,10 +181,8 @@ function Inner() {
         heading={<span id={headerHeadingId}>Planner</span>}
         subtitle="Plan your week"
         icon={<CalendarDays className="opacity-80" />}
-        navItems={navItems}
         variant="neo"
         underlineTone="brand"
-        showThemeToggle
         tabs={{
           items: VIEW_MODE_TABS,
           value: viewMode,

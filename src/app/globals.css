@@ -231,7 +231,7 @@
   }
 
   body {
-    --header-stack: calc(var(--space-8) + var(--space-7));
+    --header-stack: calc(var(--control-h-xl) + var(--space-2));
     --content-viewport-height: calc(
       var(--viewport-height) - var(--header-stack) - var(--space-6)
     );
@@ -256,7 +256,7 @@
 
   @media (min-width: 48rem) {
     body {
-      --header-stack: calc(var(--space-8) + var(--space-4));
+      --header-stack: calc(var(--control-h-xl) + var(--space-2));
       --content-viewport-height: calc(
         var(--viewport-height) - var(--header-stack) - var(--space-6)
       );

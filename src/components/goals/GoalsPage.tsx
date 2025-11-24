@@ -22,7 +22,6 @@ import {
 } from "lucide-react";
 
 import { Header, type HeaderTab } from "@/components/ui/layout/Header";
-import { PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/primary-nav";
 import { TabBar, type TabItem } from "@/components/ui/layout/TabBar";
 import {
   Snackbar,
@@ -137,11 +136,6 @@ const getGoalsTabId = (key: Tab) => `${GOALS_TABS_ID_BASE}-${key}-tab`;
 const getGoalsPanelId = (key: Tab) => `${GOALS_TABS_ID_BASE}-${key}-panel`;
 const GOALS_TAB_STORAGE_KEY = "goals.tab.v2";
 const GOALS_TAB_SESSION_SCOPE_KEY = "goals.tab.session-scope.v1";
-
-const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
-  ...item,
-  active: item.key === "goals",
-}));
 
 function buildSessionScopedTabKey(sessionId: string) {
   return `${GOALS_TAB_STORAGE_KEY}::${sessionId}`;
@@ -693,10 +687,8 @@ function GoalsPageContent() {
           heading={heroHeading}
           subtitle={heroSubtitle}
           icon={<Flag className="opacity-80" />}
-          navItems={navItems}
           variant="neo"
           underlineTone="brand"
-          showThemeToggle
           subTabs={reminderHeroSubTabs}
           search={
             reminderHeroSearch ? (
