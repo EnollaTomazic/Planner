@@ -263,6 +263,23 @@
     }
   }
 
+  /* Apply consistent breathing room for all page content */
+  .page-shell-root {
+    padding-block: var(--space-6);
+  }
+
+  @media (min-width: 48rem) {
+    .page-shell-root {
+      padding-block: var(--space-7);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .page-shell-root {
+      padding-block: var(--space-8);
+    }
+  }
+
   .page-shell {
     width: 100%;
     max-width: var(--shell-max, var(--shell-width));
@@ -310,6 +327,18 @@
   .page-backdrop > .page-shell {
     position: relative;
     height: 100%;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  figure {
+    border-radius: var(--radius-lg);
+  }
+
+  figure {
+    overflow: hidden;
   }
 
   .page-backdrop__layer {

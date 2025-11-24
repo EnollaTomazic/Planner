@@ -187,7 +187,10 @@ export default async function RootLayout({
                         className="min-h-0 flex-1 overflow-y-auto"
                       >
                         <div className="relative z-10">
-                          <div id="page-shell-root">
+                          <div
+                            id="page-shell-root"
+                            className="page-shell-root"
+                          >
                             {children}
                           </div>
                           <footer
