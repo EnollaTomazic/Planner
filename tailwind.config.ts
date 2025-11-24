@@ -20,6 +20,18 @@ const plannerSurfaces = plugin(({ addUtilities }) => {
   });
 });
 
+const pulseNeonUtility = plugin(({ addUtilities }) => {
+  addUtilities({
+    ".pulse-neon": {
+      boxShadow:
+        "0 0 calc(var(--space-3)) hsl(var(--accent-1) / 0.35), 0 0 calc(var(--space-2)) hsl(var(--ring) / 0.35)",
+      borderColor:
+        "color-mix(in oklab, hsl(var(--ring)) 78%, hsl(var(--accent-1)) 28%)",
+      animation: "pulse-neon 2.4s ease-in-out infinite alternate",
+    },
+  });
+});
+
 const progressWidthValues: Record<string, string> = Object.fromEntries(
   Array.from({ length: 101 }, (_, index) => [`${index}`, `${index}%`]),
 );
@@ -179,6 +191,7 @@ const config: Config = {
   },
   plugins: [
     plannerSurfaces,
+    pulseNeonUtility,
     tokenPlugin,
     plugin(({ matchUtilities }) => {
       matchUtilities(

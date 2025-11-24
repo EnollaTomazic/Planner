@@ -15,8 +15,6 @@ import { useSearchParams } from "next/navigation";
 import {
   Bomb,
   Flag,
-  ListChecks,
-  Timer as TimerIcon,
   Search,
   Sparkles,
   Gamepad2,
@@ -30,6 +28,7 @@ import {
   type HeaderNavItem,
   type HeaderTab,
 } from "@/components/ui/layout/Header";
+import { TabBar, type TabItem } from "@/components/ui/layout/TabBar";
 import {
   Snackbar,
   PageShell,
@@ -39,6 +38,7 @@ import {
   AIExplainTooltip,
   HeroSearchBar,
 } from "@/components/ui";
+import { ThemeProvider } from "@/lib/theme-context";
 import { PlannerProvider, SmallAgnesNoxiImage } from "@/components/planner";
 import { Button } from "@/components/ui/primitives/Button";
 import { Input, type InputProps } from "@/components/ui/primitives/Input";
@@ -54,7 +54,7 @@ import { Field } from "@/components/ui/primitives/Field";
 import { type TextareaProps } from "@/components/ui/primitives/Textarea";
 import { useFieldIds } from "@/lib/useFieldIds";
 import { cn } from "@/lib/utils";
-import { FilterKey, SegmentFilterKey, GoalsTabs } from "./GoalsTabs";
+import { GoalsTabs, type GoalsTabKey } from "./GoalsTabs";
 import {
   type EntityFormSubmitResult,
   type EntityFormValues,
@@ -73,7 +73,11 @@ import { TimerTab } from "./TimerTab";
 import { useReminders, type Domain } from "./reminders/useReminders";
 
 /* ---------- Types & constants ---------- */
-type Tab = "goals" | "reminders" | "timer";
+type Tab = GoalsTabKey;
+
+type FilterKey = "All" | "Active" | "Done" | "New goal";
+
+type SegmentFilterKey = Exclude<FilterKey, "New goal">;
 
 type GoalsInsetFormHandle = {
   focus: (options?: FocusOptions) => void;
@@ -95,25 +99,11 @@ const isSegmentFilterKey = (value: unknown): value is SegmentFilterKey =>
 
 const NEW_GOAL_FILTER: FilterKey = "New goal";
 
-const TABS: HeaderTab<Tab>[] = [
-  {
-    key: "goals",
-    label: "Goals",
-    icon: <Flag />,
-    hint: "Cap 3 active",
-  },
-  {
-    key: "reminders",
-    label: "Reminders",
-    icon: <ListChecks />,
-    hint: "Quick cues",
-  },
-  {
-    key: "timer",
-    label: "Timer",
-    icon: <TimerIcon />,
-    hint: "Focus sprints",
-  },
+const FILTER_ITEMS: TabItem<FilterKey>[] = [
+  { key: "All", label: "All" },
+  { key: "Active", label: "Active" },
+  { key: "Done", label: "Done" },
+  { key: "New goal", label: "New goal" },
 ];
 
 const DOMAIN_ITEMS: Array<{
@@ -262,9 +252,6 @@ function GoalsPageContent() {
 
   const [confirmClearOpen, setConfirmClearOpen] = React.useState(false);
   const [clearedCount, setClearedCount] = React.useState(0);
-  const nukeDialogId = React.useId();
-  const nukeHeadingId = React.useId();
-  const nukeDescriptionId = React.useId();
   const confirmButtonRef = React.useRef<HTMLButtonElement | null>(null);
 
   React.useEffect(() => {
@@ -355,7 +342,7 @@ function GoalsPageContent() {
   }, [filterParam, filter, setFilter, startGoalCreation]);
 
   const handleTabChange = React.useCallback(
-    (value: string) => {
+    (value: GoalsTabKey) => {
       if (isTabValue(value)) {
         setTab(value);
         return;
@@ -679,7 +666,6 @@ function GoalsPageContent() {
             onClick={handleOpenNuke}
             disabled={totalCount === 0}
             aria-haspopup="dialog"
-            aria-controls={confirmClearOpen ? nukeDialogId : undefined}
             title="Delete all goals"
           >
             <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
@@ -695,51 +681,52 @@ function GoalsPageContent() {
     handleAddReminder,
     handleOpenNuke,
     totalCount,
-    confirmClearOpen,
-    nukeDialogId,
     startGoalCreation,
   ]);
 
   return (
-    <>
-      <Header<Tab | Domain>
+    <ThemeProvider>
+      <section
         id={HERO_REGION_ID}
         role="region"
         aria-labelledby={heroHeadingId}
         aria-describedby={heroAriaDescribedby}
-        heading={heroHeading}
-        subtitle={heroSubtitle}
-        icon={<Flag className="opacity-80" />}
-        navItems={navItems}
-        variant="neo"
-        underlineTone="brand"
-        showThemeToggle
-        tabs={{
-          items: TABS,
-          value: tab,
-          onChange: handleTabChange,
-          ariaLabel: "Goals header mode",
-          idBase: GOALS_TABS_ID_BASE,
-        }}
-        subTabs={reminderHeroSubTabs}
-        search={
-          reminderHeroSearch ? (
-            <HeroSearchBar
-              {...reminderHeroSearch}
-              className="min-w-[16rem] flex-1"
-            />
-          ) : undefined
-        }
-        actions={heroActions}
-        topClassName={GOALS_STICKY_TOP_CLASS}
       >
-        <div className="space-y-[var(--space-3)]">
-          <span className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
-            {heroEyebrow}
-          </span>
-          {summary}
-        </div>
-      </Header>
+        <Header<Tab | Domain>
+          heading={heroHeading}
+          subtitle={heroSubtitle}
+          icon={<Flag className="opacity-80" />}
+          navItems={navItems}
+          variant="neo"
+          underlineTone="brand"
+          showThemeToggle
+          subTabs={reminderHeroSubTabs}
+          search={
+            reminderHeroSearch ? (
+              <HeroSearchBar
+                {...reminderHeroSearch}
+                className="min-w-[16rem] flex-1"
+              />
+            ) : undefined
+          }
+          actions={heroActions}
+          topClassName={GOALS_STICKY_TOP_CLASS}
+        >
+          <div className="space-y-[var(--space-3)]">
+            <span className="text-label font-semibold tracking-[0.02em] uppercase text-muted-foreground">
+              {heroEyebrow}
+            </span>
+            {summary}
+          </div>
+        </Header>
+      </section>
+
+      <GoalsTabs
+        value={tab}
+        onChange={handleTabChange}
+        idBase={GOALS_TABS_ID_BASE}
+        className="mx-auto w-full max-w-xl"
+      />
 
       <PageShell
         as="main"
@@ -780,7 +767,7 @@ function GoalsPageContent() {
                           <Plus aria-hidden="true" className="size-[var(--space-4)]" />
                           <span className="font-semibold tracking-[0.01em]">New goal</span>
                         </Button>
-                        <GoalsTabs
+                        <GoalFilterTabs
                           value={filter}
                           onChange={setFilter}
                           onNewGoal={startGoalCreation}
@@ -904,57 +891,49 @@ function GoalsPageContent() {
         </div>
 
         <Modal
-          id={nukeDialogId}
           open={confirmClearOpen}
-          onClose={handleCloseNuke}
-          aria-labelledby={nukeHeadingId}
-          aria-describedby={nukeDescriptionId}
-          className="shadow-[var(--depth-shadow-soft)]"
+          onOpenChange={setConfirmClearOpen}
+          title="Delete all goals?"
+          description="This action permanently removes every goal, including completed history."
+          actions={(
+            <>
+              <Button
+                ref={confirmButtonRef}
+                type="button"
+                size="sm"
+                variant="default"
+                tone="danger"
+                tactile
+                onClick={handleConfirmNuke}
+                className="shrink-0"
+              >
+                <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
+                <span className="font-semibold tracking-[0.01em]">Delete all goals</span>
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="quiet"
+                onClick={handleCloseNuke}
+                className="shrink-0"
+              >
+                Cancel
+              </Button>
+            </>
+          )}
         >
-          <CardHeader className="space-y-[var(--space-2)]">
-            <CardTitle id={nukeHeadingId}>Delete all goals?</CardTitle>
-            <CardDescription id={nukeDescriptionId}>
-              This action permanently removes every goal, including completed history.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-[var(--space-3)]">
-            <div className="rounded-card border border-danger/40 bg-danger/10 px-[var(--space-4)] py-[var(--space-3)] text-left shadow-neo">
-              <p className="text-ui font-medium text-danger">
-                You are about to nuke {totalCount} {totalCount === 1 ? "goal" : "goals"}.
-              </p>
-              <p className="text-label text-muted-foreground">
-                There is no automatic undo. Export anything important before continuing.
-              </p>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-end gap-[var(--space-2)]">
-            <Button
-              ref={confirmButtonRef}
-              type="button"
-              size="sm"
-              variant="default"
-              tone="danger"
-              tactile
-              onClick={handleConfirmNuke}
-              className="shrink-0"
-            >
-              <Bomb aria-hidden="true" className="size-[var(--space-4)]" />
-              <span className="font-semibold tracking-[0.01em]">Delete all goals</span>
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              variant="quiet"
-              onClick={handleCloseNuke}
-              className="shrink-0"
-            >
-              Cancel
-            </Button>
-          </CardFooter>
+          <div className="rounded-card border border-danger/40 bg-danger/10 px-[var(--space-4)] py-[var(--space-3)] text-left shadow-neo">
+            <p className="text-ui font-medium text-danger">
+              You are about to nuke {totalCount} {totalCount === 1 ? "goal" : "goals"}.
+            </p>
+            <p className="text-label text-muted-foreground">
+              There is no automatic undo. Export anything important before continuing.
+            </p>
+          </div>
         </Modal>
 
       </PageShell>
-    </>
+    </ThemeProvider>
   );
 }
 
@@ -1187,3 +1166,47 @@ const GoalsInsetForm = React.forwardRef<GoalsInsetFormHandle, GoalsInsetFormProp
 );
 
 GoalsInsetForm.displayName = "GoalsInsetForm";
+
+function GoalFilterTabs({
+  value,
+  onChange,
+  onNewGoal,
+  newGoalDisabled,
+}: {
+  value: SegmentFilterKey;
+  onChange: (next: SegmentFilterKey) => void;
+  onNewGoal: () => void;
+  newGoalDisabled: boolean;
+}) {
+  const items = React.useMemo(
+    () =>
+      FILTER_ITEMS.map((item) =>
+        item.key === "New goal" ? { ...item, disabled: newGoalDisabled } : item,
+      ),
+    [newGoalDisabled],
+  );
+
+  const handleChange = React.useCallback(
+    (next: FilterKey) => {
+      if (next === "New goal") {
+        if (!newGoalDisabled) {
+          onNewGoal();
+        }
+        return;
+      }
+      onChange(next);
+    },
+    [newGoalDisabled, onChange, onNewGoal],
+  );
+
+  return (
+    <TabBar<FilterKey>
+      items={items}
+      value={value}
+      onValueChange={handleChange}
+      size="sm"
+      ariaLabel="Filter goals"
+      linkPanels={false}
+    />
+  );
+}

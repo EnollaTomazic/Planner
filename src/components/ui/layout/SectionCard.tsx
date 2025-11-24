@@ -107,7 +107,7 @@ const SectionCardRoot = React.forwardRef<HTMLElement, RootProps>(
           style={noiseStyle}
           {...props}
         >
-          <span aria-hidden className="glitch-sprite rounded-[inherit]" />
+          <div aria-hidden className="glitch-sprite rounded-[inherit]" />
           {children}
         </section>
       </SectionCardContext.Provider>
