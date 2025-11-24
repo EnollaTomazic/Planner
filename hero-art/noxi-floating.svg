@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Noxi floating with support drones</title>
+  <desc id="desc">3D neon illustration of Noxi hovering with holographic support drones.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A0A18" />
+      <stop offset="60%" stop-color="#151530" />
+      <stop offset="100%" stop-color="#0B0A1D" />
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0%" stop-color="#7FF3FF" stop-opacity="0.42" />
+      <stop offset="100%" stop-color="#7FF3FF" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="suit" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E6F6FF" />
+      <stop offset="100%" stop-color="#AEC8FF" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8CF0FF" />
+      <stop offset="100%" stop-color="#6F6BFF" />
+    </linearGradient>
+    <linearGradient id="glare" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FDFEFF" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#C7E0FF" stop-opacity="0.8" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg)" />
+  <ellipse cx="620" cy="460" rx="460" ry="320" fill="url(#halo)" opacity="0.86" />
+  <ellipse cx="640" cy="700" rx="280" ry="80" fill="#8CF0FF" opacity="0.2" />
+  <ellipse cx="640" cy="714" rx="200" ry="60" fill="#6F6BFF" opacity="0.2" />
+  <g transform="translate(540 160)">
+    <ellipse cx="110" cy="118" rx="108" ry="116" fill="url(#suit)" />
+    <ellipse cx="112" cy="108" rx="96" ry="92" fill="url(#glare)" />
+    <path d="M82 88c18-30 64-34 88-12 14 16 18 42 12 64-10 30-36 48-68 48s-64-18-72-48c-6-26 8-52 40-52Z" fill="#0F1024" />
+    <path d="M138 92c14 4 26 22 22 42-6 22-22 36-38 36-20 0-36-18-36-38 0-20 18-44 52-40Z" fill="#8CF0FF" opacity="0.82" />
+    <circle cx="108" cy="120" r="8" fill="#7FF3FF" />
+    <circle cx="148" cy="116" r="8" fill="#7FF3FF" />
+    <path d="M104 156c18 10 40 10 58 0" stroke="#8CF0FF" stroke-width="7" stroke-linecap="round" opacity="0.85" />
+  </g>
+  <g transform="translate(520 330)">
+    <path d="M118 0c40-2 90 22 122 60 30 36 40 82 24 118-14 32-46 58-86 70-44 12-92 8-128-16-44-30-70-88-52-138 14-40 64-94 120-94Z" fill="url(#suit)" />
+    <path d="M140 66c44 0 84 36 86 86 2 52-34 92-86 100-64 8-132-32-132-96 0-52 42-92 94-90h38Z" fill="#0C1023" opacity="0.9" />
+    <path d="M112 90c22-16 56-12 76 10 24 26 26 64 8 92-22 38-68 54-102 38s-52-62-32-100c12-22 26-40 50-40Z" fill="url(#accent)" opacity="0.6" />
+  </g>
+  <g transform="translate(408 368)">
+    <path d="M70 18c-18 30-26 82-18 112 6 32 34 48 58 46 26-4 46-28 50-56 4-34-14-88-26-118-14-36-48-36-64-4Z" fill="#E6F6FF" />
+    <path d="M96 66c4 12 2 30-8 42-8 8-18 8-22-2-4-10 2-22 10-34 6-8 16-10 20-6Z" fill="#8CF0FF" opacity="0.74" />
+  </g>
+  <g transform="translate(740 374)">
+    <path d="M64 14c14 36 22 92 16 122-6 32-26 52-50 52-22 0-42-18-50-46-8-28-2-70 8-106 12-40 56-56 76-22Z" fill="#E6F6FF" />
+    <path d="M52 76c6 10 2 24-4 34-4 8-14 8-18 0-6-8-2-20 4-30 4-8 14-10 18-4Z" fill="#8CF0FF" opacity="0.74" />
+  </g>
+  <g transform="translate(470 260)">
+    <rect x="0" y="0" width="122" height="30" rx="15" fill="#8CF0FF" opacity="0.36" />
+    <rect x="150" y="10" width="98" height="24" rx="12" fill="#6F6BFF" opacity="0.32" />
+    <rect x="290" y="6" width="60" height="28" rx="14" fill="#7FF3FF" opacity="0.3" />
+  </g>
+  <g transform="translate(360 220)">
+    <circle cx="70" cy="70" r="32" fill="#7FF3FF" opacity="0.78" />
+    <circle cx="70" cy="70" r="18" fill="#E9FDFF" />
+    <rect x="58" y="64" width="24" height="12" rx="6" fill="#1B2048" />
+  </g>
+  <g transform="translate(886 258)">
+    <circle cx="60" cy="60" r="28" fill="#7FF3FF" opacity="0.7" />
+    <circle cx="60" cy="60" r="18" fill="#E9FDFF" />
+    <rect x="48" y="56" width="26" height="12" rx="6" fill="#1B2048" />
+  </g>
+</svg>

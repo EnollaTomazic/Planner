@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Noxi hacking a console</title>
+  <desc id="desc">3D neon illustration of Noxi focused on a holographic hacking console.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A0A16" />
+      <stop offset="50%" stop-color="#141332" />
+      <stop offset="100%" stop-color="#0B0A20" />
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#70F0FF" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#9A7BFF" stop-opacity="0.12" />
+    </linearGradient>
+    <linearGradient id="suit" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E9F6FF" />
+      <stop offset="100%" stop-color="#B5C7FF" />
+    </linearGradient>
+    <radialGradient id="halo" cx="0.58" cy="0.46" r="0.62">
+      <stop offset="0%" stop-color="#7FF3FF" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#7FF3FF" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8CF0FF" />
+      <stop offset="100%" stop-color="#6F6BFF" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg)" />
+  <ellipse cx="760" cy="420" rx="480" ry="340" fill="url(#halo)" opacity="0.9" />
+  <rect x="560" y="260" width="520" height="410" rx="48" fill="#0C0F24" stroke="#5C5E9A" stroke-opacity="0.35" />
+  <rect x="560" y="260" width="520" height="410" rx="48" fill="url(#panel)" opacity="0.6" />
+  <rect x="620" y="318" width="320" height="12" rx="6" fill="#8CF0FF" opacity="0.72" />
+  <rect x="620" y="350" width="260" height="10" rx="5" fill="#8CF0FF" opacity="0.46" />
+  <rect x="620" y="382" width="340" height="10" rx="5" fill="#6F6BFF" opacity="0.42" />
+  <rect x="620" y="420" width="220" height="12" rx="6" fill="#8CF0FF" opacity="0.5" />
+  <rect x="620" y="456" width="340" height="12" rx="6" fill="#8CF0FF" opacity="0.28" />
+  <rect x="620" y="492" width="300" height="12" rx="6" fill="#6F6BFF" opacity="0.4" />
+  <g transform="translate(380 210)">
+    <ellipse cx="124" cy="122" rx="112" ry="118" fill="url(#suit)" />
+    <ellipse cx="126" cy="110" rx="100" ry="94" fill="#FDFEFF" opacity="0.9" />
+    <path d="M90 90c18-28 62-32 88-12 16 12 22 38 16 60-10 32-38 52-70 52-34 0-66-18-74-50-8-30 8-58 40-50Z" fill="#0E1024" />
+    <path d="M142 94c16 4 28 22 22 44-6 22-24 36-40 36-22 0-40-18-38-42 0-20 18-46 56-38Z" fill="#8CF0FF" opacity="0.82" />
+    <circle cx="112" cy="120" r="8" fill="#7FF3FF" />
+    <circle cx="152" cy="116" r="8" fill="#7FF3FF" />
+    <rect x="110" y="158" width="44" height="10" rx="5" fill="#8CF0FF" opacity="0.82" />
+  </g>
+  <g transform="translate(360 388)">
+    <path d="M126 14c40-10 92 12 126 52 32 36 46 86 32 124-12 32-44 60-86 72-46 12-100 6-140-20-46-30-74-90-58-142 12-42 70-108 126-88Z" fill="url(#suit)" />
+    <path d="M152 76c46 0 86 34 92 86 6 56-30 102-86 110-66 10-140-30-142-96-2-54 44-102 98-100h38Z" fill="#0B0F22" opacity="0.9" />
+    <path d="M126 96c22-16 56-10 76 14 22 26 26 66 6 94-24 38-72 54-108 38-36-16-54-64-34-104 12-22 34-46 60-42Z" fill="url(#accent)" opacity="0.64" />
+  </g>
+  <g transform="translate(262 414)">
+    <path d="M70 16c-18 34-26 90-16 122 10 32 40 50 66 46 26-6 44-34 46-64 2-36-16-94-28-126-14-38-48-36-68 6Z" fill="#E9F6FF" />
+    <path d="M98 66c4 14 0 34-12 46-8 6-18 6-20-6-4-10 2-24 12-36 6-8 16-10 20-4Z" fill="#8CF0FF" opacity="0.72" />
+  </g>
+  <g transform="translate(618 420)">
+    <path d="M64 16c14 36 22 94 14 124-8 32-30 52-54 50-22-2-42-22-48-52-6-28 0-70 10-106 14-42 56-54 78-16Z" fill="#E9F6FF" />
+    <path d="M50 76c8 10 4 26-4 36-6 8-14 8-18-2-6-8-2-20 4-30 4-8 14-10 18-4Z" fill="#8CF0FF" opacity="0.72" />
+  </g>
+  <g transform="translate(470 300)">
+    <rect x="0" y="0" width="132" height="34" rx="17" fill="#8CF0FF" opacity="0.32" />
+    <rect x="154" y="12" width="96" height="22" rx="11" fill="#6F6BFF" opacity="0.32" />
+    <rect x="304" y="8" width="64" height="24" rx="12" fill="#7FF3FF" opacity="0.28" />
+  </g>
+</svg>
