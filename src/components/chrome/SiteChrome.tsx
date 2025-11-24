@@ -7,7 +7,6 @@ import { MobileNavDrawer } from "@/components/chrome/MobileNavDrawer";
 import { BrandWordmark } from "@/components/chrome/BrandWordmark";
 import { ThemeToggle } from "@/components/ui/theme/ThemeToggle";
 import { AnimationToggle } from "@/components/ui/AnimationToggle";
-import { PageShell } from "@/components/ui";
 import { withBasePath } from "@/lib/utils";
 import Link from "next/link";
 import { IconButton } from "@/components/ui/primitives/IconButton";
@@ -20,8 +19,7 @@ export type SiteChromeProps = {
 
 /**
  * SiteChrome — sticky top bar for global navigation
- * - Uses .sticky-blur (backdrop + border) from globals.css
- * - Full-width container; content constrained by .page-shell
+ * - Single header with centered nav and right-aligned utilities
  * - Z-index > heroes, so it stays above scrolling headers
  */
 export function SiteChrome({ children }: SiteChromeProps) {
@@ -38,23 +36,13 @@ export function SiteChrome({ children }: SiteChromeProps) {
     <React.Fragment>
       <header
         role="banner"
-        className="sticky top-0 z-50 sticky-blur"
+        className="sticky top-0 z-50 border-b border-border/70 bg-gradient-to-b from-surface/95 via-surface/90 to-background/85 backdrop-blur-xl"
       >
-        {/* Bar content */}
-        <PageShell
-          grid
-          className="relative pt-[calc(env(safe-area-inset-top)+var(--space-1))] pb-[var(--space-1)] md:pt-[calc(env(safe-area-inset-top)+var(--space-1))] md:pb-[var(--space-1)]"
-          contentClassName="items-center gap-y-[var(--space-1)]"
-        >
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-chrome-divider opacity-80"
-          />
-
+        <div className="mx-auto grid h-14 w-full max-w-[var(--shell-max)] grid-cols-[auto,1fr,auto] items-center gap-[var(--space-3)] px-6">
           <Link
             href={withBasePath("/", { skipForNextLink: true })}
             aria-label="Home"
-            className="col-span-full flex items-center gap-[var(--space-2)] md:col-span-3"
+            className="flex items-center gap-[var(--space-2)]"
           >
             <span
               aria-hidden="true"
@@ -66,11 +54,11 @@ export function SiteChrome({ children }: SiteChromeProps) {
             <BrandWordmark />
           </Link>
 
-          <div className="col-span-full hidden min-w-0 justify-center md:col-span-6 md:col-start-4 md:flex lg:col-span-6">
+          <div className="hidden min-w-0 justify-center md:flex">
             <NavBar />
           </div>
 
-          <div className="col-span-full flex items-center justify-end gap-[var(--space-1)] md:col-span-3 md:justify-self-end">
+          <div className="flex items-center justify-end gap-[var(--space-2)]">
             <div className="md:hidden">
               <IconButton
                 aria-label="Open navigation"
@@ -92,12 +80,12 @@ export function SiteChrome({ children }: SiteChromeProps) {
               </div>
             </Toolbar>
           </div>
-          <MobileNavDrawer
-            id={navId}
-            open={mobileNavOpen}
-            onClose={closeMobileNav}
-          />
-        </PageShell>
+        </div>
+        <MobileNavDrawer
+          id={navId}
+          open={mobileNavOpen}
+          onClose={closeMobileNav}
+        />
       </header>
       {children}
     </React.Fragment>

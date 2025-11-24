@@ -2,13 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ComponentsPage } from "@/components/gallery-page/ComponentsPage";
 import { Header } from "@/components/ui/layout/Header";
-import { PRIMARY_PAGE_NAV, type HeaderNavItem } from "@/components/ui/layout/primary-nav";
 import { PageShell, Spinner } from "@/components/ui";
-
-const navItems: HeaderNavItem[] = PRIMARY_PAGE_NAV.map((item) => ({
-  ...item,
-  active: item.key === "components",
-}));
 
 export const dynamic = "force-static";
 
@@ -25,10 +19,8 @@ export default function ComponentsRoute() {
       <Header
         heading={<span id={headerHeadingId}>Components</span>}
         subtitle="Browse Planner UI building blocks and examples."
-        navItems={navItems}
         variant="neo"
         underlineTone="brand"
-        showThemeToggle
       />
       <Suspense
         fallback={
