@@ -231,7 +231,9 @@
   }
 
   body {
-    --header-stack: calc(var(--control-h-xl) + var(--space-2));
+    --header-stack: calc(
+      var(--control-h-xl) + var(--space-2) + env(safe-area-inset-top)
+    );
     --content-viewport-height: calc(
       var(--viewport-height) - var(--header-stack) - var(--space-6)
     );
@@ -256,7 +258,9 @@
 
   @media (min-width: 48rem) {
     body {
-      --header-stack: calc(var(--control-h-xl) + var(--space-2));
+      --header-stack: calc(
+        var(--control-h-xl) + var(--space-2) + env(safe-area-inset-top)
+      );
       --content-viewport-height: calc(
         var(--viewport-height) - var(--header-stack) - var(--space-6)
       );
