@@ -3,8 +3,9 @@
 // - Dark mode by class; colors map to CSS variables in globals.css
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
-import type { CustomThemeConfig } from "tailwindcss/types/config";
 import tokenPlugin from "./scripts/tailwind-token-plugin";
+
+type CustomThemeConfig = Record<string, unknown>;
 
 const plannerSurfaces = plugin(({ addUtilities }) => {
   addUtilities({
@@ -42,7 +43,7 @@ const tokenTheme = ((tokenPlugin as unknown as {
   config?: { theme?: { extend?: CustomThemeConfig } };
 }).config?.theme?.extend ?? {}) as CustomThemeConfig;
 
-const config: Config = {
+const config = {
   darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   safelist: [
@@ -202,6 +203,6 @@ const config: Config = {
       );
     }),
   ],
-};
+} as unknown as Config;
 
 export default config;
