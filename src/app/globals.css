@@ -409,7 +409,9 @@ body.fx-gifbars::before {
 
 @layer utilities {
   .veil-soft {
-    @apply bg-surface/30 backdrop-blur-[2px] rounded-card;
+    background-color: hsl(var(--surface) / 0.3);
+    backdrop-filter: blur(2px);
+    border-radius: var(--radius-card);
   }
 
   .cq-sm {
@@ -1462,7 +1464,8 @@ html.bg-intense body::after {
       var(--tw-ring-offset-shadow, 0 0 #0000),
       var(--tw-ring-shadow, 0 0 #0000),
       var(--tw-shadow);
-    @apply text-ui;
+    font-size: var(--font-ui);
+    line-height: 1.35;
   }
 
   .chip-trigger:hover {

@@ -1,10 +1,13 @@
 import plugin from "tailwindcss/plugin";
-import type { RecursiveKeyValuePair } from "tailwindcss/types/config";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 type TokenManifest = Record<string, string>;
+
+type RecursiveKeyValuePair<Key extends string, Value> = {
+  [K in Key | string]: Value | RecursiveKeyValuePair<string, Value>;
+};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
