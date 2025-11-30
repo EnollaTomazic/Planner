@@ -74,7 +74,7 @@ describe("TabBar", () => {
     const { container, rerender } = render(<Hero heading="Components" />);
     expect(container.querySelector(".header-rail")).toBeNull();
 
-    rerender(<Hero heading="Components" rail />);
+    rerender(<Hero heading="Components" glitch="subtle" />);
     expect(container.querySelector(".header-rail")).toBeNull();
   });
 
