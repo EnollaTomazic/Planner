@@ -85,8 +85,6 @@ export interface HeroPanelProps extends PanelElementProps {
   actionsLabel?: string;
   headingId?: string;
   accent?: AccentTone;
-  /** @deprecated Decorative header rail has been removed; prop is a no-op. */
-  rail?: boolean;
 }
 
 type LayoutHeroVariantProps<Key extends string = string> = LayoutHeroProps<Key> & {
@@ -167,7 +165,6 @@ const PanelHero = React.forwardRef<PanelElementRef, HeroPanelProps>(
       headingId: headingIdProp,
       style: styleProp,
       accent = "accent",
-      rail: _rail,
       ...rest
     },
     ref,
@@ -308,7 +305,6 @@ const LayoutHeroWrapper = React.forwardRef<
       pageAccent,
       tone,
       dividerTint,
-      rail: _rail,
       ...rest
     },
     ref,
