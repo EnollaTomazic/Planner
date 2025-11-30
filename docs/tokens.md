@@ -158,12 +158,12 @@
 | primary | 262 88% 60% |
 | primary-foreground | 0 0% 100% |
 | primary-soft | 262 88% 20% |
-| accent-1 | 276 88% 62% |
+| accent-1 | 276 88% 59% |
 | accent-1-foreground | 0 0% 100% |
 | accent-1-contrast | 276 92% 88% |
 | accent-1-soft | 276 88% 22% |
 | accent-1-hover | hsl(var(--accent-1) / 0.14) |
-| accent-2 | 168 96% 56% |
+| accent-2 | 168 88% 28% |
 | accent-2-foreground | 0 0% 100% |
 | accent-3 | 318 82% 60% |
 | glow | 296 96% 56% |
