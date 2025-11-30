@@ -5,20 +5,24 @@ import { TeamCompPage } from "@/components/team/TeamCompPage";
 import * as BuilderModule from "@/components/team/Builder";
 import type { TeamState } from "@/components/team/Builder";
 import { createStorageKey, flushWriteLocal, setWriteLocalDelay, writeLocalDelay } from "@/lib/db";
+import { useQueryParam } from "@/lib/useQueryParam";
+
+vi.mock("@/lib/useQueryParam", () => ({
+  useQueryParam: vi.fn(() => ""),
+}));
+const mockedUseQueryParam = vi.mocked(useQueryParam);
 
 const ORIGINAL_DELAY = writeLocalDelay;
 
 beforeEach(() => {
-  vi.useFakeTimers();
+  mockedUseQueryParam.mockReturnValue("");
   setWriteLocalDelay(0);
   window.localStorage.clear();
 });
 
 afterEach(() => {
   flushWriteLocal();
-  vi.runAllTimers();
   setWriteLocalDelay(ORIGINAL_DELAY);
-  vi.useRealTimers();
   window.localStorage.clear();
 });
 
