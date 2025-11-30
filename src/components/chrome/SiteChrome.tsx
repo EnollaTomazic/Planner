@@ -74,7 +74,7 @@ export function SiteChrome({ children }: SiteChromeProps) {
               </IconButton>
             </div>
             <Toolbar label="Display controls">
-              <ThemeToggle className="shrink-0" ariaLabel="Display" />
+              <ThemeToggle className="shrink-0" ariaLabel="Theme" />
               <div className="shrink-0">
                 <AnimationToggle />
               </div>

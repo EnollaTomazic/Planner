@@ -94,6 +94,8 @@ export interface HeroProps<Key extends string = string>
   illustrationAlt?: string;
   /** Prebuilt neon character vignette. */
   scene?: HeroSceneKey;
+  /** @deprecated Decorative header rail has been removed; prop is a no-op. */
+  rail?: boolean;
 }
 
 function mapTabs<Key extends string>(
@@ -234,6 +236,7 @@ function Hero<Key extends string = string>({
   className,
   as,
   padding = "default",
+  rail: _rail,
   ...rest
 }: HeroProps<Key>) {
   const heroHeading = title ?? heading;
