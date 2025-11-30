@@ -187,7 +187,7 @@ function Inner() {
           items: VIEW_MODE_TABS,
           value: viewMode,
           onChange: handleViewModeChange,
-          ariaLabel: "Planner view",
+          ariaLabel: "Planner view mode",
           idBase: VIEW_TAB_ID_BASE,
           useSegmentedControl: true,
           right: (
