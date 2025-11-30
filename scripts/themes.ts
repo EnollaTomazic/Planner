@@ -32,6 +32,8 @@ export const rootVariables: VariableDefinition[] = [
     value: "calc(var(--spacing-8) * 5)",
   },
   { name: "card-radius", value: "var(--radius-xl)" },
+  { name: "scanlines", value: "var(--card-overlay-scanlines)" },
+  { name: "texture-scanlines", value: "var(--card-overlay-scanlines)" },
   { name: "elevation-card", value: "var(--shadow-outline-subtle)" },
   {
     name: "elevation-card-pressed",
@@ -65,6 +67,22 @@ export const rootVariables: VariableDefinition[] = [
   { name: "state-warning-border", value: "hsl(var(--warning) / 0.6)" },
   { name: "state-danger-surface", value: "hsl(var(--danger) / 0.18)" },
   { name: "state-danger-border", value: "hsl(var(--danger) / 0.62)" },
+  { name: "texture-noise-opacity", value: "0.05" },
+  { name: "texture-grain-strength", value: "1" },
+  { name: "texture-scanline-strength", value: "1" },
+  { name: "theme-noise-level-none", value: "0" },
+  {
+    name: "theme-noise-level-subtle",
+    value: "var(--texture-noise-opacity, var(--texture-grain-opacity))",
+  },
+  {
+    name: "theme-noise-level-moderate",
+    value:
+      "calc(var(--texture-noise-opacity, var(--texture-grain-opacity, 0.05)) * 1.2)",
+  },
+  { name: "theme-scanline-opacity-none", value: "0" },
+  { name: "theme-scanline-opacity-subtle", value: "0.045" },
+  { name: "theme-scanline-opacity-moderate", value: "0.06" },
   {
     comment: "Depth shadows (outer/inner)",
     name: "depth-shadow-outer",
@@ -73,6 +91,7 @@ export const rootVariables: VariableDefinition[] = [
   { name: "depth-shadow-outer-strong", value: "var(--shadow-depth-outer-strong)" },
   { name: "depth-shadow-soft", value: "var(--shadow-depth-soft)" },
   { name: "depth-shadow-inner", value: "var(--shadow-depth-inner)" },
+  { name: "depth-shadow-inset", value: "var(--shadow-depth-inner)" },
   {
     name: "shadow-inner-sm",
     value:
@@ -104,6 +123,8 @@ export const rootVariables: VariableDefinition[] = [
     name: "shadow-outer-xl",
     value: "0 var(--spacing-5) var(--spacing-8) hsl(var(--shadow-color) / 0.45)",
   },
+  { name: "shadow-glitch-card", value: "var(--depth-shadow-outer)" },
+  { name: "shadow-glitch-card-hover", value: "var(--depth-shadow-outer-strong)" },
   {
     comment: "Depth glow ramps",
     name: "depth-glow-highlight-soft",
@@ -198,6 +219,7 @@ export const rootVariables: VariableDefinition[] = [
       "0 0 0 calc(var(--spacing-0-5)) hsl(var(--ring) / 0.5), 0 0 var(--spacing-3) hsl(var(--ring) / 0.22)",
   },
   { name: "neon-outline-opacity", value: "0.35" },
+  { name: "glitch-pixel", value: "var(--glitch-noise-level)" },
   {
     comment: [
       "Glitch normalization (identical amplitude & cadence)",
@@ -209,7 +231,11 @@ export const rootVariables: VariableDefinition[] = [
   { comment: "base animation length", name: "glitch-duration", value: "450ms" },
   { comment: "hue-rotate magnitude", name: "glitch-fringe", value: "12deg" },
   { comment: "overlay alpha", name: "glitch-static-opacity", value: "0.054" },
-  { name: "glitch-noise-level", value: "var(--glitch-static-opacity)" },
+  {
+    name: "glitch-noise-level",
+    value:
+      "calc(var(--glitch-static-opacity, var(--texture-grain-opacity, 0.04)) * var(--texture-grain-strength, 1))",
+  },
   {
     comment: "Card glitch overlay alpha",
     name: "glitch-overlay-opacity-card",

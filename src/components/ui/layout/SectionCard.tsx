@@ -40,14 +40,17 @@ const SECTION_CARD_NOISE_STYLES: Record<NoiseLevel, React.CSSProperties> = {
     "--texture-grain-strength": "0",
     "--texture-scanline-opacity": "var(--theme-noise-level-none, 0)",
     "--texture-scanline-strength": "0",
+    backgroundImage: "var(--texture-scanlines)",
   } as React.CSSProperties,
   subtle: {
     "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.03)",
     "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.045)",
+    backgroundImage: "var(--texture-scanlines)",
   } as React.CSSProperties,
   moderate: {
     "--texture-grain-opacity": "var(--theme-noise-level-moderate, 0.04)",
     "--texture-scanline-opacity": "var(--theme-scanline-opacity-moderate, 0.06)",
+    backgroundImage: "var(--texture-scanlines)",
   } as React.CSSProperties,
 };
 
@@ -83,12 +86,17 @@ const SectionCardRoot = React.forwardRef<HTMLElement, RootProps>(
       if (variant === "neo") {
         return cn(
           "card-neo-soft shadow-depth-outer-strong",
-          showNoiseBackground && "bg-glitch-noise-primary",
+          showNoiseBackground &&
+            "bg-[var(--texture-scanlines)] shadow-[var(--shadow-outer-xl)]",
         );
       }
 
       if (variant === "plain") {
-        return cn("card-soft", showNoiseBackground && "bg-glitch-noise-primary");
+        return cn(
+          "card-soft",
+          showNoiseBackground &&
+            "bg-[var(--texture-scanlines)] shadow-[var(--shadow-outer-xl)]",
+        );
       }
 
       return styles.glitch;
