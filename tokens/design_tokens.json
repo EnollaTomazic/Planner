@@ -419,7 +419,7 @@
       "value": "262 88% 20%"
     },
     "accent1": {
-      "value": "276 88% 62%"
+      "value": "276 88% 59%"
     },
     "accent1Foreground": {
       "value": "0 0% 100%"
@@ -434,7 +434,7 @@
       "value": "hsl(var(--accent-1) / 0.14)"
     },
     "accent2": {
-      "value": "168 96% 56%"
+      "value": "168 88% 28%"
     },
     "accent2Foreground": {
       "value": "0 0% 100%"
