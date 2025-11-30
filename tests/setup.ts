@@ -111,6 +111,37 @@ vi.mock("next/link", async () => {
   };
 });
 
+vi.mock("next/navigation", async () => {
+  const ReactModule = await vi.importActual<typeof import("react")>("react");
+
+  const createEmptySearchParams = () => new URLSearchParams();
+  const noop = () => {};
+
+  return {
+    __esModule: true,
+    useSearchParams: () => createEmptySearchParams(),
+    usePathname: () => "",
+    useRouter: () => ({
+      back: noop,
+      forward: noop,
+      prefetch: noop,
+      push: noop,
+      refresh: noop,
+      replace: noop,
+    }),
+    redirect: (url: string) => {
+      throw new Error(`Unexpected redirect to ${url}`);
+    },
+    notFound: () => {
+      throw new Error("Unexpected notFound() call");
+    },
+    ServerInsertedHTMLContext: ReactModule.createContext({
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      renderInsertedHTML: () => {},
+    }),
+  };
+});
+
 const originalConsoleError = console.error;
 vi.spyOn(console, "error").mockImplementation((...args) => {
   const [format, value, attr] = args;
