@@ -7,6 +7,7 @@ import { PageShell } from "@/components/ui";
 import { Button } from "@/components/ui/primitives/Button";
 import { Input } from "@/components/ui/primitives/Input";
 import { usePersistentTab } from "@/lib/usePersistentTab";
+import { useQueryParam } from "@/lib/useQueryParam";
 import { cn } from "@/lib/utils";
 import {
   ChatPromptsTab,
@@ -85,6 +86,23 @@ export function PromptsPage() {
     "chat",
     decodeTab,
   );
+
+  const tabParam = useQueryParam("tab", "");
+  React.useEffect(() => {
+    if (!tabParam) return;
+
+    const nextTab = decodeTab(tabParam);
+    if (nextTab) {
+      if (nextTab !== activeTab) {
+        setActiveTab(nextTab);
+      }
+      return;
+    }
+
+    if (activeTab !== "chat") {
+      setActiveTab("chat");
+    }
+  }, [tabParam, activeTab, setActiveTab]);
 
   const tabCounts = React.useMemo(
     () => ({
