@@ -91,18 +91,12 @@ export function PromptsPage() {
   React.useEffect(() => {
     if (!tabParam) return;
 
-    const nextTab = decodeTab(tabParam);
-    if (nextTab) {
-      if (nextTab !== activeTab) {
-        setActiveTab(nextTab);
-      }
-      return;
-    }
-
-    if (activeTab !== "chat") {
-      setActiveTab("chat");
-    }
-  }, [tabParam, activeTab, setActiveTab]);
+    const nextTab = decodeTab(tabParam) ?? "chat";
+    setActiveTab((current) => {
+      if (current === nextTab) return current;
+      return nextTab;
+    });
+  }, [tabParam, setActiveTab]);
 
   const tabCounts = React.useMemo(
     () => ({
