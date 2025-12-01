@@ -46,7 +46,7 @@ jobs:
           skip-checkout: 'true'
 
       - name: Run actionlint across workflows
-        uses: reviewdog/action-actionlint@1e0347f403806115f8f81956006e0f8c1c3c681f # v1.67.0
+        uses: reviewdog/action-actionlint@44b7d68cb1c44552956a1ea81e9b740f4637239f # v1.67.0
         with:
           github_token: ${{ github.token }}
           fail_level: error
