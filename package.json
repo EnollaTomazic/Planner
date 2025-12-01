@@ -110,7 +110,7 @@
     "style-dictionary": "^5.0.4",
     "tailwindcss": "4.1.17",
     "ts-morph": "^27.0.0",
-    "tsx": "^4.20.6",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.2",
     "vitest": "^4.0.13",
     "webpack-bundle-analyzer": "^4.10.2"
