@@ -69,11 +69,19 @@ function redactString(value: string): string {
   );
 }
 
-function redactUnknown(
-  value: unknown,
-  seen: WeakSet<object> = new WeakSet(),
-  depth = 0,
-): unknown {
+type RedactOptions = {
+  deep?: boolean;
+  depth?: number;
+  maxDepth?: number;
+  seen?: WeakSet<object>;
+};
+
+function redactUnknown(value: unknown, options: RedactOptions = {}): unknown {
+  const { deep = false } = options;
+  const seen = options.seen ?? new WeakSet<object>();
+  const depth = options.depth ?? 0;
+  const maxDepth = options.maxDepth ?? (deep ? MAX_DEPTH : 1);
+
   if (typeof value === "string") {
     return redactString(value);
   }
@@ -99,53 +107,16 @@ function redactUnknown(
   }
 
   if (Array.isArray(value)) {
-    if (depth >= MAX_DEPTH) {
-      return "[Truncated array]";
+    if (depth >= maxDepth) {
+      return value;
     }
-    const limited = value.slice(0, MAX_ARRAY_LENGTH).map((item) =>
-      redactUnknown(item, seen, depth + 1),
-    );
+    const limited = value
+      .slice(0, MAX_ARRAY_LENGTH)
+      .map((item) => redactUnknown(item, { ...options, depth: depth + 1, seen, deep }));
     if (value.length > MAX_ARRAY_LENGTH) {
       limited.push(`[+${value.length - MAX_ARRAY_LENGTH} more items]`);
     }
     return limited;
-  }
-
-  if (value instanceof Map) {
-    if (seen.has(value)) {
-      return "[Circular]";
-    }
-    seen.add(value);
-    if (depth >= MAX_DEPTH) {
-      return "[Truncated map]";
-    }
-    const entriesList = Array.from(value.entries());
-    const limitedEntries = entriesList.slice(0, MAX_OBJECT_KEYS).map(([key, entryValue]) => [
-      redactUnknown(key, seen, depth + 1),
-      redactUnknown(entryValue, seen, depth + 1),
-    ]);
-    if (entriesList.length > MAX_OBJECT_KEYS) {
-      limitedEntries.push(["[Truncated]", `+${entriesList.length - MAX_OBJECT_KEYS} entries`]);
-    }
-    return limitedEntries;
-  }
-
-  if (value instanceof Set) {
-    if (seen.has(value)) {
-      return "[Circular]";
-    }
-    seen.add(value);
-    if (depth >= MAX_DEPTH) {
-      return "[Truncated set]";
-    }
-    const valuesList = Array.from(value.values());
-    const limitedValues = valuesList
-      .slice(0, MAX_ARRAY_LENGTH)
-      .map((entryValue) => redactUnknown(entryValue, seen, depth + 1));
-    if (valuesList.length > MAX_ARRAY_LENGTH) {
-      limitedValues.push(`[+${valuesList.length - MAX_ARRAY_LENGTH} more items]`);
-    }
-    return limitedValues;
   }
 
   if (typeof value === "object") {
@@ -155,14 +126,17 @@ function redactUnknown(
     }
     seen.add(objectValue);
 
-    if (depth >= MAX_DEPTH) {
-      return "[Truncated object]";
+    if (depth >= maxDepth) {
+      return objectValue;
     }
 
     const objectEntries = Object.entries(objectValue);
     const limitedEntries = objectEntries
       .slice(0, MAX_OBJECT_KEYS)
-      .map(([key, entryValue]) => [key, redactUnknown(entryValue, seen, depth + 1)]);
+      .map(([key, entryValue]) => [
+        key,
+        redactUnknown(entryValue, { ...options, depth: depth + 1, seen, deep }),
+      ]);
     if (objectEntries.length > MAX_OBJECT_KEYS) {
       limitedEntries.push(["[Truncated]", `+${objectEntries.length - MAX_OBJECT_KEYS} keys`]);
     }
@@ -247,6 +221,6 @@ export function createLogger(scope: string, context: LoggerContext = {}): Logger
 export const persistenceLogger = createLogger("persistence");
 export const observabilityLogger = createLogger("observability");
 
-export function redactForLogging<T>(value: T): T | unknown {
-  return redactUnknown(value);
+export function redactForLogging<T>(value: T, options?: { deep?: boolean }): T | unknown {
+  return redactUnknown(value, options);
 }
