@@ -1,18 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { createPortal } from "react-dom";
 import { Bot, Loader2, Plus, CalendarClock, Sparkles } from "lucide-react";
 import {
   Button,
-  Card,
-  IconButton,
   Label,
+  Modal,
   Select,
   TabBar,
   Textarea,
-  useDialogTrap,
-  cardSurfaceClassName,
 } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import {
@@ -89,72 +85,31 @@ function formatSchedule(
 
 type PlannerCreationDialogProps = {
   open: boolean;
-  onClose: VoidFunction;
-  titleId: string;
-  descriptionId: string;
-  summaryId: string;
+  onOpenChange: (open: boolean) => void;
+  title: string;
+  description: string;
+  actions: React.ReactNode;
   children: React.ReactNode;
 };
 
 function PlannerCreationDialog({
   open,
-  onClose,
-  titleId,
-  descriptionId,
-  summaryId,
+  onOpenChange,
+  title,
+  description,
+  actions,
   children,
 }: PlannerCreationDialogProps) {
-  const mountedRef = React.useRef(false);
-  const dialogRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    mountedRef.current = true;
-    return () => {
-      mountedRef.current = false;
-    };
-  }, []);
-
-  useDialogTrap({ open: open && mountedRef.current, onClose, ref: dialogRef });
-
-  if (!open || typeof document === "undefined") return null;
-
-  return createPortal(
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[hsl(var(--bg)/0.85)] px-[var(--space-4)] pb-[var(--space-6)] pt-[var(--space-8)] sm:items-center sm:bg-[hsl(var(--bg)/0.8)]">
-      <div
-        role="presentation"
-        aria-hidden="true"
-        className="absolute inset-0"
-        onClick={onClose}
-      />
-      <Card
-        depth="raised"
-        className={cn(
-          cardSurfaceClassName,
-          "relative w-full max-w-[min(calc(var(--space-16)*3+var(--space-8)),calc(var(--shell-width)*0.9))] card-pad space-y-[var(--space-5)]",
-        )}
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        aria-describedby={descriptionId}
-        aria-details={summaryId}
-      >
-        <IconButton
-          aria-label="Close creation sheet"
-          variant="quiet"
-          tone="primary"
-          size="sm"
-          className="absolute right-[var(--space-3)] top-[var(--space-3)]"
-          onClick={onClose}
-        >
-          <span className="sr-only">Close planner creation sheet</span>
-          {/* Using Plus with rotation for consistent glyph weight */}
-          <Plus className="rotate-45" />
-        </IconButton>
-        {children}
-      </Card>
-    </div>,
-    document.body,
+  return (
+    <Modal
+      open={open}
+      onOpenChange={onOpenChange}
+      title={title}
+      description={description}
+      actions={actions}
+    >
+      {children}
+    </Modal>
   );
 }
 
@@ -198,8 +153,8 @@ export function PlannerFab() {
   const [assistantLoading, startAssistantTransition] = React.useTransition();
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   const assistantRequestIdRef = React.useRef(0);
+  const formId = React.useId();
   const titleId = React.useId();
-  const descriptionId = React.useId();
   const summaryId = React.useId();
   const aiHeadingId = React.useId();
   const aiDisclosureId = React.useId();
@@ -579,26 +534,27 @@ export function PlannerFab() {
       </Button>
       <PlannerCreationDialog
         open={open}
-        onClose={closeSheet}
-        titleId={titleId}
-        descriptionId={descriptionId}
-        summaryId={summaryId}
+        onOpenChange={setOpen}
+        title="Plan something new"
+        description="Describe your plan in natural language or switch to manual mode. Press Cmd/Ctrl + Shift + N to open, Cmd/Ctrl + Enter to save."
+        actions={
+          <>
+            <Button
+              type="button"
+              variant="quiet"
+              onClick={closeSheet}
+              aria-describedby={showAiSuggestions ? aiDisclosureId : undefined}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" form={formId} variant="default" tone="primary">
+              Save to planner
+            </Button>
+          </>
+        }
       >
-        <div className="space-y-[var(--space-2)]">
-          <h2
-            id={titleId}
-            className="text-title font-semibold tracking-[-0.01em] text-foreground"
-          >
-            Plan something new
-          </h2>
-          <p
-            id={descriptionId}
-            className="text-label text-muted-foreground"
-          >
-            Describe your plan in natural language or switch to manual mode. Press Cmd/Ctrl + Shift + N to open, Cmd/Ctrl + Enter to save.
-          </p>
-        </div>
         <form
+          id={formId}
           className="space-y-[var(--space-5)]"
           onSubmit={handleSubmitEvent}
           onKeyDown={handleKeyDown}
@@ -800,19 +756,6 @@ export function PlannerFab() {
               {error}
             </p>
           )}
-          <div className="flex items-center justify-end gap-[var(--space-3)]">
-            <Button
-              type="button"
-              variant="quiet"
-              onClick={closeSheet}
-              aria-describedby={showAiSuggestions ? aiDisclosureId : undefined}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" variant="default" tone="primary">
-              Save to planner
-            </Button>
-          </div>
         </form>
       </PlannerCreationDialog>
     </>

@@ -8,9 +8,9 @@ import {
   Button,
   Cluster,
   Label,
+  Modal,
   SkipLink,
   Stack,
-  useDialogTrap,
 } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
@@ -95,15 +95,9 @@ function SkipLinkDemo() {
 
 function FocusTrapDemo() {
   const [open, setOpen] = React.useState(false);
-  const dialogRef = React.useRef<HTMLDivElement>(null);
   const liveRef = React.useRef<HTMLDivElement>(null);
   const dialogLabelId = React.useId();
-
-  useDialogTrap({
-    open,
-    onClose: () => setOpen(false),
-    ref: dialogRef,
-  });
+  const formId = React.useId();
 
   React.useEffect(() => {
     if (liveRef.current) {
@@ -139,57 +133,41 @@ function FocusTrapDemo() {
         </p>
       </Cluster>
       <div aria-live="polite" className="sr-only" ref={liveRef} />
-      {open ? (
-        <div
-          role="presentation"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-surface/80 p-[var(--space-4)] backdrop-blur-md"
+      <Modal
+        open={open}
+        onOpenChange={setOpen}
+        title="Keyboard loop checklist"
+        description="Confirm each modal control is focusable, labelled, and reachable via keyboard. Finish to hand the tray back to the calling surface."
+        actions={
+          <>
+            <Button type="button" variant="neo" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" form={formId} variant="default">
+              Mark checklist complete
+            </Button>
+          </>
+        }
+      >
+        <form
+          id={formId}
+          className="space-y-[var(--space-4)]"
+          onSubmit={(event) => {
+            event.preventDefault();
+            setOpen(false);
+          }}
         >
-          <div
-            ref={dialogRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="a11y-dialog-title"
-            aria-describedby="a11y-dialog-description"
-            className="w-full max-w-lg space-y-[var(--space-5)] rounded-card bg-card p-[var(--space-5)] text-card-foreground shadow-depth-soft"
-          >
-            <Stack as="header" gap="2">
-              <p className="text-caption font-medium uppercase tracking-[0.18em] text-muted-foreground">Session prep</p>
-              <h3 id="a11y-dialog-title" className="text-heading-sm font-semibold tracking-[-0.01em]">
-                Keyboard loop checklist
-              </h3>
-              <p id="a11y-dialog-description" className="text-label text-muted-foreground">
-                Confirm each modal control is focusable, labelled, and reachable via keyboard. Finish to hand the tray
-                back to the calling surface.
-              </p>
+          <p className="text-caption font-medium uppercase tracking-[0.18em] text-muted-foreground">Session prep</p>
+          <fieldset className="space-y-[var(--space-2)]">
+            <legend className="text-label font-medium text-foreground">Quick audit</legend>
+            <Stack gap="2">
+              <ChecklistItem id={`${dialogLabelId}-trap`} defaultChecked label="Focus trap engages when opened" />
+              <ChecklistItem id={`${dialogLabelId}-escape`} defaultChecked label="Escape closes without side effects" />
+              <ChecklistItem id={`${dialogLabelId}-heading`} label="First focus lands on the dialog heading" />
             </Stack>
-            <form
-              className="space-y-[var(--space-4)]"
-              aria-describedby="a11y-dialog-description"
-              onSubmit={(event) => {
-                event.preventDefault();
-                setOpen(false);
-              }}
-            >
-              <fieldset className="space-y-[var(--space-2)]">
-                <legend className="text-label font-medium text-foreground">Quick audit</legend>
-                <Stack gap="2">
-                  <ChecklistItem id={`${dialogLabelId}-trap`} defaultChecked label="Focus trap engages when opened" />
-                  <ChecklistItem id={`${dialogLabelId}-escape`} defaultChecked label="Escape closes without side effects" />
-                  <ChecklistItem id={`${dialogLabelId}-heading`} label="First focus lands on the dialog heading" />
-                </Stack>
-              </fieldset>
-              <Cluster as="div" justify="space-between" align="center" gap="3" className="flex-wrap">
-                <Button type="button" variant="neo" onClick={() => setOpen(false)}>
-                  Cancel
-                </Button>
-                <Button type="submit" variant="default">
-                  Mark checklist complete
-                </Button>
-              </Cluster>
-            </form>
-          </div>
-        </div>
-      ) : null}
+          </fieldset>
+        </form>
+      </Modal>
     </section>
   );
 }

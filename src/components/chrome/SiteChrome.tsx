@@ -34,9 +34,11 @@ export function SiteChrome({ children }: SiteChromeProps) {
 
   return (
     <React.Fragment>
+      {/* Safe-area offset is already handled via --header-stack in globals.css */}
       <header
         role="banner"
         className="sticky top-0 z-50 border-b border-border/70 bg-gradient-to-b from-surface/95 via-surface/90 to-background/85 backdrop-blur-xl"
+        style={{ paddingTop: 0 }}
       >
         <div className="mx-auto grid h-14 w-full max-w-[var(--shell-max)] grid-cols-[auto,1fr,auto] items-center gap-[var(--space-3)] px-6">
           <Link
