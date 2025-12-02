@@ -42,11 +42,11 @@ const NEUTRAL_TOKENS: Pick<AccentTokenMap, "background" | "panel" | "surface" | 
 
 const ACCENT_PRESETS: Record<AccentTone, AccentTokenMap> = {
   accent: {
-    accent1: { cssVar: "--accent-1", fallback: "276 88% 62%" },
+    accent1: { cssVar: "--accent-1", fallback: "276 88% 59%" },
     accent1Soft: { cssVar: "--accent-1-soft", fallback: "276 88% 22%" },
     accent1Contrast: { cssVar: "--accent-1-contrast", fallback: "276 92% 88%" },
     accent1Foreground: { cssVar: "--accent-1-foreground", fallback: "0 0% 100%" },
-    accent2: { cssVar: "--accent-2", fallback: "168 96% 56%" },
+    accent2: { cssVar: "--accent-2", fallback: "168 88% 28%" },
     accent2Foreground: { cssVar: "--accent-2-foreground", fallback: "0 0% 100%" },
     accent3: { cssVar: "--accent-3", fallback: "318 82% 60%" },
     glow: { cssVar: "--glow", fallback: "296 96% 56%" },
@@ -68,25 +68,25 @@ const ACCENT_PRESETS: Record<AccentTone, AccentTokenMap> = {
     ...NEUTRAL_TOKENS,
   },
   supportive: {
-    accent1: { cssVar: "--accent-2", fallback: "168 96% 56%" },
+    accent1: { cssVar: "--accent-2", fallback: "168 88% 28%" },
     accent1Soft: {
       format: "raw",
       fallback:
-        "color-mix(in oklab, hsl(var(--accent-2, 168 96% 56%)) 28%, transparent)",
+        "color-mix(in oklab, hsl(var(--accent-2, 168 88% 28%)) 28%, transparent)",
     },
     accent1Contrast: { cssVar: "--accent-2-foreground", fallback: "0 0% 100%" },
     accent1Foreground: { cssVar: "--accent-2-foreground", fallback: "0 0% 100%" },
-    accent2: { cssVar: "--accent-2", fallback: "168 96% 56%" },
+    accent2: { cssVar: "--accent-2", fallback: "168 88% 28%" },
     accent2Foreground: { cssVar: "--accent-2-foreground", fallback: "0 0% 100%" },
     accent3: {
       format: "raw",
       fallback:
-        "color-mix(in oklab, hsl(var(--accent-2, 168 96% 56%)) 55%, transparent)",
+        "color-mix(in oklab, hsl(var(--accent-2, 168 88% 28%)) 55%, transparent)",
     },
     glow: {
       format: "raw",
       fallback:
-        "color-mix(in oklab, hsl(var(--accent-2, 168 96% 56%)) 60%, transparent)",
+        "color-mix(in oklab, hsl(var(--accent-2, 168 88% 28%)) 60%, transparent)",
     },
     ...NEUTRAL_TOKENS,
   },

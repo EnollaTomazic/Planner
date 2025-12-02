@@ -42,8 +42,9 @@ export function NoiseOverlay({ level = "subtle", className, ...props }: NoiseOve
       />
       <span
         aria-hidden
+        style={{ backgroundImage: "var(--texture-scanlines)" }}
         className={cn(
-          "noise-overlay__grain absolute inset-0 rounded-[inherit] bg-glitch-noise-primary mix-blend-soft-light",
+          "noise-overlay__grain absolute inset-0 rounded-[inherit] bg-[var(--texture-scanlines)] mix-blend-soft-light",
           opacityClass,
         )}
       />
