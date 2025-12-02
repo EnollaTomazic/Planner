@@ -49,13 +49,30 @@ describe("structured logger", () => {
     expect(JSON.stringify(payload.details)).toContain("[redacted-email]");
   });
 
-  it("redacts nested structures via helper", () => {
+  it("performs shallow redaction by default", () => {
     const payload = redactForLogging({
-      account: {
-        email: "another@example.com",
-        contacts: ["555-111-2222", "ok"],
-      },
+      email: "shallow@example.com",
+      nested: { phone: "555-111-2222" },
+      notes: ["call me", { email: "hidden@example.com" }],
     });
+
+    expect(JSON.stringify(payload)).not.toContain("shallow@example.com");
+    expect(JSON.stringify(payload)).toContain("[redacted-email]");
+    expect(JSON.stringify(payload)).toContain("call me");
+    expect(JSON.stringify(payload)).toContain("555-111-2222");
+    expect(JSON.stringify(payload)).toContain("hidden@example.com");
+  });
+
+  it("redacts nested structures when deep mode is enabled", () => {
+    const payload = redactForLogging(
+      {
+        account: {
+          email: "another@example.com",
+          contacts: ["555-111-2222", "ok"],
+        },
+      },
+      { deep: true },
+    );
 
     expect(JSON.stringify(payload)).not.toContain("another@example.com");
     expect(JSON.stringify(payload)).toContain("[redacted-email]");
