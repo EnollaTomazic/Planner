@@ -116,6 +116,7 @@ vi.mock("next/navigation", async () => {
 
   const createEmptySearchParams = () => new URLSearchParams();
   const noop = () => {};
+  const useServerInsertedHTML = (callback: () => ReactNode) => callback();
 
   return {
     __esModule: true,
@@ -139,6 +140,7 @@ vi.mock("next/navigation", async () => {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       renderInsertedHTML: () => {},
     }),
+    useServerInsertedHTML,
   };
 });
 

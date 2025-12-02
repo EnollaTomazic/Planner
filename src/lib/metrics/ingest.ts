@@ -283,7 +283,7 @@ export function createMetricsProcessor(
     try {
       payload = input.bodyText ? JSON.parse(input.bodyText) : undefined
     } catch (error) {
-      const sanitizedError = redactForLogging(error)
+      const sanitizedError = redactForLogging(error, { deep: true })
       requestLog.warn('Failed to parse metrics payload', { error: sanitizedError })
 
       void captureException(
@@ -301,8 +301,8 @@ export function createMetricsProcessor(
     const parsed = payloadSchema.safeParse(payload)
 
     if (!parsed.success) {
-      const sanitizedIssues = redactForLogging(parsed.error.issues)
-      const sanitizedPayload = redactForLogging(payload)
+      const sanitizedIssues = redactForLogging(parsed.error.issues, { deep: true })
+      const sanitizedPayload = redactForLogging(payload, { deep: true })
 
       requestLog.warn('Metrics payload failed validation', {
         issues: sanitizedIssues,

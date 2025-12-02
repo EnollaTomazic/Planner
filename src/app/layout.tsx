@@ -5,6 +5,7 @@ import "./themes.css";
 import "@/env/validate-server-env";
 
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
 import { Suspense } from "react";
 import {
   geistMonoClassName,
@@ -37,13 +38,6 @@ import {
 } from "../../security-headers.mjs";
 import AppErrorBoundary from "./AppErrorBoundary";
 import HashScrollEffect from "./HashScrollEffect";
-
-const contentSecurityPolicy = createContentSecurityPolicy(
-  defaultSecurityPolicyOptions,
-);
-const metaContentSecurityPolicy = sanitizeContentSecurityPolicyForMeta(
-  contentSecurityPolicy,
-);
 
 export const metadata: Metadata = {
   title: {
@@ -89,6 +83,17 @@ export default async function RootLayout({
   const basePath = getBasePath();
   const noiseAssetPath = withBasePath("/noise.svg");
   const glitchAssetPath = withBasePath("/glitch-gif.gif");
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
+  const securityPolicyOptions = {
+    ...defaultSecurityPolicyOptions,
+    nonce,
+  };
+  const contentSecurityPolicy = createContentSecurityPolicy(
+    securityPolicyOptions,
+  );
+  const metaContentSecurityPolicy = sanitizeContentSecurityPolicyForMeta(
+    contentSecurityPolicy,
+  );
   const assetUrlCss = [
     ":root {",
     `  --asset-noise-path: "${noiseAssetPath}";`,
