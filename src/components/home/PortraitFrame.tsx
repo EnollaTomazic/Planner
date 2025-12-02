@@ -5,7 +5,7 @@ import {
   AvatarFrame,
   type AvatarFrameProps,
 } from "@/components/ui/primitives/AvatarFrame";
-import { cn } from "@/lib/utils";
+import { cn, withBasePath } from "@/lib/utils";
 
 import styles from "./PortraitFrame.module.css";
 
@@ -51,7 +51,7 @@ const poseConfigs: Record<PoseVariant, PoseConfig> = {
   duo: {
     label: "Angel and demon busts sharing a circular portrait frame",
     image: {
-      src: "/portraits/agnes-noxi-duo.svg",
+      src: withBasePath("/portraits/agnes-noxi-duo.svg"),
       alt: "Agnes and Noxi posed together inside a circular portrait frame with opposing lighting.",
     },
     bloomClassName: styles.bloomDuo,
@@ -67,7 +67,7 @@ const poseConfigs: Record<PoseVariant, PoseConfig> = {
   "angel-leading": {
     label: "Angel steps forward while the demon softens into the rim light",
     image: {
-      src: "/portraits/agnes-angel.svg",
+      src: withBasePath("/portraits/agnes-angel.svg"),
       alt: "Agnes in angel form leaning forward with wings glowing inside a soft neon frame.",
       className: styles.imageAngel,
     },
@@ -84,7 +84,7 @@ const poseConfigs: Record<PoseVariant, PoseConfig> = {
   "demon-leading": {
     label: "Demon steps into focus while the angel supports from behind",
     image: {
-      src: "/portraits/noxi-demon.svg",
+      src: withBasePath("/portraits/noxi-demon.svg"),
       alt: "Noxi in demon form stepping into the spotlight with neon magenta bloom.",
       className: styles.imageDemon,
     },
@@ -102,7 +102,7 @@ const poseConfigs: Record<PoseVariant, PoseConfig> = {
     label: "Angel and demon posed back to back with crossed silhouettes",
     stageClassName: styles.stageBackToBack,
     image: {
-      src: "/portraits/agnes-noxi-duo.svg",
+      src: withBasePath("/portraits/agnes-noxi-duo.svg"),
       alt: "Agnes and Noxi posed back to back with complimentary lighting inside a circular frame.",
       className: styles.imageDuoBackToBack,
     },
