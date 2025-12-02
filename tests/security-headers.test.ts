@@ -87,4 +87,26 @@ describe("content security policy variants", () => {
 
     expect(connectDirective).toBe("connect-src 'self'");
   });
+
+  it("retains inline and eval allowances when no nonce is provided", async () => {
+    const { createContentSecurityPolicy } = await reloadSecurityHeaders();
+    const policy = createContentSecurityPolicy();
+    const scriptDirective = policy
+      .split("; ")
+      .find((directive) => directive.startsWith("script-src "));
+
+    expect(scriptDirective).toBe(
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval'",
+    );
+  });
+
+  it("prefers nonces over relaxed script directives", async () => {
+    const { createContentSecurityPolicy } = await reloadSecurityHeaders();
+    const policy = createContentSecurityPolicy({ nonce: "abc123" });
+    const scriptDirective = policy
+      .split("; ")
+      .find((directive) => directive.startsWith("script-src "));
+
+    expect(scriptDirective).toBe("script-src 'self' 'nonce-abc123'");
+  });
 });
