@@ -1,6 +1,8 @@
 // src/lib/github-pages.ts
 // Helpers for GitHub Pages routing bootstrap + constants shared with static scripts.
 
+import path from "node:path";
+
 import { normalizeBasePath } from "../../lib/base-path.js";
 import { createStorageKey } from "./storage-key";
 
@@ -26,55 +28,36 @@ function normalizeGitHubPagesDeploymentAlias(
     return target;
   }
 
-  const queryIndex = target.search(/[?#]/u);
-  const pathname = queryIndex === -1 ? target : target.slice(0, queryIndex);
-  const suffix = queryIndex === -1 ? "" : target.slice(queryIndex);
+  const parsedTarget = new URL(target, "http://localhost");
+  const suffix = `${parsedTarget.search}${parsedTarget.hash}`;
   const root = normalizedBase || "/";
+  const normalizedRoot = root === "" ? "/" : root;
 
-  if (!pathname.startsWith(root)) {
+  const relativeToBase = path.posix.relative(normalizedRoot, parsedTarget.pathname);
+  const isOutsideBase =
+    relativeToBase.startsWith("..") || path.posix.isAbsolute(relativeToBase);
+  if (isOutsideBase) {
     return target;
   }
 
-  if (root !== "/" && pathname.length > root.length) {
-    const boundary = pathname.charAt(root.length);
-    if (boundary !== "/") {
-      return target;
-    }
-  }
-
-  const remainder = pathname.slice(root.length).replace(/^\/+/, "");
-  if (!remainder) {
+  const [alias, ...rest] = relativeToBase.split("/").filter(Boolean);
+  if (!alias) {
     return target;
   }
 
-  const segments = remainder
-    .split("/")
-    .map((segment) => segment.trim())
-    .filter((segment) => segment.length > 0);
-
-  if (segments.length === 0) {
-    return target;
-  }
-
-  const [alias, ...rest] = segments;
   const normalizedAlias = alias.toLowerCase();
   const isCommitAlias = GITHUB_PAGES_DEPLOY_ALIAS_PATTERN.test(alias);
   const isAlias = GITHUB_PAGES_BRANCH_ALIASES.has(normalizedAlias) || isCommitAlias;
-
   if (!isAlias) {
     return target;
   }
 
   if (rest.length === 0 || (rest.length === 1 && rest[0] === "index.html")) {
-    return `${root}${suffix}`;
+    return `${normalizedRoot}${suffix}`;
   }
 
-  const normalizedRoot = root.replace(/\/$/u, "");
-  const restPath = rest.join("/");
-  const base = normalizedRoot.length > 0 ? normalizedRoot : "";
-  const normalizedTarget = `${base}/${restPath}`;
-
-  return `${normalizedTarget.startsWith("/") ? normalizedTarget : `/${normalizedTarget}`}${suffix}`;
+  const targetPath = path.posix.join(normalizedRoot, rest.join("/"));
+  return `${targetPath}${suffix}`;
 }
 
 export function normalizePlaceholder(
