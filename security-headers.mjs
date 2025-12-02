@@ -49,12 +49,13 @@ const metricsEndpointOrigin = parseAbsoluteUrlOrigin(metricsEndpoint);
 
 /**
  * @typedef {Readonly<{
- *   allowVercelFeedback?: boolean;
- *   metricsEndpoint?: string;
- *   metricsEndpointOrigin?: string;
- * }>}
- * SecurityPolicyOptions
- */
+  *   allowVercelFeedback?: boolean;
+  *   metricsEndpoint?: string;
+  *   metricsEndpointOrigin?: string;
+  *   nonce?: string;
+  * }>}
+  * SecurityPolicyOptions
+  */
 
 const resolveMetricsOrigin = (options) => {
   if (options) {
@@ -74,21 +75,34 @@ const resolveMetricsOrigin = (options) => {
   return metricsEndpointOrigin;
 };
 
-/**
- * @param {string} nonce
- * @returns {string}
- */
+const normalizeNonce = (nonce) => {
+  if (typeof nonce !== "string") {
+    return undefined;
+  }
+
+  const trimmed = nonce.trim();
+
+  return trimmed || undefined;
+};
+
 export const createContentSecurityPolicy = (options) => {
   const allowVercelFeedback = options?.allowVercelFeedback === true;
+  const nonce = normalizeNonce(options?.nonce);
   const metricsOrigin = resolveMetricsOrigin(options);
 
-  const scriptSrc = ["'self'", "'unsafe-inline'"];
-  const evalRelaxations = ["'unsafe-eval'", "'wasm-unsafe-eval'"];
-  // Next.js bootstraps the client runtime with `new Function` (and a WASM fallback)
-  // even in production static exports. Without these allowances the bundle fails
-  // hydration when served behind our CSP, so we intentionally keep them enabled
-  // for the exported site as well.
-  scriptSrc.push(...evalRelaxations);
+  const scriptSrc = ["'self'"];
+
+  if (nonce) {
+    scriptSrc.push(`'nonce-${nonce}'`);
+  } else {
+    const scriptSrcRelaxations = ["'unsafe-inline'"];
+    const evalRelaxations = ["'unsafe-eval'", "'wasm-unsafe-eval'"];
+    // Next.js bootstraps the client runtime with `new Function` (and a WASM fallback)
+    // even in production static exports. Without these allowances the bundle fails
+    // hydration when served behind our CSP, so we intentionally keep them enabled
+    // for the exported site as well unless a nonce is provided.
+    scriptSrc.push(...scriptSrcRelaxations, ...evalRelaxations);
+  }
   const styleSrcBase = ["'self'", "'unsafe-inline'"];
   const styleSrc = [...styleSrcBase];
   const styleSrcElem = [...styleSrcBase];
