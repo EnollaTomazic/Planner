@@ -135,6 +135,30 @@ describe("github-pages bootstrap helpers", () => {
       planGitHubPagesRestoration({
         basePath: "/planner",
         currentPath: "/planner/index.html",
+        storedLocation: "/planner/main/docs?section=intro#top",
+      }),
+    ).toBe("/planner/docs?section=intro#top");
+
+    expect(
+      planGitHubPagesRestoration({
+        basePath: "/planner",
+        currentPath: "/planner/index.html",
+        storedLocation: "/planner/abcdef1/tasks",
+      }),
+    ).toBe("/planner/tasks");
+
+    expect(
+      planGitHubPagesRestoration({
+        basePath: "/planner",
+        currentPath: "/planner/index.html",
+        storedLocation: "/planner/releases/tasks",
+      }),
+    ).toBe("/planner/releases/tasks");
+
+    expect(
+      planGitHubPagesRestoration({
+        basePath: "/planner",
+        currentPath: "/planner/index.html",
         storedLocation: "/planner/pages/tasks",
       }),
     ).toBe("/planner/tasks");
