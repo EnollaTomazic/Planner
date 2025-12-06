@@ -219,10 +219,10 @@ export function TabBar<
       : styles.defaultTab;
 
   return (
-    <div className={cn("relative w-full", className)}>
+    <div className={cn("relative w-full min-w-0", className)}>
       <div
         className={cn(
-          "flex flex-wrap items-center",
+          "flex min-w-0 items-center",
           justify,
           "gap-[var(--space-3)]",
         )}
