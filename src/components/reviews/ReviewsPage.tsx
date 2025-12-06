@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useReviewFilter } from "@/components/reviews";
