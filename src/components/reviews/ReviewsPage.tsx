@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import type { Review } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useReviewFilter } from "@/components/reviews";
@@ -12,6 +11,7 @@ import { ReviewPanel } from "./ReviewPanel";
 import { BookOpen, Ghost, Plus } from "lucide-react";
 
 import {
+  AIErrorCard,
   Button,
   Card,
   CardContent,
@@ -19,13 +19,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-  Hero,
+  Header,
   Modal,
   PageShell,
+  SearchBar,
   Select,
-  TabBar,
   Skeleton,
-  AIErrorCard,
+  TabBar,
 } from "@/components/ui";
 import { useQueryParam } from "@/lib/useQueryParam";
 
@@ -160,7 +160,7 @@ export function ReviewsPage({
   );
   const panelClass = "mx-auto";
   const detailBaseId = active ? `review-${active.id}` : "review-detail";
-  const heroHeadingId = React.useId();
+  const headerHeadingId = React.useId();
   const sortLabelId = React.useId();
   const emptySearchDescriptionId = React.useId();
   const emptySearchTooltipId = React.useId();
@@ -245,14 +245,14 @@ export function ReviewsPage({
     return () => window.removeEventListener("keydown", handleWindowKeyDown);
   }, [shouldShowEmptySearchHelper, isSearchTooltipOpen, closeSearchTooltip]);
 
-  const heroSearchLabel = isLoading
+  const searchLabel = isLoading
     ? "Search reviews (temporarily unavailable)"
     : isErrored
       ? "Search reviews (temporarily unavailable)"
       : !hasReviews
         ? "Search reviews (add a review to start searching)"
         : "Search reviews";
-  const heroSearchDescription = React.useMemo(() => {
+  const searchDescription = React.useMemo(() => {
     const ids: string[] = [];
     if (shouldShowEmptySearchHelper) {
       ids.push(emptySearchTooltipId);
@@ -262,8 +262,8 @@ export function ReviewsPage({
     }
     return ids.length > 0 ? ids.join(" ") : undefined;
   }, [shouldShowEmptySearchHelper, emptySearchTooltipId, hasReviews, emptySearchDescriptionId]);
-  const heroSearchDisabled = !allowInteractions;
-  const heroSearchTooltip = shouldShowEmptySearchHelper ? (
+  const searchDisabled = !allowInteractions;
+  const searchTooltip = shouldShowEmptySearchHelper ? (
     <div
       id={emptySearchTooltipId}
       role="tooltip"
@@ -284,75 +284,53 @@ export function ReviewsPage({
     </div>
   ) : null;
 
+  const headerSearch = (
+    <div className="relative w-full max-w-[28rem]">
+      <SearchBar
+        value={q}
+        onValueChange={setQ}
+        placeholder="Search reviews..."
+        aria-label={searchLabel}
+        aria-describedby={searchDescription}
+        height="lg"
+        debounceMs={300}
+        variant="sunken"
+        loading={isLoading}
+        disabled={searchDisabled}
+        className={shouldShowEmptySearchHelper ? "relative" : undefined}
+        onFocus={shouldShowEmptySearchHelper ? handleSearchFocus : undefined}
+        onBlur={shouldShowEmptySearchHelper ? handleSearchBlur : undefined}
+        onMouseEnter={shouldShowEmptySearchHelper ? handleSearchMouseEnter : undefined}
+        onMouseLeave={shouldShowEmptySearchHelper ? handleSearchMouseLeave : undefined}
+        onKeyDown={shouldShowEmptySearchHelper ? handleSearchKeyDown : undefined}
+      />
+      {searchTooltip}
+    </div>
+  );
+
   return (
     <>
-      <PageShell
-        as="header"
-        grid
-        aria-labelledby={heroHeadingId}
-        className="py-[var(--space-6)]"
-      >
-        <Hero
-          as="section"
-          className="col-span-full md:col-span-12"
-          topClassName="top-[var(--header-stack)]"
-          title={<span id={heroHeadingId}>Reviews</span>}
-          subtitle="Capture and learn from your past sprints."
-          glitch="default"
-          frame
-          icon={<BookOpen className="opacity-80" />}
-          search={
-          {
-            value: q,
-            onValueChange: setQ,
-            placeholder: "Search reviews...",
-            "aria-label": heroSearchLabel,
-            "aria-describedby": heroSearchDescription,
-            height: "lg",
-            debounceMs: 300,
-            variant: "sunken",
-            loading: isLoading,
-            disabled: heroSearchDisabled,
-            className: shouldShowEmptySearchHelper
-              ? "relative"
-              : undefined,
-            right: heroSearchTooltip ?? undefined,
-            onFocus: shouldShowEmptySearchHelper ? handleSearchFocus : undefined,
-            onBlur: shouldShowEmptySearchHelper ? handleSearchBlur : undefined,
-            onMouseEnter: shouldShowEmptySearchHelper
-              ? handleSearchMouseEnter
-              : undefined,
-            onMouseLeave: shouldShowEmptySearchHelper
-              ? handleSearchMouseLeave
-              : undefined,
-            onKeyDown: shouldShowEmptySearchHelper ? handleSearchKeyDown : undefined,
-          }
-          }
-          actions={
-            <Button
-              type="button"
-              variant="default"
-              size="md"
-              className={cn("btn-glitch", "whitespace-nowrap")}
-              onClick={commitCreateReview}
-              disabled={!allowInteractions}
-            >
-              <Plus />
-              <span>New review</span>
-            </Button>
-          }
-          illustration={
-            <Image
-              src="/images/agnes.svg"
-              alt="Agnes watching over review browsing"
-              fill
-              sizes="(min-width: 1280px) 38vw, (min-width: 768px) 56vw, 100vw"
-              priority={false}
-              className="object-contain object-right md:object-center"
-            />
-          }
-        />
-      </PageShell>
+      <Header
+        heading={<span id={headerHeadingId}>Reviews</span>}
+        subtitle="Capture and learn from your past sprints."
+        icon={<BookOpen className="opacity-80" />}
+        variant="neo"
+        underlineTone="brand"
+        search={headerSearch}
+        actions={
+          <Button
+            type="button"
+            variant="default"
+            size="md"
+            className="whitespace-nowrap"
+            onClick={commitCreateReview}
+            disabled={!allowInteractions}
+          >
+            <Plus />
+            <span>New review</span>
+          </Button>
+        }
+      />
 
       <PageShell
         as="main"
@@ -361,7 +339,7 @@ export function ReviewsPage({
         grid
         className="py-[var(--space-6)]"
         contentClassName="gap-y-[var(--space-6)]"
-        aria-labelledby={heroHeadingId}
+        aria-labelledby={headerHeadingId}
       >
         <div className="col-span-full">
           {isLoading ? (
