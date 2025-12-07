@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { createMockMetric } from "@/metrics/fixtures";
+import { createMockMetric, createMockMetricsPayload } from "@/metrics/fixtures";
 
 const metric = createMockMetric({
   id: "abc123",
@@ -19,6 +19,7 @@ describe("reportWebVitals", () => {
     vi.resetModules();
     process.env.NEXT_PUBLIC_BASE_PATH = "";
     process.env.NEXT_PUBLIC_METRICS_ENDPOINT = "";
+    document.documentElement.removeAttribute("data-base-path");
     Object.defineProperty(document, "visibilityState", {
       configurable: true,
       value: "visible",
@@ -30,6 +31,7 @@ describe("reportWebVitals", () => {
     process.env.NEXT_PUBLIC_METRICS_ENDPOINT = originalEndpoint;
     process.env.NEXT_PUBLIC_BASE_PATH = originalBasePath;
     global.fetch = originalFetch;
+    document.documentElement.removeAttribute("data-base-path");
     if (typeof originalSendBeacon === "function") {
       Object.defineProperty(navigator, "sendBeacon", {
         configurable: true,
@@ -148,5 +150,48 @@ describe("reportWebVitals", () => {
     const [urlRaw] = call as unknown[];
     expect(typeof urlRaw).toBe("string");
     expect(urlRaw).toBe("https://metrics.example.com/collect");
+  });
+
+  it("re-evaluates metrics availability after initialization", async () => {
+    process.env.NEXT_PUBLIC_ENABLE_METRICS = "false";
+    process.env.NEXT_PUBLIC_METRICS_ENDPOINT = "https://metrics.example.com/collect";
+    const sendBeacon = vi.fn(() => true);
+    Object.defineProperty(navigator, "sendBeacon", {
+      configurable: true,
+      value: sendBeacon,
+    });
+
+    const { metricsAvailable, postMetrics } = await import("@/metrics");
+
+    expect(metricsAvailable()).toBe(false);
+
+    process.env.NEXT_PUBLIC_ENABLE_METRICS = "true";
+
+    postMetrics(createMockMetricsPayload({ page: "/runtime-toggle" }));
+
+    expect(metricsAvailable()).toBe(true);
+    expect(sendBeacon).toHaveBeenCalledTimes(1);
+    const call = sendBeacon.mock.calls.at(0);
+    expect(call?.[0]).toBe("https://metrics.example.com/collect");
+  });
+
+  it("normalizes endpoints using runtime base paths", async () => {
+    process.env.NEXT_PUBLIC_ENABLE_METRICS = "true";
+    process.env.NEXT_PUBLIC_METRICS_ENDPOINT = "api/metrics";
+    const { postMetrics } = await import("@/metrics");
+
+    document.documentElement.setAttribute("data-base-path", "/planner");
+    Object.defineProperty(navigator, "sendBeacon", {
+      configurable: true,
+      value: undefined,
+    });
+    const fetchMock = vi.fn(() => Promise.resolve(new Response(null)));
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    postMetrics(createMockMetricsPayload({ page: "/planner/metrics" }));
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const call = fetchMock.mock.calls.at(0);
+    expect(call?.[0]).toBe("/planner/api/metrics");
   });
 });
