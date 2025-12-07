@@ -225,6 +225,9 @@ async function generate(
   });
   for (const file of sortedFiles) {
     const rel = path.relative(rootDir, file).replace(/\\/g, "/");
+    if (/vitest\.config\.(ts|tsx)$/.test(rel)) {
+      continue;
+    }
     const stat = await fs.stat(file);
     let info = manifest[rel];
     if (
