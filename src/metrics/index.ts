@@ -39,48 +39,69 @@ export type MetricsPayload = {
   visibilityState?: DocumentVisibilityState | "prerender";
 };
 
-const rawEnableFlag = process.env.NEXT_PUBLIC_ENABLE_METRICS?.trim().toLowerCase();
-const rawEndpoint = process.env.NEXT_PUBLIC_METRICS_ENDPOINT?.trim();
-const DEFAULT_METRICS_ENABLED = process.env.NODE_ENV === "production";
+function readEnableFlag(): string | undefined {
+  return process.env.NEXT_PUBLIC_ENABLE_METRICS?.trim().toLowerCase();
+}
 
-function resolveMetricsEnabled(): boolean {
-  if (!rawEnableFlag || rawEnableFlag === "auto") {
-    return DEFAULT_METRICS_ENABLED;
+function resolveMetricsEnabled(enableFlag = readEnableFlag()): boolean {
+  const defaultEnabled = process.env.NODE_ENV === "production";
+
+  if (!enableFlag || enableFlag === "auto") {
+    return defaultEnabled;
   }
 
-  if (["true", "1", "yes", "on"].includes(rawEnableFlag)) {
+  if (["true", "1", "yes", "on"].includes(enableFlag)) {
     return true;
   }
 
-  if (["false", "0", "no", "off"].includes(rawEnableFlag)) {
+  if (["false", "0", "no", "off"].includes(enableFlag)) {
     return false;
   }
 
-  return DEFAULT_METRICS_ENABLED;
+  return defaultEnabled;
 }
 
-export const metricsEnabled = resolveMetricsEnabled();
+function readRawMetricsEndpoint(): string | undefined {
+  return process.env.NEXT_PUBLIC_METRICS_ENDPOINT?.trim();
+}
 
-function resolveMetricsEndpoint(): string | undefined {
-  if (!rawEndpoint) {
+function normalizeMetricsEndpoint(endpoint = readRawMetricsEndpoint()): string | undefined {
+  if (!endpoint) {
     return undefined;
   }
 
-  if (rawEndpoint.startsWith("http://") || rawEndpoint.startsWith("https://")) {
-    return rawEndpoint;
+  if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) {
+    return endpoint;
   }
 
-  if (rawEndpoint.startsWith("/")) {
-    return withBasePath(rawEndpoint, { trailingSlash: false });
+  if (endpoint.startsWith("/")) {
+    return withBasePath(endpoint, { trailingSlash: false });
   }
 
-  return withBasePath(`/${rawEndpoint}`, { trailingSlash: false });
+  return withBasePath(`/${endpoint}`, { trailingSlash: false });
 }
 
-export const metricsEndpoint = resolveMetricsEndpoint();
+export function getMetricsEnabled(): boolean {
+  return resolveMetricsEnabled();
+}
+
+export function getMetricsEndpoint(): string | undefined {
+  return normalizeMetricsEndpoint();
+}
+
+function readMetricsConfig(): { enabled: boolean; endpoint?: string } {
+  const endpoint = getMetricsEndpoint();
+
+  return {
+    enabled: getMetricsEnabled(),
+    endpoint,
+  };
+}
 
 export function metricsAvailable(): boolean {
-  return metricsEnabled && typeof metricsEndpoint === "string";
+  const { enabled, endpoint } = readMetricsConfig();
+
+  return enabled && typeof endpoint === "string";
 }
 
 type CandidateMetric = NextWebVitalsMetric & {
@@ -159,13 +180,14 @@ export function createMetricsPayload(
 }
 
 export function postMetrics(payload: MetricsPayload): void {
-  if (!metricsAvailable()) {
+  const { enabled, endpoint } = readMetricsConfig();
+
+  if (!enabled || typeof endpoint !== "string") {
     return;
   }
 
   const body = JSON.stringify(payload);
   const headers = { "Content-Type": "application/json" } as const;
-  const endpoint = metricsEndpoint as string;
 
   if (typeof navigator.sendBeacon === "function") {
     const delivered = navigator.sendBeacon(endpoint, body);
