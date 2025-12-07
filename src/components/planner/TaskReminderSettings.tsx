@@ -9,7 +9,7 @@ import { Toggle } from "@/components/ui/toggles/Toggle";
 import { AnimatedSelect } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { usePersistentState } from "@/lib/db";
-import { usePlannerReminders } from "./plannerContext";
+import { usePlannerReminders } from "./plannerRemindersContext";
 import type { DayTask, TaskReminder } from "./plannerTypes";
 
 const LEAD_OPTIONS: Array<{ value: string; label: string }> = [

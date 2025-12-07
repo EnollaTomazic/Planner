@@ -1,0 +1,648 @@
+"use client";
+
+import * as React from "react";
+import { addDays, toISODate, weekRangeFromISO } from "@/lib/date";
+import { usePersistentState } from "@/lib/db";
+import {
+  decodePlannerDays,
+  decodePlannerFocus,
+  ensureDay,
+  pruneOldDays,
+  sanitizeDayRecord,
+  todayISO,
+  FOCUS_PLACEHOLDER,
+  HYDRATION_TODAY,
+} from "./plannerSerialization";
+import {
+  setFocus as applyFocusToDay,
+  setNotes as applyNotesToDay,
+} from "./plannerCrud";
+import type { DayRecord, DayTask, ISODate, Selection } from "./plannerTypes";
+
+export type PlannerViewMode = "day" | "week" | "month" | "agenda";
+
+type DaysUpdateMetadata = {
+  days: Record<ISODate, DayRecord>;
+  changed?: Iterable<ISODate>;
+};
+
+type DaysUpdateTuple = readonly [Record<ISODate, DayRecord>, Iterable<ISODate>];
+
+type DaysUpdateResult =
+  | Record<ISODate, DayRecord>
+  | DaysUpdateMetadata
+  | DaysUpdateTuple;
+
+type DaysSetStateAction =
+  | DaysUpdateResult
+  | ((current: Record<ISODate, DayRecord>) => DaysUpdateResult);
+
+type DaysDispatch = (action: DaysSetStateAction) => void;
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isDaysUpdateMetadata(value: DaysUpdateResult): value is DaysUpdateMetadata {
+  if (!isPlainObject(value)) return false;
+  if (!Object.prototype.hasOwnProperty.call(value, "days")) return false;
+  const candidate = (value as { days?: unknown }).days;
+  return isPlainObject(candidate);
+}
+
+function normalizeChangedList(
+  changed?: Iterable<ISODate>,
+): ISODate[] | undefined {
+  if (!changed) return undefined;
+  if (typeof changed === "string") {
+    return [changed as ISODate];
+  }
+  const seen = new Set<ISODate>();
+  for (const iso of changed) {
+    if (typeof iso === "string") {
+      seen.add(iso as ISODate);
+    }
+  }
+  return seen.size ? Array.from(seen) : undefined;
+}
+
+function extractDaysUpdate(update: DaysUpdateResult) {
+  if (Array.isArray(update)) {
+    const [days, changed] = update;
+    return { days, changed: normalizeChangedList(changed) };
+  }
+  if (isDaysUpdateMetadata(update)) {
+    return {
+      days: update.days,
+      changed: normalizeChangedList(update.changed),
+    };
+  }
+  return { days: update as Record<ISODate, DayRecord>, changed: undefined };
+}
+
+type SelectionMap = Partial<Record<ISODate, Selection>>;
+
+type TaskIdMap = Record<ISODate, Record<string, DayTask>>;
+
+type DaysState = {
+  days: Record<ISODate, DayRecord>;
+  setDays: DaysDispatch;
+  tasksById: TaskIdMap;
+};
+
+type FocusState = {
+  focus: ISODate;
+  setFocus: React.Dispatch<React.SetStateAction<ISODate>>;
+  today: ISODate;
+};
+
+type SelectionState = {
+  selected: SelectionMap;
+  setSelected: React.Dispatch<React.SetStateAction<SelectionMap>>;
+};
+
+type PlannerWeek = {
+  start: Date;
+  end: Date;
+  days: ISODate[];
+  isToday: (iso: ISODate) => boolean;
+};
+
+export type PlannerStateSlice = {
+  iso: ISODate;
+  today: ISODate;
+  hydrated: boolean;
+  setIso: React.Dispatch<React.SetStateAction<ISODate>>;
+  viewMode: PlannerViewMode;
+  setViewMode: React.Dispatch<React.SetStateAction<PlannerViewMode>>;
+  week: PlannerWeek;
+  getFocus: (iso: ISODate) => string;
+  updateFocus: (iso: ISODate, value: string) => void;
+  getNote: (iso: ISODate) => string;
+  updateNote: (iso: ISODate, value: string) => void;
+};
+
+const DaysContext = React.createContext<DaysState | null>(null);
+const FocusContext = React.createContext<FocusState | null>(null);
+const SelectionContext = React.createContext<SelectionState | null>(null);
+const PlannerStateContext = React.createContext<PlannerStateSlice | null>(null);
+
+const EMPTY_DAY_RECORD_MAP: Record<ISODate, DayRecord> = {};
+const EMPTY_SELECTION_MAP: SelectionMap = {};
+
+function cleanupSelections(
+  selected: SelectionMap,
+  days: Record<ISODate, DayRecord>,
+): SelectionMap {
+  let result = selected;
+  let mutated = false;
+
+  for (const iso of Object.keys(selected)) {
+    const selection = selected[iso];
+    const day = days[iso];
+    const projectId = selection?.projectId;
+    const taskId = selection?.taskId;
+
+    if (!day || (!projectId && !taskId)) {
+      if (!mutated) {
+        mutated = true;
+        result = { ...result };
+      }
+      delete result[iso];
+      continue;
+    }
+
+    if (
+      projectId &&
+      !day.projects.some((project) => project.id === projectId)
+    ) {
+      if (!mutated) {
+        mutated = true;
+        result = { ...result };
+      }
+      delete result[iso];
+      continue;
+    }
+
+    if (
+      taskId &&
+      !(day.tasksById?.[taskId] ?? day.tasks.find((task) => task.id === taskId))
+    ) {
+      if (!mutated) {
+        mutated = true;
+        result = { ...result };
+      }
+      delete result[iso];
+    }
+  }
+
+  return mutated ? result : selected;
+}
+
+export function PlannerDaysProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [rawDays, setRawDays] = usePersistentState<Record<ISODate, DayRecord>>(
+    "planner:days",
+    EMPTY_DAY_RECORD_MAP,
+    { decode: decodePlannerDays },
+  );
+  const [focus, setFocus] = usePersistentState<ISODate>(
+    "planner:focus",
+    FOCUS_PLACEHOLDER,
+    { decode: decodePlannerFocus },
+  );
+  const [selectedState, setSelectedState] = usePersistentState<SelectionMap>(
+    "planner:selected",
+    EMPTY_SELECTION_MAP,
+  );
+  const [viewMode, setViewMode] = usePersistentState<PlannerViewMode>(
+    "planner:view-mode",
+    "day",
+  );
+  const [today, setToday] = React.useState<ISODate>(FOCUS_PLACEHOLDER);
+  const [hydrated, setHydrated] = React.useState(false);
+
+  const days = rawDays;
+  const [tasksById, setTasksById] = React.useState<TaskIdMap>(() => {
+    const initial: TaskIdMap = {};
+    for (const [iso, record] of Object.entries(rawDays)) {
+      initial[iso as ISODate] = record.tasksById ?? {};
+    }
+    return initial;
+  });
+  const tasksByIdRef = React.useRef<TaskIdMap>(tasksById);
+  const rawDaysRef = React.useRef(rawDays);
+
+  React.useEffect(() => {
+    tasksByIdRef.current = tasksById;
+  }, [tasksById]);
+
+  React.useEffect(() => {
+    rawDaysRef.current = rawDays;
+  }, [rawDays]);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const localToday = todayISO();
+    setToday((prev) => (prev === localToday ? prev : localToday));
+    setFocus((prev) => {
+      if (prev === FOCUS_PLACEHOLDER || prev === HYDRATION_TODAY) {
+        return localToday;
+      }
+      return prev;
+    });
+  }, [setFocus]);
+
+  const markHydrated = React.useCallback(() => {
+    setHydrated((prev) => (prev ? prev : true));
+  }, []);
+
+  React.useEffect(() => {
+    if (hydrated) return;
+    if (today !== FOCUS_PLACEHOLDER) {
+      markHydrated();
+    }
+  }, [hydrated, markHydrated, today]);
+
+  React.useEffect(() => {
+    if (hydrated) return;
+    if (focus !== FOCUS_PLACEHOLDER && focus !== HYDRATION_TODAY) {
+      markHydrated();
+    }
+  }, [focus, hydrated, markHydrated]);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let cancelled = false;
+
+    const updateForNewDay = () => {
+      if (cancelled) return;
+      const nextToday = todayISO();
+
+      setToday((prevToday) => {
+        setFocus((prevFocus) => {
+          if (
+            prevFocus === FOCUS_PLACEHOLDER ||
+            prevFocus === HYDRATION_TODAY ||
+            prevFocus === prevToday
+          ) {
+            return nextToday;
+          }
+          return prevFocus;
+        });
+
+        return nextToday;
+      });
+    };
+
+    const scheduleNextTick = () => {
+      const now = new Date();
+      const next = new Date(now);
+      next.setDate(now.getDate() + 1);
+      next.setHours(0, 0, 0, 0);
+      const delay = Math.max(0, next.getTime() - now.getTime());
+      return setTimeout(() => {
+        updateForNewDay();
+        timeoutId = scheduleNextTick();
+      }, delay);
+    };
+
+    let timeoutId: ReturnType<typeof setTimeout> = scheduleNextTick();
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
+  }, [setFocus, setToday]);
+
+  const selected = React.useMemo(
+    () => cleanupSelections(selectedState, days),
+    [selectedState, days],
+  );
+
+  React.useEffect(() => {
+    if (!Object.is(selected, selectedState)) {
+      setSelectedState(selected);
+    }
+  }, [selected, selectedState, setSelectedState]);
+
+  React.useEffect(() => {
+    if (!Object.is(rawDays, days)) {
+      setRawDays(days);
+    }
+  }, [rawDays, days, setRawDays]);
+
+  const setDays = React.useCallback<DaysDispatch>(
+    (action) => {
+      const prev = rawDaysRef.current;
+      const currentTasksById = tasksByIdRef.current;
+
+      const resolved =
+        typeof action === "function"
+          ? (action as (
+              current: Record<ISODate, DayRecord>,
+            ) => DaysUpdateResult)(prev)
+          : action;
+
+      const { days: next, changed } = extractDaysUpdate(resolved);
+
+      const { days: prunedDays, pruned } = pruneOldDays(next);
+      let result = prunedDays;
+      let mutated = !Object.is(result, next);
+
+      const impactedIsos = new Set<ISODate>();
+      const newIsos = new Set<ISODate>();
+      const removedIsos = new Set<ISODate>();
+
+      const explicitChanges = changed ? new Set(changed) : undefined;
+
+      if (changed) {
+        for (const iso of changed) {
+          impactedIsos.add(iso);
+        }
+      } else {
+        for (const iso of Object.keys(result) as ISODate[]) {
+          impactedIsos.add(iso);
+        }
+      }
+
+      if (pruned) {
+        for (const iso of pruned) {
+          removedIsos.add(iso);
+          impactedIsos.add(iso);
+        }
+      }
+
+      if (!changed) {
+        for (const iso of Object.keys(prev) as ISODate[]) {
+          if (Object.prototype.hasOwnProperty.call(result, iso)) {
+            continue;
+          }
+          removedIsos.add(iso);
+          impactedIsos.add(iso as ISODate);
+        }
+      }
+
+      for (const iso of impactedIsos) {
+        const hadPrev = Object.prototype.hasOwnProperty.call(prev, iso);
+        const hasNext = Object.prototype.hasOwnProperty.call(result, iso);
+        if (!hasNext) {
+          if (hadPrev) {
+            removedIsos.add(iso);
+          }
+          continue;
+        }
+
+        const prevRecord = prev[iso];
+        const nextRecord = result[iso];
+        const isNewIso = !hadPrev;
+        const pointerChanged = prevRecord !== nextRecord;
+        const explicitlyChanged = explicitChanges?.has(iso) ?? false;
+
+        if (!explicitlyChanged && !isNewIso && !pointerChanged) {
+          continue;
+        }
+
+        if (isNewIso) {
+          newIsos.add(iso);
+        }
+
+        const ensured = sanitizeDayRecord(result, iso);
+        if (!ensured) continue;
+        if (!mutated) {
+          mutated = true;
+          result = { ...result };
+        }
+        result[iso] = ensured;
+      }
+
+      if (!mutated && Object.is(prev, result) && removedIsos.size === 0) {
+        if (impactedIsos.size === 0) {
+          return;
+        }
+      }
+
+      const nextUpdates: Array<[ISODate, Record<string, DayTask>]> = [];
+      for (const iso of impactedIsos) {
+        if (!Object.prototype.hasOwnProperty.call(result, iso)) {
+          continue;
+        }
+        const record = result[iso];
+        if (!record) continue;
+        const nextTasks = record.tasksById ?? {};
+        if (newIsos.has(iso) || currentTasksById[iso] !== nextTasks) {
+          nextUpdates.push([iso, nextTasks]);
+        }
+      }
+
+      const nextRemovals =
+        removedIsos.size > 0 ? Array.from(removedIsos) : undefined;
+
+      if (Object.is(prev, result) && nextUpdates.length === 0 && !nextRemovals) {
+        return;
+      }
+
+      if (!Object.is(prev, result)) {
+        rawDaysRef.current = result;
+        setRawDays(result);
+      }
+
+      if (nextUpdates.length === 0 && !nextRemovals) {
+        return;
+      }
+
+      setTasksById((prevMap) => {
+        let nextMap = prevMap;
+        let mutatedMap = false;
+
+        if (nextRemovals) {
+          for (const iso of nextRemovals) {
+            if (!Object.prototype.hasOwnProperty.call(nextMap, iso)) {
+              continue;
+            }
+            if (!mutatedMap) {
+              mutatedMap = true;
+              nextMap = { ...nextMap };
+            }
+            delete nextMap[iso];
+          }
+        }
+
+        if (nextUpdates.length) {
+          for (const [iso, map] of nextUpdates) {
+            if (nextMap[iso] === map) continue;
+            if (!mutatedMap) {
+              mutatedMap = true;
+              nextMap = { ...nextMap };
+            }
+            nextMap[iso] = map;
+          }
+        }
+
+        return mutatedMap ? nextMap : prevMap;
+      });
+    },
+    [setRawDays],
+  );
+
+  const iso = React.useMemo(
+    () => (focus === HYDRATION_TODAY ? today : focus),
+    [focus, today],
+  );
+
+  const normalizedIso = React.useMemo(
+    () => (iso === FOCUS_PLACEHOLDER ? today : iso),
+    [iso, today],
+  );
+
+  const isToday = React.useCallback(
+    (candidate: ISODate) =>
+      today !== FOCUS_PLACEHOLDER && candidate === today,
+    [today],
+  );
+  const week = React.useMemo(() => {
+    const { start, end } = weekRangeFromISO(normalizedIso);
+    const weekDays: ISODate[] = [];
+    for (let i = 0; i < 7; i += 1) {
+      weekDays.push(toISODate(addDays(start, i)));
+    }
+    return { start, end, days: weekDays, isToday } as const;
+  }, [normalizedIso, isToday]);
+
+  const getDayFocus = React.useCallback(
+    (targetIso: ISODate) => {
+      const record = days[targetIso] ?? ensureDay(days, targetIso);
+      return record.focus ?? "";
+    },
+    [days],
+  );
+
+  const updateDayFocus = React.useCallback(
+    (targetIso: ISODate, value: string) => {
+      setDays((prev) => {
+        const base = ensureDay(prev, targetIso);
+        if ((base.focus ?? "") === value) {
+          return prev;
+        }
+        const next = applyFocusToDay(base, value);
+        return { ...prev, [targetIso]: next };
+      });
+    },
+    [setDays],
+  );
+
+  const getNote = React.useCallback(
+    (targetIso: ISODate) => {
+      const record = days[targetIso] ?? ensureDay(days, targetIso);
+      return record.notes ?? "";
+    },
+    [days],
+  );
+
+  const updateNote = React.useCallback(
+    (targetIso: ISODate, value: string) => {
+      setDays((prev) => {
+        const base = ensureDay(prev, targetIso);
+        if ((base.notes ?? "") === value) {
+          return prev;
+        }
+        const next = applyNotesToDay(base, value);
+        return { ...prev, [targetIso]: next };
+      });
+    },
+    [setDays],
+  );
+
+  const daysValue = React.useMemo(
+    () => ({
+      days,
+      setDays,
+      tasksById,
+    }),
+    [days, setDays, tasksById],
+  );
+
+  const focusValue = React.useMemo(
+    () => ({
+      focus,
+      setFocus,
+      today,
+    }),
+    [focus, setFocus, today],
+  );
+
+  const selectionValue = React.useMemo(
+    () => ({
+      selected,
+      setSelected: setSelectedState,
+    }),
+    [selected, setSelectedState],
+  );
+
+  const plannerValue = React.useMemo(
+    () => ({
+      iso,
+      today,
+      hydrated,
+      setIso: setFocus,
+      viewMode,
+      setViewMode,
+      week,
+      getFocus: getDayFocus,
+      updateFocus: updateDayFocus,
+      getNote,
+      updateNote,
+    }),
+    [
+      iso,
+      today,
+      hydrated,
+      setFocus,
+      viewMode,
+      setViewMode,
+      week,
+      getDayFocus,
+      updateDayFocus,
+      getNote,
+      updateNote,
+    ],
+  );
+
+  return React.createElement(
+    DaysContext.Provider,
+    { value: daysValue },
+    React.createElement(
+      FocusContext.Provider,
+      { value: focusValue },
+      React.createElement(
+        SelectionContext.Provider,
+        { value: selectionValue },
+        React.createElement(
+          PlannerStateContext.Provider,
+          { value: plannerValue },
+          children as React.ReactNode,
+        ),
+      ),
+    ),
+  );
+}
+
+export function useDays(): DaysState {
+  const ctx = React.useContext(DaysContext);
+  if (!ctx)
+    throw new Error(
+      "PlannerProvider missing. Wrap your planner page with <PlannerProvider>.",
+    );
+  return ctx;
+}
+
+export function useFocus(): FocusState {
+  const ctx = React.useContext(FocusContext);
+  if (!ctx)
+    throw new Error(
+      "PlannerProvider missing. Wrap your planner page with <PlannerProvider>.",
+    );
+  return ctx;
+}
+
+export function useSelection(): SelectionState {
+  const ctx = React.useContext(SelectionContext);
+  if (!ctx)
+    throw new Error(
+      "PlannerProvider missing. Wrap your planner page with <PlannerProvider>.",
+    );
+  return ctx;
+}
+
+export function usePlannerState(): PlannerStateSlice {
+  const ctx = React.useContext(PlannerStateContext);
+  if (!ctx)
+    throw new Error(
+      "PlannerProvider missing. Wrap your planner page with <PlannerProvider>.",
+    );
+  return ctx;
+}
