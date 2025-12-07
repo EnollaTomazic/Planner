@@ -14,12 +14,12 @@ import * as React from "react";
 import { Header } from "@/components/ui/layout/Header";
 import { PageShell } from "@/components/ui";
 import { useFocusDate, useWeek } from "./useFocusDate";
-import { PlannerProvider, usePlanner, type PlannerViewMode } from "./plannerContext";
+import { PlannerProvider } from "./plannerContext";
+import { usePlannerState, type PlannerViewMode } from "./plannerDaysContext";
 import { FOCUS_PLACEHOLDER } from "./plannerSerialization";
 import { WeekPicker } from "./WeekPicker";
 import { CalendarDays } from "lucide-react";
 import { formatWeekRangeLabel } from "@/lib/date";
-import { RemindersProvider } from "@/components/goals/reminders/useReminders";
 import { PlannerIslandBoundary } from "./PlannerIslandBoundary";
 import { useWeekData } from "./useWeekData";
 import { useDay } from "./useDay";
@@ -107,7 +107,7 @@ function PlannerViewFallback({ mode }: PlannerViewFallbackProps) {
 
 function Inner() {
   const { iso, today } = useFocusDate();
-  const { viewMode, setViewMode } = usePlanner();
+  const { viewMode, setViewMode } = usePlannerState();
   const { start, end, days } = useWeek(iso);
   const { tasks } = useDay(iso);
   const hydrating = today === FOCUS_PLACEHOLDER;
@@ -258,10 +258,8 @@ function Inner() {
 
 export function PlannerPage() {
   return (
-    <RemindersProvider>
-      <PlannerProvider>
-        <Inner />
-      </PlannerProvider>
-    </RemindersProvider>
+    <PlannerProvider>
+      <Inner />
+    </PlannerProvider>
   );
 }

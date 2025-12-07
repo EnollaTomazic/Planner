@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { addDays, toISODate, weekRangeFromISO } from "@/lib/date";
-import { usePlanner } from "./plannerContext";
+import { usePlannerState } from "./plannerDaysContext";
 import type { ISODate } from "./plannerTypes";
 
 /**
@@ -10,7 +10,7 @@ import type { ISODate } from "./plannerTypes";
  * @returns Current focus ISO date, setter, today's ISO string, and hydration flag.
  */
 export function useFocusDate() {
-  const { iso, setIso, today, hydrated } = usePlanner();
+  const { iso, setIso, today, hydrated } = usePlannerState();
   return { iso, setIso, today, hydrated } as const;
 }
 
@@ -20,7 +20,7 @@ export function useFocusDate() {
  * @returns Week start/end dates, list of day ISO strings, and today checker.
  */
 export function useWeek(iso?: ISODate) {
-  const { week, iso: currentIso, today } = usePlanner();
+  const { week, iso: currentIso, today } = usePlannerState();
   return React.useMemo(() => {
     const targetIso = iso ?? currentIso;
     if (targetIso === currentIso) {

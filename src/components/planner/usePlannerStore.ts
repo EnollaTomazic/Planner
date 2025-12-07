@@ -7,7 +7,7 @@ import {
   buildTaskLookups,
   FOCUS_PLACEHOLDER,
 } from "./plannerSerialization";
-import { useDays, useFocus } from "./plannerContext";
+import { useDays, useFocus } from "./plannerDaysContext";
 import type {
   DayRecord,
   DayTask,

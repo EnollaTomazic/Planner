@@ -12,7 +12,12 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: './tests/setup.ts',
-    include: ['tests/**/*.test.{ts,tsx}', 'tests/**/*.spec.{ts,tsx}'],
+    include: [
+      'tests/**/*.test.{ts,tsx}',
+      'tests/**/*.spec.{ts,tsx}',
+      resolve(__dirname, 'src/components/planner/**/__tests__/**/*.test.{ts,tsx}'),
+      resolve(__dirname, 'src/components/planner/**/__tests__/**/*.spec.{ts,tsx}'),
+    ],
     exclude: ['**/node_modules/**', '**/dist/**', 'tests/e2e/**'],
     testTimeout: 20000,
     teardownTimeout: 10000,
