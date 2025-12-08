@@ -5,17 +5,11 @@ import styles from "./Card.module.css";
 
 export type CardDepth = "base" | "raised" | "sunken";
 
-export type CardStatus = 'default' | 'info' | 'success' | 'error';
-
 export type CardProps = React.HTMLAttributes<HTMLDivElement> & {
   asChild?: boolean;
   depth?: CardDepth;
   glitch?: boolean;
   overlay?: React.ReactNode;
-  /**
-   * Optional semantic status to tint the border/background using theme tokens.
-   */
-  status?: CardStatus;
 };
 
 const depthShadowClasses: Record<CardDepth, string> = {
@@ -55,7 +49,6 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
       glitch = false,
       children,
       overlay,
-      status = "default",
       ...props
     },
     ref,
@@ -66,23 +59,11 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
     const glitchText =
       typeof providedGlitchText === "string" ? providedGlitchText : undefined;
 
-    const statusClassNames: Record<CardStatus, string> = {
-      default:
-        "[--card-status-surface:transparent] [--card-status-border:hsl(var(--card-hairline)/0.35)]",
-      info:
-        "[--card-status-surface:hsl(var(--status-info, var(--accent-2))/0.08)] [--card-status-border:hsl(var(--status-info, var(--accent-2))/0.55)]",
-      success:
-        "[--card-status-surface:hsl(var(--success)/0.08)] [--card-status-border:hsl(var(--success)/0.55)]",
-      error:
-        "[--card-status-surface:hsl(var(--danger)/0.08)] [--card-status-border:hsl(var(--danger)/0.55)]",
-    };
-
     const baseClassName = cn(
       styles.root,
       glitch && "group/glitch isolate",
-      "rounded-card r-card-lg p-[var(--space-4)] border border-[color:var(--card-status-border)] bg-[color:color-mix(in_oklab,var(--card-status-surface),hsl(var(--card)/0.72))] text-card-foreground",
+      "rounded-card r-card-lg p-[var(--space-4)] border border-card-hairline/60 bg-card/60 text-card-foreground",
       depthShadowClasses[depth],
-      statusClassNames[status],
       className,
     );
 
@@ -98,10 +79,6 @@ const Card = React.forwardRef<React.ElementRef<"div">, CardProps>(
         />
         <span
           className="absolute inset-0 rounded-[inherit] bg-glitch-noise bg-cover opacity-0 mix-blend-screen transition-opacity duration-motion-sm ease-out motion-reduce:animate-none motion-safe:animate-glitch-noise group-hover/glitch:opacity-[var(--glitch-noise-level,0.06)] group-focus-visible/glitch:opacity-[var(--glitch-noise-level,0.06)] group-focus-within/glitch:opacity-[calc(var(--glitch-noise-level,0.06)*1.3)]"
-        />
-        <span
-          className="absolute inset-0 rounded-[inherit] bg-[repeating-linear-gradient(0deg,transparent,transparent_4px,hsl(var(--card-foreground)/0.04)_6px,hsl(var(--card-foreground)/0.04)_8px)] opacity-0 transition-opacity duration-motion-sm ease-out group-hover/glitch:opacity-60 group-focus-visible/glitch:opacity-60"
-          style={{ maskImage: "linear-gradient(180deg, hsl(var(--surface)/0.12), hsl(var(--surface)/0.08))" }}
         />
       </span>
     ) : null;
