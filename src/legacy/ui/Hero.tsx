@@ -4,17 +4,15 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { Hero as LegacyHero } from "@/legacy/ui/Hero";
-import { isLegacyUiEnabled } from "@/lib/useLegacyUi";
 
 import {
   Hero as LayoutHero,
   type HeroProps as LayoutHeroProps,
   type HeroTab,
   type HeroTabsProps,
-} from "./layout/Hero";
-import { Button, type ButtonProps } from "./primitives/Button";
-import { getAccentColors, type AccentTone } from "./theme/getAccentColors";
+} from "@/components/ui/layout/Hero";
+import { Button, type ButtonProps } from "@/components/ui/primitives/Button";
+import { getAccentColors, type AccentTone } from "@/components/ui/theme/getAccentColors";
 
 const PANEL_WRAPPER_BASE_CLASSES = cn(
   "relative isolate overflow-hidden",
@@ -78,9 +76,7 @@ export interface HeroPanelProps extends PanelElementProps {
   subtitle?: React.ReactNode;
   children?: React.ReactNode;
   actions?: HeroActionsInput;
-  tabs?: React.ReactNode;
   hero?: React.ReactNode;
-  image?: React.ReactNode;
   heroPlacement?: "left" | "right";
   as?: PanelElement;
   headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
@@ -159,7 +155,6 @@ const PanelHero = React.forwardRef<PanelElementRef, HeroPanelProps>(
       children,
       actions,
       hero,
-      image,
       heroPlacement = "right",
       as,
       className,
@@ -170,7 +165,6 @@ const PanelHero = React.forwardRef<PanelElementRef, HeroPanelProps>(
       headingId: headingIdProp,
       style: styleProp,
       accent = "accent",
-      tabs,
       ...rest
     },
     ref,
@@ -225,9 +219,7 @@ const PanelHero = React.forwardRef<PanelElementRef, HeroPanelProps>(
     }, [headingLevel]);
     const HeadingComponent = headingTag as React.ElementType;
 
-    const heroVisual = image ?? hero;
-
-    const heroNode = heroVisual ? (
+    const heroNode = hero ? (
       <div
         className={cn(
           PANEL_HERO_CONTAINER_CLASSES,
@@ -236,9 +228,9 @@ const PanelHero = React.forwardRef<PanelElementRef, HeroPanelProps>(
             : "order-last md:order-none",
           heroClassName,
         )}
-        aria-hidden={typeof heroVisual === "string" ? undefined : true}
+        aria-hidden={typeof hero === "string" ? undefined : true}
       >
-        {heroVisual}
+        {hero}
       </div>
     ) : null;
 
@@ -247,18 +239,10 @@ const PanelHero = React.forwardRef<PanelElementRef, HeroPanelProps>(
     return (
       <Component
         ref={ref}
-        className={cn(PANEL_WRAPPER_BASE_CLASSES, "shadow-[var(--shadow-inner-md),var(--depth-shadow-soft)]", className)}
+        className={cn(PANEL_WRAPPER_BASE_CLASSES, className)}
         style={mergedStyle}
         {...rest}
       >
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-[inherit] border border-[color:var(--hero-panel-accent-border)]/60"
-        />
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-2 rounded-[inherit] bg-glitch-noise bg-[length:220px_220px] opacity-[0.05] mix-blend-soft-light"
-        />
         <div
           className={cn(
             "flex flex-col gap-[var(--space-6)] md:flex-row md:items-center",
@@ -286,11 +270,6 @@ const PanelHero = React.forwardRef<PanelElementRef, HeroPanelProps>(
               <p id={subtitleId} className="text-lg text-muted-foreground">
                 {subtitle}
               </p>
-            ) : null}
-            {tabs ? (
-              <div className="pt-[var(--space-2)]" role="presentation">
-                {tabs}
-              </div>
             ) : null}
             {children}
           </div>
@@ -329,11 +308,14 @@ const LayoutHeroWrapper = React.forwardRef<
       ...rest
     },
     ref,
-  ) => {
+    ) => {
     const accentDefaults = React.useMemo(() => {
-      if (!pageAccent) return null;
-      return PAGE_ACCENT_DEFAULTS[pageAccent] ?? null;
-    }, [pageAccent]);
+      if (!pageAccent) return null
+      if (pageAccent in PAGE_ACCENT_DEFAULTS) {
+        return PAGE_ACCENT_DEFAULTS[pageAccent as HeroPageAccent]
+      }
+      return null
+    }, [pageAccent])
 
     const resolvedTone = tone ?? accentDefaults?.tone;
     const resolvedDividerTint = dividerTint ?? accentDefaults?.dividerTint;
@@ -375,14 +357,6 @@ const HeroBase = React.forwardRef<HTMLElement, HeroProps<string>>((props, ref) =
 });
 HeroBase.displayName = "Hero";
 
-const HeroWithLegacy = React.forwardRef<HTMLElement, HeroProps<string>>((props, ref) => {
-  if (isLegacyUiEnabled()) {
-    return <LegacyHero {...(props as unknown as Record<string, unknown>)} ref={ref as React.ForwardedRef<HTMLElement>} />;
-  }
-  return <HeroBase {...props} ref={ref} />;
-});
-HeroWithLegacy.displayName = "HeroWithLegacy";
-
-export const Hero = HeroWithLegacy as HeroComponent;
+export const Hero = HeroBase as HeroComponent;
 export type { HeroTab, HeroTabsProps };
 export type { LayoutHeroProps };
