@@ -10,6 +10,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm run prebuild && tsx scripts/run-next.ts dev",
+    "dev:legacy": "cross-env NEXT_PUBLIC_USE_LEGACY_UI=true pnpm run dev",
     "profile": "pnpm run prebuild && cross-env REACT_PROFILER=1 tsx scripts/run-next.ts dev --profiling",
     "prebuild": "tsx scripts/regen-if-needed.ts",
     "regen-ui": "tsx scripts/generate-ui-index.ts",
