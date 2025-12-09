@@ -49,7 +49,8 @@ export function createInitialTeamState(): TeamState {
 }
 
 export function useTeamBuilderState() {
-  return usePersistentState<TeamState>(TEAM_KEY, createInitialTeamState());
+  const initialState = React.useMemo(() => createInitialTeamState(), []);
+  return usePersistentState<TeamState>(TEAM_KEY, initialState);
 }
 
 /* ───────────────── helpers ───────────────── */
