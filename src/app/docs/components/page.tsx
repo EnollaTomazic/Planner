@@ -19,13 +19,13 @@ const DOC_SECTIONS: readonly DocSection[] = [
     id: 'buttons',
     title: 'Buttons',
     summary:
-      'Use Button for primary calls-to-action and IconButton for compact affordances. Variants map to semantic intent; prefer "primary" for confirmation and "ghost" or "tertiary" for low-emphasis utility controls.',
+      'Use Button for primary calls-to-action and IconButton for compact affordances. Variants map to semantic intent; prefer "default" for confirmation, "neo" on raised panels, and "quiet" for low-emphasis utility controls.',
     bullets: [
       'Use the size tokens (sm, md, lg) instead of custom padding to maintain vertical rhythm.',
       'Set `loading` on Button to show the spinner overlay without reflowing the label.',
       'SegmentedButton has replaced the deprecated `isActive` prop with `selected`; update any lingering uses to avoid stale visual states.',
     ],
-    code: `// Primary button with loading state\n<Button variant="primary" loading>Saving...</Button>\n\n// Segmented buttons use \'selected\' instead of the old \"isActive\"\n<SegmentedButton selected>Day</SegmentedButton>\n<SegmentedButton>Week</SegmentedButton>`,
+    code: `// Accent button with loading state\n<Button variant="default" loading>Saving...</Button>\n\n// Segmented buttons use \'selected\' instead of the old \"isActive\"\n<SegmentedButton selected>Day</SegmentedButton>\n<SegmentedButton>Week</SegmentedButton>`,
   },
   {
     id: 'inputs',
@@ -33,7 +33,7 @@ const DOC_SECTIONS: readonly DocSection[] = [
     summary:
       'Field primitives handle labels, helper text, and validation messaging; Input is a lightweight text control that pairs with FieldRoot when you need structure.',
     bullets: [
-      'Pick `variant="glow"` or `variant="ghost"` on FieldRoot to align with the surrounding surface tone.',
+      'FieldRoot supports `surface` and `sunken` variants; mirror the surrounding panel depth instead of custom utility stacks.',
       'Use Input sizes (`sm`, `md`, `lg`) instead of custom heights to stay consistent with button sizing.',
       'For searchable chips, TagInput handles tokenization and keyboard interactions out of the box.',
     ],
@@ -88,7 +88,7 @@ export default function ComponentsDocsPage() {
     <PageShell
       as="main"
       id="docs-components"
-      className="bg-[hsl(var(--surface-1)/0.72)]"
+      className="bg-surface-1/70"
       grid
       tabIndex={-1}
     >

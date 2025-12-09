@@ -425,16 +425,45 @@ export function flattenBasePathDirectory(outDir: string, slug: string): void {
     }
 
     const sourcePath = path.join(outDir, entry);
+    const stats = fs.statSync(sourcePath);
+    if (!stats.isDirectory()) {
+      continue;
+    }
+
     const targetPath = path.join(slugDir, entry);
 
     fs.renameSync(sourcePath, targetPath);
   }
 
   const slugIndexPath = path.join(slugDir, "index.html");
+  const nestedSlugIndexPath = path.join(slugDir, normalizedSlug, "index.html");
+  if (!fs.existsSync(slugIndexPath) && fs.existsSync(nestedSlugIndexPath)) {
+    fs.mkdirSync(path.dirname(slugIndexPath), { recursive: true });
+    fs.renameSync(nestedSlugIndexPath, slugIndexPath);
+    const nestedSlugDir = path.dirname(nestedSlugIndexPath);
+    const nestedEntries = fs.readdirSync(nestedSlugDir);
+    if (nestedEntries.length === 0) {
+      fs.rmSync(nestedSlugDir, { recursive: true, force: true });
+    }
+  }
+
   if (!fs.existsSync(slugIndexPath)) {
     throw new Error(
       `Expected index.html at "${slugIndexPath}" after reorganizing static export for base path "${normalizedSlug}".`,
     );
+  }
+
+  const slugEntries = fs.readdirSync(slugDir);
+  for (const entry of slugEntries) {
+    if (entry === "index.html" || entry === normalizedSlug) {
+      continue;
+    }
+
+    const candidatePath = path.join(slugDir, entry);
+    const stats = fs.statSync(candidatePath);
+    if (!stats.isDirectory()) {
+      fs.renameSync(candidatePath, path.join(outDir, entry));
+    }
   }
 
   const redirectHtml = createRootRedirectHtml(normalizedSlug);
