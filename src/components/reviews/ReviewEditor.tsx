@@ -149,6 +149,7 @@ export function ReviewEditor({
 
   return (
     <SectionCard
+      depth="soft"
       ref={rootRef}
       variant="plain"
       className={cn("transition-none shadow-none", className)}

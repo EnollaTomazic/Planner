@@ -66,7 +66,7 @@ export const GoalForm = React.forwardRef<GoalFormHandle, GoalFormProps>(function
         onSubmit();
       }}
     >
-      <SectionCard className="card-neo-soft bg-panel-tilt shadow-inner-md">
+      <SectionCard depth="soft" className="card-neo-soft bg-panel-tilt shadow-inner-md">
         <SectionCard.Header
           className="flex items-center justify-between"
           title="Add Goal"

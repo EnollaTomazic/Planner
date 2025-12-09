@@ -33,6 +33,7 @@ export default function ReviewsPreviewPage() {
       />
 
       <SectionCard
+        depth="soft"
         className="col-span-full"
         aria-labelledby="reviews-preview-heading"
       >

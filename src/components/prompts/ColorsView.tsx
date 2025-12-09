@@ -173,7 +173,7 @@ export function ColorsView({ groups }: ColorsViewProps) {
       </header>
 
       {filteredGroups.length === 0 ? (
-        <UiSectionCard variant="plain">
+        <UiSectionCard variant="plain" depth="soft">
           <UiSectionCard.Body className="text-label text-muted-foreground">
             No tokens match that search. Try a different name, value, or category.
           </UiSectionCard.Body>
@@ -185,7 +185,7 @@ export function ColorsView({ groups }: ColorsViewProps) {
           const tokenSuffix = tokenCount === 1 ? "token" : "tokens";
 
           return (
-            <UiSectionCard key={group.id}>
+            <UiSectionCard key={group.id} depth="soft">
               <UiSectionCard.Header
                 title={group.label}
                 actions={

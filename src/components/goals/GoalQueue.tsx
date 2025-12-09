@@ -49,7 +49,7 @@ export function GoalQueue({ items, onAdd, onRemove }: GoalQueueProps) {
   }
 
   return (
-    <SectionCard className="card-neo-soft">
+    <SectionCard depth="soft" className="card-neo-soft">
       <SectionCard.Header
         title="Goal Queue"
         titleClassName="text-title font-semibold tracking-[-0.01em]"

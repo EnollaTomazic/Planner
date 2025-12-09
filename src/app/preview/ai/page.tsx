@@ -32,7 +32,11 @@ export default function AIPreviewPage() {
         headingId="ai-preview-heading"
       />
 
-      <SectionCard className="col-span-full" aria-labelledby="ai-preview-heading">
+      <SectionCard
+        depth="soft"
+        className="col-span-full"
+        aria-labelledby="ai-preview-heading"
+      >
         <SectionCardBody className="space-y-[var(--space-4)]">
           <AIPreviewClient />
         </SectionCardBody>

@@ -34,7 +34,7 @@ export function FocusPanel({ iso }: Props) {
   };
 
   return (
-    <SectionCard className="card-neo-soft">
+    <SectionCard depth="soft" className="card-neo-soft">
       <SectionCard.Header
         id={headerId}
         title="Daily Focus"

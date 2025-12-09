@@ -215,7 +215,7 @@ export function Reminders() {
 
   return (
     <div className="grid gap-[var(--space-3)]">
-      <SectionCard className="card-neo-soft">
+    <SectionCard depth="soft" className="card-neo-soft">
         <SectionCard.Header sticky topClassName={GOALS_STICKY_TOP_CLASS}>
           {/* header row (no Quick Add here anymore) */}
           <div className="flex flex-wrap items-center gap-[var(--space-2)] sm:gap-[var(--space-3)] w-full">

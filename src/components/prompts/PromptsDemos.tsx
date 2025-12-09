@@ -345,7 +345,7 @@ export function PromptsDemos() {
       </Card>
       <Card className="mt-[var(--space-8)] space-y-[var(--space-4)]">
         <h3 className="type-title">Layout</h3>
-        <SectionCard>
+        <SectionCard depth="soft">
           <SectionCard.Header>
             <TitleBar label="TitleBar" />
           </SectionCard.Header>

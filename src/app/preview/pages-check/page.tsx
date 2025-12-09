@@ -31,7 +31,11 @@ export default function PagesCheckPage() {
         headingId="pages-check-heading"
       />
 
-      <SectionCard className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3" aria-labelledby="pages-check-heading">
+      <SectionCard
+        depth="soft"
+        className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3"
+        aria-labelledby="pages-check-heading"
+      >
         <SectionCardBody className="flex flex-col items-center gap-[var(--space-4)] text-center text-ui">
           <p className="text-ui text-muted-foreground" data-testid="base-path-value">
             Base path resolved to <span className="font-mono text-foreground">{basePathLabel}</span>

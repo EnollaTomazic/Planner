@@ -105,6 +105,7 @@ function GlitchLandingFallback({
         aria-labelledby={overviewHeadingId}
       >
         <SectionCard
+          depth="soft"
           aria-labelledby={overviewHeadingId}
           className={cn('col-span-full', sectionCardOverlayClassName)}
         >
@@ -176,6 +177,7 @@ function LegacyHomeFallback({
         aria-labelledby={overviewHeadingId}
       >
         <SectionCard
+          depth="soft"
           aria-labelledby={overviewHeadingId}
           className={cn('col-span-full', sectionCardOverlayClassName)}
         >

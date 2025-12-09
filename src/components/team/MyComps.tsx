@@ -244,7 +244,7 @@ export function MyComps({ query = "", editing = false }: MyCompsProps) {
 
   return (
     <div data-scope="team">
-      <SectionCard variant="glitch">
+      <SectionCard variant="glitch" depth="soft">
         <SectionCard.Header
           title="My Comps"
           actions={

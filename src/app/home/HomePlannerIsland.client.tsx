@@ -86,6 +86,7 @@ function HomePlannerIslandFallback() {
           className="pt-[var(--space-6)] md:pt-[var(--space-8)]"
         >
           <SectionCard
+            depth="strong"
             aria-labelledby={heroHeadingId}
             className={cn('col-span-full', sectionCardOverlayClassName)}
           >
@@ -107,6 +108,7 @@ function HomePlannerIslandFallback() {
           className="mt-[var(--space-6)] pb-[var(--space-6)] md:mt-[var(--space-8)] md:pb-[var(--space-8)]"
         >
           <SectionCard
+            depth="soft"
             aria-labelledby={overviewHeadingId}
             className={cn('col-span-full', sectionCardOverlayClassName)}
           >

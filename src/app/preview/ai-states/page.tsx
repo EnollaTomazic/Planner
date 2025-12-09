@@ -32,7 +32,11 @@ export default function AIStatesPreviewPage() {
         headingId="ai-states-preview-heading"
       />
 
-      <SectionCard className="col-span-full" aria-labelledby="ai-states-preview-heading">
+      <SectionCard
+        depth="soft"
+        className="col-span-full"
+        aria-labelledby="ai-states-preview-heading"
+      >
         <SectionCardBody className="space-y-[var(--space-5)]">
           <AIStatesPreviewMatrixClient />
         </SectionCardBody>

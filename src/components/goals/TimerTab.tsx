@@ -441,7 +441,7 @@ export function TimerTab() {
         }}
       />
 
-      <SectionCard className="no-hover">
+      <SectionCard depth="soft" className="no-hover">
         <SectionCard.Body>
           <div className="relative mx-auto flex w-full max-w-[calc(var(--space-8)*6)] flex-col items-stretch p-[var(--space-8)]">
             {/* plus/minus */}

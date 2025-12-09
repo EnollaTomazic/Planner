@@ -400,6 +400,7 @@ const GlitchLandingLayout = React.memo(function GlitchLandingLayout({
         className="mt-[var(--space-6)] pb-[var(--space-6)] md:mt-[var(--space-8)] md:pb-[var(--space-8)]"
       >
         <SectionCard
+          depth="soft"
           aria-labelledby={overviewHeadingId}
           className="col-span-full"
         >
@@ -524,6 +525,7 @@ const LegacyLandingLayout = React.memo(function LegacyLandingLayout({
         className="mt-[var(--space-6)] pb-[var(--space-6)] md:mt-[var(--space-8)] md:pb-[var(--space-8)]"
       >
         <SectionCard
+          depth="soft"
           aria-labelledby={overviewHeadingId}
           className="col-span-full"
         >

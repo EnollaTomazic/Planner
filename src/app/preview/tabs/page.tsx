@@ -39,7 +39,11 @@ export default function TabsPreviewPage() {
         headingId="tabs-preview-heading"
       />
 
-      <SectionCard className="col-span-full" aria-labelledby="tabs-preview-heading">
+      <SectionCard
+        depth="soft"
+        className="col-span-full"
+        aria-labelledby="tabs-preview-heading"
+      >
         <SectionCardBody className="space-y-[var(--space-5)]">
           <TabsPreviewMatrixClient navigation={navigation} tokenGroups={tokenGroups} />
         </SectionCardBody>

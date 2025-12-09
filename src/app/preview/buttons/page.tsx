@@ -32,7 +32,11 @@ export default function ButtonsPreviewPage() {
         headingId="buttons-preview-heading"
       />
 
-      <SectionCard className="col-span-full" aria-labelledby="buttons-preview-heading">
+      <SectionCard
+        depth="soft"
+        className="col-span-full"
+        aria-labelledby="buttons-preview-heading"
+      >
         <SectionCardBody className="space-y-[var(--space-5)]">
           <ButtonsPreviewMatrixClient />
         </SectionCardBody>

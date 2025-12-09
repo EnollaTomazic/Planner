@@ -25,7 +25,7 @@ export function WeekNotes({ iso }: Props) {
   const statusId = `${textareaId}-status`;
 
   return (
-    <SectionCard className="card-neo-soft">
+    <SectionCard depth="soft" className="card-neo-soft">
       <SectionCard.Header
         id={headerId}
         title="Day notes"

@@ -2808,11 +2808,11 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       name: "SectionCard Variants",
       element: (
         <div className="flex flex-col gap-[var(--space-4)]">
-          <UiSectionCard>
+          <UiSectionCard depth="soft">
             <UiSectionCard.Header title="Neo (default)" />
             <UiSectionCard.Body>Content</UiSectionCard.Body>
           </UiSectionCard>
-          <UiSectionCard variant="plain">
+          <UiSectionCard variant="plain" depth="soft">
             <UiSectionCard.Header title="Plain" />
             <UiSectionCard.Body>Content</UiSectionCard.Body>
           </UiSectionCard>
@@ -2820,11 +2820,11 @@ const LEGACY_SPEC_DATA: Record<GallerySectionId, LegacySpec[]> = {
       ),
       tags: ["section", "card"],
       code: `<div className="flex flex-col gap-[var(--space-4)]">
-  <SectionCard>
+  <SectionCard depth="soft">
     <SectionCard.Header title="Neo (default)" />
     <SectionCard.Body>Content</SectionCard.Body>
   </SectionCard>
-  <SectionCard variant="plain">
+  <SectionCard variant="plain" depth="soft">
     <SectionCard.Header title="Plain" />
     <SectionCard.Body>Content</SectionCard.Body>
   </SectionCard>
@@ -4023,7 +4023,7 @@ const [value, setValue] = React.useState(options[0].value);
       description:
         "Composite hero surface combining quick actions, overview metrics, and planner highlights for the landing page.",
       element: (
-        <UiSectionCard aria-labelledby="hero-planner-cards-heading">
+        <UiSectionCard depth="strong" aria-labelledby="hero-planner-cards-heading">
           <UiSectionCard.Header
             id="hero-planner-cards-heading"
             sticky={false}
@@ -4041,7 +4041,7 @@ const [value, setValue] = React.useState(options[0].value);
         </UiSectionCard>
       ),
       tags: ["planner", "homepage", "hero"],
-      code: `<SectionCard aria-labelledby="planner-overview-heading">
+      code: `<SectionCard depth="strong" aria-labelledby="planner-overview-heading">
   <SectionCard.Header
     id="planner-overview-heading"
     sticky={false}

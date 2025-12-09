@@ -32,7 +32,11 @@ export default function FormsPreviewPage() {
         headingId="forms-preview-heading"
       />
 
-      <SectionCard className="col-span-full" aria-labelledby="forms-preview-heading">
+      <SectionCard
+        depth="soft"
+        className="col-span-full"
+        aria-labelledby="forms-preview-heading"
+      >
         <SectionCardBody className="space-y-[var(--space-5)]">
           <FormsPreviewMatrixClient />
         </SectionCardBody>

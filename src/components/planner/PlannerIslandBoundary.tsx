@@ -72,7 +72,7 @@ function PlannerIslandFallback({
   }
 
   return (
-    <SectionCard role="alert" aria-live="assertive" className={className}>
+    <SectionCard role="alert" aria-live="assertive" depth="soft" className={className}>
       <SectionCard.Body className="space-y-[var(--space-2)]">
         <p className="text-label font-semibold text-foreground">{title}</p>
         <p className="text-body text-muted-foreground">{description}</p>

@@ -17,7 +17,7 @@ const REMINDER_AVATAR_SRC = withBasePath("/hero_image.png");
 
 export function RemindersTab() {
   return (
-    <SectionCard variant="neo" className={styles.card}>
+    <SectionCard depth="soft" variant="neo" className={styles.card}>
       <SectionCard.Header className={styles.header}>
         <div className={styles.hero}>
           <AvatarFrame

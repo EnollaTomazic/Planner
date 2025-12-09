@@ -237,6 +237,7 @@ const createSectionCard = (
   const { disabled = false, loading = false } = options ?? {};
   return (
     <SectionCard
+      depth="soft"
       aria-disabled={disabled ? true : undefined}
       aria-busy={loading ? true : undefined}
       className={cn("space-y-[var(--space-3)]", className)}

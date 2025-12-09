@@ -29,9 +29,15 @@ describe("SectionCard", () => {
   it("uses the neumorphic token stack for the default variant", () => {
     const root = renderSectionCard();
 
-    expect(root.className).toContain("shadow-depth-outer-strong");
+    expect(root.className).toContain("shadow-depth-soft");
     expect(root.className).toContain("card-neo-soft");
     expect(root.className).toContain("rounded-card");
+  });
+
+  it("applies the requested depth token", () => {
+    const root = renderSectionCard({ depth: "strong" });
+
+    expect(root.className).toContain("shadow-depth-outer-strong");
   });
 
   it("switches to the glitch token surface when requested", () => {

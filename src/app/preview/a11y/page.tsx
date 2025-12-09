@@ -28,7 +28,11 @@ export default function A11yPreviewPage() {
         headingId="a11y-preview-heading"
       />
 
-      <SectionCard className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3" aria-labelledby="a11y-preview-heading">
+      <SectionCard
+        depth="soft"
+        className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3"
+        aria-labelledby="a11y-preview-heading"
+      >
         <SectionCardBody className="space-y-[var(--space-6)] text-ui text-muted-foreground">
           <p>
             These demos exercise Planner&apos;s focus management primitives. The modal trap keeps keyboard users inside the

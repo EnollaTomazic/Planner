@@ -32,7 +32,11 @@ export default function CardsPreviewPage() {
         headingId="cards-preview-heading"
       />
 
-      <SectionCard className="col-span-full" aria-labelledby="cards-preview-heading">
+      <SectionCard
+        depth="soft"
+        className="col-span-full"
+        aria-labelledby="cards-preview-heading"
+      >
         <SectionCardBody className="space-y-[var(--space-5)]">
           <CardsPreviewMatrixClient />
         </SectionCardBody>

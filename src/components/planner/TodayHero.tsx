@@ -150,6 +150,7 @@ export function TodayHero({ iso }: Props) {
 
   return (
     <SectionCard
+      depth="strong"
       variant="plain"
       className="bg-hero-soft card-pad-lg anim-in rounded-[var(--radius-lg)]"
     >

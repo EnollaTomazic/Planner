@@ -144,7 +144,7 @@ export function WeekSummary({
   if (variant === "inline") return content;
 
   return (
-    <SectionCard className="card-neo">
+    <SectionCard depth="soft" className="card-neo">
       <SectionCard.Header
         className="items-start gap-[var(--space-3)]"
         titleAs="h6"

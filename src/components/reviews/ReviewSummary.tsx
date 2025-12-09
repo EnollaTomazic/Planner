@@ -86,6 +86,7 @@ export function ReviewSummary({ review, onEdit, className }: Props) {
 
   return (
     <SectionCard
+      depth="soft"
       variant="plain"
       className={cn("transition-none shadow-none", className)}
     >

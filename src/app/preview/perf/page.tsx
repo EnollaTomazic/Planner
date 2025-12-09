@@ -35,7 +35,10 @@ export default function PerfPreviewPage() {
         }
       />
 
-      <SectionCard className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3">
+      <SectionCard
+        depth="soft"
+        className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3"
+      >
         <SectionCardBody className="space-y-[var(--space-6)] text-ui text-muted-foreground">
           <PerfPreviewClient />
         </SectionCardBody>

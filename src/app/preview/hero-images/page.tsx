@@ -92,7 +92,10 @@ export default async function HeroImagesPreviewPage({
         headingId="hero-images-preview-heading"
       />
 
-      <SectionCard className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3">
+      <SectionCard
+        depth="soft"
+        className="col-span-full md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3"
+      >
         <SectionCardBody>
           <HeroImagesPreviewClient
             initialVariant={variant}

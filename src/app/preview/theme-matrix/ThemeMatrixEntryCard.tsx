@@ -175,7 +175,11 @@ export function ThemeMatrixEntryCard({
   entry,
 }: ThemeMatrixEntryCardProps): JSX.Element {
   return (
-    <SectionCard data-theme-matrix-entry={entry.entryId} className="flex flex-col">
+    <SectionCard
+      depth="soft"
+      data-theme-matrix-entry={entry.entryId}
+      className="flex flex-col"
+    >
       <SectionCardHeader
         title={entry.entryName}
         titleAs="h3"

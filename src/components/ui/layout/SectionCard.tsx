@@ -10,6 +10,7 @@ type NoiseLevel = "none" | "subtle" | "moderate";
 type RootProps = React.HTMLAttributes<HTMLElement> & {
   variant?: "neo" | "plain" | "glitch";
   noiseLevel?: NoiseLevel;
+  depth?: "soft" | "strong";
 };
 export type SectionCardHeaderProps = Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -44,7 +45,7 @@ const SECTION_CARD_NOISE_STYLES: Record<NoiseLevel, React.CSSProperties> = {
   } as React.CSSProperties,
   subtle: {
     "--texture-grain-opacity": "var(--theme-noise-level-subtle, 0.03)",
-    "--texture-scanline-opacity": "var(--theme-scanline-opacity-subtle, 0.045)",
+    "--texture-scanline-opacity": "var(--theme-noise-level-subtle, 0.035)",
     backgroundImage: "var(--texture-scanlines)",
   } as React.CSSProperties,
   moderate: {
@@ -55,20 +56,25 @@ const SECTION_CARD_NOISE_STYLES: Record<NoiseLevel, React.CSSProperties> = {
 };
 
 const SectionCardRoot = React.forwardRef<HTMLElement, RootProps>(
-  ({ variant = "neo", noiseLevel, className, children, style, ...props }, ref) => {
+  (
+    {
+      variant = "neo",
+      noiseLevel,
+      depth = "soft",
+      className,
+      children,
+      style,
+      ...props
+    },
+    ref,
+  ) => {
     const [headingId, setHeadingId] = React.useState<string | undefined>();
     const contextValue = React.useMemo(
       () => ({ headingId, setHeadingId }),
       [headingId],
     );
 
-    const resolvedNoiseLevel: NoiseLevel = React.useMemo(() => {
-      if (noiseLevel) {
-        return noiseLevel;
-      }
-
-      return variant === "glitch" ? "moderate" : "subtle";
-    }, [noiseLevel, variant]);
+    const resolvedNoiseLevel: NoiseLevel = noiseLevel ?? "subtle";
 
     const noiseStyle = React.useMemo<React.CSSProperties | undefined>(() => {
       const variables = SECTION_CARD_NOISE_STYLES[resolvedNoiseLevel];
@@ -85,7 +91,7 @@ const SectionCardRoot = React.forwardRef<HTMLElement, RootProps>(
     const variantClassName = React.useMemo(() => {
       if (variant === "neo") {
         return cn(
-          "card-neo-soft shadow-depth-outer-strong",
+          "card-neo-soft",
           showNoiseBackground &&
             "bg-[var(--texture-scanlines)] shadow-[var(--shadow-outer-xl)]",
         );
@@ -102,6 +108,8 @@ const SectionCardRoot = React.forwardRef<HTMLElement, RootProps>(
       return styles.glitch;
     }, [showNoiseBackground, variant]);
 
+    const depthClassName = depth === "strong" ? "shadow-depth-outer-strong" : "shadow-depth-soft";
+
     return (
       <SectionCardContext.Provider value={contextValue}>
         <section
@@ -110,6 +118,7 @@ const SectionCardRoot = React.forwardRef<HTMLElement, RootProps>(
           className={cn(
             "relative overflow-hidden rounded-card r-card-lg text-card-foreground",
             variantClassName,
+            depthClassName,
             className,
           )}
           style={noiseStyle}
