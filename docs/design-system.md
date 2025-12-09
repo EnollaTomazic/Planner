@@ -43,6 +43,7 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 - Use semantic classes like `bg-background`, `text-foreground` and `ring` instead of hard-coded values.
 - Gradient utilities such as `bg-panel-tilt-strong`, `before:bg-gradient-drip-overlay-compact`, and `after:bg-glitch-overlay` map directly to the tokenized backgrounds documented in [`docs/tokens.md`](tokens.md); prefer them over ad-hoc `linear-gradient(...)` strings so themes can tune overlays without component changes.
 - Pair high-chroma fills with the semantic text tokens: `text-warning-foreground` for alert banners, `text-success-foreground` for celebratory fills (including the success glow), `text-on-accent` for accent gradients, `text-accent-foreground` / `text-accent-2-foreground` for accent rails, and `text-danger-foreground` for destructive actions. This ensures the `color-contrast()` fallbacks in `themes.css` stay effective.
+- Avoid raw `hsl()` strings or pixel literals; prefer token-backed utilities like `bg-surface-1/70`, `px-[var(--space-4)]`, or `h-[var(--control-h-md)]`. The `design/no-raw-design-values` lint rule enforces these constraints during CI.
 - If you need to introduce a new static color, map it to a token in [`COLOR_MAPPINGS.md`](../COLOR_MAPPINGS.md).
 - Name color tokens in kebab-case with hyphenated numeric variants (e.g. `accent-2`).
 - Input elements use `--control-radius` (16px) for consistent corner rounding.
@@ -112,9 +113,10 @@ For governance and enforcement workflows, read [Design System Governance](./desi
 - `Button` automatically sizes any `svg` icons based on the `size` option
   and sets icon gaps: `gap-1` for `sm`, `gap-2` for `md`, `gap-3` for `lg`.
 - `Button` and `IconButton` share the `variant` options
-  `"default" | "neo" | "quiet" | "glitch"`. Legacy aliases map to these
-  canonical names (`"primary"` → `"default"`, `"secondary"/"soft"` → `"neo"`,
-  `"ghost"/"minimal"` → `"quiet"`).
+  `"default" | "neo" | "quiet" | "glitch"`. Legacy aliases remain for
+  backwards compatibility only—update lingering usages to the canonical
+  names (`"default"`, `"neo"`, `"quiet"`, `"glitch"`) so deprecated
+  values can be removed in a follow-up cleanup.
 - When you need the chromatic fill, pick the default variant (or another
   tone/variant pairing from the gallery) so the accent-tinted backgrounds
   and focus shadows replace the neutral panel treatment.

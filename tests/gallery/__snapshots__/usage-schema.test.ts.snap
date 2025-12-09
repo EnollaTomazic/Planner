@@ -156,7 +156,7 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
     "states": [],
   },
   "header": {
-    "routes": 3,
+    "routes": 2,
     "states": [],
   },
   "header-tabs": {
@@ -229,7 +229,7 @@ exports[`gallery usage schema > matches expected snapshot 1`] = `
     "states": [],
   },
   "modal-demo": {
-    "routes": 0,
+    "routes": 2,
     "states": [
       "closed",
       "confirm-disabled",

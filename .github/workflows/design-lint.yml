@@ -1,0 +1,27 @@
+name: Design lint
+
+on:
+  pull_request:
+    paths:
+      - 'src/app/**'
+      - 'src/components/**'
+
+concurrency:
+  group: design-lint-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  design-lint:
+    name: Design lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup project
+        uses: ./.github/actions/setup-node-project
+        with:
+          cache-prefix: design-lint
+
+      - name: Run ESLint design checks
+        run: pnpm run lint:design
+
+      - name: Run token lint
+        run: pnpm run lint:tokens

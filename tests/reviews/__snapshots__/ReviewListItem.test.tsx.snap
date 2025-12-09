@@ -4,12 +4,16 @@ exports[`ReviewListItem > renders default state 1`] = `
 <div>
   <div
     aria-label="Open review: Sample Review"
-    class="_root_c3fb80 rounded-card r-card-lg p-[var(--space-4)] border border-card-hairline/60 bg-card/60 text-card-foreground shadow-neo-soft group relative flex flex-col gap-[var(--space-3)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 cursor-pointer hover:bg-card/75 active:bg-card/85 focus-visible:bg-card/80"
+    class="_root_c3fb80 rounded-card r-card-lg p-[var(--space-4)] border border-[color:var(--card-status-border)] bg-[color:color-mix(in_oklab,var(--card-status-surface),hsl(var(--card)/0.72))] text-card-foreground shadow-neo-soft [--card-status-surface:transparent] [--card-status-border:hsl(var(--card-hairline)/0.35)] group relative flex flex-col gap-[var(--space-3)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 cursor-pointer hover:bg-card/75 active:bg-card/85 focus-visible:bg-card/80"
     data-depth="base"
     data-scope="reviews"
     role="button"
     tabindex="0"
   >
+    <div
+      aria-hidden="true"
+      class="glitch-sprite rounded-[inherit]"
+    />
     <div
       class="flex items-start justify-between gap-[var(--space-3)]"
     >
@@ -72,13 +76,17 @@ exports[`ReviewListItem > renders disabled state 1`] = `
   <div
     aria-disabled="true"
     aria-label="Open review: Sample Review"
-    class="_root_c3fb80 rounded-card r-card-lg p-[var(--space-4)] border border-card-hairline/60 bg-card/60 text-card-foreground shadow-neo-soft group relative flex flex-col gap-[var(--space-3)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 opacity-disabled"
+    class="_root_c3fb80 rounded-card r-card-lg p-[var(--space-4)] border border-[color:var(--card-status-border)] bg-[color:color-mix(in_oklab,var(--card-status-surface),hsl(var(--card)/0.72))] text-card-foreground shadow-neo-soft [--card-status-surface:transparent] [--card-status-border:hsl(var(--card-hairline)/0.35)] group relative flex flex-col gap-[var(--space-3)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 opacity-disabled"
     data-depth="base"
     data-disabled="true"
     data-scope="reviews"
     role="button"
     tabindex="-1"
   >
+    <div
+      aria-hidden="true"
+      class="glitch-sprite rounded-[inherit]"
+    />
     <div
       class="flex items-start justify-between gap-[var(--space-3)]"
     >
@@ -157,13 +165,17 @@ exports[`ReviewListItem > renders selected state 1`] = `
   <div
     aria-current="true"
     aria-label="Open review: Sample Review"
-    class="_root_c3fb80 rounded-card r-card-lg p-[var(--space-4)] border border-card-hairline/60 text-card-foreground shadow-neo hover:shadow-neo-strong focus-visible:shadow-neo-strong focus-within:shadow-neo-strong group relative flex flex-col gap-[var(--space-3)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 cursor-pointer hover:bg-card/75 active:bg-card/85 focus-visible:bg-card/80 bg-[theme('colors.interaction.accent.tintActive')] ring-2 ring-[theme('colors.interaction.accent.surfaceActive')]"
+    class="_root_c3fb80 rounded-card r-card-lg p-[var(--space-4)] border border-[color:var(--card-status-border)] text-card-foreground shadow-neo hover:shadow-neo-strong focus-visible:shadow-neo-strong focus-within:shadow-neo-strong [--card-status-surface:transparent] [--card-status-border:hsl(var(--card-hairline)/0.35)] group relative flex flex-col gap-[var(--space-3)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 cursor-pointer hover:bg-card/75 active:bg-card/85 focus-visible:bg-card/80 bg-[theme('colors.interaction.accent.tintActive')] ring-2 ring-[theme('colors.interaction.accent.surfaceActive')]"
     data-depth="raised"
     data-scope="reviews"
     data-selected="true"
     role="button"
     tabindex="0"
   >
+    <div
+      aria-hidden="true"
+      class="glitch-sprite rounded-[inherit]"
+    />
     <div
       class="flex items-start justify-between gap-[var(--space-3)]"
     >
@@ -225,12 +237,16 @@ exports[`ReviewListItem > renders untitled state 1`] = `
 <div>
   <div
     aria-label="Open review: Untitled Review"
-    class="_root_c3fb80 rounded-card r-card-lg p-[var(--space-4)] border border-card-hairline/60 bg-card/60 text-card-foreground shadow-neo-soft group relative flex flex-col gap-[var(--space-3)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 cursor-pointer hover:bg-card/75 active:bg-card/85 focus-visible:bg-card/80"
+    class="_root_c3fb80 rounded-card r-card-lg p-[var(--space-4)] border border-[color:var(--card-status-border)] bg-[color:color-mix(in_oklab,var(--card-status-surface),hsl(var(--card)/0.72))] text-card-foreground shadow-neo-soft [--card-status-surface:transparent] [--card-status-border:hsl(var(--card-hairline)/0.35)] group relative flex flex-col gap-[var(--space-3)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 cursor-pointer hover:bg-card/75 active:bg-card/85 focus-visible:bg-card/80"
     data-depth="base"
     data-scope="reviews"
     role="button"
     tabindex="0"
   >
+    <div
+      aria-hidden="true"
+      class="glitch-sprite rounded-[inherit]"
+    />
     <div
       class="flex items-start justify-between gap-[var(--space-3)]"
     >

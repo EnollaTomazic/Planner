@@ -63,7 +63,7 @@ export function DayAccordion({ items, className, onToggle }: DayAccordionProps) 
                   ) : null}
                 </div>
                 <Button
-                  variant="ghost"
+                  variant="quiet"
                   size="sm"
                   className="shrink-0 text-muted-foreground"
                   aria-controls={controlId}

@@ -82,7 +82,7 @@ export function AIOutput({
             {onEdit ? (
               <IconButton
                 size="sm"
-                variant="ghost"
+                variant="quiet"
                 aria-label="Edit suggestion"
                 onClick={onEdit}
               >
@@ -92,7 +92,7 @@ export function AIOutput({
             {onRetry ? (
               <IconButton
                 size="sm"
-                variant="ghost"
+                variant="quiet"
                 aria-label="Retry suggestion"
                 onClick={onRetry}
               >
@@ -101,7 +101,7 @@ export function AIOutput({
             ) : null}
             <IconButton
               size="sm"
-              variant="ghost"
+              variant="quiet"
               aria-label="Dismiss suggestion"
               onClick={handleDismiss}
             >
@@ -118,7 +118,7 @@ export function AIOutput({
           {actionList.map((action, index) => (
             <Button
               key={`${action.label}-${index}`}
-              variant="secondary"
+              variant="neo"
               size="sm"
               onClick={action.onSelect}
               aria-label={action['aria-label'] ?? (typeof action.label === 'string' ? action.label : undefined)}
