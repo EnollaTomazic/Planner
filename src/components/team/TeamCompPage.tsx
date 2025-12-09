@@ -578,6 +578,7 @@ export function TeamCompPage() {
                 id={ids.panel}
                 role="tabpanel"
                 aria-labelledby={ids.tab}
+                aria-label={`${t.label} tab`}
                 hidden={tab !== t.key}
                 tabIndex={tab === t.key ? 0 : -1}
                 ref={t.ref}

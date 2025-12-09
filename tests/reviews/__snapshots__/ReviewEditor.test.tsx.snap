@@ -3,11 +3,11 @@
 exports[`ReviewEditor > renders default state 1`] = `
 <div>
   <section
-    class="relative overflow-hidden rounded-card r-card-lg text-card-foreground card-soft bg-glitch-noise-primary transition-none shadow-none"
+    class="relative overflow-hidden rounded-card r-card-lg text-card-foreground card-soft bg-[var(--texture-scanlines)] shadow-[var(--shadow-outer-xl)] transition-none shadow-none"
     data-variant="plain"
-    style="--texture-grain-opacity: var(--theme-noise-level-subtle, 0.03); --texture-scanline-opacity: var(--theme-scanline-opacity-subtle, 0.045);"
+    style="--texture-grain-opacity: var(--theme-noise-level-subtle, 0.03); --texture-scanline-opacity: var(--theme-scanline-opacity-subtle, 0.045); background-image: var(--texture-scanlines);"
   >
-    <span
+    <div
       aria-hidden="true"
       class="glitch-sprite rounded-[inherit]"
     />
@@ -46,10 +46,10 @@ exports[`ReviewEditor > renders default state 1`] = `
                 Mid, selected, 3 of 5
               </span>
               <div
-                class="relative w-full"
+                class="relative min-w-0 w-full"
               >
                 <div
-                  class="flex flex-wrap items-center justify-start gap-[var(--space-3)]"
+                  class="flex min-w-0 items-center justify-start gap-[var(--space-3)]"
                 >
                   <div
                     aria-label="Select lane/role"
