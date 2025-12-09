@@ -18,7 +18,6 @@ export function PlannerRemindersProvider({
   children: React.ReactNode;
 }) {
   const parentContext = React.useContext(RemindersContext);
-  const reminders = useReminders();
 
   if (parentContext) {
     return (
@@ -30,10 +29,21 @@ export function PlannerRemindersProvider({
 
   return (
     <RemindersProvider>
-      <PlannerRemindersContext.Provider value={reminders}>
-        {children as React.ReactNode}
-      </PlannerRemindersContext.Provider>
+      <RemindersContextBridge>{children}</RemindersContextBridge>
     </RemindersProvider>
+  );
+}
+
+function RemindersContextBridge({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const reminders = useReminders();
+  return (
+    <PlannerRemindersContext.Provider value={reminders}>
+      {children as React.ReactNode}
+    </PlannerRemindersContext.Provider>
   );
 }
 

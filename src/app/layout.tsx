@@ -83,7 +83,10 @@ export default async function RootLayout({
   const basePath = getBasePath();
   const noiseAssetPath = withBasePath("/noise.svg");
   const glitchAssetPath = withBasePath("/glitch-gif.gif");
-  const nonce = (await headers()).get("x-nonce") ?? undefined;
+  const nonce =
+    process.env.DEPLOY_ARTIFACT_ONLY === "true"
+      ? undefined
+      : (await headers()).get("x-nonce") ?? undefined;
   const securityPolicyOptions = {
     ...defaultSecurityPolicyOptions,
     nonce,
