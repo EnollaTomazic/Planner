@@ -72,13 +72,16 @@ function transformer(file, api, options) {
   let changed = false
   const replacements = []
 
+  const dryRun = options['dry-run'] || options.dryRun || options.dry
+  const shouldReport = options.report || options['report-only'] || dryRun
+
   const updateModuleSpecifier = nodePath => {
     const literal = nodePath.value.source
     if (!literal || typeof literal.value !== 'string') return
     const current = literal.value
     const next = resolveSpecifier(current, importerPath)
     if (next && next !== current) {
-      if (options.report || options['report-only']) {
+      if (shouldReport) {
         replacements.push(`${current} -> ${next}`)
         return
       }
@@ -98,7 +101,7 @@ function transformer(file, api, options) {
     .filter(pathItem => Boolean(pathItem.value.source))
     .forEach(updateModuleSpecifier)
 
-  if ((options.report || options['report-only']) && replacements.length > 0) {
+  if (shouldReport && replacements.length > 0) {
     console.log(`(report) ${posixRelative(repoRoot, importerPath)}`)
     replacements.forEach(replacement => console.log(`  ${replacement}`))
   }

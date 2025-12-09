@@ -16,7 +16,7 @@ Use the codemods in `tools/codemods` to rewrite imports after code moves into th
    ```bash
    pnpm codemod:imports -- --report
    ```
-2. Dry-run a subset (supports Storybook, Vitest, and Playwright files):
+2. Dry-run a subset (supports Storybook, Vitest, and Playwright files). The `--dry-run` flag reports changes without writing:
    ```bash
    pnpm codemod:imports -- --dry-run --paths "src/**/*.{ts,tsx}" "packages/**/*.{ts,tsx}" "tests/**/*" "storybook/**/*" "playwright.config.ts"
    ```
