@@ -14,6 +14,7 @@ import {
   type RateLimitConfig,
   type RateLimitResult,
 } from '@/lib/observability/rate-limit'
+import { createHandler } from '@/server/http'
 
 export const runtime = 'nodejs'
 
@@ -43,7 +44,7 @@ function now(): number {
   return Date.now()
 }
 
-function withServerTiming(response: NextResponse, startedAt: number): NextResponse {
+function withServerTiming<T extends Response>(response: T, startedAt: number): T {
   const elapsed = Math.max(0, now() - startedAt)
   response.headers.set('Server-Timing', `app;dur=${elapsed.toFixed(2)}`)
   return response
@@ -54,22 +55,6 @@ function resolveRequestIp(request: NextRequest): string | null {
   return typeof candidate === 'string' && candidate.trim().length > 0
     ? candidate
     : null
-}
-
-function methodNotAllowed(): NextResponse {
-  const startedAt = now()
-  const response = NextResponse.json(
-    { error: 'method_not_allowed' },
-    {
-      status: 405,
-      headers: {
-        Allow: 'POST',
-        'Cache-Control': 'no-store',
-      },
-    },
-  )
-
-  return withServerTiming(response, startedAt)
 }
 
 async function readRequestBody(request: NextRequest): Promise<string> {
@@ -124,35 +109,18 @@ async function readRequestBody(request: NextRequest): Promise<string> {
   return Buffer.concat(chunks, totalBytes).toString('utf8')
 }
 
-export async function POST(request: NextRequest) {
-  const startedAt = now()
-  const headers = normalizeHeaders(request.headers)
-  const client = {
-    ip: resolveRequestIp(request),
-  }
-  const identifier = resolveClientIdentifier(headers, client)
-  const contentLengthHeader = headers['content-length']
-  const declaredLength = contentLengthHeader ? Number.parseInt(contentLengthHeader, 10) : undefined
+const handler = createHandler<NextRequest>(
+  async ({ req }) => {
+    const startedAt = now()
+    const headers = normalizeHeaders(req.headers)
+    const client = {
+      ip: resolveRequestIp(req),
+    }
+    const identifier = resolveClientIdentifier(headers, client)
+    const contentLengthHeader = headers['content-length']
+    const declaredLength = contentLengthHeader ? Number.parseInt(contentLengthHeader, 10) : undefined
 
-  if (Number.isFinite(declaredLength) && (declaredLength as number) > METRICS_MAX_BODY_BYTES) {
-    rateLimiter.clear(identifier)
-    const response = NextResponse.json(
-      { error: 'payload_too_large' },
-      {
-        status: 413,
-        headers: { 'Cache-Control': 'no-store' },
-      },
-    )
-
-    return withServerTiming(response, startedAt)
-  }
-
-  let bodyText = ''
-
-  try {
-    bodyText = await readRequestBody(request)
-  } catch (error) {
-    if (error instanceof PayloadTooLargeError) {
+    if (Number.isFinite(declaredLength) && (declaredLength as number) > METRICS_MAX_BODY_BYTES) {
       rateLimiter.clear(identifier)
       const response = NextResponse.json(
         { error: 'payload_too_large' },
@@ -165,54 +133,63 @@ export async function POST(request: NextRequest) {
       return withServerTiming(response, startedAt)
     }
 
-    throw error
-  }
+    let bodyText = ''
 
-  const result = processMetrics({
-    method: request.method,
-    headers,
-    bodyText,
-    client,
-  })
+    try {
+      bodyText = await readRequestBody(req)
+    } catch (error) {
+      if (error instanceof PayloadTooLargeError) {
+        rateLimiter.clear(identifier)
+        const response = NextResponse.json(
+          { error: 'payload_too_large' },
+          {
+            status: 413,
+            headers: { 'Cache-Control': 'no-store' },
+          },
+        )
 
-  const response = NextResponse.json(result.body, {
-    status: result.status,
-    headers: result.headers,
-  })
+        return withServerTiming(response, startedAt)
+      }
 
-  return withServerTiming(response, startedAt)
-}
+      throw error
+    }
 
-export async function GET() {
-  return methodNotAllowed()
-}
+    const result = processMetrics({
+      method: req.method,
+      headers,
+      bodyText,
+      client,
+    })
 
-export async function PUT() {
-  return methodNotAllowed()
-}
+    const response = NextResponse.json(result.body, {
+      status: result.status,
+      headers: result.headers,
+    })
 
-export async function PATCH() {
-  return methodNotAllowed()
-}
+    return withServerTiming(response, startedAt)
+  },
+  {
+    methods: ['POST'],
+    onMethodNotAllowed: () => {
+      const startedAt = now()
+      const response = NextResponse.json(
+        { error: 'method_not_allowed' },
+        {
+          status: 405,
+          headers: {
+            Allow: 'POST',
+            'Cache-Control': 'no-store',
+          },
+        },
+      )
 
-export async function DELETE() {
-  return methodNotAllowed()
-}
-
-export async function OPTIONS() {
-  return methodNotAllowed()
-}
-
-export async function HEAD() {
-  const startedAt = now()
-  const response = new NextResponse(null, {
-    status: 405,
-    headers: {
-      Allow: 'POST',
-      'Cache-Control': 'no-store',
+      return withServerTiming(response, startedAt)
     },
-  })
+  },
+)
 
-  return withServerTiming(response, startedAt)
-}
-
+export const POST = handler
+export const GET = handler
+export const PUT = handler
+export const PATCH = handler
+export const DELETE = handler
