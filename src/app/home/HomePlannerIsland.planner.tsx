@@ -30,7 +30,7 @@ import {
 import styles from "../page-client.module.css"
 import heroContentStyles from "./GlitchLandingHeroContent.module.css"
 import { Home as HomeIcon } from "lucide-react"
-import ProgressRingIcon from "@/icons/ProgressRingIcon"
+import { ProgressRing } from "@/components/ui"
 
 type HomeSplashProps = {
   active: boolean
@@ -147,7 +147,7 @@ function GlitchLandingHeroMetrics() {
       </div>
       <div className={heroContentStyles.focusCard}>
         <div className={heroContentStyles.focusRing}>
-          <ProgressRingIcon pct={68} size="l" />
+          <ProgressRing value={68} size="l" aria-label="Progress" />
           <span className={heroContentStyles.focusValue}>68%</span>
         </div>
         <p className={heroContentStyles.focusLabel}>Focus locked</p>

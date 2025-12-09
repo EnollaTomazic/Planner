@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Hero } from "./Hero";
-import ProgressRingIcon from "@/icons/ProgressRingIcon";
+import { ProgressRing } from "@/components/ui";
 import type { HomeHeroSectionProps } from "./types";
 
 const METRICS = [
@@ -23,7 +23,7 @@ function FocusFigure() {
     <div className="grid place-items-center gap-[var(--space-4)] rounded-[var(--radius-2xl)] border border-border/65 bg-card/80 px-[var(--space-6)] py-[var(--space-6)] text-center shadow-[0_var(--space-2)_var(--space-6)_hsl(var(--surface)/0.28)]">
       <div className="relative grid aspect-square w-full max-w-[18rem] place-items-center rounded-full bg-gradient-to-b from-surface/65 to-surface-2/80 shadow-[0_var(--space-2)_var(--space-6)_hsl(var(--surface)/0.35)] ring-1 ring-inset ring-border/65">
         <div className="h-[72%] w-[72%]">
-          <ProgressRingIcon pct={68} size="l" />
+          <ProgressRing value={68} size="l" aria-label="Focus lock" />
         </div>
         <span className="absolute text-[clamp(2.2rem,4vw,2.8rem)] font-semibold tracking-[-0.02em] text-foreground">
           68%

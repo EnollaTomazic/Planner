@@ -2,8 +2,8 @@
 
 import * as React from "react";
 
-import ProgressRingIcon from "@/icons/ProgressRingIcon";
-import { getRingMetrics, type RingSize } from "@/lib/tokens";
+import { ProgressRing } from "@/components/ui";
+import { type RingSize } from "@/lib/tokens";
 import { cn } from "@/lib/utils";
 
 export interface ProgressCardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -31,14 +31,16 @@ const ProgressCard = React.forwardRef<HTMLDivElement, ProgressCardProps>(
     },
     ref,
   ) => {
-    const ringMetrics = React.useMemo(() => getRingMetrics(ringSize), [ringSize]);
-    const ringDimensions = React.useMemo(
-      () => ({
-        width: `${ringMetrics.diameter}px`,
-        height: `${ringMetrics.diameter}px`,
-      }),
-      [ringMetrics.diameter],
-    );
+    const ringStyle = React.useMemo(() => {
+      if (typeof ringSize === "number") {
+        return { width: `${ringSize}px`, height: `${ringSize}px` };
+      }
+
+      return {
+        width: `var(--ring-diameter-${ringSize})`,
+        height: `var(--ring-diameter-${ringSize})`,
+      } satisfies React.CSSProperties;
+    }, [ringSize]);
     const hasHeaderContent = label != null || value != null || metric != null;
 
     return (
@@ -54,9 +56,9 @@ const ProgressCard = React.forwardRef<HTMLDivElement, ProgressCardProps>(
           <div className="relative flex items-center justify-center rounded-full bg-surface/90 p-[var(--space-2)] shadow-[var(--shadow-inner-md)] ring-1 ring-inset ring-card-hairline/60">
             <div
               className="relative flex items-center justify-center text-accent"
-              style={ringDimensions}
+              style={ringStyle}
             >
-              <ProgressRingIcon pct={percentage} size={ringSize} />
+              <ProgressRing value={percentage} size={ringSize} aria-label="Progress" />
               <span className="absolute text-ui font-semibold tabular-nums text-card-foreground">
                 {ringLabel ?? (Number.isFinite(percentage) ? `${Math.round(percentage)}%` : "0%")}
               </span>
