@@ -35,6 +35,10 @@ export default defineConfig({
         'src/hooks/**/*.{ts,tsx}',
         'src/lib/**/*.{ts,tsx}',
         'src/utils/**/*.{ts,tsx}',
+        'packages/api/**/*.{ts,tsx}',
+        'packages/core/**/*.{ts,tsx}',
+        'packages/features/**/*.{ts,tsx}',
+        'packages/ui/**/*.{ts,tsx}',
       ],
       exclude: [
         'src/components/gallery/generated-manifest.ts',
@@ -46,6 +50,11 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, 'src'),
       '@env': resolve(__dirname, 'env'),
+      '@ui': resolve(__dirname, 'packages/ui/src'),
+      '@features': resolve(__dirname, 'packages/features/src'),
+      '@core': resolve(__dirname, 'packages/core/src'),
+      '@api': resolve(__dirname, 'packages/api/src'),
+      '@config': resolve(__dirname, 'packages/config/src'),
       tests: resolve(__dirname, 'tests'),
     },
   },

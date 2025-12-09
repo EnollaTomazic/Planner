@@ -1,7 +1,17 @@
 import type { PlaywrightTestConfig } from "playwright/test";
+import { loadConfig, register as registerTsPaths } from "tsconfig-paths";
 
 const HOST = process.env.PLAYWRIGHT_HOST ?? "127.0.0.1";
 const PORT = process.env.PLAYWRIGHT_PORT ?? "3000";
+
+const tsconfigResult = loadConfig();
+
+if (tsconfigResult.resultType === "success") {
+  registerTsPaths({
+    baseUrl: tsconfigResult.absoluteBaseUrl,
+    paths: tsconfigResult.paths,
+  });
+}
 
 const VIEWPORT_PRESETS = [
   { name: "w320", viewport: { width: 320, height: 720 } },

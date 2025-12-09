@@ -14,6 +14,11 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
+      "@ui/*": ["packages/ui/src/*"],
+      "@features/*": ["packages/features/src/*"],
+      "@core/*": ["packages/core/src/*"],
+      "@api/*": ["packages/api/src/*"],
+      "@config/*": ["packages/config/src/*"],
       "@env": ["env/index.ts"],
       "@env/*": ["env/*"],
       "@storybook/react": ["types/storybook__react"],

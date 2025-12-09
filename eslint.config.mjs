@@ -4,6 +4,7 @@ import nextConfig from "eslint-config-next";
 import nextCoreWebVitalsConfig from "eslint-config-next/core-web-vitals";
 import prettierConfig from "eslint-config-prettier";
 import noRawDesignValuesRule from "./scripts/eslint-rules/no-raw-design-values.mjs";
+import boundariesConfig from "./packages/config/eslint/boundaries.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -111,6 +112,7 @@ const eslintConfig = [
       },
     },
   },
+  boundariesConfig,
   {
     files: designRuleTargets,
     plugins: {
