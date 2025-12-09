@@ -20,7 +20,10 @@ try {
 
 /** @type {import('@storybook/react-vite').StorybookConfig} */
 const config = {
-  stories: ['./src/components/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
+  stories: [
+    './src/components/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../packages/ui/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+  ],
   framework: {
     name: '@storybook/react-vite',
     options: {},
@@ -33,6 +36,11 @@ const config = {
         alias: {
           '@': path.resolve(__dirname, '../src'),
           '@env': path.resolve(__dirname, '../env'),
+          '@ui': path.resolve(__dirname, '../packages/ui/src'),
+          '@features': path.resolve(__dirname, '../packages/features/src'),
+          '@core': path.resolve(__dirname, '../packages/core/src'),
+          '@api': path.resolve(__dirname, '../packages/api/src'),
+          '@config': path.resolve(__dirname, '../packages/config/src'),
         },
       },
     });

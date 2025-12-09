@@ -8,7 +8,9 @@
     "src/**/*.tsx",
     "scripts/**/*.ts",
     "env/**/*.ts",
-    "types/**/*.d.ts"
+    "types/**/*.d.ts",
+    "packages/**/*.ts",
+    "packages/**/*.tsx"
   ],
   "exclude": [
     "**/*.test.*",
