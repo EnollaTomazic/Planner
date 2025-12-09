@@ -113,7 +113,8 @@ import {
   TimerTab,
 } from "@/components/goals";
 import { RemindersProvider } from "@/components/goals/reminders/useReminders";
-import { ProgressRingIcon, TimerRingIcon } from "@/icons";
+import { TimerRingIcon } from "@/icons";
+import { ProgressRing } from "@/components/ui";
 import { cn, withBasePath } from "@/lib/utils";
 
 type LegacySpec = {
@@ -4344,11 +4345,11 @@ const [value, setValue] = React.useState(options[0].value);
       code: `<TimerTab />`,
     },
     {
-      id: "progress-ring-icon",
-      name: "ProgressRingIcon",
-      element: <ProgressRingIcon pct={50} size="m" />,
+      id: "progress-ring",
+      name: "ProgressRing",
+      element: <ProgressRing value={50} size="m" aria-label="Progress" />,
       tags: ["icon", "progress"],
-      code: `<ProgressRingIcon pct={50} size="m" />`,
+      code: `<ProgressRing value={50} size=\"m\" aria-label=\"Progress\" />`,
     },
     {
       id: "timer-ring-icon",

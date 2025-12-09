@@ -11,7 +11,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import { ProgressRingIcon } from "@/icons";
+import { ProgressRing } from "@/components/ui";
 import {
   Badge,
   Button,
@@ -279,7 +279,7 @@ export default function DashboardLayoutPreviewPage() {
                   </div>
                   <div className={styles.summaryProgress} aria-label="Daily progress">
                     <span className={styles.progressRing} aria-hidden="true">
-                      <ProgressRingIcon pct={72} size="m" />
+                      <ProgressRing value={72} size="m" aria-label="Progress" />
                     </span>
                     <div className="text-right">
                       <p className="text-label text-muted-foreground">Daily progress</p>

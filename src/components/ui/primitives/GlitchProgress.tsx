@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import ProgressRingIcon from '@/icons/ProgressRingIcon';
+import { ProgressRing } from '@/components/ui';
 import { getRingMetrics, type RingSize } from '@/lib/tokens';
 import { cn } from '@/lib/utils';
 
@@ -108,7 +108,11 @@ export const GlitchProgress = React.forwardRef<HTMLDivElement, GlitchProgressPro
           <span className={styles.scanlines} />
           <div className={styles.surface}>
             <div className={styles.ring}>
-              <ProgressRingIcon pct={displayPercent} size={sizeConfig.ringSize} />
+              <ProgressRing
+                value={displayPercent}
+                size={sizeConfig.ringSize}
+                aria-hidden
+              />
             </div>
           </div>
         </div>

@@ -13,7 +13,8 @@ import { QuickActions } from "./QuickActions";
 import { TeamPromptsCard } from "./TeamPromptsCard";
 import { TodayCard } from "./TodayCard";
 import { DashboardListCard } from "./DashboardListCard";
-import { Button, Field } from "@/components/ui";
+import { Button, Field, TabBar } from "@/components/ui";
+import type { TabItem } from "@/components/ui/layout/TabBar";
 import { layoutGridClassName } from "@/components/ui/layout/PageShell";
 import type { Variant } from "@/lib/theme";
 import { cn, withBasePath } from "@/lib/utils";
@@ -34,16 +35,8 @@ export interface HeroPlannerCardsProps {
 }
 
 type PlannerRangeKey = PlannerOverviewProps["range"];
-type PlannerRangeOption = PlannerOverviewProps["ranges"][number];
 
-interface PlannerRangeTabsProps {
-  activeRange: PlannerRangeKey;
-  options: readonly PlannerRangeOption[];
-  onSelectRange: PlannerOverviewProps["onSelectRange"];
-}
-
-const cardActionsBaseClass =
-  "flex flex-wrap items-center gap-[var(--space-2)]";
+const cardActionsBaseClass = "flex flex-wrap items-center gap-[var(--space-2)]";
 
 type HeroCardHeaderProps = Omit<
   React.ComponentProps<typeof CardHeader>,
@@ -120,36 +113,6 @@ function HeroCardHeader({
   );
 }
 
-const PlannerRangeTabs = React.memo(function PlannerRangeTabs({
-  activeRange,
-  options,
-  onSelectRange,
-}: PlannerRangeTabsProps) {
-  return (
-    <div role="group" aria-label="Planner range" className={styles.rangeTabs}>
-      {options.map((option) => {
-        const isActive = option.key === activeRange;
-        return (
-          <button
-            key={option.key}
-            type="button"
-            className={styles.rangeTab}
-            data-active={isActive ? "true" : undefined}
-            aria-pressed={isActive}
-            onClick={() => {
-              if (isActive) return;
-              onSelectRange(option.key);
-            }}
-          >
-            {option.label}
-          </button>
-        );
-      })}
-    </div>
-  );
-});
-PlannerRangeTabs.displayName = "PlannerRangeTabs";
-
 const HeroPlannerCards = React.memo(function HeroPlannerCards({
   variant,
   plannerOverviewProps,
@@ -181,6 +144,15 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
     ? `${calendar.doneCount}/${calendar.totalCount} tasks locked`
     : calendar.summary;
 
+  const rangeTabItems = React.useMemo<TabItem<PlannerRangeKey>[]>(
+    () =>
+      Array.from(ranges, (option) => ({
+        key: option.key,
+        label: option.label,
+      })),
+    [ranges],
+  );
+
   const handleSelectDay = React.useCallback(
     (iso: string) => {
       onSelectDay(iso);
@@ -189,17 +161,21 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
   );
 
   const calendarRangeControls = React.useMemo(() => {
-    if (ranges.length <= 1) {
+    if (rangeTabItems.length <= 1) {
       return null;
     }
     return (
-      <PlannerRangeTabs
-        activeRange={range}
-        options={ranges}
-        onSelectRange={onSelectRange}
+      <TabBar<PlannerRangeKey>
+        items={rangeTabItems}
+        value={range}
+        onValueChange={onSelectRange}
+        ariaLabel="Planner range"
+        size="sm"
+        variant="neo"
+        tablistClassName={styles.rangeTabs}
       />
     );
-  }, [onSelectRange, range, ranges]);
+  }, [onSelectRange, range, rangeTabItems]);
 
   const insightTabs = React.useMemo(
     () =>
@@ -273,6 +249,17 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
       days,
       handleSelectDay,
     ],
+  );
+
+  const insightTabItems = React.useMemo<TabItem<InsightTabKey>[]>(
+    () =>
+      insightTabs.map((tab) => ({
+        key: tab.key,
+        label: tab.label,
+        id: `${tabBaseId}-tab-${tab.key}`,
+        controls: `${tabBaseId}-panel-${tab.key}`,
+      })),
+    [insightTabs, tabBaseId],
   );
 
   React.useEffect(() => {
@@ -525,27 +512,16 @@ const HeroPlannerCards = React.memo(function HeroPlannerCards({
         </div>
         <Card className="col-span-full">
           <HeroCardHeader className={styles.tabHeader}>
-            <div className={styles.tabList} role="tablist" aria-label="Planner insights">
-              {insightTabs.map((tab) => {
-                const tabId = `${tabBaseId}-tab-${tab.key}`;
-                const panelId = `${tabBaseId}-panel-${tab.key}`;
-                const isActive = activeTab === tab.key;
-                return (
-                  <button
-                    key={tab.key}
-                    id={tabId}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    aria-controls={panelId}
-                    className={cn(styles.tabButton, isActive && styles.tabButtonActive)}
-                    onClick={() => setActiveTab(tab.key)}
-                  >
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </div>
+            <TabBar<InsightTabKey>
+              items={insightTabItems}
+              value={activeTab}
+              onValueChange={(value) => setActiveTab(value)}
+              ariaLabel="Planner insights"
+              variant="neo"
+              size="sm"
+              tablistClassName={styles.tabList}
+              idBase={tabBaseId}
+            />
             {activeTabDefinition?.headerActions ? (
               <div className={styles.tabActions}>{activeTabDefinition.headerActions}</div>
             ) : null}

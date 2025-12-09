@@ -9,8 +9,9 @@
 
 import "./style.css";
 import * as React from "react";
+
+import { SectionCard } from "@/components/ui";
 import { cn } from "@/lib/utils";
-import { NoiseOverlay } from "@/components/ui/patterns/NoiseOverlay";
 import { DayCardHeader } from "./DayCardHeader";
 import { ProjectList } from "./ProjectList";
 import { TaskList } from "./TaskList";
@@ -108,66 +109,65 @@ export function DayCard({
   );
 
   return (
-    <section
+    <SectionCard
       className={cn(
-        "daycard relative isolate overflow-hidden rounded-card r-card-lg border border-card-hairline/60 bg-panel/65 card-pad",
-        "shadow-neo-soft",
-        "grid gap-[var(--space-4)] lg:gap-[var(--space-6)]",
+        "daycard grid gap-[var(--space-4)] lg:gap-[var(--space-6)]",
         "grid-cols-1 lg:grid-cols-12",
         isToday && "ring-1 ring-ring/60",
       )}
       aria-label={`Planner for ${iso}`}
     >
-      <div className="col-span-1 lg:col-span-12">
+      <SectionCard.Header className="col-span-full">
         <DayCardHeader
           iso={iso}
           projectCount={projects.length}
           doneCount={doneCount}
           totalCount={totalCount}
         />
-      </div>
+      </SectionCard.Header>
 
-      <div className="col-span-1 lg:col-span-3">
-        <ProjectList
-          projects={projects}
-          selectedProjectId={selectedProjectId}
-          setSelectedProjectId={onProjectChange}
-          setSelectedTaskId={onTaskChange}
-          toggleProject={toggleProject}
-          renameProject={renameProject}
-          deleteProject={deleteProject}
-          createProject={createProject}
-        />
-      </div>
-      {selectedProjectId && (
-        <React.Fragment>
-          <div
-            className="hidden lg:block lg:col-span-1 w-px mx-auto bg-card-hairline-90 rounded-full self-stretch"
-            aria-hidden
+      <SectionCard.Body className="col-span-full grid grid-cols-1 gap-[var(--space-4)] lg:grid-cols-12 lg:gap-[var(--space-6)]">
+        <div className="col-span-1 lg:col-span-3">
+          <ProjectList
+            projects={projects}
+            selectedProjectId={selectedProjectId}
+            setSelectedProjectId={onProjectChange}
+            setSelectedTaskId={onTaskChange}
+            toggleProject={toggleProject}
+            renameProject={renameProject}
+            deleteProject={deleteProject}
+            createProject={createProject}
           />
-
-          <div className="col-span-1 lg:col-span-8">
-            <TaskList
-              tasksById={tasksById}
-              tasksByProject={tasksByProject}
-              selectedProjectId={selectedProjectId}
-              selectedTaskId={selectedTaskId}
-              createTask={createTask}
-              renameTask={renameTask}
-              toggleTask={toggleTask}
-              deleteTask={deleteTask}
-              addTaskImage={addTaskImage}
-              removeTaskImage={removeTaskImage}
-              setSelectedTaskId={onTaskChange}
+        </div>
+        {selectedProjectId ? (
+          <>
+            <div
+              className="hidden w-px self-stretch rounded-full bg-card-hairline-90 lg:col-span-1 lg:block"
+              aria-hidden
             />
-          </div>
-        </React.Fragment>
-      )}
 
-      <div className="col-span-full">
-        <TaskReminderSettings task={selectedTask} onChange={handleReminderChange} />
-      </div>
-      <NoiseOverlay level="subtle" />
-    </section>
+            <div className="col-span-1 lg:col-span-8">
+              <TaskList
+                tasksById={tasksById}
+                tasksByProject={tasksByProject}
+                selectedProjectId={selectedProjectId}
+                selectedTaskId={selectedTaskId}
+                createTask={createTask}
+                renameTask={renameTask}
+                toggleTask={toggleTask}
+                deleteTask={deleteTask}
+                addTaskImage={addTaskImage}
+                removeTaskImage={removeTaskImage}
+                setSelectedTaskId={onTaskChange}
+              />
+            </div>
+          </>
+        ) : null}
+
+        <div className="col-span-full">
+          <TaskReminderSettings task={selectedTask} onChange={handleReminderChange} />
+        </div>
+      </SectionCard.Body>
+    </SectionCard>
   );
 }

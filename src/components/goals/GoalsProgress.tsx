@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import ProgressRingIcon from "@/icons/ProgressRingIcon";
+import { ProgressRing } from "@/components/ui";
 import { getRingMetrics, type RingSize } from "@/lib/tokens";
 
 const DEFAULT_RING_SIZE: RingSize = "m";
@@ -67,10 +67,11 @@ export function GoalsProgress({
       aria-label={ariaLabel}
       style={customStyle}
     >
-      <ProgressRingIcon
-        pct={v}
+      <ProgressRing
+        value={v}
         size={resolvedRingSize}
         strokeWidth={resolvedStrokeWidth}
+        aria-hidden
       />
       <span
         aria-live="polite"
