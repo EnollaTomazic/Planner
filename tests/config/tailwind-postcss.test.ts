@@ -8,21 +8,20 @@ const require = createRequire(import.meta.url);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe("tailwind PostCSS configuration", () => {
-  it("uses the core tailwindcss plugin and avoids @tailwindcss/postcss", () => {
+  it("uses the @tailwindcss/postcss plugin", () => {
     const config = require("../../postcss.config.cjs");
 
     expect(Object.hasOwn(config, "plugins")).toBe(true);
-    expect(Object.hasOwn(config.plugins, "tailwindcss")).toBe(true);
-    expect(JSON.stringify(config)).not.toContain("@tailwindcss/postcss");
+    expect(Object.hasOwn(config.plugins, "@tailwindcss/postcss")).toBe(true);
   });
 
-  it("keeps tailwindcss 3.x without the @tailwindcss/postcss package", () => {
+  it("uses tailwindcss 4.x with the companion PostCSS package", () => {
     const packageJsonPath = resolve(__dirname, "../../package.json");
     const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8"));
     const devDependencies = packageJson.devDependencies ?? {};
 
-    expect(devDependencies["@tailwindcss/postcss"]).toBeUndefined();
+    expect(devDependencies["@tailwindcss/postcss"]).toBeTypeOf("string");
     expect(devDependencies.tailwindcss).toBeTypeOf("string");
-    expect(devDependencies.tailwindcss.startsWith("3.")).toBe(true);
+    expect(devDependencies.tailwindcss.startsWith("4.")).toBe(true);
   });
 });
