@@ -10,6 +10,7 @@ import {
   createMetricsIngestor,
   readRequestBody,
 } from '@/server/metrics'
+import { createHandler } from '@/server/http'
 
 export const runtime = 'nodejs'
 
@@ -36,51 +37,19 @@ function resolveRequestIp(request: NextRequest): string | null {
     : null
 }
 
-function methodNotAllowed(): NextResponse {
-  const startedAt = now()
-  const response = NextResponse.json(
-    { error: 'method_not_allowed' },
-    {
-      status: 405,
-      headers: {
-        Allow: 'POST',
-        'Cache-Control': 'no-store',
-      },
-    },
-  )
+const handler = createHandler(
+  async ({ req }) => {
+    const request = req as NextRequest
+    const startedAt = now()
+    const headers = normalizeHeaders(request.headers)
+    const client = {
+      ip: resolveRequestIp(request),
+    }
+    const identifier = resolveClientIdentifier(headers, client)
+    const contentLengthHeader = headers['content-length']
+    const declaredLength = contentLengthHeader ? Number.parseInt(contentLengthHeader, 10) : undefined
 
-  return withServerTiming(response, startedAt)
-}
-
-export async function POST(request: NextRequest) {
-  const startedAt = now()
-  const headers = normalizeHeaders(request.headers)
-  const client = {
-    ip: resolveRequestIp(request),
-  }
-  const identifier = resolveClientIdentifier(headers, client)
-  const contentLengthHeader = headers['content-length']
-  const declaredLength = contentLengthHeader ? Number.parseInt(contentLengthHeader, 10) : undefined
-
-  if (Number.isFinite(declaredLength) && (declaredLength as number) > METRICS_MAX_BODY_BYTES) {
-    rateLimiter.clear(identifier)
-    const response = NextResponse.json(
-      { error: 'payload_too_large' },
-      {
-        status: 413,
-        headers: { 'Cache-Control': 'no-store' },
-      },
-    )
-
-    return withServerTiming(response, startedAt)
-  }
-
-  let bodyText = ''
-
-  try {
-    bodyText = await readRequestBody(request, METRICS_MAX_BODY_BYTES)
-  } catch (error) {
-    if (error instanceof PayloadTooLargeError) {
+    if (Number.isFinite(declaredLength) && (declaredLength as number) > METRICS_MAX_BODY_BYTES) {
       rateLimiter.clear(identifier)
       const response = NextResponse.json(
         { error: 'payload_too_large' },
@@ -93,39 +62,49 @@ export async function POST(request: NextRequest) {
       return withServerTiming(response, startedAt)
     }
 
-    throw error
-  }
+    let bodyText = ''
 
-  const result = await ingestMetrics(
-    {
-      method: request.method,
-      headers,
-      bodyText,
-      client,
-    },
-    { ip: client.ip ?? null, userAgent: headers['user-agent'] },
-  )
+    try {
+      bodyText = await readRequestBody(request, METRICS_MAX_BODY_BYTES)
+    } catch (error) {
+      if (error instanceof PayloadTooLargeError) {
+        rateLimiter.clear(identifier)
+        const response = NextResponse.json(
+          { error: 'payload_too_large' },
+          {
+            status: 413,
+            headers: { 'Cache-Control': 'no-store' },
+          },
+        )
 
-  const response = NextResponse.json(result.body, {
-    status: result.status,
-    headers: result.headers,
-  })
+        return withServerTiming(response, startedAt)
+      }
 
-  return withServerTiming(response, startedAt)
-}
+      throw error
+    }
 
-export async function GET() {
-  return methodNotAllowed()
-}
+    const result = await ingestMetrics(
+      {
+        method: request.method,
+        headers,
+        bodyText,
+        client,
+      },
+      { ip: client.ip ?? null, userAgent: headers['user-agent'] },
+    )
 
-export async function PUT() {
-  return methodNotAllowed()
-}
+    const response = NextResponse.json(result.body, {
+      status: result.status,
+      headers: result.headers,
+    })
 
-export async function PATCH() {
-  return methodNotAllowed()
-}
+    return withServerTiming(response, startedAt)
+  },
+  { methods: ['POST'] },
+)
 
-export async function DELETE() {
-  return methodNotAllowed()
-}
+export const POST = handler
+export const GET = handler
+export const PUT = handler
+export const PATCH = handler
+export const DELETE = handler
