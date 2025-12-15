@@ -210,7 +210,7 @@ jobs:
 
       - name: Open pull request
         if: steps.codex.outputs.enabled == 'true' && steps.detect_changes.outputs.changed == 'true' && env.TARGET_HEAD_BRANCH != ''
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: "Codex autofix: Resolve CI failure"
